@@ -1188,6 +1188,9 @@ public class NutritionOrder extends DomainResource {
             texture = Collections.unmodifiableList(builder.texture);
             fluidConsistencyType = Collections.unmodifiableList(builder.fluidConsistencyType);
             instruction = builder.instruction;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1262,6 +1265,17 @@ public class NutritionOrder extends DomainResource {
          */
         public String getInstruction() {
             return instruction;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !type.isEmpty() || 
+                !schedule.isEmpty() || 
+                !nutrient.isEmpty() || 
+                !texture.isEmpty() || 
+                !fluidConsistencyType.isEmpty() || 
+                (instruction != null);
         }
 
         @Override
@@ -1720,6 +1734,9 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 amount = builder.amount;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1744,6 +1761,13 @@ public class NutritionOrder extends DomainResource {
              */
             public Quantity getAmount() {
                 return amount;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (modifier != null) || 
+                    (amount != null);
             }
 
             @Override
@@ -1994,6 +2018,9 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 foodType = builder.foodType;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2018,6 +2045,13 @@ public class NutritionOrder extends DomainResource {
              */
             public CodeableConcept getFoodType() {
                 return foodType;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (modifier != null) || 
+                    (foodType != null);
             }
 
             @Override
@@ -2275,6 +2309,9 @@ public class NutritionOrder extends DomainResource {
             schedule = Collections.unmodifiableList(builder.schedule);
             quantity = builder.quantity;
             instruction = builder.instruction;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2336,6 +2373,16 @@ public class NutritionOrder extends DomainResource {
          */
         public String getInstruction() {
             return instruction;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (productName != null) || 
+                !schedule.isEmpty() || 
+                (quantity != null) || 
+                (instruction != null);
         }
 
         @Override
@@ -2690,6 +2737,9 @@ public class NutritionOrder extends DomainResource {
             administration = Collections.unmodifiableList(builder.administration);
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2805,6 +2855,20 @@ public class NutritionOrder extends DomainResource {
          */
         public String getAdministrationInstruction() {
             return administrationInstruction;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (baseFormulaType != null) || 
+                (baseFormulaProductName != null) || 
+                (additiveType != null) || 
+                (additiveProductName != null) || 
+                (caloricDensity != null) || 
+                (routeofAdministration != null) || 
+                !administration.isEmpty() || 
+                (maxVolumeToDeliver != null) || 
+                (administrationInstruction != null);
         }
 
         @Override
@@ -3238,6 +3302,9 @@ public class NutritionOrder extends DomainResource {
                 schedule = builder.schedule;
                 quantity = builder.quantity;
                 rate = ValidationSupport.choiceElement(builder.rate, "rate", Quantity.class, Ratio.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3274,6 +3341,14 @@ public class NutritionOrder extends DomainResource {
              */
             public Element getRate() {
                 return rate;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (schedule != null) || 
+                    (quantity != null) || 
+                    (rate != null);
             }
 
             @Override

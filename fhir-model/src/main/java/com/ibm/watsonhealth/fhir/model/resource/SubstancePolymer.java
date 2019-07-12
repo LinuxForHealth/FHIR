@@ -683,6 +683,9 @@ public class SubstancePolymer extends DomainResource {
             super(builder);
             ratioType = builder.ratioType;
             startingMaterial = Collections.unmodifiableList(builder.startingMaterial);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -707,6 +710,13 @@ public class SubstancePolymer extends DomainResource {
          */
         public List<StartingMaterial> getStartingMaterial() {
             return startingMaterial;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (ratioType != null) || 
+                !startingMaterial.isEmpty();
         }
 
         @Override
@@ -984,6 +994,9 @@ public class SubstancePolymer extends DomainResource {
                 type = builder.type;
                 isDefining = builder.isDefining;
                 amount = builder.amount;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1032,6 +1045,15 @@ public class SubstancePolymer extends DomainResource {
              */
             public SubstanceAmount getAmount() {
                 return amount;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (material != null) || 
+                    (type != null) || 
+                    (isDefining != null) || 
+                    (amount != null);
             }
 
             @Override
@@ -1329,6 +1351,9 @@ public class SubstancePolymer extends DomainResource {
             averageMolecularFormula = builder.averageMolecularFormula;
             repeatUnitAmountType = builder.repeatUnitAmountType;
             repeatUnit = Collections.unmodifiableList(builder.repeatUnit);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1377,6 +1402,15 @@ public class SubstancePolymer extends DomainResource {
          */
         public List<RepeatUnit> getRepeatUnit() {
             return repeatUnit;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (numberOfUnits != null) || 
+                (averageMolecularFormula != null) || 
+                (repeatUnitAmountType != null) || 
+                !repeatUnit.isEmpty();
         }
 
         @Override
@@ -1698,6 +1732,9 @@ public class SubstancePolymer extends DomainResource {
                 amount = builder.amount;
                 degreeOfPolymerisation = Collections.unmodifiableList(builder.degreeOfPolymerisation);
                 structuralRepresentation = Collections.unmodifiableList(builder.structuralRepresentation);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1758,6 +1795,16 @@ public class SubstancePolymer extends DomainResource {
              */
             public List<StructuralRepresentation> getStructuralRepresentation() {
                 return structuralRepresentation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (orientationOfPolymerisation != null) || 
+                    (repeatUnit != null) || 
+                    (amount != null) || 
+                    !degreeOfPolymerisation.isEmpty() || 
+                    !structuralRepresentation.isEmpty();
             }
 
             @Override
@@ -2118,6 +2165,9 @@ public class SubstancePolymer extends DomainResource {
                     super(builder);
                     degree = builder.degree;
                     amount = builder.amount;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2142,6 +2192,13 @@ public class SubstancePolymer extends DomainResource {
                  */
                 public SubstanceAmount getAmount() {
                     return amount;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (degree != null) || 
+                        (amount != null);
                 }
 
                 @Override
@@ -2394,6 +2451,9 @@ public class SubstancePolymer extends DomainResource {
                     type = builder.type;
                     representation = builder.representation;
                     attachment = builder.attachment;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2430,6 +2490,14 @@ public class SubstancePolymer extends DomainResource {
                  */
                 public Attachment getAttachment() {
                     return attachment;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (type != null) || 
+                        (representation != null) || 
+                        (attachment != null);
                 }
 
                 @Override

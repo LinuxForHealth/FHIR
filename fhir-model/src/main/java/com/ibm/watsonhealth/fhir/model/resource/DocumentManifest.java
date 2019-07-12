@@ -880,6 +880,9 @@ public class DocumentManifest extends DomainResource {
             super(builder);
             identifier = builder.identifier;
             ref = builder.ref;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -904,6 +907,13 @@ public class DocumentManifest extends DomainResource {
          */
         public Reference getRef() {
             return ref;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (identifier != null) || 
+                (ref != null);
         }
 
         @Override

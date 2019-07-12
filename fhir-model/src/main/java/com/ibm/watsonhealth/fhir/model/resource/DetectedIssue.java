@@ -900,6 +900,9 @@ public class DetectedIssue extends DomainResource {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -924,6 +927,13 @@ public class DetectedIssue extends DomainResource {
          */
         public List<Reference> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !code.isEmpty() || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -1226,6 +1236,9 @@ public class DetectedIssue extends DomainResource {
             action = ValidationSupport.requireNonNull(builder.action, "action");
             date = builder.date;
             author = builder.author;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1263,6 +1276,14 @@ public class DetectedIssue extends DomainResource {
          */
         public Reference getAuthor() {
             return author;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (action != null) || 
+                (date != null) || 
+                (author != null);
         }
 
         @Override

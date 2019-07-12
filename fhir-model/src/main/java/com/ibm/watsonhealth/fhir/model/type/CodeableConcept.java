@@ -32,6 +32,9 @@ public class CodeableConcept extends Element {
         super(builder);
         coding = Collections.unmodifiableList(builder.coding);
         text = builder.text;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -57,6 +60,13 @@ public class CodeableConcept extends Element {
      */
     public String getText() {
         return text;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            !coding.isEmpty() || 
+            (text != null);
     }
 
     @Override

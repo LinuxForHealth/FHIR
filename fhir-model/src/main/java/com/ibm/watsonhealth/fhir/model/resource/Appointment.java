@@ -1450,6 +1450,9 @@ public class Appointment extends DomainResource {
             required = builder.required;
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = builder.period;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1511,6 +1514,16 @@ public class Appointment extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !type.isEmpty() || 
+                (actor != null) || 
+                (required != null) || 
+                (status != null) || 
+                (period != null);
         }
 
         @Override

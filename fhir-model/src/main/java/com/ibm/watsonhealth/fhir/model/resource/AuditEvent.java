@@ -811,6 +811,9 @@ public class AuditEvent extends DomainResource {
             media = builder.media;
             network = builder.network;
             purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -947,6 +950,22 @@ public class AuditEvent extends DomainResource {
          */
         public List<CodeableConcept> getPurposeOfUse() {
             return purposeOfUse;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                !role.isEmpty() || 
+                (who != null) || 
+                (altId != null) || 
+                (name != null) || 
+                (requestor != null) || 
+                (location != null) || 
+                !policy.isEmpty() || 
+                (media != null) || 
+                (network != null) || 
+                !purposeOfUse.isEmpty();
         }
 
         @Override
@@ -1454,6 +1473,9 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 address = builder.address;
                 type = builder.type;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1478,6 +1500,13 @@ public class AuditEvent extends DomainResource {
              */
             public AuditEventAgentNetworkType getType() {
                 return type;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (address != null) || 
+                    (type != null);
             }
 
             @Override
@@ -1731,6 +1760,9 @@ public class AuditEvent extends DomainResource {
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
             type = Collections.unmodifiableList(builder.type);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1768,6 +1800,14 @@ public class AuditEvent extends DomainResource {
          */
         public List<Coding> getType() {
             return type;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (site != null) || 
+                (observer != null) || 
+                !type.isEmpty();
         }
 
         @Override
@@ -2068,6 +2108,9 @@ public class AuditEvent extends DomainResource {
             description = builder.description;
             query = builder.query;
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2176,6 +2219,20 @@ public class AuditEvent extends DomainResource {
          */
         public List<Detail> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (what != null) || 
+                (type != null) || 
+                (role != null) || 
+                (lifecycle != null) || 
+                !securityLabel.isEmpty() || 
+                (name != null) || 
+                (description != null) || 
+                (query != null) || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -2620,6 +2677,9 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2644,6 +2704,13 @@ public class AuditEvent extends DomainResource {
              */
             public Element getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (value != null);
             }
 
             @Override

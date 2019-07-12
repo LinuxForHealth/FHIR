@@ -1443,6 +1443,9 @@ public class SearchParameter extends DomainResource {
             super(builder);
             definition = ValidationSupport.requireNonNull(builder.definition, "definition");
             expression = ValidationSupport.requireNonNull(builder.expression, "expression");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1468,6 +1471,13 @@ public class SearchParameter extends DomainResource {
          */
         public String getExpression() {
             return expression;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (definition != null) || 
+                (expression != null);
         }
 
         @Override

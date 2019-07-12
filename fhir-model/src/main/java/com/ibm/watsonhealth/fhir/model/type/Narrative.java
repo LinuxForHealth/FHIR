@@ -47,6 +47,9 @@ public class Narrative extends Element {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         div = ValidationSupport.requireNonNull(builder.div, "div");
         ValidationSupport.checkXHTMLContent(div);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -72,6 +75,13 @@ public class Narrative extends Element {
      */
     public java.lang.String getDiv() {
         return div;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (status != null) || 
+            (div != null);
     }
 
     @Override

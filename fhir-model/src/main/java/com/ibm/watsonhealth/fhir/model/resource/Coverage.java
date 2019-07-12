@@ -1053,6 +1053,9 @@ public class Coverage extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             value = ValidationSupport.requireNonNull(builder.value, "value");
             name = builder.name;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1090,6 +1093,14 @@ public class Coverage extends DomainResource {
          */
         public String getName() {
             return name;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (value != null) || 
+                (name != null);
         }
 
         @Override
@@ -1338,6 +1349,9 @@ public class Coverage extends DomainResource {
             type = builder.type;
             value = ValidationSupport.requireChoiceElement(builder.value, "value", Quantity.class, Money.class);
             exception = Collections.unmodifiableList(builder.exception);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1374,6 +1388,14 @@ public class Coverage extends DomainResource {
          */
         public List<Exception> getException() {
             return exception;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (value != null) || 
+                !exception.isEmpty();
         }
 
         @Override
@@ -1658,6 +1680,9 @@ public class Coverage extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 period = builder.period;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1682,6 +1707,13 @@ public class Coverage extends DomainResource {
              */
             public Period getPeriod() {
                 return period;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (period != null);
             }
 
             @Override

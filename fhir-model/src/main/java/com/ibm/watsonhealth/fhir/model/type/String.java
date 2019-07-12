@@ -34,6 +34,9 @@ public class String extends Element {
         ValidationSupport.checkMaxLength(value);
         ValidationSupport.checkMinLength(value);
         ValidationSupport.checkValue(value, PATTERN);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -46,6 +49,12 @@ public class String extends Element {
      */
     public java.lang.String getValue() {
         return value;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (value != null);
     }
 
     public static String of(java.lang.String value) {

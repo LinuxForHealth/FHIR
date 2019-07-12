@@ -902,6 +902,9 @@ public class CompartmentDefinition extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             param = Collections.unmodifiableList(builder.param);
             documentation = builder.documentation;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -939,6 +942,14 @@ public class CompartmentDefinition extends DomainResource {
          */
         public String getDocumentation() {
             return documentation;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                !param.isEmpty() || 
+                (documentation != null);
         }
 
         @Override

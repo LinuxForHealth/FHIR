@@ -864,6 +864,9 @@ public class Account extends DomainResource {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             priority = builder.priority;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -892,6 +895,13 @@ public class Account extends DomainResource {
          */
         public PositiveInt getPriority() {
             return priority;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (coverage != null) || 
+                (priority != null);
         }
 
         @Override
@@ -1134,6 +1144,9 @@ public class Account extends DomainResource {
             party = ValidationSupport.requireNonNull(builder.party, "party");
             onHold = builder.onHold;
             period = builder.period;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1170,6 +1183,14 @@ public class Account extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (party != null) || 
+                (onHold != null) || 
+                (period != null);
         }
 
         @Override

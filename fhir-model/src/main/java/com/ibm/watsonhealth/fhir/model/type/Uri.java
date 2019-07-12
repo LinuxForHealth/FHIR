@@ -33,6 +33,9 @@ public class Uri extends Element {
         value = builder.value;
         ValidationSupport.checkMaxLength(value);
         ValidationSupport.checkValue(value, PATTERN);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -45,6 +48,12 @@ public class Uri extends Element {
      */
     public java.lang.String getValue() {
         return value;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (value != null);
     }
 
     public static Uri of(java.lang.String value) {

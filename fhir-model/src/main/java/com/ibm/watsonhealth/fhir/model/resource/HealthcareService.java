@@ -1626,6 +1626,9 @@ public class HealthcareService extends DomainResource {
             super(builder);
             code = builder.code;
             comment = builder.comment;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1650,6 +1653,13 @@ public class HealthcareService extends DomainResource {
          */
         public Markdown getComment() {
             return comment;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (comment != null);
         }
 
         @Override
@@ -1904,6 +1914,9 @@ public class HealthcareService extends DomainResource {
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1952,6 +1965,15 @@ public class HealthcareService extends DomainResource {
          */
         public Time getAvailableEndTime() {
             return availableEndTime;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !daysOfWeek.isEmpty() || 
+                (allDay != null) || 
+                (availableStartTime != null) || 
+                (availableEndTime != null);
         }
 
         @Override
@@ -2268,6 +2290,9 @@ public class HealthcareService extends DomainResource {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
             during = builder.during;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2292,6 +2317,13 @@ public class HealthcareService extends DomainResource {
          */
         public Period getDuring() {
             return during;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (during != null);
         }
 
         @Override

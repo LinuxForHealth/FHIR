@@ -1511,6 +1511,9 @@ public class Questionnaire extends DomainResource {
             answerOption = Collections.unmodifiableList(builder.answerOption);
             initial = Collections.unmodifiableList(builder.initial);
             item = Collections.unmodifiableList(builder.item);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1725,6 +1728,27 @@ public class Questionnaire extends DomainResource {
          */
         public List<Questionnaire.Item> getItem() {
             return item;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (linkId != null) || 
+                (definition != null) || 
+                !code.isEmpty() || 
+                (prefix != null) || 
+                (text != null) || 
+                (type != null) || 
+                !enableWhen.isEmpty() || 
+                (enableBehavior != null) || 
+                (required != null) || 
+                (repeats != null) || 
+                (readOnly != null) || 
+                (maxLength != null) || 
+                (answerValueSet != null) || 
+                !answerOption.isEmpty() || 
+                !initial.isEmpty() || 
+                !item.isEmpty();
         }
 
         @Override
@@ -2388,6 +2412,9 @@ public class Questionnaire extends DomainResource {
                 question = ValidationSupport.requireNonNull(builder.question, "question");
                 operator = ValidationSupport.requireNonNull(builder.operator, "operator");
                 answer = ValidationSupport.requireChoiceElement(builder.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2424,6 +2451,14 @@ public class Questionnaire extends DomainResource {
              */
             public Element getAnswer() {
                 return answer;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (question != null) || 
+                    (operator != null) || 
+                    (answer != null);
             }
 
             @Override
@@ -2651,6 +2686,9 @@ public class Questionnaire extends DomainResource {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
                 initialSelected = builder.initialSelected;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2675,6 +2713,13 @@ public class Questionnaire extends DomainResource {
              */
             public Boolean getInitialSelected() {
                 return initialSelected;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (value != null) || 
+                    (initialSelected != null);
             }
 
             @Override
@@ -2914,6 +2959,9 @@ public class Questionnaire extends DomainResource {
             private Initial(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2926,6 +2974,12 @@ public class Questionnaire extends DomainResource {
              */
             public Element getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (value != null);
             }
 
             @Override

@@ -573,6 +573,9 @@ public class Bundle extends Resource {
             super(builder);
             relation = ValidationSupport.requireNonNull(builder.relation, "relation");
             url = ValidationSupport.requireNonNull(builder.url, "url");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -599,6 +602,13 @@ public class Bundle extends Resource {
          */
         public Uri getUrl() {
             return url;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (relation != null) || 
+                (url != null);
         }
 
         @Override
@@ -830,6 +840,9 @@ public class Bundle extends Resource {
             search = builder.search;
             request = builder.request;
             response = builder.response;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -909,6 +922,17 @@ public class Bundle extends Resource {
          */
         public Response getResponse() {
             return response;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !link.isEmpty() || 
+                (fullUrl != null) || 
+                (resource != null) || 
+                (search != null) || 
+                (request != null) || 
+                (response != null);
         }
 
         @Override
@@ -1273,6 +1297,9 @@ public class Bundle extends Resource {
                 super(builder);
                 mode = builder.mode;
                 score = builder.score;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1298,6 +1325,13 @@ public class Bundle extends Resource {
              */
             public Decimal getScore() {
                 return score;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (mode != null) || 
+                    (score != null);
             }
 
             @Override
@@ -1558,6 +1592,9 @@ public class Bundle extends Resource {
                 ifModifiedSince = builder.ifModifiedSince;
                 ifMatch = builder.ifMatch;
                 ifNoneExist = builder.ifNoneExist;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1636,6 +1673,17 @@ public class Bundle extends Resource {
              */
             public String getIfNoneExist() {
                 return ifNoneExist;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (method != null) || 
+                    (url != null) || 
+                    (ifNoneMatch != null) || 
+                    (ifModifiedSince != null) || 
+                    (ifMatch != null) || 
+                    (ifNoneExist != null);
             }
 
             @Override
@@ -1956,6 +2004,9 @@ public class Bundle extends Resource {
                 etag = builder.etag;
                 lastModified = builder.lastModified;
                 outcome = builder.outcome;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2018,6 +2069,16 @@ public class Bundle extends Resource {
              */
             public Resource getOutcome() {
                 return outcome;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (status != null) || 
+                    (location != null) || 
+                    (etag != null) || 
+                    (lastModified != null) || 
+                    (outcome != null);
             }
 
             @Override

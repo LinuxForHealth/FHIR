@@ -2123,6 +2123,9 @@ public class ExplanationOfBenefit extends DomainResource {
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2159,6 +2162,14 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Identifier getReference() {
             return reference;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (claim != null) || 
+                (relationship != null) || 
+                (reference != null);
         }
 
         @Override
@@ -2430,6 +2441,9 @@ public class ExplanationOfBenefit extends DomainResource {
             super(builder);
             type = builder.type;
             party = builder.party;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2454,6 +2468,13 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Reference getParty() {
             return party;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (party != null);
         }
 
         @Override
@@ -2710,6 +2731,9 @@ public class ExplanationOfBenefit extends DomainResource {
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2770,6 +2794,16 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public CodeableConcept getQualification() {
             return qualification;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (provider != null) || 
+                (responsible != null) || 
+                (role != null) || 
+                (qualification != null);
         }
 
         @Override
@@ -3066,6 +3100,9 @@ public class ExplanationOfBenefit extends DomainResource {
             timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
             value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
             reason = builder.reason;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3140,6 +3177,17 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Coding getReason() {
             return reason;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (category != null) || 
+                (code != null) || 
+                (timing != null) || 
+                (value != null) || 
+                (reason != null);
         }
 
         @Override
@@ -3456,6 +3504,9 @@ public class ExplanationOfBenefit extends DomainResource {
             type = Collections.unmodifiableList(builder.type);
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3517,6 +3568,16 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public CodeableConcept getPackageCode() {
             return packageCode;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (diagnosis != null) || 
+                !type.isEmpty() || 
+                (onAdmission != null) || 
+                (packageCode != null);
         }
 
         @Override
@@ -3835,6 +3896,9 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
             udi = Collections.unmodifiableList(builder.udi);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3895,6 +3959,16 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public List<Reference> getUdi() {
             return udi;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                !type.isEmpty() || 
+                (date != null) || 
+                (procedure != null) || 
+                !udi.isEmpty();
         }
 
         @Override
@@ -4232,6 +4306,9 @@ public class ExplanationOfBenefit extends DomainResource {
             focal = ValidationSupport.requireNonNull(builder.focal, "focal");
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -4270,6 +4347,14 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public List<String> getPreAuthRef() {
             return preAuthRef;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (focal != null) || 
+                (coverage != null) || 
+                !preAuthRef.isEmpty();
         }
 
         @Override
@@ -4543,6 +4628,9 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             type = builder.type;
             location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -4580,6 +4668,14 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Element getLocation() {
             return location;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (date != null) || 
+                (type != null) || 
+                (location != null);
         }
 
         @Override
@@ -4895,6 +4991,9 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(builder.noteNumber);
             adjudication = Collections.unmodifiableList(builder.adjudication);
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -5175,6 +5274,34 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public List<Detail> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                !careTeamSequence.isEmpty() || 
+                !diagnosisSequence.isEmpty() || 
+                !procedureSequence.isEmpty() || 
+                !informationSequence.isEmpty() || 
+                (revenue != null) || 
+                (category != null) || 
+                (productOrService != null) || 
+                !modifier.isEmpty() || 
+                !programCode.isEmpty() || 
+                (serviced != null) || 
+                (location != null) || 
+                (quantity != null) || 
+                (unitPrice != null) || 
+                (factor != null) || 
+                (net != null) || 
+                !udi.isEmpty() || 
+                (bodySite != null) || 
+                !subSite.isEmpty() || 
+                !encounter.isEmpty() || 
+                !noteNumber.isEmpty() || 
+                !adjudication.isEmpty() || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -6136,6 +6263,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 reason = builder.reason;
                 amount = builder.amount;
                 value = builder.value;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -6186,6 +6316,15 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Decimal getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (category != null) || 
+                    (reason != null) || 
+                    (amount != null) || 
+                    (value != null);
             }
 
             @Override
@@ -6492,6 +6631,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 noteNumber = Collections.unmodifiableList(builder.noteNumber);
                 adjudication = Collections.unmodifiableList(builder.adjudication);
                 subDetail = Collections.unmodifiableList(builder.subDetail);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -6663,6 +6805,25 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (sequence != null) || 
+                    (revenue != null) || 
+                    (category != null) || 
+                    (productOrService != null) || 
+                    !modifier.isEmpty() || 
+                    !programCode.isEmpty() || 
+                    (quantity != null) || 
+                    (unitPrice != null) || 
+                    (factor != null) || 
+                    (net != null) || 
+                    !udi.isEmpty() || 
+                    !noteNumber.isEmpty() || 
+                    !adjudication.isEmpty() || 
+                    !subDetail.isEmpty();
             }
 
             @Override
@@ -7306,6 +7467,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     udi = Collections.unmodifiableList(builder.udi);
                     noteNumber = Collections.unmodifiableList(builder.noteNumber);
                     adjudication = Collections.unmodifiableList(builder.adjudication);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -7465,6 +7629,24 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                     return adjudication;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (sequence != null) || 
+                        (revenue != null) || 
+                        (category != null) || 
+                        (productOrService != null) || 
+                        !modifier.isEmpty() || 
+                        !programCode.isEmpty() || 
+                        (quantity != null) || 
+                        (unitPrice != null) || 
+                        (factor != null) || 
+                        (net != null) || 
+                        !udi.isEmpty() || 
+                        !noteNumber.isEmpty() || 
+                        !adjudication.isEmpty();
                 }
 
                 @Override
@@ -8076,6 +8258,9 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(builder.noteNumber);
             adjudication = Collections.unmodifiableList(builder.adjudication);
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -8296,6 +8481,29 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public List<Detail> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !itemSequence.isEmpty() || 
+                !detailSequence.isEmpty() || 
+                !subDetailSequence.isEmpty() || 
+                !provider.isEmpty() || 
+                (productOrService != null) || 
+                !modifier.isEmpty() || 
+                !programCode.isEmpty() || 
+                (serviced != null) || 
+                (location != null) || 
+                (quantity != null) || 
+                (unitPrice != null) || 
+                (factor != null) || 
+                (net != null) || 
+                (bodySite != null) || 
+                !subSite.isEmpty() || 
+                !noteNumber.isEmpty() || 
+                !adjudication.isEmpty() || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -9129,6 +9337,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 noteNumber = Collections.unmodifiableList(builder.noteNumber);
                 adjudication = Collections.unmodifiableList(builder.adjudication);
                 subDetail = Collections.unmodifiableList(builder.subDetail);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -9240,6 +9451,20 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (productOrService != null) || 
+                    !modifier.isEmpty() || 
+                    (quantity != null) || 
+                    (unitPrice != null) || 
+                    (factor != null) || 
+                    (net != null) || 
+                    !noteNumber.isEmpty() || 
+                    !adjudication.isEmpty() || 
+                    !subDetail.isEmpty();
             }
 
             @Override
@@ -9736,6 +9961,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     net = builder.net;
                     noteNumber = Collections.unmodifiableList(builder.noteNumber);
                     adjudication = Collections.unmodifiableList(builder.adjudication);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -9835,6 +10063,19 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                     return adjudication;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (productOrService != null) || 
+                        !modifier.isEmpty() || 
+                        (quantity != null) || 
+                        (unitPrice != null) || 
+                        (factor != null) || 
+                        (net != null) || 
+                        !noteNumber.isEmpty() || 
+                        !adjudication.isEmpty();
                 }
 
                 @Override
@@ -10277,6 +10518,9 @@ public class ExplanationOfBenefit extends DomainResource {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
             amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -10303,6 +10547,13 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Money getAmount() {
             return amount;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (category != null) || 
+                (amount != null);
         }
 
         @Override
@@ -10533,6 +10784,9 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             amount = builder.amount;
             identifier = builder.identifier;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -10606,6 +10860,17 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Identifier getIdentifier() {
             return identifier;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (adjustment != null) || 
+                (adjustmentReason != null) || 
+                (date != null) || 
+                (amount != null) || 
+                (identifier != null);
         }
 
         @Override
@@ -10945,6 +11210,9 @@ public class ExplanationOfBenefit extends DomainResource {
             type = builder.type;
             text = builder.text;
             language = builder.language;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -10993,6 +11261,15 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public CodeableConcept getLanguage() {
             return language;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (number != null) || 
+                (type != null) || 
+                (text != null) || 
+                (language != null);
         }
 
         @Override
@@ -11297,6 +11574,9 @@ public class ExplanationOfBenefit extends DomainResource {
             unit = builder.unit;
             term = builder.term;
             financial = Collections.unmodifiableList(builder.financial);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -11394,6 +11674,19 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public List<Financial> getFinancial() {
             return financial;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (category != null) || 
+                (excluded != null) || 
+                (name != null) || 
+                (description != null) || 
+                (network != null) || 
+                (unit != null) || 
+                (term != null) || 
+                !financial.isEmpty();
         }
 
         @Override
@@ -11786,6 +12079,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
                 used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, Money.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -11822,6 +12118,14 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Element getUsed() {
                 return used;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (allowed != null) || 
+                    (used != null);
             }
 
             @Override

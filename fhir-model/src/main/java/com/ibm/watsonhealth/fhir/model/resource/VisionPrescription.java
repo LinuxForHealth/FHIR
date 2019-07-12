@@ -626,6 +626,9 @@ public class VisionPrescription extends DomainResource {
             color = builder.color;
             brand = builder.brand;
             note = Collections.unmodifiableList(builder.note);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -794,6 +797,25 @@ public class VisionPrescription extends DomainResource {
          */
         public List<Annotation> getNote() {
             return note;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (product != null) || 
+                (eye != null) || 
+                (sphere != null) || 
+                (cylinder != null) || 
+                (axis != null) || 
+                !prism.isEmpty() || 
+                (add != null) || 
+                (power != null) || 
+                (backCurve != null) || 
+                (diameter != null) || 
+                (duration != null) || 
+                (color != null) || 
+                (brand != null) || 
+                !note.isEmpty();
         }
 
         @Override
@@ -1317,6 +1339,9 @@ public class VisionPrescription extends DomainResource {
                 super(builder);
                 amount = ValidationSupport.requireNonNull(builder.amount, "amount");
                 base = ValidationSupport.requireNonNull(builder.base, "base");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1341,6 +1366,13 @@ public class VisionPrescription extends DomainResource {
              */
             public VisionBase getBase() {
                 return base;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (amount != null) || 
+                    (base != null);
             }
 
             @Override

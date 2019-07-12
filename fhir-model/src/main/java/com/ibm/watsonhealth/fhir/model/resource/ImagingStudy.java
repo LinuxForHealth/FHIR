@@ -1343,6 +1343,9 @@ public class ImagingStudy extends DomainResource {
             started = builder.started;
             performer = Collections.unmodifiableList(builder.performer);
             instance = Collections.unmodifiableList(builder.instance);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1495,6 +1498,23 @@ public class ImagingStudy extends DomainResource {
          */
         public List<Instance> getInstance() {
             return instance;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (uid != null) || 
+                (number != null) || 
+                (modality != null) || 
+                (description != null) || 
+                (numberOfInstances != null) || 
+                !endpoint.isEmpty() || 
+                (bodySite != null) || 
+                (laterality != null) || 
+                !specimen.isEmpty() || 
+                (started != null) || 
+                !performer.isEmpty() || 
+                !instance.isEmpty();
         }
 
         @Override
@@ -2034,6 +2054,9 @@ public class ImagingStudy extends DomainResource {
                 super(builder);
                 function = builder.function;
                 actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2058,6 +2081,13 @@ public class ImagingStudy extends DomainResource {
              */
             public Reference getActor() {
                 return actor;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (function != null) || 
+                    (actor != null);
             }
 
             @Override
@@ -2302,6 +2332,9 @@ public class ImagingStudy extends DomainResource {
                 sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
                 number = builder.number;
                 title = builder.title;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2350,6 +2383,15 @@ public class ImagingStudy extends DomainResource {
              */
             public String getTitle() {
                 return title;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (uid != null) || 
+                    (sopClass != null) || 
+                    (number != null) || 
+                    (title != null);
             }
 
             @Override

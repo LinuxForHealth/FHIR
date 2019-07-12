@@ -44,6 +44,9 @@ public class Signature extends Element {
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -132,6 +135,18 @@ public class Signature extends Element {
      */
     public Base64Binary getData() {
         return data;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            !type.isEmpty() || 
+            (when != null) || 
+            (who != null) || 
+            (onBehalfOf != null) || 
+            (targetFormat != null) || 
+            (sigFormat != null) || 
+            (data != null);
     }
 
     @Override

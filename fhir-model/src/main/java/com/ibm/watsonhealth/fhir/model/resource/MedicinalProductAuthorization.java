@@ -1043,6 +1043,9 @@ public class MedicinalProductAuthorization extends DomainResource {
             jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
             legalStatusOfSupply = builder.legalStatusOfSupply;
             validityPeriod = builder.validityPeriod;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1103,6 +1106,16 @@ public class MedicinalProductAuthorization extends DomainResource {
          */
         public Period getValidityPeriod() {
             return validityPeriod;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !identifier.isEmpty() || 
+                (country != null) || 
+                !jurisdiction.isEmpty() || 
+                (legalStatusOfSupply != null) || 
+                (validityPeriod != null);
         }
 
         @Override
@@ -1468,6 +1481,9 @@ public class MedicinalProductAuthorization extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
             application = Collections.unmodifiableList(builder.application);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1516,6 +1532,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          */
         public List<MedicinalProductAuthorization.Procedure> getApplication() {
             return application;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (identifier != null) || 
+                (type != null) || 
+                (date != null) || 
+                !application.isEmpty();
         }
 
         @Override

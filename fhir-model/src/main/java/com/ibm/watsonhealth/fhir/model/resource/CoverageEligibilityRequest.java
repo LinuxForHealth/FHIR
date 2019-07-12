@@ -911,6 +911,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
             information = ValidationSupport.requireNonNull(builder.information, "information");
             appliesToAll = builder.appliesToAll;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -948,6 +951,14 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public Boolean getAppliesToAll() {
             return appliesToAll;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (information != null) || 
+                (appliesToAll != null);
         }
 
         @Override
@@ -1195,6 +1206,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             focal = builder.focal;
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             businessArrangement = builder.businessArrangement;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1232,6 +1246,14 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public String getBusinessArrangement() {
             return businessArrangement;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (focal != null) || 
+                (coverage != null) || 
+                (businessArrangement != null);
         }
 
         @Override
@@ -1510,6 +1532,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             facility = builder.facility;
             diagnosis = Collections.unmodifiableList(builder.diagnosis);
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1630,6 +1655,21 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public List<Reference> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !supportingInfoSequence.isEmpty() || 
+                (category != null) || 
+                (productOrService != null) || 
+                !modifier.isEmpty() || 
+                (provider != null) || 
+                (quantity != null) || 
+                (unitPrice != null) || 
+                (facility != null) || 
+                !diagnosis.isEmpty() || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -2141,6 +2181,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             private Diagnosis(Builder builder) {
                 super(builder);
                 diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2153,6 +2196,12 @@ public class CoverageEligibilityRequest extends DomainResource {
              */
             public Element getDiagnosis() {
                 return diagnosis;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (diagnosis != null);
             }
 
             @Override

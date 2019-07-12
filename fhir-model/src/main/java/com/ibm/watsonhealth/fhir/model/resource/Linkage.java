@@ -481,6 +481,9 @@ public class Linkage extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             resource = ValidationSupport.requireNonNull(builder.resource, "resource");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -506,6 +509,13 @@ public class Linkage extends DomainResource {
          */
         public Reference getResource() {
             return resource;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (resource != null);
         }
 
         @Override

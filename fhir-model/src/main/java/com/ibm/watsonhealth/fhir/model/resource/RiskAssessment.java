@@ -1122,6 +1122,9 @@ public class RiskAssessment extends DomainResource {
             relativeRisk = builder.relativeRisk;
             when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
             rationale = builder.rationale;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1196,6 +1199,17 @@ public class RiskAssessment extends DomainResource {
          */
         public String getRationale() {
             return rationale;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (outcome != null) || 
+                (probability != null) || 
+                (qualitativeRisk != null) || 
+                (relativeRisk != null) || 
+                (when != null) || 
+                (rationale != null);
         }
 
         @Override

@@ -606,6 +606,9 @@ public class SubstanceNucleicAcid extends DomainResource {
             threePrime = builder.threePrime;
             linkage = Collections.unmodifiableList(builder.linkage);
             sugar = Collections.unmodifiableList(builder.sugar);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -708,6 +711,19 @@ public class SubstanceNucleicAcid extends DomainResource {
          */
         public List<Sugar> getSugar() {
             return sugar;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (subunit != null) || 
+                (sequence != null) || 
+                (length != null) || 
+                (sequenceAttachment != null) || 
+                (fivePrime != null) || 
+                (threePrime != null) || 
+                !linkage.isEmpty() || 
+                !sugar.isEmpty();
         }
 
         @Override
@@ -1147,6 +1163,9 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1198,6 +1217,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              */
             public String getResidueSite() {
                 return residueSite;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (connectivity != null) || 
+                    (identifier != null) || 
+                    (name != null) || 
+                    (residueSite != null);
             }
 
             @Override
@@ -1498,6 +1526,9 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1535,6 +1566,14 @@ public class SubstanceNucleicAcid extends DomainResource {
              */
             public String getResidueSite() {
                 return residueSite;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (identifier != null) || 
+                    (name != null) || 
+                    (residueSite != null);
             }
 
             @Override

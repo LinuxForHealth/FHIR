@@ -1200,6 +1200,9 @@ public class Patient extends DomainResource {
             gender = builder.gender;
             organization = builder.organization;
             period = builder.period;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1285,6 +1288,18 @@ public class Patient extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !relationship.isEmpty() || 
+                (name != null) || 
+                !telecom.isEmpty() || 
+                (address != null) || 
+                (gender != null) || 
+                (organization != null) || 
+                (period != null);
         }
 
         @Override
@@ -1689,6 +1704,9 @@ public class Patient extends DomainResource {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
             preferred = builder.preferred;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1715,6 +1733,13 @@ public class Patient extends DomainResource {
          */
         public Boolean getPreferred() {
             return preferred;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (language != null) || 
+                (preferred != null);
         }
 
         @Override
@@ -1955,6 +1980,9 @@ public class Patient extends DomainResource {
             super(builder);
             other = ValidationSupport.requireNonNull(builder.other, "other");
             type = ValidationSupport.requireNonNull(builder.type, "type");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1979,6 +2007,13 @@ public class Patient extends DomainResource {
          */
         public LinkType getType() {
             return type;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (other != null) || 
+                (type != null);
         }
 
         @Override

@@ -32,6 +32,9 @@ public class ContactDetail extends Element {
         super(builder);
         name = builder.name;
         telecom = Collections.unmodifiableList(builder.telecom);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -56,6 +59,13 @@ public class ContactDetail extends Element {
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (name != null) || 
+            !telecom.isEmpty();
     }
 
     @Override

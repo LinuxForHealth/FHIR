@@ -29,6 +29,9 @@ public class Money extends Element {
         super(builder);
         value = builder.value;
         currency = builder.currency;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -53,6 +56,13 @@ public class Money extends Element {
      */
     public Code getCurrency() {
         return currency;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (value != null) || 
+            (currency != null);
     }
 
     @Override

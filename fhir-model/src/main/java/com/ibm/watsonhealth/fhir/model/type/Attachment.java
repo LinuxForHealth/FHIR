@@ -49,6 +49,9 @@ public class Attachment extends Element {
         hash = builder.hash;
         title = builder.title;
         creation = builder.creation;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -146,6 +149,19 @@ public class Attachment extends Element {
      */
     public DateTime getCreation() {
         return creation;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (contentType != null) || 
+            (language != null) || 
+            (data != null) || 
+            (url != null) || 
+            (size != null) || 
+            (hash != null) || 
+            (title != null) || 
+            (creation != null);
     }
 
     @Override

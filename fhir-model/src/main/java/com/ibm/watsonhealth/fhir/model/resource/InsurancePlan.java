@@ -1109,6 +1109,9 @@ public class InsurancePlan extends DomainResource {
             name = builder.name;
             telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1157,6 +1160,15 @@ public class InsurancePlan extends DomainResource {
          */
         public Address getAddress() {
             return address;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (purpose != null) || 
+                (name != null) || 
+                !telecom.isEmpty() || 
+                (address != null);
         }
 
         @Override
@@ -1475,6 +1487,9 @@ public class InsurancePlan extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             network = Collections.unmodifiableList(builder.network);
             benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1512,6 +1527,14 @@ public class InsurancePlan extends DomainResource {
          */
         public List<Benefit> getBenefit() {
             return benefit;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                !network.isEmpty() || 
+                !benefit.isEmpty();
         }
 
         @Override
@@ -1782,6 +1805,9 @@ public class InsurancePlan extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 requirement = builder.requirement;
                 limit = Collections.unmodifiableList(builder.limit);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1818,6 +1844,14 @@ public class InsurancePlan extends DomainResource {
              */
             public List<Limit> getLimit() {
                 return limit;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (requirement != null) || 
+                    !limit.isEmpty();
             }
 
             @Override
@@ -2102,6 +2136,9 @@ public class InsurancePlan extends DomainResource {
                     super(builder);
                     value = builder.value;
                     code = builder.code;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2127,6 +2164,13 @@ public class InsurancePlan extends DomainResource {
                  */
                 public CodeableConcept getCode() {
                     return code;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (value != null) || 
+                        (code != null);
                 }
 
                 @Override
@@ -2388,6 +2432,9 @@ public class InsurancePlan extends DomainResource {
             network = Collections.unmodifiableList(builder.network);
             generalCost = Collections.unmodifiableList(builder.generalCost);
             specificCost = Collections.unmodifiableList(builder.specificCost);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2461,6 +2508,17 @@ public class InsurancePlan extends DomainResource {
          */
         public List<SpecificCost> getSpecificCost() {
             return specificCost;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !identifier.isEmpty() || 
+                (type != null) || 
+                !coverageArea.isEmpty() || 
+                !network.isEmpty() || 
+                !generalCost.isEmpty() || 
+                !specificCost.isEmpty();
         }
 
         @Override
@@ -2920,6 +2978,9 @@ public class InsurancePlan extends DomainResource {
                 groupSize = builder.groupSize;
                 cost = builder.cost;
                 comment = builder.comment;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2968,6 +3029,15 @@ public class InsurancePlan extends DomainResource {
              */
             public String getComment() {
                 return comment;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (groupSize != null) || 
+                    (cost != null) || 
+                    (comment != null);
             }
 
             @Override
@@ -3260,6 +3330,9 @@ public class InsurancePlan extends DomainResource {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
                 benefit = Collections.unmodifiableList(builder.benefit);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3284,6 +3357,13 @@ public class InsurancePlan extends DomainResource {
              */
             public List<Benefit> getBenefit() {
                 return benefit;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (category != null) || 
+                    !benefit.isEmpty();
             }
 
             @Override
@@ -3547,6 +3627,9 @@ public class InsurancePlan extends DomainResource {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
                     cost = Collections.unmodifiableList(builder.cost);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -3572,6 +3655,13 @@ public class InsurancePlan extends DomainResource {
                  */
                 public List<Cost> getCost() {
                     return cost;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (type != null) || 
+                        !cost.isEmpty();
                 }
 
                 @Override
@@ -3839,6 +3929,9 @@ public class InsurancePlan extends DomainResource {
                         applicability = builder.applicability;
                         qualifiers = Collections.unmodifiableList(builder.qualifiers);
                         value = builder.value;
+                        if (!hasChildren()) {
+                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                        }
                     }
 
                     /**
@@ -3888,6 +3981,15 @@ public class InsurancePlan extends DomainResource {
                      */
                     public Quantity getValue() {
                         return value;
+                    }
+
+                    @Override
+                    protected boolean hasChildren() {
+                        return super.hasChildren() || 
+                            (type != null) || 
+                            (applicability != null) || 
+                            !qualifiers.isEmpty() || 
+                            (value != null);
                     }
 
                     @Override

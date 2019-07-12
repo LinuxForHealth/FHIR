@@ -1135,6 +1135,9 @@ public class MolecularSequence extends DomainResource {
             strand = builder.strand;
             windowStart = builder.windowStart;
             windowEnd = builder.windowEnd;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1253,6 +1256,20 @@ public class MolecularSequence extends DomainResource {
          */
         public Integer getWindowEnd() {
             return windowEnd;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (chromosome != null) || 
+                (genomeBuild != null) || 
+                (orientation != null) || 
+                (referenceSeqId != null) || 
+                (referenceSeqPointer != null) || 
+                (referenceSeqString != null) || 
+                (strand != null) || 
+                (windowStart != null) || 
+                (windowEnd != null);
         }
 
         @Override
@@ -1671,6 +1688,9 @@ public class MolecularSequence extends DomainResource {
             referenceAllele = builder.referenceAllele;
             cigar = builder.cigar;
             variantPointer = builder.variantPointer;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1755,6 +1775,17 @@ public class MolecularSequence extends DomainResource {
          */
         public Reference getVariantPointer() {
             return variantPointer;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (start != null) || 
+                (end != null) || 
+                (observedAllele != null) || 
+                (referenceAllele != null) || 
+                (cigar != null) || 
+                (variantPointer != null);
         }
 
         @Override
@@ -2128,6 +2159,9 @@ public class MolecularSequence extends DomainResource {
             recall = builder.recall;
             fScore = builder.fScore;
             roc = builder.roc;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2319,6 +2353,26 @@ public class MolecularSequence extends DomainResource {
          */
         public Roc getRoc() {
             return roc;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (standardSequence != null) || 
+                (start != null) || 
+                (end != null) || 
+                (score != null) || 
+                (method != null) || 
+                (truthTP != null) || 
+                (queryTP != null) || 
+                (truthFN != null) || 
+                (queryFP != null) || 
+                (gtFP != null) || 
+                (precision != null) || 
+                (recall != null) || 
+                (fScore != null) || 
+                (roc != null);
         }
 
         @Override
@@ -2852,6 +2906,9 @@ public class MolecularSequence extends DomainResource {
                 precision = Collections.unmodifiableList(builder.precision);
                 sensitivity = Collections.unmodifiableList(builder.sensitivity);
                 fMeasure = Collections.unmodifiableList(builder.fMeasure);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2936,6 +2993,18 @@ public class MolecularSequence extends DomainResource {
              */
             public List<Decimal> getFMeasure() {
                 return fMeasure;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    !score.isEmpty() || 
+                    !numTP.isEmpty() || 
+                    !numFP.isEmpty() || 
+                    !numFN.isEmpty() || 
+                    !precision.isEmpty() || 
+                    !sensitivity.isEmpty() || 
+                    !fMeasure.isEmpty();
             }
 
             @Override
@@ -3469,6 +3538,9 @@ public class MolecularSequence extends DomainResource {
             datasetId = builder.datasetId;
             variantsetId = builder.variantsetId;
             readsetId = builder.readsetId;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3543,6 +3615,17 @@ public class MolecularSequence extends DomainResource {
          */
         public String getReadsetId() {
             return readsetId;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (url != null) || 
+                (name != null) || 
+                (datasetId != null) || 
+                (variantsetId != null) || 
+                (readsetId != null);
         }
 
         @Override
@@ -3875,6 +3958,9 @@ public class MolecularSequence extends DomainResource {
             length = builder.length;
             outer = builder.outer;
             inner = builder.inner;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3935,6 +4021,16 @@ public class MolecularSequence extends DomainResource {
          */
         public Inner getInner() {
             return inner;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (variantType != null) || 
+                (exact != null) || 
+                (length != null) || 
+                (outer != null) || 
+                (inner != null);
         }
 
         @Override
@@ -4247,6 +4343,9 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4273,6 +4372,13 @@ public class MolecularSequence extends DomainResource {
              */
             public Integer getEnd() {
                 return end;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (start != null) || 
+                    (end != null);
             }
 
             @Override
@@ -4525,6 +4631,9 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4551,6 +4660,13 @@ public class MolecularSequence extends DomainResource {
              */
             public Integer getEnd() {
                 return end;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (start != null) || 
+                    (end != null);
             }
 
             @Override

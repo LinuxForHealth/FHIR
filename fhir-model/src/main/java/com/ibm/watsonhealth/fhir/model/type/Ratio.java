@@ -37,6 +37,9 @@ public class Ratio extends Element {
         super(builder);
         numerator = builder.numerator;
         denominator = builder.denominator;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -61,6 +64,13 @@ public class Ratio extends Element {
      */
     public Quantity getDenominator() {
         return denominator;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (numerator != null) || 
+            (denominator != null);
     }
 
     @Override

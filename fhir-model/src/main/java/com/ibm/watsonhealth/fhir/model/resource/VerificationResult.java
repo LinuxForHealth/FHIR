@@ -996,6 +996,9 @@ public class VerificationResult extends DomainResource {
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
             pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1081,6 +1084,18 @@ public class VerificationResult extends DomainResource {
          */
         public List<CodeableConcept> getPushTypeAvailable() {
             return pushTypeAvailable;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (who != null) || 
+                !type.isEmpty() || 
+                !communicationMethod.isEmpty() || 
+                (validationStatus != null) || 
+                (validationDate != null) || 
+                (canPushUpdates != null) || 
+                !pushTypeAvailable.isEmpty();
         }
 
         @Override
@@ -1524,6 +1539,9 @@ public class VerificationResult extends DomainResource {
             proxyIdentityCertificate = builder.proxyIdentityCertificate;
             proxySignature = builder.proxySignature;
             sourceSignature = builder.sourceSignature;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1622,6 +1640,19 @@ public class VerificationResult extends DomainResource {
          */
         public Signature getSourceSignature() {
             return sourceSignature;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (who != null) || 
+                (onBehalfOf != null) || 
+                (communicationMethod != null) || 
+                (date != null) || 
+                (sourceIdentityCertificate != null) || 
+                (proxyIdentityCertificate != null) || 
+                (proxySignature != null) || 
+                (sourceSignature != null);
         }
 
         @Override
@@ -2003,6 +2034,9 @@ public class VerificationResult extends DomainResource {
             organization = ValidationSupport.requireNonNull(builder.organization, "organization");
             identityCertificate = builder.identityCertificate;
             attestationSignature = builder.attestationSignature;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2039,6 +2073,14 @@ public class VerificationResult extends DomainResource {
          */
         public Signature getAttestationSignature() {
             return attestationSignature;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (organization != null) || 
+                (identityCertificate != null) || 
+                (attestationSignature != null);
         }
 
         @Override

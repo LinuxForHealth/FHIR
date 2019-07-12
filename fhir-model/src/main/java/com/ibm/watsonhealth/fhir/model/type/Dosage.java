@@ -56,6 +56,9 @@ public class Dosage extends BackboneElement {
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -215,6 +218,24 @@ public class Dosage extends BackboneElement {
      */
     public Quantity getMaxDosePerLifetime() {
         return maxDosePerLifetime;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (sequence != null) || 
+            (text != null) || 
+            !additionalInstruction.isEmpty() || 
+            (patientInstruction != null) || 
+            (timing != null) || 
+            (asNeeded != null) || 
+            (site != null) || 
+            (route != null) || 
+            (method != null) || 
+            !doseAndRate.isEmpty() || 
+            (maxDosePerPeriod != null) || 
+            (maxDosePerAdministration != null) || 
+            (maxDosePerLifetime != null);
     }
 
     @Override
@@ -750,6 +771,9 @@ public class Dosage extends BackboneElement {
             type = builder.type;
             dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, Quantity.class);
             rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, Quantity.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -786,6 +810,14 @@ public class Dosage extends BackboneElement {
          */
         public Element getRate() {
             return rate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (dose != null) || 
+                (rate != null);
         }
 
         @Override

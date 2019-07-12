@@ -972,6 +972,9 @@ public class Consent extends DomainResource {
             super(builder);
             authority = builder.authority;
             uri = builder.uri;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -998,6 +1001,13 @@ public class Consent extends DomainResource {
          */
         public Uri getUri() {
             return uri;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (authority != null) || 
+                (uri != null);
         }
 
         @Override
@@ -1253,6 +1263,9 @@ public class Consent extends DomainResource {
             verified = ValidationSupport.requireNonNull(builder.verified, "verified");
             verifiedWith = builder.verifiedWith;
             verificationDate = builder.verificationDate;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1289,6 +1302,14 @@ public class Consent extends DomainResource {
          */
         public DateTime getVerificationDate() {
             return verificationDate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (verified != null) || 
+                (verifiedWith != null) || 
+                (verificationDate != null);
         }
 
         @Override
@@ -1568,6 +1589,9 @@ public class Consent extends DomainResource {
             dataPeriod = builder.dataPeriod;
             data = Collections.unmodifiableList(builder.data);
             provision = Collections.unmodifiableList(builder.provision);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1704,6 +1728,22 @@ public class Consent extends DomainResource {
          */
         public List<Consent.Provision> getProvision() {
             return provision;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (period != null) || 
+                !actor.isEmpty() || 
+                !action.isEmpty() || 
+                !securityLabel.isEmpty() || 
+                !purpose.isEmpty() || 
+                !clazz.isEmpty() || 
+                !code.isEmpty() || 
+                (dataPeriod != null) || 
+                !data.isEmpty() || 
+                !provision.isEmpty();
         }
 
         @Override
@@ -2342,6 +2382,9 @@ public class Consent extends DomainResource {
                 super(builder);
                 role = ValidationSupport.requireNonNull(builder.role, "role");
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2367,6 +2410,13 @@ public class Consent extends DomainResource {
              */
             public Reference getReference() {
                 return reference;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (role != null) || 
+                    (reference != null);
             }
 
             @Override
@@ -2589,6 +2639,9 @@ public class Consent extends DomainResource {
                 super(builder);
                 meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2613,6 +2666,13 @@ public class Consent extends DomainResource {
              */
             public Reference getReference() {
                 return reference;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (meaning != null) || 
+                    (reference != null);
             }
 
             @Override

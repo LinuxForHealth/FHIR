@@ -1065,6 +1065,9 @@ public class Invoice extends DomainResource {
             super(builder);
             role = builder.role;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1090,6 +1093,13 @@ public class Invoice extends DomainResource {
          */
         public Reference getActor() {
             return actor;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (role != null) || 
+                (actor != null);
         }
 
         @Override
@@ -1334,6 +1344,9 @@ public class Invoice extends DomainResource {
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
             priceComponent = Collections.unmodifiableList(builder.priceComponent);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1374,6 +1387,14 @@ public class Invoice extends DomainResource {
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (chargeItem != null) || 
+                !priceComponent.isEmpty();
         }
 
         @Override
@@ -1671,6 +1692,9 @@ public class Invoice extends DomainResource {
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1720,6 +1744,15 @@ public class Invoice extends DomainResource {
              */
             public Money getAmount() {
                 return amount;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (code != null) || 
+                    (factor != null) || 
+                    (amount != null);
             }
 
             @Override

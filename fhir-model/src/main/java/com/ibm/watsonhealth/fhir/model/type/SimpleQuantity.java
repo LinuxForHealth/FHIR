@@ -44,6 +44,9 @@ public class SimpleQuantity extends Quantity {
         unit = builder.unit;
         system = builder.system;
         code = builder.code;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**

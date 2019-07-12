@@ -804,6 +804,9 @@ public class MessageHeader extends DomainResource {
             target = builder.target;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
             receiver = builder.receiver;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -853,6 +856,15 @@ public class MessageHeader extends DomainResource {
          */
         public Reference getReceiver() {
             return receiver;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (target != null) || 
+                (endpoint != null) || 
+                (receiver != null);
         }
 
         @Override
@@ -1142,6 +1154,9 @@ public class MessageHeader extends DomainResource {
             version = builder.version;
             contact = builder.contact;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1202,6 +1217,16 @@ public class MessageHeader extends DomainResource {
          */
         public Url getEndpoint() {
             return endpoint;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (software != null) || 
+                (version != null) || 
+                (contact != null) || 
+                (endpoint != null);
         }
 
         @Override
@@ -1507,6 +1532,9 @@ public class MessageHeader extends DomainResource {
             identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1544,6 +1572,14 @@ public class MessageHeader extends DomainResource {
          */
         public Reference getDetails() {
             return details;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (identifier != null) || 
+                (code != null) || 
+                (details != null);
         }
 
         @Override

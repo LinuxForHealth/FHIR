@@ -119,6 +119,8 @@ public class FHIRPathEvaluator {
     }
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {        
+        private static final String SYSTEM_NAMESPACE = "System";
+
         private final Collection<FHIRPathNode> initialContext;
         
         private Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
@@ -148,7 +150,7 @@ public class FHIRPathEvaluator {
                 FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
                 if (type != null) {
                     FHIRPathNode node = getSingleton(currentContext);
-                    if ("System".equals(type.namespace()) && 
+                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && 
                             node.isElementNode() && 
                             node.asElementNode().hasValue()) {
                         node = node.asElementNode().getValue();
@@ -162,7 +164,7 @@ public class FHIRPathEvaluator {
         }
 
         private Set<String> closure(FHIRPathType type) {
-            if ("System".equals(type.namespace())) {
+            if (SYSTEM_NAMESPACE.equals(type.namespace())) {
                 return Collections.emptySet();
             }
             // compute type name closure
@@ -1094,7 +1096,7 @@ public class FHIRPathEvaluator {
     
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator("'Hello'.is(System.hamburger)").evaluate();
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator("(1 + 2) > 3").evaluate();
         System.out.println(result);        
     }
 }

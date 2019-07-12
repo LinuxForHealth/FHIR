@@ -1564,6 +1564,9 @@ public class Device extends DomainResource {
             carrierAIDC = builder.carrierAIDC;
             carrierHRF = builder.carrierHRF;
             entryType = builder.entryType;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1650,6 +1653,17 @@ public class Device extends DomainResource {
          */
         public UDIEntryType getEntryType() {
             return entryType;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (deviceIdentifier != null) || 
+                (issuer != null) || 
+                (jurisdiction != null) || 
+                (carrierAIDC != null) || 
+                (carrierHRF != null) || 
+                (entryType != null);
         }
 
         @Override
@@ -2000,6 +2014,9 @@ public class Device extends DomainResource {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
             type = ValidationSupport.requireNonNull(builder.type, "type");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2025,6 +2042,13 @@ public class Device extends DomainResource {
          */
         public DeviceNameType getType() {
             return type;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (type != null);
         }
 
         @Override
@@ -2248,6 +2272,9 @@ public class Device extends DomainResource {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
             version = builder.version;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2272,6 +2299,13 @@ public class Device extends DomainResource {
          */
         public String getVersion() {
             return version;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (systemType != null) || 
+                (version != null);
         }
 
         @Override
@@ -2514,6 +2548,9 @@ public class Device extends DomainResource {
             type = builder.type;
             component = builder.component;
             value = ValidationSupport.requireNonNull(builder.value, "value");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2550,6 +2587,14 @@ public class Device extends DomainResource {
          */
         public String getValue() {
             return value;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (component != null) || 
+                (value != null);
         }
 
         @Override
@@ -2813,6 +2858,9 @@ public class Device extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
             valueCode = Collections.unmodifiableList(builder.valueCode);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2849,6 +2897,14 @@ public class Device extends DomainResource {
          */
         public List<CodeableConcept> getValueCode() {
             return valueCode;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                !valueQuantity.isEmpty() || 
+                !valueCode.isEmpty();
         }
 
         @Override

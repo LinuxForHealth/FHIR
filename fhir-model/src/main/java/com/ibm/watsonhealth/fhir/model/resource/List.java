@@ -911,6 +911,9 @@ public class List extends DomainResource {
             deleted = builder.deleted;
             date = builder.date;
             item = ValidationSupport.requireNonNull(builder.item, "item");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -959,6 +962,15 @@ public class List extends DomainResource {
          */
         public Reference getItem() {
             return item;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (flag != null) || 
+                (deleted != null) || 
+                (date != null) || 
+                (item != null);
         }
 
         @Override

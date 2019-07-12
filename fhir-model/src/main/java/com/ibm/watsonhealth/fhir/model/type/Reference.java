@@ -41,6 +41,9 @@ public class Reference extends Element {
         type = builder.type;
         identifier = builder.identifier;
         display = builder.display;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -104,6 +107,15 @@ public class Reference extends Element {
      */
     public String getDisplay() {
         return display;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (reference != null) || 
+            (type != null) || 
+            (identifier != null) || 
+            (display != null);
     }
 
     @Override

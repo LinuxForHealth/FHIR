@@ -43,6 +43,9 @@ public class HumanName extends Element {
         prefix = Collections.unmodifiableList(builder.prefix);
         suffix = Collections.unmodifiableList(builder.suffix);
         period = builder.period;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -131,6 +134,18 @@ public class HumanName extends Element {
      */
     public Period getPeriod() {
         return period;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (use != null) || 
+            (text != null) || 
+            (family != null) || 
+            !given.isEmpty() || 
+            !prefix.isEmpty() || 
+            !suffix.isEmpty() || 
+            (period != null);
     }
 
     @Override

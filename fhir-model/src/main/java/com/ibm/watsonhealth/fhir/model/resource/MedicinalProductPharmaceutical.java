@@ -694,6 +694,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             status = builder.status;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -718,6 +721,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          */
         public CodeableConcept getStatus() {
             return status;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (status != null);
         }
 
         @Override
@@ -968,6 +978,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
             targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1057,6 +1070,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          */
         public List<TargetSpecies> getTargetSpecies() {
             return targetSpecies;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (firstDose != null) || 
+                (maxSingleDose != null) || 
+                (maxDosePerDay != null) || 
+                (maxDosePerTreatmentPeriod != null) || 
+                (maxTreatmentPeriod != null) || 
+                !targetSpecies.isEmpty();
         }
 
         @Override
@@ -1435,6 +1460,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1459,6 +1487,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              */
             public List<WithdrawalPeriod> getWithdrawalPeriod() {
                 return withdrawalPeriod;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    !withdrawalPeriod.isEmpty();
             }
 
             @Override
@@ -1724,6 +1759,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
                     value = ValidationSupport.requireNonNull(builder.value, "value");
                     supportingInformation = builder.supportingInformation;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -1760,6 +1798,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  */
                 public String getSupportingInformation() {
                     return supportingInformation;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (tissue != null) || 
+                        (value != null) || 
+                        (supportingInformation != null);
                 }
 
                 @Override

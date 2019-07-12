@@ -37,6 +37,9 @@ public class Date extends Element {
         super(builder);
         value = builder.value;
         ValidationSupport.checkValueType(value, LocalDate.class, YearMonth.class, Year.class);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -53,6 +56,12 @@ public class Date extends Element {
 
     public boolean isPartial() {
         return !(value instanceof LocalDate);
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (value != null);
     }
 
     public static Date of(TemporalAccessor value) {

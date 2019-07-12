@@ -1277,6 +1277,9 @@ public class DiagnosticReport extends DomainResource {
             super(builder);
             comment = builder.comment;
             link = ValidationSupport.requireNonNull(builder.link, "link");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1302,6 +1305,13 @@ public class DiagnosticReport extends DomainResource {
          */
         public Reference getLink() {
             return link;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (comment != null) || 
+                (link != null);
         }
 
         @Override

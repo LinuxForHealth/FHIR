@@ -1029,6 +1029,9 @@ public class Specimen extends DomainResource {
             method = builder.method;
             bodySite = builder.bodySite;
             fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1115,6 +1118,18 @@ public class Specimen extends DomainResource {
          */
         public Element getFastingStatus() {
             return fastingStatus;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (collector != null) || 
+                (collected != null) || 
+                (duration != null) || 
+                (quantity != null) || 
+                (method != null) || 
+                (bodySite != null) || 
+                (fastingStatus != null);
         }
 
         @Override
@@ -1476,6 +1491,9 @@ public class Specimen extends DomainResource {
             procedure = builder.procedure;
             additive = Collections.unmodifiableList(builder.additive);
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1525,6 +1543,15 @@ public class Specimen extends DomainResource {
          */
         public Element getTime() {
             return time;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (procedure != null) || 
+                !additive.isEmpty() || 
+                (time != null);
         }
 
         @Override
@@ -1851,6 +1878,9 @@ public class Specimen extends DomainResource {
             capacity = builder.capacity;
             specimenQuantity = builder.specimenQuantity;
             additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1925,6 +1955,17 @@ public class Specimen extends DomainResource {
          */
         public Element getAdditive() {
             return additive;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !identifier.isEmpty() || 
+                (description != null) || 
+                (type != null) || 
+                (capacity != null) || 
+                (specimenQuantity != null) || 
+                (additive != null);
         }
 
         @Override

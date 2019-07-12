@@ -561,7 +561,7 @@ public class CodeBuilder {
         List<String> keys = new ArrayList<>(valueMap.keySet());
         for (String key : keys) {
             String value = valueMap.get(key);
-            indent().append("    ").append(key).append(" = ").append(quote(value)).append(!isLast(keys, key) ? "," : "").newLine();
+            indent().append("    ").append(key).append(" = ").append(value).append(!isLast(keys, key) ? "," : "").newLine();
         }
         indent().append(")").newLine();
         return this;

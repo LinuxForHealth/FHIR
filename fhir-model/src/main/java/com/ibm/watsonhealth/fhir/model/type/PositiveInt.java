@@ -27,6 +27,14 @@ public class PositiveInt extends Integer {
     private PositiveInt(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, MIN_VALUE);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren();
     }
 
     public static PositiveInt of(java.lang.Integer value) {

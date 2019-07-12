@@ -2501,6 +2501,9 @@ public class ActivityDefinition extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             role = builder.role;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2525,6 +2528,13 @@ public class ActivityDefinition extends DomainResource {
          */
         public CodeableConcept getRole() {
             return role;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (role != null);
         }
 
         @Override
@@ -2767,6 +2777,9 @@ public class ActivityDefinition extends DomainResource {
             super(builder);
             path = ValidationSupport.requireNonNull(builder.path, "path");
             expression = ValidationSupport.requireNonNull(builder.expression, "expression");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2795,6 +2808,13 @@ public class ActivityDefinition extends DomainResource {
          */
         public Expression getExpression() {
             return expression;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (path != null) || 
+                (expression != null);
         }
 
         @Override

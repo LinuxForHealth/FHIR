@@ -1194,6 +1194,9 @@ public class ImplementationGuide extends DomainResource {
             uri = ValidationSupport.requireNonNull(builder.uri, "uri");
             packageId = builder.packageId;
             version = builder.version;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1230,6 +1233,14 @@ public class ImplementationGuide extends DomainResource {
          */
         public String getVersion() {
             return version;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (uri != null) || 
+                (packageId != null) || 
+                (version != null);
         }
 
         @Override
@@ -1491,6 +1502,9 @@ public class ImplementationGuide extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1515,6 +1529,13 @@ public class ImplementationGuide extends DomainResource {
          */
         public Canonical getProfile() {
             return profile;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (profile != null);
         }
 
         @Override
@@ -1743,6 +1764,9 @@ public class ImplementationGuide extends DomainResource {
             page = builder.page;
             parameter = Collections.unmodifiableList(builder.parameter);
             template = Collections.unmodifiableList(builder.template);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1805,6 +1829,16 @@ public class ImplementationGuide extends DomainResource {
          */
         public List<Template> getTemplate() {
             return template;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !grouping.isEmpty() || 
+                !resource.isEmpty() || 
+                (page != null) || 
+                !parameter.isEmpty() || 
+                !template.isEmpty();
         }
 
         @Override
@@ -2179,6 +2213,9 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 description = builder.description;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2203,6 +2240,13 @@ public class ImplementationGuide extends DomainResource {
              */
             public String getDescription() {
                 return description;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    (description != null);
             }
 
             @Override
@@ -2453,6 +2497,9 @@ public class ImplementationGuide extends DomainResource {
                 description = builder.description;
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
                 groupingId = builder.groupingId;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2528,6 +2575,17 @@ public class ImplementationGuide extends DomainResource {
              */
             public Id getGroupingId() {
                 return groupingId;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (reference != null) || 
+                    !fhirVersion.isEmpty() || 
+                    (name != null) || 
+                    (description != null) || 
+                    (example != null) || 
+                    (groupingId != null);
             }
 
             @Override
@@ -2884,6 +2942,9 @@ public class ImplementationGuide extends DomainResource {
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
                 page = Collections.unmodifiableList(builder.page);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2932,6 +2993,15 @@ public class ImplementationGuide extends DomainResource {
              */
             public List<ImplementationGuide.Definition.Page> getPage() {
                 return page;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    (title != null) || 
+                    (generation != null) || 
+                    !page.isEmpty();
             }
 
             @Override
@@ -3206,6 +3276,9 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireNonNull(builder.value, "value");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3231,6 +3304,13 @@ public class ImplementationGuide extends DomainResource {
              */
             public String getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (value != null);
             }
 
             @Override
@@ -3455,6 +3535,9 @@ public class ImplementationGuide extends DomainResource {
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 source = ValidationSupport.requireNonNull(builder.source, "source");
                 scope = builder.scope;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3491,6 +3574,14 @@ public class ImplementationGuide extends DomainResource {
              */
             public String getScope() {
                 return scope;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (source != null) || 
+                    (scope != null);
             }
 
             @Override
@@ -3743,6 +3834,9 @@ public class ImplementationGuide extends DomainResource {
             page = Collections.unmodifiableList(builder.page);
             image = Collections.unmodifiableList(builder.image);
             other = Collections.unmodifiableList(builder.other);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3806,6 +3900,16 @@ public class ImplementationGuide extends DomainResource {
          */
         public List<String> getOther() {
             return other;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (rendering != null) || 
+                !resource.isEmpty() || 
+                !page.isEmpty() || 
+                !image.isEmpty() || 
+                !other.isEmpty();
         }
 
         @Override
@@ -4186,6 +4290,9 @@ public class ImplementationGuide extends DomainResource {
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
                 relativePath = builder.relativePath;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4223,6 +4330,14 @@ public class ImplementationGuide extends DomainResource {
              */
             public Url getRelativePath() {
                 return relativePath;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (reference != null) || 
+                    (example != null) || 
+                    (relativePath != null);
             }
 
             @Override
@@ -4487,6 +4602,9 @@ public class ImplementationGuide extends DomainResource {
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 title = builder.title;
                 anchor = Collections.unmodifiableList(builder.anchor);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4523,6 +4641,14 @@ public class ImplementationGuide extends DomainResource {
              */
             public List<String> getAnchor() {
                 return anchor;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    (title != null) || 
+                    !anchor.isEmpty();
             }
 
             @Override

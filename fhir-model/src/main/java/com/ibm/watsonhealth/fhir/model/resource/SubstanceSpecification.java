@@ -1225,6 +1225,9 @@ public class SubstanceSpecification extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1309,6 +1312,18 @@ public class SubstanceSpecification extends DomainResource {
          */
         public Element getAmount() {
             return amount;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (role != null) || 
+                (identifier != null) || 
+                (name != null) || 
+                (stereochemistry != null) || 
+                (opticalActivity != null) || 
+                (molecularFormula != null) || 
+                (amount != null);
         }
 
         @Override
@@ -1670,6 +1685,9 @@ public class SubstanceSpecification extends DomainResource {
             parameters = builder.parameters;
             definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1730,6 +1748,16 @@ public class SubstanceSpecification extends DomainResource {
          */
         public Element getAmount() {
             return amount;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (category != null) || 
+                (code != null) || 
+                (parameters != null) || 
+                (definingSubstance != null) || 
+                (amount != null);
         }
 
         @Override
@@ -2055,6 +2083,9 @@ public class SubstanceSpecification extends DomainResource {
             molecularWeight = builder.molecularWeight;
             source = Collections.unmodifiableList(builder.source);
             representation = Collections.unmodifiableList(builder.representation);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2152,6 +2183,19 @@ public class SubstanceSpecification extends DomainResource {
          */
         public List<Representation> getRepresentation() {
             return representation;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (stereochemistry != null) || 
+                (opticalActivity != null) || 
+                (molecularFormula != null) || 
+                (molecularFormulaByMoiety != null) || 
+                !isotope.isEmpty() || 
+                (molecularWeight != null) || 
+                !source.isEmpty() || 
+                !representation.isEmpty();
         }
 
         @Override
@@ -2607,6 +2651,9 @@ public class SubstanceSpecification extends DomainResource {
                 substitution = builder.substitution;
                 halfLife = builder.halfLife;
                 molecularWeight = builder.molecularWeight;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2667,6 +2714,16 @@ public class SubstanceSpecification extends DomainResource {
              */
             public MolecularWeight getMolecularWeight() {
                 return molecularWeight;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (identifier != null) || 
+                    (name != null) || 
+                    (substitution != null) || 
+                    (halfLife != null) || 
+                    (molecularWeight != null);
             }
 
             @Override
@@ -2981,6 +3038,9 @@ public class SubstanceSpecification extends DomainResource {
                     method = builder.method;
                     type = builder.type;
                     amount = builder.amount;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -3018,6 +3078,14 @@ public class SubstanceSpecification extends DomainResource {
                  */
                 public Quantity getAmount() {
                     return amount;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (method != null) || 
+                        (type != null) || 
+                        (amount != null);
                 }
 
                 @Override
@@ -3294,6 +3362,9 @@ public class SubstanceSpecification extends DomainResource {
                 type = builder.type;
                 representation = builder.representation;
                 attachment = builder.attachment;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3330,6 +3401,14 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Attachment getAttachment() {
                 return attachment;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (representation != null) || 
+                    (attachment != null);
             }
 
             @Override
@@ -3608,6 +3687,9 @@ public class SubstanceSpecification extends DomainResource {
             statusDate = builder.statusDate;
             comment = builder.comment;
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3668,6 +3750,16 @@ public class SubstanceSpecification extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (status != null) || 
+                (statusDate != null) || 
+                (comment != null) || 
+                !source.isEmpty();
         }
 
         @Override
@@ -4023,6 +4115,9 @@ public class SubstanceSpecification extends DomainResource {
             translation = Collections.unmodifiableList(builder.translation);
             official = Collections.unmodifiableList(builder.official);
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -4156,6 +4251,22 @@ public class SubstanceSpecification extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (type != null) || 
+                (status != null) || 
+                (preferred != null) || 
+                !language.isEmpty() || 
+                !domain.isEmpty() || 
+                !jurisdiction.isEmpty() || 
+                !synonym.isEmpty() || 
+                !translation.isEmpty() || 
+                !official.isEmpty() || 
+                !source.isEmpty();
         }
 
         @Override
@@ -4758,6 +4869,9 @@ public class SubstanceSpecification extends DomainResource {
                 authority = builder.authority;
                 status = builder.status;
                 date = builder.date;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4794,6 +4908,14 @@ public class SubstanceSpecification extends DomainResource {
              */
             public DateTime getDate() {
                 return date;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (authority != null) || 
+                    (status != null) || 
+                    (date != null);
             }
 
             @Override
@@ -5076,6 +5198,9 @@ public class SubstanceSpecification extends DomainResource {
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -5162,6 +5287,18 @@ public class SubstanceSpecification extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (substance != null) || 
+                (relationship != null) || 
+                (isDefining != null) || 
+                (amount != null) || 
+                (amountRatioLowLimit != null) || 
+                (amountType != null) || 
+                !source.isEmpty();
         }
 
         @Override

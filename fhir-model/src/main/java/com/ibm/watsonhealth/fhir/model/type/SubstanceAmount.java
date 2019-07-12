@@ -38,6 +38,9 @@ public class SubstanceAmount extends BackboneElement {
         amountType = builder.amountType;
         amountText = builder.amountText;
         referenceRange = builder.referenceRange;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -91,6 +94,15 @@ public class SubstanceAmount extends BackboneElement {
      */
     public ReferenceRange getReferenceRange() {
         return referenceRange;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (amount != null) || 
+            (amountType != null) || 
+            (amountText != null) || 
+            (referenceRange != null);
     }
 
     @Override
@@ -392,6 +404,9 @@ public class SubstanceAmount extends BackboneElement {
             super(builder);
             lowLimit = builder.lowLimit;
             highLimit = builder.highLimit;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -416,6 +431,13 @@ public class SubstanceAmount extends BackboneElement {
          */
         public Quantity getHighLimit() {
             return highLimit;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (lowLimit != null) || 
+                (highLimit != null);
         }
 
         @Override

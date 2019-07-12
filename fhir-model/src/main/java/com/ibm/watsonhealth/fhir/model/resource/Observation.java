@@ -1573,6 +1573,9 @@ public class Observation extends DomainResource {
             appliesTo = Collections.unmodifiableList(builder.appliesTo);
             age = builder.age;
             text = builder.text;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1655,6 +1658,17 @@ public class Observation extends DomainResource {
          */
         public String getText() {
             return text;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (low != null) || 
+                (high != null) || 
+                (type != null) || 
+                !appliesTo.isEmpty() || 
+                (age != null) || 
+                (text != null);
         }
 
         @Override
@@ -2034,6 +2048,9 @@ public class Observation extends DomainResource {
             dataAbsentReason = builder.dataAbsentReason;
             interpretation = Collections.unmodifiableList(builder.interpretation);
             referenceRange = Collections.unmodifiableList(builder.referenceRange);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2094,6 +2111,16 @@ public class Observation extends DomainResource {
          */
         public List<Observation.ReferenceRange> getReferenceRange() {
             return referenceRange;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (value != null) || 
+                (dataAbsentReason != null) || 
+                !interpretation.isEmpty() || 
+                !referenceRange.isEmpty();
         }
 
         @Override

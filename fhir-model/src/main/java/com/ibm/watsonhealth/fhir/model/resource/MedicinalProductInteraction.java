@@ -667,6 +667,9 @@ public class MedicinalProductInteraction extends DomainResource {
         private Interactant(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -679,6 +682,12 @@ public class MedicinalProductInteraction extends DomainResource {
          */
         public Element getItem() {
             return item;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (item != null);
         }
 
         @Override

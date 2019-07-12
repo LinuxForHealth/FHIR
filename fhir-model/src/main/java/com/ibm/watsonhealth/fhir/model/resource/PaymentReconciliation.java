@@ -938,6 +938,9 @@ public class PaymentReconciliation extends DomainResource {
             responsible = builder.responsible;
             payee = builder.payee;
             amount = builder.amount;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1058,6 +1061,21 @@ public class PaymentReconciliation extends DomainResource {
          */
         public Money getAmount() {
             return amount;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (identifier != null) || 
+                (predecessor != null) || 
+                (type != null) || 
+                (request != null) || 
+                (submitter != null) || 
+                (response != null) || 
+                (date != null) || 
+                (responsible != null) || 
+                (payee != null) || 
+                (amount != null);
         }
 
         @Override
@@ -1466,6 +1484,9 @@ public class PaymentReconciliation extends DomainResource {
             super(builder);
             type = builder.type;
             text = builder.text;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1490,6 +1511,13 @@ public class PaymentReconciliation extends DomainResource {
          */
         public String getText() {
             return text;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (text != null);
         }
 
         @Override

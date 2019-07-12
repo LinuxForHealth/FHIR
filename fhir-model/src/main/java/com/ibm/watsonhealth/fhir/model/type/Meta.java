@@ -41,6 +41,9 @@ public class Meta extends Element {
         profile = Collections.unmodifiableList(builder.profile);
         security = Collections.unmodifiableList(builder.security);
         tag = Collections.unmodifiableList(builder.tag);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -120,6 +123,17 @@ public class Meta extends Element {
      */
     public List<Coding> getTag() {
         return tag;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (versionId != null) || 
+            (lastUpdated != null) || 
+            (source != null) || 
+            !profile.isEmpty() || 
+            !security.isEmpty() || 
+            !tag.isEmpty();
     }
 
     @Override

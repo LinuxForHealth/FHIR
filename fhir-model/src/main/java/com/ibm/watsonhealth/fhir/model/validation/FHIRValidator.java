@@ -130,6 +130,9 @@ public class FHIRValidator {
             List<Constraint> constraints = getConstraints(type);
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
+                    if (DEBUG) {
+                        System.out.println("    Constraint: " + constraint.id() + " is model-checked");
+                    }
                     continue;
                 }
                 validate(constraint, path);

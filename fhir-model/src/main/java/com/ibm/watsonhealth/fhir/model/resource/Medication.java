@@ -722,6 +722,9 @@ public class Medication extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -759,6 +762,14 @@ public class Medication extends DomainResource {
          */
         public Ratio getStrength() {
             return strength;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (item != null) || 
+                (isActive != null) || 
+                (strength != null);
         }
 
         @Override
@@ -1021,6 +1032,9 @@ public class Medication extends DomainResource {
             super(builder);
             lotNumber = builder.lotNumber;
             expirationDate = builder.expirationDate;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1045,6 +1059,13 @@ public class Medication extends DomainResource {
          */
         public DateTime getExpirationDate() {
             return expirationDate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (lotNumber != null) || 
+                (expirationDate != null);
         }
 
         @Override

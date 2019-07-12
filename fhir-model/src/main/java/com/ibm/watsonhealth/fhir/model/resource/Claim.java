@@ -1400,6 +1400,9 @@ public class Claim extends DomainResource {
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1436,6 +1439,14 @@ public class Claim extends DomainResource {
          */
         public Identifier getReference() {
             return reference;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (claim != null) || 
+                (relationship != null) || 
+                (reference != null);
         }
 
         @Override
@@ -1707,6 +1718,9 @@ public class Claim extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = builder.party;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1731,6 +1745,13 @@ public class Claim extends DomainResource {
          */
         public Reference getParty() {
             return party;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (party != null);
         }
 
         @Override
@@ -1977,6 +1998,9 @@ public class Claim extends DomainResource {
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2037,6 +2061,16 @@ public class Claim extends DomainResource {
          */
         public CodeableConcept getQualification() {
             return qualification;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (provider != null) || 
+                (responsible != null) || 
+                (role != null) || 
+                (qualification != null);
         }
 
         @Override
@@ -2333,6 +2367,9 @@ public class Claim extends DomainResource {
             timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
             value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
             reason = builder.reason;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2407,6 +2444,17 @@ public class Claim extends DomainResource {
          */
         public CodeableConcept getReason() {
             return reason;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (category != null) || 
+                (code != null) || 
+                (timing != null) || 
+                (value != null) || 
+                (reason != null);
         }
 
         @Override
@@ -2723,6 +2771,9 @@ public class Claim extends DomainResource {
             type = Collections.unmodifiableList(builder.type);
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2784,6 +2835,16 @@ public class Claim extends DomainResource {
          */
         public CodeableConcept getPackageCode() {
             return packageCode;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (diagnosis != null) || 
+                !type.isEmpty() || 
+                (onAdmission != null) || 
+                (packageCode != null);
         }
 
         @Override
@@ -3102,6 +3163,9 @@ public class Claim extends DomainResource {
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
             udi = Collections.unmodifiableList(builder.udi);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3162,6 +3226,16 @@ public class Claim extends DomainResource {
          */
         public List<Reference> getUdi() {
             return udi;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                !type.isEmpty() || 
+                (date != null) || 
+                (procedure != null) || 
+                !udi.isEmpty();
         }
 
         @Override
@@ -3507,6 +3581,9 @@ public class Claim extends DomainResource {
             businessArrangement = builder.businessArrangement;
             preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
             claimResponse = builder.claimResponse;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3594,6 +3671,18 @@ public class Claim extends DomainResource {
          */
         public Reference getClaimResponse() {
             return claimResponse;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                (focal != null) || 
+                (identifier != null) || 
+                (coverage != null) || 
+                (businessArrangement != null) || 
+                !preAuthRef.isEmpty() || 
+                (claimResponse != null);
         }
 
         @Override
@@ -3935,6 +4024,9 @@ public class Claim extends DomainResource {
             date = ValidationSupport.requireNonNull(builder.date, "date");
             type = builder.type;
             location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3972,6 +4064,14 @@ public class Claim extends DomainResource {
          */
         public Element getLocation() {
             return location;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (date != null) || 
+                (type != null) || 
+                (location != null);
         }
 
         @Override
@@ -4273,6 +4373,9 @@ public class Claim extends DomainResource {
             subSite = Collections.unmodifiableList(builder.subSite);
             encounter = Collections.unmodifiableList(builder.encounter);
             detail = Collections.unmodifiableList(builder.detail);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -4528,6 +4631,32 @@ public class Claim extends DomainResource {
          */
         public List<Detail> getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (sequence != null) || 
+                !careTeamSequence.isEmpty() || 
+                !diagnosisSequence.isEmpty() || 
+                !procedureSequence.isEmpty() || 
+                !informationSequence.isEmpty() || 
+                (revenue != null) || 
+                (category != null) || 
+                (productOrService != null) || 
+                !modifier.isEmpty() || 
+                !programCode.isEmpty() || 
+                (serviced != null) || 
+                (location != null) || 
+                (quantity != null) || 
+                (unitPrice != null) || 
+                (factor != null) || 
+                (net != null) || 
+                !udi.isEmpty() || 
+                (bodySite != null) || 
+                !subSite.isEmpty() || 
+                !encounter.isEmpty() || 
+                !detail.isEmpty();
         }
 
         @Override
@@ -5412,6 +5541,9 @@ public class Claim extends DomainResource {
                 net = builder.net;
                 udi = Collections.unmodifiableList(builder.udi);
                 subDetail = Collections.unmodifiableList(builder.subDetail);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -5559,6 +5691,23 @@ public class Claim extends DomainResource {
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (sequence != null) || 
+                    (revenue != null) || 
+                    (category != null) || 
+                    (productOrService != null) || 
+                    !modifier.isEmpty() || 
+                    !programCode.isEmpty() || 
+                    (quantity != null) || 
+                    (unitPrice != null) || 
+                    (factor != null) || 
+                    (net != null) || 
+                    !udi.isEmpty() || 
+                    !subDetail.isEmpty();
             }
 
             @Override
@@ -6108,6 +6257,9 @@ public class Claim extends DomainResource {
                     factor = builder.factor;
                     net = builder.net;
                     udi = Collections.unmodifiableList(builder.udi);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -6243,6 +6395,22 @@ public class Claim extends DomainResource {
                  */
                 public List<Reference> getUdi() {
                     return udi;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (sequence != null) || 
+                        (revenue != null) || 
+                        (category != null) || 
+                        (productOrService != null) || 
+                        !modifier.isEmpty() || 
+                        !programCode.isEmpty() || 
+                        (quantity != null) || 
+                        (unitPrice != null) || 
+                        (factor != null) || 
+                        (net != null) || 
+                        !udi.isEmpty();
                 }
 
                 @Override

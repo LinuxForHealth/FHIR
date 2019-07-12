@@ -902,6 +902,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
             collector = builder.collector;
             source = builder.source;
             collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -939,6 +942,14 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         public Element getCollected() {
             return collected;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (collector != null) || 
+                (source != null) || 
+                (collected != null);
         }
 
         @Override
@@ -1216,6 +1227,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
             procedure = builder.procedure;
             additive = builder.additive;
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1264,6 +1278,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         public Element getTime() {
             return time;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (procedure != null) || 
+                (additive != null) || 
+                (time != null);
         }
 
         @Override
@@ -1557,6 +1580,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
             super(builder);
             description = builder.description;
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1581,6 +1607,13 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         public Element getTime() {
             return time;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (time != null);
         }
 
         @Override
@@ -1835,6 +1868,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
             temperature = builder.temperature;
             scale = builder.scale;
             duration = builder.duration;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1883,6 +1919,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         public Period getDuration() {
             return duration;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (temperature != null) || 
+                (scale != null) || 
+                (duration != null);
         }
 
         @Override

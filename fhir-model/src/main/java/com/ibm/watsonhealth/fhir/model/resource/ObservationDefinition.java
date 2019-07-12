@@ -932,6 +932,9 @@ public class ObservationDefinition extends DomainResource {
             unit = builder.unit;
             conversionFactor = builder.conversionFactor;
             decimalPrecision = builder.decimalPrecision;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -980,6 +983,15 @@ public class ObservationDefinition extends DomainResource {
          */
         public Integer getDecimalPrecision() {
             return decimalPrecision;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (customaryUnit != null) || 
+                (unit != null) || 
+                (conversionFactor != null) || 
+                (decimalPrecision != null);
         }
 
         @Override
@@ -1285,6 +1297,9 @@ public class ObservationDefinition extends DomainResource {
             age = builder.age;
             gestationalAge = builder.gestationalAge;
             condition = builder.condition;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1382,6 +1397,19 @@ public class ObservationDefinition extends DomainResource {
          */
         public String getCondition() {
             return condition;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (category != null) || 
+                (range != null) || 
+                (context != null) || 
+                !appliesTo.isEmpty() || 
+                (gender != null) || 
+                (age != null) || 
+                (gestationalAge != null) || 
+                (condition != null);
         }
 
         @Override

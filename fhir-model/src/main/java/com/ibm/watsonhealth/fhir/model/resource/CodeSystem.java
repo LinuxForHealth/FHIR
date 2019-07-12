@@ -1506,6 +1506,9 @@ public class CodeSystem extends DomainResource {
             description = builder.description;
             operator = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.operator, "operator"));
             value = ValidationSupport.requireNonNull(builder.value, "value");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1554,6 +1557,15 @@ public class CodeSystem extends DomainResource {
          */
         public String getValue() {
             return value;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (description != null) || 
+                !operator.isEmpty() || 
+                (value != null);
         }
 
         @Override
@@ -1808,6 +1820,9 @@ public class CodeSystem extends DomainResource {
             uri = builder.uri;
             description = builder.description;
             type = ValidationSupport.requireNonNull(builder.type, "type");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1859,6 +1874,15 @@ public class CodeSystem extends DomainResource {
          */
         public PropertyType getType() {
             return type;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (uri != null) || 
+                (description != null) || 
+                (type != null);
         }
 
         @Override
@@ -2135,6 +2159,9 @@ public class CodeSystem extends DomainResource {
             designation = Collections.unmodifiableList(builder.designation);
             property = Collections.unmodifiableList(builder.property);
             concept = Collections.unmodifiableList(builder.concept);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2211,6 +2238,17 @@ public class CodeSystem extends DomainResource {
          */
         public List<CodeSystem.Concept> getConcept() {
             return concept;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (display != null) || 
+                (definition != null) || 
+                !designation.isEmpty() || 
+                !property.isEmpty() || 
+                !concept.isEmpty();
         }
 
         @Override
@@ -2615,6 +2653,9 @@ public class CodeSystem extends DomainResource {
                 language = builder.language;
                 use = builder.use;
                 value = ValidationSupport.requireNonNull(builder.value, "value");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2651,6 +2692,14 @@ public class CodeSystem extends DomainResource {
              */
             public String getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (language != null) || 
+                    (use != null) || 
+                    (value != null);
             }
 
             @Override
@@ -2912,6 +2961,9 @@ public class CodeSystem extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2936,6 +2988,13 @@ public class CodeSystem extends DomainResource {
              */
             public Element getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (value != null);
             }
 
             @Override

@@ -1269,6 +1269,9 @@ public class RequestGroup extends DomainResource {
             cardinalityBehavior = builder.cardinalityBehavior;
             resource = builder.resource;
             action = Collections.unmodifiableList(builder.action);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1500,6 +1503,30 @@ public class RequestGroup extends DomainResource {
          */
         public List<RequestGroup.Action> getAction() {
             return action;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (prefix != null) || 
+                (title != null) || 
+                (description != null) || 
+                (textEquivalent != null) || 
+                (priority != null) || 
+                !code.isEmpty() || 
+                !documentation.isEmpty() || 
+                !condition.isEmpty() || 
+                !relatedAction.isEmpty() || 
+                (timing != null) || 
+                !participant.isEmpty() || 
+                (type != null) || 
+                (groupingBehavior != null) || 
+                (selectionBehavior != null) || 
+                (requiredBehavior != null) || 
+                (precheckBehavior != null) || 
+                (cardinalityBehavior != null) || 
+                (resource != null) || 
+                !action.isEmpty();
         }
 
         @Override
@@ -2255,6 +2282,9 @@ public class RequestGroup extends DomainResource {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
                 expression = builder.expression;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2279,6 +2309,13 @@ public class RequestGroup extends DomainResource {
              */
             public Expression getExpression() {
                 return expression;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (kind != null) || 
+                    (expression != null);
             }
 
             @Override
@@ -2521,6 +2558,9 @@ public class RequestGroup extends DomainResource {
                 actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
                 relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
                 offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2557,6 +2597,14 @@ public class RequestGroup extends DomainResource {
              */
             public Element getOffset() {
                 return offset;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (actionId != null) || 
+                    (relationship != null) || 
+                    (offset != null);
             }
 
             @Override

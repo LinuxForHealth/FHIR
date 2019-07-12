@@ -1523,6 +1523,9 @@ public class ChargeItem extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1547,6 +1550,13 @@ public class ChargeItem extends DomainResource {
          */
         public Reference getActor() {
             return actor;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (function != null) || 
+                (actor != null);
         }
 
         @Override

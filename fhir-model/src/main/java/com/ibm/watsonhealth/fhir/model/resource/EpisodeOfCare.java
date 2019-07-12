@@ -948,6 +948,9 @@ public class EpisodeOfCare extends DomainResource {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = ValidationSupport.requireNonNull(builder.period, "period");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -972,6 +975,13 @@ public class EpisodeOfCare extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (status != null) || 
+                (period != null);
         }
 
         @Override
@@ -1196,6 +1206,9 @@ public class EpisodeOfCare extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             role = builder.role;
             rank = builder.rank;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1232,6 +1245,14 @@ public class EpisodeOfCare extends DomainResource {
          */
         public PositiveInt getRank() {
             return rank;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (condition != null) || 
+                (role != null) || 
+                (rank != null);
         }
 
         @Override

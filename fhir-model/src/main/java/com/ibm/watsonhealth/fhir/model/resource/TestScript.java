@@ -1530,6 +1530,9 @@ public class TestScript extends DomainResource {
             super(builder);
             index = ValidationSupport.requireNonNull(builder.index, "index");
             profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1554,6 +1557,13 @@ public class TestScript extends DomainResource {
          */
         public Coding getProfile() {
             return profile;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (index != null) || 
+                (profile != null);
         }
 
         @Override
@@ -1776,6 +1786,9 @@ public class TestScript extends DomainResource {
             super(builder);
             index = ValidationSupport.requireNonNull(builder.index, "index");
             profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1800,6 +1813,13 @@ public class TestScript extends DomainResource {
          */
         public Coding getProfile() {
             return profile;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (index != null) || 
+                (profile != null);
         }
 
         @Override
@@ -2022,6 +2042,9 @@ public class TestScript extends DomainResource {
             super(builder);
             link = Collections.unmodifiableList(builder.link);
             capability = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.capability, "capability"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2046,6 +2069,13 @@ public class TestScript extends DomainResource {
          */
         public List<Capability> getCapability() {
             return capability;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !link.isEmpty() || 
+                !capability.isEmpty();
         }
 
         @Override
@@ -2309,6 +2339,9 @@ public class TestScript extends DomainResource {
                 super(builder);
                 url = ValidationSupport.requireNonNull(builder.url, "url");
                 description = builder.description;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2333,6 +2366,13 @@ public class TestScript extends DomainResource {
              */
             public String getDescription() {
                 return description;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (url != null) || 
+                    (description != null);
             }
 
             @Override
@@ -2583,6 +2623,9 @@ public class TestScript extends DomainResource {
                 destination = builder.destination;
                 link = Collections.unmodifiableList(builder.link);
                 capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2670,6 +2713,18 @@ public class TestScript extends DomainResource {
              */
             public Canonical getCapabilities() {
                 return capabilities;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (required != null) || 
+                    (validated != null) || 
+                    (description != null) || 
+                    !origin.isEmpty() || 
+                    (destination != null) || 
+                    !link.isEmpty() || 
+                    (capabilities != null);
             }
 
             @Override
@@ -3034,6 +3089,9 @@ public class TestScript extends DomainResource {
             autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
             autodelete = ValidationSupport.requireNonNull(builder.autodelete, "autodelete");
             resource = builder.resource;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3074,6 +3132,14 @@ public class TestScript extends DomainResource {
          */
         public Reference getResource() {
             return resource;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (autocreate != null) || 
+                (autodelete != null) || 
+                (resource != null);
         }
 
         @Override
@@ -3331,6 +3397,9 @@ public class TestScript extends DomainResource {
             hint = builder.hint;
             path = builder.path;
             sourceId = builder.sourceId;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3429,6 +3498,19 @@ public class TestScript extends DomainResource {
          */
         public Id getSourceId() {
             return sourceId;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (defaultValue != null) || 
+                (description != null) || 
+                (expression != null) || 
+                (headerField != null) || 
+                (hint != null) || 
+                (path != null) || 
+                (sourceId != null);
         }
 
         @Override
@@ -3795,6 +3877,9 @@ public class TestScript extends DomainResource {
         private Setup(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3807,6 +3892,12 @@ public class TestScript extends DomainResource {
          */
         public List<Action> getAction() {
             return action;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !action.isEmpty();
         }
 
         @Override
@@ -4023,6 +4114,9 @@ public class TestScript extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4047,6 +4141,13 @@ public class TestScript extends DomainResource {
              */
             public Assert getassert() {
                 return _assert;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (operation != null) || 
+                    (_assert != null);
             }
 
             @Override
@@ -4326,6 +4427,9 @@ public class TestScript extends DomainResource {
                     sourceId = builder.sourceId;
                     targetId = builder.targetId;
                     url = builder.url;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -4533,6 +4637,28 @@ public class TestScript extends DomainResource {
                  */
                 public String getUrl() {
                     return url;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (type != null) || 
+                        (resource != null) || 
+                        (label != null) || 
+                        (description != null) || 
+                        (accept != null) || 
+                        (contentType != null) || 
+                        (destination != null) || 
+                        (encodeRequestUrl != null) || 
+                        (method != null) || 
+                        (origin != null) || 
+                        (params != null) || 
+                        !requestHeader.isEmpty() || 
+                        (requestId != null) || 
+                        (responseId != null) || 
+                        (sourceId != null) || 
+                        (targetId != null) || 
+                        (url != null);
                 }
 
                 @Override
@@ -5113,6 +5239,9 @@ public class TestScript extends DomainResource {
                         super(builder);
                         field = ValidationSupport.requireNonNull(builder.field, "field");
                         value = ValidationSupport.requireNonNull(builder.value, "value");
+                        if (!hasChildren()) {
+                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                        }
                     }
 
                     /**
@@ -5137,6 +5266,13 @@ public class TestScript extends DomainResource {
                      */
                     public String getValue() {
                         return value;
+                    }
+
+                    @Override
+                    protected boolean hasChildren() {
+                        return super.hasChildren() || 
+                            (field != null) || 
+                            (value != null);
                     }
 
                     @Override
@@ -5400,6 +5536,9 @@ public class TestScript extends DomainResource {
                     validateProfileId = builder.validateProfileId;
                     value = builder.value;
                     warningOnly = ValidationSupport.requireNonNull(builder.warningOnly, "warningOnly");
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -5668,6 +5807,33 @@ public class TestScript extends DomainResource {
                  */
                 public Boolean getWarningOnly() {
                     return warningOnly;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (label != null) || 
+                        (description != null) || 
+                        (direction != null) || 
+                        (compareToSourceId != null) || 
+                        (compareToSourceExpression != null) || 
+                        (compareToSourcePath != null) || 
+                        (contentType != null) || 
+                        (expression != null) || 
+                        (headerField != null) || 
+                        (minimumId != null) || 
+                        (navigationLinks != null) || 
+                        (operator != null) || 
+                        (path != null) || 
+                        (requestMethod != null) || 
+                        (requestURL != null) || 
+                        (resource != null) || 
+                        (response != null) || 
+                        (responseCode != null) || 
+                        (sourceId != null) || 
+                        (validateProfileId != null) || 
+                        (value != null) || 
+                        (warningOnly != null);
                 }
 
                 @Override
@@ -6337,6 +6503,9 @@ public class TestScript extends DomainResource {
             name = builder.name;
             description = builder.description;
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -6373,6 +6542,14 @@ public class TestScript extends DomainResource {
          */
         public List<Action> getAction() {
             return action;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (description != null) || 
+                !action.isEmpty();
         }
 
         @Override
@@ -6633,6 +6810,9 @@ public class TestScript extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -6657,6 +6837,13 @@ public class TestScript extends DomainResource {
              */
             public TestScript.Setup.Action.Assert getassert() {
                 return _assert;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (operation != null) || 
+                    (_assert != null);
             }
 
             @Override
@@ -6906,6 +7093,9 @@ public class TestScript extends DomainResource {
         private Teardown(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -6918,6 +7108,12 @@ public class TestScript extends DomainResource {
          */
         public List<Action> getAction() {
             return action;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !action.isEmpty();
         }
 
         @Override
@@ -7132,6 +7328,9 @@ public class TestScript extends DomainResource {
             private Action(Builder builder) {
                 super(builder);
                 operation = ValidationSupport.requireNonNull(builder.operation, "operation");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -7144,6 +7343,12 @@ public class TestScript extends DomainResource {
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (operation != null);
             }
 
             @Override

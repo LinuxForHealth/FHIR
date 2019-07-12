@@ -32,6 +32,9 @@ public class UsageContext extends Element {
         super(builder);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -57,6 +60,13 @@ public class UsageContext extends Element {
      */
     public Element getValue() {
         return value;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (code != null) || 
+            (value != null);
     }
 
     @Override

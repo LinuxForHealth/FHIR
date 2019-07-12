@@ -41,6 +41,9 @@ public class RelatedArtifact extends Element {
         url = builder.url;
         document = builder.document;
         resource = builder.resource;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -127,6 +130,18 @@ public class RelatedArtifact extends Element {
      */
     public Canonical getResource() {
         return resource;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (type != null) || 
+            (label != null) || 
+            (display != null) || 
+            (citation != null) || 
+            (url != null) || 
+            (document != null) || 
+            (resource != null);
     }
 
     @Override

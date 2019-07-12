@@ -1045,6 +1045,9 @@ public class CareTeam extends DomainResource {
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1094,6 +1097,15 @@ public class CareTeam extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !role.isEmpty() || 
+                (member != null) || 
+                (onBehalfOf != null) || 
+                (period != null);
         }
 
         @Override

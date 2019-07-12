@@ -1188,6 +1188,9 @@ public class FamilyMemberHistory extends DomainResource {
             contributedToDeath = builder.contributedToDeath;
             onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
             note = Collections.unmodifiableList(builder.note);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1252,6 +1255,16 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public List<Annotation> getNote() {
             return note;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (outcome != null) || 
+                (contributedToDeath != null) || 
+                (onset != null) || 
+                !note.isEmpty();
         }
 
         @Override

@@ -49,6 +49,12 @@ public abstract class BackboneElement extends Element {
     }
 
     @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            !modifierExtension.isEmpty();
+    }
+
+    @Override
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends Element.Builder {

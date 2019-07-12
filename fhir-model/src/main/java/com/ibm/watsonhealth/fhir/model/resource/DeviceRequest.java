@@ -1493,6 +1493,9 @@ public class DeviceRequest extends DomainResource {
             super(builder);
             code = builder.code;
             value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1517,6 +1520,13 @@ public class DeviceRequest extends DomainResource {
          */
         public Element getValue() {
             return value;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (value != null);
         }
 
         @Override

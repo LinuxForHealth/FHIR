@@ -1861,6 +1861,9 @@ public class PlanDefinition extends DomainResource {
             addresses = Collections.unmodifiableList(builder.addresses);
             documentation = Collections.unmodifiableList(builder.documentation);
             target = Collections.unmodifiableList(builder.target);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1947,6 +1950,18 @@ public class PlanDefinition extends DomainResource {
          */
         public List<Target> getTarget() {
             return target;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (category != null) || 
+                (description != null) || 
+                (priority != null) || 
+                (start != null) || 
+                !addresses.isEmpty() || 
+                !documentation.isEmpty() || 
+                !target.isEmpty();
         }
 
         @Override
@@ -2367,6 +2382,9 @@ public class PlanDefinition extends DomainResource {
                 measure = builder.measure;
                 detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
                 due = builder.due;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2406,6 +2424,14 @@ public class PlanDefinition extends DomainResource {
              */
             public Duration getDue() {
                 return due;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (measure != null) || 
+                    (detail != null) || 
+                    (due != null);
             }
 
             @Override
@@ -2731,6 +2757,9 @@ public class PlanDefinition extends DomainResource {
             transform = builder.transform;
             dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
             action = Collections.unmodifiableList(builder.action);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3065,6 +3094,38 @@ public class PlanDefinition extends DomainResource {
          */
         public List<PlanDefinition.Action> getAction() {
             return action;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (prefix != null) || 
+                (title != null) || 
+                (description != null) || 
+                (textEquivalent != null) || 
+                (priority != null) || 
+                !code.isEmpty() || 
+                !reason.isEmpty() || 
+                !documentation.isEmpty() || 
+                !goalId.isEmpty() || 
+                (subject != null) || 
+                !trigger.isEmpty() || 
+                !condition.isEmpty() || 
+                !input.isEmpty() || 
+                !output.isEmpty() || 
+                !relatedAction.isEmpty() || 
+                (timing != null) || 
+                !participant.isEmpty() || 
+                (type != null) || 
+                (groupingBehavior != null) || 
+                (selectionBehavior != null) || 
+                (requiredBehavior != null) || 
+                (precheckBehavior != null) || 
+                (cardinalityBehavior != null) || 
+                (definition != null) || 
+                (transform != null) || 
+                !dynamicValue.isEmpty() || 
+                !action.isEmpty();
         }
 
         @Override
@@ -4144,6 +4205,9 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
                 expression = builder.expression;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4168,6 +4232,13 @@ public class PlanDefinition extends DomainResource {
              */
             public Expression getExpression() {
                 return expression;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (kind != null) || 
+                    (expression != null);
             }
 
             @Override
@@ -4410,6 +4481,9 @@ public class PlanDefinition extends DomainResource {
                 actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
                 relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
                 offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4446,6 +4520,14 @@ public class PlanDefinition extends DomainResource {
              */
             public Element getOffset() {
                 return offset;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (actionId != null) || 
+                    (relationship != null) || 
+                    (offset != null);
             }
 
             @Override
@@ -4691,6 +4773,9 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 role = builder.role;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4715,6 +4800,13 @@ public class PlanDefinition extends DomainResource {
              */
             public CodeableConcept getRole() {
                 return role;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (role != null);
             }
 
             @Override
@@ -4957,6 +5049,9 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 path = builder.path;
                 expression = builder.expression;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -4985,6 +5080,13 @@ public class PlanDefinition extends DomainResource {
              */
             public Expression getExpression() {
                 return expression;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (path != null) || 
+                    (expression != null);
             }
 
             @Override

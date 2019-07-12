@@ -893,6 +893,9 @@ public class CoverageEligibilityResponse extends DomainResource {
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
             item = Collections.unmodifiableList(builder.item);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -943,6 +946,15 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         public List<Item> getItem() {
             return item;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (coverage != null) || 
+                (inforce != null) || 
+                (benefitPeriod != null) || 
+                !item.isEmpty();
         }
 
         @Override
@@ -1273,6 +1285,9 @@ public class CoverageEligibilityResponse extends DomainResource {
                 authorizationRequired = builder.authorizationRequired;
                 authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
                 authorizationUrl = builder.authorizationUrl;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1442,6 +1457,25 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             public Uri getAuthorizationUrl() {
                 return authorizationUrl;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (category != null) || 
+                    (productOrService != null) || 
+                    !modifier.isEmpty() || 
+                    (provider != null) || 
+                    (excluded != null) || 
+                    (name != null) || 
+                    (description != null) || 
+                    (network != null) || 
+                    (unit != null) || 
+                    (term != null) || 
+                    !benefit.isEmpty() || 
+                    (authorizationRequired != null) || 
+                    !authorizationSupporting.isEmpty() || 
+                    (authorizationUrl != null);
             }
 
             @Override
@@ -2018,6 +2052,9 @@ public class CoverageEligibilityResponse extends DomainResource {
                     type = ValidationSupport.requireNonNull(builder.type, "type");
                     allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
                     used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2054,6 +2091,14 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 public Element getUsed() {
                     return used;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (type != null) || 
+                        (allowed != null) || 
+                        (used != null);
                 }
 
                 @Override
@@ -2315,6 +2360,9 @@ public class CoverageEligibilityResponse extends DomainResource {
         private Error(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2327,6 +2375,12 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         public CodeableConcept getCode() {
             return code;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null);
         }
 
         @Override

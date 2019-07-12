@@ -52,6 +52,9 @@ public class Address extends Element {
         postalCode = builder.postalCode;
         country = builder.country;
         period = builder.period;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -176,6 +179,21 @@ public class Address extends Element {
      */
     public Period getPeriod() {
         return period;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (use != null) || 
+            (type != null) || 
+            (text != null) || 
+            !line.isEmpty() || 
+            (city != null) || 
+            (district != null) || 
+            (state != null) || 
+            (postalCode != null) || 
+            (country != null) || 
+            (period != null);
     }
 
     @Override

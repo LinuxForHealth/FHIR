@@ -632,6 +632,9 @@ public class MedicinalProductIngredient extends DomainResource {
             group = ValidationSupport.requireNonNull(builder.group, "group");
             confidentiality = builder.confidentiality;
             strength = Collections.unmodifiableList(builder.strength);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -680,6 +683,15 @@ public class MedicinalProductIngredient extends DomainResource {
          */
         public List<Strength> getStrength() {
             return strength;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (group != null) || 
+                (confidentiality != null) || 
+                !strength.isEmpty();
         }
 
         @Override
@@ -979,6 +991,9 @@ public class MedicinalProductIngredient extends DomainResource {
                 measurementPoint = builder.measurementPoint;
                 country = Collections.unmodifiableList(builder.country);
                 referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1066,6 +1081,18 @@ public class MedicinalProductIngredient extends DomainResource {
              */
             public List<ReferenceStrength> getReferenceStrength() {
                 return referenceStrength;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (presentation != null) || 
+                    (presentationLowLimit != null) || 
+                    (concentration != null) || 
+                    (concentrationLowLimit != null) || 
+                    (measurementPoint != null) || 
+                    !country.isEmpty() || 
+                    !referenceStrength.isEmpty();
             }
 
             @Override
@@ -1468,6 +1495,9 @@ public class MedicinalProductIngredient extends DomainResource {
                     strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
                     country = Collections.unmodifiableList(builder.country);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -1528,6 +1558,16 @@ public class MedicinalProductIngredient extends DomainResource {
                  */
                 public List<CodeableConcept> getCountry() {
                     return country;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (substance != null) || 
+                        (strength != null) || 
+                        (strengthLowLimit != null) || 
+                        (measurementPoint != null) || 
+                        !country.isEmpty();
                 }
 
                 @Override
@@ -1857,6 +1897,9 @@ public class MedicinalProductIngredient extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             strength = Collections.unmodifiableList(builder.strength);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1881,6 +1924,13 @@ public class MedicinalProductIngredient extends DomainResource {
          */
         public List<MedicinalProductIngredient.SpecifiedSubstance.Strength> getStrength() {
             return strength;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                !strength.isEmpty();
         }
 
         @Override

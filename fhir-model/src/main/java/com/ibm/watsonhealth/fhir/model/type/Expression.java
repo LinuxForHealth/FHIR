@@ -45,6 +45,9 @@ public class Expression extends Element {
         language = ValidationSupport.requireNonNull(builder.language, "language");
         expression = builder.expression;
         reference = builder.reference;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -106,6 +109,16 @@ public class Expression extends Element {
      */
     public Uri getReference() {
         return reference;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (description != null) || 
+            (name != null) || 
+            (language != null) || 
+            (expression != null) || 
+            (reference != null);
     }
 
     @Override

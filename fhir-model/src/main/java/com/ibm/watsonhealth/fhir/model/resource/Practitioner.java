@@ -921,6 +921,9 @@ Work addresses are not typically
             code = ValidationSupport.requireNonNull(builder.code, "code");
             period = builder.period;
             issuer = builder.issuer;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -969,6 +972,15 @@ Work addresses are not typically
          */
         public Reference getIssuer() {
             return issuer;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !identifier.isEmpty() || 
+                (code != null) || 
+                (period != null) || 
+                (issuer != null);
         }
 
         @Override

@@ -1200,6 +1200,9 @@ public class StructureMap extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             alias = builder.alias;
             documentation = builder.documentation;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1248,6 +1251,15 @@ public class StructureMap extends DomainResource {
          */
         public String getDocumentation() {
             return documentation;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (url != null) || 
+                (mode != null) || 
+                (alias != null) || 
+                (documentation != null);
         }
 
         @Override
@@ -1522,6 +1534,9 @@ public class StructureMap extends DomainResource {
             documentation = builder.documentation;
             input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
             rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1594,6 +1609,17 @@ public class StructureMap extends DomainResource {
          */
         public List<Rule> getRule() {
             return rule;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (_extends != null) || 
+                (typeMode != null) || 
+                (documentation != null) || 
+                !input.isEmpty() || 
+                !rule.isEmpty();
         }
 
         @Override
@@ -1873,6 +1899,9 @@ public class StructureMap extends DomainResource {
                 type = builder.type;
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
                 documentation = builder.documentation;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1921,6 +1950,15 @@ public class StructureMap extends DomainResource {
              */
             public String getDocumentation() {
                 return documentation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    (type != null) || 
+                    (mode != null) || 
+                    (documentation != null);
             }
 
             @Override
@@ -2195,6 +2233,9 @@ public class StructureMap extends DomainResource {
                 rule = Collections.unmodifiableList(builder.rule);
                 dependent = Collections.unmodifiableList(builder.dependent);
                 documentation = builder.documentation;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2267,6 +2308,17 @@ public class StructureMap extends DomainResource {
              */
             public String getDocumentation() {
                 return documentation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    !source.isEmpty() || 
+                    !target.isEmpty() || 
+                    !rule.isEmpty() || 
+                    !dependent.isEmpty() || 
+                    (documentation != null);
             }
 
             @Override
@@ -2664,6 +2716,9 @@ public class StructureMap extends DomainResource {
                     condition = builder.condition;
                     check = builder.check;
                     logMessage = builder.logMessage;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2799,6 +2854,22 @@ public class StructureMap extends DomainResource {
                  */
                 public String getLogMessage() {
                     return logMessage;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (context != null) || 
+                        (min != null) || 
+                        (max != null) || 
+                        (type != null) || 
+                        (defaultValue != null) || 
+                        (element != null) || 
+                        (listMode != null) || 
+                        (variable != null) || 
+                        (condition != null) || 
+                        (check != null) || 
+                        (logMessage != null);
                 }
 
                 @Override
@@ -3243,6 +3314,9 @@ public class StructureMap extends DomainResource {
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
                     parameter = Collections.unmodifiableList(builder.parameter);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -3339,6 +3413,19 @@ public class StructureMap extends DomainResource {
                  */
                 public List<Parameter> getParameter() {
                     return parameter;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (context != null) || 
+                        (contextType != null) || 
+                        (element != null) || 
+                        (variable != null) || 
+                        !listMode.isEmpty() || 
+                        (listRuleId != null) || 
+                        (transform != null) || 
+                        !parameter.isEmpty();
                 }
 
                 @Override
@@ -3760,6 +3847,9 @@ public class StructureMap extends DomainResource {
                     private Parameter(Builder builder) {
                         super(builder);
                         value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
+                        if (!hasChildren()) {
+                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                        }
                     }
 
                     /**
@@ -3772,6 +3862,12 @@ public class StructureMap extends DomainResource {
                      */
                     public Element getValue() {
                         return value;
+                    }
+
+                    @Override
+                    protected boolean hasChildren() {
+                        return super.hasChildren() || 
+                            (value != null);
                     }
 
                     @Override
@@ -3990,6 +4086,9 @@ public class StructureMap extends DomainResource {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
                     variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -4014,6 +4113,13 @@ public class StructureMap extends DomainResource {
                  */
                 public List<String> getVariable() {
                     return variable;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (name != null) || 
+                        !variable.isEmpty();
                 }
 
                 @Override

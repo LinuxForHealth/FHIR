@@ -1567,6 +1567,9 @@ public class Immunization extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1591,6 +1594,13 @@ public class Immunization extends DomainResource {
          */
         public Reference getActor() {
             return actor;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (function != null) || 
+                (actor != null);
         }
 
         @Override
@@ -1835,6 +1845,9 @@ public class Immunization extends DomainResource {
             reference = builder.reference;
             publicationDate = builder.publicationDate;
             presentationDate = builder.presentationDate;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1883,6 +1896,15 @@ public class Immunization extends DomainResource {
          */
         public DateTime getPresentationDate() {
             return presentationDate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (documentType != null) || 
+                (reference != null) || 
+                (publicationDate != null) || 
+                (presentationDate != null);
         }
 
         @Override
@@ -2177,6 +2199,9 @@ public class Immunization extends DomainResource {
             date = builder.date;
             detail = builder.detail;
             reported = builder.reported;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2213,6 +2238,14 @@ public class Immunization extends DomainResource {
          */
         public Boolean getReported() {
             return reported;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (date != null) || 
+                (detail != null) || 
+                (reported != null);
         }
 
         @Override
@@ -2490,6 +2523,9 @@ public class Immunization extends DomainResource {
             targetDisease = Collections.unmodifiableList(builder.targetDisease);
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2550,6 +2586,16 @@ public class Immunization extends DomainResource {
          */
         public Element getSeriesDoses() {
             return seriesDoses;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (series != null) || 
+                (authority != null) || 
+                !targetDisease.isEmpty() || 
+                (doseNumber != null) || 
+                (seriesDoses != null);
         }
 
         @Override

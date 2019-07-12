@@ -1173,6 +1173,9 @@ public class ConceptMap extends DomainResource {
             targetVersion = builder.targetVersion;
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
             unmapped = builder.unmapped;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1246,6 +1249,17 @@ public class ConceptMap extends DomainResource {
          */
         public Unmapped getUnmapped() {
             return unmapped;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (source != null) || 
+                (sourceVersion != null) || 
+                (target != null) || 
+                (targetVersion != null) || 
+                !element.isEmpty() || 
+                (unmapped != null);
         }
 
         @Override
@@ -1572,6 +1586,9 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 target = Collections.unmodifiableList(builder.target);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1608,6 +1625,14 @@ public class ConceptMap extends DomainResource {
              */
             public List<Target> getTarget() {
                 return target;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (display != null) || 
+                    !target.isEmpty();
             }
 
             @Override
@@ -1910,6 +1935,9 @@ public class ConceptMap extends DomainResource {
                     comment = builder.comment;
                     dependsOn = Collections.unmodifiableList(builder.dependsOn);
                     product = Collections.unmodifiableList(builder.product);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -1986,6 +2014,17 @@ public class ConceptMap extends DomainResource {
                  */
                 public List<ConceptMap.Group.Element.Target.DependsOn> getProduct() {
                     return product;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (code != null) || 
+                        (display != null) || 
+                        (equivalence != null) || 
+                        (comment != null) || 
+                        !dependsOn.isEmpty() || 
+                        !product.isEmpty();
                 }
 
                 @Override
@@ -2368,6 +2407,9 @@ public class ConceptMap extends DomainResource {
                         system = builder.system;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
                         display = builder.display;
+                        if (!hasChildren()) {
+                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                        }
                     }
 
                     /**
@@ -2418,6 +2460,15 @@ public class ConceptMap extends DomainResource {
                      */
                     public String getDisplay() {
                         return display;
+                    }
+
+                    @Override
+                    protected boolean hasChildren() {
+                        return super.hasChildren() || 
+                            (property != null) || 
+                            (system != null) || 
+                            (value != null) || 
+                            (display != null);
                     }
 
                     @Override
@@ -2692,6 +2743,9 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 url = builder.url;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2744,6 +2798,15 @@ public class ConceptMap extends DomainResource {
              */
             public Canonical getUrl() {
                 return url;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (mode != null) || 
+                    (code != null) || 
+                    (display != null) || 
+                    (url != null);
             }
 
             @Override

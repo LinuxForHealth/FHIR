@@ -27,7 +27,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
     level = "Rule",
     location = "(base)",
     description = "All FHIR elements must have a @value or children",
-    expression = "hasValue() or (children().count() > id.count())"
+    expression = "hasValue() or (children().count() > id.count())",
+    modelChecked = true
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public abstract class Element extends AbstractVisitable {
@@ -73,6 +74,11 @@ public abstract class Element extends AbstractVisitable {
 
     public <T extends Element> T as(Class<T> elementType) {
         return elementType.cast(this);
+    }
+
+    protected boolean hasChildren() {
+        return (id != null) || 
+            !extension.isEmpty();
     }
 
     public abstract Builder toBuilder();

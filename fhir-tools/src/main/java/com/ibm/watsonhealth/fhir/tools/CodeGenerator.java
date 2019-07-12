@@ -112,6 +112,7 @@ public class CodeGenerator {
         "TriggerDefinition", 
         "UsageContext", 
         "Dosage");
+    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
     private static final List<String> HEADER = readHeader();
     private static final List<String> FUNCTIONS = readFunctions();
 
@@ -418,7 +419,7 @@ public class CodeGenerator {
         }        
     }
 
-    private void generateAcceptMethod(JsonObject structureDefinition, String className, String path, CodeBuilder cb, boolean nested) {
+    private void generateAcceptMethod(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
         if (isAbstract(structureDefinition) || isPrimitiveSubtype(structureDefinition)) {
             return;
         }
@@ -458,7 +459,6 @@ public class CodeGenerator {
         cb.invoke("visitor", "postVisit", args("this"));
 
         cb._end();
-        
         
         cb.end().newLine();
     }
@@ -923,6 +923,16 @@ public class CodeGenerator {
             if (isDateTime(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkValueType", args("value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
             }
+            
+            if ((!isResource(structureDefinition) && 
+                    !isAbstract(structureDefinition) && 
+                    !isStringSubtype(structureDefinition) && 
+                    !isUriSubtype(structureDefinition)) || 
+                    nested) {
+                cb._if("!hasChildren()")
+                    ._throw(_new("IllegalStateException", args(quote("ele-1: All FHIR elements must have a @value or children"))))
+                ._end();
+            }
 
             cb.end().newLine();
             
@@ -940,8 +950,10 @@ public class CodeGenerator {
             
             generateIsPartialMethod(structureDefinition, cb);
             generateIsAsMethods(structureDefinition, cb);
+//          generateHasValueMethod(structureDefinition, cb);
+            generateHasChildrenMethod(structureDefinition, path, cb, nested);
             generateFactoryMethods(structureDefinition, cb);
-            generateAcceptMethod(structureDefinition, className, path, cb, nested);
+            generateAcceptMethod(structureDefinition, className, path, cb);
             generateEqualsHashCodeMethods(structureDefinition, className, path, cb);
                         
             List<String> params = new ArrayList<>();
@@ -1106,11 +1118,14 @@ public class CodeGenerator {
             String expression = constraint.getString("expression");
             
             Map<String, String> valueMap = new LinkedHashMap<>();
-            valueMap.put("id", key);
-            valueMap.put("level", "error".equals(severity) ? "Rule" : "Warning");
-            valueMap.put("location", path.equals(name) ? "(base)" : path);
-            valueMap.put("description", human.replace("\"", "\\\""));
-            valueMap.put("expression", expression.replace("\"", "\\\"").replace("div", "`div`"));
+            valueMap.put("id", quote(key));
+            valueMap.put("level", "error".equals(severity) ? quote("Rule") : quote("Warning"));
+            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path));
+            valueMap.put("description", quote(human.replace("\"", "\\\"")));
+            valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`")));
+            if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
+                valueMap.put("modelChecked", "true");
+            }
             cb.annotation("Constraint", valueMap);
         }
     }
@@ -1499,7 +1514,73 @@ public class CodeGenerator {
             .end().newLine();
         }
     }
+    
+    @SuppressWarnings("unused")
+    private void generateHasValueMethod(JsonObject structureDefinition, CodeBuilder cb) {
+        String name = structureDefinition.getString("name");
+    
+        if (!"Element".equals(name) && !isPrimitiveType(structureDefinition)) {
+            return;
+        }
+        
+        if (!"Element".equals(name)) {
+            cb.override();
+        }
+        
+        cb.method(mods("public"), "boolean", "hasValue");
+        
+        if ("Element".equals(name)) {
+            cb._return("false");
+        } else {
+            cb._return("(value != null)");
+        }
+                
+        cb.end().newLine();
+    }
 
+    private void generateHasChildrenMethod(JsonObject structureDefinition, String path, CodeBuilder cb, boolean nested) {
+        if ((isResource(structureDefinition) && !nested) || 
+                isStringSubtype(structureDefinition) || 
+                isUriSubtype(structureDefinition) || 
+                isQuantitySubtype(structureDefinition)) {
+            return;
+        }
+
+        String name = structureDefinition.getString("name");
+        
+        if (!"Element".equals(name)) {
+            cb.override();
+        }
+        
+        cb.method(mods("protected"), "boolean", "hasChildren");
+        
+        int level = path.split("\\.").length + 2;
+        StringJoiner joiner = new StringJoiner(" || " + System.lineSeparator() + indent(level));
+        
+        if (!"Element".equals(name)) {
+            joiner.add("super.hasChildren()");
+        }
+        
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String basePath = elementDefinition.getJsonObject("base").getString("path");
+            boolean declaredBy = elementDefinition.getString("path").equals(basePath);            
+            if (declaredBy) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                if (isRepeating(elementDefinition)) {
+                    joiner.add("!" + fieldName + ".isEmpty()");
+                } else {
+                    joiner.add("(" + fieldName + " != null)");
+                }
+            }
+        }
+        
+        cb._return(joiner.toString());
+        
+        cb.end().newLine();
+    }
+    
     private void generateIsPartialMethod(JsonObject structureDefinition, CodeBuilder cb) {
         if (isDate(structureDefinition) || isDateTime(structureDefinition)) {
             cb.method(mods("public"), "boolean", "isPartial");

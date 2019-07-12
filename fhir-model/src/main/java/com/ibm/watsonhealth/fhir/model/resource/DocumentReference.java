@@ -1056,6 +1056,9 @@ public class DocumentReference extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireNonNull(builder.target, "target");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1080,6 +1083,13 @@ public class DocumentReference extends DomainResource {
          */
         public Reference getTarget() {
             return target;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (target != null);
         }
 
         @Override
@@ -1302,6 +1312,9 @@ public class DocumentReference extends DomainResource {
             super(builder);
             attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
             format = builder.format;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1327,6 +1340,13 @@ public class DocumentReference extends DomainResource {
          */
         public Coding getFormat() {
             return format;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (attachment != null) || 
+                (format != null);
         }
 
         @Override
@@ -1578,6 +1598,9 @@ public class DocumentReference extends DomainResource {
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
             related = Collections.unmodifiableList(builder.related);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1666,6 +1689,18 @@ public class DocumentReference extends DomainResource {
          */
         public List<Reference> getRelated() {
             return related;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !encounter.isEmpty() || 
+                !event.isEmpty() || 
+                (period != null) || 
+                (facilityType != null) || 
+                (practiceSetting != null) || 
+                (sourcePatientInfo != null) || 
+                !related.isEmpty();
         }
 
         @Override

@@ -812,6 +812,9 @@ public class MedicinalProductIndication extends DomainResource {
             super(builder);
             therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
             medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -837,6 +840,13 @@ public class MedicinalProductIndication extends DomainResource {
          */
         public Element getMedication() {
             return medication;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (therapyRelationshipType != null) || 
+                (medication != null);
         }
 
         @Override

@@ -625,6 +625,9 @@ public class SubstanceProtein extends DomainResource {
             nTerminalModification = builder.nTerminalModification;
             cTerminalModificationId = builder.cTerminalModificationId;
             cTerminalModification = builder.cTerminalModification;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -731,6 +734,19 @@ public class SubstanceProtein extends DomainResource {
          */
         public String getCTerminalModification() {
             return cTerminalModification;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (subunit != null) || 
+                (sequence != null) || 
+                (length != null) || 
+                (sequenceAttachment != null) || 
+                (nTerminalModificationId != null) || 
+                (nTerminalModification != null) || 
+                (cTerminalModificationId != null) || 
+                (cTerminalModification != null);
         }
 
         @Override

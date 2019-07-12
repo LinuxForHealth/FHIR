@@ -38,6 +38,9 @@ public class Identifier extends Element {
         value = builder.value;
         period = builder.period;
         assigner = builder.assigner;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -110,6 +113,17 @@ public class Identifier extends Element {
      */
     public Reference getAssigner() {
         return assigner;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (use != null) || 
+            (type != null) || 
+            (system != null) || 
+            (value != null) || 
+            (period != null) || 
+            (assigner != null);
     }
 
     @Override

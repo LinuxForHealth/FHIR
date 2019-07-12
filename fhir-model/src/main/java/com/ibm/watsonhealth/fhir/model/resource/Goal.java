@@ -1087,6 +1087,9 @@ public class Goal extends DomainResource {
             measure = builder.measure;
             detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
             due = ValidationSupport.choiceElement(builder.due, "due", Date.class, Duration.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1126,6 +1129,14 @@ public class Goal extends DomainResource {
          */
         public Element getDue() {
             return due;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (measure != null) || 
+                (detail != null) || 
+                (due != null);
         }
 
         @Override

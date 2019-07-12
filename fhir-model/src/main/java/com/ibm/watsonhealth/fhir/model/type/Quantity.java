@@ -45,6 +45,9 @@ public class Quantity extends Element {
         unit = builder.unit;
         system = builder.system;
         code = builder.code;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -106,6 +109,16 @@ public class Quantity extends Element {
      */
     public Code getCode() {
         return code;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (value != null) || 
+            (comparator != null) || 
+            (unit != null) || 
+            (system != null) || 
+            (code != null);
     }
 
     @Override

@@ -35,6 +35,9 @@ public class Coding extends Element {
         code = builder.code;
         display = builder.display;
         userSelected = builder.userSelected;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -98,6 +101,16 @@ public class Coding extends Element {
      */
     public Boolean getUserSelected() {
         return userSelected;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (system != null) || 
+            (version != null) || 
+            (code != null) || 
+            (display != null) || 
+            (userSelected != null);
     }
 
     @Override

@@ -32,6 +32,9 @@ public class Annotation extends Element {
         author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
         time = builder.time;
         text = ValidationSupport.requireNonNull(builder.text, "text");
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -68,6 +71,14 @@ public class Annotation extends Element {
      */
     public Markdown getText() {
         return text;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (author != null) || 
+            (time != null) || 
+            (text != null);
     }
 
     @Override

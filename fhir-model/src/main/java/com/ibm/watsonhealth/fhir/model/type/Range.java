@@ -37,6 +37,9 @@ public class Range extends Element {
         super(builder);
         low = builder.low;
         high = builder.high;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -61,6 +64,13 @@ public class Range extends Element {
      */
     public Quantity getHigh() {
         return high;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (low != null) || 
+            (high != null);
     }
 
     @Override

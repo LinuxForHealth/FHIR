@@ -106,6 +106,9 @@ public class Timing extends BackboneElement {
         event = Collections.unmodifiableList(builder.event);
         repeat = builder.repeat;
         code = builder.code;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -146,6 +149,14 @@ public class Timing extends BackboneElement {
      */
     public CodeableConcept getCode() {
         return code;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            !event.isEmpty() || 
+            (repeat != null) || 
+            (code != null);
     }
 
     @Override
@@ -470,6 +481,9 @@ public class Timing extends BackboneElement {
             timeOfDay = Collections.unmodifiableList(builder.timeOfDay);
             when = Collections.unmodifiableList(builder.when);
             offset = builder.offset;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -661,6 +675,26 @@ public class Timing extends BackboneElement {
          */
         public UnsignedInt getOffset() {
             return offset;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (bounds != null) || 
+                (count != null) || 
+                (countMax != null) || 
+                (duration != null) || 
+                (durationMax != null) || 
+                (durationUnit != null) || 
+                (frequency != null) || 
+                (frequencyMax != null) || 
+                (period != null) || 
+                (periodMax != null) || 
+                (periodUnit != null) || 
+                !dayOfWeek.isEmpty() || 
+                !timeOfDay.isEmpty() || 
+                !when.isEmpty() || 
+                (offset != null);
         }
 
         @Override

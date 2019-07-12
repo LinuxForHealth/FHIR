@@ -652,6 +652,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -688,6 +691,14 @@ public class SubstanceReferenceInformation extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (geneSequenceOrigin != null) || 
+                (gene != null) || 
+                !source.isEmpty();
         }
 
         @Override
@@ -985,6 +996,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             type = builder.type;
             element = builder.element;
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1021,6 +1035,14 @@ public class SubstanceReferenceInformation extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (element != null) || 
+                !source.isEmpty();
         }
 
         @Override
@@ -1320,6 +1342,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             classification = builder.classification;
             subtype = Collections.unmodifiableList(builder.subtype);
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1368,6 +1393,15 @@ public class SubstanceReferenceInformation extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (domain != null) || 
+                (classification != null) || 
+                !subtype.isEmpty() || 
+                !source.isEmpty();
         }
 
         @Override
@@ -1720,6 +1754,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
             source = Collections.unmodifiableList(builder.source);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1816,6 +1853,19 @@ public class SubstanceReferenceInformation extends DomainResource {
          */
         public List<Reference> getSource() {
             return source;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (target != null) || 
+                (type != null) || 
+                (interaction != null) || 
+                (organism != null) || 
+                (organismType != null) || 
+                (amount != null) || 
+                (amountType != null) || 
+                !source.isEmpty();
         }
 
         @Override

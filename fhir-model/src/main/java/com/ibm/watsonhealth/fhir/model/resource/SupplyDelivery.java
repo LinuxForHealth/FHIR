@@ -864,6 +864,9 @@ public class SupplyDelivery extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -889,6 +892,13 @@ public class SupplyDelivery extends DomainResource {
          */
         public Element getItem() {
             return item;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (quantity != null) || 
+                (item != null);
         }
 
         @Override

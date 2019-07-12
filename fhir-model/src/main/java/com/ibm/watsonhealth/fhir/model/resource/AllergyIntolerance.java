@@ -1083,6 +1083,9 @@ public class AllergyIntolerance extends DomainResource {
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
             note = Collections.unmodifiableList(builder.note);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1174,6 +1177,18 @@ public class AllergyIntolerance extends DomainResource {
          */
         public List<Annotation> getNote() {
             return note;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (substance != null) || 
+                !manifestation.isEmpty() || 
+                (description != null) || 
+                (onset != null) || 
+                (severity != null) || 
+                (exposureRoute != null) || 
+                !note.isEmpty();
         }
 
         @Override

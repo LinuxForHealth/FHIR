@@ -51,6 +51,9 @@ public class ProdCharacteristic extends BackboneElement {
         imprint = Collections.unmodifiableList(builder.imprint);
         image = Collections.unmodifiableList(builder.image);
         scoring = builder.scoring;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -199,6 +202,22 @@ public class ProdCharacteristic extends BackboneElement {
      */
     public CodeableConcept getScoring() {
         return scoring;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (height != null) || 
+            (width != null) || 
+            (depth != null) || 
+            (weight != null) || 
+            (nominalVolume != null) || 
+            (externalDiameter != null) || 
+            (shape != null) || 
+            !color.isEmpty() || 
+            !imprint.isEmpty() || 
+            !image.isEmpty() || 
+            (scoring != null);
     }
 
     @Override

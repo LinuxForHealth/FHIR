@@ -676,6 +676,9 @@ public class SpecimenDefinition extends DomainResource {
             retentionTime = builder.retentionTime;
             rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
             handling = Collections.unmodifiableList(builder.handling);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -774,6 +777,19 @@ public class SpecimenDefinition extends DomainResource {
          */
         public List<Handling> getHandling() {
             return handling;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (isDerived != null) || 
+                (type != null) || 
+                (preference != null) || 
+                (container != null) || 
+                (requirement != null) || 
+                (retentionTime != null) || 
+                !rejectionCriterion.isEmpty() || 
+                !handling.isEmpty();
         }
 
         @Override
@@ -1202,6 +1218,9 @@ public class SpecimenDefinition extends DomainResource {
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
                 additive = Collections.unmodifiableList(builder.additive);
                 preparation = builder.preparation;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1299,6 +1318,19 @@ public class SpecimenDefinition extends DomainResource {
              */
             public String getPreparation() {
                 return preparation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (material != null) || 
+                    (type != null) || 
+                    (cap != null) || 
+                    (description != null) || 
+                    (capacity != null) || 
+                    (minimumVolume != null) || 
+                    !additive.isEmpty() || 
+                    (preparation != null);
             }
 
             @Override
@@ -1699,6 +1731,9 @@ public class SpecimenDefinition extends DomainResource {
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -1712,6 +1747,12 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 public Element getAdditive() {
                     return additive;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (additive != null);
                 }
 
                 @Override
@@ -1935,6 +1976,9 @@ public class SpecimenDefinition extends DomainResource {
                 temperatureRange = builder.temperatureRange;
                 maxDuration = builder.maxDuration;
                 instruction = builder.instruction;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1985,6 +2029,15 @@ public class SpecimenDefinition extends DomainResource {
              */
             public String getInstruction() {
                 return instruction;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (temperatureQualifier != null) || 
+                    (temperatureRange != null) || 
+                    (maxDuration != null) || 
+                    (instruction != null);
             }
 
             @Override

@@ -1514,6 +1514,9 @@ public class Encounter extends DomainResource {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = ValidationSupport.requireNonNull(builder.period, "period");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1538,6 +1541,13 @@ public class Encounter extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (status != null) || 
+                (period != null);
         }
 
         @Override
@@ -1764,6 +1774,9 @@ public class Encounter extends DomainResource {
             super(builder);
             clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
             period = ValidationSupport.requireNonNull(builder.period, "period");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1788,6 +1801,13 @@ public class Encounter extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (clazz != null) || 
+                (period != null);
         }
 
         @Override
@@ -2012,6 +2032,9 @@ public class Encounter extends DomainResource {
             type = Collections.unmodifiableList(builder.type);
             period = builder.period;
             individual = builder.individual;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2049,6 +2072,14 @@ public class Encounter extends DomainResource {
          */
         public Reference getIndividual() {
             return individual;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !type.isEmpty() || 
+                (period != null) || 
+                (individual != null);
         }
 
         @Override
@@ -2347,6 +2378,9 @@ public class Encounter extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             use = builder.use;
             rank = builder.rank;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2385,6 +2419,14 @@ public class Encounter extends DomainResource {
          */
         public PositiveInt getRank() {
             return rank;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (condition != null) || 
+                (use != null) || 
+                (rank != null);
         }
 
         @Override
@@ -2660,6 +2702,9 @@ public class Encounter extends DomainResource {
             specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2769,6 +2814,20 @@ public class Encounter extends DomainResource {
          */
         public CodeableConcept getDischargeDisposition() {
             return dischargeDisposition;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (preAdmissionIdentifier != null) || 
+                (origin != null) || 
+                (admitSource != null) || 
+                (reAdmission != null) || 
+                !dietPreference.isEmpty() || 
+                !specialCourtesy.isEmpty() || 
+                !specialArrangement.isEmpty() || 
+                (destination != null) || 
+                (dischargeDisposition != null);
         }
 
         @Override
@@ -3245,6 +3304,9 @@ public class Encounter extends DomainResource {
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3295,6 +3357,15 @@ public class Encounter extends DomainResource {
          */
         public Period getPeriod() {
             return period;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (location != null) || 
+                (status != null) || 
+                (physicalType != null) || 
+                (period != null);
         }
 
         @Override

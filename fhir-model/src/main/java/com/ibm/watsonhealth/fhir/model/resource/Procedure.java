@@ -1782,6 +1782,9 @@ public class Procedure extends DomainResource {
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
             onBehalfOf = builder.onBehalfOf;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1819,6 +1822,14 @@ public class Procedure extends DomainResource {
          */
         public Reference getOnBehalfOf() {
             return onBehalfOf;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (function != null) || 
+                (actor != null) || 
+                (onBehalfOf != null);
         }
 
         @Override
@@ -2082,6 +2093,9 @@ public class Procedure extends DomainResource {
             super(builder);
             action = builder.action;
             manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2106,6 +2120,13 @@ public class Procedure extends DomainResource {
          */
         public Reference getManipulated() {
             return manipulated;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (action != null) || 
+                (manipulated != null);
         }
 
         @Override

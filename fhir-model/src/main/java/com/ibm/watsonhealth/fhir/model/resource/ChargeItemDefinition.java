@@ -1465,6 +1465,9 @@ public class ChargeItemDefinition extends DomainResource {
             description = builder.description;
             language = builder.language;
             expression = builder.expression;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1504,6 +1507,14 @@ public class ChargeItemDefinition extends DomainResource {
          */
         public String getExpression() {
             return expression;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (language != null) || 
+                (expression != null);
         }
 
         @Override
@@ -1779,6 +1790,9 @@ public class ChargeItemDefinition extends DomainResource {
             super(builder);
             applicability = Collections.unmodifiableList(builder.applicability);
             priceComponent = Collections.unmodifiableList(builder.priceComponent);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1806,6 +1820,13 @@ public class ChargeItemDefinition extends DomainResource {
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !applicability.isEmpty() || 
+                !priceComponent.isEmpty();
         }
 
         @Override
@@ -2116,6 +2137,9 @@ public class ChargeItemDefinition extends DomainResource {
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2165,6 +2189,15 @@ public class ChargeItemDefinition extends DomainResource {
              */
             public Money getAmount() {
                 return amount;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (code != null) || 
+                    (factor != null) || 
+                    (amount != null);
             }
 
             @Override

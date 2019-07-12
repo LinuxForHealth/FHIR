@@ -925,6 +925,9 @@ public class Organization extends DomainResource {
             name = builder.name;
             telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -973,6 +976,15 @@ public class Organization extends DomainResource {
          */
         public Address getAddress() {
             return address;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (purpose != null) || 
+                (name != null) || 
+                !telecom.isEmpty() || 
+                (address != null);
         }
 
         @Override

@@ -1522,6 +1522,9 @@ public class CarePlan extends DomainResource {
             progress = Collections.unmodifiableList(builder.progress);
             reference = builder.reference;
             detail = builder.detail;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1586,6 +1589,16 @@ public class CarePlan extends DomainResource {
          */
         public Detail getDetail() {
             return detail;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !outcomeCodeableConcept.isEmpty() || 
+                !outcomeReference.isEmpty() || 
+                !progress.isEmpty() || 
+                (reference != null) || 
+                (detail != null);
         }
 
         @Override
@@ -2008,6 +2021,9 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2221,6 +2237,28 @@ public class CarePlan extends DomainResource {
              */
             public String getDescription() {
                 return description;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (kind != null) || 
+                    !instantiatesCanonical.isEmpty() || 
+                    !instantiatesUri.isEmpty() || 
+                    (code != null) || 
+                    !reasonCode.isEmpty() || 
+                    !reasonReference.isEmpty() || 
+                    !goal.isEmpty() || 
+                    (status != null) || 
+                    (statusReason != null) || 
+                    (doNotPerform != null) || 
+                    (scheduled != null) || 
+                    (location != null) || 
+                    !performer.isEmpty() || 
+                    (product != null) || 
+                    (dailyAmount != null) || 
+                    (quantity != null) || 
+                    (description != null);
             }
 
             @Override

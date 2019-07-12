@@ -46,6 +46,9 @@ public class ContactPoint extends Element {
         use = builder.use;
         rank = builder.rank;
         period = builder.period;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -108,6 +111,16 @@ public class ContactPoint extends Element {
      */
     public Period getPeriod() {
         return period;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (system != null) || 
+            (value != null) || 
+            (use != null) || 
+            (rank != null) || 
+            (period != null);
     }
 
     @Override

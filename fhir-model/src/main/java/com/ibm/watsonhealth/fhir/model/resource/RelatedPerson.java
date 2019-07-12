@@ -966,6 +966,9 @@ public class RelatedPerson extends DomainResource {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
             preferred = builder.preferred;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -992,6 +995,13 @@ public class RelatedPerson extends DomainResource {
          */
         public Boolean getPreferred() {
             return preferred;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (language != null) || 
+                (preferred != null);
         }
 
         @Override

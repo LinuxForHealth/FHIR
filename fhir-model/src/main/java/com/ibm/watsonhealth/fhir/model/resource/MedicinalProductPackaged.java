@@ -805,6 +805,9 @@ public class MedicinalProductPackaged extends DomainResource {
             super(builder);
             outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
             immediatePackaging = builder.immediatePackaging;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -829,6 +832,13 @@ public class MedicinalProductPackaged extends DomainResource {
          */
         public Identifier getImmediatePackaging() {
             return immediatePackaging;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (outerPackaging != null) || 
+                (immediatePackaging != null);
         }
 
         @Override
@@ -1089,6 +1099,9 @@ public class MedicinalProductPackaged extends DomainResource {
             otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
             shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
             manufacturer = Collections.unmodifiableList(builder.manufacturer);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1233,6 +1246,23 @@ public class MedicinalProductPackaged extends DomainResource {
          */
         public List<Reference> getManufacturer() {
             return manufacturer;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !identifier.isEmpty() || 
+                (type != null) || 
+                (quantity != null) || 
+                !material.isEmpty() || 
+                !alternateMaterial.isEmpty() || 
+                !device.isEmpty() || 
+                !manufacturedItem.isEmpty() || 
+                !packageItem.isEmpty() || 
+                (physicalCharacteristics != null) || 
+                !otherCharacteristics.isEmpty() || 
+                !shelfLifeStorage.isEmpty() || 
+                !manufacturer.isEmpty();
         }
 
         @Override

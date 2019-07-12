@@ -2258,6 +2258,9 @@ public class Measure extends DomainResource {
             description = builder.description;
             population = Collections.unmodifiableList(builder.population);
             stratifier = Collections.unmodifiableList(builder.stratifier);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2308,6 +2311,15 @@ public class Measure extends DomainResource {
          */
         public List<Stratifier> getStratifier() {
             return stratifier;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                (description != null) || 
+                !population.isEmpty() || 
+                !stratifier.isEmpty();
         }
 
         @Override
@@ -2652,6 +2664,9 @@ public class Measure extends DomainResource {
                 code = builder.code;
                 description = builder.description;
                 criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2688,6 +2703,14 @@ public class Measure extends DomainResource {
              */
             public Expression getCriteria() {
                 return criteria;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (description != null) || 
+                    (criteria != null);
             }
 
             @Override
@@ -2955,6 +2978,9 @@ public class Measure extends DomainResource {
                 description = builder.description;
                 criteria = builder.criteria;
                 component = Collections.unmodifiableList(builder.component);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3006,6 +3032,15 @@ public class Measure extends DomainResource {
              */
             public List<Component> getComponent() {
                 return component;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (description != null) || 
+                    (criteria != null) || 
+                    !component.isEmpty();
             }
 
             @Override
@@ -3328,6 +3363,9 @@ public class Measure extends DomainResource {
                     code = builder.code;
                     description = builder.description;
                     criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -3366,6 +3404,14 @@ public class Measure extends DomainResource {
                  */
                 public Expression getCriteria() {
                     return criteria;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (code != null) || 
+                        (description != null) || 
+                        (criteria != null);
                 }
 
                 @Override
@@ -3635,6 +3681,9 @@ public class Measure extends DomainResource {
             usage = Collections.unmodifiableList(builder.usage);
             description = builder.description;
             criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3689,6 +3738,15 @@ public class Measure extends DomainResource {
          */
         public Expression getCriteria() {
             return criteria;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (code != null) || 
+                !usage.isEmpty() || 
+                (description != null) || 
+                (criteria != null);
         }
 
         @Override

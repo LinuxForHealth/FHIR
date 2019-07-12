@@ -599,6 +599,9 @@ public class Subscription extends DomainResource {
             endpoint = builder.endpoint;
             payload = builder.payload;
             header = Collections.unmodifiableList(builder.header);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -649,6 +652,15 @@ public class Subscription extends DomainResource {
          */
         public List<String> getHeader() {
             return header;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (endpoint != null) || 
+                (payload != null) || 
+                !header.isEmpty();
         }
 
         @Override

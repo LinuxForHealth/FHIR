@@ -1767,6 +1767,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
             description = builder.description;
             numberOfStudies = builder.numberOfStudies;
             numberOfParticipants = builder.numberOfParticipants;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1803,6 +1806,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Integer getNumberOfParticipants() {
             return numberOfParticipants;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (numberOfStudies != null) || 
+                (numberOfParticipants != null);
         }
 
         @Override
@@ -2084,6 +2095,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
             denominatorCount = builder.denominatorCount;
             numeratorCount = builder.numeratorCount;
             precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2168,6 +2182,18 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public List<PrecisionEstimate> getPrecisionEstimate() {
             return precisionEstimate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (type != null) || 
+                (value != null) || 
+                (unitOfMeasure != null) || 
+                (denominatorCount != null) || 
+                (numeratorCount != null) || 
+                !precisionEstimate.isEmpty();
         }
 
         @Override
@@ -2550,6 +2576,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 level = builder.level;
                 from = builder.from;
                 to = builder.to;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2598,6 +2627,15 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public Decimal getTo() {
                 return to;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (level != null) || 
+                    (from != null) || 
+                    (to != null);
             }
 
             @Override
@@ -2893,6 +2931,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
             rating = Collections.unmodifiableList(builder.rating);
             note = Collections.unmodifiableList(builder.note);
             certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2929,6 +2970,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public List<CertaintySubcomponent> getCertaintySubcomponent() {
             return certaintySubcomponent;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !rating.isEmpty() || 
+                !note.isEmpty() || 
+                !certaintySubcomponent.isEmpty();
         }
 
         @Override
@@ -3273,6 +3322,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 type = builder.type;
                 rating = Collections.unmodifiableList(builder.rating);
                 note = Collections.unmodifiableList(builder.note);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3309,6 +3361,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public List<Annotation> getNote() {
                 return note;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    !rating.isEmpty() || 
+                    !note.isEmpty();
             }
 
             @Override

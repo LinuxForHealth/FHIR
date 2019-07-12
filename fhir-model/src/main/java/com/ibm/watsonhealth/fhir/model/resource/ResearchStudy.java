@@ -1603,6 +1603,9 @@ public class ResearchStudy extends DomainResource {
             name = ValidationSupport.requireNonNull(builder.name, "name");
             type = builder.type;
             description = builder.description;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1639,6 +1642,14 @@ public class ResearchStudy extends DomainResource {
          */
         public String getDescription() {
             return description;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (type != null) || 
+                (description != null);
         }
 
         @Override
@@ -1901,6 +1912,9 @@ public class ResearchStudy extends DomainResource {
             super(builder);
             name = builder.name;
             type = builder.type;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1925,6 +1939,13 @@ public class ResearchStudy extends DomainResource {
          */
         public CodeableConcept getType() {
             return type;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (type != null);
         }
 
         @Override

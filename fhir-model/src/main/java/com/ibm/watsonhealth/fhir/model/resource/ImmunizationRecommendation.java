@@ -565,6 +565,9 @@ public class ImmunizationRecommendation extends DomainResource {
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
             supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -710,6 +713,23 @@ public class ImmunizationRecommendation extends DomainResource {
          */
         public List<Reference> getSupportingPatientInformation() {
             return supportingPatientInformation;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !vaccineCode.isEmpty() || 
+                (targetDisease != null) || 
+                !contraindicatedVaccineCode.isEmpty() || 
+                (forecastStatus != null) || 
+                !forecastReason.isEmpty() || 
+                !dateCriterion.isEmpty() || 
+                (description != null) || 
+                (series != null) || 
+                (doseNumber != null) || 
+                (seriesDoses != null) || 
+                !supportingImmunization.isEmpty() || 
+                !supportingPatientInformation.isEmpty();
         }
 
         @Override
@@ -1305,6 +1325,9 @@ public class ImmunizationRecommendation extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireNonNull(builder.value, "value");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1329,6 +1352,13 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             public DateTime getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (value != null);
             }
 
             @Override

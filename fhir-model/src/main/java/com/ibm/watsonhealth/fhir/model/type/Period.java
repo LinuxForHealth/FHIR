@@ -37,6 +37,9 @@ public class Period extends Element {
         super(builder);
         start = builder.start;
         end = builder.end;
+        if (!hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 
     /**
@@ -63,6 +66,13 @@ public class Period extends Element {
      */
     public DateTime getEnd() {
         return end;
+    }
+
+    @Override
+    protected boolean hasChildren() {
+        return super.hasChildren() || 
+            (start != null) || 
+            (end != null);
     }
 
     @Override

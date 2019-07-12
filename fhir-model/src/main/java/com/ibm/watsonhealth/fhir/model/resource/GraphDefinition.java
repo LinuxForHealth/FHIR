@@ -1007,6 +1007,9 @@ public class GraphDefinition extends DomainResource {
             max = builder.max;
             description = builder.description;
             target = Collections.unmodifiableList(builder.target);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1079,6 +1082,17 @@ public class GraphDefinition extends DomainResource {
          */
         public List<Target> getTarget() {
             return target;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (path != null) || 
+                (sliceName != null) || 
+                (min != null) || 
+                (max != null) || 
+                (description != null) || 
+                !target.isEmpty();
         }
 
         @Override
@@ -1442,6 +1456,9 @@ public class GraphDefinition extends DomainResource {
                 profile = builder.profile;
                 compartment = Collections.unmodifiableList(builder.compartment);
                 link = Collections.unmodifiableList(builder.link);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1502,6 +1519,16 @@ public class GraphDefinition extends DomainResource {
              */
             public List<GraphDefinition.Link> getLink() {
                 return link;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (params != null) || 
+                    (profile != null) || 
+                    !compartment.isEmpty() || 
+                    !link.isEmpty();
             }
 
             @Override
@@ -1858,6 +1885,9 @@ public class GraphDefinition extends DomainResource {
                     rule = ValidationSupport.requireNonNull(builder.rule, "rule");
                     expression = builder.expression;
                     description = builder.description;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -1919,6 +1949,16 @@ public class GraphDefinition extends DomainResource {
                  */
                 public String getDescription() {
                     return description;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (use != null) || 
+                        (code != null) || 
+                        (rule != null) || 
+                        (expression != null) || 
+                        (description != null);
                 }
 
                 @Override

@@ -1600,6 +1600,9 @@ public class CapabilityStatement extends DomainResource {
             name = ValidationSupport.requireNonNull(builder.name, "name");
             version = builder.version;
             releaseDate = builder.releaseDate;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1636,6 +1639,14 @@ public class CapabilityStatement extends DomainResource {
          */
         public DateTime getReleaseDate() {
             return releaseDate;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (name != null) || 
+                (version != null) || 
+                (releaseDate != null);
         }
 
         @Override
@@ -1900,6 +1911,9 @@ public class CapabilityStatement extends DomainResource {
             description = ValidationSupport.requireNonNull(builder.description, "description");
             url = builder.url;
             custodian = builder.custodian;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1938,6 +1952,14 @@ public class CapabilityStatement extends DomainResource {
          */
         public Reference getCustodian() {
             return custodian;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (description != null) || 
+                (url != null) || 
+                (custodian != null);
         }
 
         @Override
@@ -2213,6 +2235,9 @@ public class CapabilityStatement extends DomainResource {
             searchParam = Collections.unmodifiableList(builder.searchParam);
             operation = Collections.unmodifiableList(builder.operation);
             compartment = Collections.unmodifiableList(builder.compartment);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2311,6 +2336,19 @@ public class CapabilityStatement extends DomainResource {
          */
         public List<Canonical> getCompartment() {
             return compartment;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (mode != null) || 
+                (documentation != null) || 
+                (security != null) || 
+                !resource.isEmpty() || 
+                !interaction.isEmpty() || 
+                !searchParam.isEmpty() || 
+                !operation.isEmpty() || 
+                !compartment.isEmpty();
         }
 
         @Override
@@ -2802,6 +2840,9 @@ public class CapabilityStatement extends DomainResource {
                 cors = builder.cors;
                 service = Collections.unmodifiableList(builder.service);
                 description = builder.description;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2838,6 +2879,14 @@ public class CapabilityStatement extends DomainResource {
              */
             public Markdown getDescription() {
                 return description;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (cors != null) || 
+                    !service.isEmpty() || 
+                    (description != null);
             }
 
             @Override
@@ -3163,6 +3212,9 @@ public class CapabilityStatement extends DomainResource {
                 searchRevInclude = Collections.unmodifiableList(builder.searchRevInclude);
                 searchParam = Collections.unmodifiableList(builder.searchParam);
                 operation = Collections.unmodifiableList(builder.operation);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3380,6 +3432,28 @@ public class CapabilityStatement extends DomainResource {
              */
             public List<Operation> getOperation() {
                 return operation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (profile != null) || 
+                    !supportedProfile.isEmpty() || 
+                    (documentation != null) || 
+                    !interaction.isEmpty() || 
+                    (versioning != null) || 
+                    (readHistory != null) || 
+                    (updateCreate != null) || 
+                    (conditionalCreate != null) || 
+                    (conditionalRead != null) || 
+                    (conditionalUpdate != null) || 
+                    (conditionalDelete != null) || 
+                    !referencePolicy.isEmpty() || 
+                    !searchInclude.isEmpty() || 
+                    !searchRevInclude.isEmpty() || 
+                    !searchParam.isEmpty() || 
+                    !operation.isEmpty();
             }
 
             @Override
@@ -4121,6 +4195,9 @@ public class CapabilityStatement extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     documentation = builder.documentation;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -4146,6 +4223,13 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Markdown getDocumentation() {
                     return documentation;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (code != null) || 
+                        (documentation != null);
                 }
 
                 @Override
@@ -4392,6 +4476,9 @@ public class CapabilityStatement extends DomainResource {
                     definition = builder.definition;
                     type = ValidationSupport.requireNonNull(builder.type, "type");
                     documentation = builder.documentation;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -4444,6 +4531,15 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Markdown getDocumentation() {
                     return documentation;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (name != null) || 
+                        (definition != null) || 
+                        (type != null) || 
+                        (documentation != null);
                 }
 
                 @Override
@@ -4717,6 +4813,9 @@ public class CapabilityStatement extends DomainResource {
                     name = ValidationSupport.requireNonNull(builder.name, "name");
                     definition = ValidationSupport.requireNonNull(builder.definition, "definition");
                     documentation = builder.documentation;
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -4759,6 +4858,14 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Markdown getDocumentation() {
                     return documentation;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (name != null) || 
+                        (definition != null) || 
+                        (documentation != null);
                 }
 
                 @Override
@@ -5006,6 +5113,9 @@ public class CapabilityStatement extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 documentation = builder.documentation;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -5031,6 +5141,13 @@ public class CapabilityStatement extends DomainResource {
              */
             public Markdown getDocumentation() {
                 return documentation;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (code != null) || 
+                    (documentation != null);
             }
 
             @Override
@@ -5277,6 +5394,9 @@ public class CapabilityStatement extends DomainResource {
             reliableCache = builder.reliableCache;
             documentation = builder.documentation;
             supportedMessage = Collections.unmodifiableList(builder.supportedMessage);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -5327,6 +5447,15 @@ public class CapabilityStatement extends DomainResource {
          */
         public List<SupportedMessage> getSupportedMessage() {
             return supportedMessage;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                !endpoint.isEmpty() || 
+                (reliableCache != null) || 
+                (documentation != null) || 
+                !supportedMessage.isEmpty();
         }
 
         @Override
@@ -5668,6 +5797,9 @@ public class CapabilityStatement extends DomainResource {
                 super(builder);
                 protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
                 address = ValidationSupport.requireNonNull(builder.address, "address");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -5693,6 +5825,13 @@ public class CapabilityStatement extends DomainResource {
              */
             public Url getAddress() {
                 return address;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (protocol != null) || 
+                    (address != null);
             }
 
             @Override
@@ -5915,6 +6054,9 @@ public class CapabilityStatement extends DomainResource {
                 super(builder);
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
                 definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -5939,6 +6081,13 @@ public class CapabilityStatement extends DomainResource {
              */
             public Canonical getDefinition() {
                 return definition;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (mode != null) || 
+                    (definition != null);
             }
 
             @Override
@@ -6164,6 +6313,9 @@ public class CapabilityStatement extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             documentation = builder.documentation;
             profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -6201,6 +6353,14 @@ public class CapabilityStatement extends DomainResource {
          */
         public Canonical getProfile() {
             return profile;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (mode != null) || 
+                (documentation != null) || 
+                (profile != null);
         }
 
         @Override

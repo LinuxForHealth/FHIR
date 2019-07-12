@@ -407,6 +407,9 @@ public class OperationOutcome extends DomainResource {
             diagnostics = builder.diagnostics;
             location = Collections.unmodifiableList(builder.location);
             expression = Collections.unmodifiableList(builder.expression);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -488,6 +491,17 @@ public class OperationOutcome extends DomainResource {
          */
         public List<String> getExpression() {
             return expression;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (severity != null) || 
+                (code != null) || 
+                (details != null) || 
+                (diagnostics != null) || 
+                !location.isEmpty() || 
+                !expression.isEmpty();
         }
 
         @Override

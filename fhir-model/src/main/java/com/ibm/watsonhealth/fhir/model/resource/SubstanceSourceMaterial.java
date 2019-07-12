@@ -1038,6 +1038,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             fraction = builder.fraction;
             materialType = builder.materialType;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1063,6 +1066,13 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         public CodeableConcept getMaterialType() {
             return materialType;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (fraction != null) || 
+                (materialType != null);
         }
 
         @Override
@@ -1329,6 +1339,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             author = Collections.unmodifiableList(builder.author);
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1428,6 +1441,19 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         public OrganismGeneral getOrganismGeneral() {
             return organismGeneral;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (family != null) || 
+                (genus != null) || 
+                (species != null) || 
+                (intraspecificType != null) || 
+                (intraspecificDescription != null) || 
+                !author.isEmpty() || 
+                (hybrid != null) || 
+                (organismGeneral != null);
         }
 
         @Override
@@ -1833,6 +1859,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 super(builder);
                 authorType = builder.authorType;
                 authorDescription = builder.authorDescription;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1861,6 +1890,13 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             public String getAuthorDescription() {
                 return authorDescription;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (authorType != null) || 
+                    (authorDescription != null);
             }
 
             @Override
@@ -2124,6 +2160,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 paternalOrganismId = builder.paternalOrganismId;
                 paternalOrganismName = builder.paternalOrganismName;
                 hybridType = builder.hybridType;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2188,6 +2227,16 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             public CodeableConcept getHybridType() {
                 return hybridType;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (maternalOrganismId != null) || 
+                    (maternalOrganismName != null) || 
+                    (paternalOrganismId != null) || 
+                    (paternalOrganismName != null) || 
+                    (hybridType != null);
             }
 
             @Override
@@ -2513,6 +2562,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 phylum = builder.phylum;
                 clazz = builder.clazz;
                 order = builder.order;
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -2561,6 +2613,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             public CodeableConcept getOrder() {
                 return order;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (kingdom != null) || 
+                    (phylum != null) || 
+                    (clazz != null) || 
+                    (order != null);
             }
 
             @Override
@@ -2854,6 +2915,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             part = builder.part;
             partLocation = builder.partLocation;
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -2879,6 +2943,13 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         public CodeableConcept getPartLocation() {
             return partLocation;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (part != null) || 
+                (partLocation != null);
         }
 
         @Override

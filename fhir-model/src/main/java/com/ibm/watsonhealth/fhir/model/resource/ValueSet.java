@@ -1199,6 +1199,9 @@ public class ValueSet extends DomainResource {
             inactive = builder.inactive;
             include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
             exclude = Collections.unmodifiableList(builder.exclude);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -1251,6 +1254,15 @@ public class ValueSet extends DomainResource {
          */
         public List<ValueSet.Compose.Include> getExclude() {
             return exclude;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (lockedDate != null) || 
+                (inactive != null) || 
+                !include.isEmpty() || 
+                !exclude.isEmpty();
         }
 
         @Override
@@ -1566,6 +1578,9 @@ public class ValueSet extends DomainResource {
                 concept = Collections.unmodifiableList(builder.concept);
                 filter = Collections.unmodifiableList(builder.filter);
                 valueSet = Collections.unmodifiableList(builder.valueSet);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -1629,6 +1644,16 @@ public class ValueSet extends DomainResource {
              */
             public List<Canonical> getValueSet() {
                 return valueSet;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (system != null) || 
+                    (version != null) || 
+                    !concept.isEmpty() || 
+                    !filter.isEmpty() || 
+                    !valueSet.isEmpty();
             }
 
             @Override
@@ -2021,6 +2046,9 @@ public class ValueSet extends DomainResource {
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     display = builder.display;
                     designation = Collections.unmodifiableList(builder.designation);
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2059,6 +2087,14 @@ public class ValueSet extends DomainResource {
                  */
                 public List<Designation> getDesignation() {
                     return designation;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (code != null) || 
+                        (display != null) || 
+                        !designation.isEmpty();
                 }
 
                 @Override
@@ -2349,6 +2385,9 @@ public class ValueSet extends DomainResource {
                         language = builder.language;
                         use = builder.use;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
+                        if (!hasChildren()) {
+                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                        }
                     }
 
                     /**
@@ -2385,6 +2424,14 @@ public class ValueSet extends DomainResource {
                      */
                     public String getValue() {
                         return value;
+                    }
+
+                    @Override
+                    protected boolean hasChildren() {
+                        return super.hasChildren() || 
+                            (language != null) || 
+                            (use != null) || 
+                            (value != null);
                     }
 
                     @Override
@@ -2650,6 +2697,9 @@ public class ValueSet extends DomainResource {
                     property = ValidationSupport.requireNonNull(builder.property, "property");
                     op = ValidationSupport.requireNonNull(builder.op, "op");
                     value = ValidationSupport.requireNonNull(builder.value, "value");
+                    if (!hasChildren()) {
+                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                    }
                 }
 
                 /**
@@ -2689,6 +2739,14 @@ public class ValueSet extends DomainResource {
                  */
                 public String getValue() {
                     return value;
+                }
+
+                @Override
+                protected boolean hasChildren() {
+                    return super.hasChildren() || 
+                        (property != null) || 
+                        (op != null) || 
+                        (value != null);
                 }
 
                 @Override
@@ -2927,6 +2985,9 @@ public class ValueSet extends DomainResource {
             offset = builder.offset;
             parameter = Collections.unmodifiableList(builder.parameter);
             contains = Collections.unmodifiableList(builder.contains);
+            if (!hasChildren()) {
+                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            }
         }
 
         /**
@@ -3005,6 +3066,17 @@ public class ValueSet extends DomainResource {
          */
         public List<Contains> getContains() {
             return contains;
+        }
+
+        @Override
+        protected boolean hasChildren() {
+            return super.hasChildren() || 
+                (identifier != null) || 
+                (timestamp != null) || 
+                (total != null) || 
+                (offset != null) || 
+                !parameter.isEmpty() || 
+                !contains.isEmpty();
         }
 
         @Override
@@ -3384,6 +3456,9 @@ public class ValueSet extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3409,6 +3484,13 @@ public class ValueSet extends DomainResource {
              */
             public Element getValue() {
                 return value;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (name != null) || 
+                    (value != null);
             }
 
             @Override
@@ -3661,6 +3743,9 @@ public class ValueSet extends DomainResource {
                 display = builder.display;
                 designation = Collections.unmodifiableList(builder.designation);
                 contains = Collections.unmodifiableList(builder.contains);
+                if (!hasChildren()) {
+                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+                }
             }
 
             /**
@@ -3764,6 +3849,19 @@ public class ValueSet extends DomainResource {
              */
             public List<ValueSet.Expansion.Contains> getContains() {
                 return contains;
+            }
+
+            @Override
+            protected boolean hasChildren() {
+                return super.hasChildren() || 
+                    (system != null) || 
+                    (_abstract != null) || 
+                    (inactive != null) || 
+                    (version != null) || 
+                    (code != null) || 
+                    (display != null) || 
+                    !designation.isEmpty() || 
+                    !contains.isEmpty();
             }
 
             @Override
