@@ -48,10 +48,10 @@ public class InterceptorTest extends FHIRModelTestBase {
         patient = readResource(Patient.class, GOOD_PATIENT);
 
         // Inject a new family name of "Exception" to trigger errors from MyInterceptor
-        Patient.Builder builder = patient.toBuilder();
-        builder.name(Collections.emptyList());
-        builder.name(HumanName.builder().family(com.ibm.watsonhealth.fhir.model.type.String.of("Exception")).build());
-        badPatient = builder.build();
+        badPatient = patient.toBuilder()
+            .name(Collections.emptyList()) // clear existing names
+            .name(HumanName.builder().family(com.ibm.watsonhealth.fhir.model.type.String.of("Exception")).build())
+            .build();
         
         // Quick check to make sure we've set up the test correctly
         assertEquals("Exception", badPatient.getName().get(0).getFamily().getValue());
