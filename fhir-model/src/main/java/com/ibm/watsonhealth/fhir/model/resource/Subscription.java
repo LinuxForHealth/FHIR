@@ -80,7 +80,7 @@ public class Subscription extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -268,7 +268,7 @@ public class Subscription extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -285,7 +285,7 @@ public class Subscription extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -303,7 +303,7 @@ public class Subscription extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -319,7 +319,7 @@ public class Subscription extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -338,7 +338,7 @@ public class Subscription extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -350,12 +350,15 @@ public class Subscription extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -367,12 +370,15 @@ public class Subscription extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -386,12 +392,15 @@ public class Subscription extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -405,12 +414,15 @@ public class Subscription extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -430,12 +442,15 @@ public class Subscription extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -455,12 +470,15 @@ public class Subscription extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -472,12 +490,15 @@ public class Subscription extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactPoint... contact) {
             for (ContactPoint value : contact) {
@@ -491,15 +512,18 @@ public class Subscription extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactPoint> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -512,7 +536,7 @@ public class Subscription extends DomainResource {
          *     When to automatically delete the subscription
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder end(Instant end) {
             this.end = end;
@@ -528,7 +552,7 @@ public class Subscription extends DomainResource {
          *     Latest error note
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder error(String error) {
             this.error = error;
@@ -621,7 +645,7 @@ public class Subscription extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String}.
          */
         public List<String> getHeader() {
             return header;
@@ -720,7 +744,7 @@ public class Subscription extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -734,12 +758,15 @@ public class Subscription extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -753,12 +780,15 @@ public class Subscription extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -778,12 +808,15 @@ public class Subscription extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -803,12 +836,15 @@ public class Subscription extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -824,7 +860,7 @@ public class Subscription extends DomainResource {
              *     Where the channel points to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder endpoint(Url endpoint) {
                 this.endpoint = endpoint;
@@ -842,7 +878,7 @@ public class Subscription extends DomainResource {
              *     MIME type to send, or omit for no payload
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder payload(Code payload) {
                 this.payload = payload;
@@ -853,12 +889,15 @@ public class Subscription extends DomainResource {
              * <p>
              * Additional headers / information to send as part of the notification.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param header
              *     Usage depends on the channel type
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder header(String... header) {
                 for (String value : header) {
@@ -871,15 +910,18 @@ public class Subscription extends DomainResource {
              * <p>
              * Additional headers / information to send as part of the notification.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param header
              *     Usage depends on the channel type
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder header(Collection<String> header) {
-                this.header.addAll(header);
+                this.header = new ArrayList<>(header);
                 return this;
             }
 

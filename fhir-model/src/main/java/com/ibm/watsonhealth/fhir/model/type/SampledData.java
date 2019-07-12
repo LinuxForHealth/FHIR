@@ -236,7 +236,7 @@ public class SampledData extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -250,12 +250,15 @@ public class SampledData extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -269,12 +272,15 @@ public class SampledData extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -290,7 +296,7 @@ public class SampledData extends Element {
          *     Multiply data by this before adding to origin
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder factor(Decimal factor) {
             this.factor = factor;
@@ -307,7 +313,7 @@ public class SampledData extends Element {
          *     Lower limit of detection
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lowerLimit(Decimal lowerLimit) {
             this.lowerLimit = lowerLimit;
@@ -324,7 +330,7 @@ public class SampledData extends Element {
          *     Upper limit of detection
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder upperLimit(Decimal upperLimit) {
             this.upperLimit = upperLimit;
@@ -341,7 +347,7 @@ public class SampledData extends Element {
          *     Decimal values with spaces, or "E" | "U" | "L"
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(String data) {
             this.data = data;

@@ -102,7 +102,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -152,7 +152,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -190,7 +190,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -226,7 +226,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatesTo}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
      */
     public List<RelatesTo> getRelatesTo() {
         return relatesTo;
@@ -252,7 +252,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSecurityLabel() {
         return securityLabel;
@@ -264,7 +264,7 @@ public class DocumentReference extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Content}.
+     *     An unmodifiable list containing immutable objects of type {@link Content}.
      */
     public List<Content> getContent() {
         return content;
@@ -438,7 +438,7 @@ public class DocumentReference extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -455,7 +455,7 @@ public class DocumentReference extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -473,7 +473,7 @@ public class DocumentReference extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -489,7 +489,7 @@ public class DocumentReference extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -508,7 +508,7 @@ public class DocumentReference extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -520,12 +520,15 @@ public class DocumentReference extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -537,12 +540,15 @@ public class DocumentReference extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -556,12 +562,15 @@ public class DocumentReference extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -575,12 +584,15 @@ public class DocumentReference extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -600,12 +612,15 @@ public class DocumentReference extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -625,12 +640,15 @@ public class DocumentReference extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -647,7 +665,7 @@ public class DocumentReference extends DomainResource {
          *     Master Version Specific Identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder masterIdentifier(Identifier masterIdentifier) {
             this.masterIdentifier = masterIdentifier;
@@ -658,12 +676,15 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Other identifiers associated with the document, including version independent identifiers.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Other identifiers for the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -676,15 +697,18 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Other identifiers associated with the document, including version independent identifiers.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Other identifiers for the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -697,7 +721,7 @@ public class DocumentReference extends DomainResource {
          *     preliminary | final | appended | amended | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder docStatus(ReferredDocumentStatus docStatus) {
             this.docStatus = docStatus;
@@ -714,7 +738,7 @@ public class DocumentReference extends DomainResource {
          *     Kind of document (LOINC if possible)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -726,12 +750,15 @@ public class DocumentReference extends DomainResource {
          * A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or 
          * derived from the code specified in the DocumentReference.type.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Categorization of document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -745,15 +772,18 @@ public class DocumentReference extends DomainResource {
          * A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or 
          * derived from the code specified in the DocumentReference.type.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Categorization of document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -768,7 +798,7 @@ public class DocumentReference extends DomainResource {
          *     Who/what is the subject of the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -784,7 +814,7 @@ public class DocumentReference extends DomainResource {
          *     When this document reference was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(Instant date) {
             this.date = date;
@@ -795,12 +825,15 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Identifies who is responsible for adding the information to the document.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param author
          *     Who and/or what authored the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference... author) {
             for (Reference value : author) {
@@ -813,15 +846,18 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Identifies who is responsible for adding the information to the document.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param author
          *     Who and/or what authored the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Collection<Reference> author) {
-            this.author.addAll(author);
+            this.author = new ArrayList<>(author);
             return this;
         }
 
@@ -834,7 +870,7 @@ public class DocumentReference extends DomainResource {
          *     Who/what authenticated the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authenticator(Reference authenticator) {
             this.authenticator = authenticator;
@@ -850,7 +886,7 @@ public class DocumentReference extends DomainResource {
          *     Organization which maintains the document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder custodian(Reference custodian) {
             this.custodian = custodian;
@@ -861,12 +897,15 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Relationships that this document has with other document references that already exist.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatesTo
          *     Relationships to other documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatesTo(RelatesTo... relatesTo) {
             for (RelatesTo value : relatesTo) {
@@ -879,15 +918,18 @@ public class DocumentReference extends DomainResource {
          * <p>
          * Relationships that this document has with other document references that already exist.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatesTo
          *     Relationships to other documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatesTo(Collection<RelatesTo> relatesTo) {
-            this.relatesTo.addAll(relatesTo);
+            this.relatesTo = new ArrayList<>(relatesTo);
             return this;
         }
 
@@ -900,7 +942,7 @@ public class DocumentReference extends DomainResource {
          *     Human-readable description
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -913,12 +955,15 @@ public class DocumentReference extends DomainResource {
          * security contains the security labels of the "reference" to the document, while DocumentReference.securityLabel 
          * contains a snapshot of the security labels on the document the reference refers to.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param securityLabel
          *     Document security-tags
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder securityLabel(CodeableConcept... securityLabel) {
             for (CodeableConcept value : securityLabel) {
@@ -933,15 +978,18 @@ public class DocumentReference extends DomainResource {
          * security contains the security labels of the "reference" to the document, while DocumentReference.securityLabel 
          * contains a snapshot of the security labels on the document the reference refers to.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param securityLabel
          *     Document security-tags
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder securityLabel(Collection<CodeableConcept> securityLabel) {
-            this.securityLabel.addAll(securityLabel);
+            this.securityLabel = new ArrayList<>(securityLabel);
             return this;
         }
 
@@ -954,7 +1002,7 @@ public class DocumentReference extends DomainResource {
          *     Clinical context of document
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder context(Context context) {
             this.context = context;
@@ -1118,7 +1166,7 @@ public class DocumentReference extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1132,12 +1180,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1151,12 +1202,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1176,12 +1230,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1201,12 +1258,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1354,7 +1414,7 @@ public class DocumentReference extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1368,12 +1428,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1387,12 +1450,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1412,12 +1478,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1437,12 +1506,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1459,7 +1531,7 @@ public class DocumentReference extends DomainResource {
              *     Format/content rules for the document
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder format(Coding format) {
                 this.format = format;
@@ -1514,7 +1586,7 @@ public class DocumentReference extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getEncounter() {
             return encounter;
@@ -1528,7 +1600,7 @@ public class DocumentReference extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getEvent() {
             return event;
@@ -1590,7 +1662,7 @@ public class DocumentReference extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getRelated() {
             return related;
@@ -1694,7 +1766,7 @@ public class DocumentReference extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1708,12 +1780,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1727,12 +1802,15 @@ public class DocumentReference extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1752,12 +1830,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1777,12 +1858,15 @@ public class DocumentReference extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1793,12 +1877,15 @@ public class DocumentReference extends DomainResource {
              * <p>
              * Describes the clinical encounter or type of care that the document content is associated with.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param encounter
              *     Context of the document content
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder encounter(Reference... encounter) {
                 for (Reference value : encounter) {
@@ -1811,15 +1898,18 @@ public class DocumentReference extends DomainResource {
              * <p>
              * Describes the clinical encounter or type of care that the document content is associated with.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param encounter
              *     Context of the document content
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder encounter(Collection<Reference> encounter) {
-                this.encounter.addAll(encounter);
+                this.encounter = new ArrayList<>(encounter);
                 return this;
             }
 
@@ -1829,12 +1919,15 @@ public class DocumentReference extends DomainResource {
              * some cases, the event is inherent in the type Code, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param event
              *     Main clinical acts documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder event(CodeableConcept... event) {
                 for (CodeableConcept value : event) {
@@ -1849,15 +1942,18 @@ public class DocumentReference extends DomainResource {
              * some cases, the event is inherent in the type Code, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param event
              *     Main clinical acts documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder event(Collection<CodeableConcept> event) {
-                this.event.addAll(event);
+                this.event = new ArrayList<>(event);
                 return this;
             }
 
@@ -1870,7 +1966,7 @@ public class DocumentReference extends DomainResource {
              *     Time of service that is being documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1886,7 +1982,7 @@ public class DocumentReference extends DomainResource {
              *     Kind of facility where patient was seen
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder facilityType(CodeableConcept facilityType) {
                 this.facilityType = facilityType;
@@ -1903,7 +1999,7 @@ public class DocumentReference extends DomainResource {
              *     Additional details about where the content was created (e.g. clinical specialty)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder practiceSetting(CodeableConcept practiceSetting) {
                 this.practiceSetting = practiceSetting;
@@ -1920,7 +2016,7 @@ public class DocumentReference extends DomainResource {
              *     Patient demographics from source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sourcePatientInfo(Reference sourcePatientInfo) {
                 this.sourcePatientInfo = sourcePatientInfo;
@@ -1931,12 +2027,15 @@ public class DocumentReference extends DomainResource {
              * <p>
              * Related identifiers or resources associated with the DocumentReference.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param related
              *     Related identifiers or resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder related(Reference... related) {
                 for (Reference value : related) {
@@ -1949,15 +2048,18 @@ public class DocumentReference extends DomainResource {
              * <p>
              * Related identifiers or resources associated with the DocumentReference.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param related
              *     Related identifiers or resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder related(Collection<Reference> related) {
-                this.related.addAll(related);
+                this.related = new ArrayList<>(related);
                 return this;
             }
 

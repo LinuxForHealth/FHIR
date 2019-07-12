@@ -74,7 +74,7 @@ public class AppointmentResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -123,7 +123,7 @@ public class AppointmentResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getParticipantType() {
         return participantType;
@@ -291,7 +291,7 @@ public class AppointmentResponse extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -308,7 +308,7 @@ public class AppointmentResponse extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -326,7 +326,7 @@ public class AppointmentResponse extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -342,7 +342,7 @@ public class AppointmentResponse extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -361,7 +361,7 @@ public class AppointmentResponse extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -373,12 +373,15 @@ public class AppointmentResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -390,12 +393,15 @@ public class AppointmentResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -409,12 +415,15 @@ public class AppointmentResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -428,12 +437,15 @@ public class AppointmentResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -453,12 +465,15 @@ public class AppointmentResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -478,12 +493,15 @@ public class AppointmentResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -495,12 +513,15 @@ public class AppointmentResponse extends DomainResource {
          * This records identifiers associated with this appointment response concern that are defined by business processes and/ 
          * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -514,15 +535,18 @@ public class AppointmentResponse extends DomainResource {
          * This records identifiers associated with this appointment response concern that are defined by business processes and/ 
          * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -535,7 +559,7 @@ public class AppointmentResponse extends DomainResource {
          *     Time from appointment, or requested new start time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder start(Instant start) {
             this.start = start;
@@ -552,7 +576,7 @@ public class AppointmentResponse extends DomainResource {
          *     Time from appointment, or requested new end time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder end(Instant end) {
             this.end = end;
@@ -563,12 +587,15 @@ public class AppointmentResponse extends DomainResource {
          * <p>
          * Role of participant in the appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param participantType
          *     Role of participant in the appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participantType(CodeableConcept... participantType) {
             for (CodeableConcept value : participantType) {
@@ -581,15 +608,18 @@ public class AppointmentResponse extends DomainResource {
          * <p>
          * Role of participant in the appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param participantType
          *     Role of participant in the appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participantType(Collection<CodeableConcept> participantType) {
-            this.participantType.addAll(participantType);
+            this.participantType = new ArrayList<>(participantType);
             return this;
         }
 
@@ -602,7 +632,7 @@ public class AppointmentResponse extends DomainResource {
          *     Person, Location, HealthcareService, or Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder actor(Reference actor) {
             this.actor = actor;
@@ -618,7 +648,7 @@ public class AppointmentResponse extends DomainResource {
          *     Additional comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(String comment) {
             this.comment = comment;

@@ -96,7 +96,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -185,7 +185,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -199,7 +199,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -211,7 +211,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -224,7 +224,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEvaluationMessage() {
         return evaluationMessage;
@@ -264,7 +264,7 @@ public class GuidanceResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DataRequirement}.
+     *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
      */
     public List<DataRequirement> getDataRequirement() {
         return dataRequirement;
@@ -422,7 +422,7 @@ public class GuidanceResponse extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -439,7 +439,7 @@ public class GuidanceResponse extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -457,7 +457,7 @@ public class GuidanceResponse extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -473,7 +473,7 @@ public class GuidanceResponse extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -492,7 +492,7 @@ public class GuidanceResponse extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -504,12 +504,15 @@ public class GuidanceResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -521,12 +524,15 @@ public class GuidanceResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -540,12 +546,15 @@ public class GuidanceResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -559,12 +568,15 @@ public class GuidanceResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -584,12 +596,15 @@ public class GuidanceResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -609,12 +624,15 @@ public class GuidanceResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -631,7 +649,7 @@ public class GuidanceResponse extends DomainResource {
          *     The identifier of the request associated with this response, if any
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requestIdentifier(Identifier requestIdentifier) {
             this.requestIdentifier = requestIdentifier;
@@ -642,12 +660,15 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Allows a service to provide unique, business identifiers for the response.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -660,15 +681,18 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Allows a service to provide unique, business identifiers for the response.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -681,7 +705,7 @@ public class GuidanceResponse extends DomainResource {
          *     Patient the request was performed for
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -697,7 +721,7 @@ public class GuidanceResponse extends DomainResource {
          *     Encounter during which the response was returned
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -713,7 +737,7 @@ public class GuidanceResponse extends DomainResource {
          *     When the guidance response was processed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder occurrenceDateTime(DateTime occurrenceDateTime) {
             this.occurrenceDateTime = occurrenceDateTime;
@@ -729,7 +753,7 @@ public class GuidanceResponse extends DomainResource {
          *     Device returning the guidance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference performer) {
             this.performer = performer;
@@ -740,12 +764,15 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Describes the reason for the guidance response in coded or textual form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why guidance is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -758,15 +785,18 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Describes the reason for the guidance response in coded or textual form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why guidance is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -776,12 +806,15 @@ public class GuidanceResponse extends DomainResource {
          * by the service, although for some use cases, such as subscription- or event-based scenarios, it may provide an 
          * indication of the cause for the response.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why guidance is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -796,15 +829,18 @@ public class GuidanceResponse extends DomainResource {
          * by the service, although for some use cases, such as subscription- or event-based scenarios, it may provide an 
          * indication of the cause for the response.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why guidance is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -812,12 +848,15 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Provides a mechanism to communicate additional information about the response.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Additional notes about the response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -830,15 +869,18 @@ public class GuidanceResponse extends DomainResource {
          * <p>
          * Provides a mechanism to communicate additional information about the response.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Additional notes about the response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -847,12 +889,15 @@ public class GuidanceResponse extends DomainResource {
          * Messages resulting from the evaluation of the artifact or artifacts. As part of evaluating the request, the engine may 
          * produce informational or warning messages. These messages will be provided by this element.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evaluationMessage(Reference... evaluationMessage) {
             for (Reference value : evaluationMessage) {
@@ -866,15 +911,18 @@ public class GuidanceResponse extends DomainResource {
          * Messages resulting from the evaluation of the artifact or artifacts. As part of evaluating the request, the engine may 
          * produce informational or warning messages. These messages will be provided by this element.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evaluationMessage(Collection<Reference> evaluationMessage) {
-            this.evaluationMessage.addAll(evaluationMessage);
+            this.evaluationMessage = new ArrayList<>(evaluationMessage);
             return this;
         }
 
@@ -889,7 +937,7 @@ public class GuidanceResponse extends DomainResource {
          *     The output parameters of the evaluation, if any
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outputParameters(Reference outputParameters) {
             this.outputParameters = outputParameters;
@@ -905,7 +953,7 @@ public class GuidanceResponse extends DomainResource {
          *     Proposed actions, if any
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder result(Reference result) {
             this.result = result;
@@ -918,12 +966,15 @@ public class GuidanceResponse extends DomainResource {
          * result in a more accurate response, this element will a description of the data required in order to proceed with the 
          * evaluation. A subsequent request to the service should include this data.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param dataRequirement
          *     Additional required data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dataRequirement(DataRequirement... dataRequirement) {
             for (DataRequirement value : dataRequirement) {
@@ -938,15 +989,18 @@ public class GuidanceResponse extends DomainResource {
          * result in a more accurate response, this element will a description of the data required in order to proceed with the 
          * evaluation. A subsequent request to the service should include this data.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param dataRequirement
          *     Additional required data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dataRequirement(Collection<DataRequirement> dataRequirement) {
-            this.dataRequirement.addAll(dataRequirement);
+            this.dataRequirement = new ArrayList<>(dataRequirement);
             return this;
         }
 

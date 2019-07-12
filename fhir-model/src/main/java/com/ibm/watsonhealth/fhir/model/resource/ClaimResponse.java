@@ -117,7 +117,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -303,7 +303,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item}.
      */
     public List<Item> getItem() {
         return item;
@@ -315,7 +315,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AddItem}.
+     *     An unmodifiable list containing immutable objects of type {@link AddItem}.
      */
     public List<AddItem> getAddItem() {
         return addItem;
@@ -327,7 +327,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Adjudication}.
+     *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
      */
     public List<ClaimResponse.Item.Adjudication> getAdjudication() {
         return adjudication;
@@ -339,7 +339,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Total}.
+     *     An unmodifiable list containing immutable objects of type {@link Total}.
      */
     public List<Total> getTotal() {
         return total;
@@ -400,7 +400,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ProcessNote}.
+     *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
      */
     public List<ProcessNote> getProcessNote() {
         return processNote;
@@ -412,7 +412,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getCommunicationRequest() {
         return communicationRequest;
@@ -424,7 +424,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Insurance}.
+     *     An unmodifiable list containing immutable objects of type {@link Insurance}.
      */
     public List<Insurance> getInsurance() {
         return insurance;
@@ -436,7 +436,7 @@ public class ClaimResponse extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Error}.
+     *     An unmodifiable list containing immutable objects of type {@link Error}.
      */
     public List<Error> getError() {
         return error;
@@ -647,7 +647,7 @@ public class ClaimResponse extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -664,7 +664,7 @@ public class ClaimResponse extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -682,7 +682,7 @@ public class ClaimResponse extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -698,7 +698,7 @@ public class ClaimResponse extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -717,7 +717,7 @@ public class ClaimResponse extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -729,12 +729,15 @@ public class ClaimResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -746,12 +749,15 @@ public class ClaimResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -765,12 +771,15 @@ public class ClaimResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -784,12 +793,15 @@ public class ClaimResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -809,12 +821,15 @@ public class ClaimResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -834,12 +849,15 @@ public class ClaimResponse extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -850,12 +868,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * A unique identifier assigned to this claim response.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for a claim response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -868,15 +889,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * A unique identifier assigned to this claim response.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for a claim response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -890,7 +914,7 @@ public class ClaimResponse extends DomainResource {
          *     More granular claim type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subType(CodeableConcept subType) {
             this.subType = subType;
@@ -906,7 +930,7 @@ public class ClaimResponse extends DomainResource {
          *     Party responsible for the claim
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requestor(Reference requestor) {
             this.requestor = requestor;
@@ -922,7 +946,7 @@ public class ClaimResponse extends DomainResource {
          *     Id of resource triggering adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(Reference request) {
             this.request = request;
@@ -938,7 +962,7 @@ public class ClaimResponse extends DomainResource {
          *     Disposition Message
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
@@ -954,7 +978,7 @@ public class ClaimResponse extends DomainResource {
          *     Preauthorization reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthRef(String preAuthRef) {
             this.preAuthRef = preAuthRef;
@@ -970,7 +994,7 @@ public class ClaimResponse extends DomainResource {
          *     Preauthorization reference effective period
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthPeriod(Period preAuthPeriod) {
             this.preAuthPeriod = preAuthPeriod;
@@ -986,7 +1010,7 @@ public class ClaimResponse extends DomainResource {
          *     Party to be paid any benefits payable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payeeType(CodeableConcept payeeType) {
             this.payeeType = payeeType;
@@ -998,12 +1022,15 @@ public class ClaimResponse extends DomainResource {
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param item
          *     Adjudication for claim line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Item... item) {
             for (Item value : item) {
@@ -1017,15 +1044,18 @@ public class ClaimResponse extends DomainResource {
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param item
          *     Adjudication for claim line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Collection<Item> item) {
-            this.item.addAll(item);
+            this.item = new ArrayList<>(item);
             return this;
         }
 
@@ -1033,12 +1063,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param addItem
          *     Insurer added line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addItem(AddItem... addItem) {
             for (AddItem value : addItem) {
@@ -1051,15 +1084,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param addItem
          *     Insurer added line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addItem(Collection<AddItem> addItem) {
-            this.addItem.addAll(addItem);
+            this.addItem = new ArrayList<>(addItem);
             return this;
         }
 
@@ -1067,12 +1103,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param adjudication
          *     Header-level adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
             for (ClaimResponse.Item.Adjudication value : adjudication) {
@@ -1085,15 +1124,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param adjudication
          *     Header-level adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
-            this.adjudication.addAll(adjudication);
+            this.adjudication = new ArrayList<>(adjudication);
             return this;
         }
 
@@ -1101,12 +1143,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Categorized monetary totals for the adjudication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param total
          *     Adjudication totals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder total(Total... total) {
             for (Total value : total) {
@@ -1119,15 +1164,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Categorized monetary totals for the adjudication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param total
          *     Adjudication totals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder total(Collection<Total> total) {
-            this.total.addAll(total);
+            this.total = new ArrayList<>(total);
             return this;
         }
 
@@ -1140,7 +1188,7 @@ public class ClaimResponse extends DomainResource {
          *     Payment Details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payment(Payment payment) {
             this.payment = payment;
@@ -1157,7 +1205,7 @@ public class ClaimResponse extends DomainResource {
          *     Funds reserved status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fundsReserve(CodeableConcept fundsReserve) {
             this.fundsReserve = fundsReserve;
@@ -1173,7 +1221,7 @@ public class ClaimResponse extends DomainResource {
          *     Printed form identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder formCode(CodeableConcept formCode) {
             this.formCode = formCode;
@@ -1189,7 +1237,7 @@ public class ClaimResponse extends DomainResource {
          *     Printed reference or actual form
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder form(Attachment form) {
             this.form = form;
@@ -1200,12 +1248,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param processNote
          *     Note concerning adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(ProcessNote... processNote) {
             for (ProcessNote value : processNote) {
@@ -1218,15 +1269,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param processNote
          *     Note concerning adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(Collection<ProcessNote> processNote) {
-            this.processNote.addAll(processNote);
+            this.processNote = new ArrayList<>(processNote);
             return this;
         }
 
@@ -1234,12 +1288,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Request for additional supporting or authorizing information.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param communicationRequest
          *     Request for additional information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communicationRequest(Reference... communicationRequest) {
             for (Reference value : communicationRequest) {
@@ -1252,15 +1309,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Request for additional supporting or authorizing information.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param communicationRequest
          *     Request for additional information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communicationRequest(Collection<Reference> communicationRequest) {
-            this.communicationRequest.addAll(communicationRequest);
+            this.communicationRequest = new ArrayList<>(communicationRequest);
             return this;
         }
 
@@ -1268,12 +1328,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param insurance
          *     Patient insurance information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Insurance... insurance) {
             for (Insurance value : insurance) {
@@ -1286,15 +1349,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param insurance
          *     Patient insurance information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Collection<Insurance> insurance) {
-            this.insurance.addAll(insurance);
+            this.insurance = new ArrayList<>(insurance);
             return this;
         }
 
@@ -1302,12 +1368,15 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Errors encountered during the processing of the adjudication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param error
          *     Processing errors
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder error(Error... error) {
             for (Error value : error) {
@@ -1320,15 +1389,18 @@ public class ClaimResponse extends DomainResource {
          * <p>
          * Errors encountered during the processing of the adjudication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param error
          *     Processing errors
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder error(Collection<Error> error) {
-            this.error.addAll(error);
+            this.error = new ArrayList<>(error);
             return this;
         }
 
@@ -1410,7 +1482,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getNoteNumber() {
             return noteNumber;
@@ -1423,7 +1495,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Adjudication}.
+         *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
          */
         public List<Adjudication> getAdjudication() {
             return adjudication;
@@ -1435,7 +1507,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail}.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -1535,7 +1607,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1549,12 +1621,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1568,12 +1643,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1593,12 +1671,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1618,12 +1699,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1634,12 +1718,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(PositiveInt... noteNumber) {
                 for (PositiveInt value : noteNumber) {
@@ -1652,15 +1739,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                this.noteNumber.addAll(noteNumber);
+                this.noteNumber = new ArrayList<>(noteNumber);
                 return this;
             }
 
@@ -1668,12 +1758,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Adjudication for claim details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail... detail) {
                 for (Detail value : detail) {
@@ -1686,15 +1779,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Adjudication for claim details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Detail> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -1878,7 +1974,7 @@ public class ClaimResponse extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1892,12 +1988,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1911,12 +2010,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1936,12 +2038,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1961,12 +2066,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1982,7 +2090,7 @@ public class ClaimResponse extends DomainResource {
                  *     Explanation of adjudication outcome
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reason(CodeableConcept reason) {
                     this.reason = reason;
@@ -1998,7 +2106,7 @@ public class ClaimResponse extends DomainResource {
                  *     Monetary amount
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(Money amount) {
                     this.amount = amount;
@@ -2014,7 +2122,7 @@ public class ClaimResponse extends DomainResource {
                  *     Non-monetary value
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder value(Decimal value) {
                     this.value = value;
@@ -2077,7 +2185,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link PositiveInt}.
+             *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
              */
             public List<PositiveInt> getNoteNumber() {
                 return noteNumber;
@@ -2089,7 +2197,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Adjudication}.
+             *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
              */
             public List<ClaimResponse.Item.Adjudication> getAdjudication() {
                 return adjudication;
@@ -2101,7 +2209,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link SubDetail}.
+             *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
@@ -2201,7 +2309,7 @@ public class ClaimResponse extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2215,12 +2323,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2234,12 +2345,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2259,12 +2373,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2284,12 +2401,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2300,12 +2420,15 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(PositiveInt... noteNumber) {
                     for (PositiveInt value : noteNumber) {
@@ -2318,15 +2441,18 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                    this.noteNumber.addAll(noteNumber);
+                    this.noteNumber = new ArrayList<>(noteNumber);
                     return this;
                 }
 
@@ -2334,12 +2460,15 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * A sub-detail adjudication of a simple product or service.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subDetail
                  *     Adjudication for claim sub-details
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(SubDetail... subDetail) {
                     for (SubDetail value : subDetail) {
@@ -2352,15 +2481,18 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * A sub-detail adjudication of a simple product or service.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subDetail
                  *     Adjudication for claim sub-details
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(Collection<SubDetail> subDetail) {
-                    this.subDetail.addAll(subDetail);
+                    this.subDetail = new ArrayList<>(subDetail);
                     return this;
                 }
 
@@ -2416,7 +2548,7 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link PositiveInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
                  */
                 public List<PositiveInt> getNoteNumber() {
                     return noteNumber;
@@ -2428,7 +2560,7 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Adjudication}.
+                 *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
                  */
                 public List<ClaimResponse.Item.Adjudication> getAdjudication() {
                     return adjudication;
@@ -2523,7 +2655,7 @@ public class ClaimResponse extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2537,12 +2669,15 @@ public class ClaimResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2556,12 +2691,15 @@ public class ClaimResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2581,12 +2719,15 @@ public class ClaimResponse extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2606,12 +2747,15 @@ public class ClaimResponse extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2622,12 +2766,15 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(PositiveInt... noteNumber) {
                         for (PositiveInt value : noteNumber) {
@@ -2640,15 +2787,18 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                        this.noteNumber.addAll(noteNumber);
+                        this.noteNumber = new ArrayList<>(noteNumber);
                         return this;
                     }
 
@@ -2656,12 +2806,15 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
                         for (ClaimResponse.Item.Adjudication value : adjudication) {
@@ -2674,15 +2827,18 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                        this.adjudication.addAll(adjudication);
+                        this.adjudication = new ArrayList<>(adjudication);
                         return this;
                     }
 
@@ -2759,7 +2915,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getItemSequence() {
             return itemSequence;
@@ -2771,7 +2927,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getDetailSequence() {
             return detailSequence;
@@ -2783,7 +2939,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getSubdetailSequence() {
             return subdetailSequence;
@@ -2795,7 +2951,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getProvider() {
             return provider;
@@ -2820,7 +2976,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getModifier() {
             return modifier;
@@ -2832,7 +2988,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getProgramCode() {
             return programCode;
@@ -2930,7 +3086,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getSubSite() {
             return subSite;
@@ -2942,7 +3098,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getNoteNumber() {
             return noteNumber;
@@ -2954,7 +3110,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Adjudication}.
+         *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
          */
         public List<ClaimResponse.Item.Adjudication> getAdjudication() {
             return adjudication;
@@ -2966,7 +3122,7 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail}.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -3122,7 +3278,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3136,12 +3292,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3155,12 +3314,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3180,12 +3342,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3205,12 +3370,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3221,12 +3389,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Claim items which this service line is intended to replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param itemSequence
              *     Item sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemSequence(PositiveInt... itemSequence) {
                 for (PositiveInt value : itemSequence) {
@@ -3239,15 +3410,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Claim items which this service line is intended to replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param itemSequence
              *     Item sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemSequence(Collection<PositiveInt> itemSequence) {
-                this.itemSequence.addAll(itemSequence);
+                this.itemSequence = new ArrayList<>(itemSequence);
                 return this;
             }
 
@@ -3255,12 +3429,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detailSequence
              *     Detail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detailSequence(PositiveInt... detailSequence) {
                 for (PositiveInt value : detailSequence) {
@@ -3273,15 +3450,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detailSequence
              *     Detail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detailSequence(Collection<PositiveInt> detailSequence) {
-                this.detailSequence.addAll(detailSequence);
+                this.detailSequence = new ArrayList<>(detailSequence);
                 return this;
             }
 
@@ -3289,12 +3469,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param subdetailSequence
              *     Subdetail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subdetailSequence(PositiveInt... subdetailSequence) {
                 for (PositiveInt value : subdetailSequence) {
@@ -3307,15 +3490,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param subdetailSequence
              *     Subdetail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subdetailSequence(Collection<PositiveInt> subdetailSequence) {
-                this.subdetailSequence.addAll(subdetailSequence);
+                this.subdetailSequence = new ArrayList<>(subdetailSequence);
                 return this;
             }
 
@@ -3323,12 +3509,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The providers who are authorized for the services rendered to the patient.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param provider
              *     Authorized providers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provider(Reference... provider) {
                 for (Reference value : provider) {
@@ -3341,15 +3530,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The providers who are authorized for the services rendered to the patient.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param provider
              *     Authorized providers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provider(Collection<Reference> provider) {
-                this.provider.addAll(provider);
+                this.provider = new ArrayList<>(provider);
                 return this;
             }
 
@@ -3357,12 +3549,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifier
              *     Service/Product billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(CodeableConcept... modifier) {
                 for (CodeableConcept value : modifier) {
@@ -3375,15 +3570,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifier
              *     Service/Product billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(Collection<CodeableConcept> modifier) {
-                this.modifier.addAll(modifier);
+                this.modifier = new ArrayList<>(modifier);
                 return this;
             }
 
@@ -3391,12 +3589,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(CodeableConcept... programCode) {
                 for (CodeableConcept value : programCode) {
@@ -3409,15 +3610,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(Collection<CodeableConcept> programCode) {
-                this.programCode.addAll(programCode);
+                this.programCode = new ArrayList<>(programCode);
                 return this;
             }
 
@@ -3430,7 +3634,7 @@ public class ClaimResponse extends DomainResource {
              *     Date or dates of service or product delivery
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder serviced(Element serviced) {
                 this.serviced = serviced;
@@ -3446,7 +3650,7 @@ public class ClaimResponse extends DomainResource {
              *     Place of service or where product was supplied
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder location(Element location) {
                 this.location = location;
@@ -3462,7 +3666,7 @@ public class ClaimResponse extends DomainResource {
              *     Count of products or services
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -3479,7 +3683,7 @@ public class ClaimResponse extends DomainResource {
              *     Fee, charge or cost per item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unitPrice(Money unitPrice) {
                 this.unitPrice = unitPrice;
@@ -3496,7 +3700,7 @@ public class ClaimResponse extends DomainResource {
              *     Price scaling factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder factor(Decimal factor) {
                 this.factor = factor;
@@ -3512,7 +3716,7 @@ public class ClaimResponse extends DomainResource {
              *     Total item cost
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder net(Money net) {
                 this.net = net;
@@ -3528,7 +3732,7 @@ public class ClaimResponse extends DomainResource {
              *     Anatomical location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bodySite(CodeableConcept bodySite) {
                 this.bodySite = bodySite;
@@ -3539,12 +3743,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(CodeableConcept... subSite) {
                 for (CodeableConcept value : subSite) {
@@ -3557,15 +3764,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(Collection<CodeableConcept> subSite) {
-                this.subSite.addAll(subSite);
+                this.subSite = new ArrayList<>(subSite);
                 return this;
             }
 
@@ -3573,12 +3783,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(PositiveInt... noteNumber) {
                 for (PositiveInt value : noteNumber) {
@@ -3591,15 +3804,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                this.noteNumber.addAll(noteNumber);
+                this.noteNumber = new ArrayList<>(noteNumber);
                 return this;
             }
 
@@ -3607,12 +3823,15 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Insurer added line details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail... detail) {
                 for (Detail value : detail) {
@@ -3625,15 +3844,18 @@ public class ClaimResponse extends DomainResource {
              * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Insurer added line details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Detail> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -3716,7 +3938,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getModifier() {
                 return modifier;
@@ -3778,7 +4000,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link PositiveInt}.
+             *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
              */
             public List<PositiveInt> getNoteNumber() {
                 return noteNumber;
@@ -3790,7 +4012,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Adjudication}.
+             *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
              */
             public List<ClaimResponse.Item.Adjudication> getAdjudication() {
                 return adjudication;
@@ -3802,7 +4024,7 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link SubDetail}.
+             *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
@@ -3922,7 +4144,7 @@ public class ClaimResponse extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3936,12 +4158,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3955,12 +4180,15 @@ public class ClaimResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3980,12 +4208,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4005,12 +4236,15 @@ public class ClaimResponse extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4021,12 +4255,15 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(CodeableConcept... modifier) {
                     for (CodeableConcept value : modifier) {
@@ -4039,15 +4276,18 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(Collection<CodeableConcept> modifier) {
-                    this.modifier.addAll(modifier);
+                    this.modifier = new ArrayList<>(modifier);
                     return this;
                 }
 
@@ -4060,7 +4300,7 @@ public class ClaimResponse extends DomainResource {
                  *     Count of products or services
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder quantity(Quantity quantity) {
                     this.quantity = quantity;
@@ -4077,7 +4317,7 @@ public class ClaimResponse extends DomainResource {
                  *     Fee, charge or cost per item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder unitPrice(Money unitPrice) {
                     this.unitPrice = unitPrice;
@@ -4094,7 +4334,7 @@ public class ClaimResponse extends DomainResource {
                  *     Price scaling factor
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder factor(Decimal factor) {
                     this.factor = factor;
@@ -4110,7 +4350,7 @@ public class ClaimResponse extends DomainResource {
                  *     Total item cost
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder net(Money net) {
                     this.net = net;
@@ -4121,12 +4361,15 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(PositiveInt... noteNumber) {
                     for (PositiveInt value : noteNumber) {
@@ -4139,15 +4382,18 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                    this.noteNumber.addAll(noteNumber);
+                    this.noteNumber = new ArrayList<>(noteNumber);
                     return this;
                 }
 
@@ -4155,12 +4401,15 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subDetail
                  *     Insurer added line items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(SubDetail... subDetail) {
                     for (SubDetail value : subDetail) {
@@ -4173,15 +4422,18 @@ public class ClaimResponse extends DomainResource {
                  * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subDetail
                  *     Insurer added line items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(Collection<SubDetail> subDetail) {
-                    this.subDetail.addAll(subDetail);
+                    this.subDetail = new ArrayList<>(subDetail);
                     return this;
                 }
 
@@ -4253,7 +4505,7 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
                  */
                 public List<CodeableConcept> getModifier() {
                     return modifier;
@@ -4315,7 +4567,7 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link PositiveInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
                  */
                 public List<PositiveInt> getNoteNumber() {
                     return noteNumber;
@@ -4327,7 +4579,7 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Adjudication}.
+                 *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
                  */
                 public List<ClaimResponse.Item.Adjudication> getAdjudication() {
                     return adjudication;
@@ -4443,7 +4695,7 @@ public class ClaimResponse extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4457,12 +4709,15 @@ public class ClaimResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4476,12 +4731,15 @@ public class ClaimResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4501,12 +4759,15 @@ public class ClaimResponse extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4526,12 +4787,15 @@ public class ClaimResponse extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4542,12 +4806,15 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(CodeableConcept... modifier) {
                         for (CodeableConcept value : modifier) {
@@ -4560,15 +4827,18 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(Collection<CodeableConcept> modifier) {
-                        this.modifier.addAll(modifier);
+                        this.modifier = new ArrayList<>(modifier);
                         return this;
                     }
 
@@ -4581,7 +4851,7 @@ public class ClaimResponse extends DomainResource {
                      *     Count of products or services
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder quantity(Quantity quantity) {
                         this.quantity = quantity;
@@ -4598,7 +4868,7 @@ public class ClaimResponse extends DomainResource {
                      *     Fee, charge or cost per item
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder unitPrice(Money unitPrice) {
                         this.unitPrice = unitPrice;
@@ -4615,7 +4885,7 @@ public class ClaimResponse extends DomainResource {
                      *     Price scaling factor
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder factor(Decimal factor) {
                         this.factor = factor;
@@ -4631,7 +4901,7 @@ public class ClaimResponse extends DomainResource {
                      *     Total item cost
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder net(Money net) {
                         this.net = net;
@@ -4642,12 +4912,15 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(PositiveInt... noteNumber) {
                         for (PositiveInt value : noteNumber) {
@@ -4660,15 +4933,18 @@ public class ClaimResponse extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                        this.noteNumber.addAll(noteNumber);
+                        this.noteNumber = new ArrayList<>(noteNumber);
                         return this;
                     }
 
@@ -4821,7 +5097,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4835,12 +5111,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4854,12 +5133,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4879,12 +5161,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4904,12 +5189,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5130,7 +5418,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5144,12 +5432,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5163,12 +5454,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5188,12 +5482,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5213,12 +5510,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5235,7 +5535,7 @@ public class ClaimResponse extends DomainResource {
              *     Payment adjustment for non-claim issues
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjustment(Money adjustment) {
                 this.adjustment = adjustment;
@@ -5251,7 +5551,7 @@ public class ClaimResponse extends DomainResource {
              *     Explanation for the adjustment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjustmentReason(CodeableConcept adjustmentReason) {
                 this.adjustmentReason = adjustmentReason;
@@ -5267,7 +5567,7 @@ public class ClaimResponse extends DomainResource {
              *     Expected date of payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Date date) {
                 this.date = date;
@@ -5283,7 +5583,7 @@ public class ClaimResponse extends DomainResource {
              *     Business identifier for the payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -5470,7 +5770,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5484,12 +5784,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5503,12 +5806,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5528,12 +5834,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5553,12 +5862,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5574,7 +5886,7 @@ public class ClaimResponse extends DomainResource {
              *     Note instance identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder number(PositiveInt number) {
                 this.number = number;
@@ -5590,7 +5902,7 @@ public class ClaimResponse extends DomainResource {
              *     display | print | printoper
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(NoteType type) {
                 this.type = type;
@@ -5606,7 +5918,7 @@ public class ClaimResponse extends DomainResource {
              *     Language of the text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder language(CodeableConcept language) {
                 this.language = language;
@@ -5814,7 +6126,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5828,12 +6140,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5847,12 +6162,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5872,12 +6190,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5897,12 +6218,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5918,7 +6242,7 @@ public class ClaimResponse extends DomainResource {
              *     Additional provider contract number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder businessArrangement(String businessArrangement) {
                 this.businessArrangement = businessArrangement;
@@ -5934,7 +6258,7 @@ public class ClaimResponse extends DomainResource {
              *     Adjudication results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder claimResponse(Reference claimResponse) {
                 this.claimResponse = claimResponse;
@@ -6122,7 +6446,7 @@ public class ClaimResponse extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -6136,12 +6460,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -6155,12 +6482,15 @@ public class ClaimResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -6180,12 +6510,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -6205,12 +6538,15 @@ public class ClaimResponse extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6227,7 +6563,7 @@ public class ClaimResponse extends DomainResource {
              *     Item sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemSequence(PositiveInt itemSequence) {
                 this.itemSequence = itemSequence;
@@ -6244,7 +6580,7 @@ public class ClaimResponse extends DomainResource {
              *     Detail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detailSequence(PositiveInt detailSequence) {
                 this.detailSequence = detailSequence;
@@ -6261,7 +6597,7 @@ public class ClaimResponse extends DomainResource {
              *     Subdetail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subDetailSequence(PositiveInt subDetailSequence) {
                 this.subDetailSequence = subDetailSequence;

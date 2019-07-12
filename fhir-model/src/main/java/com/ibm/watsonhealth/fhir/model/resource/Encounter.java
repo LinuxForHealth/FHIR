@@ -100,7 +100,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -125,7 +125,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link StatusHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link StatusHistory}.
      */
     public List<StatusHistory> getStatusHistory() {
         return statusHistory;
@@ -154,7 +154,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ClassHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link ClassHistory}.
      */
     public List<ClassHistory> getClassHistory() {
         return classHistory;
@@ -166,7 +166,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -218,7 +218,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEpisodeOfCare() {
         return episodeOfCare;
@@ -230,7 +230,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -242,7 +242,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant}.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -254,7 +254,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAppointment() {
         return appointment;
@@ -291,7 +291,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -304,7 +304,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -316,7 +316,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -328,7 +328,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAccount() {
         return account;
@@ -352,7 +352,7 @@ public class Encounter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Location}.
+     *     An unmodifiable list containing immutable objects of type {@link Location}.
      */
     public List<Location> getLocation() {
         return location;
@@ -569,7 +569,7 @@ public class Encounter extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -586,7 +586,7 @@ public class Encounter extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -604,7 +604,7 @@ public class Encounter extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -620,7 +620,7 @@ public class Encounter extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -639,7 +639,7 @@ public class Encounter extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -651,12 +651,15 @@ public class Encounter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -668,12 +671,15 @@ public class Encounter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -687,12 +693,15 @@ public class Encounter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -706,12 +715,15 @@ public class Encounter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -731,12 +743,15 @@ public class Encounter extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -756,12 +771,15 @@ public class Encounter extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -772,12 +790,15 @@ public class Encounter extends DomainResource {
          * <p>
          * Identifier(s) by which this encounter is known.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifier(s) by which this encounter is known
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -790,15 +811,18 @@ public class Encounter extends DomainResource {
          * <p>
          * Identifier(s) by which this encounter is known.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifier(s) by which this encounter is known
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -807,12 +831,15 @@ public class Encounter extends DomainResource {
          * The status history permits the encounter resource to contain the status history without needing to read through the 
          * historical versions of the resource, or even have the server store them.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param statusHistory
          *     List of past encounter statuses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusHistory(StatusHistory... statusHistory) {
             for (StatusHistory value : statusHistory) {
@@ -826,15 +853,18 @@ public class Encounter extends DomainResource {
          * The status history permits the encounter resource to contain the status history without needing to read through the 
          * historical versions of the resource, or even have the server store them.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param statusHistory
          *     List of past encounter statuses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusHistory(Collection<StatusHistory> statusHistory) {
-            this.statusHistory.addAll(statusHistory);
+            this.statusHistory = new ArrayList<>(statusHistory);
             return this;
         }
 
@@ -846,12 +876,15 @@ public class Encounter extends DomainResource {
          * easily follow the patient and not require re-processing and not get lost or cancelled during a kind of discharge from 
          * emergency to inpatient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param classHistory
          *     List of past encounter classes
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder classHistory(ClassHistory... classHistory) {
             for (ClassHistory value : classHistory) {
@@ -868,15 +901,18 @@ public class Encounter extends DomainResource {
          * easily follow the patient and not require re-processing and not get lost or cancelled during a kind of discharge from 
          * emergency to inpatient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param classHistory
          *     List of past encounter classes
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder classHistory(Collection<ClassHistory> classHistory) {
-            this.classHistory.addAll(classHistory);
+            this.classHistory = new ArrayList<>(classHistory);
             return this;
         }
 
@@ -884,12 +920,15 @@ public class Encounter extends DomainResource {
          * <p>
          * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     Specific type of encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept... type) {
             for (CodeableConcept value : type) {
@@ -902,15 +941,18 @@ public class Encounter extends DomainResource {
          * <p>
          * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     Specific type of encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<CodeableConcept> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -923,7 +965,7 @@ public class Encounter extends DomainResource {
          *     Specific type of service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceType(CodeableConcept serviceType) {
             this.serviceType = serviceType;
@@ -939,7 +981,7 @@ public class Encounter extends DomainResource {
          *     Indicates the urgency of the encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(CodeableConcept priority) {
             this.priority = priority;
@@ -955,7 +997,7 @@ public class Encounter extends DomainResource {
          *     The patient or group present at the encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -970,12 +1012,15 @@ public class Encounter extends DomainResource {
          * typically created after the episode of care and grouped on entry rather than editing the episode of care to append 
          * another encounter to it (the episode of care could span years).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param episodeOfCare
          *     Episode(s) of care that this encounter should be recorded against
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder episodeOfCare(Reference... episodeOfCare) {
             for (Reference value : episodeOfCare) {
@@ -992,15 +1037,18 @@ public class Encounter extends DomainResource {
          * typically created after the episode of care and grouped on entry rather than editing the episode of care to append 
          * another encounter to it (the episode of care could span years).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param episodeOfCare
          *     Episode(s) of care that this encounter should be recorded against
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder episodeOfCare(Collection<Reference> episodeOfCare) {
-            this.episodeOfCare.addAll(episodeOfCare);
+            this.episodeOfCare = new ArrayList<>(episodeOfCare);
             return this;
         }
 
@@ -1008,12 +1056,15 @@ public class Encounter extends DomainResource {
          * <p>
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     The ServiceRequest that initiated this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -1026,15 +1077,18 @@ public class Encounter extends DomainResource {
          * <p>
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     The ServiceRequest that initiated this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -1042,12 +1096,15 @@ public class Encounter extends DomainResource {
          * <p>
          * The list of people responsible for providing the service.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param participant
          *     List of participants involved in the encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Participant... participant) {
             for (Participant value : participant) {
@@ -1060,15 +1117,18 @@ public class Encounter extends DomainResource {
          * <p>
          * The list of people responsible for providing the service.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param participant
          *     List of participants involved in the encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Collection<Participant> participant) {
-            this.participant.addAll(participant);
+            this.participant = new ArrayList<>(participant);
             return this;
         }
 
@@ -1076,12 +1136,15 @@ public class Encounter extends DomainResource {
          * <p>
          * The appointment that scheduled this encounter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param appointment
          *     The appointment that scheduled this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder appointment(Reference... appointment) {
             for (Reference value : appointment) {
@@ -1094,15 +1157,18 @@ public class Encounter extends DomainResource {
          * <p>
          * The appointment that scheduled this encounter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param appointment
          *     The appointment that scheduled this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder appointment(Collection<Reference> appointment) {
-            this.appointment.addAll(appointment);
+            this.appointment = new ArrayList<>(appointment);
             return this;
         }
 
@@ -1115,7 +1181,7 @@ public class Encounter extends DomainResource {
          *     The start and end time of the encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -1131,7 +1197,7 @@ public class Encounter extends DomainResource {
          *     Quantity of time the encounter lasted (less time absent)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder length(Duration length) {
             this.length = length;
@@ -1143,12 +1209,15 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Coded reason the encounter takes place
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -1162,15 +1231,18 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Coded reason the encounter takes place
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -1179,12 +1251,15 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Reason the encounter takes place (reference)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -1198,15 +1273,18 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Reason the encounter takes place (reference)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1214,12 +1292,15 @@ public class Encounter extends DomainResource {
          * <p>
          * The list of diagnosis relevant to this encounter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Diagnosis... diagnosis) {
             for (Diagnosis value : diagnosis) {
@@ -1232,15 +1313,18 @@ public class Encounter extends DomainResource {
          * <p>
          * The list of diagnosis relevant to this encounter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Collection<Diagnosis> diagnosis) {
-            this.diagnosis.addAll(diagnosis);
+            this.diagnosis = new ArrayList<>(diagnosis);
             return this;
         }
 
@@ -1248,12 +1332,15 @@ public class Encounter extends DomainResource {
          * <p>
          * The set of accounts that may be used for billing for this Encounter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this Encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder account(Reference... account) {
             for (Reference value : account) {
@@ -1266,15 +1353,18 @@ public class Encounter extends DomainResource {
          * <p>
          * The set of accounts that may be used for billing for this Encounter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this Encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder account(Collection<Reference> account) {
-            this.account.addAll(account);
+            this.account = new ArrayList<>(account);
             return this;
         }
 
@@ -1287,7 +1377,7 @@ public class Encounter extends DomainResource {
          *     Details about the admission to a healthcare service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder hospitalization(Hospitalization hospitalization) {
             this.hospitalization = hospitalization;
@@ -1298,12 +1388,15 @@ public class Encounter extends DomainResource {
          * <p>
          * List of locations where the patient has been during this encounter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param location
          *     List of locations where the patient has been
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Location... location) {
             for (Location value : location) {
@@ -1316,15 +1409,18 @@ public class Encounter extends DomainResource {
          * <p>
          * List of locations where the patient has been during this encounter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param location
          *     List of locations where the patient has been
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Collection<Location> location) {
-            this.location.addAll(location);
+            this.location = new ArrayList<>(location);
             return this;
         }
 
@@ -1340,7 +1436,7 @@ public class Encounter extends DomainResource {
          *     The organization (facility) responsible for this encounter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceProvider(Reference serviceProvider) {
             this.serviceProvider = serviceProvider;
@@ -1356,7 +1452,7 @@ public class Encounter extends DomainResource {
          *     Another Encounter this encounter is part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference partOf) {
             this.partOf = partOf;
@@ -1528,7 +1624,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1542,12 +1638,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1561,12 +1660,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1586,12 +1688,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1611,12 +1716,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1766,7 +1874,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1780,12 +1888,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1799,12 +1910,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1824,12 +1938,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1849,12 +1966,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1900,7 +2020,7 @@ public class Encounter extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -2013,7 +2133,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2027,12 +2147,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2046,12 +2169,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2071,12 +2197,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2096,12 +2225,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2112,12 +2244,15 @@ public class Encounter extends DomainResource {
              * <p>
              * Role of participant in encounter.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     Role of participant in encounter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept... type) {
                 for (CodeableConcept value : type) {
@@ -2130,15 +2265,18 @@ public class Encounter extends DomainResource {
              * <p>
              * Role of participant in encounter.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     Role of participant in encounter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<CodeableConcept> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -2152,7 +2290,7 @@ public class Encounter extends DomainResource {
              *     Period of time during the encounter that the participant participated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -2168,7 +2306,7 @@ public class Encounter extends DomainResource {
              *     Persons involved in the encounter other than the patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder individual(Reference individual) {
                 this.individual = individual;
@@ -2338,7 +2476,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2352,12 +2490,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2371,12 +2512,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2396,12 +2540,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2421,12 +2568,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2442,7 +2592,7 @@ public class Encounter extends DomainResource {
              *     Role that this diagnosis has within the encounter (e.g. admission, billing, discharge …)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder use(CodeableConcept use) {
                 this.use = use;
@@ -2458,7 +2608,7 @@ public class Encounter extends DomainResource {
              *     Ranking of the diagnosis (for each role type)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder rank(PositiveInt rank) {
                 this.rank = rank;
@@ -2566,7 +2716,7 @@ public class Encounter extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getDietPreference() {
             return dietPreference;
@@ -2578,7 +2728,7 @@ public class Encounter extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getSpecialCourtesy() {
             return specialCourtesy;
@@ -2591,7 +2741,7 @@ public class Encounter extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getSpecialArrangement() {
             return specialArrangement;
@@ -2727,7 +2877,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2741,12 +2891,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2760,12 +2913,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2785,12 +2941,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2810,12 +2969,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2831,7 +2993,7 @@ public class Encounter extends DomainResource {
              *     Pre-admission identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preAdmissionIdentifier(Identifier preAdmissionIdentifier) {
                 this.preAdmissionIdentifier = preAdmissionIdentifier;
@@ -2847,7 +3009,7 @@ public class Encounter extends DomainResource {
              *     The location/organization from which the patient came before admission
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder origin(Reference origin) {
                 this.origin = origin;
@@ -2863,7 +3025,7 @@ public class Encounter extends DomainResource {
              *     From where patient was admitted (physician referral, transfer)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder admitSource(CodeableConcept admitSource) {
                 this.admitSource = admitSource;
@@ -2880,7 +3042,7 @@ public class Encounter extends DomainResource {
              *     readmission
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reAdmission(CodeableConcept reAdmission) {
                 this.reAdmission = reAdmission;
@@ -2891,12 +3053,15 @@ public class Encounter extends DomainResource {
              * <p>
              * Diet preferences reported by the patient.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param dietPreference
              *     Diet preferences reported by the patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dietPreference(CodeableConcept... dietPreference) {
                 for (CodeableConcept value : dietPreference) {
@@ -2909,15 +3074,18 @@ public class Encounter extends DomainResource {
              * <p>
              * Diet preferences reported by the patient.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param dietPreference
              *     Diet preferences reported by the patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dietPreference(Collection<CodeableConcept> dietPreference) {
-                this.dietPreference.addAll(dietPreference);
+                this.dietPreference = new ArrayList<>(dietPreference);
                 return this;
             }
 
@@ -2925,12 +3093,15 @@ public class Encounter extends DomainResource {
              * <p>
              * Special courtesies (VIP, board member).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param specialCourtesy
              *     Special courtesies (VIP, board member)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specialCourtesy(CodeableConcept... specialCourtesy) {
                 for (CodeableConcept value : specialCourtesy) {
@@ -2943,15 +3114,18 @@ public class Encounter extends DomainResource {
              * <p>
              * Special courtesies (VIP, board member).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param specialCourtesy
              *     Special courtesies (VIP, board member)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specialCourtesy(Collection<CodeableConcept> specialCourtesy) {
-                this.specialCourtesy.addAll(specialCourtesy);
+                this.specialCourtesy = new ArrayList<>(specialCourtesy);
                 return this;
             }
 
@@ -2960,12 +3134,15 @@ public class Encounter extends DomainResource {
              * Any special requests that have been made for this hospitalization encounter, such as the provision of specific 
              * equipment or other things.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param specialArrangement
              *     Wheelchair, translator, stretcher, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specialArrangement(CodeableConcept... specialArrangement) {
                 for (CodeableConcept value : specialArrangement) {
@@ -2979,15 +3156,18 @@ public class Encounter extends DomainResource {
              * Any special requests that have been made for this hospitalization encounter, such as the provision of specific 
              * equipment or other things.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param specialArrangement
              *     Wheelchair, translator, stretcher, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specialArrangement(Collection<CodeableConcept> specialArrangement) {
-                this.specialArrangement.addAll(specialArrangement);
+                this.specialArrangement = new ArrayList<>(specialArrangement);
                 return this;
             }
 
@@ -3000,7 +3180,7 @@ public class Encounter extends DomainResource {
              *     Location/organization to which the patient is discharged
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder destination(Reference destination) {
                 this.destination = destination;
@@ -3016,7 +3196,7 @@ public class Encounter extends DomainResource {
              *     Category or kind of location after discharge
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dischargeDisposition(CodeableConcept dischargeDisposition) {
                 this.dischargeDisposition = dischargeDisposition;
@@ -3210,7 +3390,7 @@ public class Encounter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3224,12 +3404,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3243,12 +3426,15 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3268,12 +3454,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3293,12 +3482,15 @@ public class Encounter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3315,7 +3507,7 @@ public class Encounter extends DomainResource {
              *     planned | active | reserved | completed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder status(EncounterLocationStatus status) {
                 this.status = status;
@@ -3332,7 +3524,7 @@ public class Encounter extends DomainResource {
              *     The physical type of the location (usually the level in the location hierachy - bed room ward etc.)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder physicalType(CodeableConcept physicalType) {
                 this.physicalType = physicalType;
@@ -3348,7 +3540,7 @@ public class Encounter extends DomainResource {
              *     Time period during which the patient was present at the location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;

@@ -152,7 +152,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -296,7 +296,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -320,7 +320,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getComment() {
         return comment;
@@ -334,7 +334,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -346,7 +346,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -434,7 +434,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -446,7 +446,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -458,7 +458,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -470,7 +470,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -482,7 +482,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -494,7 +494,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -506,7 +506,7 @@ public class ResearchDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -788,7 +788,7 @@ public class ResearchDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -805,7 +805,7 @@ public class ResearchDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -823,7 +823,7 @@ public class ResearchDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -839,7 +839,7 @@ public class ResearchDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -858,7 +858,7 @@ public class ResearchDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -870,12 +870,15 @@ public class ResearchDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -887,12 +890,15 @@ public class ResearchDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -906,12 +912,15 @@ public class ResearchDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -925,12 +934,15 @@ public class ResearchDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -950,12 +962,15 @@ public class ResearchDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -975,12 +990,15 @@ public class ResearchDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1000,7 +1018,7 @@ public class ResearchDefinition extends DomainResource {
          *     Canonical identifier for this research definition, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -1012,12 +1030,15 @@ public class ResearchDefinition extends DomainResource {
          * A formal identifier that is used to identify this research definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the research definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -1031,15 +1052,18 @@ public class ResearchDefinition extends DomainResource {
          * A formal identifier that is used to identify this research definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the research definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1058,7 +1082,7 @@ public class ResearchDefinition extends DomainResource {
          *     Business version of the research definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -1075,7 +1099,7 @@ public class ResearchDefinition extends DomainResource {
          *     Name for this research definition (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -1091,7 +1115,7 @@ public class ResearchDefinition extends DomainResource {
          *     Name for this research definition (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1108,7 +1132,7 @@ public class ResearchDefinition extends DomainResource {
          *     Title for use in informal contexts
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder shortTitle(String shortTitle) {
             this.shortTitle = shortTitle;
@@ -1124,7 +1148,7 @@ public class ResearchDefinition extends DomainResource {
          *     Subordinate title of the ResearchDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
@@ -1141,7 +1165,7 @@ public class ResearchDefinition extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1158,7 +1182,7 @@ public class ResearchDefinition extends DomainResource {
          *     E.g. Patient, Practitioner, RelatedPerson, Organization, Location, Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Element subject) {
             this.subject = subject;
@@ -1176,7 +1200,7 @@ public class ResearchDefinition extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1192,7 +1216,7 @@ public class ResearchDefinition extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1203,12 +1227,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1221,15 +1248,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1242,7 +1272,7 @@ public class ResearchDefinition extends DomainResource {
          *     Natural language description of the research definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1253,12 +1283,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A human-readable string to clarify or explain concepts about the resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param comment
          *     Used for footnotes or explanatory notes
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(String... comment) {
             for (String value : comment) {
@@ -1271,15 +1304,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A human-readable string to clarify or explain concepts about the resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param comment
          *     Used for footnotes or explanatory notes
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(Collection<String> comment) {
-            this.comment.addAll(comment);
+            this.comment = new ArrayList<>(comment);
             return this;
         }
 
@@ -1289,12 +1325,15 @@ public class ResearchDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate research definition instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1309,15 +1348,18 @@ public class ResearchDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate research definition instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1325,12 +1367,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the research definition is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for research definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1343,15 +1388,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the research definition is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for research definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1364,7 +1412,7 @@ public class ResearchDefinition extends DomainResource {
          *     Why this research definition is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1380,7 +1428,7 @@ public class ResearchDefinition extends DomainResource {
          *     Describes the clinical usage of the ResearchDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usage(String usage) {
             this.usage = usage;
@@ -1397,7 +1445,7 @@ public class ResearchDefinition extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1414,7 +1462,7 @@ public class ResearchDefinition extends DomainResource {
          *     When the research definition was approved by publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
@@ -1431,7 +1479,7 @@ public class ResearchDefinition extends DomainResource {
          *     When the research definition was last reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastReviewDate(Date lastReviewDate) {
             this.lastReviewDate = lastReviewDate;
@@ -1447,7 +1495,7 @@ public class ResearchDefinition extends DomainResource {
          *     When the research definition is expected to be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effectivePeriod(Period effectivePeriod) {
             this.effectivePeriod = effectivePeriod;
@@ -1459,12 +1507,15 @@ public class ResearchDefinition extends DomainResource {
          * Descriptive topics related to the content of the ResearchDefinition. Topics provide a high-level categorization 
          * grouping types of ResearchDefinitions that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param topic
          *     The category of the ResearchDefinition, such as Education, Treatment, Assessment, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(CodeableConcept... topic) {
             for (CodeableConcept value : topic) {
@@ -1478,15 +1529,18 @@ public class ResearchDefinition extends DomainResource {
          * Descriptive topics related to the content of the ResearchDefinition. Topics provide a high-level categorization 
          * grouping types of ResearchDefinitions that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param topic
          *     The category of the ResearchDefinition, such as Education, Treatment, Assessment, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(Collection<CodeableConcept> topic) {
-            this.topic.addAll(topic);
+            this.topic = new ArrayList<>(topic);
             return this;
         }
 
@@ -1494,12 +1548,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(ContactDetail... author) {
             for (ContactDetail value : author) {
@@ -1512,15 +1569,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Collection<ContactDetail> author) {
-            this.author.addAll(author);
+            this.author = new ArrayList<>(author);
             return this;
         }
 
@@ -1528,12 +1588,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(ContactDetail... editor) {
             for (ContactDetail value : editor) {
@@ -1546,15 +1609,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(Collection<ContactDetail> editor) {
-            this.editor.addAll(editor);
+            this.editor = new ArrayList<>(editor);
             return this;
         }
 
@@ -1562,12 +1628,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(ContactDetail... reviewer) {
             for (ContactDetail value : reviewer) {
@@ -1580,15 +1649,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
-            this.reviewer.addAll(reviewer);
+            this.reviewer = new ArrayList<>(reviewer);
             return this;
         }
 
@@ -1596,12 +1668,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(ContactDetail... endorser) {
             for (ContactDetail value : endorser) {
@@ -1614,15 +1689,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
-            this.endorser.addAll(endorser);
+            this.endorser = new ArrayList<>(endorser);
             return this;
         }
 
@@ -1630,12 +1708,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(RelatedArtifact... relatedArtifact) {
             for (RelatedArtifact value : relatedArtifact) {
@@ -1648,15 +1729,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
-            this.relatedArtifact.addAll(relatedArtifact);
+            this.relatedArtifact = new ArrayList<>(relatedArtifact);
             return this;
         }
 
@@ -1664,12 +1748,15 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A reference to a Library resource containing the formal logic used by the ResearchDefinition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param library
          *     Logic used by the ResearchDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Canonical... library) {
             for (Canonical value : library) {
@@ -1682,15 +1769,18 @@ public class ResearchDefinition extends DomainResource {
          * <p>
          * A reference to a Library resource containing the formal logic used by the ResearchDefinition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param library
          *     Logic used by the ResearchDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Collection<Canonical> library) {
-            this.library.addAll(library);
+            this.library = new ArrayList<>(library);
             return this;
         }
 
@@ -1703,7 +1793,7 @@ public class ResearchDefinition extends DomainResource {
          *     What exposure?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder exposure(Reference exposure) {
             this.exposure = exposure;
@@ -1719,7 +1809,7 @@ public class ResearchDefinition extends DomainResource {
          *     What alternative exposure state?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder exposureAlternative(Reference exposureAlternative) {
             this.exposureAlternative = exposureAlternative;
@@ -1735,7 +1825,7 @@ public class ResearchDefinition extends DomainResource {
          *     What outcome?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcome(Reference outcome) {
             this.outcome = outcome;

@@ -90,7 +90,7 @@ public class Coverage extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -214,7 +214,7 @@ public class Coverage extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPayor() {
         return payor;
@@ -226,7 +226,7 @@ public class Coverage extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Class}.
+     *     An unmodifiable list containing immutable objects of type {@link Class}.
      */
     public List<Class> getClazz() {
         return clazz;
@@ -266,7 +266,7 @@ public class Coverage extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CostToBeneficiary}.
+     *     An unmodifiable list containing immutable objects of type {@link CostToBeneficiary}.
      */
     public List<CostToBeneficiary> getCostToBeneficiary() {
         return costToBeneficiary;
@@ -291,7 +291,7 @@ public class Coverage extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getContract() {
         return contract;
@@ -458,7 +458,7 @@ public class Coverage extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -475,7 +475,7 @@ public class Coverage extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -493,7 +493,7 @@ public class Coverage extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -509,7 +509,7 @@ public class Coverage extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -528,7 +528,7 @@ public class Coverage extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -540,12 +540,15 @@ public class Coverage extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -557,12 +560,15 @@ public class Coverage extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -576,12 +582,15 @@ public class Coverage extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -595,12 +604,15 @@ public class Coverage extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -620,12 +632,15 @@ public class Coverage extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -645,12 +660,15 @@ public class Coverage extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -661,12 +679,15 @@ public class Coverage extends DomainResource {
          * <p>
          * A unique identifier assigned to this coverage.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for the coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -679,15 +700,18 @@ public class Coverage extends DomainResource {
          * <p>
          * A unique identifier assigned to this coverage.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for the coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -701,7 +725,7 @@ public class Coverage extends DomainResource {
          *     Coverage category such as medical or accident
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -717,7 +741,7 @@ public class Coverage extends DomainResource {
          *     Owner of the policy
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policyHolder(Reference policyHolder) {
             this.policyHolder = policyHolder;
@@ -734,7 +758,7 @@ public class Coverage extends DomainResource {
          *     Subscriber to the policy
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subscriber(Reference subscriber) {
             this.subscriber = subscriber;
@@ -750,7 +774,7 @@ public class Coverage extends DomainResource {
          *     ID assigned to the subscriber
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subscriberId(String subscriberId) {
             this.subscriberId = subscriberId;
@@ -766,7 +790,7 @@ public class Coverage extends DomainResource {
          *     Dependent number
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dependent(String dependent) {
             this.dependent = dependent;
@@ -782,7 +806,7 @@ public class Coverage extends DomainResource {
          *     Beneficiary relationship to the subscriber
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relationship(CodeableConcept relationship) {
             this.relationship = relationship;
@@ -799,7 +823,7 @@ public class Coverage extends DomainResource {
          *     Coverage start and end dates
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -810,12 +834,15 @@ public class Coverage extends DomainResource {
          * <p>
          * A suite of underwriter specific classifiers.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param clazz
          *     Additional coverage classifications
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clazz(Class... clazz) {
             for (Class value : clazz) {
@@ -828,15 +855,18 @@ public class Coverage extends DomainResource {
          * <p>
          * A suite of underwriter specific classifiers.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param clazz
          *     Additional coverage classifications
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clazz(Collection<Class> clazz) {
-            this.clazz.addAll(clazz);
+            this.clazz = new ArrayList<>(clazz);
             return this;
         }
 
@@ -851,7 +881,7 @@ public class Coverage extends DomainResource {
          *     Relative order of the coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder order(PositiveInt order) {
             this.order = order;
@@ -868,7 +898,7 @@ public class Coverage extends DomainResource {
          *     Insurer network
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder network(String network) {
             this.network = network;
@@ -880,12 +910,15 @@ public class Coverage extends DomainResource {
          * A suite of codes indicating the cost category and associated amount which have been detailed in the policy and may 
          * have been included on the health card.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param costToBeneficiary
          *     Patient payments for services/products
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder costToBeneficiary(CostToBeneficiary... costToBeneficiary) {
             for (CostToBeneficiary value : costToBeneficiary) {
@@ -899,15 +932,18 @@ public class Coverage extends DomainResource {
          * A suite of codes indicating the cost category and associated amount which have been detailed in the policy and may 
          * have been included on the health card.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param costToBeneficiary
          *     Patient payments for services/products
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder costToBeneficiary(Collection<CostToBeneficiary> costToBeneficiary) {
-            this.costToBeneficiary.addAll(costToBeneficiary);
+            this.costToBeneficiary = new ArrayList<>(costToBeneficiary);
             return this;
         }
 
@@ -921,7 +957,7 @@ public class Coverage extends DomainResource {
          *     Reimbursement to insurer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subrogation(Boolean subrogation) {
             this.subrogation = subrogation;
@@ -932,12 +968,15 @@ public class Coverage extends DomainResource {
          * <p>
          * The policy(s) which constitute this insurance coverage.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contract
          *     Contract details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contract(Reference... contract) {
             for (Reference value : contract) {
@@ -950,15 +989,18 @@ public class Coverage extends DomainResource {
          * <p>
          * The policy(s) which constitute this insurance coverage.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contract
          *     Contract details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contract(Collection<Reference> contract) {
-            this.contract.addAll(contract);
+            this.contract = new ArrayList<>(contract);
             return this;
         }
 
@@ -1140,7 +1182,7 @@ public class Coverage extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1154,12 +1196,15 @@ public class Coverage extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1173,12 +1218,15 @@ public class Coverage extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1198,12 +1246,15 @@ public class Coverage extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1223,12 +1274,15 @@ public class Coverage extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1244,7 +1298,7 @@ public class Coverage extends DomainResource {
              *     Human readable description of the type and value
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -1316,7 +1370,7 @@ public class Coverage extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Exception}.
+         *     An unmodifiable list containing immutable objects of type {@link Exception}.
          */
         public List<Exception> getException() {
             return exception;
@@ -1411,7 +1465,7 @@ public class Coverage extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1425,12 +1479,15 @@ public class Coverage extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1444,12 +1501,15 @@ public class Coverage extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1469,12 +1529,15 @@ public class Coverage extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1494,12 +1557,15 @@ public class Coverage extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1515,7 +1581,7 @@ public class Coverage extends DomainResource {
              *     Cost category
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1526,12 +1592,15 @@ public class Coverage extends DomainResource {
              * <p>
              * A suite of codes indicating exceptions or reductions to patient costs and their effective periods.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param exception
              *     Exceptions for patient payments
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exception(Exception... exception) {
                 for (Exception value : exception) {
@@ -1544,15 +1613,18 @@ public class Coverage extends DomainResource {
              * <p>
              * A suite of codes indicating exceptions or reductions to patient costs and their effective periods.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param exception
              *     Exceptions for patient payments
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exception(Collection<Exception> exception) {
-                this.exception.addAll(exception);
+                this.exception = new ArrayList<>(exception);
                 return this;
             }
 
@@ -1697,7 +1769,7 @@ public class Coverage extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1711,12 +1783,15 @@ public class Coverage extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1730,12 +1805,15 @@ public class Coverage extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1755,12 +1833,15 @@ public class Coverage extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1780,12 +1861,15 @@ public class Coverage extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1801,7 +1885,7 @@ public class Coverage extends DomainResource {
                  *     The effective period of the exception
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder period(Period period) {
                     this.period = period;

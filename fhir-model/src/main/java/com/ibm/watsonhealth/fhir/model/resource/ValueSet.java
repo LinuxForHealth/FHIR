@@ -164,7 +164,7 @@ public class ValueSet extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -266,7 +266,7 @@ public class ValueSet extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -294,7 +294,7 @@ public class ValueSet extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -306,7 +306,7 @@ public class ValueSet extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -539,7 +539,7 @@ public class ValueSet extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -556,7 +556,7 @@ public class ValueSet extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -574,7 +574,7 @@ public class ValueSet extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -590,7 +590,7 @@ public class ValueSet extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -609,7 +609,7 @@ public class ValueSet extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -621,12 +621,15 @@ public class ValueSet extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -638,12 +641,15 @@ public class ValueSet extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -657,12 +663,15 @@ public class ValueSet extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -676,12 +685,15 @@ public class ValueSet extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -701,12 +713,15 @@ public class ValueSet extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -726,12 +741,15 @@ public class ValueSet extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -750,7 +768,7 @@ public class ValueSet extends DomainResource {
          *     Canonical identifier for this value set, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -762,12 +780,15 @@ public class ValueSet extends DomainResource {
          * A formal identifier that is used to identify this value set when it is represented in other formats, or referenced in 
          * a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the value set (business identifier)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -781,15 +802,18 @@ public class ValueSet extends DomainResource {
          * A formal identifier that is used to identify this value set when it is represented in other formats, or referenced in 
          * a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the value set (business identifier)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -805,7 +829,7 @@ public class ValueSet extends DomainResource {
          *     Business version of the value set
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -822,7 +846,7 @@ public class ValueSet extends DomainResource {
          *     Name for this value set (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -838,7 +862,7 @@ public class ValueSet extends DomainResource {
          *     Name for this value set (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -855,7 +879,7 @@ public class ValueSet extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -871,7 +895,7 @@ public class ValueSet extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -887,7 +911,7 @@ public class ValueSet extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -898,12 +922,15 @@ public class ValueSet extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -916,15 +943,18 @@ public class ValueSet extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -939,7 +969,7 @@ public class ValueSet extends DomainResource {
          *     Natural language description of the value set
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -952,12 +982,15 @@ public class ValueSet extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate value set instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -972,15 +1005,18 @@ public class ValueSet extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate value set instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -988,12 +1024,15 @@ public class ValueSet extends DomainResource {
          * <p>
          * A legal or geographic region in which the value set is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for value set (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1006,15 +1045,18 @@ public class ValueSet extends DomainResource {
          * <p>
          * A legal or geographic region in which the value set is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for value set (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1028,7 +1070,7 @@ public class ValueSet extends DomainResource {
          *     Indicates whether or not any change to the content logical definition may occur
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder immutable(Boolean immutable) {
             this.immutable = immutable;
@@ -1044,7 +1086,7 @@ public class ValueSet extends DomainResource {
          *     Why this value set is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1061,7 +1103,7 @@ public class ValueSet extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1078,7 +1120,7 @@ public class ValueSet extends DomainResource {
          *     Content logical definition of the value set (CLD)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder compose(Compose compose) {
             this.compose = compose;
@@ -1095,7 +1137,7 @@ public class ValueSet extends DomainResource {
          *     Used when the value set is "expanded"
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expansion(Expansion expansion) {
             this.expansion = expansion;
@@ -1193,7 +1235,7 @@ public class ValueSet extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Include}.
+         *     An unmodifiable list containing immutable objects of type {@link Include}.
          */
         public List<Include> getInclude() {
             return include;
@@ -1205,7 +1247,7 @@ public class ValueSet extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Include}.
+         *     An unmodifiable list containing immutable objects of type {@link Include}.
          */
         public List<ValueSet.Compose.Include> getExclude() {
             return exclude;
@@ -1304,7 +1346,7 @@ public class ValueSet extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1318,12 +1360,15 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1337,12 +1382,15 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1362,12 +1410,15 @@ public class ValueSet extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1387,12 +1438,15 @@ public class ValueSet extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1409,7 +1463,7 @@ public class ValueSet extends DomainResource {
              *     Fixed date for references with no specified version (transitive)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder lockedDate(Date lockedDate) {
                 this.lockedDate = lockedDate;
@@ -1428,7 +1482,7 @@ public class ValueSet extends DomainResource {
              *     Whether inactive codes are in the value set
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder inactive(Boolean inactive) {
                 this.inactive = inactive;
@@ -1439,12 +1493,15 @@ public class ValueSet extends DomainResource {
              * <p>
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param exclude
              *     Explicitly exclude codes from a code system or other value sets
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exclude(ValueSet.Compose.Include... exclude) {
                 for (ValueSet.Compose.Include value : exclude) {
@@ -1457,15 +1514,18 @@ public class ValueSet extends DomainResource {
              * <p>
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param exclude
              *     Explicitly exclude codes from a code system or other value sets
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exclude(Collection<ValueSet.Compose.Include> exclude) {
-                this.exclude.addAll(exclude);
+                this.exclude = new ArrayList<>(exclude);
                 return this;
             }
 
@@ -1538,7 +1598,7 @@ public class ValueSet extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Concept}.
+             *     An unmodifiable list containing immutable objects of type {@link Concept}.
              */
             public List<Concept> getConcept() {
                 return concept;
@@ -1551,7 +1611,7 @@ public class ValueSet extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Filter}.
+             *     An unmodifiable list containing immutable objects of type {@link Filter}.
              */
             public List<Filter> getFilter() {
                 return filter;
@@ -1565,7 +1625,7 @@ public class ValueSet extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
              */
             public List<Canonical> getValueSet() {
                 return valueSet;
@@ -1661,7 +1721,7 @@ public class ValueSet extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1675,12 +1735,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1694,12 +1757,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1719,12 +1785,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1744,12 +1813,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1765,7 +1837,7 @@ public class ValueSet extends DomainResource {
                  *     The system the codes come from
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder system(Uri system) {
                     this.system = system;
@@ -1781,7 +1853,7 @@ public class ValueSet extends DomainResource {
                  *     Specific version of the code system referred to
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder version(String version) {
                     this.version = version;
@@ -1792,12 +1864,15 @@ public class ValueSet extends DomainResource {
                  * <p>
                  * Specifies a concept to be included or excluded.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param concept
                  *     A concept defined in the system
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder concept(Concept... concept) {
                     for (Concept value : concept) {
@@ -1810,15 +1885,18 @@ public class ValueSet extends DomainResource {
                  * <p>
                  * Specifies a concept to be included or excluded.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param concept
                  *     A concept defined in the system
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder concept(Collection<Concept> concept) {
-                    this.concept.addAll(concept);
+                    this.concept = new ArrayList<>(concept);
                     return this;
                 }
 
@@ -1827,12 +1905,15 @@ public class ValueSet extends DomainResource {
                  * Select concepts by specify a matching criterion based on the properties (including relationships) defined by the 
                  * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param filter
                  *     Select codes/concepts by their properties (including relationships)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder filter(Filter... filter) {
                     for (Filter value : filter) {
@@ -1846,15 +1927,18 @@ public class ValueSet extends DomainResource {
                  * Select concepts by specify a matching criterion based on the properties (including relationships) defined by the 
                  * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param filter
                  *     Select codes/concepts by their properties (including relationships)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder filter(Collection<Filter> filter) {
-                    this.filter.addAll(filter);
+                    this.filter = new ArrayList<>(filter);
                     return this;
                 }
 
@@ -1864,12 +1948,15 @@ public class ValueSet extends DomainResource {
                  * reference to ValueSet.url. If multiple value sets are specified this includes the union of the contents of all of the 
                  * referenced value sets.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param valueSet
                  *     Select the contents included in this value set
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder valueSet(Canonical... valueSet) {
                     for (Canonical value : valueSet) {
@@ -1884,15 +1971,18 @@ public class ValueSet extends DomainResource {
                  * reference to ValueSet.url. If multiple value sets are specified this includes the union of the contents of all of the 
                  * referenced value sets.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param valueSet
                  *     Select the contents included in this value set
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder valueSet(Collection<Canonical> valueSet) {
-                    this.valueSet.addAll(valueSet);
+                    this.valueSet = new ArrayList<>(valueSet);
                     return this;
                 }
 
@@ -1965,7 +2055,7 @@ public class ValueSet extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Designation}.
+                 *     An unmodifiable list containing immutable objects of type {@link Designation}.
                  */
                 public List<Designation> getDesignation() {
                     return designation;
@@ -2060,7 +2150,7 @@ public class ValueSet extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2074,12 +2164,15 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2093,12 +2186,15 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2118,12 +2214,15 @@ public class ValueSet extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2143,12 +2242,15 @@ public class ValueSet extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2165,7 +2267,7 @@ public class ValueSet extends DomainResource {
                      *     Text to display for this code for this value set in this valueset
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder display(String display) {
                         this.display = display;
@@ -2177,12 +2279,15 @@ public class ValueSet extends DomainResource {
                      * Additional representations for this concept when used in this value set - other languages, aliases, specialized 
                      * purposes, used for particular purposes, etc.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param designation
                      *     Additional representations for this concept
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder designation(Designation... designation) {
                         for (Designation value : designation) {
@@ -2196,15 +2301,18 @@ public class ValueSet extends DomainResource {
                      * Additional representations for this concept when used in this value set - other languages, aliases, specialized 
                      * purposes, used for particular purposes, etc.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param designation
                      *     Additional representations for this concept
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder designation(Collection<Designation> designation) {
-                        this.designation.addAll(designation);
+                        this.designation = new ArrayList<>(designation);
                         return this;
                     }
 
@@ -2368,7 +2476,7 @@ public class ValueSet extends DomainResource {
                          *     Unique id for inter-element referencing
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder id(java.lang.String id) {
@@ -2382,12 +2490,15 @@ public class ValueSet extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Extension... extension) {
@@ -2401,12 +2512,15 @@ public class ValueSet extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2426,12 +2540,15 @@ public class ValueSet extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Extension... modifierExtension) {
@@ -2451,12 +2568,15 @@ public class ValueSet extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2472,7 +2592,7 @@ public class ValueSet extends DomainResource {
                          *     Human language of the designation
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder language(Code language) {
                             this.language = language;
@@ -2488,7 +2608,7 @@ public class ValueSet extends DomainResource {
                          *     Types of uses of designations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder use(Coding use) {
                             this.use = use;
@@ -2660,7 +2780,7 @@ public class ValueSet extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2674,12 +2794,15 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2693,12 +2816,15 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2718,12 +2844,15 @@ public class ValueSet extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2743,12 +2872,15 @@ public class ValueSet extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2857,7 +2989,7 @@ public class ValueSet extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -2869,7 +3001,7 @@ public class ValueSet extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Contains}.
+         *     An unmodifiable list containing immutable objects of type {@link Contains}.
          */
         public List<Contains> getContains() {
             return contains;
@@ -2976,7 +3108,7 @@ public class ValueSet extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2990,12 +3122,15 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3009,12 +3144,15 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3034,12 +3172,15 @@ public class ValueSet extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3059,12 +3200,15 @@ public class ValueSet extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3083,7 +3227,7 @@ public class ValueSet extends DomainResource {
              *     Identifies the value set expansion (business identifier)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Uri identifier) {
                 this.identifier = identifier;
@@ -3100,7 +3244,7 @@ public class ValueSet extends DomainResource {
              *     Total number of codes in the expansion
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder total(Integer total) {
                 this.total = total;
@@ -3117,7 +3261,7 @@ public class ValueSet extends DomainResource {
              *     Offset at which this resource starts
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder offset(Integer offset) {
                 this.offset = offset;
@@ -3129,12 +3273,15 @@ public class ValueSet extends DomainResource {
              * A parameter that controlled the expansion process. These parameters may be used by users of expanded value sets to 
              * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param parameter
              *     Parameter that controlled the expansion process
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Parameter... parameter) {
                 for (Parameter value : parameter) {
@@ -3148,15 +3295,18 @@ public class ValueSet extends DomainResource {
              * A parameter that controlled the expansion process. These parameters may be used by users of expanded value sets to 
              * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param parameter
              *     Parameter that controlled the expansion process
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Collection<Parameter> parameter) {
-                this.parameter.addAll(parameter);
+                this.parameter = new ArrayList<>(parameter);
                 return this;
             }
 
@@ -3164,12 +3314,15 @@ public class ValueSet extends DomainResource {
              * <p>
              * The codes that are contained in the value set expansion.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param contains
              *     Codes in the value set
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder contains(Contains... contains) {
                 for (Contains value : contains) {
@@ -3182,15 +3335,18 @@ public class ValueSet extends DomainResource {
              * <p>
              * The codes that are contained in the value set expansion.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param contains
              *     Codes in the value set
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder contains(Collection<Contains> contains) {
-                this.contains.addAll(contains);
+                this.contains = new ArrayList<>(contains);
                 return this;
             }
 
@@ -3340,7 +3496,7 @@ public class ValueSet extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3354,12 +3510,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3373,12 +3532,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3398,12 +3560,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3423,12 +3588,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3444,7 +3612,7 @@ public class ValueSet extends DomainResource {
                  *     Value of the named parameter
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder value(Element value) {
                     this.value = value;
@@ -3580,7 +3748,7 @@ public class ValueSet extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Designation}.
+             *     An unmodifiable list containing immutable objects of type {@link Designation}.
              */
             public List<ValueSet.Compose.Include.Concept.Designation> getDesignation() {
                 return designation;
@@ -3592,7 +3760,7 @@ public class ValueSet extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Contains}.
+             *     An unmodifiable list containing immutable objects of type {@link Contains}.
              */
             public List<ValueSet.Expansion.Contains> getContains() {
                 return contains;
@@ -3700,7 +3868,7 @@ public class ValueSet extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3714,12 +3882,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3733,12 +3904,15 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3758,12 +3932,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3783,12 +3960,15 @@ public class ValueSet extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3804,7 +3984,7 @@ public class ValueSet extends DomainResource {
                  *     System value for the code
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder system(Uri system) {
                     this.system = system;
@@ -3821,7 +4001,7 @@ public class ValueSet extends DomainResource {
                  *     If user cannot select this entry
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder _abstract(Boolean _abstract) {
                     this._abstract = _abstract;
@@ -3839,7 +4019,7 @@ public class ValueSet extends DomainResource {
                  *     If concept is inactive in the code system
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder inactive(Boolean inactive) {
                     this.inactive = inactive;
@@ -3857,7 +4037,7 @@ public class ValueSet extends DomainResource {
                  *     Version in which this code/display is defined
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder version(String version) {
                     this.version = version;
@@ -3874,7 +4054,7 @@ public class ValueSet extends DomainResource {
                  *     Code - if blank, this is not a selectable code
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(Code code) {
                     this.code = code;
@@ -3890,7 +4070,7 @@ public class ValueSet extends DomainResource {
                  *     User display for the concept
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder display(String display) {
                     this.display = display;
@@ -3902,12 +4082,15 @@ public class ValueSet extends DomainResource {
                  * Additional representations for this item - other languages, aliases, specialized purposes, used for particular 
                  * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param designation
                  *     Additional representations for this item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder designation(ValueSet.Compose.Include.Concept.Designation... designation) {
                     for (ValueSet.Compose.Include.Concept.Designation value : designation) {
@@ -3921,15 +4104,18 @@ public class ValueSet extends DomainResource {
                  * Additional representations for this item - other languages, aliases, specialized purposes, used for particular 
                  * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param designation
                  *     Additional representations for this item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder designation(Collection<ValueSet.Compose.Include.Concept.Designation> designation) {
-                    this.designation.addAll(designation);
+                    this.designation = new ArrayList<>(designation);
                     return this;
                 }
 
@@ -3937,12 +4123,15 @@ public class ValueSet extends DomainResource {
                  * <p>
                  * Other codes and entries contained under this entry in the hierarchy.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param contains
                  *     Codes contained under this entry
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder contains(ValueSet.Expansion.Contains... contains) {
                     for (ValueSet.Expansion.Contains value : contains) {
@@ -3955,15 +4144,18 @@ public class ValueSet extends DomainResource {
                  * <p>
                  * Other codes and entries contained under this entry in the hierarchy.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param contains
                  *     Codes contained under this entry
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder contains(Collection<ValueSet.Expansion.Contains> contains) {
-                    this.contains.addAll(contains);
+                    this.contains = new ArrayList<>(contains);
                     return this;
                 }
 

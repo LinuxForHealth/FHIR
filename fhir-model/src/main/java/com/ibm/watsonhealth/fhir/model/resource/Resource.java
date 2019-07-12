@@ -115,7 +115,7 @@ public abstract class Resource extends AbstractVisitable {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder id(Id id) {
             this.id = id;
@@ -132,7 +132,7 @@ public abstract class Resource extends AbstractVisitable {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder meta(Meta meta) {
             this.meta = meta;
@@ -150,7 +150,7 @@ public abstract class Resource extends AbstractVisitable {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implicitRules(Uri implicitRules) {
             this.implicitRules = implicitRules;
@@ -166,7 +166,7 @@ public abstract class Resource extends AbstractVisitable {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder language(Code language) {
             this.language = language;

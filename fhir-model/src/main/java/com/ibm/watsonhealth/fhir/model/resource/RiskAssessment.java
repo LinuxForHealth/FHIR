@@ -104,7 +104,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -236,7 +236,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -248,7 +248,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -261,7 +261,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasis() {
         return basis;
@@ -273,7 +273,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Prediction}.
+     *     An unmodifiable list containing immutable objects of type {@link Prediction}.
      */
     public List<Prediction> getPrediction() {
         return prediction;
@@ -297,7 +297,7 @@ public class RiskAssessment extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -463,7 +463,7 @@ public class RiskAssessment extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -480,7 +480,7 @@ public class RiskAssessment extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -498,7 +498,7 @@ public class RiskAssessment extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -514,7 +514,7 @@ public class RiskAssessment extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -533,7 +533,7 @@ public class RiskAssessment extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -545,12 +545,15 @@ public class RiskAssessment extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -562,12 +565,15 @@ public class RiskAssessment extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -581,12 +587,15 @@ public class RiskAssessment extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -600,12 +609,15 @@ public class RiskAssessment extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -625,12 +637,15 @@ public class RiskAssessment extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -650,12 +665,15 @@ public class RiskAssessment extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -666,12 +684,15 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Business identifier assigned to the risk assessment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Unique identifier for the assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -684,15 +705,18 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Business identifier assigned to the risk assessment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Unique identifier for the assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -705,7 +729,7 @@ public class RiskAssessment extends DomainResource {
          *     Request fulfilled by this assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference basedOn) {
             this.basedOn = basedOn;
@@ -721,7 +745,7 @@ public class RiskAssessment extends DomainResource {
          *     Part of this occurrence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(Reference parent) {
             this.parent = parent;
@@ -737,7 +761,7 @@ public class RiskAssessment extends DomainResource {
          *     Evaluation mechanism
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder method(CodeableConcept method) {
             this.method = method;
@@ -753,7 +777,7 @@ public class RiskAssessment extends DomainResource {
          *     Type of assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -769,7 +793,7 @@ public class RiskAssessment extends DomainResource {
          *     Where was assessment performed?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -785,7 +809,7 @@ public class RiskAssessment extends DomainResource {
          *     When was assessment made?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder occurrence(Element occurrence) {
             this.occurrence = occurrence;
@@ -801,7 +825,7 @@ public class RiskAssessment extends DomainResource {
          *     Condition assessed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Reference condition) {
             this.condition = condition;
@@ -817,7 +841,7 @@ public class RiskAssessment extends DomainResource {
          *     Who did assessment?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference performer) {
             this.performer = performer;
@@ -828,12 +852,15 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * The reason the risk assessment was performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -846,15 +873,18 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * The reason the risk assessment was performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -862,12 +892,15 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Resources supporting the reason the risk assessment was performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why the assessment was necessary?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -880,15 +913,18 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Resources supporting the reason the risk assessment was performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why the assessment was necessary?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -897,12 +933,15 @@ public class RiskAssessment extends DomainResource {
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basis
          *     Information used in assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basis(Reference... basis) {
             for (Reference value : basis) {
@@ -916,15 +955,18 @@ public class RiskAssessment extends DomainResource {
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basis
          *     Information used in assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basis(Collection<Reference> basis) {
-            this.basis.addAll(basis);
+            this.basis = new ArrayList<>(basis);
             return this;
         }
 
@@ -932,12 +974,15 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Describes the expected outcome for the subject.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param prediction
          *     Outcome predicted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prediction(Prediction... prediction) {
             for (Prediction value : prediction) {
@@ -950,15 +995,18 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Describes the expected outcome for the subject.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param prediction
          *     Outcome predicted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prediction(Collection<Prediction> prediction) {
-            this.prediction.addAll(prediction);
+            this.prediction = new ArrayList<>(prediction);
             return this;
         }
 
@@ -971,7 +1019,7 @@ public class RiskAssessment extends DomainResource {
          *     How to reduce risk
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mitigation(String mitigation) {
             this.mitigation = mitigation;
@@ -982,12 +1030,15 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Additional comments about the risk assessment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments on the risk assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1000,15 +1051,18 @@ public class RiskAssessment extends DomainResource {
          * <p>
          * Additional comments about the risk assessment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments on the risk assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1238,7 +1292,7 @@ public class RiskAssessment extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1252,12 +1306,15 @@ public class RiskAssessment extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1271,12 +1328,15 @@ public class RiskAssessment extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1296,12 +1356,15 @@ public class RiskAssessment extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1321,12 +1384,15 @@ public class RiskAssessment extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1342,7 +1408,7 @@ public class RiskAssessment extends DomainResource {
              *     Possible outcome for the subject
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcome(CodeableConcept outcome) {
                 this.outcome = outcome;
@@ -1358,7 +1424,7 @@ public class RiskAssessment extends DomainResource {
              *     Likelihood of specified outcome
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder probability(Element probability) {
                 this.probability = probability;
@@ -1375,7 +1441,7 @@ public class RiskAssessment extends DomainResource {
              *     Likelihood of specified outcome as a qualitative value
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder qualitativeRisk(CodeableConcept qualitativeRisk) {
                 this.qualitativeRisk = qualitativeRisk;
@@ -1392,7 +1458,7 @@ public class RiskAssessment extends DomainResource {
              *     Relative likelihood
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relativeRisk(Decimal relativeRisk) {
                 this.relativeRisk = relativeRisk;
@@ -1408,7 +1474,7 @@ public class RiskAssessment extends DomainResource {
              *     Timeframe or age range
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder when(Element when) {
                 this.when = when;
@@ -1424,7 +1490,7 @@ public class RiskAssessment extends DomainResource {
              *     Explanation of prediction
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder rationale(String rationale) {
                 this.rationale = rationale;

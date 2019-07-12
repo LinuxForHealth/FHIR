@@ -66,7 +66,7 @@ public class BodyStructure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -116,7 +116,7 @@ public class BodyStructure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getLocationQualifier() {
         return locationQualifier;
@@ -140,7 +140,7 @@ public class BodyStructure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getImage() {
         return image;
@@ -281,7 +281,7 @@ public class BodyStructure extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -298,7 +298,7 @@ public class BodyStructure extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -316,7 +316,7 @@ public class BodyStructure extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -332,7 +332,7 @@ public class BodyStructure extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -351,7 +351,7 @@ public class BodyStructure extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -363,12 +363,15 @@ public class BodyStructure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -380,12 +383,15 @@ public class BodyStructure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -399,12 +405,15 @@ public class BodyStructure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -418,12 +427,15 @@ public class BodyStructure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -443,12 +455,15 @@ public class BodyStructure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -468,12 +483,15 @@ public class BodyStructure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -484,12 +502,15 @@ public class BodyStructure extends DomainResource {
          * <p>
          * Identifier for this instance of the anatomical structure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Bodystructure identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -502,15 +523,18 @@ public class BodyStructure extends DomainResource {
          * <p>
          * Identifier for this instance of the anatomical structure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Bodystructure identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -523,7 +547,7 @@ public class BodyStructure extends DomainResource {
          *     Whether this record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -540,7 +564,7 @@ public class BodyStructure extends DomainResource {
          *     Kind of Structure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder morphology(CodeableConcept morphology) {
             this.morphology = morphology;
@@ -556,7 +580,7 @@ public class BodyStructure extends DomainResource {
          *     Body site
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(CodeableConcept location) {
             this.location = location;
@@ -568,12 +592,15 @@ public class BodyStructure extends DomainResource {
          * Qualifier to refine the anatomical location. These include qualifiers for laterality, relative location, 
          * directionality, number, and plane.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param locationQualifier
          *     Body site modifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationQualifier(CodeableConcept... locationQualifier) {
             for (CodeableConcept value : locationQualifier) {
@@ -587,15 +614,18 @@ public class BodyStructure extends DomainResource {
          * Qualifier to refine the anatomical location. These include qualifiers for laterality, relative location, 
          * directionality, number, and plane.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param locationQualifier
          *     Body site modifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationQualifier(Collection<CodeableConcept> locationQualifier) {
-            this.locationQualifier.addAll(locationQualifier);
+            this.locationQualifier = new ArrayList<>(locationQualifier);
             return this;
         }
 
@@ -608,7 +638,7 @@ public class BodyStructure extends DomainResource {
          *     Text description
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -619,12 +649,15 @@ public class BodyStructure extends DomainResource {
          * <p>
          * Image or images used to identify a location.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param image
          *     Attached images
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder image(Attachment... image) {
             for (Attachment value : image) {
@@ -637,15 +670,18 @@ public class BodyStructure extends DomainResource {
          * <p>
          * Image or images used to identify a location.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param image
          *     Attached images
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder image(Collection<Attachment> image) {
-            this.image.addAll(image);
+            this.image = new ArrayList<>(image);
             return this;
         }
 

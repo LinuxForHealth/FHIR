@@ -301,7 +301,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -404,7 +404,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -430,7 +430,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -442,7 +442,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -480,7 +480,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getKeyword() {
         return keyword;
@@ -505,7 +505,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Mapping}.
+     *     An unmodifiable list containing immutable objects of type {@link Mapping}.
      */
     public List<Mapping> getMapping() {
         return mapping;
@@ -542,7 +542,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Context}.
+     *     An unmodifiable list containing immutable objects of type {@link Context}.
      */
     public List<Context> getContext() {
         return context;
@@ -555,7 +555,7 @@ public class StructureDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getContextInvariant() {
         return contextInvariant;
@@ -830,7 +830,7 @@ public class StructureDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -847,7 +847,7 @@ public class StructureDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -865,7 +865,7 @@ public class StructureDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -881,7 +881,7 @@ public class StructureDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -900,7 +900,7 @@ public class StructureDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -912,12 +912,15 @@ public class StructureDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -929,12 +932,15 @@ public class StructureDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -948,12 +954,15 @@ public class StructureDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -967,12 +976,15 @@ public class StructureDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -992,12 +1004,15 @@ public class StructureDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -1017,12 +1032,15 @@ public class StructureDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1034,12 +1052,15 @@ public class StructureDefinition extends DomainResource {
          * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the structure definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -1053,15 +1074,18 @@ public class StructureDefinition extends DomainResource {
          * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the structure definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1077,7 +1101,7 @@ public class StructureDefinition extends DomainResource {
          *     Business version of the structure definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -1093,7 +1117,7 @@ public class StructureDefinition extends DomainResource {
          *     Name for this structure definition (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1110,7 +1134,7 @@ public class StructureDefinition extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1128,7 +1152,7 @@ public class StructureDefinition extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1144,7 +1168,7 @@ public class StructureDefinition extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1155,12 +1179,15 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1173,15 +1200,18 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1194,7 +1224,7 @@ public class StructureDefinition extends DomainResource {
          *     Natural language description of the structure definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1207,12 +1237,15 @@ public class StructureDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure definition instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1227,15 +1260,18 @@ public class StructureDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure definition instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1243,12 +1279,15 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the structure definition is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1261,15 +1300,18 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the structure definition is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1282,7 +1324,7 @@ public class StructureDefinition extends DomainResource {
          *     Why this structure definition is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1299,7 +1341,7 @@ public class StructureDefinition extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1311,12 +1353,15 @@ public class StructureDefinition extends DomainResource {
          * A set of key words or terms from external terminologies that may be used to assist with indexing and searching of 
          * templates nby describing the use of this structure definition, or the content it describes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param keyword
          *     Assist with indexing and finding
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder keyword(Coding... keyword) {
             for (Coding value : keyword) {
@@ -1330,15 +1375,18 @@ public class StructureDefinition extends DomainResource {
          * A set of key words or terms from external terminologies that may be used to assist with indexing and searching of 
          * templates nby describing the use of this structure definition, or the content it describes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param keyword
          *     Assist with indexing and finding
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder keyword(Collection<Coding> keyword) {
-            this.keyword.addAll(keyword);
+            this.keyword = new ArrayList<>(keyword);
             return this;
         }
 
@@ -1352,7 +1400,7 @@ public class StructureDefinition extends DomainResource {
          *     FHIR Version this StructureDefinition targets
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fhirVersion(FHIRVersion fhirVersion) {
             this.fhirVersion = fhirVersion;
@@ -1363,12 +1411,15 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * An external specification that the content is mapped to.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param mapping
          *     External specification that the content is mapped to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mapping(Mapping... mapping) {
             for (Mapping value : mapping) {
@@ -1381,15 +1432,18 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * An external specification that the content is mapped to.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param mapping
          *     External specification that the content is mapped to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mapping(Collection<Mapping> mapping) {
-            this.mapping.addAll(mapping);
+            this.mapping = new ArrayList<>(mapping);
             return this;
         }
 
@@ -1397,12 +1451,15 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * Identifies the types of resource or data type elements to which the extension can be applied.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param context
          *     If an extension, where it can be used in instances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder context(Context... context) {
             for (Context value : context) {
@@ -1415,15 +1472,18 @@ public class StructureDefinition extends DomainResource {
          * <p>
          * Identifies the types of resource or data type elements to which the extension can be applied.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param context
          *     If an extension, where it can be used in instances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder context(Collection<Context> context) {
-            this.context.addAll(context);
+            this.context = new ArrayList<>(context);
             return this;
         }
 
@@ -1432,12 +1492,15 @@ public class StructureDefinition extends DomainResource {
          * A set of rules as FHIRPath Invariants about when the extension can be used (e.g. co-occurrence variants for the 
          * extension). All the rules must be true.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contextInvariant
          *     FHIRPath invariants - when the extension can be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contextInvariant(String... contextInvariant) {
             for (String value : contextInvariant) {
@@ -1451,15 +1514,18 @@ public class StructureDefinition extends DomainResource {
          * A set of rules as FHIRPath Invariants about when the extension can be used (e.g. co-occurrence variants for the 
          * extension). All the rules must be true.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contextInvariant
          *     FHIRPath invariants - when the extension can be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contextInvariant(Collection<String> contextInvariant) {
-            this.contextInvariant.addAll(contextInvariant);
+            this.contextInvariant = new ArrayList<>(contextInvariant);
             return this;
         }
 
@@ -1472,7 +1538,7 @@ public class StructureDefinition extends DomainResource {
          *     Definition that this type is constrained/specialized from
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder baseDefinition(Canonical baseDefinition) {
             this.baseDefinition = baseDefinition;
@@ -1488,7 +1554,7 @@ public class StructureDefinition extends DomainResource {
          *     specialization | constraint - How relates to base definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivation(TypeDerivationRule derivation) {
             this.derivation = derivation;
@@ -1505,7 +1571,7 @@ public class StructureDefinition extends DomainResource {
          *     Snapshot view of the structure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder snapshot(Snapshot snapshot) {
             this.snapshot = snapshot;
@@ -1521,7 +1587,7 @@ public class StructureDefinition extends DomainResource {
          *     Differential view of the structure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder differential(Differential differential) {
             this.differential = differential;
@@ -1729,7 +1795,7 @@ public class StructureDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1743,12 +1809,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1762,12 +1831,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1787,12 +1859,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1812,12 +1887,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1833,7 +1911,7 @@ public class StructureDefinition extends DomainResource {
              *     Identifies what this mapping refers to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
@@ -1849,7 +1927,7 @@ public class StructureDefinition extends DomainResource {
              *     Names what this mapping refers to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -1865,7 +1943,7 @@ public class StructureDefinition extends DomainResource {
              *     Versions, Issues, Scope limitations etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder comment(String comment) {
                 this.comment = comment;
@@ -2014,7 +2092,7 @@ public class StructureDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2028,12 +2106,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2047,12 +2128,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2072,12 +2156,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2097,12 +2184,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2145,7 +2235,7 @@ public class StructureDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ElementDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
          */
         public List<ElementDefinition> getElement() {
             return element;
@@ -2230,7 +2320,7 @@ public class StructureDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2244,12 +2334,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2263,12 +2356,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2288,12 +2384,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2313,12 +2412,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2360,7 +2462,7 @@ public class StructureDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ElementDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
          */
         public List<ElementDefinition> getElement() {
             return element;
@@ -2445,7 +2547,7 @@ public class StructureDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2459,12 +2561,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2478,12 +2583,15 @@ public class StructureDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2503,12 +2611,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2528,12 +2639,15 @@ public class StructureDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

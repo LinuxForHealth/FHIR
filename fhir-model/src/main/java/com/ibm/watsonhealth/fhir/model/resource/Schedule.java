@@ -65,7 +65,7 @@ public class Schedule extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -89,7 +89,7 @@ public class Schedule extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getServiceCategory() {
         return serviceCategory;
@@ -101,7 +101,7 @@ public class Schedule extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getServiceType() {
         return serviceType;
@@ -113,7 +113,7 @@ public class Schedule extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -125,7 +125,7 @@ public class Schedule extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getActor() {
         return actor;
@@ -281,7 +281,7 @@ public class Schedule extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -298,7 +298,7 @@ public class Schedule extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -316,7 +316,7 @@ public class Schedule extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -332,7 +332,7 @@ public class Schedule extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -351,7 +351,7 @@ public class Schedule extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -363,12 +363,15 @@ public class Schedule extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -380,12 +383,15 @@ public class Schedule extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -399,12 +405,15 @@ public class Schedule extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -418,12 +427,15 @@ public class Schedule extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -443,12 +455,15 @@ public class Schedule extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -468,12 +483,15 @@ public class Schedule extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -484,12 +502,15 @@ public class Schedule extends DomainResource {
          * <p>
          * External Ids for this item.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -502,15 +523,18 @@ public class Schedule extends DomainResource {
          * <p>
          * External Ids for this item.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -523,7 +547,7 @@ public class Schedule extends DomainResource {
          *     Whether this schedule is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -534,12 +558,15 @@ public class Schedule extends DomainResource {
          * <p>
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param serviceCategory
          *     High-level category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceCategory(CodeableConcept... serviceCategory) {
             for (CodeableConcept value : serviceCategory) {
@@ -552,15 +579,18 @@ public class Schedule extends DomainResource {
          * <p>
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param serviceCategory
          *     High-level category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceCategory(Collection<CodeableConcept> serviceCategory) {
-            this.serviceCategory.addAll(serviceCategory);
+            this.serviceCategory = new ArrayList<>(serviceCategory);
             return this;
         }
 
@@ -568,12 +598,15 @@ public class Schedule extends DomainResource {
          * <p>
          * The specific service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param serviceType
          *     Specific service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceType(CodeableConcept... serviceType) {
             for (CodeableConcept value : serviceType) {
@@ -586,15 +619,18 @@ public class Schedule extends DomainResource {
          * <p>
          * The specific service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param serviceType
          *     Specific service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceType(Collection<CodeableConcept> serviceType) {
-            this.serviceType.addAll(serviceType);
+            this.serviceType = new ArrayList<>(serviceType);
             return this;
         }
 
@@ -602,12 +638,15 @@ public class Schedule extends DomainResource {
          * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialty
          *     Type of specialty needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(CodeableConcept... specialty) {
             for (CodeableConcept value : specialty) {
@@ -620,15 +659,18 @@ public class Schedule extends DomainResource {
          * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialty
          *     Type of specialty needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
-            this.specialty.addAll(specialty);
+            this.specialty = new ArrayList<>(specialty);
             return this;
         }
 
@@ -643,7 +685,7 @@ public class Schedule extends DomainResource {
          *     Period of time covered by schedule
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder planningHorizon(Period planningHorizon) {
             this.planningHorizon = planningHorizon;
@@ -660,7 +702,7 @@ public class Schedule extends DomainResource {
          *     Comments on availability
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(String comment) {
             this.comment = comment;

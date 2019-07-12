@@ -90,7 +90,7 @@ public class Dosage extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getAdditionalInstruction() {
         return additionalInstruction;
@@ -175,7 +175,7 @@ public class Dosage extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DoseAndRate}.
+     *     An unmodifiable list containing immutable objects of type {@link DoseAndRate}.
      */
     public List<DoseAndRate> getDoseAndRate() {
         return doseAndRate;
@@ -339,7 +339,7 @@ public class Dosage extends BackboneElement {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -353,12 +353,15 @@ public class Dosage extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -372,12 +375,15 @@ public class Dosage extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -397,12 +403,15 @@ public class Dosage extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -422,12 +431,15 @@ public class Dosage extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -443,7 +455,7 @@ public class Dosage extends BackboneElement {
          *     The order of the dosage instructions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sequence(Integer sequence) {
             this.sequence = sequence;
@@ -459,7 +471,7 @@ public class Dosage extends BackboneElement {
          *     Free text dosage instructions e.g. SIG
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder text(String text) {
             this.text = text;
@@ -472,12 +484,15 @@ public class Dosage extends BackboneElement {
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalInstruction(CodeableConcept... additionalInstruction) {
             for (CodeableConcept value : additionalInstruction) {
@@ -492,15 +507,18 @@ public class Dosage extends BackboneElement {
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalInstruction(Collection<CodeableConcept> additionalInstruction) {
-            this.additionalInstruction.addAll(additionalInstruction);
+            this.additionalInstruction = new ArrayList<>(additionalInstruction);
             return this;
         }
 
@@ -513,7 +531,7 @@ public class Dosage extends BackboneElement {
          *     Patient or consumer oriented instructions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patientInstruction(String patientInstruction) {
             this.patientInstruction = patientInstruction;
@@ -529,7 +547,7 @@ public class Dosage extends BackboneElement {
          *     When medication should be administered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder timing(Timing timing) {
             this.timing = timing;
@@ -546,7 +564,7 @@ public class Dosage extends BackboneElement {
          *     Take "as needed" (for x)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder asNeeded(Element asNeeded) {
             this.asNeeded = asNeeded;
@@ -562,7 +580,7 @@ public class Dosage extends BackboneElement {
          *     Body site to administer to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder site(CodeableConcept site) {
             this.site = site;
@@ -578,7 +596,7 @@ public class Dosage extends BackboneElement {
          *     How drug should enter body
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder route(CodeableConcept route) {
             this.route = route;
@@ -594,7 +612,7 @@ public class Dosage extends BackboneElement {
          *     Technique for administering medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder method(CodeableConcept method) {
             this.method = method;
@@ -605,12 +623,15 @@ public class Dosage extends BackboneElement {
          * <p>
          * The amount of medication administered.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param doseAndRate
          *     Amount of medication administered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder doseAndRate(DoseAndRate... doseAndRate) {
             for (DoseAndRate value : doseAndRate) {
@@ -623,15 +644,18 @@ public class Dosage extends BackboneElement {
          * <p>
          * The amount of medication administered.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param doseAndRate
          *     Amount of medication administered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder doseAndRate(Collection<DoseAndRate> doseAndRate) {
-            this.doseAndRate.addAll(doseAndRate);
+            this.doseAndRate = new ArrayList<>(doseAndRate);
             return this;
         }
 
@@ -644,7 +668,7 @@ public class Dosage extends BackboneElement {
          *     Upper limit on medication per unit of time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maxDosePerPeriod(Ratio maxDosePerPeriod) {
             this.maxDosePerPeriod = maxDosePerPeriod;
@@ -660,7 +684,7 @@ public class Dosage extends BackboneElement {
          *     Upper limit on medication per administration
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maxDosePerAdministration(Quantity maxDosePerAdministration) {
             this.maxDosePerAdministration = maxDosePerAdministration;
@@ -676,7 +700,7 @@ public class Dosage extends BackboneElement {
          *     Upper limit on medication per lifetime of the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maxDosePerLifetime(Quantity maxDosePerLifetime) {
             this.maxDosePerLifetime = maxDosePerLifetime;
@@ -846,7 +870,7 @@ public class Dosage extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -860,12 +884,15 @@ public class Dosage extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -879,12 +906,15 @@ public class Dosage extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -902,12 +932,15 @@ public class Dosage extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -925,12 +958,15 @@ public class Dosage extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -946,7 +982,7 @@ public class Dosage extends BackboneElement {
              *     The kind of dose or rate specified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -962,7 +998,7 @@ public class Dosage extends BackboneElement {
              *     Amount of medication per dose
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dose(Element dose) {
                 this.dose = dose;
@@ -978,7 +1014,7 @@ public class Dosage extends BackboneElement {
              *     Amount of medication per unit of time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder rate(Element rate) {
                 this.rate = rate;

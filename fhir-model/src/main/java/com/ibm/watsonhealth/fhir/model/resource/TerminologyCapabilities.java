@@ -255,7 +255,7 @@ public class TerminologyCapabilities extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -283,7 +283,7 @@ public class TerminologyCapabilities extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -295,7 +295,7 @@ public class TerminologyCapabilities extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -384,7 +384,7 @@ public class TerminologyCapabilities extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeSystem}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeSystem}.
      */
     public List<CodeSystem> getCodeSystem() {
         return codeSystem;
@@ -639,7 +639,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -656,7 +656,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -674,7 +674,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -690,7 +690,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -709,7 +709,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -721,12 +721,15 @@ public class TerminologyCapabilities extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -738,12 +741,15 @@ public class TerminologyCapabilities extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -757,12 +763,15 @@ public class TerminologyCapabilities extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -776,12 +785,15 @@ public class TerminologyCapabilities extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -801,12 +813,15 @@ public class TerminologyCapabilities extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -826,12 +841,15 @@ public class TerminologyCapabilities extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -851,7 +869,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Canonical identifier for this terminology capabilities, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -870,7 +888,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Business version of the terminology capabilities
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -887,7 +905,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Name for this terminology capabilities (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -903,7 +921,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Name for this terminology capabilities (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -920,7 +938,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -936,7 +954,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -947,12 +965,15 @@ public class TerminologyCapabilities extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -965,15 +986,18 @@ public class TerminologyCapabilities extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -988,7 +1012,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Natural language description of the terminology capabilities
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1001,12 +1025,15 @@ public class TerminologyCapabilities extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1021,15 +1048,18 @@ public class TerminologyCapabilities extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1037,12 +1067,15 @@ public class TerminologyCapabilities extends DomainResource {
          * <p>
          * A legal or geographic region in which the terminology capabilities is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for terminology capabilities (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1055,15 +1088,18 @@ public class TerminologyCapabilities extends DomainResource {
          * <p>
          * A legal or geographic region in which the terminology capabilities is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for terminology capabilities (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1076,7 +1112,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Why this terminology capabilities is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1093,7 +1129,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1110,7 +1146,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Software that is covered by this terminology capability statement
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder software(Software software) {
             this.software = software;
@@ -1127,7 +1163,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     If this describes a specific instance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implementation(Implementation implementation) {
             this.implementation = implementation;
@@ -1143,7 +1179,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Whether lockedDate is supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lockedDate(Boolean lockedDate) {
             this.lockedDate = lockedDate;
@@ -1155,12 +1191,15 @@ public class TerminologyCapabilities extends DomainResource {
          * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
          * general assumptions a client can make about support for any CodeSystem resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param codeSystem
          *     A code system supported by the server
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder codeSystem(CodeSystem... codeSystem) {
             for (CodeSystem value : codeSystem) {
@@ -1174,15 +1213,18 @@ public class TerminologyCapabilities extends DomainResource {
          * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
          * general assumptions a client can make about support for any CodeSystem resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param codeSystem
          *     A code system supported by the server
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder codeSystem(Collection<CodeSystem> codeSystem) {
-            this.codeSystem.addAll(codeSystem);
+            this.codeSystem = new ArrayList<>(codeSystem);
             return this;
         }
 
@@ -1195,7 +1237,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Information about the [ValueSet/$expand](valueset-operation-expand.html) operation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expansion(Expansion expansion) {
             this.expansion = expansion;
@@ -1211,7 +1253,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     explicit | all
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder codeSearch(CodeSearchSupport codeSearch) {
             this.codeSearch = codeSearch;
@@ -1227,7 +1269,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validateCode(ValidateCode validateCode) {
             this.validateCode = validateCode;
@@ -1243,7 +1285,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder translation(Translation translation) {
             this.translation = translation;
@@ -1259,7 +1301,7 @@ public class TerminologyCapabilities extends DomainResource {
          *     Information about the [ConceptMap/$closure](conceptmap-operation-closure.html) operation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder closure(Closure closure) {
             this.closure = closure;
@@ -1432,7 +1474,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1446,12 +1488,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1465,12 +1510,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1490,12 +1538,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1515,12 +1566,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1536,7 +1590,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Version covered by this statement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(String version) {
                 this.version = version;
@@ -1685,7 +1739,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1699,12 +1753,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1718,12 +1775,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1743,12 +1803,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1768,12 +1831,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1789,7 +1855,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Base URL for the implementation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder url(Url url) {
                 this.url = url;
@@ -1849,7 +1915,7 @@ public class TerminologyCapabilities extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Version}.
+         *     An unmodifiable list containing immutable objects of type {@link Version}.
          */
         public List<Version> getVersion() {
             return version;
@@ -1949,7 +2015,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1963,12 +2029,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1982,12 +2051,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2007,12 +2079,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2032,12 +2107,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2053,7 +2131,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     URI for the Code System
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder uri(Canonical uri) {
                 this.uri = uri;
@@ -2064,12 +2142,15 @@ public class TerminologyCapabilities extends DomainResource {
              * <p>
              * For the code system, a list of versions that are supported by the server.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param version
              *     Version of Code System supported
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(Version... version) {
                 for (Version value : version) {
@@ -2082,15 +2163,18 @@ public class TerminologyCapabilities extends DomainResource {
              * <p>
              * For the code system, a list of versions that are supported by the server.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param version
              *     Version of Code System supported
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(Collection<Version> version) {
-                this.version.addAll(version);
+                this.version = new ArrayList<>(version);
                 return this;
             }
 
@@ -2103,7 +2187,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Whether subsumption is supported
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subsumption(Boolean subsumption) {
                 this.subsumption = subsumption;
@@ -2193,7 +2277,7 @@ public class TerminologyCapabilities extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Code}.
+             *     An unmodifiable list containing immutable objects of type {@link Code}.
              */
             public List<Code> getLanguage() {
                 return language;
@@ -2205,7 +2289,7 @@ public class TerminologyCapabilities extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Filter}.
+             *     An unmodifiable list containing immutable objects of type {@link Filter}.
              */
             public List<Filter> getFilter() {
                 return filter;
@@ -2217,7 +2301,7 @@ public class TerminologyCapabilities extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Code}.
+             *     An unmodifiable list containing immutable objects of type {@link Code}.
              */
             public List<Code> getProperty() {
                 return property;
@@ -2317,7 +2401,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2331,12 +2415,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2350,12 +2437,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2375,12 +2465,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2400,12 +2493,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2421,7 +2517,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     Version identifier for this version
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(String code) {
                     this.code = code;
@@ -2437,7 +2533,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     If this is the default version for this code system
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder isDefault(Boolean isDefault) {
                     this.isDefault = isDefault;
@@ -2453,7 +2549,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     If compositional grammar is supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder compositional(Boolean compositional) {
                     this.compositional = compositional;
@@ -2464,12 +2560,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Language Displays supported.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param language
                  *     Language Displays supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder language(Code... language) {
                     for (Code value : language) {
@@ -2482,15 +2581,18 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Language Displays supported.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param language
                  *     Language Displays supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder language(Collection<Code> language) {
-                    this.language.addAll(language);
+                    this.language = new ArrayList<>(language);
                     return this;
                 }
 
@@ -2498,12 +2600,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Filter Properties supported.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param filter
                  *     Filter Properties supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder filter(Filter... filter) {
                     for (Filter value : filter) {
@@ -2516,15 +2621,18 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Filter Properties supported.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param filter
                  *     Filter Properties supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder filter(Collection<Filter> filter) {
-                    this.filter.addAll(filter);
+                    this.filter = new ArrayList<>(filter);
                     return this;
                 }
 
@@ -2532,12 +2640,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Properties supported for $lookup.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param property
                  *     Properties supported for $lookup
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder property(Code... property) {
                     for (Code value : property) {
@@ -2550,15 +2661,18 @@ public class TerminologyCapabilities extends DomainResource {
                  * <p>
                  * Properties supported for $lookup.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param property
                  *     Properties supported for $lookup
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder property(Collection<Code> property) {
-                    this.property.addAll(property);
+                    this.property = new ArrayList<>(property);
                     return this;
                 }
 
@@ -2616,7 +2730,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Code}.
+                 *     An unmodifiable list containing immutable objects of type {@link Code}.
                  */
                 public List<Code> getOp() {
                     return op;
@@ -2706,7 +2820,7 @@ public class TerminologyCapabilities extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2720,12 +2834,15 @@ public class TerminologyCapabilities extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2739,12 +2856,15 @@ public class TerminologyCapabilities extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2764,12 +2884,15 @@ public class TerminologyCapabilities extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2789,12 +2912,15 @@ public class TerminologyCapabilities extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2882,7 +3008,7 @@ public class TerminologyCapabilities extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -2990,7 +3116,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3004,12 +3130,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3023,12 +3152,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3048,12 +3180,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3073,12 +3208,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3094,7 +3232,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Whether the server can return nested value sets
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder hierarchical(Boolean hierarchical) {
                 this.hierarchical = hierarchical;
@@ -3110,7 +3248,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Whether the server supports paging on expansion
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder paging(Boolean paging) {
                 this.paging = paging;
@@ -3126,7 +3264,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Allow request for incomplete expansions?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder incomplete(Boolean incomplete) {
                 this.incomplete = incomplete;
@@ -3137,12 +3275,15 @@ public class TerminologyCapabilities extends DomainResource {
              * <p>
              * Supported expansion parameter.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param parameter
              *     Supported expansion parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Parameter... parameter) {
                 for (Parameter value : parameter) {
@@ -3155,15 +3296,18 @@ public class TerminologyCapabilities extends DomainResource {
              * <p>
              * Supported expansion parameter.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param parameter
              *     Supported expansion parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Collection<Parameter> parameter) {
-                this.parameter.addAll(parameter);
+                this.parameter = new ArrayList<>(parameter);
                 return this;
             }
 
@@ -3176,7 +3320,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Documentation about text searching works
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder textFilter(Markdown textFilter) {
                 this.textFilter = textFilter;
@@ -3327,7 +3471,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3341,12 +3485,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3360,12 +3507,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3385,12 +3535,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3410,12 +3563,15 @@ public class TerminologyCapabilities extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3431,7 +3587,7 @@ public class TerminologyCapabilities extends DomainResource {
                  *     Description of support for parameter
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder documentation(String documentation) {
                     this.documentation = documentation;
@@ -3560,7 +3716,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3574,12 +3730,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3593,12 +3752,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3618,12 +3780,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3643,12 +3808,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3775,7 +3943,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3789,12 +3957,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3808,12 +3979,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3833,12 +4007,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3858,12 +4035,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3985,7 +4165,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3999,12 +4179,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4018,12 +4201,15 @@ public class TerminologyCapabilities extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4043,12 +4229,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4068,12 +4257,15 @@ public class TerminologyCapabilities extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4089,7 +4281,7 @@ public class TerminologyCapabilities extends DomainResource {
              *     If cross-system closure is supported
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder translation(Boolean translation) {
                 this.translation = translation;

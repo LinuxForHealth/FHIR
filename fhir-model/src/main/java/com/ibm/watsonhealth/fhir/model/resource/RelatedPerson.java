@@ -80,7 +80,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -116,7 +116,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getRelationship() {
         return relationship;
@@ -128,7 +128,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
      */
     public List<HumanName> getName() {
         return name;
@@ -140,7 +140,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -177,7 +177,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address}.
      */
     public List<Address> getAddress() {
         return address;
@@ -189,7 +189,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -214,7 +214,7 @@ public class RelatedPerson extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Communication}.
+     *     An unmodifiable list containing immutable objects of type {@link Communication}.
      */
     public List<Communication> getCommunication() {
         return communication;
@@ -359,7 +359,7 @@ public class RelatedPerson extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -376,7 +376,7 @@ public class RelatedPerson extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -394,7 +394,7 @@ public class RelatedPerson extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -410,7 +410,7 @@ public class RelatedPerson extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -429,7 +429,7 @@ public class RelatedPerson extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -441,12 +441,15 @@ public class RelatedPerson extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -458,12 +461,15 @@ public class RelatedPerson extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -477,12 +483,15 @@ public class RelatedPerson extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -496,12 +505,15 @@ public class RelatedPerson extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -521,12 +533,15 @@ public class RelatedPerson extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -546,12 +561,15 @@ public class RelatedPerson extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -562,12 +580,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Identifier for a person within a particular scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     A human identifier for this person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -580,15 +601,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Identifier for a person within a particular scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     A human identifier for this person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -601,7 +625,7 @@ public class RelatedPerson extends DomainResource {
          *     Whether this related person's record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -612,12 +636,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * The nature of the relationship between a patient and the related person.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relationship
          *     The nature of the relationship
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relationship(CodeableConcept... relationship) {
             for (CodeableConcept value : relationship) {
@@ -630,15 +657,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * The nature of the relationship between a patient and the related person.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relationship
          *     The nature of the relationship
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relationship(Collection<CodeableConcept> relationship) {
-            this.relationship.addAll(relationship);
+            this.relationship = new ArrayList<>(relationship);
             return this;
         }
 
@@ -646,12 +676,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A name associated with the person.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param name
          *     A name associated with the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(HumanName... name) {
             for (HumanName value : name) {
@@ -664,15 +697,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A name associated with the person.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param name
          *     A name associated with the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(Collection<HumanName> name) {
-            this.name.addAll(name);
+            this.name = new ArrayList<>(name);
             return this;
         }
 
@@ -680,12 +716,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A contact detail for the person, e.g. a telephone number or an email address.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -698,15 +737,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A contact detail for the person, e.g. a telephone number or an email address.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -720,7 +762,7 @@ public class RelatedPerson extends DomainResource {
          *     male | female | other | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
@@ -736,7 +778,7 @@ public class RelatedPerson extends DomainResource {
          *     The date on which the related person was born
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder birthDate(Date birthDate) {
             this.birthDate = birthDate;
@@ -747,12 +789,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Address where the related person can be contacted or visited.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param address
          *     Address where the related person can be contacted or visited
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Address... address) {
             for (Address value : address) {
@@ -765,15 +810,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Address where the related person can be contacted or visited.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param address
          *     Address where the related person can be contacted or visited
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Collection<Address> address) {
-            this.address.addAll(address);
+            this.address = new ArrayList<>(address);
             return this;
         }
 
@@ -781,12 +829,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Image of the person.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param photo
          *     Image of the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Attachment... photo) {
             for (Attachment value : photo) {
@@ -799,15 +850,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * Image of the person.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param photo
          *     Image of the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Collection<Attachment> photo) {
-            this.photo.addAll(photo);
+            this.photo = new ArrayList<>(photo);
             return this;
         }
 
@@ -821,7 +875,7 @@ public class RelatedPerson extends DomainResource {
          *     Period of time that this relationship is considered valid
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -832,12 +886,15 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A language which may be used to communicate with about the patient's health.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param communication
          *     A language which may be used to communicate with about the patient's health
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Communication... communication) {
             for (Communication value : communication) {
@@ -850,15 +907,18 @@ public class RelatedPerson extends DomainResource {
          * <p>
          * A language which may be used to communicate with about the patient's health.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param communication
          *     A language which may be used to communicate with about the patient's health
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Collection<Communication> communication) {
-            this.communication.addAll(communication);
+            this.communication = new ArrayList<>(communication);
             return this;
         }
 
@@ -1019,7 +1079,7 @@ public class RelatedPerson extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1033,12 +1093,15 @@ public class RelatedPerson extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1052,12 +1115,15 @@ public class RelatedPerson extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1077,12 +1143,15 @@ public class RelatedPerson extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1102,12 +1171,15 @@ public class RelatedPerson extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1123,7 +1195,7 @@ public class RelatedPerson extends DomainResource {
              *     Language preference indicator
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preferred(Boolean preferred) {
                 this.preferred = preferred;

@@ -75,7 +75,7 @@ public class SupplyDelivery extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -87,7 +87,7 @@ public class SupplyDelivery extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -99,7 +99,7 @@ public class SupplyDelivery extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -196,7 +196,7 @@ public class SupplyDelivery extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReceiver() {
         return receiver;
@@ -330,7 +330,7 @@ public class SupplyDelivery extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -347,7 +347,7 @@ public class SupplyDelivery extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -365,7 +365,7 @@ public class SupplyDelivery extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -381,7 +381,7 @@ public class SupplyDelivery extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -400,7 +400,7 @@ public class SupplyDelivery extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -412,12 +412,15 @@ public class SupplyDelivery extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -429,12 +432,15 @@ public class SupplyDelivery extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -448,12 +454,15 @@ public class SupplyDelivery extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -467,12 +476,15 @@ public class SupplyDelivery extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -492,12 +504,15 @@ public class SupplyDelivery extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -517,12 +532,15 @@ public class SupplyDelivery extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -533,12 +551,15 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * Identifier for the supply delivery event that is used to identify it across multiple disparate systems.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -551,15 +572,18 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * Identifier for the supply delivery event that is used to identify it across multiple disparate systems.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -567,12 +591,15 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this event.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -585,15 +612,18 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this event.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -601,12 +631,15 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * A larger event of which this particular event is a component or step.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partOf
          *     Part of referenced event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference... partOf) {
             for (Reference value : partOf) {
@@ -619,15 +652,18 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * A larger event of which this particular event is a component or step.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partOf
          *     Part of referenced event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Collection<Reference> partOf) {
-            this.partOf.addAll(partOf);
+            this.partOf = new ArrayList<>(partOf);
             return this;
         }
 
@@ -640,7 +676,7 @@ public class SupplyDelivery extends DomainResource {
          *     in-progress | completed | abandoned | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(SupplyDeliveryStatus status) {
             this.status = status;
@@ -656,7 +692,7 @@ public class SupplyDelivery extends DomainResource {
          *     Patient for whom the item is supplied
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
@@ -673,7 +709,7 @@ public class SupplyDelivery extends DomainResource {
          *     Category of dispense event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -689,7 +725,7 @@ public class SupplyDelivery extends DomainResource {
          *     The item that is delivered or supplied
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder suppliedItem(SuppliedItem suppliedItem) {
             this.suppliedItem = suppliedItem;
@@ -705,7 +741,7 @@ public class SupplyDelivery extends DomainResource {
          *     When event occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder occurrence(Element occurrence) {
             this.occurrence = occurrence;
@@ -721,7 +757,7 @@ public class SupplyDelivery extends DomainResource {
          *     Dispenser
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplier(Reference supplier) {
             this.supplier = supplier;
@@ -737,7 +773,7 @@ public class SupplyDelivery extends DomainResource {
          *     Where the Supply was sent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder destination(Reference destination) {
             this.destination = destination;
@@ -748,12 +784,15 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * Identifies the person who picked up the Supply.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param receiver
          *     Who collected the Supply
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder receiver(Reference... receiver) {
             for (Reference value : receiver) {
@@ -766,15 +805,18 @@ public class SupplyDelivery extends DomainResource {
          * <p>
          * Identifies the person who picked up the Supply.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param receiver
          *     Who collected the Supply
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder receiver(Collection<Reference> receiver) {
-            this.receiver.addAll(receiver);
+            this.receiver = new ArrayList<>(receiver);
             return this;
         }
 
@@ -927,7 +969,7 @@ public class SupplyDelivery extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -941,12 +983,15 @@ public class SupplyDelivery extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -960,12 +1005,15 @@ public class SupplyDelivery extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -985,12 +1033,15 @@ public class SupplyDelivery extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1010,12 +1061,15 @@ public class SupplyDelivery extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1031,7 +1085,7 @@ public class SupplyDelivery extends DomainResource {
              *     Amount dispensed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -1048,7 +1102,7 @@ public class SupplyDelivery extends DomainResource {
              *     Medication, Substance, or Device supplied
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder item(Element item) {
                 this.item = item;

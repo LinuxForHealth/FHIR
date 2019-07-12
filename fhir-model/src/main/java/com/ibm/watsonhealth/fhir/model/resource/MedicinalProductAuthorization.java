@@ -82,7 +82,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -106,7 +106,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCountry() {
         return country;
@@ -118,7 +118,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -227,7 +227,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link JurisdictionalAuthorization}.
+     *     An unmodifiable list containing immutable objects of type {@link JurisdictionalAuthorization}.
      */
     public List<JurisdictionalAuthorization> getJurisdictionalAuthorization() {
         return jurisdictionalAuthorization;
@@ -417,7 +417,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -434,7 +434,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -452,7 +452,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -468,7 +468,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -487,7 +487,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -499,12 +499,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -516,12 +519,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -535,12 +541,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -554,12 +563,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -579,12 +591,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -604,12 +619,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -620,12 +638,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Business identifier for the marketing authorization, as assigned by a regulator.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier for the marketing authorization, as assigned by a regulator
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -638,15 +659,18 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Business identifier for the marketing authorization, as assigned by a regulator.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier for the marketing authorization, as assigned by a regulator
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -659,7 +683,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The medicinal product that is being authorized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -670,12 +694,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * The country in which the marketing authorization has been granted.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param country
          *     The country in which the marketing authorization has been granted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder country(CodeableConcept... country) {
             for (CodeableConcept value : country) {
@@ -688,15 +715,18 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * The country in which the marketing authorization has been granted.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param country
          *     The country in which the marketing authorization has been granted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder country(Collection<CodeableConcept> country) {
-            this.country.addAll(country);
+            this.country = new ArrayList<>(country);
             return this;
         }
 
@@ -704,12 +734,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Jurisdiction within a country.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Jurisdiction within a country
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -722,15 +755,18 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Jurisdiction within a country.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Jurisdiction within a country
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -743,7 +779,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The status of the marketing authorization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(CodeableConcept status) {
             this.status = status;
@@ -759,7 +795,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The date at which the given status has become applicable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusDate(DateTime statusDate) {
             this.statusDate = statusDate;
@@ -775,7 +811,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The date when a suspended the marketing or the marketing authorization of the product is anticipated to be restored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder restoreDate(DateTime restoreDate) {
             this.restoreDate = restoreDate;
@@ -793,7 +829,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     complete date consisting of day, month and year shall be specified using the ISO 8601 date format
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validityPeriod(Period validityPeriod) {
             this.validityPeriod = validityPeriod;
@@ -809,7 +845,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     A period of time after authorization before generic product applicatiosn can be submitted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dataExclusivityPeriod(Period dataExclusivityPeriod) {
             this.dataExclusivityPeriod = dataExclusivityPeriod;
@@ -825,7 +861,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The date when the first authorization was granted by a Medicines Regulatory Agency
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dateOfFirstAuthorization(DateTime dateOfFirstAuthorization) {
             this.dateOfFirstAuthorization = dateOfFirstAuthorization;
@@ -841,7 +877,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Date of first marketing authorization for a company's new medicinal product in any country in the World
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder internationalBirthDate(DateTime internationalBirthDate) {
             this.internationalBirthDate = internationalBirthDate;
@@ -857,7 +893,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The legal framework against which this authorization is granted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder legalBasis(CodeableConcept legalBasis) {
             this.legalBasis = legalBasis;
@@ -868,12 +904,15 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Authorization in areas within a country.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdictionalAuthorization
          *     Authorization in areas within a country
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdictionalAuthorization(JurisdictionalAuthorization... jurisdictionalAuthorization) {
             for (JurisdictionalAuthorization value : jurisdictionalAuthorization) {
@@ -886,15 +925,18 @@ public class MedicinalProductAuthorization extends DomainResource {
          * <p>
          * Authorization in areas within a country.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdictionalAuthorization
          *     Authorization in areas within a country
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdictionalAuthorization(Collection<JurisdictionalAuthorization> jurisdictionalAuthorization) {
-            this.jurisdictionalAuthorization.addAll(jurisdictionalAuthorization);
+            this.jurisdictionalAuthorization = new ArrayList<>(jurisdictionalAuthorization);
             return this;
         }
 
@@ -907,7 +949,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Marketing Authorization Holder
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder holder(Reference holder) {
             this.holder = holder;
@@ -923,7 +965,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     Medicines Regulatory Agency
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder regulator(Reference regulator) {
             this.regulator = regulator;
@@ -939,7 +981,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          *     The regulatory procedure for granting or amending a marketing authorization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedure(Procedure procedure) {
             this.procedure = procedure;
@@ -1009,7 +1051,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1033,7 +1075,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getJurisdiction() {
             return jurisdiction;
@@ -1153,7 +1195,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1167,12 +1209,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1186,12 +1231,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1211,12 +1259,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1236,12 +1287,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1252,12 +1306,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * The assigned number for the marketing authorization.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param identifier
              *     The assigned number for the marketing authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier... identifier) {
                 for (Identifier value : identifier) {
@@ -1270,15 +1327,18 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * The assigned number for the marketing authorization.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param identifier
              *     The assigned number for the marketing authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Collection<Identifier> identifier) {
-                this.identifier.addAll(identifier);
+                this.identifier = new ArrayList<>(identifier);
                 return this;
             }
 
@@ -1291,7 +1351,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     Country of authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder country(CodeableConcept country) {
                 this.country = country;
@@ -1302,12 +1362,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * Jurisdiction within a country.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param jurisdiction
              *     Jurisdiction within a country
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder jurisdiction(CodeableConcept... jurisdiction) {
                 for (CodeableConcept value : jurisdiction) {
@@ -1320,15 +1383,18 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * Jurisdiction within a country.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param jurisdiction
              *     Jurisdiction within a country
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-                this.jurisdiction.addAll(jurisdiction);
+                this.jurisdiction = new ArrayList<>(jurisdiction);
                 return this;
             }
 
@@ -1341,7 +1407,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     The legal status of supply in a jurisdiction or region
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder legalStatusOfSupply(CodeableConcept legalStatusOfSupply) {
                 this.legalStatusOfSupply = legalStatusOfSupply;
@@ -1357,7 +1423,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     The start and expected end date of the authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder validityPeriod(Period validityPeriod) {
                 this.validityPeriod = validityPeriod;
@@ -1446,7 +1512,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Procedure}.
+         *     An unmodifiable list containing immutable objects of type {@link Procedure}.
          */
         public List<MedicinalProductAuthorization.Procedure> getApplication() {
             return application;
@@ -1545,7 +1611,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1559,12 +1625,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1578,12 +1647,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1603,12 +1675,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1628,12 +1703,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1649,7 +1727,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     Identifier for this procedure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -1665,7 +1743,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              *     Date of procedure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Element date) {
                 this.date = date;
@@ -1676,12 +1754,15 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * Applcations submitted to obtain a marketing authorization.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param application
              *     Applcations submitted to obtain a marketing authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder application(MedicinalProductAuthorization.Procedure... application) {
                 for (MedicinalProductAuthorization.Procedure value : application) {
@@ -1694,15 +1775,18 @@ public class MedicinalProductAuthorization extends DomainResource {
              * <p>
              * Applcations submitted to obtain a marketing authorization.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param application
              *     Applcations submitted to obtain a marketing authorization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder application(Collection<MedicinalProductAuthorization.Procedure> application) {
-                this.application.addAll(application);
+                this.application = new ArrayList<>(application);
                 return this;
             }
 

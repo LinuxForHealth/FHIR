@@ -172,7 +172,7 @@ public class Binary extends Resource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -189,7 +189,7 @@ public class Binary extends Resource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -207,7 +207,7 @@ public class Binary extends Resource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -223,7 +223,7 @@ public class Binary extends Resource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -244,7 +244,7 @@ public class Binary extends Resource {
          *     Identifies another resource to use as proxy when enforcing access control
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder securityContext(Reference securityContext) {
             this.securityContext = securityContext;
@@ -260,7 +260,7 @@ public class Binary extends Resource {
          *     The actual content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(Base64Binary data) {
             this.data = data;

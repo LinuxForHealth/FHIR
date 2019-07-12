@@ -247,7 +247,7 @@ public class Attachment extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -261,12 +261,15 @@ public class Attachment extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -280,12 +283,15 @@ public class Attachment extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -302,7 +308,7 @@ public class Attachment extends Element {
          *     Mime type of the content, with charset etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contentType(Code contentType) {
             this.contentType = contentType;
@@ -318,7 +324,7 @@ public class Attachment extends Element {
          *     Human language of the content (BCP-47)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder language(Code language) {
             this.language = language;
@@ -334,7 +340,7 @@ public class Attachment extends Element {
          *     Data inline, base64ed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(Base64Binary data) {
             this.data = data;
@@ -350,7 +356,7 @@ public class Attachment extends Element {
          *     Uri where the data can be found
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Url url) {
             this.url = url;
@@ -366,7 +372,7 @@ public class Attachment extends Element {
          *     Number of bytes of content (if url provided)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder size(UnsignedInt size) {
             this.size = size;
@@ -382,7 +388,7 @@ public class Attachment extends Element {
          *     Hash of the data (sha-1, base64ed)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder hash(Base64Binary hash) {
             this.hash = hash;
@@ -398,7 +404,7 @@ public class Attachment extends Element {
          *     Label to display in place of the data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -414,7 +420,7 @@ public class Attachment extends Element {
          *     Date attachment was first created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder creation(DateTime creation) {
             this.creation = creation;

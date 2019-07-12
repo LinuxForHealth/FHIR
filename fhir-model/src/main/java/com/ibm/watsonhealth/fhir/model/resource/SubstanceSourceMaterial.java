@@ -142,7 +142,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getParentSubstanceId() {
         return parentSubstanceId;
@@ -154,7 +154,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getParentSubstanceName() {
         return parentSubstanceName;
@@ -168,7 +168,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCountryOfOrigin() {
         return countryOfOrigin;
@@ -180,7 +180,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getGeographicalLocation() {
         return geographicalLocation;
@@ -210,7 +210,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link FractionDescription}.
+     *     An unmodifiable list containing immutable objects of type {@link FractionDescription}.
      */
     public List<FractionDescription> getFractionDescription() {
         return fractionDescription;
@@ -236,7 +236,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link PartDescription}.
+     *     An unmodifiable list containing immutable objects of type {@link PartDescription}.
      */
     public List<PartDescription> getPartDescription() {
         return partDescription;
@@ -378,7 +378,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -395,7 +395,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -413,7 +413,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -429,7 +429,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -448,7 +448,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -460,12 +460,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -477,12 +480,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -496,12 +502,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -515,12 +524,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -540,12 +552,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -565,12 +580,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -586,7 +604,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     General high level classification of the source material specific to the origin of the material
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sourceMaterialClass(CodeableConcept sourceMaterialClass) {
             this.sourceMaterialClass = sourceMaterialClass;
@@ -604,7 +622,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     refers to the class of infectious agent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sourceMaterialType(CodeableConcept sourceMaterialType) {
             this.sourceMaterialType = sourceMaterialType;
@@ -620,7 +638,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     The state of the source material when extracted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sourceMaterialState(CodeableConcept sourceMaterialState) {
             this.sourceMaterialState = sourceMaterialState;
@@ -636,7 +654,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     The unique identifier associated with the source material parent organism shall be specified
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organismId(Identifier organismId) {
             this.organismId = organismId;
@@ -652,7 +670,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     The organism accepted Scientific name shall be provided based on the organism taxonomy
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organismName(String organismName) {
             this.organismName = organismName;
@@ -664,13 +682,16 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          * Ginkgo biloba L. (Whole plant).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parentSubstanceId
          *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          *     Ginkgo biloba L. (Whole plant)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parentSubstanceId(Identifier... parentSubstanceId) {
             for (Identifier value : parentSubstanceId) {
@@ -684,16 +705,19 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          * Ginkgo biloba L. (Whole plant).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parentSubstanceId
          *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          *     Ginkgo biloba L. (Whole plant)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parentSubstanceId(Collection<Identifier> parentSubstanceId) {
-            this.parentSubstanceId.addAll(parentSubstanceId);
+            this.parentSubstanceId = new ArrayList<>(parentSubstanceId);
             return this;
         }
 
@@ -701,12 +725,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * The parent substance of the Herbal Drug, or Herbal preparation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parentSubstanceName
          *     The parent substance of the Herbal Drug, or Herbal preparation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parentSubstanceName(String... parentSubstanceName) {
             for (String value : parentSubstanceName) {
@@ -719,15 +746,18 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * The parent substance of the Herbal Drug, or Herbal preparation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parentSubstanceName
          *     The parent substance of the Herbal Drug, or Herbal preparation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parentSubstanceName(Collection<String> parentSubstanceName) {
-            this.parentSubstanceName.addAll(parentSubstanceName);
+            this.parentSubstanceName = new ArrayList<>(parentSubstanceName);
             return this;
         }
 
@@ -737,6 +767,9 @@ public class SubstanceSourceMaterial extends DomainResource {
          * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
          * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param countryOfOrigin
          *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
@@ -744,7 +777,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder countryOfOrigin(CodeableConcept... countryOfOrigin) {
             for (CodeableConcept value : countryOfOrigin) {
@@ -759,6 +792,9 @@ public class SubstanceSourceMaterial extends DomainResource {
          * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
          * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param countryOfOrigin
          *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
@@ -766,10 +802,10 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder countryOfOrigin(Collection<CodeableConcept> countryOfOrigin) {
-            this.countryOfOrigin.addAll(countryOfOrigin);
+            this.countryOfOrigin = new ArrayList<>(countryOfOrigin);
             return this;
         }
 
@@ -777,12 +813,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param geographicalLocation
          *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder geographicalLocation(String... geographicalLocation) {
             for (String value : geographicalLocation) {
@@ -795,15 +834,18 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param geographicalLocation
          *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder geographicalLocation(Collection<String> geographicalLocation) {
-            this.geographicalLocation.addAll(geographicalLocation);
+            this.geographicalLocation = new ArrayList<>(geographicalLocation);
             return this;
         }
 
@@ -818,7 +860,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     substance is significantly different in these stages (e.g. foetal bovine serum)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder developmentStage(CodeableConcept developmentStage) {
             this.developmentStage = developmentStage;
@@ -834,6 +876,9 @@ public class SubstanceSourceMaterial extends DomainResource {
          * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
          * Group 1 levels.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param fractionDescription
          *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
@@ -844,7 +889,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Group 1 levels
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fractionDescription(FractionDescription... fractionDescription) {
             for (FractionDescription value : fractionDescription) {
@@ -862,6 +907,9 @@ public class SubstanceSourceMaterial extends DomainResource {
          * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
          * Group 1 levels.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param fractionDescription
          *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
@@ -872,10 +920,10 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Group 1 levels
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fractionDescription(Collection<FractionDescription> fractionDescription) {
-            this.fractionDescription.addAll(fractionDescription);
+            this.fractionDescription = new ArrayList<>(fractionDescription);
             return this;
         }
 
@@ -892,7 +940,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          *     Leaf
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organism(Organism organism) {
             this.organism = organism;
@@ -903,12 +951,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * To do.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partDescription
          *     To do
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partDescription(PartDescription... partDescription) {
             for (PartDescription value : partDescription) {
@@ -921,15 +972,18 @@ public class SubstanceSourceMaterial extends DomainResource {
          * <p>
          * To do.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partDescription
          *     To do
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partDescription(Collection<PartDescription> partDescription) {
-            this.partDescription.addAll(partDescription);
+            this.partDescription = new ArrayList<>(partDescription);
             return this;
         }
 
@@ -1089,7 +1143,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1103,12 +1157,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1122,12 +1179,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1147,12 +1207,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1172,12 +1235,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1193,7 +1259,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     This element is capturing information about the fraction of a plant part, or human plasma for fractionation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fraction(String fraction) {
                 this.fraction = fraction;
@@ -1211,7 +1277,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     (liquid/dry) is described in Specified Substance Group 1
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder materialType(CodeableConcept materialType) {
                 this.materialType = materialType;
@@ -1334,7 +1400,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Author}.
+         *     An unmodifiable list containing immutable objects of type {@link Author}.
          */
         public List<Author> getAuthor() {
             return author;
@@ -1466,7 +1532,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1480,12 +1546,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1499,12 +1568,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1524,12 +1596,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1549,12 +1624,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1570,7 +1648,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     The family of an organism shall be specified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder family(CodeableConcept family) {
                 this.family = family;
@@ -1588,7 +1666,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     scientific name; it is present in names for genera, species and infraspecies
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder genus(CodeableConcept genus) {
                 this.genus = genus;
@@ -1606,7 +1684,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     present in names for species and infraspecies
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder species(CodeableConcept species) {
                 this.species = species;
@@ -1622,7 +1700,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     The Intraspecific type of an organism shall be specified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder intraspecificType(CodeableConcept intraspecificType) {
                 this.intraspecificType = intraspecificType;
@@ -1640,7 +1718,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder intraspecificDescription(String intraspecificDescription) {
                 this.intraspecificDescription = intraspecificDescription;
@@ -1651,12 +1729,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * <p>
              * 4.9.13.6.1 Author type (Conditional).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param author
              *     4.9.13.6.1 Author type (Conditional)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder author(Author... author) {
                 for (Author value : author) {
@@ -1669,15 +1750,18 @@ public class SubstanceSourceMaterial extends DomainResource {
              * <p>
              * 4.9.13.6.1 Author type (Conditional).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param author
              *     4.9.13.6.1 Author type (Conditional)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder author(Collection<Author> author) {
-                this.author.addAll(author);
+                this.author = new ArrayList<>(author);
                 return this;
             }
 
@@ -1690,7 +1774,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     4.9.13.8.1 Hybrid species maternal organism ID (Optional)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder hybrid(Hybrid hybrid) {
                 this.hybrid = hybrid;
@@ -1706,7 +1790,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     4.9.13.7.1 Kingdom (Conditional)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder organismGeneral(OrganismGeneral organismGeneral) {
                 this.organismGeneral = organismGeneral;
@@ -1857,7 +1941,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1871,12 +1955,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1890,12 +1977,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1915,12 +2005,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1940,12 +2033,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1965,7 +2061,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     refers to the first author(s), who validly published the plant/animal name
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder authorType(CodeableConcept authorType) {
                     this.authorType = authorType;
@@ -1984,7 +2080,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any rank)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder authorDescription(String authorDescription) {
                     this.authorDescription = authorDescription;
@@ -2184,7 +2280,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2198,12 +2294,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2217,12 +2316,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2242,12 +2344,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2267,12 +2372,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2292,7 +2400,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     and which is paternal
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder maternalOrganismId(String maternalOrganismId) {
                     this.maternalOrganismId = maternalOrganismId;
@@ -2310,7 +2418,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     always known, and it is unlikely that it will be known which is maternal and which is paternal
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder maternalOrganismName(String maternalOrganismName) {
                     this.maternalOrganismName = maternalOrganismName;
@@ -2328,7 +2436,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     vocabulary
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder paternalOrganismId(String paternalOrganismId) {
                     this.paternalOrganismId = paternalOrganismId;
@@ -2344,7 +2452,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The name of the paternal species constituting the hybrid organism shall be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder paternalOrganismName(String paternalOrganismName) {
                     this.paternalOrganismName = paternalOrganismName;
@@ -2360,7 +2468,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The hybrid type of an organism shall be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder hybridType(CodeableConcept hybridType) {
                     this.hybridType = hybridType;
@@ -2541,7 +2649,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2555,12 +2663,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2574,12 +2685,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2599,12 +2713,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2624,12 +2741,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2645,7 +2765,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The kingdom of an organism shall be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder kingdom(CodeableConcept kingdom) {
                     this.kingdom = kingdom;
@@ -2661,7 +2781,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The phylum of an organism shall be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder phylum(CodeableConcept phylum) {
                     this.phylum = phylum;
@@ -2677,7 +2797,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The class of an organism shall be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder clazz(CodeableConcept clazz) {
                     this.clazz = clazz;
@@ -2693,7 +2813,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  *     The order of an organism shall be specified,
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder order(CodeableConcept order) {
                     this.order = order;
@@ -2839,7 +2959,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2853,12 +2973,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2872,12 +2995,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2897,12 +3023,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2922,12 +3051,15 @@ public class SubstanceSourceMaterial extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2943,7 +3075,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Entity of anatomical origin of source material within an organism
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder part(CodeableConcept part) {
                 this.part = part;
@@ -2961,7 +3093,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              *     Multiple alternative locations may apply
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder partLocation(CodeableConcept partLocation) {
                 this.partLocation = partLocation;

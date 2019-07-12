@@ -190,7 +190,7 @@ public class TestReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant}.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -214,7 +214,7 @@ public class TestReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Test}.
+     *     An unmodifiable list containing immutable objects of type {@link Test}.
      */
     public List<Test> getTest() {
         return test;
@@ -374,7 +374,7 @@ public class TestReport extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -391,7 +391,7 @@ public class TestReport extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -409,7 +409,7 @@ public class TestReport extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -425,7 +425,7 @@ public class TestReport extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -444,7 +444,7 @@ public class TestReport extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -456,12 +456,15 @@ public class TestReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -473,12 +476,15 @@ public class TestReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -492,12 +498,15 @@ public class TestReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -511,12 +520,15 @@ public class TestReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -536,12 +548,15 @@ public class TestReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -561,12 +576,15 @@ public class TestReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -582,7 +600,7 @@ public class TestReport extends DomainResource {
          *     External identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
@@ -598,7 +616,7 @@ public class TestReport extends DomainResource {
          *     Informal name of the executed TestScript
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -614,7 +632,7 @@ public class TestReport extends DomainResource {
          *     The final score (percentage of tests passed) resulting from the execution of the TestScript
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder score(Decimal score) {
             this.score = score;
@@ -630,7 +648,7 @@ public class TestReport extends DomainResource {
          *     Name of the tester producing this report (Organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder tester(String tester) {
             this.tester = tester;
@@ -646,7 +664,7 @@ public class TestReport extends DomainResource {
          *     When the TestScript was executed and this TestReport was generated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder issued(DateTime issued) {
             this.issued = issued;
@@ -657,12 +675,15 @@ public class TestReport extends DomainResource {
          * <p>
          * A participant in the test execution, either the execution engine, a client, or a server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param participant
          *     A participant in the test execution, either the execution engine, a client, or a server
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Participant... participant) {
             for (Participant value : participant) {
@@ -675,15 +696,18 @@ public class TestReport extends DomainResource {
          * <p>
          * A participant in the test execution, either the execution engine, a client, or a server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param participant
          *     A participant in the test execution, either the execution engine, a client, or a server
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Collection<Participant> participant) {
-            this.participant.addAll(participant);
+            this.participant = new ArrayList<>(participant);
             return this;
         }
 
@@ -696,7 +720,7 @@ public class TestReport extends DomainResource {
          *     The results of the series of required setup operations before the tests were executed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder setup(Setup setup) {
             this.setup = setup;
@@ -707,12 +731,15 @@ public class TestReport extends DomainResource {
          * <p>
          * A test executed from the test script.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param test
          *     A test executed from the test script
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder test(Test... test) {
             for (Test value : test) {
@@ -725,15 +752,18 @@ public class TestReport extends DomainResource {
          * <p>
          * A test executed from the test script.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param test
          *     A test executed from the test script
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder test(Collection<Test> test) {
-            this.test.addAll(test);
+            this.test = new ArrayList<>(test);
             return this;
         }
 
@@ -747,7 +777,7 @@ public class TestReport extends DomainResource {
          *     The results of running the series of required clean up steps
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder teardown(Teardown teardown) {
             this.teardown = teardown;
@@ -926,7 +956,7 @@ public class TestReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -940,12 +970,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -959,12 +992,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -984,12 +1020,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1009,12 +1048,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1030,7 +1072,7 @@ public class TestReport extends DomainResource {
              *     The display name of the participant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder display(String display) {
                 this.display = display;
@@ -1073,7 +1115,7 @@ public class TestReport extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<Action> getAction() {
             return action;
@@ -1158,7 +1200,7 @@ public class TestReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1172,12 +1214,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1191,12 +1236,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1216,12 +1264,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1241,12 +1292,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1385,7 +1439,7 @@ public class TestReport extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1399,12 +1453,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1418,12 +1475,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1443,12 +1503,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1468,12 +1531,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1489,7 +1555,7 @@ public class TestReport extends DomainResource {
                  *     The operation to perform
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder operation(Operation operation) {
                     this.operation = operation;
@@ -1505,7 +1571,7 @@ public class TestReport extends DomainResource {
                  *     The assertion to perform
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder _assert(Assert _assert) {
                     this._assert = _assert;
@@ -1671,7 +1737,7 @@ public class TestReport extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -1685,12 +1751,15 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -1704,12 +1773,15 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -1729,12 +1801,15 @@ public class TestReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -1754,12 +1829,15 @@ public class TestReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1775,7 +1853,7 @@ public class TestReport extends DomainResource {
                      *     A message associated with the result
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder message(Markdown message) {
                         this.message = message;
@@ -1791,7 +1869,7 @@ public class TestReport extends DomainResource {
                      *     A link to further details on the result
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder detail(Uri detail) {
                         this.detail = detail;
@@ -1958,7 +2036,7 @@ public class TestReport extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -1972,12 +2050,15 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -1991,12 +2072,15 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2016,12 +2100,15 @@ public class TestReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2041,12 +2128,15 @@ public class TestReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2062,7 +2152,7 @@ public class TestReport extends DomainResource {
                      *     A message associated with the result
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder message(Markdown message) {
                         this.message = message;
@@ -2078,7 +2168,7 @@ public class TestReport extends DomainResource {
                      *     A link to further details on the result
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder detail(String detail) {
                         this.detail = detail;
@@ -2152,7 +2242,7 @@ public class TestReport extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<Action> getAction() {
             return action;
@@ -2247,7 +2337,7 @@ public class TestReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2261,12 +2351,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2280,12 +2373,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2305,12 +2401,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2330,12 +2429,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2351,7 +2453,7 @@ public class TestReport extends DomainResource {
              *     Tracking/logging name of this test
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -2367,7 +2469,7 @@ public class TestReport extends DomainResource {
              *     Tracking/reporting short description of the test
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2508,7 +2610,7 @@ public class TestReport extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2522,12 +2624,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2541,12 +2646,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2566,12 +2674,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2591,12 +2702,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2612,7 +2726,7 @@ public class TestReport extends DomainResource {
                  *     The operation performed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder operation(TestReport.Setup.Action.Operation operation) {
                     this.operation = operation;
@@ -2628,7 +2742,7 @@ public class TestReport extends DomainResource {
                  *     The assertion performed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder _assert(TestReport.Setup.Action.Assert _assert) {
                     this._assert = _assert;
@@ -2674,7 +2788,7 @@ public class TestReport extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<Action> getAction() {
             return action;
@@ -2759,7 +2873,7 @@ public class TestReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2773,12 +2887,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2792,12 +2909,15 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2817,12 +2937,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2842,12 +2965,15 @@ public class TestReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2973,7 +3099,7 @@ public class TestReport extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2987,12 +3113,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3006,12 +3135,15 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3031,12 +3163,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3056,12 +3191,15 @@ public class TestReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

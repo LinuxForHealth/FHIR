@@ -72,7 +72,7 @@ public class Slot extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -84,7 +84,7 @@ public class Slot extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getServiceCategory() {
         return serviceCategory;
@@ -98,7 +98,7 @@ public class Slot extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getServiceType() {
         return serviceType;
@@ -110,7 +110,7 @@ public class Slot extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -338,7 +338,7 @@ public class Slot extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -355,7 +355,7 @@ public class Slot extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -373,7 +373,7 @@ public class Slot extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -389,7 +389,7 @@ public class Slot extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -408,7 +408,7 @@ public class Slot extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -420,12 +420,15 @@ public class Slot extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -437,12 +440,15 @@ public class Slot extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -456,12 +462,15 @@ public class Slot extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -475,12 +484,15 @@ public class Slot extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -500,12 +512,15 @@ public class Slot extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -525,12 +540,15 @@ public class Slot extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -541,12 +559,15 @@ public class Slot extends DomainResource {
          * <p>
          * External Ids for this item.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -559,15 +580,18 @@ public class Slot extends DomainResource {
          * <p>
          * External Ids for this item.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -575,12 +599,15 @@ public class Slot extends DomainResource {
          * <p>
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param serviceCategory
          *     A broad categorization of the service that is to be performed during this appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceCategory(CodeableConcept... serviceCategory) {
             for (CodeableConcept value : serviceCategory) {
@@ -593,15 +620,18 @@ public class Slot extends DomainResource {
          * <p>
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param serviceCategory
          *     A broad categorization of the service that is to be performed during this appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceCategory(Collection<CodeableConcept> serviceCategory) {
-            this.serviceCategory.addAll(serviceCategory);
+            this.serviceCategory = new ArrayList<>(serviceCategory);
             return this;
         }
 
@@ -611,6 +641,9 @@ public class Slot extends DomainResource {
          * at a location, rather than the location itself). If provided then this overrides the value provided on the 
          * availability resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param serviceType
          *     The type of appointments that can be booked into this slot (ideally this would be an identifiable service - which is 
@@ -618,7 +651,7 @@ public class Slot extends DomainResource {
          *     availability resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceType(CodeableConcept... serviceType) {
             for (CodeableConcept value : serviceType) {
@@ -633,6 +666,9 @@ public class Slot extends DomainResource {
          * at a location, rather than the location itself). If provided then this overrides the value provided on the 
          * availability resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param serviceType
          *     The type of appointments that can be booked into this slot (ideally this would be an identifiable service - which is 
@@ -640,10 +676,10 @@ public class Slot extends DomainResource {
          *     availability resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceType(Collection<CodeableConcept> serviceType) {
-            this.serviceType.addAll(serviceType);
+            this.serviceType = new ArrayList<>(serviceType);
             return this;
         }
 
@@ -651,12 +687,15 @@ public class Slot extends DomainResource {
          * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialty
          *     The specialty of a practitioner that would be required to perform the service requested in this appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(CodeableConcept... specialty) {
             for (CodeableConcept value : specialty) {
@@ -669,15 +708,18 @@ public class Slot extends DomainResource {
          * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialty
          *     The specialty of a practitioner that would be required to perform the service requested in this appointment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
-            this.specialty.addAll(specialty);
+            this.specialty = new ArrayList<>(specialty);
             return this;
         }
 
@@ -690,7 +732,7 @@ public class Slot extends DomainResource {
          *     The style of appointment or patient that may be booked in the slot (not service type)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder appointmentType(CodeableConcept appointmentType) {
             this.appointmentType = appointmentType;
@@ -706,7 +748,7 @@ public class Slot extends DomainResource {
          *     This slot has already been overbooked, appointments are unlikely to be accepted for this time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder overbooked(Boolean overbooked) {
             this.overbooked = overbooked;
@@ -722,7 +764,7 @@ public class Slot extends DomainResource {
          *     Comments on the slot to describe any extended information. Such as custom constraints on the slot
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(String comment) {
             this.comment = comment;

@@ -194,7 +194,7 @@ public class Bundle extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link}.
      */
     public List<Link> getLink() {
         return link;
@@ -207,7 +207,7 @@ public class Bundle extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Entry}.
+     *     An unmodifiable list containing immutable objects of type {@link Entry}.
      */
     public List<Entry> getEntry() {
         return entry;
@@ -332,7 +332,7 @@ public class Bundle extends Resource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -349,7 +349,7 @@ public class Bundle extends Resource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -367,7 +367,7 @@ public class Bundle extends Resource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -383,7 +383,7 @@ public class Bundle extends Resource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -399,7 +399,7 @@ public class Bundle extends Resource {
          *     Persistent identifier for the bundle
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
@@ -415,7 +415,7 @@ public class Bundle extends Resource {
          *     When the bundle was assembled
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder timestamp(Instant timestamp) {
             this.timestamp = timestamp;
@@ -433,7 +433,7 @@ public class Bundle extends Resource {
          *     If search, the total number of matches
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder total(UnsignedInt total) {
             this.total = total;
@@ -444,12 +444,15 @@ public class Bundle extends Resource {
          * <p>
          * A series of links that provide context to this bundle.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param link
          *     Links related to this Bundle
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder link(Link... link) {
             for (Link value : link) {
@@ -462,15 +465,18 @@ public class Bundle extends Resource {
          * <p>
          * A series of links that provide context to this bundle.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param link
          *     Links related to this Bundle
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder link(Collection<Link> link) {
-            this.link.addAll(link);
+            this.link = new ArrayList<>(link);
             return this;
         }
 
@@ -479,12 +485,15 @@ public class Bundle extends Resource {
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entry(Entry... entry) {
             for (Entry value : entry) {
@@ -498,15 +507,18 @@ public class Bundle extends Resource {
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entry(Collection<Entry> entry) {
-            this.entry.addAll(entry);
+            this.entry = new ArrayList<>(entry);
             return this;
         }
 
@@ -519,7 +531,7 @@ public class Bundle extends Resource {
          *     Digital Signature
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder signature(Signature signature) {
             this.signature = signature;
@@ -673,7 +685,7 @@ public class Bundle extends Resource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -687,12 +699,15 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -706,12 +721,15 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -731,12 +749,15 @@ public class Bundle extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -756,12 +777,15 @@ public class Bundle extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -814,7 +838,7 @@ public class Bundle extends Resource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Link}.
+         *     An unmodifiable list containing immutable objects of type {@link Link}.
          */
         public List<Bundle.Link> getLink() {
             return link;
@@ -981,7 +1005,7 @@ public class Bundle extends Resource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -995,12 +1019,15 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1014,12 +1041,15 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1039,12 +1069,15 @@ public class Bundle extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1064,12 +1097,15 @@ public class Bundle extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1080,12 +1116,15 @@ public class Bundle extends Resource {
              * <p>
              * A series of links that provide context to this entry.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param link
              *     Links related to this entry
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder link(Bundle.Link... link) {
                 for (Bundle.Link value : link) {
@@ -1098,15 +1137,18 @@ public class Bundle extends Resource {
              * <p>
              * A series of links that provide context to this entry.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param link
              *     Links related to this entry
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder link(Collection<Bundle.Link> link) {
-                this.link.addAll(link);
+                this.link = new ArrayList<>(link);
                 return this;
             }
 
@@ -1124,7 +1166,7 @@ public class Bundle extends Resource {
              *     URI for resource (Absolute URL server address or URI for UUID/OID)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fullUrl(Uri fullUrl) {
                 this.fullUrl = fullUrl;
@@ -1140,7 +1182,7 @@ public class Bundle extends Resource {
              *     A resource in the bundle
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder resource(Resource resource) {
                 this.resource = resource;
@@ -1156,7 +1198,7 @@ public class Bundle extends Resource {
              *     Search related information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder search(Search search) {
                 this.search = search;
@@ -1173,7 +1215,7 @@ public class Bundle extends Resource {
              *     Additional execution information (transaction/batch/history)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder request(Request request) {
                 this.request = request;
@@ -1190,7 +1232,7 @@ public class Bundle extends Resource {
              *     Results of execution (transaction/batch/history)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder response(Response response) {
                 this.response = response;
@@ -1336,7 +1378,7 @@ public class Bundle extends Resource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1350,12 +1392,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1369,12 +1414,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1394,12 +1442,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1419,12 +1470,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1441,7 +1495,7 @@ public class Bundle extends Resource {
                  *     match | include | outcome - why this is in the result set
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder mode(SearchEntryMode mode) {
                     this.mode = mode;
@@ -1457,7 +1511,7 @@ public class Bundle extends Resource {
                  *     Search ranking (between 0 and 1)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder score(Decimal score) {
                     this.score = score;
@@ -1686,7 +1740,7 @@ public class Bundle extends Resource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1700,12 +1754,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1719,12 +1776,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1744,12 +1804,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1769,12 +1832,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1791,7 +1857,7 @@ public class Bundle extends Resource {
                  *     For managing cache currency
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder ifNoneMatch(String ifNoneMatch) {
                     this.ifNoneMatch = ifNoneMatch;
@@ -1808,7 +1874,7 @@ public class Bundle extends Resource {
                  *     For managing cache currency
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder ifModifiedSince(Instant ifModifiedSince) {
                     this.ifModifiedSince = ifModifiedSince;
@@ -1825,7 +1891,7 @@ public class Bundle extends Resource {
                  *     For managing update contention
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder ifMatch(String ifMatch) {
                     this.ifMatch = ifMatch;
@@ -1843,7 +1909,7 @@ public class Bundle extends Resource {
                  *     For conditional creates
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder ifNoneExist(String ifNoneExist) {
                     this.ifNoneExist = ifNoneExist;
@@ -2051,7 +2117,7 @@ public class Bundle extends Resource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2065,12 +2131,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2084,12 +2153,15 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2109,12 +2181,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2134,12 +2209,15 @@ public class Bundle extends Resource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2155,7 +2233,7 @@ public class Bundle extends Resource {
                  *     The location (if the operation returns a location)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder location(Uri location) {
                     this.location = location;
@@ -2172,7 +2250,7 @@ public class Bundle extends Resource {
                  *     The Etag for the resource (if relevant)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder etag(String etag) {
                     this.etag = etag;
@@ -2188,7 +2266,7 @@ public class Bundle extends Resource {
                  *     Server's date time modified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder lastModified(Instant lastModified) {
                     this.lastModified = lastModified;
@@ -2204,7 +2282,7 @@ public class Bundle extends Resource {
                  *     OperationOutcome with hints and warnings (for batch/transaction)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder outcome(Resource outcome) {
                     this.outcome = outcome;

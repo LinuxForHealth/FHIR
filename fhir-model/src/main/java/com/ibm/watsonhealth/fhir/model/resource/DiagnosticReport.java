@@ -93,7 +93,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -105,7 +105,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -130,7 +130,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -206,7 +206,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -218,7 +218,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getResultsInterpreter() {
         return resultsInterpreter;
@@ -230,7 +230,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSpecimen() {
         return specimen;
@@ -242,7 +242,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getResult() {
         return result;
@@ -256,7 +256,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getImagingStudy() {
         return imagingStudy;
@@ -269,7 +269,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Media}.
+     *     An unmodifiable list containing immutable objects of type {@link Media}.
      */
     public List<Media> getMedia() {
         return media;
@@ -293,7 +293,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getConclusionCode() {
         return conclusionCode;
@@ -306,7 +306,7 @@ public class DiagnosticReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getPresentedForm() {
         return presentedForm;
@@ -476,7 +476,7 @@ public class DiagnosticReport extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -493,7 +493,7 @@ public class DiagnosticReport extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -511,7 +511,7 @@ public class DiagnosticReport extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -527,7 +527,7 @@ public class DiagnosticReport extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -546,7 +546,7 @@ public class DiagnosticReport extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -558,12 +558,15 @@ public class DiagnosticReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -575,12 +578,15 @@ public class DiagnosticReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -594,12 +600,15 @@ public class DiagnosticReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -613,12 +622,15 @@ public class DiagnosticReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -638,12 +650,15 @@ public class DiagnosticReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -663,12 +678,15 @@ public class DiagnosticReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -679,12 +697,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Identifiers assigned to this report by the performer or other systems.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier for report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -697,15 +718,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Identifiers assigned to this report by the performer or other systems.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier for report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -713,12 +737,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Details concerning a service requested.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     What was requested
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -731,15 +758,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Details concerning a service requested.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     What was requested
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -748,12 +778,15 @@ public class DiagnosticReport extends DomainResource {
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Service category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -767,15 +800,18 @@ public class DiagnosticReport extends DomainResource {
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Service category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -789,7 +825,7 @@ public class DiagnosticReport extends DomainResource {
          *     The subject of the report - usually, but not always, the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -805,7 +841,7 @@ public class DiagnosticReport extends DomainResource {
          *     Health care event when test ordered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -823,7 +859,7 @@ public class DiagnosticReport extends DomainResource {
          *     Clinically relevant time/time-period for report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effective(Element effective) {
             this.effective = effective;
@@ -840,7 +876,7 @@ public class DiagnosticReport extends DomainResource {
          *     DateTime this version was made
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder issued(Instant issued) {
             this.issued = issued;
@@ -851,12 +887,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * The diagnostic service that is responsible for issuing the report.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param performer
          *     Responsible Diagnostic Service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference... performer) {
             for (Reference value : performer) {
@@ -869,15 +908,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * The diagnostic service that is responsible for issuing the report.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param performer
          *     Responsible Diagnostic Service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Collection<Reference> performer) {
-            this.performer.addAll(performer);
+            this.performer = new ArrayList<>(performer);
             return this;
         }
 
@@ -885,12 +927,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param resultsInterpreter
          *     Primary result interpreter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resultsInterpreter(Reference... resultsInterpreter) {
             for (Reference value : resultsInterpreter) {
@@ -903,15 +948,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param resultsInterpreter
          *     Primary result interpreter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resultsInterpreter(Collection<Reference> resultsInterpreter) {
-            this.resultsInterpreter.addAll(resultsInterpreter);
+            this.resultsInterpreter = new ArrayList<>(resultsInterpreter);
             return this;
         }
 
@@ -919,12 +967,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Details about the specimens on which this diagnostic report is based.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specimen
          *     Specimens this report is based on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specimen(Reference... specimen) {
             for (Reference value : specimen) {
@@ -937,15 +988,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * Details about the specimens on which this diagnostic report is based.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specimen
          *     Specimens this report is based on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specimen(Collection<Reference> specimen) {
-            this.specimen.addAll(specimen);
+            this.specimen = new ArrayList<>(specimen);
             return this;
         }
 
@@ -953,12 +1007,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * [Observations](observation.html) that are part of this diagnostic report.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param result
          *     Observations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder result(Reference... result) {
             for (Reference value : result) {
@@ -971,15 +1028,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * [Observations](observation.html) that are part of this diagnostic report.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param result
          *     Observations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder result(Collection<Reference> result) {
-            this.result.addAll(result);
+            this.result = new ArrayList<>(result);
             return this;
         }
 
@@ -989,12 +1049,15 @@ public class DiagnosticReport extends DomainResource {
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imagingStudy(Reference... imagingStudy) {
             for (Reference value : imagingStudy) {
@@ -1009,15 +1072,18 @@ public class DiagnosticReport extends DomainResource {
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imagingStudy(Collection<Reference> imagingStudy) {
-            this.imagingStudy.addAll(imagingStudy);
+            this.imagingStudy = new ArrayList<>(imagingStudy);
             return this;
         }
 
@@ -1026,12 +1092,15 @@ public class DiagnosticReport extends DomainResource {
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param media
          *     Key images associated with this report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder media(Media... media) {
             for (Media value : media) {
@@ -1045,15 +1114,18 @@ public class DiagnosticReport extends DomainResource {
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param media
          *     Key images associated with this report
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder media(Collection<Media> media) {
-            this.media.addAll(media);
+            this.media = new ArrayList<>(media);
             return this;
         }
 
@@ -1066,7 +1138,7 @@ public class DiagnosticReport extends DomainResource {
          *     Clinical conclusion (interpretation) of test results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder conclusion(String conclusion) {
             this.conclusion = conclusion;
@@ -1077,12 +1149,15 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder conclusionCode(CodeableConcept... conclusionCode) {
             for (CodeableConcept value : conclusionCode) {
@@ -1095,15 +1170,18 @@ public class DiagnosticReport extends DomainResource {
          * <p>
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder conclusionCode(Collection<CodeableConcept> conclusionCode) {
-            this.conclusionCode.addAll(conclusionCode);
+            this.conclusionCode = new ArrayList<>(conclusionCode);
             return this;
         }
 
@@ -1112,12 +1190,15 @@ public class DiagnosticReport extends DomainResource {
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param presentedForm
          *     Entire report as issued
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder presentedForm(Attachment... presentedForm) {
             for (Attachment value : presentedForm) {
@@ -1131,15 +1212,18 @@ public class DiagnosticReport extends DomainResource {
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param presentedForm
          *     Entire report as issued
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder presentedForm(Collection<Attachment> presentedForm) {
-            this.presentedForm.addAll(presentedForm);
+            this.presentedForm = new ArrayList<>(presentedForm);
             return this;
         }
 
@@ -1305,7 +1389,7 @@ public class DiagnosticReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1319,12 +1403,15 @@ public class DiagnosticReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1338,12 +1425,15 @@ public class DiagnosticReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1363,12 +1453,15 @@ public class DiagnosticReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1388,12 +1481,15 @@ public class DiagnosticReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1410,7 +1506,7 @@ public class DiagnosticReport extends DomainResource {
              *     Comment about the image (e.g. explanation)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder comment(String comment) {
                 this.comment = comment;

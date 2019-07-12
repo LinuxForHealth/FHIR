@@ -103,7 +103,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -140,7 +140,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -152,7 +152,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -164,7 +164,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -176,7 +176,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getLocation() {
         return location;
@@ -238,7 +238,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -250,7 +250,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getCoverageArea() {
         return coverageArea;
@@ -262,7 +262,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getServiceProvisionCode() {
         return serviceProvisionCode;
@@ -274,7 +274,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Eligibility}.
+     *     An unmodifiable list containing immutable objects of type {@link Eligibility}.
      */
     public List<Eligibility> getEligibility() {
         return eligibility;
@@ -286,7 +286,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getProgram() {
         return program;
@@ -298,7 +298,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCharacteristic() {
         return characteristic;
@@ -312,7 +312,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCommunication() {
         return communication;
@@ -324,7 +324,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReferralMethod() {
         return referralMethod;
@@ -349,7 +349,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AvailableTime}.
+     *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
      */
     public List<AvailableTime> getAvailableTime() {
         return availableTime;
@@ -361,7 +361,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link NotAvailable}.
+     *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
      */
     public List<NotAvailable> getNotAvailable() {
         return notAvailable;
@@ -387,7 +387,7 @@ public class HealthcareService extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -573,7 +573,7 @@ public class HealthcareService extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -590,7 +590,7 @@ public class HealthcareService extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -608,7 +608,7 @@ public class HealthcareService extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -624,7 +624,7 @@ public class HealthcareService extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -643,7 +643,7 @@ public class HealthcareService extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -655,12 +655,15 @@ public class HealthcareService extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -672,12 +675,15 @@ public class HealthcareService extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -691,12 +697,15 @@ public class HealthcareService extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -710,12 +719,15 @@ public class HealthcareService extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -735,12 +747,15 @@ public class HealthcareService extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -760,12 +775,15 @@ public class HealthcareService extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -776,12 +794,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * External identifiers for this item.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External identifiers for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -794,15 +815,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * External identifiers for this item.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External identifiers for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -816,7 +840,7 @@ public class HealthcareService extends DomainResource {
          *     Whether this HealthcareService record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -832,7 +856,7 @@ public class HealthcareService extends DomainResource {
          *     Organization that provides this service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder providedBy(Reference providedBy) {
             this.providedBy = providedBy;
@@ -843,12 +867,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Identifies the broad category of service being performed or delivered.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Broad category of service being performed or delivered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -861,15 +888,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Identifies the broad category of service being performed or delivered.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Broad category of service being performed or delivered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -877,12 +907,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The specific type of service that may be delivered or performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     Type of service that may be delivered or performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept... type) {
             for (CodeableConcept value : type) {
@@ -895,15 +928,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The specific type of service that may be delivered or performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     Type of service that may be delivered or performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<CodeableConcept> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -911,12 +947,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Collection of specialties handled by the service site. This is more of a medical term.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(CodeableConcept... specialty) {
             for (CodeableConcept value : specialty) {
@@ -929,15 +968,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Collection of specialties handled by the service site. This is more of a medical term.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
-            this.specialty.addAll(specialty);
+            this.specialty = new ArrayList<>(specialty);
             return this;
         }
 
@@ -945,12 +987,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The location(s) where this healthcare service may be provided.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param location
          *     Location(s) where service may be provided
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference... location) {
             for (Reference value : location) {
@@ -963,15 +1008,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The location(s) where this healthcare service may be provided.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param location
          *     Location(s) where service may be provided
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Collection<Reference> location) {
-            this.location.addAll(location);
+            this.location = new ArrayList<>(location);
             return this;
         }
 
@@ -984,7 +1032,7 @@ public class HealthcareService extends DomainResource {
          *     Description of service as presented to a consumer while searching
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -1001,7 +1049,7 @@ public class HealthcareService extends DomainResource {
          *     Additional description and/or any specific issues not covered elsewhere
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(String comment) {
             this.comment = comment;
@@ -1017,7 +1065,7 @@ public class HealthcareService extends DomainResource {
          *     Extra details about the service that can't be placed in the other fields
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder extraDetails(Markdown extraDetails) {
             this.extraDetails = extraDetails;
@@ -1034,7 +1082,7 @@ public class HealthcareService extends DomainResource {
          *     Facilitates quick identification of the service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Attachment photo) {
             this.photo = photo;
@@ -1045,12 +1093,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * List of contacts related to this specific healthcare service.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     Contacts related to the healthcare service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -1063,15 +1114,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * List of contacts related to this specific healthcare service.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     Contacts related to the healthcare service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -1079,12 +1133,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The location(s) that this service is available to (not where the service is provided).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder coverageArea(Reference... coverageArea) {
             for (Reference value : coverageArea) {
@@ -1097,15 +1154,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The location(s) that this service is available to (not where the service is provided).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder coverageArea(Collection<Reference> coverageArea) {
-            this.coverageArea.addAll(coverageArea);
+            this.coverageArea = new ArrayList<>(coverageArea);
             return this;
         }
 
@@ -1113,12 +1173,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceProvisionCode(CodeableConcept... serviceProvisionCode) {
             for (CodeableConcept value : serviceProvisionCode) {
@@ -1131,15 +1194,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serviceProvisionCode(Collection<CodeableConcept> serviceProvisionCode) {
-            this.serviceProvisionCode.addAll(serviceProvisionCode);
+            this.serviceProvisionCode = new ArrayList<>(serviceProvisionCode);
             return this;
         }
 
@@ -1147,12 +1213,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder eligibility(Eligibility... eligibility) {
             for (Eligibility value : eligibility) {
@@ -1165,15 +1234,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder eligibility(Collection<Eligibility> eligibility) {
-            this.eligibility.addAll(eligibility);
+            this.eligibility = new ArrayList<>(eligibility);
             return this;
         }
 
@@ -1181,12 +1253,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Programs that this service is applicable to.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param program
          *     Programs that this service is applicable to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder program(CodeableConcept... program) {
             for (CodeableConcept value : program) {
@@ -1199,15 +1274,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Programs that this service is applicable to.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param program
          *     Programs that this service is applicable to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder program(Collection<CodeableConcept> program) {
-            this.program.addAll(program);
+            this.program = new ArrayList<>(program);
             return this;
         }
 
@@ -1215,12 +1293,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Collection of characteristics (attributes).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder characteristic(CodeableConcept... characteristic) {
             for (CodeableConcept value : characteristic) {
@@ -1233,15 +1314,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Collection of characteristics (attributes).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder characteristic(Collection<CodeableConcept> characteristic) {
-            this.characteristic.addAll(characteristic);
+            this.characteristic = new ArrayList<>(characteristic);
             return this;
         }
 
@@ -1251,12 +1335,15 @@ public class HealthcareService extends DomainResource {
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param communication
          *     The language that this service is offered in
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(CodeableConcept... communication) {
             for (CodeableConcept value : communication) {
@@ -1271,15 +1358,18 @@ public class HealthcareService extends DomainResource {
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param communication
          *     The language that this service is offered in
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Collection<CodeableConcept> communication) {
-            this.communication.addAll(communication);
+            this.communication = new ArrayList<>(communication);
             return this;
         }
 
@@ -1287,12 +1377,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referralMethod(CodeableConcept... referralMethod) {
             for (CodeableConcept value : referralMethod) {
@@ -1305,15 +1398,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referralMethod(Collection<CodeableConcept> referralMethod) {
-            this.referralMethod.addAll(referralMethod);
+            this.referralMethod = new ArrayList<>(referralMethod);
             return this;
         }
 
@@ -1327,7 +1423,7 @@ public class HealthcareService extends DomainResource {
          *     If an appointment is required for access to this service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder appointmentRequired(Boolean appointmentRequired) {
             this.appointmentRequired = appointmentRequired;
@@ -1338,12 +1434,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * A collection of times that the Service Site is available.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param availableTime
          *     Times the Service Site is available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availableTime(AvailableTime... availableTime) {
             for (AvailableTime value : availableTime) {
@@ -1356,15 +1455,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * A collection of times that the Service Site is available.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param availableTime
          *     Times the Service Site is available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availableTime(Collection<AvailableTime> availableTime) {
-            this.availableTime.addAll(availableTime);
+            this.availableTime = new ArrayList<>(availableTime);
             return this;
         }
 
@@ -1372,12 +1474,15 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The HealthcareService is not available during this period of time due to the provided reason.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder notAvailable(NotAvailable... notAvailable) {
             for (NotAvailable value : notAvailable) {
@@ -1390,15 +1495,18 @@ public class HealthcareService extends DomainResource {
          * <p>
          * The HealthcareService is not available during this period of time due to the provided reason.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder notAvailable(Collection<NotAvailable> notAvailable) {
-            this.notAvailable.addAll(notAvailable);
+            this.notAvailable = new ArrayList<>(notAvailable);
             return this;
         }
 
@@ -1412,7 +1520,7 @@ public class HealthcareService extends DomainResource {
          *     Description of availability exceptions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availabilityExceptions(String availabilityExceptions) {
             this.availabilityExceptions = availabilityExceptions;
@@ -1424,12 +1532,15 @@ public class HealthcareService extends DomainResource {
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Reference... endpoint) {
             for (Reference value : endpoint) {
@@ -1443,15 +1554,18 @@ public class HealthcareService extends DomainResource {
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Collection<Reference> endpoint) {
-            this.endpoint.addAll(endpoint);
+            this.endpoint = new ArrayList<>(endpoint);
             return this;
         }
 
@@ -1616,7 +1730,7 @@ public class HealthcareService extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1630,12 +1744,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1649,12 +1766,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1674,12 +1794,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1699,12 +1822,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1720,7 +1846,7 @@ public class HealthcareService extends DomainResource {
              *     Coded value for the eligibility
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -1736,7 +1862,7 @@ public class HealthcareService extends DomainResource {
              *     Describes the eligibility conditions for the service
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder comment(Markdown comment) {
                 this.comment = comment;
@@ -1786,7 +1912,7 @@ public class HealthcareService extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DaysOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
          */
         public List<DaysOfWeek> getDaysOfWeek() {
             return daysOfWeek;
@@ -1914,7 +2040,7 @@ public class HealthcareService extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1928,12 +2054,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1947,12 +2076,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1972,12 +2104,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1997,12 +2132,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2013,12 +2151,15 @@ public class HealthcareService extends DomainResource {
              * <p>
              * Indicates which days of the week are available between the start and end Times.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder daysOfWeek(DaysOfWeek... daysOfWeek) {
                 for (DaysOfWeek value : daysOfWeek) {
@@ -2031,15 +2172,18 @@ public class HealthcareService extends DomainResource {
              * <p>
              * Indicates which days of the week are available between the start and end Times.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder daysOfWeek(Collection<DaysOfWeek> daysOfWeek) {
-                this.daysOfWeek.addAll(daysOfWeek);
+                this.daysOfWeek = new ArrayList<>(daysOfWeek);
                 return this;
             }
 
@@ -2052,7 +2196,7 @@ public class HealthcareService extends DomainResource {
              *     Always available? e.g. 24 hour service
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder allDay(Boolean allDay) {
                 this.allDay = allDay;
@@ -2068,7 +2212,7 @@ public class HealthcareService extends DomainResource {
              *     Opening time of day (ignored if allDay = true)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder availableStartTime(Time availableStartTime) {
                 this.availableStartTime = availableStartTime;
@@ -2084,7 +2228,7 @@ public class HealthcareService extends DomainResource {
              *     Closing time of day (ignored if allDay = true)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder availableEndTime(Time availableEndTime) {
                 this.availableEndTime = availableEndTime;
@@ -2235,7 +2379,7 @@ public class HealthcareService extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2249,12 +2393,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2268,12 +2415,15 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2293,12 +2443,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2318,12 +2471,15 @@ public class HealthcareService extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2339,7 +2495,7 @@ public class HealthcareService extends DomainResource {
              *     Service not available from this date
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder during(Period during) {
                 this.during = during;

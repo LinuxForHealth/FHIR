@@ -40,7 +40,7 @@ public class CodeableConcept extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getCoding() {
         return coding;
@@ -134,7 +134,7 @@ public class CodeableConcept extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -148,12 +148,15 @@ public class CodeableConcept extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -167,12 +170,15 @@ public class CodeableConcept extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -183,12 +189,15 @@ public class CodeableConcept extends Element {
          * <p>
          * A reference to a code defined by a terminology system.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param coding
          *     Code defined by a terminology system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder coding(Coding... coding) {
             for (Coding value : coding) {
@@ -201,15 +210,18 @@ public class CodeableConcept extends Element {
          * <p>
          * A reference to a code defined by a terminology system.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param coding
          *     Code defined by a terminology system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder coding(Collection<Coding> coding) {
-            this.coding.addAll(coding);
+            this.coding = new ArrayList<>(coding);
             return this;
         }
 
@@ -223,7 +235,7 @@ public class CodeableConcept extends Element {
          *     Plain text representation of the concept
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder text(String text) {
             this.text = text;

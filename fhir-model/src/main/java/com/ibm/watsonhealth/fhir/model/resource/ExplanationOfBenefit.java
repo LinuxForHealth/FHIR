@@ -152,7 +152,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -326,7 +326,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Related}.
+     *     An unmodifiable list containing immutable objects of type {@link Related}.
      */
     public List<Related> getRelated() {
         return related;
@@ -448,7 +448,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getPreAuthRef() {
         return preAuthRef;
@@ -461,7 +461,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Period}.
+     *     An unmodifiable list containing immutable objects of type {@link Period}.
      */
     public List<Period> getPreAuthRefPeriod() {
         return preAuthRefPeriod;
@@ -473,7 +473,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CareTeam}.
+     *     An unmodifiable list containing immutable objects of type {@link CareTeam}.
      */
     public List<CareTeam> getCareTeam() {
         return careTeam;
@@ -486,7 +486,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link SupportingInfo}.
+     *     An unmodifiable list containing immutable objects of type {@link SupportingInfo}.
      */
     public List<SupportingInfo> getSupportingInfo() {
         return supportingInfo;
@@ -498,7 +498,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -510,7 +510,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Procedure}.
+     *     An unmodifiable list containing immutable objects of type {@link Procedure}.
      */
     public List<Procedure> getProcedure() {
         return procedure;
@@ -534,7 +534,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Insurance}.
+     *     An unmodifiable list containing immutable objects of type {@link Insurance}.
      */
     public List<Insurance> getInsurance() {
         return insurance;
@@ -559,7 +559,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item}.
      */
     public List<Item> getItem() {
         return item;
@@ -571,7 +571,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AddItem}.
+     *     An unmodifiable list containing immutable objects of type {@link AddItem}.
      */
     public List<AddItem> getAddItem() {
         return addItem;
@@ -583,7 +583,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Adjudication}.
+     *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
      */
     public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
         return adjudication;
@@ -595,7 +595,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Total}.
+     *     An unmodifiable list containing immutable objects of type {@link Total}.
      */
     public List<Total> getTotal() {
         return total;
@@ -643,7 +643,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ProcessNote}.
+     *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
      */
     public List<ProcessNote> getProcessNote() {
         return processNote;
@@ -667,7 +667,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link BenefitBalance}.
+     *     An unmodifiable list containing immutable objects of type {@link BenefitBalance}.
      */
     public List<BenefitBalance> getBenefitBalance() {
         return benefitBalance;
@@ -944,7 +944,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -961,7 +961,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -979,7 +979,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -995,7 +995,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -1014,7 +1014,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -1026,12 +1026,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -1043,12 +1046,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -1062,12 +1068,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -1081,12 +1090,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -1106,12 +1118,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -1131,12 +1146,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1147,12 +1165,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * A unique identifier assigned to this explanation of benefit.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -1165,15 +1186,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * A unique identifier assigned to this explanation of benefit.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1187,7 +1211,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     More granular claim type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subType(CodeableConcept subType) {
             this.subType = subType;
@@ -1203,7 +1227,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Relevant time frame for the claim
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder billablePeriod(Period billablePeriod) {
             this.billablePeriod = billablePeriod;
@@ -1219,7 +1243,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Author of the claim
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder enterer(Reference enterer) {
             this.enterer = enterer;
@@ -1235,7 +1259,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Desired processing urgency
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(CodeableConcept priority) {
             this.priority = priority;
@@ -1251,7 +1275,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     For whom to reserve funds
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fundsReserveRequested(CodeableConcept fundsReserveRequested) {
             this.fundsReserveRequested = fundsReserveRequested;
@@ -1268,7 +1292,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Funds reserved status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fundsReserve(CodeableConcept fundsReserve) {
             this.fundsReserve = fundsReserve;
@@ -1280,12 +1304,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
          * event.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param related
          *     Prior or corollary claims
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder related(Related... related) {
             for (Related value : related) {
@@ -1299,15 +1326,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
          * event.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param related
          *     Prior or corollary claims
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder related(Collection<Related> related) {
-            this.related.addAll(related);
+            this.related = new ArrayList<>(related);
             return this;
         }
 
@@ -1320,7 +1350,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Prescription authorizing services or products
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prescription(Reference prescription) {
             this.prescription = prescription;
@@ -1337,7 +1367,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Original prescription if superceded by fulfiller
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder originalPrescription(Reference originalPrescription) {
             this.originalPrescription = originalPrescription;
@@ -1353,7 +1383,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Recipient of benefits payable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payee(Payee payee) {
             this.payee = payee;
@@ -1369,7 +1399,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Treatment Referral
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referral(Reference referral) {
             this.referral = referral;
@@ -1385,7 +1415,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Servicing Facility
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder facility(Reference facility) {
             this.facility = facility;
@@ -1401,7 +1431,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Claim reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder claim(Reference claim) {
             this.claim = claim;
@@ -1418,7 +1448,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Claim response reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder claimResponse(Reference claimResponse) {
             this.claimResponse = claimResponse;
@@ -1434,7 +1464,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Disposition Message
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
@@ -1445,12 +1475,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param preAuthRef
          *     Preauthorization reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthRef(String... preAuthRef) {
             for (String value : preAuthRef) {
@@ -1463,15 +1496,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param preAuthRef
          *     Preauthorization reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthRef(Collection<String> preAuthRef) {
-            this.preAuthRef.addAll(preAuthRef);
+            this.preAuthRef = new ArrayList<>(preAuthRef);
             return this;
         }
 
@@ -1480,12 +1516,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * The timeframe during which the supplied preauthorization reference may be quoted on claims to obtain the adjudication 
          * as provided.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param preAuthRefPeriod
          *     Preauthorization in-effect period
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthRefPeriod(Period... preAuthRefPeriod) {
             for (Period value : preAuthRefPeriod) {
@@ -1499,15 +1538,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * The timeframe during which the supplied preauthorization reference may be quoted on claims to obtain the adjudication 
          * as provided.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param preAuthRefPeriod
          *     Preauthorization in-effect period
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preAuthRefPeriod(Collection<Period> preAuthRefPeriod) {
-            this.preAuthRefPeriod.addAll(preAuthRefPeriod);
+            this.preAuthRefPeriod = new ArrayList<>(preAuthRefPeriod);
             return this;
         }
 
@@ -1515,12 +1557,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The members of the team who provided the products and services.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param careTeam
          *     Care Team members
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder careTeam(CareTeam... careTeam) {
             for (CareTeam value : careTeam) {
@@ -1533,15 +1578,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The members of the team who provided the products and services.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param careTeam
          *     Care Team members
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder careTeam(Collection<CareTeam> careTeam) {
-            this.careTeam.addAll(careTeam);
+            this.careTeam = new ArrayList<>(careTeam);
             return this;
         }
 
@@ -1550,12 +1598,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supportingInfo
          *     Supporting information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(SupportingInfo... supportingInfo) {
             for (SupportingInfo value : supportingInfo) {
@@ -1569,15 +1620,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supportingInfo
          *     Supporting information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Collection<SupportingInfo> supportingInfo) {
-            this.supportingInfo.addAll(supportingInfo);
+            this.supportingInfo = new ArrayList<>(supportingInfo);
             return this;
         }
 
@@ -1585,12 +1639,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Information about diagnoses relevant to the claim items.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param diagnosis
          *     Pertinent diagnosis information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Diagnosis... diagnosis) {
             for (Diagnosis value : diagnosis) {
@@ -1603,15 +1660,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Information about diagnoses relevant to the claim items.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param diagnosis
          *     Pertinent diagnosis information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Collection<Diagnosis> diagnosis) {
-            this.diagnosis.addAll(diagnosis);
+            this.diagnosis = new ArrayList<>(diagnosis);
             return this;
         }
 
@@ -1619,12 +1679,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Procedures performed on the patient relevant to the billing items with the claim.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param procedure
          *     Clinical procedures performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedure(Procedure... procedure) {
             for (Procedure value : procedure) {
@@ -1637,15 +1700,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Procedures performed on the patient relevant to the billing items with the claim.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param procedure
          *     Clinical procedures performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedure(Collection<Procedure> procedure) {
-            this.procedure.addAll(procedure);
+            this.procedure = new ArrayList<>(procedure);
             return this;
         }
 
@@ -1658,7 +1724,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Precedence (primary, secondary, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder precedence(PositiveInt precedence) {
             this.precedence = precedence;
@@ -1674,7 +1740,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Details of the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder accident(Accident accident) {
             this.accident = accident;
@@ -1686,12 +1752,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param item
          *     Product or service provided
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Item... item) {
             for (Item value : item) {
@@ -1705,15 +1774,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param item
          *     Product or service provided
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Collection<Item> item) {
-            this.item.addAll(item);
+            this.item = new ArrayList<>(item);
             return this;
         }
 
@@ -1721,12 +1793,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param addItem
          *     Insurer added line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addItem(AddItem... addItem) {
             for (AddItem value : addItem) {
@@ -1739,15 +1814,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param addItem
          *     Insurer added line items
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addItem(Collection<AddItem> addItem) {
-            this.addItem.addAll(addItem);
+            this.addItem = new ArrayList<>(addItem);
             return this;
         }
 
@@ -1755,12 +1833,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param adjudication
          *     Header-level adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
             for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -1773,15 +1854,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param adjudication
          *     Header-level adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-            this.adjudication.addAll(adjudication);
+            this.adjudication = new ArrayList<>(adjudication);
             return this;
         }
 
@@ -1789,12 +1873,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Categorized monetary totals for the adjudication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param total
          *     Adjudication totals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder total(Total... total) {
             for (Total value : total) {
@@ -1807,15 +1894,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Categorized monetary totals for the adjudication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param total
          *     Adjudication totals
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder total(Collection<Total> total) {
-            this.total.addAll(total);
+            this.total = new ArrayList<>(total);
             return this;
         }
 
@@ -1828,7 +1918,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Payment Details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payment(Payment payment) {
             this.payment = payment;
@@ -1844,7 +1934,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Printed form identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder formCode(CodeableConcept formCode) {
             this.formCode = formCode;
@@ -1860,7 +1950,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     Printed reference or actual form
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder form(Attachment form) {
             this.form = form;
@@ -1871,12 +1961,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param processNote
          *     Note concerning adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(ProcessNote... processNote) {
             for (ProcessNote value : processNote) {
@@ -1889,15 +1982,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param processNote
          *     Note concerning adjudication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(Collection<ProcessNote> processNote) {
-            this.processNote.addAll(processNote);
+            this.processNote = new ArrayList<>(processNote);
             return this;
         }
 
@@ -1910,7 +2006,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     When the benefits are applicable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder benefitPeriod(Period benefitPeriod) {
             this.benefitPeriod = benefitPeriod;
@@ -1921,12 +2017,15 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Balance by Benefit Category.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param benefitBalance
          *     Balance by Benefit Category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder benefitBalance(BenefitBalance... benefitBalance) {
             for (BenefitBalance value : benefitBalance) {
@@ -1939,15 +2038,18 @@ public class ExplanationOfBenefit extends DomainResource {
          * <p>
          * Balance by Benefit Category.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param benefitBalance
          *     Balance by Benefit Category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder benefitBalance(Collection<BenefitBalance> benefitBalance) {
-            this.benefitBalance.addAll(benefitBalance);
+            this.benefitBalance = new ArrayList<>(benefitBalance);
             return this;
         }
 
@@ -2141,7 +2243,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2155,12 +2257,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2174,12 +2279,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2199,12 +2307,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2224,12 +2335,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2245,7 +2359,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Reference to the related claim
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder claim(Reference claim) {
                 this.claim = claim;
@@ -2261,7 +2375,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     How the reference claim is related
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relationship(CodeableConcept relationship) {
                 this.relationship = relationship;
@@ -2277,7 +2391,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     File or case reference
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reference(Identifier reference) {
                 this.reference = reference;
@@ -2420,7 +2534,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2434,12 +2548,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2453,12 +2570,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2478,12 +2598,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2503,12 +2626,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2524,7 +2650,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Category of recipient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2540,7 +2666,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Recipient reference
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder party(Reference party) {
                 this.party = party;
@@ -2744,7 +2870,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2758,12 +2884,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2777,12 +2906,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2802,12 +2934,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2827,12 +2962,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2848,7 +2986,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Indicator of the lead practitioner
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder responsible(Boolean responsible) {
                 this.responsible = responsible;
@@ -2864,7 +3002,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Function within the team
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept role) {
                 this.role = role;
@@ -2880,7 +3018,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Practitioner credential or specialization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder qualification(CodeableConcept qualification) {
                 this.qualification = qualification;
@@ -3106,7 +3244,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3120,12 +3258,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3139,12 +3280,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3164,12 +3308,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3189,12 +3336,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3211,7 +3361,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Type of information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -3227,7 +3377,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     When it occurred
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder timing(Element timing) {
                 this.timing = timing;
@@ -3244,7 +3394,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Data to be provided
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder value(Element value) {
                 this.value = value;
@@ -3260,7 +3410,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Explanation for the information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reason(Coding reason) {
                 this.reason = reason;
@@ -3338,7 +3488,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -3467,7 +3617,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3481,12 +3631,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3500,12 +3653,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3525,12 +3681,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3550,12 +3709,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3566,12 +3728,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * When the condition was observed or the relative ranking.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     Timing or nature of the diagnosis
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept... type) {
                 for (CodeableConcept value : type) {
@@ -3584,15 +3749,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * When the condition was observed or the relative ranking.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     Timing or nature of the diagnosis
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<CodeableConcept> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -3605,7 +3773,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Present on admission
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onAdmission(CodeableConcept onAdmission) {
                 this.onAdmission = onAdmission;
@@ -3622,7 +3790,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Package billing code
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder packageCode(CodeableConcept packageCode) {
                 this.packageCode = packageCode;
@@ -3687,7 +3855,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -3723,7 +3891,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getUdi() {
             return udi;
@@ -3827,7 +3995,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3841,12 +4009,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3860,12 +4031,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3885,12 +4059,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3910,12 +4087,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3926,12 +4106,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * When the condition was observed or the relative ranking.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     Category of Procedure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept... type) {
                 for (CodeableConcept value : type) {
@@ -3944,15 +4127,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * When the condition was observed or the relative ranking.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     Category of Procedure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<CodeableConcept> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -3965,7 +4151,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     When the procedure was performed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(DateTime date) {
                 this.date = date;
@@ -3976,12 +4162,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Unique Device Identifiers associated with this line item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param udi
              *     Unique device identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder udi(Reference... udi) {
                 for (Reference value : udi) {
@@ -3994,15 +4183,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Unique Device Identifiers associated with this line item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param udi
              *     Unique device identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder udi(Collection<Reference> udi) {
-                this.udi.addAll(udi);
+                this.udi = new ArrayList<>(udi);
                 return this;
             }
 
@@ -4074,7 +4266,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String}.
          */
         public List<String> getPreAuthRef() {
             return preAuthRef;
@@ -4170,7 +4362,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4184,12 +4376,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4203,12 +4398,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4228,12 +4426,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4253,12 +4454,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4270,12 +4474,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
              * services or products related to the prior authorization.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param preAuthRef
              *     Prior authorization reference number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preAuthRef(String... preAuthRef) {
                 for (String value : preAuthRef) {
@@ -4289,15 +4496,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
              * services or products related to the prior authorization.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param preAuthRef
              *     Prior authorization reference number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preAuthRef(Collection<String> preAuthRef) {
-                this.preAuthRef.addAll(preAuthRef);
+                this.preAuthRef = new ArrayList<>(preAuthRef);
                 return this;
             }
 
@@ -4454,7 +4664,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4468,12 +4678,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4487,12 +4700,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4512,12 +4728,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4537,12 +4756,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4558,7 +4780,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     When the incident occurred
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Date date) {
                 this.date = date;
@@ -4575,7 +4797,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     The nature of the accident
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -4591,7 +4813,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Where the event occurred
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder location(Element location) {
                 this.location = location;
@@ -4693,7 +4915,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getCareTeamSequence() {
             return careTeamSequence;
@@ -4705,7 +4927,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getDiagnosisSequence() {
             return diagnosisSequence;
@@ -4717,7 +4939,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getProcedureSequence() {
             return procedureSequence;
@@ -4729,7 +4951,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getInformationSequence() {
             return informationSequence;
@@ -4778,7 +5000,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getModifier() {
             return modifier;
@@ -4790,7 +5012,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getProgramCode() {
             return programCode;
@@ -4876,7 +5098,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getUdi() {
             return udi;
@@ -4900,7 +5122,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getSubSite() {
             return subSite;
@@ -4912,7 +5134,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getEncounter() {
             return encounter;
@@ -4924,7 +5146,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getNoteNumber() {
             return noteNumber;
@@ -4937,7 +5159,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Adjudication}.
+         *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
          */
         public List<Adjudication> getAdjudication() {
             return adjudication;
@@ -4949,7 +5171,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail}.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -5125,7 +5347,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5139,12 +5361,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5158,12 +5383,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5183,12 +5411,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5208,12 +5439,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5224,12 +5458,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Care team members related to this service or product.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param careTeamSequence
              *     Applicable care team members
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder careTeamSequence(PositiveInt... careTeamSequence) {
                 for (PositiveInt value : careTeamSequence) {
@@ -5242,15 +5479,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Care team members related to this service or product.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param careTeamSequence
              *     Applicable care team members
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder careTeamSequence(Collection<PositiveInt> careTeamSequence) {
-                this.careTeamSequence.addAll(careTeamSequence);
+                this.careTeamSequence = new ArrayList<>(careTeamSequence);
                 return this;
             }
 
@@ -5258,12 +5498,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Diagnoses applicable for this service or product.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param diagnosisSequence
              *     Applicable diagnoses
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder diagnosisSequence(PositiveInt... diagnosisSequence) {
                 for (PositiveInt value : diagnosisSequence) {
@@ -5276,15 +5519,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Diagnoses applicable for this service or product.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param diagnosisSequence
              *     Applicable diagnoses
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder diagnosisSequence(Collection<PositiveInt> diagnosisSequence) {
-                this.diagnosisSequence.addAll(diagnosisSequence);
+                this.diagnosisSequence = new ArrayList<>(diagnosisSequence);
                 return this;
             }
 
@@ -5292,12 +5538,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Procedures applicable for this service or product.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param procedureSequence
              *     Applicable procedures
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder procedureSequence(PositiveInt... procedureSequence) {
                 for (PositiveInt value : procedureSequence) {
@@ -5310,15 +5559,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Procedures applicable for this service or product.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param procedureSequence
              *     Applicable procedures
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder procedureSequence(Collection<PositiveInt> procedureSequence) {
-                this.procedureSequence.addAll(procedureSequence);
+                this.procedureSequence = new ArrayList<>(procedureSequence);
                 return this;
             }
 
@@ -5326,12 +5578,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param informationSequence
              *     Applicable exception and supporting information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder informationSequence(PositiveInt... informationSequence) {
                 for (PositiveInt value : informationSequence) {
@@ -5344,15 +5599,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param informationSequence
              *     Applicable exception and supporting information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder informationSequence(Collection<PositiveInt> informationSequence) {
-                this.informationSequence.addAll(informationSequence);
+                this.informationSequence = new ArrayList<>(informationSequence);
                 return this;
             }
 
@@ -5365,7 +5623,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Revenue or cost center code
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder revenue(CodeableConcept revenue) {
                 this.revenue = revenue;
@@ -5381,7 +5639,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Benefit classification
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder category(CodeableConcept category) {
                 this.category = category;
@@ -5392,12 +5650,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifier
              *     Product or service billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(CodeableConcept... modifier) {
                 for (CodeableConcept value : modifier) {
@@ -5410,15 +5671,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifier
              *     Product or service billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(Collection<CodeableConcept> modifier) {
-                this.modifier.addAll(modifier);
+                this.modifier = new ArrayList<>(modifier);
                 return this;
             }
 
@@ -5426,12 +5690,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(CodeableConcept... programCode) {
                 for (CodeableConcept value : programCode) {
@@ -5444,15 +5711,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(Collection<CodeableConcept> programCode) {
-                this.programCode.addAll(programCode);
+                this.programCode = new ArrayList<>(programCode);
                 return this;
             }
 
@@ -5465,7 +5735,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Date or dates of service or product delivery
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder serviced(Element serviced) {
                 this.serviced = serviced;
@@ -5481,7 +5751,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Place of service or where product was supplied
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder location(Element location) {
                 this.location = location;
@@ -5497,7 +5767,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Count of products or services
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -5514,7 +5784,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Fee, charge or cost per item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unitPrice(Money unitPrice) {
                 this.unitPrice = unitPrice;
@@ -5531,7 +5801,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Price scaling factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder factor(Decimal factor) {
                 this.factor = factor;
@@ -5547,7 +5817,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Total item cost
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder net(Money net) {
                 this.net = net;
@@ -5558,12 +5828,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Unique Device Identifiers associated with this line item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param udi
              *     Unique device identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder udi(Reference... udi) {
                 for (Reference value : udi) {
@@ -5576,15 +5849,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Unique Device Identifiers associated with this line item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param udi
              *     Unique device identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder udi(Collection<Reference> udi) {
-                this.udi.addAll(udi);
+                this.udi = new ArrayList<>(udi);
                 return this;
             }
 
@@ -5597,7 +5873,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Anatomical location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bodySite(CodeableConcept bodySite) {
                 this.bodySite = bodySite;
@@ -5608,12 +5884,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(CodeableConcept... subSite) {
                 for (CodeableConcept value : subSite) {
@@ -5626,15 +5905,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(Collection<CodeableConcept> subSite) {
-                this.subSite.addAll(subSite);
+                this.subSite = new ArrayList<>(subSite);
                 return this;
             }
 
@@ -5642,12 +5924,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A billed item may include goods or services provided in multiple encounters.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param encounter
              *     Encounters related to this billed item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder encounter(Reference... encounter) {
                 for (Reference value : encounter) {
@@ -5660,15 +5945,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A billed item may include goods or services provided in multiple encounters.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param encounter
              *     Encounters related to this billed item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder encounter(Collection<Reference> encounter) {
-                this.encounter.addAll(encounter);
+                this.encounter = new ArrayList<>(encounter);
                 return this;
             }
 
@@ -5676,12 +5964,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(PositiveInt... noteNumber) {
                 for (PositiveInt value : noteNumber) {
@@ -5694,15 +5985,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                this.noteNumber.addAll(noteNumber);
+                this.noteNumber = new ArrayList<>(noteNumber);
                 return this;
             }
 
@@ -5711,12 +6005,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param adjudication
              *     Adjudication details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjudication(Adjudication... adjudication) {
                 for (Adjudication value : adjudication) {
@@ -5730,15 +6027,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param adjudication
              *     Adjudication details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjudication(Collection<Adjudication> adjudication) {
-                this.adjudication.addAll(adjudication);
+                this.adjudication = new ArrayList<>(adjudication);
                 return this;
             }
 
@@ -5746,12 +6046,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Second-tier of goods and services.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Additional items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail... detail) {
                 for (Detail value : detail) {
@@ -5764,15 +6067,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Second-tier of goods and services.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Additional items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Detail> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -5975,7 +6281,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -5989,12 +6295,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -6008,12 +6317,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -6033,12 +6345,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -6058,12 +6373,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6079,7 +6397,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Explanation of adjudication outcome
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reason(CodeableConcept reason) {
                     this.reason = reason;
@@ -6095,7 +6413,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Monetary amount
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(Money amount) {
                     this.amount = amount;
@@ -6111,7 +6429,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Non-monitary value
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder value(Decimal value) {
                     this.value = value;
@@ -6231,7 +6549,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getModifier() {
                 return modifier;
@@ -6243,7 +6561,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getProgramCode() {
                 return programCode;
@@ -6305,7 +6623,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getUdi() {
                 return udi;
@@ -6317,7 +6635,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link PositiveInt}.
+             *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
              */
             public List<PositiveInt> getNoteNumber() {
                 return noteNumber;
@@ -6329,7 +6647,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Adjudication}.
+             *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
              */
             public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                 return adjudication;
@@ -6341,7 +6659,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link SubDetail}.
+             *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
@@ -6481,7 +6799,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -6495,12 +6813,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -6514,12 +6835,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -6539,12 +6863,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -6564,12 +6891,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6585,7 +6915,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Revenue or cost center code
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder revenue(CodeableConcept revenue) {
                     this.revenue = revenue;
@@ -6601,7 +6931,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Benefit classification
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder category(CodeableConcept category) {
                     this.category = category;
@@ -6612,12 +6942,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(CodeableConcept... modifier) {
                     for (CodeableConcept value : modifier) {
@@ -6630,15 +6963,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(Collection<CodeableConcept> modifier) {
-                    this.modifier.addAll(modifier);
+                    this.modifier = new ArrayList<>(modifier);
                     return this;
                 }
 
@@ -6646,12 +6982,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Identifies the program under which this may be recovered.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param programCode
                  *     Program the product or service is provided under
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder programCode(CodeableConcept... programCode) {
                     for (CodeableConcept value : programCode) {
@@ -6664,15 +7003,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Identifies the program under which this may be recovered.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param programCode
                  *     Program the product or service is provided under
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder programCode(Collection<CodeableConcept> programCode) {
-                    this.programCode.addAll(programCode);
+                    this.programCode = new ArrayList<>(programCode);
                     return this;
                 }
 
@@ -6685,7 +7027,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Count of products or services
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder quantity(Quantity quantity) {
                     this.quantity = quantity;
@@ -6702,7 +7044,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Fee, charge or cost per item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder unitPrice(Money unitPrice) {
                     this.unitPrice = unitPrice;
@@ -6719,7 +7061,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Price scaling factor
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder factor(Decimal factor) {
                     this.factor = factor;
@@ -6735,7 +7077,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Total item cost
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder net(Money net) {
                     this.net = net;
@@ -6746,12 +7088,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Unique Device Identifiers associated with this line item.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param udi
                  *     Unique device identifier
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder udi(Reference... udi) {
                     for (Reference value : udi) {
@@ -6764,15 +7109,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Unique Device Identifiers associated with this line item.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param udi
                  *     Unique device identifier
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder udi(Collection<Reference> udi) {
-                    this.udi.addAll(udi);
+                    this.udi = new ArrayList<>(udi);
                     return this;
                 }
 
@@ -6780,12 +7128,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(PositiveInt... noteNumber) {
                     for (PositiveInt value : noteNumber) {
@@ -6798,15 +7149,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                    this.noteNumber.addAll(noteNumber);
+                    this.noteNumber = new ArrayList<>(noteNumber);
                     return this;
                 }
 
@@ -6814,12 +7168,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The adjudication results.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
                     for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -6832,15 +7189,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The adjudication results.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-                    this.adjudication.addAll(adjudication);
+                    this.adjudication = new ArrayList<>(adjudication);
                     return this;
                 }
 
@@ -6848,12 +7208,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Third-tier of goods and services.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subDetail
                  *     Additional items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(SubDetail... subDetail) {
                     for (SubDetail value : subDetail) {
@@ -6866,15 +7229,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Third-tier of goods and services.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subDetail
                  *     Additional items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(Collection<SubDetail> subDetail) {
-                    this.subDetail.addAll(subDetail);
+                    this.subDetail = new ArrayList<>(subDetail);
                     return this;
                 }
 
@@ -6997,7 +7363,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
                  */
                 public List<CodeableConcept> getModifier() {
                     return modifier;
@@ -7009,7 +7375,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
                  */
                 public List<CodeableConcept> getProgramCode() {
                     return programCode;
@@ -7071,7 +7437,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
                  */
                 public List<Reference> getUdi() {
                     return udi;
@@ -7083,7 +7449,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link PositiveInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
                  */
                 public List<PositiveInt> getNoteNumber() {
                     return noteNumber;
@@ -7095,7 +7461,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Adjudication}.
+                 *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
                  */
                 public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                     return adjudication;
@@ -7231,7 +7597,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -7245,12 +7611,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -7264,12 +7633,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -7289,12 +7661,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -7314,12 +7689,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7335,7 +7713,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Revenue or cost center code
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder revenue(CodeableConcept revenue) {
                         this.revenue = revenue;
@@ -7351,7 +7729,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Benefit classification
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder category(CodeableConcept category) {
                         this.category = category;
@@ -7362,12 +7740,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(CodeableConcept... modifier) {
                         for (CodeableConcept value : modifier) {
@@ -7380,15 +7761,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(Collection<CodeableConcept> modifier) {
-                        this.modifier.addAll(modifier);
+                        this.modifier = new ArrayList<>(modifier);
                         return this;
                     }
 
@@ -7396,12 +7780,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Identifies the program under which this may be recovered.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param programCode
                      *     Program the product or service is provided under
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder programCode(CodeableConcept... programCode) {
                         for (CodeableConcept value : programCode) {
@@ -7414,15 +7801,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Identifies the program under which this may be recovered.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param programCode
                      *     Program the product or service is provided under
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder programCode(Collection<CodeableConcept> programCode) {
-                        this.programCode.addAll(programCode);
+                        this.programCode = new ArrayList<>(programCode);
                         return this;
                     }
 
@@ -7435,7 +7825,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Count of products or services
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder quantity(Quantity quantity) {
                         this.quantity = quantity;
@@ -7452,7 +7842,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Fee, charge or cost per item
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder unitPrice(Money unitPrice) {
                         this.unitPrice = unitPrice;
@@ -7469,7 +7859,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Price scaling factor
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder factor(Decimal factor) {
                         this.factor = factor;
@@ -7485,7 +7875,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Total item cost
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder net(Money net) {
                         this.net = net;
@@ -7496,12 +7886,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Unique Device Identifiers associated with this line item.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param udi
                      *     Unique device identifier
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder udi(Reference... udi) {
                         for (Reference value : udi) {
@@ -7514,15 +7907,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Unique Device Identifiers associated with this line item.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param udi
                      *     Unique device identifier
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder udi(Collection<Reference> udi) {
-                        this.udi.addAll(udi);
+                        this.udi = new ArrayList<>(udi);
                         return this;
                     }
 
@@ -7530,12 +7926,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(PositiveInt... noteNumber) {
                         for (PositiveInt value : noteNumber) {
@@ -7548,15 +7947,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                        this.noteNumber.addAll(noteNumber);
+                        this.noteNumber = new ArrayList<>(noteNumber);
                         return this;
                     }
 
@@ -7564,12 +7966,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
                         for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -7582,15 +7987,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-                        this.adjudication.addAll(adjudication);
+                        this.adjudication = new ArrayList<>(adjudication);
                         return this;
                     }
 
@@ -7676,7 +8084,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getItemSequence() {
             return itemSequence;
@@ -7688,7 +8096,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getDetailSequence() {
             return detailSequence;
@@ -7701,7 +8109,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getSubDetailSequence() {
             return subDetailSequence;
@@ -7713,7 +8121,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getProvider() {
             return provider;
@@ -7738,7 +8146,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getModifier() {
             return modifier;
@@ -7750,7 +8158,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getProgramCode() {
             return programCode;
@@ -7848,7 +8256,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getSubSite() {
             return subSite;
@@ -7860,7 +8268,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
          */
         public List<PositiveInt> getNoteNumber() {
             return noteNumber;
@@ -7872,7 +8280,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Adjudication}.
+         *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
          */
         public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
             return adjudication;
@@ -7884,7 +8292,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail}.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -8039,7 +8447,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -8053,12 +8461,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -8072,12 +8483,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -8097,12 +8511,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -8122,12 +8539,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8138,12 +8558,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Claim items which this service line is intended to replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param itemSequence
              *     Item sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemSequence(PositiveInt... itemSequence) {
                 for (PositiveInt value : itemSequence) {
@@ -8156,15 +8579,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Claim items which this service line is intended to replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param itemSequence
              *     Item sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemSequence(Collection<PositiveInt> itemSequence) {
-                this.itemSequence.addAll(itemSequence);
+                this.itemSequence = new ArrayList<>(itemSequence);
                 return this;
             }
 
@@ -8172,12 +8598,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detailSequence
              *     Detail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detailSequence(PositiveInt... detailSequence) {
                 for (PositiveInt value : detailSequence) {
@@ -8190,15 +8619,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detailSequence
              *     Detail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detailSequence(Collection<PositiveInt> detailSequence) {
-                this.detailSequence.addAll(detailSequence);
+                this.detailSequence = new ArrayList<>(detailSequence);
                 return this;
             }
 
@@ -8207,12 +8639,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * The sequence number of the sub-details woithin the details within the claim item which this line is intended to 
              * replace.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param subDetailSequence
              *     Subdetail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subDetailSequence(PositiveInt... subDetailSequence) {
                 for (PositiveInt value : subDetailSequence) {
@@ -8226,15 +8661,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * The sequence number of the sub-details woithin the details within the claim item which this line is intended to 
              * replace.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param subDetailSequence
              *     Subdetail sequence number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subDetailSequence(Collection<PositiveInt> subDetailSequence) {
-                this.subDetailSequence.addAll(subDetailSequence);
+                this.subDetailSequence = new ArrayList<>(subDetailSequence);
                 return this;
             }
 
@@ -8242,12 +8680,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The providers who are authorized for the services rendered to the patient.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param provider
              *     Authorized providers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provider(Reference... provider) {
                 for (Reference value : provider) {
@@ -8260,15 +8701,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The providers who are authorized for the services rendered to the patient.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param provider
              *     Authorized providers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provider(Collection<Reference> provider) {
-                this.provider.addAll(provider);
+                this.provider = new ArrayList<>(provider);
                 return this;
             }
 
@@ -8276,12 +8720,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifier
              *     Service/Product billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(CodeableConcept... modifier) {
                 for (CodeableConcept value : modifier) {
@@ -8294,15 +8741,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifier
              *     Service/Product billing modifiers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder modifier(Collection<CodeableConcept> modifier) {
-                this.modifier.addAll(modifier);
+                this.modifier = new ArrayList<>(modifier);
                 return this;
             }
 
@@ -8310,12 +8760,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(CodeableConcept... programCode) {
                 for (CodeableConcept value : programCode) {
@@ -8328,15 +8781,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Identifies the program under which this may be recovered.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param programCode
              *     Program the product or service is provided under
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder programCode(Collection<CodeableConcept> programCode) {
-                this.programCode.addAll(programCode);
+                this.programCode = new ArrayList<>(programCode);
                 return this;
             }
 
@@ -8349,7 +8805,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Date or dates of service or product delivery
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder serviced(Element serviced) {
                 this.serviced = serviced;
@@ -8365,7 +8821,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Place of service or where product was supplied
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder location(Element location) {
                 this.location = location;
@@ -8381,7 +8837,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Count of products or services
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -8398,7 +8854,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Fee, charge or cost per item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unitPrice(Money unitPrice) {
                 this.unitPrice = unitPrice;
@@ -8415,7 +8871,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Price scaling factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder factor(Decimal factor) {
                 this.factor = factor;
@@ -8431,7 +8887,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Total item cost
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder net(Money net) {
                 this.net = net;
@@ -8447,7 +8903,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Anatomical location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bodySite(CodeableConcept bodySite) {
                 this.bodySite = bodySite;
@@ -8458,12 +8914,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(CodeableConcept... subSite) {
                 for (CodeableConcept value : subSite) {
@@ -8476,15 +8935,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param subSite
              *     Anatomical sub-location
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subSite(Collection<CodeableConcept> subSite) {
-                this.subSite.addAll(subSite);
+                this.subSite = new ArrayList<>(subSite);
                 return this;
             }
 
@@ -8492,12 +8954,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(PositiveInt... noteNumber) {
                 for (PositiveInt value : noteNumber) {
@@ -8510,15 +8975,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param noteNumber
              *     Applicable note numbers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                this.noteNumber.addAll(noteNumber);
+                this.noteNumber = new ArrayList<>(noteNumber);
                 return this;
             }
 
@@ -8526,12 +8994,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The adjudication results.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param adjudication
              *     Added items adjudication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
                 for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -8544,15 +9015,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The adjudication results.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param adjudication
              *     Added items adjudication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-                this.adjudication.addAll(adjudication);
+                this.adjudication = new ArrayList<>(adjudication);
                 return this;
             }
 
@@ -8560,12 +9034,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Insurer added line items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail... detail) {
                 for (Detail value : detail) {
@@ -8578,15 +9055,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Insurer added line items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Detail> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -8670,7 +9150,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getModifier() {
                 return modifier;
@@ -8732,7 +9212,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link PositiveInt}.
+             *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
              */
             public List<PositiveInt> getNoteNumber() {
                 return noteNumber;
@@ -8744,7 +9224,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Adjudication}.
+             *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
              */
             public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                 return adjudication;
@@ -8756,7 +9236,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link SubDetail}.
+             *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
@@ -8875,7 +9355,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -8889,12 +9369,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -8908,12 +9391,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -8933,12 +9419,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -8958,12 +9447,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8974,12 +9466,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(CodeableConcept... modifier) {
                     for (CodeableConcept value : modifier) {
@@ -8992,15 +9487,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(Collection<CodeableConcept> modifier) {
-                    this.modifier.addAll(modifier);
+                    this.modifier = new ArrayList<>(modifier);
                     return this;
                 }
 
@@ -9013,7 +9511,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Count of products or services
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder quantity(Quantity quantity) {
                     this.quantity = quantity;
@@ -9030,7 +9528,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Fee, charge or cost per item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder unitPrice(Money unitPrice) {
                     this.unitPrice = unitPrice;
@@ -9047,7 +9545,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Price scaling factor
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder factor(Decimal factor) {
                     this.factor = factor;
@@ -9063,7 +9561,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Total item cost
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder net(Money net) {
                     this.net = net;
@@ -9074,12 +9572,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(PositiveInt... noteNumber) {
                     for (PositiveInt value : noteNumber) {
@@ -9092,15 +9593,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                    this.noteNumber.addAll(noteNumber);
+                    this.noteNumber = new ArrayList<>(noteNumber);
                     return this;
                 }
 
@@ -9108,12 +9612,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The adjudication results.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param adjudication
                  *     Added items adjudication
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
                     for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -9126,15 +9633,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The adjudication results.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param adjudication
                  *     Added items adjudication
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-                    this.adjudication.addAll(adjudication);
+                    this.adjudication = new ArrayList<>(adjudication);
                     return this;
                 }
 
@@ -9142,12 +9652,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subDetail
                  *     Insurer added line items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(SubDetail... subDetail) {
                     for (SubDetail value : subDetail) {
@@ -9160,15 +9673,18 @@ public class ExplanationOfBenefit extends DomainResource {
                  * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subDetail
                  *     Insurer added line items
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subDetail(Collection<SubDetail> subDetail) {
-                    this.subDetail.addAll(subDetail);
+                    this.subDetail = new ArrayList<>(subDetail);
                     return this;
                 }
 
@@ -9241,7 +9757,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
                  */
                 public List<CodeableConcept> getModifier() {
                     return modifier;
@@ -9303,7 +9819,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link PositiveInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
                  */
                 public List<PositiveInt> getNoteNumber() {
                     return noteNumber;
@@ -9315,7 +9831,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Adjudication}.
+                 *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
                  */
                 public List<ExplanationOfBenefit.Item.Adjudication> getAdjudication() {
                     return adjudication;
@@ -9430,7 +9946,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -9444,12 +9960,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -9463,12 +9982,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -9488,12 +10010,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -9513,12 +10038,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -9529,12 +10057,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(CodeableConcept... modifier) {
                         for (CodeableConcept value : modifier) {
@@ -9547,15 +10078,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder modifier(Collection<CodeableConcept> modifier) {
-                        this.modifier.addAll(modifier);
+                        this.modifier = new ArrayList<>(modifier);
                         return this;
                     }
 
@@ -9568,7 +10102,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Count of products or services
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder quantity(Quantity quantity) {
                         this.quantity = quantity;
@@ -9585,7 +10119,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Fee, charge or cost per item
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder unitPrice(Money unitPrice) {
                         this.unitPrice = unitPrice;
@@ -9602,7 +10136,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Price scaling factor
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder factor(Decimal factor) {
                         this.factor = factor;
@@ -9618,7 +10152,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      *     Total item cost
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder net(Money net) {
                         this.net = net;
@@ -9629,12 +10163,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(PositiveInt... noteNumber) {
                         for (PositiveInt value : noteNumber) {
@@ -9647,15 +10184,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder noteNumber(Collection<PositiveInt> noteNumber) {
-                        this.noteNumber.addAll(noteNumber);
+                        this.noteNumber = new ArrayList<>(noteNumber);
                         return this;
                     }
 
@@ -9663,12 +10203,15 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param adjudication
                      *     Added items adjudication
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(ExplanationOfBenefit.Item.Adjudication... adjudication) {
                         for (ExplanationOfBenefit.Item.Adjudication value : adjudication) {
@@ -9681,15 +10224,18 @@ public class ExplanationOfBenefit extends DomainResource {
                      * <p>
                      * The adjudication results.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param adjudication
                      *     Added items adjudication
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder adjudication(Collection<ExplanationOfBenefit.Item.Adjudication> adjudication) {
-                        this.adjudication.addAll(adjudication);
+                        this.adjudication = new ArrayList<>(adjudication);
                         return this;
                     }
 
@@ -9843,7 +10389,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -9857,12 +10403,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -9876,12 +10425,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -9901,12 +10453,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -9926,12 +10481,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -10144,7 +10702,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -10158,12 +10716,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -10177,12 +10738,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -10202,12 +10766,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -10227,12 +10794,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -10248,7 +10818,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Partial or complete payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -10265,7 +10835,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Payment adjustment for non-claim issues
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjustment(Money adjustment) {
                 this.adjustment = adjustment;
@@ -10281,7 +10851,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Explanation for the variance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder adjustmentReason(CodeableConcept adjustmentReason) {
                 this.adjustmentReason = adjustmentReason;
@@ -10297,7 +10867,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Expected date of payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Date date) {
                 this.date = date;
@@ -10313,7 +10883,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Payable amount after adjustment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder amount(Money amount) {
                 this.amount = amount;
@@ -10329,7 +10899,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Business identifier for the payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -10511,7 +11081,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -10525,12 +11095,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -10544,12 +11117,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -10569,12 +11145,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -10594,12 +11173,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -10615,7 +11197,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Note instance identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder number(PositiveInt number) {
                 this.number = number;
@@ -10631,7 +11213,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     display | print | printoper
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(NoteType type) {
                 this.type = type;
@@ -10647,7 +11229,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Note explanatory text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder text(String text) {
                 this.text = text;
@@ -10663,7 +11245,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Language of the text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder language(CodeableConcept language) {
                 this.language = language;
@@ -10808,7 +11390,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Financial}.
+         *     An unmodifiable list containing immutable objects of type {@link Financial}.
          */
         public List<Financial> getFinancial() {
             return financial;
@@ -10923,7 +11505,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -10937,12 +11519,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -10956,12 +11541,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -10981,12 +11569,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -11006,12 +11597,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -11028,7 +11622,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Excluded from the plan
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder excluded(Boolean excluded) {
                 this.excluded = excluded;
@@ -11044,7 +11638,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Short name for the benefit
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -11060,7 +11654,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Description of the benefit or services covered
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -11076,7 +11670,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     In or out of network
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder network(CodeableConcept network) {
                 this.network = network;
@@ -11092,7 +11686,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Individual or family
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unit(CodeableConcept unit) {
                 this.unit = unit;
@@ -11108,7 +11702,7 @@ public class ExplanationOfBenefit extends DomainResource {
              *     Annual or lifetime
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder term(CodeableConcept term) {
                 this.term = term;
@@ -11119,12 +11713,15 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Benefits Used to date.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param financial
              *     Benefit Summary
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder financial(Financial... financial) {
                 for (Financial value : financial) {
@@ -11137,15 +11734,18 @@ public class ExplanationOfBenefit extends DomainResource {
              * <p>
              * Benefits Used to date.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param financial
              *     Benefit Summary
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder financial(Collection<Financial> financial) {
-                this.financial.addAll(financial);
+                this.financial = new ArrayList<>(financial);
                 return this;
             }
 
@@ -11313,7 +11913,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -11327,12 +11927,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -11346,12 +11949,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -11371,12 +11977,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -11396,12 +12005,15 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -11417,7 +12029,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Benefits allowed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder allowed(Element allowed) {
                     this.allowed = allowed;
@@ -11433,7 +12045,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  *     Benefits used
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder used(Element used) {
                     this.used = used;

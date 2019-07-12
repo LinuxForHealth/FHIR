@@ -114,7 +114,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -205,7 +205,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -219,7 +219,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -231,7 +231,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -269,7 +269,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Actor}.
+     *     An unmodifiable list containing immutable objects of type {@link Actor}.
      */
     public List<Actor> getActor() {
         return actor;
@@ -281,7 +281,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Instance}.
+     *     An unmodifiable list containing immutable objects of type {@link Instance}.
      */
     public List<Instance> getInstance() {
         return instance;
@@ -293,7 +293,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Process}.
+     *     An unmodifiable list containing immutable objects of type {@link Process}.
      */
     public List<Process> getProcess() {
         return process;
@@ -305,7 +305,7 @@ public class ExampleScenario extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getWorkflow() {
         return workflow;
@@ -470,7 +470,7 @@ public class ExampleScenario extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -487,7 +487,7 @@ public class ExampleScenario extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -505,7 +505,7 @@ public class ExampleScenario extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -521,7 +521,7 @@ public class ExampleScenario extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -540,7 +540,7 @@ public class ExampleScenario extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -552,12 +552,15 @@ public class ExampleScenario extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -569,12 +572,15 @@ public class ExampleScenario extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -588,12 +594,15 @@ public class ExampleScenario extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -607,12 +616,15 @@ public class ExampleScenario extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -632,12 +644,15 @@ public class ExampleScenario extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -657,12 +672,15 @@ public class ExampleScenario extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -681,7 +699,7 @@ public class ExampleScenario extends DomainResource {
          *     Canonical identifier for this example scenario, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -693,12 +711,15 @@ public class ExampleScenario extends DomainResource {
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the example scenario
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -712,15 +733,18 @@ public class ExampleScenario extends DomainResource {
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the example scenario
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -736,7 +760,7 @@ public class ExampleScenario extends DomainResource {
          *     Business version of the example scenario
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -753,7 +777,7 @@ public class ExampleScenario extends DomainResource {
          *     Name for this example scenario (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -770,7 +794,7 @@ public class ExampleScenario extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -788,7 +812,7 @@ public class ExampleScenario extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -804,7 +828,7 @@ public class ExampleScenario extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -815,12 +839,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -833,15 +860,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -851,12 +881,15 @@ public class ExampleScenario extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -871,15 +904,18 @@ public class ExampleScenario extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -887,12 +923,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * A legal or geographic region in which the example scenario is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -905,15 +944,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * A legal or geographic region in which the example scenario is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -927,7 +969,7 @@ public class ExampleScenario extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -944,7 +986,7 @@ public class ExampleScenario extends DomainResource {
          *     The purpose of the example, e.g. to illustrate a scenario
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -955,12 +997,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Actor participating in the resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param actor
          *     Actor participating in the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder actor(Actor... actor) {
             for (Actor value : actor) {
@@ -973,15 +1018,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Actor participating in the resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param actor
          *     Actor participating in the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder actor(Collection<Actor> actor) {
-            this.actor.addAll(actor);
+            this.actor = new ArrayList<>(actor);
             return this;
         }
 
@@ -989,12 +1037,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Each resource and each version that is present in the workflow.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instance(Instance... instance) {
             for (Instance value : instance) {
@@ -1007,15 +1058,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Each resource and each version that is present in the workflow.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instance(Collection<Instance> instance) {
-            this.instance.addAll(instance);
+            this.instance = new ArrayList<>(instance);
             return this;
         }
 
@@ -1023,12 +1077,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Each major process - a group of operations.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param process
          *     Each major process - a group of operations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder process(Process... process) {
             for (Process value : process) {
@@ -1041,15 +1098,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Each major process - a group of operations.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param process
          *     Each major process - a group of operations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder process(Collection<Process> process) {
-            this.process.addAll(process);
+            this.process = new ArrayList<>(process);
             return this;
         }
 
@@ -1057,12 +1117,15 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Another nested workflow.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param workflow
          *     Another nested workflow
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder workflow(Canonical... workflow) {
             for (Canonical value : workflow) {
@@ -1075,15 +1138,18 @@ public class ExampleScenario extends DomainResource {
          * <p>
          * Another nested workflow.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param workflow
          *     Another nested workflow
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder workflow(Collection<Canonical> workflow) {
-            this.workflow.addAll(workflow);
+            this.workflow = new ArrayList<>(workflow);
             return this;
         }
 
@@ -1284,7 +1350,7 @@ public class ExampleScenario extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1298,12 +1364,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1317,12 +1386,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1342,12 +1414,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1367,12 +1442,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1388,7 +1466,7 @@ public class ExampleScenario extends DomainResource {
              *     The name of the actor as shown in the page
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -1404,7 +1482,7 @@ public class ExampleScenario extends DomainResource {
              *     The description of the actor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(Markdown description) {
                 this.description = description;
@@ -1506,7 +1584,7 @@ public class ExampleScenario extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Version}.
+         *     An unmodifiable list containing immutable objects of type {@link Version}.
          */
         public List<Version> getVersion() {
             return version;
@@ -1518,7 +1596,7 @@ public class ExampleScenario extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ContainedInstance}.
+         *     An unmodifiable list containing immutable objects of type {@link ContainedInstance}.
          */
         public List<ContainedInstance> getContainedInstance() {
             return containedInstance;
@@ -1626,7 +1704,7 @@ public class ExampleScenario extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1640,12 +1718,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1659,12 +1740,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1684,12 +1768,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1709,12 +1796,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1730,7 +1820,7 @@ public class ExampleScenario extends DomainResource {
              *     A short name for the resource instance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -1746,7 +1836,7 @@ public class ExampleScenario extends DomainResource {
              *     Human-friendly description of the resource instance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(Markdown description) {
                 this.description = description;
@@ -1757,12 +1847,15 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * A specific version of the resource.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param version
              *     A specific version of the resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(Version... version) {
                 for (Version value : version) {
@@ -1775,15 +1868,18 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * A specific version of the resource.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param version
              *     A specific version of the resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(Collection<Version> version) {
-                this.version.addAll(version);
+                this.version = new ArrayList<>(version);
                 return this;
             }
 
@@ -1791,12 +1887,15 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * Resources contained in the instance (e.g. the observations contained in a bundle).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param containedInstance
              *     Resources contained in the instance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder containedInstance(ContainedInstance... containedInstance) {
                 for (ContainedInstance value : containedInstance) {
@@ -1809,15 +1908,18 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * Resources contained in the instance (e.g. the observations contained in a bundle).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param containedInstance
              *     Resources contained in the instance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder containedInstance(Collection<ContainedInstance> containedInstance) {
-                this.containedInstance.addAll(containedInstance);
+                this.containedInstance = new ArrayList<>(containedInstance);
                 return this;
             }
 
@@ -1963,7 +2065,7 @@ public class ExampleScenario extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1977,12 +2079,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1996,12 +2101,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2021,12 +2129,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2046,12 +2157,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2198,7 +2312,7 @@ public class ExampleScenario extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2212,12 +2326,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2231,12 +2348,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2256,12 +2376,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2281,12 +2404,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2302,7 +2428,7 @@ public class ExampleScenario extends DomainResource {
                  *     A specific version of a resource contained in the instance
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder versionId(String versionId) {
                     this.versionId = versionId;
@@ -2402,7 +2528,7 @@ public class ExampleScenario extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Step}.
+         *     An unmodifiable list containing immutable objects of type {@link Step}.
          */
         public List<Step> getStep() {
             return step;
@@ -2505,7 +2631,7 @@ public class ExampleScenario extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2519,12 +2645,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2538,12 +2667,15 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2563,12 +2695,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2588,12 +2723,15 @@ public class ExampleScenario extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2609,7 +2747,7 @@ public class ExampleScenario extends DomainResource {
              *     A longer description of the group of operations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(Markdown description) {
                 this.description = description;
@@ -2625,7 +2763,7 @@ public class ExampleScenario extends DomainResource {
              *     Description of initial status before the process starts
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preConditions(Markdown preConditions) {
                 this.preConditions = preConditions;
@@ -2641,7 +2779,7 @@ public class ExampleScenario extends DomainResource {
              *     Description of final status after the process ends
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder postConditions(Markdown postConditions) {
                 this.postConditions = postConditions;
@@ -2652,12 +2790,15 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * Each step of the process.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param step
              *     Each step of the process
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder step(Step... step) {
                 for (Step value : step) {
@@ -2670,15 +2811,18 @@ public class ExampleScenario extends DomainResource {
              * <p>
              * Each step of the process.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param step
              *     Each step of the process
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder step(Collection<Step> step) {
-                this.step.addAll(step);
+                this.step = new ArrayList<>(step);
                 return this;
             }
 
@@ -2726,7 +2870,7 @@ public class ExampleScenario extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Process}.
+             *     An unmodifiable list containing immutable objects of type {@link Process}.
              */
             public List<ExampleScenario.Process> getProcess() {
                 return process;
@@ -2763,7 +2907,7 @@ public class ExampleScenario extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Alternative}.
+             *     An unmodifiable list containing immutable objects of type {@link Alternative}.
              */
             public List<Alternative> getAlternative() {
                 return alternative;
@@ -2855,7 +2999,7 @@ public class ExampleScenario extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2869,12 +3013,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2888,12 +3035,15 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2913,12 +3063,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2938,12 +3091,15 @@ public class ExampleScenario extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2954,12 +3110,15 @@ public class ExampleScenario extends DomainResource {
                  * <p>
                  * Nested process.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param process
                  *     Nested process
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder process(ExampleScenario.Process... process) {
                     for (ExampleScenario.Process value : process) {
@@ -2972,15 +3131,18 @@ public class ExampleScenario extends DomainResource {
                  * <p>
                  * Nested process.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param process
                  *     Nested process
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder process(Collection<ExampleScenario.Process> process) {
-                    this.process.addAll(process);
+                    this.process = new ArrayList<>(process);
                     return this;
                 }
 
@@ -2993,7 +3155,7 @@ public class ExampleScenario extends DomainResource {
                  *     If there is a pause in the flow
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder pause(Boolean pause) {
                     this.pause = pause;
@@ -3009,7 +3171,7 @@ public class ExampleScenario extends DomainResource {
                  *     Each interaction or action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder operation(Operation operation) {
                     this.operation = operation;
@@ -3021,12 +3183,15 @@ public class ExampleScenario extends DomainResource {
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder alternative(Alternative... alternative) {
                     for (Alternative value : alternative) {
@@ -3040,15 +3205,18 @@ public class ExampleScenario extends DomainResource {
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder alternative(Collection<Alternative> alternative) {
-                    this.alternative.addAll(alternative);
+                    this.alternative = new ArrayList<>(alternative);
                     return this;
                 }
 
@@ -3339,7 +3507,7 @@ public class ExampleScenario extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -3353,12 +3521,15 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -3372,12 +3543,15 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3397,12 +3571,15 @@ public class ExampleScenario extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -3422,12 +3599,15 @@ public class ExampleScenario extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3443,7 +3623,7 @@ public class ExampleScenario extends DomainResource {
                      *     The type of operation - CRUD
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder type(String type) {
                         this.type = type;
@@ -3459,7 +3639,7 @@ public class ExampleScenario extends DomainResource {
                      *     The human-friendly name of the interaction
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder name(String name) {
                         this.name = name;
@@ -3475,7 +3655,7 @@ public class ExampleScenario extends DomainResource {
                      *     Who starts the transaction
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder initiator(String initiator) {
                         this.initiator = initiator;
@@ -3491,7 +3671,7 @@ public class ExampleScenario extends DomainResource {
                      *     Who receives the transaction
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder receiver(String receiver) {
                         this.receiver = receiver;
@@ -3507,7 +3687,7 @@ public class ExampleScenario extends DomainResource {
                      *     A comment to be inserted in the diagram
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder description(Markdown description) {
                         this.description = description;
@@ -3523,7 +3703,7 @@ public class ExampleScenario extends DomainResource {
                      *     Whether the initiator is deactivated right after the transaction
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder initiatorActive(Boolean initiatorActive) {
                         this.initiatorActive = initiatorActive;
@@ -3539,7 +3719,7 @@ public class ExampleScenario extends DomainResource {
                      *     Whether the receiver is deactivated right after the transaction
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder receiverActive(Boolean receiverActive) {
                         this.receiverActive = receiverActive;
@@ -3555,7 +3735,7 @@ public class ExampleScenario extends DomainResource {
                      *     Each resource instance used by the initiator
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder request(ExampleScenario.Instance.ContainedInstance request) {
                         this.request = request;
@@ -3571,7 +3751,7 @@ public class ExampleScenario extends DomainResource {
                      *     Each resource instance used by the responder
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder response(ExampleScenario.Instance.ContainedInstance response) {
                         this.response = response;
@@ -3652,7 +3832,7 @@ public class ExampleScenario extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Step}.
+                 *     An unmodifiable list containing immutable objects of type {@link Step}.
                  */
                 public List<ExampleScenario.Process.Step> getStep() {
                     return step;
@@ -3747,7 +3927,7 @@ public class ExampleScenario extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -3761,12 +3941,15 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -3780,12 +3963,15 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3805,12 +3991,15 @@ public class ExampleScenario extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -3830,12 +4019,15 @@ public class ExampleScenario extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3851,7 +4043,7 @@ public class ExampleScenario extends DomainResource {
                      *     A human-readable description of each option
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder description(Markdown description) {
                         this.description = description;
@@ -3862,12 +4054,15 @@ public class ExampleScenario extends DomainResource {
                      * <p>
                      * What happens in each alternative option.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param step
                      *     What happens in each alternative option
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder step(ExampleScenario.Process.Step... step) {
                         for (ExampleScenario.Process.Step value : step) {
@@ -3880,15 +4075,18 @@ public class ExampleScenario extends DomainResource {
                      * <p>
                      * What happens in each alternative option.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param step
                      *     What happens in each alternative option
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder step(Collection<ExampleScenario.Process.Step> step) {
-                        this.step.addAll(step);
+                        this.step = new ArrayList<>(step);
                         return this;
                     }
 

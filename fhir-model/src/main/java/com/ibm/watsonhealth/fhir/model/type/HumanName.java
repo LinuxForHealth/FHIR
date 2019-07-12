@@ -89,7 +89,7 @@ public class HumanName extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getGiven() {
         return given;
@@ -102,7 +102,7 @@ public class HumanName extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getPrefix() {
         return prefix;
@@ -115,7 +115,7 @@ public class HumanName extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getSuffix() {
         return suffix;
@@ -228,7 +228,7 @@ public class HumanName extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -242,12 +242,15 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -261,12 +264,15 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -282,7 +288,7 @@ public class HumanName extends Element {
          *     usual | official | temp | nickname | anonymous | old | maiden
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder use(NameUse use) {
             this.use = use;
@@ -299,7 +305,7 @@ public class HumanName extends Element {
          *     Text representation of the full name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder text(String text) {
             this.text = text;
@@ -316,7 +322,7 @@ public class HumanName extends Element {
          *     Family name (often called 'Surname')
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder family(String family) {
             this.family = family;
@@ -327,12 +333,15 @@ public class HumanName extends Element {
          * <p>
          * Given name.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder given(String... given) {
             for (String value : given) {
@@ -345,15 +354,18 @@ public class HumanName extends Element {
          * <p>
          * Given name.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder given(Collection<String> given) {
-            this.given.addAll(given);
+            this.given = new ArrayList<>(given);
             return this;
         }
 
@@ -362,12 +374,15 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param prefix
          *     Parts that come before the name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prefix(String... prefix) {
             for (String value : prefix) {
@@ -381,15 +396,18 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param prefix
          *     Parts that come before the name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prefix(Collection<String> prefix) {
-            this.prefix.addAll(prefix);
+            this.prefix = new ArrayList<>(prefix);
             return this;
         }
 
@@ -398,12 +416,15 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param suffix
          *     Parts that come after the name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder suffix(String... suffix) {
             for (String value : suffix) {
@@ -417,15 +438,18 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param suffix
          *     Parts that come after the name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder suffix(Collection<String> suffix) {
-            this.suffix.addAll(suffix);
+            this.suffix = new ArrayList<>(suffix);
             return this;
         }
 
@@ -438,7 +462,7 @@ public class HumanName extends Element {
          *     Time period when name was/is in use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;

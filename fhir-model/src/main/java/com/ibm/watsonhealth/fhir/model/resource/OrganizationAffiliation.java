@@ -73,7 +73,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -135,7 +135,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getNetwork() {
         return network;
@@ -147,7 +147,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCode() {
         return code;
@@ -159,7 +159,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -171,7 +171,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getLocation() {
         return location;
@@ -183,7 +183,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getHealthcareService() {
         return healthcareService;
@@ -195,7 +195,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -207,7 +207,7 @@ public class OrganizationAffiliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -345,7 +345,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -362,7 +362,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -380,7 +380,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -396,7 +396,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -415,7 +415,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -427,12 +427,15 @@ public class OrganizationAffiliation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -444,12 +447,15 @@ public class OrganizationAffiliation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -463,12 +469,15 @@ public class OrganizationAffiliation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -482,12 +491,15 @@ public class OrganizationAffiliation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -507,12 +519,15 @@ public class OrganizationAffiliation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -532,12 +547,15 @@ public class OrganizationAffiliation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -548,12 +566,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Business identifiers that are specific to this role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifiers that are specific to this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -566,15 +587,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Business identifiers that are specific to this role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifiers that are specific to this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -587,7 +611,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Whether this organization affiliation record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -603,7 +627,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     The period during which the participatingOrganization is affiliated with the primary organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -619,7 +643,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Organization where the role is available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organization(Reference organization) {
             this.organization = organization;
@@ -636,7 +660,7 @@ public class OrganizationAffiliation extends DomainResource {
          *     Organization that provides/performs the role (e.g. providing services or is a member of)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participatingOrganization(Reference participatingOrganization) {
             this.participatingOrganization = participatingOrganization;
@@ -648,13 +672,16 @@ public class OrganizationAffiliation extends DomainResource {
          * Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
          * the indicated locations (if defined).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param network
          *     Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
          *     the indicated locations (if defined)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder network(Reference... network) {
             for (Reference value : network) {
@@ -668,16 +695,19 @@ public class OrganizationAffiliation extends DomainResource {
          * Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
          * the indicated locations (if defined).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param network
          *     Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
          *     the indicated locations (if defined)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder network(Collection<Reference> network) {
-            this.network.addAll(network);
+            this.network = new ArrayList<>(network);
             return this;
         }
 
@@ -685,12 +715,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Definition of the role the participatingOrganization plays in the association.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param code
          *     Definition of the role the participatingOrganization plays
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept... code) {
             for (CodeableConcept value : code) {
@@ -703,15 +736,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Definition of the role the participatingOrganization plays in the association.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param code
          *     Definition of the role the participatingOrganization plays
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Collection<CodeableConcept> code) {
-            this.code.addAll(code);
+            this.code = new ArrayList<>(code);
             return this;
         }
 
@@ -719,12 +755,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Specific specialty of the participatingOrganization in the context of the role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialty
          *     Specific specialty of the participatingOrganization in the context of the role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(CodeableConcept... specialty) {
             for (CodeableConcept value : specialty) {
@@ -737,15 +776,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Specific specialty of the participatingOrganization in the context of the role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialty
          *     Specific specialty of the participatingOrganization in the context of the role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
-            this.specialty.addAll(specialty);
+            this.specialty = new ArrayList<>(specialty);
             return this;
         }
 
@@ -753,12 +795,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * The location(s) at which the role occurs.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param location
          *     The location(s) at which the role occurs
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference... location) {
             for (Reference value : location) {
@@ -771,15 +816,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * The location(s) at which the role occurs.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param location
          *     The location(s) at which the role occurs
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Collection<Reference> location) {
-            this.location.addAll(location);
+            this.location = new ArrayList<>(location);
             return this;
         }
 
@@ -787,12 +835,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Healthcare services provided through the role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param healthcareService
          *     Healthcare services provided through the role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder healthcareService(Reference... healthcareService) {
             for (Reference value : healthcareService) {
@@ -805,15 +856,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Healthcare services provided through the role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param healthcareService
          *     Healthcare services provided through the role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder healthcareService(Collection<Reference> healthcareService) {
-            this.healthcareService.addAll(healthcareService);
+            this.healthcareService = new ArrayList<>(healthcareService);
             return this;
         }
 
@@ -821,12 +875,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Contact details at the participatingOrganization relevant to this Affiliation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     Contact details at the participatingOrganization relevant to this Affiliation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -839,15 +896,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Contact details at the participatingOrganization relevant to this Affiliation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     Contact details at the participatingOrganization relevant to this Affiliation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -855,12 +915,15 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for this role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Reference... endpoint) {
             for (Reference value : endpoint) {
@@ -873,15 +936,18 @@ public class OrganizationAffiliation extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for this role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Collection<Reference> endpoint) {
-            this.endpoint.addAll(endpoint);
+            this.endpoint = new ArrayList<>(endpoint);
             return this;
         }
 

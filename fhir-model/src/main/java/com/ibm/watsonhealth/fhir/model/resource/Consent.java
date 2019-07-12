@@ -119,7 +119,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -156,7 +156,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -194,7 +194,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -206,7 +206,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getOrganization() {
         return organization;
@@ -233,7 +233,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Policy}.
+     *     An unmodifiable list containing immutable objects of type {@link Policy}.
      */
     public List<Policy> getPolicy() {
         return policy;
@@ -258,7 +258,7 @@ public class Consent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Verification}.
+     *     An unmodifiable list containing immutable objects of type {@link Verification}.
      */
     public List<Verification> getVerification() {
         return verification;
@@ -421,7 +421,7 @@ public class Consent extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -438,7 +438,7 @@ public class Consent extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -456,7 +456,7 @@ public class Consent extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -472,7 +472,7 @@ public class Consent extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -491,7 +491,7 @@ public class Consent extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -503,12 +503,15 @@ public class Consent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -520,12 +523,15 @@ public class Consent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -539,12 +545,15 @@ public class Consent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -558,12 +567,15 @@ public class Consent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -583,12 +595,15 @@ public class Consent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -608,12 +623,15 @@ public class Consent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -624,12 +642,15 @@ public class Consent extends DomainResource {
          * <p>
          * Unique identifier for this copy of the Consent Statement.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifier for this record (external references)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -642,15 +663,18 @@ public class Consent extends DomainResource {
          * <p>
          * Unique identifier for this copy of the Consent Statement.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifier for this record (external references)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -663,7 +687,7 @@ public class Consent extends DomainResource {
          *     Who the consent applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
@@ -679,7 +703,7 @@ public class Consent extends DomainResource {
          *     When this Consent was created or indexed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dateTime(DateTime dateTime) {
             this.dateTime = dateTime;
@@ -692,12 +716,15 @@ public class Consent extends DomainResource {
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param performer
          *     Who is agreeing to the policy and rules
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference... performer) {
             for (Reference value : performer) {
@@ -712,15 +739,18 @@ public class Consent extends DomainResource {
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param performer
          *     Who is agreeing to the policy and rules
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Collection<Reference> performer) {
-            this.performer.addAll(performer);
+            this.performer = new ArrayList<>(performer);
             return this;
         }
 
@@ -728,12 +758,15 @@ public class Consent extends DomainResource {
          * <p>
          * The organization that manages the consent, and the framework within which it is executed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param organization
          *     Custodian of the consent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organization(Reference... organization) {
             for (Reference value : organization) {
@@ -746,15 +779,18 @@ public class Consent extends DomainResource {
          * <p>
          * The organization that manages the consent, and the framework within which it is executed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param organization
          *     Custodian of the consent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organization(Collection<Reference> organization) {
-            this.organization.addAll(organization);
+            this.organization = new ArrayList<>(organization);
             return this;
         }
 
@@ -769,7 +805,7 @@ public class Consent extends DomainResource {
          *     Source from which this consent is taken
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder source(Element source) {
             this.source = source;
@@ -781,12 +817,15 @@ public class Consent extends DomainResource {
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param policy
          *     Policies covered by this consent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policy(Policy... policy) {
             for (Policy value : policy) {
@@ -800,15 +839,18 @@ public class Consent extends DomainResource {
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param policy
          *     Policies covered by this consent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policy(Collection<Policy> policy) {
-            this.policy.addAll(policy);
+            this.policy = new ArrayList<>(policy);
             return this;
         }
 
@@ -821,7 +863,7 @@ public class Consent extends DomainResource {
          *     Regulation that this consents to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policyRule(CodeableConcept policyRule) {
             this.policyRule = policyRule;
@@ -833,12 +875,15 @@ public class Consent extends DomainResource {
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param verification
          *     Consent Verified by patient or family
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder verification(Verification... verification) {
             for (Verification value : verification) {
@@ -852,15 +897,18 @@ public class Consent extends DomainResource {
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param verification
          *     Consent Verified by patient or family
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder verification(Collection<Verification> verification) {
-            this.verification.addAll(verification);
+            this.verification = new ArrayList<>(verification);
             return this;
         }
 
@@ -873,7 +921,7 @@ public class Consent extends DomainResource {
          *     Constraints to the base Consent.policyRule
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder provision(Provision provision) {
             this.provision = provision;
@@ -1030,7 +1078,7 @@ public class Consent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1044,12 +1092,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1063,12 +1114,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1088,12 +1142,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1113,12 +1170,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1135,7 +1195,7 @@ public class Consent extends DomainResource {
              *     Enforcement source for policy
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder authority(Uri authority) {
                 this.authority = authority;
@@ -1152,7 +1212,7 @@ public class Consent extends DomainResource {
              *     Specific policy covered by this consent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
@@ -1320,7 +1380,7 @@ public class Consent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1334,12 +1394,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1353,12 +1416,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1378,12 +1444,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1403,12 +1472,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1424,7 +1496,7 @@ public class Consent extends DomainResource {
              *     Person who verified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder verifiedWith(Reference verifiedWith) {
                 this.verifiedWith = verifiedWith;
@@ -1440,7 +1512,7 @@ public class Consent extends DomainResource {
              *     When consent verified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder verificationDate(DateTime verificationDate) {
                 this.verificationDate = verificationDate;
@@ -1530,7 +1602,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Actor}.
+         *     An unmodifiable list containing immutable objects of type {@link Actor}.
          */
         public List<Actor> getActor() {
             return actor;
@@ -1542,7 +1614,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getAction() {
             return action;
@@ -1555,7 +1627,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getSecurityLabel() {
             return securityLabel;
@@ -1567,7 +1639,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getPurpose() {
             return purpose;
@@ -1580,7 +1652,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getClazz() {
             return clazz;
@@ -1592,7 +1664,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1616,7 +1688,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Data}.
+         *     An unmodifiable list containing immutable objects of type {@link Data}.
          */
         public List<Data> getData() {
             return data;
@@ -1628,7 +1700,7 @@ public class Consent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Provision}.
+         *     An unmodifiable list containing immutable objects of type {@link Provision}.
          */
         public List<Consent.Provision> getProvision() {
             return provision;
@@ -1748,7 +1820,7 @@ public class Consent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1762,12 +1834,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1781,12 +1856,15 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1806,12 +1884,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1831,12 +1912,15 @@ public class Consent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1853,7 +1937,7 @@ public class Consent extends DomainResource {
              *     deny | permit
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(ConsentProvisionType type) {
                 this.type = type;
@@ -1869,7 +1953,7 @@ public class Consent extends DomainResource {
              *     Timeframe for this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1881,12 +1965,15 @@ public class Consent extends DomainResource {
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder actor(Actor... actor) {
                 for (Actor value : actor) {
@@ -1900,15 +1987,18 @@ public class Consent extends DomainResource {
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder actor(Collection<Actor> actor) {
-                this.actor.addAll(actor);
+                this.actor = new ArrayList<>(actor);
                 return this;
             }
 
@@ -1916,12 +2006,15 @@ public class Consent extends DomainResource {
              * <p>
              * Actions controlled by this Rule.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param action
              *     Actions controlled by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(CodeableConcept... action) {
                 for (CodeableConcept value : action) {
@@ -1934,15 +2027,18 @@ public class Consent extends DomainResource {
              * <p>
              * Actions controlled by this Rule.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param action
              *     Actions controlled by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(Collection<CodeableConcept> action) {
-                this.action.addAll(action);
+                this.action = new ArrayList<>(action);
                 return this;
             }
 
@@ -1951,12 +2047,15 @@ public class Consent extends DomainResource {
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(Coding... securityLabel) {
                 for (Coding value : securityLabel) {
@@ -1970,15 +2069,18 @@ public class Consent extends DomainResource {
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(Collection<Coding> securityLabel) {
-                this.securityLabel.addAll(securityLabel);
+                this.securityLabel = new ArrayList<>(securityLabel);
                 return this;
             }
 
@@ -1986,12 +2088,15 @@ public class Consent extends DomainResource {
              * <p>
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param purpose
              *     Context of activities covered by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder purpose(Coding... purpose) {
                 for (Coding value : purpose) {
@@ -2004,15 +2109,18 @@ public class Consent extends DomainResource {
              * <p>
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param purpose
              *     Context of activities covered by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder purpose(Collection<Coding> purpose) {
-                this.purpose.addAll(purpose);
+                this.purpose = new ArrayList<>(purpose);
                 return this;
             }
 
@@ -2021,12 +2129,15 @@ public class Consent extends DomainResource {
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder clazz(Coding... clazz) {
                 for (Coding value : clazz) {
@@ -2040,15 +2151,18 @@ public class Consent extends DomainResource {
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder clazz(Collection<Coding> clazz) {
-                this.clazz.addAll(clazz);
+                this.clazz = new ArrayList<>(clazz);
                 return this;
             }
 
@@ -2056,12 +2170,15 @@ public class Consent extends DomainResource {
              * <p>
              * If this code is found in an instance, then the rule applies.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -2074,15 +2191,18 @@ public class Consent extends DomainResource {
              * <p>
              * If this code is found in an instance, then the rule applies.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -2095,7 +2215,7 @@ public class Consent extends DomainResource {
              *     Timeframe for data controlled by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dataPeriod(Period dataPeriod) {
                 this.dataPeriod = dataPeriod;
@@ -2106,12 +2226,15 @@ public class Consent extends DomainResource {
              * <p>
              * The resources controlled by this rule if specific resources are referenced.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param data
              *     Data controlled by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder data(Data... data) {
                 for (Data value : data) {
@@ -2124,15 +2247,18 @@ public class Consent extends DomainResource {
              * <p>
              * The resources controlled by this rule if specific resources are referenced.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param data
              *     Data controlled by this rule
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder data(Collection<Data> data) {
-                this.data.addAll(data);
+                this.data = new ArrayList<>(data);
                 return this;
             }
 
@@ -2140,12 +2266,15 @@ public class Consent extends DomainResource {
              * <p>
              * Rules which provide exceptions to the base rule or subrules.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param provision
              *     Nested Exception Rules
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provision(Consent.Provision... provision) {
                 for (Consent.Provision value : provision) {
@@ -2158,15 +2287,18 @@ public class Consent extends DomainResource {
              * <p>
              * Rules which provide exceptions to the base rule or subrules.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param provision
              *     Nested Exception Rules
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder provision(Collection<Consent.Provision> provision) {
-                this.provision.addAll(provision);
+                this.provision = new ArrayList<>(provision);
                 return this;
             }
 
@@ -2321,7 +2453,7 @@ public class Consent extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2335,12 +2467,15 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2354,12 +2489,15 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2379,12 +2517,15 @@ public class Consent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2404,12 +2545,15 @@ public class Consent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2555,7 +2699,7 @@ public class Consent extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2569,12 +2713,15 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2588,12 +2735,15 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2613,12 +2763,15 @@ public class Consent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2638,12 +2791,15 @@ public class Consent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

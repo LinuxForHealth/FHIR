@@ -52,7 +52,7 @@ public class ContactDetail extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -133,7 +133,7 @@ public class ContactDetail extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -147,12 +147,15 @@ public class ContactDetail extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -166,12 +169,15 @@ public class ContactDetail extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -187,7 +193,7 @@ public class ContactDetail extends Element {
          *     Name of an individual to contact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -198,12 +204,15 @@ public class ContactDetail extends Element {
          * <p>
          * The contact details for the individual (if a name was provided) or the organization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     Contact details for individual or organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -216,15 +225,18 @@ public class ContactDetail extends Element {
          * <p>
          * The contact details for the individual (if a name was provided) or the organization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     Contact details for individual or organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 

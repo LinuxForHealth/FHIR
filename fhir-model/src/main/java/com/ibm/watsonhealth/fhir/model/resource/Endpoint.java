@@ -75,7 +75,7 @@ public class Endpoint extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -138,7 +138,7 @@ public class Endpoint extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -162,7 +162,7 @@ public class Endpoint extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getPayloadType() {
         return payloadType;
@@ -175,7 +175,7 @@ public class Endpoint extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code}.
      */
     public List<Code> getPayloadMimeType() {
         return payloadMimeType;
@@ -199,7 +199,7 @@ public class Endpoint extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getHeader() {
         return header;
@@ -343,7 +343,7 @@ public class Endpoint extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -360,7 +360,7 @@ public class Endpoint extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -378,7 +378,7 @@ public class Endpoint extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -394,7 +394,7 @@ public class Endpoint extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -413,7 +413,7 @@ public class Endpoint extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -425,12 +425,15 @@ public class Endpoint extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -442,12 +445,15 @@ public class Endpoint extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -461,12 +467,15 @@ public class Endpoint extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -480,12 +489,15 @@ public class Endpoint extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -505,12 +517,15 @@ public class Endpoint extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -530,12 +545,15 @@ public class Endpoint extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -546,12 +564,15 @@ public class Endpoint extends DomainResource {
          * <p>
          * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifies this endpoint across multiple systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -564,15 +585,18 @@ public class Endpoint extends DomainResource {
          * <p>
          * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifies this endpoint across multiple systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -585,7 +609,7 @@ public class Endpoint extends DomainResource {
          *     A name that this endpoint can be identified by
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -602,7 +626,7 @@ public class Endpoint extends DomainResource {
          *     Organization that manages this endpoint (might not be the organization that exposes the endpoint)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder managingOrganization(Reference managingOrganization) {
             this.managingOrganization = managingOrganization;
@@ -614,12 +638,15 @@ public class Endpoint extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactPoint... contact) {
             for (ContactPoint value : contact) {
@@ -633,15 +660,18 @@ public class Endpoint extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactPoint> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -654,7 +684,7 @@ public class Endpoint extends DomainResource {
          *     Interval the endpoint is expected to be operational
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -666,13 +696,16 @@ public class Endpoint extends DomainResource {
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param payloadMimeType
          *     Mimetype to send. If not specified, the content could be anything (including no payload, if the connectionType defined 
          *     this)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payloadMimeType(Code... payloadMimeType) {
             for (Code value : payloadMimeType) {
@@ -686,16 +719,19 @@ public class Endpoint extends DomainResource {
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param payloadMimeType
          *     Mimetype to send. If not specified, the content could be anything (including no payload, if the connectionType defined 
          *     this)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder payloadMimeType(Collection<Code> payloadMimeType) {
-            this.payloadMimeType.addAll(payloadMimeType);
+            this.payloadMimeType = new ArrayList<>(payloadMimeType);
             return this;
         }
 
@@ -703,12 +739,15 @@ public class Endpoint extends DomainResource {
          * <p>
          * Additional headers / information to send as part of the notification.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param header
          *     Usage depends on the channel type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder header(String... header) {
             for (String value : header) {
@@ -721,15 +760,18 @@ public class Endpoint extends DomainResource {
          * <p>
          * Additional headers / information to send as part of the notification.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param header
          *     Usage depends on the channel type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder header(Collection<String> header) {
-            this.header.addAll(header);
+            this.header = new ArrayList<>(header);
             return this;
         }
 

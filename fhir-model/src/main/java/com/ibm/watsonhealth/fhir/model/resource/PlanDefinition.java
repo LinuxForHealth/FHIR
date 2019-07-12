@@ -164,7 +164,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -307,7 +307,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -333,7 +333,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -345,7 +345,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -433,7 +433,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -445,7 +445,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -457,7 +457,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -469,7 +469,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -481,7 +481,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -493,7 +493,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -505,7 +505,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -518,7 +518,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Goal}.
+     *     An unmodifiable list containing immutable objects of type {@link Goal}.
      */
     public List<Goal> getGoal() {
         return goal;
@@ -530,7 +530,7 @@ public class PlanDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Action}.
+     *     An unmodifiable list containing immutable objects of type {@link Action}.
      */
     public List<Action> getAction() {
         return action;
@@ -751,7 +751,7 @@ public class PlanDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -768,7 +768,7 @@ public class PlanDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -786,7 +786,7 @@ public class PlanDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -802,7 +802,7 @@ public class PlanDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -821,7 +821,7 @@ public class PlanDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -833,12 +833,15 @@ public class PlanDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -850,12 +853,15 @@ public class PlanDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -869,12 +875,15 @@ public class PlanDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -888,12 +897,15 @@ public class PlanDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -913,12 +925,15 @@ public class PlanDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -938,12 +953,15 @@ public class PlanDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -962,7 +980,7 @@ public class PlanDefinition extends DomainResource {
          *     Canonical identifier for this plan definition, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -974,12 +992,15 @@ public class PlanDefinition extends DomainResource {
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -993,15 +1014,18 @@ public class PlanDefinition extends DomainResource {
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1020,7 +1044,7 @@ public class PlanDefinition extends DomainResource {
          *     Business version of the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -1037,7 +1061,7 @@ public class PlanDefinition extends DomainResource {
          *     Name for this plan definition (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -1053,7 +1077,7 @@ public class PlanDefinition extends DomainResource {
          *     Name for this plan definition (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1069,7 +1093,7 @@ public class PlanDefinition extends DomainResource {
          *     Subordinate title of the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
@@ -1086,7 +1110,7 @@ public class PlanDefinition extends DomainResource {
          *     order-set | clinical-protocol | eca-rule | workflow-definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -1103,7 +1127,7 @@ public class PlanDefinition extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1119,7 +1143,7 @@ public class PlanDefinition extends DomainResource {
          *     Type of individual the plan definition is focused on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Element subject) {
             this.subject = subject;
@@ -1137,7 +1161,7 @@ public class PlanDefinition extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1153,7 +1177,7 @@ public class PlanDefinition extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1164,12 +1188,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1182,15 +1209,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1203,7 +1233,7 @@ public class PlanDefinition extends DomainResource {
          *     Natural language description of the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1216,12 +1246,15 @@ public class PlanDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1236,15 +1269,18 @@ public class PlanDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1252,12 +1288,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the plan definition is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1270,15 +1309,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the plan definition is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1291,7 +1333,7 @@ public class PlanDefinition extends DomainResource {
          *     Why this plan definition is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1307,7 +1349,7 @@ public class PlanDefinition extends DomainResource {
          *     Describes the clinical usage of the plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usage(String usage) {
             this.usage = usage;
@@ -1324,7 +1366,7 @@ public class PlanDefinition extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1341,7 +1383,7 @@ public class PlanDefinition extends DomainResource {
          *     When the plan definition was approved by publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
@@ -1358,7 +1400,7 @@ public class PlanDefinition extends DomainResource {
          *     When the plan definition was last reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastReviewDate(Date lastReviewDate) {
             this.lastReviewDate = lastReviewDate;
@@ -1374,7 +1416,7 @@ public class PlanDefinition extends DomainResource {
          *     When the plan definition is expected to be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effectivePeriod(Period effectivePeriod) {
             this.effectivePeriod = effectivePeriod;
@@ -1386,12 +1428,15 @@ public class PlanDefinition extends DomainResource {
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(CodeableConcept... topic) {
             for (CodeableConcept value : topic) {
@@ -1405,15 +1450,18 @@ public class PlanDefinition extends DomainResource {
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(Collection<CodeableConcept> topic) {
-            this.topic.addAll(topic);
+            this.topic = new ArrayList<>(topic);
             return this;
         }
 
@@ -1421,12 +1469,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(ContactDetail... author) {
             for (ContactDetail value : author) {
@@ -1439,15 +1490,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Collection<ContactDetail> author) {
-            this.author.addAll(author);
+            this.author = new ArrayList<>(author);
             return this;
         }
 
@@ -1455,12 +1509,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(ContactDetail... editor) {
             for (ContactDetail value : editor) {
@@ -1473,15 +1530,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(Collection<ContactDetail> editor) {
-            this.editor.addAll(editor);
+            this.editor = new ArrayList<>(editor);
             return this;
         }
 
@@ -1489,12 +1549,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(ContactDetail... reviewer) {
             for (ContactDetail value : reviewer) {
@@ -1507,15 +1570,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
-            this.reviewer.addAll(reviewer);
+            this.reviewer = new ArrayList<>(reviewer);
             return this;
         }
 
@@ -1523,12 +1589,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(ContactDetail... endorser) {
             for (ContactDetail value : endorser) {
@@ -1541,15 +1610,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
-            this.endorser.addAll(endorser);
+            this.endorser = new ArrayList<>(endorser);
             return this;
         }
 
@@ -1557,12 +1629,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(RelatedArtifact... relatedArtifact) {
             for (RelatedArtifact value : relatedArtifact) {
@@ -1575,15 +1650,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
-            this.relatedArtifact.addAll(relatedArtifact);
+            this.relatedArtifact = new ArrayList<>(relatedArtifact);
             return this;
         }
 
@@ -1591,12 +1669,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * A reference to a Library resource containing any formal logic used by the plan definition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param library
          *     Logic used by the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Canonical... library) {
             for (Canonical value : library) {
@@ -1609,15 +1690,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * A reference to a Library resource containing any formal logic used by the plan definition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param library
          *     Logic used by the plan definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Collection<Canonical> library) {
-            this.library.addAll(library);
+            this.library = new ArrayList<>(library);
             return this;
         }
 
@@ -1626,12 +1710,15 @@ public class PlanDefinition extends DomainResource {
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param goal
          *     What the plan is trying to accomplish
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder goal(Goal... goal) {
             for (Goal value : goal) {
@@ -1645,15 +1732,18 @@ public class PlanDefinition extends DomainResource {
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param goal
          *     What the plan is trying to accomplish
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder goal(Collection<Goal> goal) {
-            this.goal.addAll(goal);
+            this.goal = new ArrayList<>(goal);
             return this;
         }
 
@@ -1661,12 +1751,15 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An action or group of actions to be taken as part of the plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param action
          *     Action defined by the plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder action(Action... action) {
             for (Action value : action) {
@@ -1679,15 +1772,18 @@ public class PlanDefinition extends DomainResource {
          * <p>
          * An action or group of actions to be taken as part of the plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param action
          *     Action defined by the plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder action(Collection<Action> action) {
-            this.action.addAll(action);
+            this.action = new ArrayList<>(action);
             return this;
         }
 
@@ -1822,7 +1918,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getAddresses() {
             return addresses;
@@ -1835,7 +1931,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -1847,7 +1943,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Target}.
+         *     An unmodifiable list containing immutable objects of type {@link Target}.
          */
         public List<Target> getTarget() {
             return target;
@@ -1958,7 +2054,7 @@ public class PlanDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1972,12 +2068,15 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1991,12 +2090,15 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2016,12 +2118,15 @@ public class PlanDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2041,12 +2146,15 @@ public class PlanDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2062,7 +2170,7 @@ public class PlanDefinition extends DomainResource {
              *     E.g. Treatment, dietary, behavioral
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder category(CodeableConcept category) {
                 this.category = category;
@@ -2078,7 +2186,7 @@ public class PlanDefinition extends DomainResource {
              *     high-priority | medium-priority | low-priority
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priority(CodeableConcept priority) {
                 this.priority = priority;
@@ -2094,7 +2202,7 @@ public class PlanDefinition extends DomainResource {
              *     When goal pursuit begins
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder start(CodeableConcept start) {
                 this.start = start;
@@ -2105,12 +2213,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param addresses
              *     What does the goal address
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder addresses(CodeableConcept... addresses) {
                 for (CodeableConcept value : addresses) {
@@ -2123,15 +2234,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param addresses
              *     What does the goal address
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder addresses(Collection<CodeableConcept> addresses) {
-                this.addresses.addAll(addresses);
+                this.addresses = new ArrayList<>(addresses);
                 return this;
             }
 
@@ -2140,12 +2254,15 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the goal
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(RelatedArtifact... documentation) {
                 for (RelatedArtifact value : documentation) {
@@ -2159,15 +2276,18 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the goal
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Collection<RelatedArtifact> documentation) {
-                this.documentation.addAll(documentation);
+                this.documentation = new ArrayList<>(documentation);
                 return this;
             }
 
@@ -2175,12 +2295,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Indicates what should be done and within what timeframe.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param target
              *     Target outcome for the goal
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder target(Target... target) {
                 for (Target value : target) {
@@ -2193,15 +2316,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Indicates what should be done and within what timeframe.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param target
              *     Target outcome for the goal
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder target(Collection<Target> target) {
-                this.target.addAll(target);
+                this.target = new ArrayList<>(target);
                 return this;
             }
 
@@ -2364,7 +2490,7 @@ public class PlanDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2378,12 +2504,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2397,12 +2526,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2422,12 +2554,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2447,12 +2582,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2468,7 +2606,7 @@ public class PlanDefinition extends DomainResource {
                  *     The parameter whose value is to be tracked
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder measure(CodeableConcept measure) {
                     this.measure = measure;
@@ -2487,7 +2625,7 @@ public class PlanDefinition extends DomainResource {
                  *     The target value to be achieved
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder detail(Element detail) {
                     this.detail = detail;
@@ -2503,7 +2641,7 @@ public class PlanDefinition extends DomainResource {
                  *     Reach goal within
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder due(Duration due) {
                     this.due = due;
@@ -2663,7 +2801,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -2675,7 +2813,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getReason() {
             return reason;
@@ -2688,7 +2826,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -2701,7 +2839,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Id}.
+         *     An unmodifiable list containing immutable objects of type {@link Id}.
          */
         public List<Id> getGoalId() {
             return goalId;
@@ -2725,7 +2863,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link TriggerDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link TriggerDefinition}.
          */
         public List<TriggerDefinition> getTrigger() {
             return trigger;
@@ -2737,7 +2875,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Condition}.
+         *     An unmodifiable list containing immutable objects of type {@link Condition}.
          */
         public List<Condition> getCondition() {
             return condition;
@@ -2749,7 +2887,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DataRequirement}.
+         *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
          */
         public List<DataRequirement> getInput() {
             return input;
@@ -2761,7 +2899,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DataRequirement}.
+         *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
          */
         public List<DataRequirement> getOutput() {
             return output;
@@ -2773,7 +2911,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RelatedAction}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
          */
         public List<RelatedAction> getRelatedAction() {
             return relatedAction;
@@ -2797,7 +2935,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Participant}.
+         *     An unmodifiable list containing immutable objects of type {@link Participant}.
          */
         public List<Participant> getParticipant() {
             return participant;
@@ -2909,7 +3047,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DynamicValue}.
+         *     An unmodifiable list containing immutable objects of type {@link DynamicValue}.
          */
         public List<DynamicValue> getDynamicValue() {
             return dynamicValue;
@@ -2923,7 +3061,7 @@ public class PlanDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<PlanDefinition.Action> getAction() {
             return action;
@@ -3107,7 +3245,7 @@ public class PlanDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3121,12 +3259,15 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3140,12 +3281,15 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3165,12 +3309,15 @@ public class PlanDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3190,12 +3337,15 @@ public class PlanDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3211,7 +3361,7 @@ public class PlanDefinition extends DomainResource {
              *     User-visible prefix for the action (e.g. 1. or A.)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
@@ -3227,7 +3377,7 @@ public class PlanDefinition extends DomainResource {
              *     User-visible title
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder title(String title) {
                 this.title = title;
@@ -3243,7 +3393,7 @@ public class PlanDefinition extends DomainResource {
              *     Brief description of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -3260,7 +3410,7 @@ public class PlanDefinition extends DomainResource {
              *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder textEquivalent(String textEquivalent) {
                 this.textEquivalent = textEquivalent;
@@ -3276,7 +3426,7 @@ public class PlanDefinition extends DomainResource {
              *     routine | urgent | asap | stat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priority(RequestPriority priority) {
                 this.priority = priority;
@@ -3288,12 +3438,15 @@ public class PlanDefinition extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -3307,15 +3460,18 @@ public class PlanDefinition extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -3323,12 +3479,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A description of why this action is necessary or appropriate.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param reason
              *     Why the action should be performed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reason(CodeableConcept... reason) {
                 for (CodeableConcept value : reason) {
@@ -3341,15 +3500,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A description of why this action is necessary or appropriate.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param reason
              *     Why the action should be performed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reason(Collection<CodeableConcept> reason) {
-                this.reason.addAll(reason);
+                this.reason = new ArrayList<>(reason);
                 return this;
             }
 
@@ -3358,12 +3520,15 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(RelatedArtifact... documentation) {
                 for (RelatedArtifact value : documentation) {
@@ -3377,15 +3542,18 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Collection<RelatedArtifact> documentation) {
-                this.documentation.addAll(documentation);
+                this.documentation = new ArrayList<>(documentation);
                 return this;
             }
 
@@ -3394,12 +3562,15 @@ public class PlanDefinition extends DomainResource {
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param goalId
              *     What goals this action supports
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder goalId(Id... goalId) {
                 for (Id value : goalId) {
@@ -3413,15 +3584,18 @@ public class PlanDefinition extends DomainResource {
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param goalId
              *     What goals this action supports
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder goalId(Collection<Id> goalId) {
-                this.goalId.addAll(goalId);
+                this.goalId = new ArrayList<>(goalId);
                 return this;
             }
 
@@ -3434,7 +3608,7 @@ public class PlanDefinition extends DomainResource {
              *     Type of individual the action is focused on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subject(Element subject) {
                 this.subject = subject;
@@ -3445,12 +3619,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A description of when the action should be triggered.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param trigger
              *     When the action should be triggered
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder trigger(TriggerDefinition... trigger) {
                 for (TriggerDefinition value : trigger) {
@@ -3463,15 +3640,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A description of when the action should be triggered.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param trigger
              *     When the action should be triggered
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder trigger(Collection<TriggerDefinition> trigger) {
-                this.trigger.addAll(trigger);
+                this.trigger = new ArrayList<>(trigger);
                 return this;
             }
 
@@ -3479,12 +3659,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * An expression that describes applicability criteria or start/stop conditions for the action.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param condition
              *     Whether or not the action is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder condition(Condition... condition) {
                 for (Condition value : condition) {
@@ -3497,15 +3680,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * An expression that describes applicability criteria or start/stop conditions for the action.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param condition
              *     Whether or not the action is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder condition(Collection<Condition> condition) {
-                this.condition.addAll(condition);
+                this.condition = new ArrayList<>(condition);
                 return this;
             }
 
@@ -3513,12 +3699,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Defines input data requirements for the action.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param input
              *     Input data requirements
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder input(DataRequirement... input) {
                 for (DataRequirement value : input) {
@@ -3531,15 +3720,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Defines input data requirements for the action.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param input
              *     Input data requirements
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder input(Collection<DataRequirement> input) {
-                this.input.addAll(input);
+                this.input = new ArrayList<>(input);
                 return this;
             }
 
@@ -3547,12 +3739,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Defines the outputs of the action, if any.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param output
              *     Output data definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder output(DataRequirement... output) {
                 for (DataRequirement value : output) {
@@ -3565,15 +3760,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Defines the outputs of the action, if any.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param output
              *     Output data definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder output(Collection<DataRequirement> output) {
-                this.output.addAll(output);
+                this.output = new ArrayList<>(output);
                 return this;
             }
 
@@ -3581,12 +3779,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param relatedAction
              *     Relationship to another action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relatedAction(RelatedAction... relatedAction) {
                 for (RelatedAction value : relatedAction) {
@@ -3599,15 +3800,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param relatedAction
              *     Relationship to another action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relatedAction(Collection<RelatedAction> relatedAction) {
-                this.relatedAction.addAll(relatedAction);
+                this.relatedAction = new ArrayList<>(relatedAction);
                 return this;
             }
 
@@ -3620,7 +3824,7 @@ public class PlanDefinition extends DomainResource {
              *     When the action should take place
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder timing(Element timing) {
                 this.timing = timing;
@@ -3631,12 +3835,15 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Indicates who should participate in performing the action described.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param participant
              *     Who should participate in the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder participant(Participant... participant) {
                 for (Participant value : participant) {
@@ -3649,15 +3856,18 @@ public class PlanDefinition extends DomainResource {
              * <p>
              * Indicates who should participate in performing the action described.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param participant
              *     Who should participate in the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder participant(Collection<Participant> participant) {
-                this.participant.addAll(participant);
+                this.participant = new ArrayList<>(participant);
                 return this;
             }
 
@@ -3670,7 +3880,7 @@ public class PlanDefinition extends DomainResource {
              *     create | update | remove | fire-event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -3686,7 +3896,7 @@ public class PlanDefinition extends DomainResource {
              *     visual-group | logical-group | sentence-group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder groupingBehavior(ActionGroupingBehavior groupingBehavior) {
                 this.groupingBehavior = groupingBehavior;
@@ -3702,7 +3912,7 @@ public class PlanDefinition extends DomainResource {
              *     any | all | all-or-none | exactly-one | at-most-one | one-or-more
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder selectionBehavior(ActionSelectionBehavior selectionBehavior) {
                 this.selectionBehavior = selectionBehavior;
@@ -3718,7 +3928,7 @@ public class PlanDefinition extends DomainResource {
              *     must | could | must-unless-documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder requiredBehavior(ActionRequiredBehavior requiredBehavior) {
                 this.requiredBehavior = requiredBehavior;
@@ -3734,7 +3944,7 @@ public class PlanDefinition extends DomainResource {
              *     yes | no
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder precheckBehavior(ActionPrecheckBehavior precheckBehavior) {
                 this.precheckBehavior = precheckBehavior;
@@ -3750,7 +3960,7 @@ public class PlanDefinition extends DomainResource {
              *     single | multiple
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder cardinalityBehavior(ActionCardinalityBehavior cardinalityBehavior) {
                 this.cardinalityBehavior = cardinalityBehavior;
@@ -3767,7 +3977,7 @@ public class PlanDefinition extends DomainResource {
              *     Description of the activity to be performed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder definition(Element definition) {
                 this.definition = definition;
@@ -3784,7 +3994,7 @@ public class PlanDefinition extends DomainResource {
              *     Transform to apply the template
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder transform(Canonical transform) {
                 this.transform = transform;
@@ -3797,12 +4007,15 @@ public class PlanDefinition extends DomainResource {
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dynamicValue(DynamicValue... dynamicValue) {
                 for (DynamicValue value : dynamicValue) {
@@ -3817,15 +4030,18 @@ public class PlanDefinition extends DomainResource {
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dynamicValue(Collection<DynamicValue> dynamicValue) {
-                this.dynamicValue.addAll(dynamicValue);
+                this.dynamicValue = new ArrayList<>(dynamicValue);
                 return this;
             }
 
@@ -3835,12 +4051,15 @@ public class PlanDefinition extends DomainResource {
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param action
              *     A sub-action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(PlanDefinition.Action... action) {
                 for (PlanDefinition.Action value : action) {
@@ -3855,15 +4074,18 @@ public class PlanDefinition extends DomainResource {
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param action
              *     A sub-action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(Collection<PlanDefinition.Action> action) {
-                this.action.addAll(action);
+                this.action = new ArrayList<>(action);
                 return this;
             }
 
@@ -4033,7 +4255,7 @@ public class PlanDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4047,12 +4269,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4066,12 +4291,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4091,12 +4319,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4116,12 +4347,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4137,7 +4371,7 @@ public class PlanDefinition extends DomainResource {
                  *     Boolean-valued expression
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder expression(Expression expression) {
                     this.expression = expression;
@@ -4304,7 +4538,7 @@ public class PlanDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4318,12 +4552,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4337,12 +4574,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4362,12 +4602,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4387,12 +4630,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4408,7 +4654,7 @@ public class PlanDefinition extends DomainResource {
                  *     Time offset for the relationship
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder offset(Element offset) {
                     this.offset = offset;
@@ -4556,7 +4802,7 @@ public class PlanDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4570,12 +4816,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4589,12 +4838,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4614,12 +4866,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4639,12 +4894,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4660,7 +4918,7 @@ public class PlanDefinition extends DomainResource {
                  *     E.g. Nurse, Surgeon, Parent
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder role(CodeableConcept role) {
                     this.role = role;
@@ -4807,7 +5065,7 @@ public class PlanDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4821,12 +5079,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4840,12 +5101,15 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4865,12 +5129,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4890,12 +5157,15 @@ public class PlanDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4915,7 +5185,7 @@ public class PlanDefinition extends DomainResource {
                  *     The path to the element to be set dynamically
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder path(String path) {
                     this.path = path;
@@ -4931,7 +5201,7 @@ public class PlanDefinition extends DomainResource {
                  *     An expression that provides the dynamic value for the customization
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder expression(Expression expression) {
                     this.expression = expression;

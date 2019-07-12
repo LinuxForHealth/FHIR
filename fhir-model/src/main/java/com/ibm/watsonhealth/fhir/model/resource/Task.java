@@ -164,7 +164,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -206,7 +206,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -230,7 +230,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -412,7 +412,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getPerformerType() {
         return performerType;
@@ -472,7 +472,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -484,7 +484,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -497,7 +497,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -522,7 +522,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Input}.
+     *     An unmodifiable list containing immutable objects of type {@link Input}.
      */
     public List<Input> getInput() {
         return input;
@@ -534,7 +534,7 @@ public class Task extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Output}.
+     *     An unmodifiable list containing immutable objects of type {@link Output}.
      */
     public List<Output> getOutput() {
         return output;
@@ -756,7 +756,7 @@ public class Task extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -773,7 +773,7 @@ public class Task extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -791,7 +791,7 @@ public class Task extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -807,7 +807,7 @@ public class Task extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -826,7 +826,7 @@ public class Task extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -838,12 +838,15 @@ public class Task extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -855,12 +858,15 @@ public class Task extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -874,12 +880,15 @@ public class Task extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -893,12 +902,15 @@ public class Task extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -918,12 +930,15 @@ public class Task extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -943,12 +958,15 @@ public class Task extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -959,12 +977,15 @@ public class Task extends DomainResource {
          * <p>
          * The business identifier for this task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Task Instance Identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -977,15 +998,18 @@ public class Task extends DomainResource {
          * <p>
          * The business identifier for this task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Task Instance Identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -999,7 +1023,7 @@ public class Task extends DomainResource {
          *     Formal definition of task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical instantiatesCanonical) {
             this.instantiatesCanonical = instantiatesCanonical;
@@ -1016,7 +1040,7 @@ public class Task extends DomainResource {
          *     Formal definition of task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri instantiatesUri) {
             this.instantiatesUri = instantiatesUri;
@@ -1031,12 +1055,15 @@ public class Task extends DomainResource {
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     Request fulfilled by this task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -1053,15 +1080,18 @@ public class Task extends DomainResource {
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     Request fulfilled by this task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -1074,7 +1104,7 @@ public class Task extends DomainResource {
          *     Requisition or grouper id
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder groupIdentifier(Identifier groupIdentifier) {
             this.groupIdentifier = groupIdentifier;
@@ -1085,12 +1115,15 @@ public class Task extends DomainResource {
          * <p>
          * Task that this particular task is part of.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partOf
          *     Composite task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference... partOf) {
             for (Reference value : partOf) {
@@ -1103,15 +1136,18 @@ public class Task extends DomainResource {
          * <p>
          * Task that this particular task is part of.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partOf
          *     Composite task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Collection<Reference> partOf) {
-            this.partOf.addAll(partOf);
+            this.partOf = new ArrayList<>(partOf);
             return this;
         }
 
@@ -1124,7 +1160,7 @@ public class Task extends DomainResource {
          *     Reason for current status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(CodeableConcept statusReason) {
             this.statusReason = statusReason;
@@ -1140,7 +1176,7 @@ public class Task extends DomainResource {
          *     E.g. "Specimen collected", "IV prepped"
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder businessStatus(CodeableConcept businessStatus) {
             this.businessStatus = businessStatus;
@@ -1156,7 +1192,7 @@ public class Task extends DomainResource {
          *     routine | urgent | asap | stat
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(TaskPriority priority) {
             this.priority = priority;
@@ -1172,7 +1208,7 @@ public class Task extends DomainResource {
          *     Task Type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -1188,7 +1224,7 @@ public class Task extends DomainResource {
          *     Human-readable explanation of task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -1204,7 +1240,7 @@ public class Task extends DomainResource {
          *     What task is acting on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder focus(Reference focus) {
             this.focus = focus;
@@ -1220,7 +1256,7 @@ public class Task extends DomainResource {
          *     Beneficiary of the Task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder _for(Reference _for) {
             this._for = _for;
@@ -1236,7 +1272,7 @@ public class Task extends DomainResource {
          *     Healthcare event during which this task originated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -1253,7 +1289,7 @@ public class Task extends DomainResource {
          *     Start and end time of execution
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder executionPeriod(Period executionPeriod) {
             this.executionPeriod = executionPeriod;
@@ -1269,7 +1305,7 @@ public class Task extends DomainResource {
          *     Task Creation Date
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authoredOn(DateTime authoredOn) {
             this.authoredOn = authoredOn;
@@ -1285,7 +1321,7 @@ public class Task extends DomainResource {
          *     Task Last Modified Date
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastModified(DateTime lastModified) {
             this.lastModified = lastModified;
@@ -1301,7 +1337,7 @@ public class Task extends DomainResource {
          *     Who is asking for task to be done
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requester(Reference requester) {
             this.requester = requester;
@@ -1312,12 +1348,15 @@ public class Task extends DomainResource {
          * <p>
          * The kind of participant that should perform the task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param performerType
          *     Requested performer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performerType(CodeableConcept... performerType) {
             for (CodeableConcept value : performerType) {
@@ -1330,15 +1369,18 @@ public class Task extends DomainResource {
          * <p>
          * The kind of participant that should perform the task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param performerType
          *     Requested performer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performerType(Collection<CodeableConcept> performerType) {
-            this.performerType.addAll(performerType);
+            this.performerType = new ArrayList<>(performerType);
             return this;
         }
 
@@ -1351,7 +1393,7 @@ public class Task extends DomainResource {
          *     Responsible individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder owner(Reference owner) {
             this.owner = owner;
@@ -1367,7 +1409,7 @@ public class Task extends DomainResource {
          *     Where task occurs
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -1383,7 +1425,7 @@ public class Task extends DomainResource {
          *     Why task is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept reasonCode) {
             this.reasonCode = reasonCode;
@@ -1399,7 +1441,7 @@ public class Task extends DomainResource {
          *     Why task is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference reasonReference) {
             this.reasonReference = reasonReference;
@@ -1410,12 +1452,15 @@ public class Task extends DomainResource {
          * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param insurance
          *     Associated insurance coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Reference... insurance) {
             for (Reference value : insurance) {
@@ -1428,15 +1473,18 @@ public class Task extends DomainResource {
          * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param insurance
          *     Associated insurance coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Collection<Reference> insurance) {
-            this.insurance.addAll(insurance);
+            this.insurance = new ArrayList<>(insurance);
             return this;
         }
 
@@ -1444,12 +1492,15 @@ public class Task extends DomainResource {
          * <p>
          * Free-text information captured about the task as it progresses.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments made about the task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1462,15 +1513,18 @@ public class Task extends DomainResource {
          * <p>
          * Free-text information captured about the task as it progresses.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments made about the task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1479,12 +1533,15 @@ public class Task extends DomainResource {
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relevantHistory
          *     Key events in history of the Task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Reference... relevantHistory) {
             for (Reference value : relevantHistory) {
@@ -1498,15 +1555,18 @@ public class Task extends DomainResource {
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relevantHistory
          *     Key events in history of the Task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Collection<Reference> relevantHistory) {
-            this.relevantHistory.addAll(relevantHistory);
+            this.relevantHistory = new ArrayList<>(relevantHistory);
             return this;
         }
 
@@ -1520,7 +1580,7 @@ public class Task extends DomainResource {
          *     Constraints on fulfillment tasks
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder restriction(Restriction restriction) {
             this.restriction = restriction;
@@ -1531,12 +1591,15 @@ public class Task extends DomainResource {
          * <p>
          * Additional information that may be needed in the execution of the task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param input
          *     Information used to perform task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder input(Input... input) {
             for (Input value : input) {
@@ -1549,15 +1612,18 @@ public class Task extends DomainResource {
          * <p>
          * Additional information that may be needed in the execution of the task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param input
          *     Information used to perform task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder input(Collection<Input> input) {
-            this.input.addAll(input);
+            this.input = new ArrayList<>(input);
             return this;
         }
 
@@ -1565,12 +1631,15 @@ public class Task extends DomainResource {
          * <p>
          * Outputs produced by the Task.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param output
          *     Information produced as part of task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder output(Output... output) {
             for (Output value : output) {
@@ -1583,15 +1652,18 @@ public class Task extends DomainResource {
          * <p>
          * Outputs produced by the Task.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param output
          *     Information produced as part of task
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder output(Collection<Output> output) {
-            this.output.addAll(output);
+            this.output = new ArrayList<>(output);
             return this;
         }
 
@@ -1692,7 +1764,7 @@ public class Task extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getRecipient() {
             return recipient;
@@ -1780,7 +1852,7 @@ public class Task extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1794,12 +1866,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1813,12 +1888,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1838,12 +1916,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1863,12 +1944,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1884,7 +1968,7 @@ public class Task extends DomainResource {
              *     How many times to repeat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder repetitions(PositiveInt repetitions) {
                 this.repetitions = repetitions;
@@ -1900,7 +1984,7 @@ public class Task extends DomainResource {
              *     When fulfillment sought
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1911,12 +1995,15 @@ public class Task extends DomainResource {
              * <p>
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param recipient
              *     For whom is fulfillment sought?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder recipient(Reference... recipient) {
                 for (Reference value : recipient) {
@@ -1929,15 +2016,18 @@ public class Task extends DomainResource {
              * <p>
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param recipient
              *     For whom is fulfillment sought?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder recipient(Collection<Reference> recipient) {
-                this.recipient.addAll(recipient);
+                this.recipient = new ArrayList<>(recipient);
                 return this;
             }
 
@@ -2083,7 +2173,7 @@ public class Task extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2097,12 +2187,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2116,12 +2209,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2141,12 +2237,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2166,12 +2265,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2317,7 +2419,7 @@ public class Task extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2331,12 +2433,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2350,12 +2455,15 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2375,12 +2483,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2400,12 +2511,15 @@ public class Task extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

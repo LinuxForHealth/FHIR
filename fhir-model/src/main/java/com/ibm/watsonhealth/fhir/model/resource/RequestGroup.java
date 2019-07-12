@@ -114,7 +114,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -127,7 +127,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -140,7 +140,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -152,7 +152,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -164,7 +164,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -286,7 +286,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -298,7 +298,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -310,7 +310,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -322,7 +322,7 @@ public class RequestGroup extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Action}.
+     *     An unmodifiable list containing immutable objects of type {@link Action}.
      */
     public List<Action> getAction() {
         return action;
@@ -492,7 +492,7 @@ public class RequestGroup extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -509,7 +509,7 @@ public class RequestGroup extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -527,7 +527,7 @@ public class RequestGroup extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -543,7 +543,7 @@ public class RequestGroup extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -562,7 +562,7 @@ public class RequestGroup extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -574,12 +574,15 @@ public class RequestGroup extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -591,12 +594,15 @@ public class RequestGroup extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -610,12 +616,15 @@ public class RequestGroup extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -629,12 +638,15 @@ public class RequestGroup extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -654,12 +666,15 @@ public class RequestGroup extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -679,12 +694,15 @@ public class RequestGroup extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -695,12 +713,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Allows a service to provide a unique, business identifier for the request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -713,15 +734,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Allows a service to provide a unique, business identifier for the request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -730,12 +754,15 @@ public class RequestGroup extends DomainResource {
          * A canonical URL referencing a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -749,15 +776,18 @@ public class RequestGroup extends DomainResource {
          * A canonical URL referencing a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -766,12 +796,15 @@ public class RequestGroup extends DomainResource {
          * A URL referencing an externally defined protocol, guideline, orderset or other definition that is adhered to in whole 
          * or in part by this request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -785,15 +818,18 @@ public class RequestGroup extends DomainResource {
          * A URL referencing an externally defined protocol, guideline, orderset or other definition that is adhered to in whole 
          * or in part by this request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -801,12 +837,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     Fulfills plan, proposal, or order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -819,15 +858,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     Fulfills plan, proposal, or order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -835,12 +877,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Completed or terminated request(s) whose function is taken by this new request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param replaces
          *     Request(s) replaced by this request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Reference... replaces) {
             for (Reference value : replaces) {
@@ -853,15 +898,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Completed or terminated request(s) whose function is taken by this new request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param replaces
          *     Request(s) replaced by this request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Collection<Reference> replaces) {
-            this.replaces.addAll(replaces);
+            this.replaces = new ArrayList<>(replaces);
             return this;
         }
 
@@ -875,7 +923,7 @@ public class RequestGroup extends DomainResource {
          *     Composite request this is part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder groupIdentifier(Identifier groupIdentifier) {
             this.groupIdentifier = groupIdentifier;
@@ -891,7 +939,7 @@ public class RequestGroup extends DomainResource {
          *     routine | urgent | asap | stat
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(RequestPriority priority) {
             this.priority = priority;
@@ -907,7 +955,7 @@ public class RequestGroup extends DomainResource {
          *     What's being requested/ordered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -923,7 +971,7 @@ public class RequestGroup extends DomainResource {
          *     Who the request group is about
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -939,7 +987,7 @@ public class RequestGroup extends DomainResource {
          *     Created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -955,7 +1003,7 @@ public class RequestGroup extends DomainResource {
          *     When the request group was authored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authoredOn(DateTime authoredOn) {
             this.authoredOn = authoredOn;
@@ -971,7 +1019,7 @@ public class RequestGroup extends DomainResource {
          *     Device or practitioner that authored the request group
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference author) {
             this.author = author;
@@ -982,12 +1030,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Describes the reason for the request group in coded or textual form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why the request group is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -1000,15 +1051,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Describes the reason for the request group in coded or textual form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why the request group is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -1016,12 +1070,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Indicates another resource whose existence justifies this request group.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why the request group is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -1034,15 +1091,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Indicates another resource whose existence justifies this request group.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why the request group is needed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1050,12 +1110,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Provides a mechanism to communicate additional information about the response.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Additional notes about the response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1068,15 +1131,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * Provides a mechanism to communicate additional information about the response.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Additional notes about the response
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1084,12 +1150,15 @@ public class RequestGroup extends DomainResource {
          * <p>
          * The actions, if any, produced by the evaluation of the artifact.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param action
          *     Proposed actions, if any
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder action(Action... action) {
             for (Action value : action) {
@@ -1102,15 +1171,18 @@ public class RequestGroup extends DomainResource {
          * <p>
          * The actions, if any, produced by the evaluation of the artifact.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param action
          *     Proposed actions, if any
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder action(Collection<Action> action) {
-            this.action.addAll(action);
+            this.action = new ArrayList<>(action);
             return this;
         }
 
@@ -1267,7 +1339,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1280,7 +1352,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -1292,7 +1364,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Condition}.
+         *     An unmodifiable list containing immutable objects of type {@link Condition}.
          */
         public List<Condition> getCondition() {
             return condition;
@@ -1304,7 +1376,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RelatedAction}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
          */
         public List<RelatedAction> getRelatedAction() {
             return relatedAction;
@@ -1328,7 +1400,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getParticipant() {
             return participant;
@@ -1424,7 +1496,7 @@ public class RequestGroup extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<RequestGroup.Action> getAction() {
             return action;
@@ -1576,7 +1648,7 @@ public class RequestGroup extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1590,12 +1662,15 @@ public class RequestGroup extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1609,12 +1684,15 @@ public class RequestGroup extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1634,12 +1712,15 @@ public class RequestGroup extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1659,12 +1740,15 @@ public class RequestGroup extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1680,7 +1764,7 @@ public class RequestGroup extends DomainResource {
              *     User-visible prefix for the action (e.g. 1. or A.)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
@@ -1696,7 +1780,7 @@ public class RequestGroup extends DomainResource {
              *     User-visible title
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder title(String title) {
                 this.title = title;
@@ -1712,7 +1796,7 @@ public class RequestGroup extends DomainResource {
              *     Short description of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1729,7 +1813,7 @@ public class RequestGroup extends DomainResource {
              *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder textEquivalent(String textEquivalent) {
                 this.textEquivalent = textEquivalent;
@@ -1745,7 +1829,7 @@ public class RequestGroup extends DomainResource {
              *     routine | urgent | asap | stat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priority(RequestPriority priority) {
                 this.priority = priority;
@@ -1757,12 +1841,15 @@ public class RequestGroup extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for a 
              * section of a documentation template.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -1776,15 +1863,18 @@ public class RequestGroup extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for a 
              * section of a documentation template.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1793,12 +1883,15 @@ public class RequestGroup extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(RelatedArtifact... documentation) {
                 for (RelatedArtifact value : documentation) {
@@ -1812,15 +1905,18 @@ public class RequestGroup extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Collection<RelatedArtifact> documentation) {
-                this.documentation.addAll(documentation);
+                this.documentation = new ArrayList<>(documentation);
                 return this;
             }
 
@@ -1828,12 +1924,15 @@ public class RequestGroup extends DomainResource {
              * <p>
              * An expression that describes applicability criteria, or start/stop conditions for the action.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param condition
              *     Whether or not the action is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder condition(Condition... condition) {
                 for (Condition value : condition) {
@@ -1846,15 +1945,18 @@ public class RequestGroup extends DomainResource {
              * <p>
              * An expression that describes applicability criteria, or start/stop conditions for the action.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param condition
              *     Whether or not the action is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder condition(Collection<Condition> condition) {
-                this.condition.addAll(condition);
+                this.condition = new ArrayList<>(condition);
                 return this;
             }
 
@@ -1862,12 +1964,15 @@ public class RequestGroup extends DomainResource {
              * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param relatedAction
              *     Relationship to another action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relatedAction(RelatedAction... relatedAction) {
                 for (RelatedAction value : relatedAction) {
@@ -1880,15 +1985,18 @@ public class RequestGroup extends DomainResource {
              * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param relatedAction
              *     Relationship to another action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relatedAction(Collection<RelatedAction> relatedAction) {
-                this.relatedAction.addAll(relatedAction);
+                this.relatedAction = new ArrayList<>(relatedAction);
                 return this;
             }
 
@@ -1901,7 +2009,7 @@ public class RequestGroup extends DomainResource {
              *     When the action should take place
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder timing(Element timing) {
                 this.timing = timing;
@@ -1912,12 +2020,15 @@ public class RequestGroup extends DomainResource {
              * <p>
              * The participant that should perform or be responsible for this action.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param participant
              *     Who should perform the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder participant(Reference... participant) {
                 for (Reference value : participant) {
@@ -1930,15 +2041,18 @@ public class RequestGroup extends DomainResource {
              * <p>
              * The participant that should perform or be responsible for this action.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param participant
              *     Who should perform the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder participant(Collection<Reference> participant) {
-                this.participant.addAll(participant);
+                this.participant = new ArrayList<>(participant);
                 return this;
             }
 
@@ -1951,7 +2065,7 @@ public class RequestGroup extends DomainResource {
              *     create | update | remove | fire-event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1967,7 +2081,7 @@ public class RequestGroup extends DomainResource {
              *     visual-group | logical-group | sentence-group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder groupingBehavior(ActionGroupingBehavior groupingBehavior) {
                 this.groupingBehavior = groupingBehavior;
@@ -1983,7 +2097,7 @@ public class RequestGroup extends DomainResource {
              *     any | all | all-or-none | exactly-one | at-most-one | one-or-more
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder selectionBehavior(ActionSelectionBehavior selectionBehavior) {
                 this.selectionBehavior = selectionBehavior;
@@ -1999,7 +2113,7 @@ public class RequestGroup extends DomainResource {
              *     must | could | must-unless-documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder requiredBehavior(ActionRequiredBehavior requiredBehavior) {
                 this.requiredBehavior = requiredBehavior;
@@ -2015,7 +2129,7 @@ public class RequestGroup extends DomainResource {
              *     yes | no
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder precheckBehavior(ActionPrecheckBehavior precheckBehavior) {
                 this.precheckBehavior = precheckBehavior;
@@ -2031,7 +2145,7 @@ public class RequestGroup extends DomainResource {
              *     single | multiple
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder cardinalityBehavior(ActionCardinalityBehavior cardinalityBehavior) {
                 this.cardinalityBehavior = cardinalityBehavior;
@@ -2047,7 +2161,7 @@ public class RequestGroup extends DomainResource {
              *     The target of the action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder resource(Reference resource) {
                 this.resource = resource;
@@ -2058,12 +2172,15 @@ public class RequestGroup extends DomainResource {
              * <p>
              * Sub actions.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param action
              *     Sub action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(RequestGroup.Action... action) {
                 for (RequestGroup.Action value : action) {
@@ -2076,15 +2193,18 @@ public class RequestGroup extends DomainResource {
              * <p>
              * Sub actions.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param action
              *     Sub action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(Collection<RequestGroup.Action> action) {
-                this.action.addAll(action);
+                this.action = new ArrayList<>(action);
                 return this;
             }
 
@@ -2246,7 +2366,7 @@ public class RequestGroup extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2260,12 +2380,15 @@ public class RequestGroup extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2279,12 +2402,15 @@ public class RequestGroup extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2304,12 +2430,15 @@ public class RequestGroup extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2329,12 +2458,15 @@ public class RequestGroup extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2350,7 +2482,7 @@ public class RequestGroup extends DomainResource {
                  *     Boolean-valued expression
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder expression(Expression expression) {
                     this.expression = expression;
@@ -2517,7 +2649,7 @@ public class RequestGroup extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2531,12 +2663,15 @@ public class RequestGroup extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2550,12 +2685,15 @@ public class RequestGroup extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2575,12 +2713,15 @@ public class RequestGroup extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2600,12 +2741,15 @@ public class RequestGroup extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2621,7 +2765,7 @@ public class RequestGroup extends DomainResource {
                  *     Time offset for the relationship
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder offset(Element offset) {
                     this.offset = offset;

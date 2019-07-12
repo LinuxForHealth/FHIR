@@ -232,7 +232,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -258,7 +258,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -270,7 +270,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -323,7 +323,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link FHIRVersion}.
+     *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
      */
     public List<FHIRVersion> getFhirVersion() {
         return fhirVersion;
@@ -336,7 +336,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DependsOn}.
+     *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
      */
     public List<DependsOn> getDependsOn() {
         return dependsOn;
@@ -348,7 +348,7 @@ public class ImplementationGuide extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Global}.
+     *     An unmodifiable list containing immutable objects of type {@link Global}.
      */
     public List<Global> getGlobal() {
         return global;
@@ -553,7 +553,7 @@ public class ImplementationGuide extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -570,7 +570,7 @@ public class ImplementationGuide extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -588,7 +588,7 @@ public class ImplementationGuide extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -604,7 +604,7 @@ public class ImplementationGuide extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -623,7 +623,7 @@ public class ImplementationGuide extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -635,12 +635,15 @@ public class ImplementationGuide extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(com.ibm.watsonhealth.fhir.model.resource.Resource... contained) {
@@ -652,12 +655,15 @@ public class ImplementationGuide extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<com.ibm.watsonhealth.fhir.model.resource.Resource> contained) {
@@ -671,12 +677,15 @@ public class ImplementationGuide extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -690,12 +699,15 @@ public class ImplementationGuide extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -715,12 +727,15 @@ public class ImplementationGuide extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -740,12 +755,15 @@ public class ImplementationGuide extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -764,7 +782,7 @@ public class ImplementationGuide extends DomainResource {
          *     Business version of the implementation guide
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -780,7 +798,7 @@ public class ImplementationGuide extends DomainResource {
          *     Name for this implementation guide (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -797,7 +815,7 @@ public class ImplementationGuide extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -815,7 +833,7 @@ public class ImplementationGuide extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -831,7 +849,7 @@ public class ImplementationGuide extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -842,12 +860,15 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -860,15 +881,18 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -881,7 +905,7 @@ public class ImplementationGuide extends DomainResource {
          *     Natural language description of the implementation guide
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -894,12 +918,15 @@ public class ImplementationGuide extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -914,15 +941,18 @@ public class ImplementationGuide extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -930,12 +960,15 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * A legal or geographic region in which the implementation guide is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -948,15 +981,18 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * A legal or geographic region in which the implementation guide is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -970,7 +1006,7 @@ public class ImplementationGuide extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -986,7 +1022,7 @@ public class ImplementationGuide extends DomainResource {
          *     SPDX license code for this IG (or not-open-source)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder license(SPDXLicense license) {
             this.license = license;
@@ -998,12 +1034,15 @@ public class ImplementationGuide extends DomainResource {
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dependsOn(DependsOn... dependsOn) {
             for (DependsOn value : dependsOn) {
@@ -1017,15 +1056,18 @@ public class ImplementationGuide extends DomainResource {
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dependsOn(Collection<DependsOn> dependsOn) {
-            this.dependsOn.addAll(dependsOn);
+            this.dependsOn = new ArrayList<>(dependsOn);
             return this;
         }
 
@@ -1033,12 +1075,15 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * A set of profiles that all resources covered by this implementation guide must conform to.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param global
          *     Profiles that apply globally
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder global(Global... global) {
             for (Global value : global) {
@@ -1051,15 +1096,18 @@ public class ImplementationGuide extends DomainResource {
          * <p>
          * A set of profiles that all resources covered by this implementation guide must conform to.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param global
          *     Profiles that apply globally
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder global(Collection<Global> global) {
-            this.global.addAll(global);
+            this.global = new ArrayList<>(global);
             return this;
         }
 
@@ -1072,7 +1120,7 @@ public class ImplementationGuide extends DomainResource {
          *     Information needed to build the IG
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder definition(Definition definition) {
             this.definition = definition;
@@ -1088,7 +1136,7 @@ public class ImplementationGuide extends DomainResource {
          *     Information about an assembled IG
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder manifest(Manifest manifest) {
             this.manifest = manifest;
@@ -1273,7 +1321,7 @@ public class ImplementationGuide extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1287,12 +1335,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1306,12 +1357,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1331,12 +1385,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1356,12 +1413,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1377,7 +1437,7 @@ public class ImplementationGuide extends DomainResource {
              *     NPM Package name for IG this depends on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder packageId(Id packageId) {
                 this.packageId = packageId;
@@ -1393,7 +1453,7 @@ public class ImplementationGuide extends DomainResource {
              *     Version of the IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(String version) {
                 this.version = version;
@@ -1541,7 +1601,7 @@ public class ImplementationGuide extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1555,12 +1615,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1574,12 +1637,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1599,12 +1665,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1624,12 +1693,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1679,7 +1751,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Grouping}.
+         *     An unmodifiable list containing immutable objects of type {@link Grouping}.
          */
         public List<Grouping> getGrouping() {
             return grouping;
@@ -1693,7 +1765,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource}.
          */
         public List<Resource> getResource() {
             return resource;
@@ -1717,7 +1789,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -1729,7 +1801,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Template}.
+         *     An unmodifiable list containing immutable objects of type {@link Template}.
          */
         public List<Template> getTemplate() {
             return template;
@@ -1832,7 +1904,7 @@ public class ImplementationGuide extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1846,12 +1918,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1865,12 +1940,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1890,12 +1968,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1915,12 +1996,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1931,12 +2015,15 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * A logical group of resources. Logical groups can be used when building pages.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder grouping(Grouping... grouping) {
                 for (Grouping value : grouping) {
@@ -1949,15 +2036,18 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * A logical group of resources. Logical groups can be used when building pages.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder grouping(Collection<Grouping> grouping) {
-                this.grouping.addAll(grouping);
+                this.grouping = new ArrayList<>(grouping);
                 return this;
             }
 
@@ -1970,7 +2060,7 @@ public class ImplementationGuide extends DomainResource {
              *     Page/Section in the Guide
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder page(Page page) {
                 this.page = page;
@@ -1981,12 +2071,15 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Defines how IG is built by tools.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param parameter
              *     Defines how IG is built by tools
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Parameter... parameter) {
                 for (Parameter value : parameter) {
@@ -1999,15 +2092,18 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Defines how IG is built by tools.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param parameter
              *     Defines how IG is built by tools
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameter(Collection<Parameter> parameter) {
-                this.parameter.addAll(parameter);
+                this.parameter = new ArrayList<>(parameter);
                 return this;
             }
 
@@ -2015,12 +2111,15 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * A template for building resources.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param template
              *     A template for building resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder template(Template... template) {
                 for (Template value : template) {
@@ -2033,15 +2132,18 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * A template for building resources.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param template
              *     A template for building resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder template(Collection<Template> template) {
-                this.template.addAll(template);
+                this.template = new ArrayList<>(template);
                 return this;
             }
 
@@ -2188,7 +2290,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2202,12 +2304,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2221,12 +2326,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2246,12 +2354,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2271,12 +2382,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2292,7 +2406,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Human readable text describing the package
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(String description) {
                     this.description = description;
@@ -2360,7 +2474,7 @@ public class ImplementationGuide extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link FHIRVersion}.
+             *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
              */
             public List<FHIRVersion> getFhirVersion() {
                 return fhirVersion;
@@ -2517,7 +2631,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2531,12 +2645,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2550,12 +2667,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2575,12 +2695,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2600,12 +2723,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2617,12 +2743,15 @@ public class ImplementationGuide extends DomainResource {
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder fhirVersion(FHIRVersion... fhirVersion) {
                     for (FHIRVersion value : fhirVersion) {
@@ -2636,15 +2765,18 @@ public class ImplementationGuide extends DomainResource {
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder fhirVersion(Collection<FHIRVersion> fhirVersion) {
-                    this.fhirVersion.addAll(fhirVersion);
+                    this.fhirVersion = new ArrayList<>(fhirVersion);
                     return this;
                 }
 
@@ -2658,7 +2790,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Human Name for the resource
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder name(String name) {
                     this.name = name;
@@ -2674,7 +2806,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Reason why included in guide
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(String description) {
                     this.description = description;
@@ -2691,7 +2823,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Is an example/What is this an example of?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder example(Element example) {
                     this.example = example;
@@ -2707,7 +2839,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Grouping this is part of
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder groupingId(Id groupingId) {
                     this.groupingId = groupingId;
@@ -2796,7 +2928,7 @@ public class ImplementationGuide extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Page}.
+             *     An unmodifiable list containing immutable objects of type {@link Page}.
              */
             public List<ImplementationGuide.Definition.Page> getPage() {
                 return page;
@@ -2897,7 +3029,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2911,12 +3043,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2930,12 +3065,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2955,12 +3093,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2980,12 +3121,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2996,12 +3140,15 @@ public class ImplementationGuide extends DomainResource {
                  * <p>
                  * Nested Pages/Sections under this page.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param page
                  *     Nested Pages / Sections
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder page(ImplementationGuide.Definition.Page... page) {
                     for (ImplementationGuide.Definition.Page value : page) {
@@ -3014,15 +3161,18 @@ public class ImplementationGuide extends DomainResource {
                  * <p>
                  * Nested Pages/Sections under this page.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param page
                  *     Nested Pages / Sections
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder page(Collection<ImplementationGuide.Definition.Page> page) {
-                    this.page.addAll(page);
+                    this.page = new ArrayList<>(page);
                     return this;
                 }
 
@@ -3167,7 +3317,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3181,12 +3331,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3200,12 +3353,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3225,12 +3381,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3250,12 +3409,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3421,7 +3583,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3435,12 +3597,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3454,12 +3619,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3479,12 +3647,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3504,12 +3675,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3525,7 +3699,7 @@ public class ImplementationGuide extends DomainResource {
                  *     The scope in which the template applies
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder scope(String scope) {
                     this.scope = scope;
@@ -3591,7 +3765,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource}.
          */
         public List<Resource> getResource() {
             return resource;
@@ -3603,7 +3777,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Page}.
+         *     An unmodifiable list containing immutable objects of type {@link Page}.
          */
         public List<Page> getPage() {
             return page;
@@ -3615,7 +3789,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String}.
          */
         public List<String> getImage() {
             return image;
@@ -3628,7 +3802,7 @@ public class ImplementationGuide extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String}.
          */
         public List<String> getOther() {
             return other;
@@ -3731,7 +3905,7 @@ public class ImplementationGuide extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3745,12 +3919,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3764,12 +3941,15 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3789,12 +3969,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3814,12 +3997,15 @@ public class ImplementationGuide extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3835,7 +4021,7 @@ public class ImplementationGuide extends DomainResource {
              *     Location of rendered implementation guide
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder rendering(Url rendering) {
                 this.rendering = rendering;
@@ -3846,12 +4032,15 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Information about a page within the IG.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param page
              *     HTML page within the parent IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder page(Page... page) {
                 for (Page value : page) {
@@ -3864,15 +4053,18 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Information about a page within the IG.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param page
              *     HTML page within the parent IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder page(Collection<Page> page) {
-                this.page.addAll(page);
+                this.page = new ArrayList<>(page);
                 return this;
             }
 
@@ -3880,12 +4072,15 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Indicates a relative path to an image that exists within the IG.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param image
              *     Image within the IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder image(String... image) {
                 for (String value : image) {
@@ -3898,15 +4093,18 @@ public class ImplementationGuide extends DomainResource {
              * <p>
              * Indicates a relative path to an image that exists within the IG.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param image
              *     Image within the IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder image(Collection<String> image) {
-                this.image.addAll(image);
+                this.image = new ArrayList<>(image);
                 return this;
             }
 
@@ -3915,12 +4113,15 @@ public class ImplementationGuide extends DomainResource {
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param other
              *     Additional linkable file in IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder other(String... other) {
                 for (String value : other) {
@@ -3934,15 +4135,18 @@ public class ImplementationGuide extends DomainResource {
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param other
              *     Additional linkable file in IG
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder other(Collection<String> other) {
-                this.other.addAll(other);
+                this.other = new ArrayList<>(other);
                 return this;
             }
 
@@ -4110,7 +4314,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4124,12 +4328,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4143,12 +4350,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4168,12 +4378,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4193,12 +4406,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4215,7 +4431,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Is an example/What is this an example of?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder example(Element example) {
                     this.example = example;
@@ -4231,7 +4447,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Relative path for page in IG
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder relativePath(Url relativePath) {
                     this.relativePath = relativePath;
@@ -4303,7 +4519,7 @@ public class ImplementationGuide extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getAnchor() {
                 return anchor;
@@ -4398,7 +4614,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4412,12 +4628,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4431,12 +4650,15 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4456,12 +4678,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4481,12 +4706,15 @@ public class ImplementationGuide extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4502,7 +4730,7 @@ public class ImplementationGuide extends DomainResource {
                  *     Title of the page, for references
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder title(String title) {
                     this.title = title;
@@ -4513,12 +4741,15 @@ public class ImplementationGuide extends DomainResource {
                  * <p>
                  * The name of an anchor available on the page.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param anchor
                  *     Anchor available on the page
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder anchor(String... anchor) {
                     for (String value : anchor) {
@@ -4531,15 +4762,18 @@ public class ImplementationGuide extends DomainResource {
                  * <p>
                  * The name of an anchor available on the page.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param anchor
                  *     Anchor available on the page
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder anchor(Collection<String> anchor) {
-                    this.anchor.addAll(anchor);
+                    this.anchor = new ArrayList<>(anchor);
                     return this;
                 }
 

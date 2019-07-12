@@ -87,7 +87,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -112,7 +112,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -172,7 +172,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant}.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -184,7 +184,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -196,7 +196,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -208,7 +208,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getManagingOrganization() {
         return managingOrganization;
@@ -220,7 +220,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -232,7 +232,7 @@ public class CareTeam extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -374,7 +374,7 @@ public class CareTeam extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -391,7 +391,7 @@ public class CareTeam extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -409,7 +409,7 @@ public class CareTeam extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -425,7 +425,7 @@ public class CareTeam extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -444,7 +444,7 @@ public class CareTeam extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -456,12 +456,15 @@ public class CareTeam extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -473,12 +476,15 @@ public class CareTeam extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -492,12 +498,15 @@ public class CareTeam extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -511,12 +520,15 @@ public class CareTeam extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -536,12 +548,15 @@ public class CareTeam extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -561,12 +576,15 @@ public class CareTeam extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -578,12 +596,15 @@ public class CareTeam extends DomainResource {
          * Business identifiers assigned to this care team by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -597,15 +618,18 @@ public class CareTeam extends DomainResource {
          * Business identifiers assigned to this care team by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -618,7 +642,7 @@ public class CareTeam extends DomainResource {
          *     proposed | active | suspended | inactive | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(CareTeamStatus status) {
             this.status = status;
@@ -630,12 +654,15 @@ public class CareTeam extends DomainResource {
          * Identifies what kind of team. This is to support differentiation between multiple co-existing teams, such as care plan 
          * team, episode of care team, longitudinal care team.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Type of team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -649,15 +676,18 @@ public class CareTeam extends DomainResource {
          * Identifies what kind of team. This is to support differentiation between multiple co-existing teams, such as care plan 
          * team, episode of care team, longitudinal care team.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Type of team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -670,7 +700,7 @@ public class CareTeam extends DomainResource {
          *     Name of the team, such as crisis assessment team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -686,7 +716,7 @@ public class CareTeam extends DomainResource {
          *     Who care team is for
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -702,7 +732,7 @@ public class CareTeam extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -718,7 +748,7 @@ public class CareTeam extends DomainResource {
          *     Time period team covers
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -729,12 +759,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * Identifies all people and organizations who are expected to be involved in the care team.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param participant
          *     Members of the team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Participant... participant) {
             for (Participant value : participant) {
@@ -747,15 +780,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * Identifies all people and organizations who are expected to be involved in the care team.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param participant
          *     Members of the team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Collection<Participant> participant) {
-            this.participant.addAll(participant);
+            this.participant = new ArrayList<>(participant);
             return this;
         }
 
@@ -763,12 +799,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * Describes why the care team exists.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why the care team exists
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -781,15 +820,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * Describes why the care team exists.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why the care team exists
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -797,12 +839,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * Condition(s) that this care team addresses.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why the care team exists
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -815,15 +860,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * Condition(s) that this care team addresses.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why the care team exists
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -831,12 +879,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * The organization responsible for the care team.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param managingOrganization
          *     Organization responsible for the care team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder managingOrganization(Reference... managingOrganization) {
             for (Reference value : managingOrganization) {
@@ -849,15 +900,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * The organization responsible for the care team.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param managingOrganization
          *     Organization responsible for the care team
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder managingOrganization(Collection<Reference> managingOrganization) {
-            this.managingOrganization.addAll(managingOrganization);
+            this.managingOrganization = new ArrayList<>(managingOrganization);
             return this;
         }
 
@@ -865,12 +919,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * A central contact detail for the care team (that applies to all members).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the care team (that applies to all members)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -883,15 +940,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * A central contact detail for the care team (that applies to all members).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the care team (that applies to all members)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -899,12 +959,15 @@ public class CareTeam extends DomainResource {
          * <p>
          * Comments made about the CareTeam.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments made about the CareTeam
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -917,15 +980,18 @@ public class CareTeam extends DomainResource {
          * <p>
          * Comments made about the CareTeam.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments made about the CareTeam
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -988,7 +1054,7 @@ public class CareTeam extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -1116,7 +1182,7 @@ public class CareTeam extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1130,12 +1196,15 @@ public class CareTeam extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1149,12 +1218,15 @@ public class CareTeam extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1174,12 +1246,15 @@ public class CareTeam extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1199,12 +1274,15 @@ public class CareTeam extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1216,12 +1294,15 @@ public class CareTeam extends DomainResource {
              * Indicates specific responsibility of an individual within the care team, such as "Primary care physician", "Trained 
              * social worker counselor", "Caregiver", etc.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param role
              *     Type of involvement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept... role) {
                 for (CodeableConcept value : role) {
@@ -1235,15 +1316,18 @@ public class CareTeam extends DomainResource {
              * Indicates specific responsibility of an individual within the care team, such as "Primary care physician", "Trained 
              * social worker counselor", "Caregiver", etc.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param role
              *     Type of involvement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(Collection<CodeableConcept> role) {
-                this.role.addAll(role);
+                this.role = new ArrayList<>(role);
                 return this;
             }
 
@@ -1256,7 +1340,7 @@ public class CareTeam extends DomainResource {
              *     Who is involved
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder member(Reference member) {
                 this.member = member;
@@ -1272,7 +1356,7 @@ public class CareTeam extends DomainResource {
              *     Organization of the practitioner
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onBehalfOf(Reference onBehalfOf) {
                 this.onBehalfOf = onBehalfOf;
@@ -1288,7 +1372,7 @@ public class CareTeam extends DomainResource {
              *     Time period of participant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;

@@ -95,7 +95,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -119,7 +119,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -143,7 +143,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getAlias() {
         return alias;
@@ -155,7 +155,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -167,7 +167,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address}.
      */
     public List<Address> getAddress() {
         return address;
@@ -191,7 +191,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Contact}.
+     *     An unmodifiable list containing immutable objects of type {@link Contact}.
      */
     public List<Contact> getContact() {
         return contact;
@@ -203,7 +203,7 @@ public class Organization extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -333,7 +333,7 @@ public class Organization extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -350,7 +350,7 @@ public class Organization extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -368,7 +368,7 @@ public class Organization extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -384,7 +384,7 @@ public class Organization extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -403,7 +403,7 @@ public class Organization extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -415,12 +415,15 @@ public class Organization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -432,12 +435,15 @@ public class Organization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -451,12 +457,15 @@ public class Organization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -470,12 +479,15 @@ public class Organization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -495,12 +507,15 @@ public class Organization extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -520,12 +535,15 @@ public class Organization extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -536,12 +554,15 @@ public class Organization extends DomainResource {
          * <p>
          * Identifier for the organization that is used to identify the organization across multiple disparate systems.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifies this organization across multiple systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -554,15 +575,18 @@ public class Organization extends DomainResource {
          * <p>
          * Identifier for the organization that is used to identify the organization across multiple disparate systems.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifies this organization across multiple systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -575,7 +599,7 @@ public class Organization extends DomainResource {
          *     Whether the organization's record is still in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -586,12 +610,15 @@ public class Organization extends DomainResource {
          * <p>
          * The kind(s) of organization that this is.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     Kind of organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept... type) {
             for (CodeableConcept value : type) {
@@ -604,15 +631,18 @@ public class Organization extends DomainResource {
          * <p>
          * The kind(s) of organization that this is.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     Kind of organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<CodeableConcept> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -625,7 +655,7 @@ public class Organization extends DomainResource {
          *     Name used for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -636,12 +666,15 @@ public class Organization extends DomainResource {
          * <p>
          * A list of alternate names that the organization is known as, or was known as in the past.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param alias
          *     A list of alternate names that the organization is known as, or was known as in the past
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(String... alias) {
             for (String value : alias) {
@@ -654,15 +687,18 @@ public class Organization extends DomainResource {
          * <p>
          * A list of alternate names that the organization is known as, or was known as in the past.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param alias
          *     A list of alternate names that the organization is known as, or was known as in the past
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(Collection<String> alias) {
-            this.alias.addAll(alias);
+            this.alias = new ArrayList<>(alias);
             return this;
         }
 
@@ -670,12 +706,15 @@ public class Organization extends DomainResource {
          * <p>
          * A contact detail for the organization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -688,15 +727,18 @@ public class Organization extends DomainResource {
          * <p>
          * A contact detail for the organization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -704,12 +746,15 @@ public class Organization extends DomainResource {
          * <p>
          * An address for the organization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param address
          *     An address for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Address... address) {
             for (Address value : address) {
@@ -722,15 +767,18 @@ public class Organization extends DomainResource {
          * <p>
          * An address for the organization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param address
          *     An address for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Collection<Address> address) {
-            this.address.addAll(address);
+            this.address = new ArrayList<>(address);
             return this;
         }
 
@@ -743,7 +791,7 @@ public class Organization extends DomainResource {
          *     The organization of which this organization forms a part
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference partOf) {
             this.partOf = partOf;
@@ -754,12 +802,15 @@ public class Organization extends DomainResource {
          * <p>
          * Contact for the organization for a certain purpose.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact for the organization for a certain purpose
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Contact... contact) {
             for (Contact value : contact) {
@@ -772,15 +823,18 @@ public class Organization extends DomainResource {
          * <p>
          * Contact for the organization for a certain purpose.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact for the organization for a certain purpose
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<Contact> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -788,12 +842,15 @@ public class Organization extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for the organization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Reference... endpoint) {
             for (Reference value : endpoint) {
@@ -806,15 +863,18 @@ public class Organization extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for the organization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Collection<Reference> endpoint) {
-            this.endpoint.addAll(endpoint);
+            this.endpoint = new ArrayList<>(endpoint);
             return this;
         }
 
@@ -897,7 +957,7 @@ public class Organization extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ContactPoint}.
+         *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
          */
         public List<ContactPoint> getTelecom() {
             return telecom;
@@ -1001,7 +1061,7 @@ public class Organization extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1015,12 +1075,15 @@ public class Organization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1034,12 +1097,15 @@ public class Organization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1059,12 +1125,15 @@ public class Organization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1084,12 +1153,15 @@ public class Organization extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1105,7 +1177,7 @@ public class Organization extends DomainResource {
              *     The type of contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder purpose(CodeableConcept purpose) {
                 this.purpose = purpose;
@@ -1121,7 +1193,7 @@ public class Organization extends DomainResource {
              *     A name associated with the contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(HumanName name) {
                 this.name = name;
@@ -1132,12 +1204,15 @@ public class Organization extends DomainResource {
              * <p>
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder telecom(ContactPoint... telecom) {
                 for (ContactPoint value : telecom) {
@@ -1150,15 +1225,18 @@ public class Organization extends DomainResource {
              * <p>
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder telecom(Collection<ContactPoint> telecom) {
-                this.telecom.addAll(telecom);
+                this.telecom = new ArrayList<>(telecom);
                 return this;
             }
 
@@ -1171,7 +1249,7 @@ public class Organization extends DomainResource {
              *     Visiting or postal addresses for the contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder address(Address address) {
                 this.address = address;

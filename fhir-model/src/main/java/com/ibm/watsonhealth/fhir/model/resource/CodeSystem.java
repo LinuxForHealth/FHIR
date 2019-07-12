@@ -148,7 +148,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -252,7 +252,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -278,7 +278,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -290,7 +290,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -426,7 +426,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Filter}.
+     *     An unmodifiable list containing immutable objects of type {@link Filter}.
      */
     public List<Filter> getFilter() {
         return filter;
@@ -438,7 +438,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Property}.
+     *     An unmodifiable list containing immutable objects of type {@link Property}.
      */
     public List<Property> getProperty() {
         return property;
@@ -451,7 +451,7 @@ public class CodeSystem extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Concept}.
+     *     An unmodifiable list containing immutable objects of type {@link Concept}.
      */
     public List<Concept> getConcept() {
         return concept;
@@ -653,7 +653,7 @@ public class CodeSystem extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -670,7 +670,7 @@ public class CodeSystem extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -688,7 +688,7 @@ public class CodeSystem extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -704,7 +704,7 @@ public class CodeSystem extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -723,7 +723,7 @@ public class CodeSystem extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -735,12 +735,15 @@ public class CodeSystem extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -752,12 +755,15 @@ public class CodeSystem extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -771,12 +777,15 @@ public class CodeSystem extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -790,12 +799,15 @@ public class CodeSystem extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -815,12 +827,15 @@ public class CodeSystem extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -840,12 +855,15 @@ public class CodeSystem extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -865,7 +883,7 @@ public class CodeSystem extends DomainResource {
          *     Canonical identifier for this code system, represented as a URI (globally unique) (Coding.system)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -877,12 +895,15 @@ public class CodeSystem extends DomainResource {
          * A formal identifier that is used to identify this code system when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the code system (business identifier)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -896,15 +917,18 @@ public class CodeSystem extends DomainResource {
          * A formal identifier that is used to identify this code system when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the code system (business identifier)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -921,7 +945,7 @@ public class CodeSystem extends DomainResource {
          *     Business version of the code system (Coding.version)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -938,7 +962,7 @@ public class CodeSystem extends DomainResource {
          *     Name for this code system (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -954,7 +978,7 @@ public class CodeSystem extends DomainResource {
          *     Name for this code system (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -971,7 +995,7 @@ public class CodeSystem extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -989,7 +1013,7 @@ public class CodeSystem extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1005,7 +1029,7 @@ public class CodeSystem extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1016,12 +1040,15 @@ public class CodeSystem extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1034,15 +1061,18 @@ public class CodeSystem extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1055,7 +1085,7 @@ public class CodeSystem extends DomainResource {
          *     Natural language description of the code system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1068,12 +1098,15 @@ public class CodeSystem extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate code system instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1088,15 +1121,18 @@ public class CodeSystem extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate code system instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1104,12 +1140,15 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A legal or geographic region in which the code system is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for code system (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1122,15 +1161,18 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A legal or geographic region in which the code system is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for code system (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1143,7 +1185,7 @@ public class CodeSystem extends DomainResource {
          *     Why this code system is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1160,7 +1202,7 @@ public class CodeSystem extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1176,7 +1218,7 @@ public class CodeSystem extends DomainResource {
          *     If code comparison is case sensitive
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder caseSensitive(Boolean caseSensitive) {
             this.caseSensitive = caseSensitive;
@@ -1192,7 +1234,7 @@ public class CodeSystem extends DomainResource {
          *     Canonical reference to the value set with entire code system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder valueSet(Canonical valueSet) {
             this.valueSet = valueSet;
@@ -1208,7 +1250,7 @@ public class CodeSystem extends DomainResource {
          *     grouped-by | is-a | part-of | classified-with
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder hierarchyMeaning(CodeSystemHierarchyMeaning hierarchyMeaning) {
             this.hierarchyMeaning = hierarchyMeaning;
@@ -1224,7 +1266,7 @@ public class CodeSystem extends DomainResource {
          *     If code system defines a compositional grammar
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder compositional(Boolean compositional) {
             this.compositional = compositional;
@@ -1241,7 +1283,7 @@ public class CodeSystem extends DomainResource {
          *     If definitions are not stable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder versionNeeded(Boolean versionNeeded) {
             this.versionNeeded = versionNeeded;
@@ -1257,7 +1299,7 @@ public class CodeSystem extends DomainResource {
          *     Canonical URL of Code System this adds designations and properties to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplements(Canonical supplements) {
             this.supplements = supplements;
@@ -1274,7 +1316,7 @@ public class CodeSystem extends DomainResource {
          *     Total concepts in the code system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder count(UnsignedInt count) {
             this.count = count;
@@ -1285,12 +1327,15 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A filter that can be used in a value set compose statement when selecting concepts using a filter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param filter
          *     Filter that can be used in a value set
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder filter(Filter... filter) {
             for (Filter value : filter) {
@@ -1303,15 +1348,18 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A filter that can be used in a value set compose statement when selecting concepts using a filter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param filter
          *     Filter that can be used in a value set
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder filter(Collection<Filter> filter) {
-            this.filter.addAll(filter);
+            this.filter = new ArrayList<>(filter);
             return this;
         }
 
@@ -1319,12 +1367,15 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A property defines an additional slot through which additional information can be provided about a concept.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param property
          *     Additional information supplied about each concept
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder property(Property... property) {
             for (Property value : property) {
@@ -1337,15 +1388,18 @@ public class CodeSystem extends DomainResource {
          * <p>
          * A property defines an additional slot through which additional information can be provided about a concept.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param property
          *     Additional information supplied about each concept
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder property(Collection<Property> property) {
-            this.property.addAll(property);
+            this.property = new ArrayList<>(property);
             return this;
         }
 
@@ -1354,12 +1408,15 @@ public class CodeSystem extends DomainResource {
          * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
          * consulted to determine what the meanings of the hierarchical relationships are.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param concept
          *     Concepts in the code system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder concept(Concept... concept) {
             for (Concept value : concept) {
@@ -1373,15 +1430,18 @@ public class CodeSystem extends DomainResource {
          * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
          * consulted to determine what the meanings of the hierarchical relationships are.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param concept
          *     Concepts in the code system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder concept(Collection<Concept> concept) {
-            this.concept.addAll(concept);
+            this.concept = new ArrayList<>(concept);
             return this;
         }
 
@@ -1478,7 +1538,7 @@ public class CodeSystem extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link FilterOperator}.
+         *     An unmodifiable list containing immutable objects of type {@link FilterOperator}.
          */
         public List<FilterOperator> getOperator() {
             return operator;
@@ -1591,7 +1651,7 @@ public class CodeSystem extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1605,12 +1665,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1624,12 +1687,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1649,12 +1715,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1674,12 +1743,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1695,7 +1767,7 @@ public class CodeSystem extends DomainResource {
              *     How or why the filter is used
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1883,7 +1955,7 @@ public class CodeSystem extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1897,12 +1969,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1916,12 +1991,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1941,12 +2019,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1966,12 +2047,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1988,7 +2072,7 @@ public class CodeSystem extends DomainResource {
              *     Formal identifier for the property
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
@@ -2004,7 +2088,7 @@ public class CodeSystem extends DomainResource {
              *     Why the property is defined, and/or what it conveys
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2098,7 +2182,7 @@ public class CodeSystem extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Designation}.
+         *     An unmodifiable list containing immutable objects of type {@link Designation}.
          */
         public List<Designation> getDesignation() {
             return designation;
@@ -2110,7 +2194,7 @@ public class CodeSystem extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Property}.
+         *     An unmodifiable list containing immutable objects of type {@link Property}.
          */
         public List<Property> getProperty() {
             return property;
@@ -2123,7 +2207,7 @@ public class CodeSystem extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Concept}.
+         *     An unmodifiable list containing immutable objects of type {@link Concept}.
          */
         public List<CodeSystem.Concept> getConcept() {
             return concept;
@@ -2230,7 +2314,7 @@ public class CodeSystem extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2244,12 +2328,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2263,12 +2350,15 @@ public class CodeSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2288,12 +2378,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2313,12 +2406,15 @@ public class CodeSystem extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2334,7 +2430,7 @@ public class CodeSystem extends DomainResource {
              *     Text to display to the user
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder display(String display) {
                 this.display = display;
@@ -2352,7 +2448,7 @@ public class CodeSystem extends DomainResource {
              *     Formal definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder definition(String definition) {
                 this.definition = definition;
@@ -2364,12 +2460,15 @@ public class CodeSystem extends DomainResource {
              * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
              * purposes, etc.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param designation
              *     Additional representations for the concept
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder designation(Designation... designation) {
                 for (Designation value : designation) {
@@ -2383,15 +2482,18 @@ public class CodeSystem extends DomainResource {
              * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
              * purposes, etc.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param designation
              *     Additional representations for the concept
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder designation(Collection<Designation> designation) {
-                this.designation.addAll(designation);
+                this.designation = new ArrayList<>(designation);
                 return this;
             }
 
@@ -2399,12 +2501,15 @@ public class CodeSystem extends DomainResource {
              * <p>
              * A property value for this concept.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param property
              *     Property value for the concept
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder property(Property... property) {
                 for (Property value : property) {
@@ -2417,15 +2522,18 @@ public class CodeSystem extends DomainResource {
              * <p>
              * A property value for this concept.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param property
              *     Property value for the concept
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder property(Collection<Property> property) {
-                this.property.addAll(property);
+                this.property = new ArrayList<>(property);
                 return this;
             }
 
@@ -2434,12 +2542,15 @@ public class CodeSystem extends DomainResource {
              * Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-
              * a/contains/categorizes) - see hierarchyMeaning.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param concept
              *     Child Concepts (is-a/contains/categorizes)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder concept(CodeSystem.Concept... concept) {
                 for (CodeSystem.Concept value : concept) {
@@ -2453,15 +2564,18 @@ public class CodeSystem extends DomainResource {
              * Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-
              * a/contains/categorizes) - see hierarchyMeaning.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param concept
              *     Child Concepts (is-a/contains/categorizes)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder concept(Collection<CodeSystem.Concept> concept) {
-                this.concept.addAll(concept);
+                this.concept = new ArrayList<>(concept);
                 return this;
             }
 
@@ -2628,7 +2742,7 @@ public class CodeSystem extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2642,12 +2756,15 @@ public class CodeSystem extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2661,12 +2778,15 @@ public class CodeSystem extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2686,12 +2806,15 @@ public class CodeSystem extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2711,12 +2834,15 @@ public class CodeSystem extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2732,7 +2858,7 @@ public class CodeSystem extends DomainResource {
                  *     Human language of the designation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder language(Code language) {
                     this.language = language;
@@ -2748,7 +2874,7 @@ public class CodeSystem extends DomainResource {
                  *     Details how this designation would be used
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder use(Coding use) {
                     this.use = use;
@@ -2896,7 +3022,7 @@ public class CodeSystem extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2910,12 +3036,15 @@ public class CodeSystem extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2929,12 +3058,15 @@ public class CodeSystem extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2954,12 +3086,15 @@ public class CodeSystem extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2979,12 +3114,15 @@ public class CodeSystem extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

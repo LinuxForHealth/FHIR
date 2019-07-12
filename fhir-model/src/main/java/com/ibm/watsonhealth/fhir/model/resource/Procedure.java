@@ -114,7 +114,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -127,7 +127,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -140,7 +140,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -152,7 +152,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -164,7 +164,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -287,7 +287,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Performer}.
+     *     An unmodifiable list containing immutable objects of type {@link Performer}.
      */
     public List<Performer> getPerformer() {
         return performer;
@@ -312,7 +312,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -324,7 +324,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -337,7 +337,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -361,7 +361,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReport() {
         return report;
@@ -375,7 +375,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getComplication() {
         return complication;
@@ -387,7 +387,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getComplicationDetail() {
         return complicationDetail;
@@ -400,7 +400,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getFollowUp() {
         return followUp;
@@ -412,7 +412,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -425,7 +425,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link FocalDevice}.
+     *     An unmodifiable list containing immutable objects of type {@link FocalDevice}.
      */
     public List<FocalDevice> getFocalDevice() {
         return focalDevice;
@@ -437,7 +437,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getUsedReference() {
         return usedReference;
@@ -449,7 +449,7 @@ public class Procedure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getUsedCode() {
         return usedCode;
@@ -659,7 +659,7 @@ public class Procedure extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -676,7 +676,7 @@ public class Procedure extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -694,7 +694,7 @@ public class Procedure extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -710,7 +710,7 @@ public class Procedure extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -729,7 +729,7 @@ public class Procedure extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -741,12 +741,15 @@ public class Procedure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -758,12 +761,15 @@ public class Procedure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -777,12 +783,15 @@ public class Procedure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -796,12 +805,15 @@ public class Procedure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -821,12 +833,15 @@ public class Procedure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -846,12 +861,15 @@ public class Procedure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -863,12 +881,15 @@ public class Procedure extends DomainResource {
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Identifiers for this procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -882,15 +903,18 @@ public class Procedure extends DomainResource {
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Identifiers for this procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -899,12 +923,15 @@ public class Procedure extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -918,15 +945,18 @@ public class Procedure extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -935,12 +965,15 @@ public class Procedure extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -954,15 +987,18 @@ public class Procedure extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -970,12 +1006,15 @@ public class Procedure extends DomainResource {
          * <p>
          * A reference to a resource that contains details of the request for this procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     A request for this procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -988,15 +1027,18 @@ public class Procedure extends DomainResource {
          * <p>
          * A reference to a resource that contains details of the request for this procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     A request for this procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -1004,12 +1046,15 @@ public class Procedure extends DomainResource {
          * <p>
          * A larger event of which this particular procedure is a component or step.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partOf
          *     Part of referenced event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference... partOf) {
             for (Reference value : partOf) {
@@ -1022,15 +1067,18 @@ public class Procedure extends DomainResource {
          * <p>
          * A larger event of which this particular procedure is a component or step.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partOf
          *     Part of referenced event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Collection<Reference> partOf) {
-            this.partOf.addAll(partOf);
+            this.partOf = new ArrayList<>(partOf);
             return this;
         }
 
@@ -1043,7 +1091,7 @@ public class Procedure extends DomainResource {
          *     Reason for current status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(CodeableConcept statusReason) {
             this.statusReason = statusReason;
@@ -1059,7 +1107,7 @@ public class Procedure extends DomainResource {
          *     Classification of the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept category) {
             this.category = category;
@@ -1076,7 +1124,7 @@ public class Procedure extends DomainResource {
          *     Identification of the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -1093,7 +1141,7 @@ public class Procedure extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -1110,7 +1158,7 @@ public class Procedure extends DomainResource {
          *     When the procedure was performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performed(Element performed) {
             this.performed = performed;
@@ -1126,7 +1174,7 @@ public class Procedure extends DomainResource {
          *     Who recorded the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recorder(Reference recorder) {
             this.recorder = recorder;
@@ -1142,7 +1190,7 @@ public class Procedure extends DomainResource {
          *     Person who asserts this procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder asserter(Reference asserter) {
             this.asserter = asserter;
@@ -1153,12 +1201,15 @@ public class Procedure extends DomainResource {
          * <p>
          * Limited to "real" people rather than equipment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param performer
          *     The people who performed the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Performer... performer) {
             for (Performer value : performer) {
@@ -1171,15 +1222,18 @@ public class Procedure extends DomainResource {
          * <p>
          * Limited to "real" people rather than equipment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param performer
          *     The people who performed the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Collection<Performer> performer) {
-            this.performer.addAll(performer);
+            this.performer = new ArrayList<>(performer);
             return this;
         }
 
@@ -1192,7 +1246,7 @@ public class Procedure extends DomainResource {
          *     Where the procedure happened
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -1204,12 +1258,15 @@ public class Procedure extends DomainResource {
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Coded reason procedure performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -1223,15 +1280,18 @@ public class Procedure extends DomainResource {
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Coded reason procedure performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -1239,12 +1299,15 @@ public class Procedure extends DomainResource {
          * <p>
          * The justification of why the procedure was performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     The justification that the procedure was performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -1257,15 +1320,18 @@ public class Procedure extends DomainResource {
          * <p>
          * The justification of why the procedure was performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     The justification that the procedure was performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1274,12 +1340,15 @@ public class Procedure extends DomainResource {
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param bodySite
          *     Target body sites
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(CodeableConcept... bodySite) {
             for (CodeableConcept value : bodySite) {
@@ -1293,15 +1362,18 @@ public class Procedure extends DomainResource {
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param bodySite
          *     Target body sites
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(Collection<CodeableConcept> bodySite) {
-            this.bodySite.addAll(bodySite);
+            this.bodySite = new ArrayList<>(bodySite);
             return this;
         }
 
@@ -1314,7 +1386,7 @@ public class Procedure extends DomainResource {
          *     The result of procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcome(CodeableConcept outcome) {
             this.outcome = outcome;
@@ -1325,12 +1397,15 @@ public class Procedure extends DomainResource {
          * <p>
          * This could be a histology result, pathology report, surgical report, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param report
          *     Any report resulting from the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder report(Reference... report) {
             for (Reference value : report) {
@@ -1343,15 +1418,18 @@ public class Procedure extends DomainResource {
          * <p>
          * This could be a histology result, pathology report, surgical report, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param report
          *     Any report resulting from the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder report(Collection<Reference> report) {
-            this.report.addAll(report);
+            this.report = new ArrayList<>(report);
             return this;
         }
 
@@ -1361,12 +1439,15 @@ public class Procedure extends DomainResource {
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param complication
          *     Complication following the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder complication(CodeableConcept... complication) {
             for (CodeableConcept value : complication) {
@@ -1381,15 +1462,18 @@ public class Procedure extends DomainResource {
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param complication
          *     Complication following the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder complication(Collection<CodeableConcept> complication) {
-            this.complication.addAll(complication);
+            this.complication = new ArrayList<>(complication);
             return this;
         }
 
@@ -1397,12 +1481,15 @@ public class Procedure extends DomainResource {
          * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder complicationDetail(Reference... complicationDetail) {
             for (Reference value : complicationDetail) {
@@ -1415,15 +1502,18 @@ public class Procedure extends DomainResource {
          * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder complicationDetail(Collection<Reference> complicationDetail) {
-            this.complicationDetail.addAll(complicationDetail);
+            this.complicationDetail = new ArrayList<>(complicationDetail);
             return this;
         }
 
@@ -1432,12 +1522,15 @@ public class Procedure extends DomainResource {
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param followUp
          *     Instructions for follow up
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder followUp(CodeableConcept... followUp) {
             for (CodeableConcept value : followUp) {
@@ -1451,15 +1544,18 @@ public class Procedure extends DomainResource {
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param followUp
          *     Instructions for follow up
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder followUp(Collection<CodeableConcept> followUp) {
-            this.followUp.addAll(followUp);
+            this.followUp = new ArrayList<>(followUp);
             return this;
         }
 
@@ -1467,12 +1563,15 @@ public class Procedure extends DomainResource {
          * <p>
          * Any other notes and comments about the procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Additional information about the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1485,15 +1584,18 @@ public class Procedure extends DomainResource {
          * <p>
          * Any other notes and comments about the procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Additional information about the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1502,12 +1604,15 @@ public class Procedure extends DomainResource {
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder focalDevice(FocalDevice... focalDevice) {
             for (FocalDevice value : focalDevice) {
@@ -1521,15 +1626,18 @@ public class Procedure extends DomainResource {
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder focalDevice(Collection<FocalDevice> focalDevice) {
-            this.focalDevice.addAll(focalDevice);
+            this.focalDevice = new ArrayList<>(focalDevice);
             return this;
         }
 
@@ -1537,12 +1645,15 @@ public class Procedure extends DomainResource {
          * <p>
          * Identifies medications, devices and any other substance used as part of the procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param usedReference
          *     Items used during procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usedReference(Reference... usedReference) {
             for (Reference value : usedReference) {
@@ -1555,15 +1666,18 @@ public class Procedure extends DomainResource {
          * <p>
          * Identifies medications, devices and any other substance used as part of the procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param usedReference
          *     Items used during procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usedReference(Collection<Reference> usedReference) {
-            this.usedReference.addAll(usedReference);
+            this.usedReference = new ArrayList<>(usedReference);
             return this;
         }
 
@@ -1571,12 +1685,15 @@ public class Procedure extends DomainResource {
          * <p>
          * Identifies coded items that were used as part of the procedure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param usedCode
          *     Coded items used during the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usedCode(CodeableConcept... usedCode) {
             for (CodeableConcept value : usedCode) {
@@ -1589,15 +1706,18 @@ public class Procedure extends DomainResource {
          * <p>
          * Identifies coded items that were used as part of the procedure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param usedCode
          *     Coded items used during the procedure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usedCode(Collection<CodeableConcept> usedCode) {
-            this.usedCode.addAll(usedCode);
+            this.usedCode = new ArrayList<>(usedCode);
             return this;
         }
 
@@ -1790,7 +1910,7 @@ public class Procedure extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1804,12 +1924,15 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1823,12 +1946,15 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1848,12 +1974,15 @@ public class Procedure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1873,12 +2002,15 @@ public class Procedure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1895,7 +2027,7 @@ public class Procedure extends DomainResource {
              *     Type of performance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder function(CodeableConcept function) {
                 this.function = function;
@@ -1911,7 +2043,7 @@ public class Procedure extends DomainResource {
              *     Organization the device or practitioner was acting for
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onBehalfOf(Reference onBehalfOf) {
                 this.onBehalfOf = onBehalfOf;
@@ -2061,7 +2193,7 @@ public class Procedure extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2075,12 +2207,15 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2094,12 +2229,15 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2119,12 +2257,15 @@ public class Procedure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2144,12 +2285,15 @@ public class Procedure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2165,7 +2309,7 @@ public class Procedure extends DomainResource {
              *     Kind of change to device
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(CodeableConcept action) {
                 this.action = action;

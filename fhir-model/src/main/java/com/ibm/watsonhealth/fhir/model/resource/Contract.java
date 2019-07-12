@@ -133,7 +133,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -267,7 +267,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -281,7 +281,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAuthority() {
         return authority;
@@ -295,7 +295,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getDomain() {
         return domain;
@@ -307,7 +307,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSite() {
         return site;
@@ -360,7 +360,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getAlias() {
         return alias;
@@ -423,7 +423,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSubType() {
         return subType;
@@ -448,7 +448,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Term}.
+     *     An unmodifiable list containing immutable objects of type {@link Term}.
      */
     public List<Term> getTerm() {
         return term;
@@ -460,7 +460,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -475,7 +475,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -489,7 +489,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Signer}.
+     *     An unmodifiable list containing immutable objects of type {@link Signer}.
      */
     public List<Signer> getSigner() {
         return signer;
@@ -504,7 +504,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Friendly}.
+     *     An unmodifiable list containing immutable objects of type {@link Friendly}.
      */
     public List<Friendly> getFriendly() {
         return friendly;
@@ -516,7 +516,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Legal}.
+     *     An unmodifiable list containing immutable objects of type {@link Legal}.
      */
     public List<Legal> getLegal() {
         return legal;
@@ -528,7 +528,7 @@ public class Contract extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Rule}.
+     *     An unmodifiable list containing immutable objects of type {@link Rule}.
      */
     public List<Rule> getRule() {
         return rule;
@@ -763,7 +763,7 @@ public class Contract extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -780,7 +780,7 @@ public class Contract extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -798,7 +798,7 @@ public class Contract extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -814,7 +814,7 @@ public class Contract extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -833,7 +833,7 @@ public class Contract extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -845,12 +845,15 @@ public class Contract extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -862,12 +865,15 @@ public class Contract extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -881,12 +887,15 @@ public class Contract extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -900,12 +909,15 @@ public class Contract extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -925,12 +937,15 @@ public class Contract extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -950,12 +965,15 @@ public class Contract extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -966,12 +984,15 @@ public class Contract extends DomainResource {
          * <p>
          * Unique identifier for this Contract or a derivative that references a Source Contract.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Contract number
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -984,15 +1005,18 @@ public class Contract extends DomainResource {
          * <p>
          * Unique identifier for this Contract or a derivative that references a Source Contract.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Contract number
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1005,7 +1029,7 @@ public class Contract extends DomainResource {
          *     Basal definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -1021,7 +1045,7 @@ public class Contract extends DomainResource {
          *     Business edition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -1037,7 +1061,7 @@ public class Contract extends DomainResource {
          *     draft | active | suspended | cancelled | completed | entered-in-error | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(ContractStatus status) {
             this.status = status;
@@ -1055,7 +1079,7 @@ public class Contract extends DomainResource {
          *     Negotiation status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder legalState(CodeableConcept legalState) {
             this.legalState = legalState;
@@ -1071,7 +1095,7 @@ public class Contract extends DomainResource {
          *     Source Contract Definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Reference instantiatesCanonical) {
             this.instantiatesCanonical = instantiatesCanonical;
@@ -1087,7 +1111,7 @@ public class Contract extends DomainResource {
          *     External Contract Definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri instantiatesUri) {
             this.instantiatesUri = instantiatesUri;
@@ -1103,7 +1127,7 @@ public class Contract extends DomainResource {
          *     Content derived from the basal information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contentDerivative(CodeableConcept contentDerivative) {
             this.contentDerivative = contentDerivative;
@@ -1119,7 +1143,7 @@ public class Contract extends DomainResource {
          *     When this Contract was issued
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder issued(DateTime issued) {
             this.issued = issued;
@@ -1135,7 +1159,7 @@ public class Contract extends DomainResource {
          *     Effective time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder applies(Period applies) {
             this.applies = applies;
@@ -1151,7 +1175,7 @@ public class Contract extends DomainResource {
          *     Contract cessation cause
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expirationType(CodeableConcept expirationType) {
             this.expirationType = expirationType;
@@ -1162,12 +1186,15 @@ public class Contract extends DomainResource {
          * <p>
          * The target entity impacted by or of interest to parties to the agreement.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subject
          *     Contract Target Entity
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference... subject) {
             for (Reference value : subject) {
@@ -1180,15 +1207,18 @@ public class Contract extends DomainResource {
          * <p>
          * The target entity impacted by or of interest to parties to the agreement.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subject
          *     Contract Target Entity
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Collection<Reference> subject) {
-            this.subject.addAll(subject);
+            this.subject = new ArrayList<>(subject);
             return this;
         }
 
@@ -1198,12 +1228,15 @@ public class Contract extends DomainResource {
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param authority
          *     Authority under which this Contract has standing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authority(Reference... authority) {
             for (Reference value : authority) {
@@ -1218,15 +1251,18 @@ public class Contract extends DomainResource {
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param authority
          *     Authority under which this Contract has standing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authority(Collection<Reference> authority) {
-            this.authority.addAll(authority);
+            this.authority = new ArrayList<>(authority);
             return this;
         }
 
@@ -1236,12 +1272,15 @@ public class Contract extends DomainResource {
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder domain(Reference... domain) {
             for (Reference value : domain) {
@@ -1256,15 +1295,18 @@ public class Contract extends DomainResource {
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder domain(Collection<Reference> domain) {
-            this.domain.addAll(domain);
+            this.domain = new ArrayList<>(domain);
             return this;
         }
 
@@ -1272,12 +1314,15 @@ public class Contract extends DomainResource {
          * <p>
          * Sites in which the contract is complied with, exercised, or in force.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param site
          *     Specific Location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder site(Reference... site) {
             for (Reference value : site) {
@@ -1290,15 +1335,18 @@ public class Contract extends DomainResource {
          * <p>
          * Sites in which the contract is complied with, exercised, or in force.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param site
          *     Specific Location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder site(Collection<Reference> site) {
-            this.site.addAll(site);
+            this.site = new ArrayList<>(site);
             return this;
         }
 
@@ -1313,7 +1361,7 @@ public class Contract extends DomainResource {
          *     Computer friendly designation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -1330,7 +1378,7 @@ public class Contract extends DomainResource {
          *     Human Friendly name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1347,7 +1395,7 @@ public class Contract extends DomainResource {
          *     Subordinate Friendly name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
@@ -1359,12 +1407,15 @@ public class Contract extends DomainResource {
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param alias
          *     Acronym or short name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(String... alias) {
             for (String value : alias) {
@@ -1378,15 +1429,18 @@ public class Contract extends DomainResource {
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param alias
          *     Acronym or short name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(Collection<String> alias) {
-            this.alias.addAll(alias);
+            this.alias = new ArrayList<>(alias);
             return this;
         }
 
@@ -1399,7 +1453,7 @@ public class Contract extends DomainResource {
          *     Source of Contract
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference author) {
             this.author = author;
@@ -1415,7 +1469,7 @@ public class Contract extends DomainResource {
          *     Range of Legal Concerns
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder scope(CodeableConcept scope) {
             this.scope = scope;
@@ -1431,7 +1485,7 @@ public class Contract extends DomainResource {
          *     Focus of contract interest
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(Element topic) {
             this.topic = topic;
@@ -1449,7 +1503,7 @@ public class Contract extends DomainResource {
          *     Legal instrument category
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -1461,12 +1515,15 @@ public class Contract extends DomainResource {
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subType
          *     Subtype within the context of type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subType(CodeableConcept... subType) {
             for (CodeableConcept value : subType) {
@@ -1480,15 +1537,18 @@ public class Contract extends DomainResource {
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subType
          *     Subtype within the context of type
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subType(Collection<CodeableConcept> subType) {
-            this.subType.addAll(subType);
+            this.subType = new ArrayList<>(subType);
             return this;
         }
 
@@ -1502,7 +1562,7 @@ public class Contract extends DomainResource {
          *     Contract precursor content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contentDefinition(ContentDefinition contentDefinition) {
             this.contentDefinition = contentDefinition;
@@ -1513,12 +1573,15 @@ public class Contract extends DomainResource {
          * <p>
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param term
          *     Contract Term List
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder term(Term... term) {
             for (Term value : term) {
@@ -1531,15 +1594,18 @@ public class Contract extends DomainResource {
          * <p>
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param term
          *     Contract Term List
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder term(Collection<Term> term) {
-            this.term.addAll(term);
+            this.term = new ArrayList<>(term);
             return this;
         }
 
@@ -1547,12 +1613,15 @@ public class Contract extends DomainResource {
          * <p>
          * Information that may be needed by/relevant to the performer in their execution of this term action.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supportingInfo
          *     Extra Information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Reference... supportingInfo) {
             for (Reference value : supportingInfo) {
@@ -1565,15 +1634,18 @@ public class Contract extends DomainResource {
          * <p>
          * Information that may be needed by/relevant to the performer in their execution of this term action.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supportingInfo
          *     Extra Information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
-            this.supportingInfo.addAll(supportingInfo);
+            this.supportingInfo = new ArrayList<>(supportingInfo);
             return this;
         }
 
@@ -1584,12 +1656,15 @@ public class Contract extends DomainResource {
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relevantHistory
          *     Key event in Contract History
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Reference... relevantHistory) {
             for (Reference value : relevantHistory) {
@@ -1605,15 +1680,18 @@ public class Contract extends DomainResource {
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relevantHistory
          *     Key event in Contract History
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Collection<Reference> relevantHistory) {
-            this.relevantHistory.addAll(relevantHistory);
+            this.relevantHistory = new ArrayList<>(relevantHistory);
             return this;
         }
 
@@ -1623,12 +1701,15 @@ public class Contract extends DomainResource {
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param signer
          *     Contract Signatory
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder signer(Signer... signer) {
             for (Signer value : signer) {
@@ -1643,15 +1724,18 @@ public class Contract extends DomainResource {
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param signer
          *     Contract Signatory
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder signer(Collection<Signer> signer) {
-            this.signer.addAll(signer);
+            this.signer = new ArrayList<>(signer);
             return this;
         }
 
@@ -1662,12 +1746,15 @@ public class Contract extends DomainResource {
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param friendly
          *     Contract Friendly Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder friendly(Friendly... friendly) {
             for (Friendly value : friendly) {
@@ -1683,15 +1770,18 @@ public class Contract extends DomainResource {
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param friendly
          *     Contract Friendly Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder friendly(Collection<Friendly> friendly) {
-            this.friendly.addAll(friendly);
+            this.friendly = new ArrayList<>(friendly);
             return this;
         }
 
@@ -1699,12 +1789,15 @@ public class Contract extends DomainResource {
          * <p>
          * List of Legal expressions or representations of this Contract.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param legal
          *     Contract Legal Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder legal(Legal... legal) {
             for (Legal value : legal) {
@@ -1717,15 +1810,18 @@ public class Contract extends DomainResource {
          * <p>
          * List of Legal expressions or representations of this Contract.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param legal
          *     Contract Legal Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder legal(Collection<Legal> legal) {
-            this.legal.addAll(legal);
+            this.legal = new ArrayList<>(legal);
             return this;
         }
 
@@ -1733,12 +1829,15 @@ public class Contract extends DomainResource {
          * <p>
          * List of Computable Policy Rule Language Representations of this Contract.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param rule
          *     Computable Contract Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rule(Rule... rule) {
             for (Rule value : rule) {
@@ -1751,15 +1850,18 @@ public class Contract extends DomainResource {
          * <p>
          * List of Computable Policy Rule Language Representations of this Contract.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param rule
          *     Computable Contract Language
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rule(Collection<Rule> rule) {
-            this.rule.addAll(rule);
+            this.rule = new ArrayList<>(rule);
             return this;
         }
 
@@ -1773,7 +1875,7 @@ public class Contract extends DomainResource {
          *     Binding Contract
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder legallyBinding(Element legallyBinding) {
             this.legallyBinding = legallyBinding;
@@ -2035,7 +2137,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2049,12 +2151,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2068,12 +2173,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2093,12 +2201,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2118,12 +2229,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2139,7 +2253,7 @@ public class Contract extends DomainResource {
              *     Detailed Content Type Definition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subType(CodeableConcept subType) {
                 this.subType = subType;
@@ -2155,7 +2269,7 @@ public class Contract extends DomainResource {
              *     Publisher Entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder publisher(Reference publisher) {
                 this.publisher = publisher;
@@ -2173,7 +2287,7 @@ public class Contract extends DomainResource {
              *     When published
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder publicationDate(DateTime publicationDate) {
                 this.publicationDate = publicationDate;
@@ -2190,7 +2304,7 @@ public class Contract extends DomainResource {
              *     Publication Ownership
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder copyright(Markdown copyright) {
                 this.copyright = copyright;
@@ -2345,7 +2459,7 @@ public class Contract extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link SecurityLabel}.
+         *     An unmodifiable list containing immutable objects of type {@link SecurityLabel}.
          */
         public List<SecurityLabel> getSecurityLabel() {
             return securityLabel;
@@ -2369,7 +2483,7 @@ public class Contract extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Asset}.
+         *     An unmodifiable list containing immutable objects of type {@link Asset}.
          */
         public List<Asset> getAsset() {
             return asset;
@@ -2382,7 +2496,7 @@ public class Contract extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action}.
          */
         public List<Action> getAction() {
             return action;
@@ -2394,7 +2508,7 @@ public class Contract extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Term}.
+         *     An unmodifiable list containing immutable objects of type {@link Term}.
          */
         public List<Contract.Term> getGroup() {
             return group;
@@ -2525,7 +2639,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2539,12 +2653,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2558,12 +2675,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2583,12 +2703,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2608,12 +2731,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2629,7 +2755,7 @@ public class Contract extends DomainResource {
              *     Contract Term Number
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -2645,7 +2771,7 @@ public class Contract extends DomainResource {
              *     Contract Term Issue Date Time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder issued(DateTime issued) {
                 this.issued = issued;
@@ -2661,7 +2787,7 @@ public class Contract extends DomainResource {
              *     Contract Term Effective Time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder applies(Period applies) {
                 this.applies = applies;
@@ -2677,7 +2803,7 @@ public class Contract extends DomainResource {
              *     Term Concern
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder topic(Element topic) {
                 this.topic = topic;
@@ -2695,7 +2821,7 @@ public class Contract extends DomainResource {
              *     Contract Term Type or Form
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2711,7 +2837,7 @@ public class Contract extends DomainResource {
              *     Contract Term Type specific classification
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subType(CodeableConcept subType) {
                 this.subType = subType;
@@ -2727,7 +2853,7 @@ public class Contract extends DomainResource {
              *     Term Statement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder text(String text) {
                 this.text = text;
@@ -2739,12 +2865,15 @@ public class Contract extends DomainResource {
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param securityLabel
              *     Protection for the Term
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(SecurityLabel... securityLabel) {
                 for (SecurityLabel value : securityLabel) {
@@ -2758,15 +2887,18 @@ public class Contract extends DomainResource {
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param securityLabel
              *     Protection for the Term
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(Collection<SecurityLabel> securityLabel) {
-                this.securityLabel.addAll(securityLabel);
+                this.securityLabel = new ArrayList<>(securityLabel);
                 return this;
             }
 
@@ -2774,12 +2906,15 @@ public class Contract extends DomainResource {
              * <p>
              * Contract Term Asset List.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param asset
              *     Contract Term Asset List
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder asset(Asset... asset) {
                 for (Asset value : asset) {
@@ -2792,15 +2927,18 @@ public class Contract extends DomainResource {
              * <p>
              * Contract Term Asset List.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param asset
              *     Contract Term Asset List
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder asset(Collection<Asset> asset) {
-                this.asset.addAll(asset);
+                this.asset = new ArrayList<>(asset);
                 return this;
             }
 
@@ -2809,12 +2947,15 @@ public class Contract extends DomainResource {
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param action
              *     Entity being ascribed responsibility
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(Action... action) {
                 for (Action value : action) {
@@ -2828,15 +2969,18 @@ public class Contract extends DomainResource {
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param action
              *     Entity being ascribed responsibility
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
+                this.action = new ArrayList<>(action);
                 return this;
             }
 
@@ -2844,12 +2988,15 @@ public class Contract extends DomainResource {
              * <p>
              * Nested group of Contract Provisions.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param group
              *     Nested Contract Term Group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder group(Contract.Term... group) {
                 for (Contract.Term value : group) {
@@ -2862,15 +3009,18 @@ public class Contract extends DomainResource {
              * <p>
              * Nested group of Contract Provisions.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param group
              *     Nested Contract Term Group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder group(Collection<Contract.Term> group) {
-                this.group.addAll(group);
+                this.group = new ArrayList<>(group);
                 return this;
             }
 
@@ -2926,7 +3076,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
              */
             public List<UnsignedInt> getNumber() {
                 return number;
@@ -2952,7 +3102,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Coding}.
+             *     An unmodifiable list containing immutable objects of type {@link Coding}.
              */
             public List<Coding> getCategory() {
                 return category;
@@ -2964,7 +3114,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Coding}.
+             *     An unmodifiable list containing immutable objects of type {@link Coding}.
              */
             public List<Coding> getControl() {
                 return control;
@@ -3063,7 +3213,7 @@ public class Contract extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3077,12 +3227,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3096,12 +3249,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3121,12 +3277,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3146,12 +3305,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3162,12 +3324,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Number used to link this term or term element to the applicable Security Label.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param number
                  *     Link to Security Labels
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder number(UnsignedInt... number) {
                     for (UnsignedInt value : number) {
@@ -3180,15 +3345,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Number used to link this term or term element to the applicable Security Label.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param number
                  *     Link to Security Labels
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder number(Collection<UnsignedInt> number) {
-                    this.number.addAll(number);
+                    this.number = new ArrayList<>(number);
                     return this;
                 }
 
@@ -3197,12 +3365,15 @@ public class Contract extends DomainResource {
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param category
                  *     Applicable Policy
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder category(Coding... category) {
                     for (Coding value : category) {
@@ -3216,15 +3387,18 @@ public class Contract extends DomainResource {
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param category
                  *     Applicable Policy
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder category(Collection<Coding> category) {
-                    this.category.addAll(category);
+                    this.category = new ArrayList<>(category);
                     return this;
                 }
 
@@ -3232,12 +3406,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param control
                  *     Handling Instructions
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder control(Coding... control) {
                     for (Coding value : control) {
@@ -3250,15 +3427,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param control
                  *     Handling Instructions
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder control(Collection<Coding> control) {
-                    this.control.addAll(control);
+                    this.control = new ArrayList<>(control);
                     return this;
                 }
 
@@ -3318,7 +3498,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Identifier}.
+             *     An unmodifiable list containing immutable objects of type {@link Identifier}.
              */
             public List<Identifier> getIdentifier() {
                 return identifier;
@@ -3330,7 +3510,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Party}.
+             *     An unmodifiable list containing immutable objects of type {@link Party}.
              */
             public List<Party> getParty() {
                 return party;
@@ -3380,7 +3560,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getDecisionMode() {
                 return decisionMode;
@@ -3392,7 +3572,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Answer}.
+             *     An unmodifiable list containing immutable objects of type {@link Answer}.
              */
             public List<Answer> getAnswer() {
                 return answer;
@@ -3416,7 +3596,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -3428,7 +3608,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -3544,7 +3724,7 @@ public class Contract extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3558,12 +3738,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3577,12 +3760,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3602,12 +3788,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3627,12 +3816,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3643,12 +3835,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Unique identifier for this particular Contract Provision.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param identifier
                  *     Offer business ID
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder identifier(Identifier... identifier) {
                     for (Identifier value : identifier) {
@@ -3661,15 +3856,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Unique identifier for this particular Contract Provision.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param identifier
                  *     Offer business ID
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder identifier(Collection<Identifier> identifier) {
-                    this.identifier.addAll(identifier);
+                    this.identifier = new ArrayList<>(identifier);
                     return this;
                 }
 
@@ -3677,12 +3875,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Offer Recipient.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param party
                  *     Offer Recipient
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder party(Party... party) {
                     for (Party value : party) {
@@ -3695,15 +3896,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Offer Recipient.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param party
                  *     Offer Recipient
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder party(Collection<Party> party) {
-                    this.party.addAll(party);
+                    this.party = new ArrayList<>(party);
                     return this;
                 }
 
@@ -3717,7 +3921,7 @@ public class Contract extends DomainResource {
                  *     Negotiable offer asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder topic(Reference topic) {
                     this.topic = topic;
@@ -3734,7 +3938,7 @@ public class Contract extends DomainResource {
                  *     Contract Offer Type or Form
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(CodeableConcept type) {
                     this.type = type;
@@ -3750,7 +3954,7 @@ public class Contract extends DomainResource {
                  *     Accepting party choice
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder decision(CodeableConcept decision) {
                     this.decision = decision;
@@ -3761,12 +3965,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * How the decision about a Contract was conveyed.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder decisionMode(CodeableConcept... decisionMode) {
                     for (CodeableConcept value : decisionMode) {
@@ -3779,15 +3986,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * How the decision about a Contract was conveyed.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder decisionMode(Collection<CodeableConcept> decisionMode) {
-                    this.decisionMode.addAll(decisionMode);
+                    this.decisionMode = new ArrayList<>(decisionMode);
                     return this;
                 }
 
@@ -3795,12 +4005,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Response to offer text.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param answer
                  *     Response to offer text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder answer(Answer... answer) {
                     for (Answer value : answer) {
@@ -3813,15 +4026,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Response to offer text.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param answer
                  *     Response to offer text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder answer(Collection<Answer> answer) {
-                    this.answer.addAll(answer);
+                    this.answer = new ArrayList<>(answer);
                     return this;
                 }
 
@@ -3834,7 +4050,7 @@ public class Contract extends DomainResource {
                  *     Human readable offer text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder text(String text) {
                     this.text = text;
@@ -3845,12 +4061,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(String... linkId) {
                     for (String value : linkId) {
@@ -3863,15 +4082,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(Collection<String> linkId) {
-                    this.linkId.addAll(linkId);
+                    this.linkId = new ArrayList<>(linkId);
                     return this;
                 }
 
@@ -3879,12 +4101,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the offer.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(UnsignedInt... securityLabelNumber) {
                     for (UnsignedInt value : securityLabelNumber) {
@@ -3897,15 +4122,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the offer.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
-                    this.securityLabelNumber.addAll(securityLabelNumber);
+                    this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
                     return this;
                 }
 
@@ -3955,7 +4183,7 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
                  */
                 public List<Reference> getReference() {
                     return reference;
@@ -4057,7 +4285,7 @@ public class Contract extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4071,12 +4299,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4090,12 +4321,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4115,12 +4349,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4140,12 +4377,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4274,7 +4514,7 @@ public class Contract extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4288,12 +4528,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4307,12 +4550,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4332,12 +4578,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4357,12 +4606,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4445,7 +4697,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getType() {
                 return type;
@@ -4457,7 +4709,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getTypeReference() {
                 return typeReference;
@@ -4469,7 +4721,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getSubtype() {
                 return subtype;
@@ -4494,7 +4746,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Context}.
+             *     An unmodifiable list containing immutable objects of type {@link Context}.
              */
             public List<Context> getContext() {
                 return context;
@@ -4518,7 +4770,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getPeriodType() {
                 return periodType;
@@ -4530,7 +4782,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Period}.
+             *     An unmodifiable list containing immutable objects of type {@link Period}.
              */
             public List<Period> getPeriod() {
                 return period;
@@ -4542,7 +4794,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Period}.
+             *     An unmodifiable list containing immutable objects of type {@link Period}.
              */
             public List<Period> getUsePeriod() {
                 return usePeriod;
@@ -4567,7 +4819,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -4579,7 +4831,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Answer}.
+             *     An unmodifiable list containing immutable objects of type {@link Answer}.
              */
             public List<Contract.Term.Offer.Answer> getAnswer() {
                 return answer;
@@ -4591,7 +4843,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -4603,7 +4855,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link ValuedItem}.
+             *     An unmodifiable list containing immutable objects of type {@link ValuedItem}.
              */
             public List<ValuedItem> getValuedItem() {
                 return valuedItem;
@@ -4739,7 +4991,7 @@ public class Contract extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4753,12 +5005,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4772,12 +5027,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4797,12 +5055,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4822,12 +5083,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4843,7 +5107,7 @@ public class Contract extends DomainResource {
                  *     Range of asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder scope(CodeableConcept scope) {
                     this.scope = scope;
@@ -4854,12 +5118,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Target entity type about which the term may be concerned.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param type
                  *     Asset category
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(CodeableConcept... type) {
                     for (CodeableConcept value : type) {
@@ -4872,15 +5139,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Target entity type about which the term may be concerned.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param type
                  *     Asset category
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(Collection<CodeableConcept> type) {
-                    this.type.addAll(type);
+                    this.type = new ArrayList<>(type);
                     return this;
                 }
 
@@ -4888,12 +5158,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Associated entities.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param typeReference
                  *     Associated entities
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder typeReference(Reference... typeReference) {
                     for (Reference value : typeReference) {
@@ -4906,15 +5179,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Associated entities.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param typeReference
                  *     Associated entities
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder typeReference(Collection<Reference> typeReference) {
-                    this.typeReference.addAll(typeReference);
+                    this.typeReference = new ArrayList<>(typeReference);
                     return this;
                 }
 
@@ -4922,12 +5198,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * May be a subtype or part of an offered asset.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subtype
                  *     Asset sub-category
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subtype(CodeableConcept... subtype) {
                     for (CodeableConcept value : subtype) {
@@ -4940,15 +5219,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * May be a subtype or part of an offered asset.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subtype
                  *     Asset sub-category
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subtype(Collection<CodeableConcept> subtype) {
-                    this.subtype.addAll(subtype);
+                    this.subtype = new ArrayList<>(subtype);
                     return this;
                 }
 
@@ -4962,7 +5244,7 @@ public class Contract extends DomainResource {
                  *     Kinship of the asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder relationship(Coding relationship) {
                     this.relationship = relationship;
@@ -4973,12 +5255,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Circumstance of the asset.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param context
                  *     Circumstance of the asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder context(Context... context) {
                     for (Context value : context) {
@@ -4991,15 +5276,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Circumstance of the asset.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param context
                  *     Circumstance of the asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder context(Collection<Context> context) {
-                    this.context.addAll(context);
+                    this.context = new ArrayList<>(context);
                     return this;
                 }
 
@@ -5012,7 +5300,7 @@ public class Contract extends DomainResource {
                  *     Quality desctiption of asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder condition(String condition) {
                     this.condition = condition;
@@ -5023,12 +5311,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Type of Asset availability for use or ownership.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param periodType
                  *     Asset availability types
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder periodType(CodeableConcept... periodType) {
                     for (CodeableConcept value : periodType) {
@@ -5041,15 +5332,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Type of Asset availability for use or ownership.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param periodType
                  *     Asset availability types
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder periodType(Collection<CodeableConcept> periodType) {
-                    this.periodType.addAll(periodType);
+                    this.periodType = new ArrayList<>(periodType);
                     return this;
                 }
 
@@ -5057,12 +5351,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Asset relevant contractual time period.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param period
                  *     Time period of the asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder period(Period... period) {
                     for (Period value : period) {
@@ -5075,15 +5372,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Asset relevant contractual time period.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param period
                  *     Time period of the asset
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder period(Collection<Period> period) {
-                    this.period.addAll(period);
+                    this.period = new ArrayList<>(period);
                     return this;
                 }
 
@@ -5091,12 +5391,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Time period of asset use.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param usePeriod
                  *     Time period
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder usePeriod(Period... usePeriod) {
                     for (Period value : usePeriod) {
@@ -5109,15 +5412,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Time period of asset use.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param usePeriod
                  *     Time period
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder usePeriod(Collection<Period> usePeriod) {
-                    this.usePeriod.addAll(usePeriod);
+                    this.usePeriod = new ArrayList<>(usePeriod);
                     return this;
                 }
 
@@ -5131,7 +5437,7 @@ public class Contract extends DomainResource {
                  *     Asset clause or question text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder text(String text) {
                     this.text = text;
@@ -5142,12 +5448,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to asset text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(String... linkId) {
                     for (String value : linkId) {
@@ -5160,15 +5469,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to asset text
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(Collection<String> linkId) {
-                    this.linkId.addAll(linkId);
+                    this.linkId = new ArrayList<>(linkId);
                     return this;
                 }
 
@@ -5176,12 +5488,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Response to assets.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param answer
                  *     Response to assets
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder answer(Contract.Term.Offer.Answer... answer) {
                     for (Contract.Term.Offer.Answer value : answer) {
@@ -5194,15 +5509,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Response to assets.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param answer
                  *     Response to assets
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder answer(Collection<Contract.Term.Offer.Answer> answer) {
-                    this.answer.addAll(answer);
+                    this.answer = new ArrayList<>(answer);
                     return this;
                 }
 
@@ -5210,12 +5528,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the asset.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(UnsignedInt... securityLabelNumber) {
                     for (UnsignedInt value : securityLabelNumber) {
@@ -5228,15 +5549,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the asset.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
-                    this.securityLabelNumber.addAll(securityLabelNumber);
+                    this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
                     return this;
                 }
 
@@ -5244,12 +5568,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Contract Valued Item List.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder valuedItem(ValuedItem... valuedItem) {
                     for (ValuedItem value : valuedItem) {
@@ -5262,15 +5589,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Contract Valued Item List.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder valuedItem(Collection<ValuedItem> valuedItem) {
-                    this.valuedItem.addAll(valuedItem);
+                    this.valuedItem = new ArrayList<>(valuedItem);
                     return this;
                 }
 
@@ -5340,7 +5670,7 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
                  */
                 public List<CodeableConcept> getCode() {
                     return code;
@@ -5440,7 +5770,7 @@ public class Contract extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -5454,12 +5784,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -5473,12 +5806,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -5498,12 +5834,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -5523,12 +5862,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5545,7 +5887,7 @@ public class Contract extends DomainResource {
                      *     Creator,custodian or owner
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder reference(Reference reference) {
                         this.reference = reference;
@@ -5556,12 +5898,15 @@ public class Contract extends DomainResource {
                      * <p>
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param code
                      *     Codeable asset context
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder code(CodeableConcept... code) {
                         for (CodeableConcept value : code) {
@@ -5574,15 +5919,18 @@ public class Contract extends DomainResource {
                      * <p>
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param code
                      *     Codeable asset context
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder code(Collection<CodeableConcept> code) {
-                        this.code.addAll(code);
+                        this.code = new ArrayList<>(code);
                         return this;
                     }
 
@@ -5595,7 +5943,7 @@ public class Contract extends DomainResource {
                      *     Context description
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder text(String text) {
                         this.text = text;
@@ -5817,7 +6165,7 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link String}.
+                 *     An unmodifiable list containing immutable objects of type {@link String}.
                  */
                 public List<String> getLinkId() {
                     return linkId;
@@ -5829,7 +6177,7 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link UnsignedInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
                  */
                 public List<UnsignedInt> getSecurityLabelNumber() {
                     return securityLabelNumber;
@@ -5961,7 +6309,7 @@ public class Contract extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -5975,12 +6323,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -5994,12 +6345,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -6019,12 +6373,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -6044,12 +6401,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6065,7 +6425,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item Type
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder entity(Element entity) {
                         this.entity = entity;
@@ -6081,7 +6441,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item Number
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder identifier(Identifier identifier) {
                         this.identifier = identifier;
@@ -6097,7 +6457,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item Effective Tiem
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder effectiveTime(DateTime effectiveTime) {
                         this.effectiveTime = effectiveTime;
@@ -6114,7 +6474,7 @@ public class Contract extends DomainResource {
                      *     Count of Contract Valued Items
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder quantity(Quantity quantity) {
                         this.quantity = quantity;
@@ -6130,7 +6490,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item fee, charge, or cost
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder unitPrice(Money unitPrice) {
                         this.unitPrice = unitPrice;
@@ -6147,7 +6507,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item Price Scaling Factor
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder factor(Decimal factor) {
                         this.factor = factor;
@@ -6165,7 +6525,7 @@ public class Contract extends DomainResource {
                      *     Contract Valued Item Difficulty Scaling Factor
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder points(Decimal points) {
                         this.points = points;
@@ -6183,7 +6543,7 @@ public class Contract extends DomainResource {
                      *     Total Contract Valued Item Value
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder net(Money net) {
                         this.net = net;
@@ -6199,7 +6559,7 @@ public class Contract extends DomainResource {
                      *     Terms of valuation
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder payment(String payment) {
                         this.payment = payment;
@@ -6215,7 +6575,7 @@ public class Contract extends DomainResource {
                      *     When payment is due
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder paymentDate(DateTime paymentDate) {
                         this.paymentDate = paymentDate;
@@ -6231,7 +6591,7 @@ public class Contract extends DomainResource {
                      *     Who will make payment
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder responsible(Reference responsible) {
                         this.responsible = responsible;
@@ -6247,7 +6607,7 @@ public class Contract extends DomainResource {
                      *     Who will receive payment
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder recipient(Reference recipient) {
                         this.recipient = recipient;
@@ -6259,12 +6619,15 @@ public class Contract extends DomainResource {
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param linkId
                      *     Pointer to specific item
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder linkId(String... linkId) {
                         for (String value : linkId) {
@@ -6278,15 +6641,18 @@ public class Contract extends DomainResource {
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param linkId
                      *     Pointer to specific item
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder linkId(Collection<String> linkId) {
-                        this.linkId.addAll(linkId);
+                        this.linkId = new ArrayList<>(linkId);
                         return this;
                     }
 
@@ -6294,12 +6660,15 @@ public class Contract extends DomainResource {
                      * <p>
                      * A set of security labels that define which terms are controlled by this condition.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder securityLabelNumber(UnsignedInt... securityLabelNumber) {
                         for (UnsignedInt value : securityLabelNumber) {
@@ -6312,15 +6681,18 @@ public class Contract extends DomainResource {
                      * <p>
                      * A set of security labels that define which terms are controlled by this condition.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
-                        this.securityLabelNumber.addAll(securityLabelNumber);
+                        this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
                         return this;
                     }
 
@@ -6440,7 +6812,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Subject}.
+             *     An unmodifiable list containing immutable objects of type {@link Subject}.
              */
             public List<Subject> getSubject() {
                 return subject;
@@ -6465,7 +6837,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -6502,7 +6874,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getContextLinkId() {
                 return contextLinkId;
@@ -6526,7 +6898,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getRequester() {
                 return requester;
@@ -6539,7 +6911,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getRequesterLinkId() {
                 return requesterLinkId;
@@ -6551,7 +6923,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getPerformerType() {
                 return performerType;
@@ -6588,7 +6960,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getPerformerLinkId() {
                 return performerLinkId;
@@ -6600,7 +6972,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getReasonCode() {
                 return reasonCode;
@@ -6612,7 +6984,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getReasonReference() {
                 return reasonReference;
@@ -6624,7 +6996,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getReason() {
                 return reason;
@@ -6637,7 +7009,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getReasonLinkId() {
                 return reasonLinkId;
@@ -6649,7 +7021,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Annotation}.
+             *     An unmodifiable list containing immutable objects of type {@link Annotation}.
              */
             public List<Annotation> getNote() {
                 return note;
@@ -6661,7 +7033,7 @@ public class Contract extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -6830,7 +7202,7 @@ public class Contract extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -6844,12 +7216,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -6863,12 +7238,15 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -6888,12 +7266,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -6913,12 +7294,15 @@ public class Contract extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6934,7 +7318,7 @@ public class Contract extends DomainResource {
                  *     True if the term prohibits the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder doNotPerform(Boolean doNotPerform) {
                     this.doNotPerform = doNotPerform;
@@ -6945,12 +7329,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Entity of the action.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param subject
                  *     Entity of the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subject(Subject... subject) {
                     for (Subject value : subject) {
@@ -6963,15 +7350,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Entity of the action.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param subject
                  *     Entity of the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subject(Collection<Subject> subject) {
-                    this.subject.addAll(subject);
+                    this.subject = new ArrayList<>(subject);
                     return this;
                 }
 
@@ -6980,12 +7370,15 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(String... linkId) {
                     for (String value : linkId) {
@@ -6999,15 +7392,18 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param linkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder linkId(Collection<String> linkId) {
-                    this.linkId.addAll(linkId);
+                    this.linkId = new ArrayList<>(linkId);
                     return this;
                 }
 
@@ -7020,7 +7416,7 @@ public class Contract extends DomainResource {
                  *     Episode associated with action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder context(Reference context) {
                     this.context = context;
@@ -7032,12 +7428,15 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder contextLinkId(String... contextLinkId) {
                     for (String value : contextLinkId) {
@@ -7051,15 +7450,18 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder contextLinkId(Collection<String> contextLinkId) {
-                    this.contextLinkId.addAll(contextLinkId);
+                    this.contextLinkId = new ArrayList<>(contextLinkId);
                     return this;
                 }
 
@@ -7072,7 +7474,7 @@ public class Contract extends DomainResource {
                  *     When action happens
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder occurrence(Element occurrence) {
                     this.occurrence = occurrence;
@@ -7083,12 +7485,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Who or what initiated the action and has responsibility for its activation.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param requester
                  *     Who asked for action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder requester(Reference... requester) {
                     for (Reference value : requester) {
@@ -7101,15 +7506,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Who or what initiated the action and has responsibility for its activation.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param requester
                  *     Who asked for action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder requester(Collection<Reference> requester) {
-                    this.requester.addAll(requester);
+                    this.requester = new ArrayList<>(requester);
                     return this;
                 }
 
@@ -7118,12 +7526,15 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder requesterLinkId(String... requesterLinkId) {
                     for (String value : requesterLinkId) {
@@ -7137,15 +7548,18 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder requesterLinkId(Collection<String> requesterLinkId) {
-                    this.requesterLinkId.addAll(requesterLinkId);
+                    this.requesterLinkId = new ArrayList<>(requesterLinkId);
                     return this;
                 }
 
@@ -7153,12 +7567,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * The type of individual that is desired or required to perform or not perform the action.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param performerType
                  *     Kind of service performer
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performerType(CodeableConcept... performerType) {
                     for (CodeableConcept value : performerType) {
@@ -7171,15 +7588,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * The type of individual that is desired or required to perform or not perform the action.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param performerType
                  *     Kind of service performer
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performerType(Collection<CodeableConcept> performerType) {
-                    this.performerType.addAll(performerType);
+                    this.performerType = new ArrayList<>(performerType);
                     return this;
                 }
 
@@ -7192,7 +7612,7 @@ public class Contract extends DomainResource {
                  *     Competency of the performer
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performerRole(CodeableConcept performerRole) {
                     this.performerRole = performerRole;
@@ -7208,7 +7628,7 @@ public class Contract extends DomainResource {
                  *     Actor that wil execute (or not) the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performer(Reference performer) {
                     this.performer = performer;
@@ -7220,12 +7640,15 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performerLinkId(String... performerLinkId) {
                     for (String value : performerLinkId) {
@@ -7239,15 +7662,18 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performerLinkId(Collection<String> performerLinkId) {
-                    this.performerLinkId.addAll(performerLinkId);
+                    this.performerLinkId = new ArrayList<>(performerLinkId);
                     return this;
                 }
 
@@ -7255,12 +7681,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonCode(CodeableConcept... reasonCode) {
                     for (CodeableConcept value : reasonCode) {
@@ -7273,15 +7702,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-                    this.reasonCode.addAll(reasonCode);
+                    this.reasonCode = new ArrayList<>(reasonCode);
                     return this;
                 }
 
@@ -7289,12 +7721,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reasonReference
                  *     Why is action (not) needed?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonReference(Reference... reasonReference) {
                     for (Reference value : reasonReference) {
@@ -7307,15 +7742,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reasonReference
                  *     Why is action (not) needed?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonReference(Collection<Reference> reasonReference) {
-                    this.reasonReference.addAll(reasonReference);
+                    this.reasonReference = new ArrayList<>(reasonReference);
                     return this;
                 }
 
@@ -7323,12 +7761,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Describes why the action is to be performed or not performed in textual form.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reason
                  *     Why action is to be performed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reason(String... reason) {
                     for (String value : reason) {
@@ -7341,15 +7782,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Describes why the action is to be performed or not performed in textual form.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reason
                  *     Why action is to be performed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reason(Collection<String> reason) {
-                    this.reason.addAll(reason);
+                    this.reason = new ArrayList<>(reason);
                     return this;
                 }
 
@@ -7358,12 +7802,15 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonLinkId(String... reasonLinkId) {
                     for (String value : reasonLinkId) {
@@ -7377,15 +7824,18 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonLinkId(Collection<String> reasonLinkId) {
-                    this.reasonLinkId.addAll(reasonLinkId);
+                    this.reasonLinkId = new ArrayList<>(reasonLinkId);
                     return this;
                 }
 
@@ -7393,12 +7843,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Comments made about the term action made by the requester, performer, subject or other participants.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param note
                  *     Comments about the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder note(Annotation... note) {
                     for (Annotation value : note) {
@@ -7411,15 +7864,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Comments made about the term action made by the requester, performer, subject or other participants.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param note
                  *     Comments about the action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder note(Collection<Annotation> note) {
-                    this.note.addAll(note);
+                    this.note = new ArrayList<>(note);
                     return this;
                 }
 
@@ -7427,12 +7883,15 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the action.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(UnsignedInt... securityLabelNumber) {
                     for (UnsignedInt value : securityLabelNumber) {
@@ -7445,15 +7904,18 @@ public class Contract extends DomainResource {
                  * <p>
                  * Security labels that protects the action.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
-                    this.securityLabelNumber.addAll(securityLabelNumber);
+                    this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
                     return this;
                 }
 
@@ -7511,7 +7973,7 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
                  */
                 public List<Reference> getReference() {
                     return reference;
@@ -7614,7 +8076,7 @@ public class Contract extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -7628,12 +8090,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -7647,12 +8112,15 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -7672,12 +8140,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -7697,12 +8168,15 @@ public class Contract extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7718,7 +8192,7 @@ public class Contract extends DomainResource {
                      *     Role type of the agent
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder role(CodeableConcept role) {
                         this.role = role;
@@ -7793,7 +8267,7 @@ public class Contract extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Signature}.
+         *     An unmodifiable list containing immutable objects of type {@link Signature}.
          */
         public List<Signature> getSignature() {
             return signature;
@@ -7888,7 +8362,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -7902,12 +8376,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -7921,12 +8398,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -7946,12 +8426,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -7971,12 +8454,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8107,7 +8593,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -8121,12 +8607,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -8140,12 +8629,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -8165,12 +8657,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -8190,12 +8685,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8322,7 +8820,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -8336,12 +8834,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -8355,12 +8856,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -8380,12 +8884,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -8405,12 +8912,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8537,7 +9047,7 @@ public class Contract extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -8551,12 +9061,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -8570,12 +9083,15 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -8595,12 +9111,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -8620,12 +9139,15 @@ public class Contract extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

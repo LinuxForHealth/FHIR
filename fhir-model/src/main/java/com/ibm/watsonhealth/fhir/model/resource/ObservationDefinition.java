@@ -82,7 +82,7 @@ public class ObservationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -106,7 +106,7 @@ public class ObservationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -118,7 +118,7 @@ public class ObservationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ObservationDataType}.
+     *     An unmodifiable list containing immutable objects of type {@link ObservationDataType}.
      */
     public List<ObservationDataType> getPermittedDataType() {
         return permittedDataType;
@@ -179,7 +179,7 @@ public class ObservationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link QualifiedInterval}.
+     *     An unmodifiable list containing immutable objects of type {@link QualifiedInterval}.
      */
     public List<QualifiedInterval> getQualifiedInterval() {
         return qualifiedInterval;
@@ -376,7 +376,7 @@ public class ObservationDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -393,7 +393,7 @@ public class ObservationDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -411,7 +411,7 @@ public class ObservationDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -427,7 +427,7 @@ public class ObservationDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -446,7 +446,7 @@ public class ObservationDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -458,12 +458,15 @@ public class ObservationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -475,12 +478,15 @@ public class ObservationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -494,12 +500,15 @@ public class ObservationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -513,12 +522,15 @@ public class ObservationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -538,12 +550,15 @@ public class ObservationDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -563,12 +578,15 @@ public class ObservationDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -579,12 +597,15 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * A code that classifies the general type of observation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Category of observation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -597,15 +618,18 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * A code that classifies the general type of observation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Category of observation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -613,12 +637,15 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * A unique identifier assigned to this ObservationDefinition artifact.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier for this ObservationDefinition instance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -631,15 +658,18 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * A unique identifier assigned to this ObservationDefinition artifact.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier for this ObservationDefinition instance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -647,12 +677,15 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param permittedDataType
          *     Quantity | CodeableConcept | string | boolean | integer | Range | Ratio | SampledData | time | dateTime | Period
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder permittedDataType(ObservationDataType... permittedDataType) {
             for (ObservationDataType value : permittedDataType) {
@@ -665,15 +698,18 @@ public class ObservationDefinition extends DomainResource {
          * <p>
          * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param permittedDataType
          *     Quantity | CodeableConcept | string | boolean | integer | Range | Ratio | SampledData | time | dateTime | Period
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder permittedDataType(Collection<ObservationDataType> permittedDataType) {
-            this.permittedDataType.addAll(permittedDataType);
+            this.permittedDataType = new ArrayList<>(permittedDataType);
             return this;
         }
 
@@ -686,7 +722,7 @@ public class ObservationDefinition extends DomainResource {
          *     Multiple results allowed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder multipleResultsAllowed(Boolean multipleResultsAllowed) {
             this.multipleResultsAllowed = multipleResultsAllowed;
@@ -702,7 +738,7 @@ public class ObservationDefinition extends DomainResource {
          *     Method used to produce the observation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder method(CodeableConcept method) {
             this.method = method;
@@ -718,7 +754,7 @@ public class ObservationDefinition extends DomainResource {
          *     Preferred report name
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preferredReportName(String preferredReportName) {
             this.preferredReportName = preferredReportName;
@@ -734,7 +770,7 @@ public class ObservationDefinition extends DomainResource {
          *     Characteristics of quantitative results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quantitativeDetails(QuantitativeDetails quantitativeDetails) {
             this.quantitativeDetails = quantitativeDetails;
@@ -746,12 +782,15 @@ public class ObservationDefinition extends DomainResource {
          * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
          * ObservationDefinition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param qualifiedInterval
          *     Qualified range for continuous and ordinal observation results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder qualifiedInterval(QualifiedInterval... qualifiedInterval) {
             for (QualifiedInterval value : qualifiedInterval) {
@@ -765,15 +804,18 @@ public class ObservationDefinition extends DomainResource {
          * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
          * ObservationDefinition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param qualifiedInterval
          *     Qualified range for continuous and ordinal observation results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder qualifiedInterval(Collection<QualifiedInterval> qualifiedInterval) {
-            this.qualifiedInterval.addAll(qualifiedInterval);
+            this.qualifiedInterval = new ArrayList<>(qualifiedInterval);
             return this;
         }
 
@@ -786,7 +828,7 @@ public class ObservationDefinition extends DomainResource {
          *     Value set of valid coded values for the observations conforming to this ObservationDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validCodedValueSet(Reference validCodedValueSet) {
             this.validCodedValueSet = validCodedValueSet;
@@ -802,7 +844,7 @@ public class ObservationDefinition extends DomainResource {
          *     Value set of normal coded values for the observations conforming to this ObservationDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder normalCodedValueSet(Reference normalCodedValueSet) {
             this.normalCodedValueSet = normalCodedValueSet;
@@ -818,7 +860,7 @@ public class ObservationDefinition extends DomainResource {
          *     Value set of abnormal coded values for the observations conforming to this ObservationDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder abnormalCodedValueSet(Reference abnormalCodedValueSet) {
             this.abnormalCodedValueSet = abnormalCodedValueSet;
@@ -834,7 +876,7 @@ public class ObservationDefinition extends DomainResource {
          *     Value set of critical coded values for the observations conforming to this ObservationDefinition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder criticalCodedValueSet(Reference criticalCodedValueSet) {
             this.criticalCodedValueSet = criticalCodedValueSet;
@@ -1026,7 +1068,7 @@ public class ObservationDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1040,12 +1082,15 @@ public class ObservationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1059,12 +1104,15 @@ public class ObservationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1084,12 +1132,15 @@ public class ObservationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1109,12 +1160,15 @@ public class ObservationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1130,7 +1184,7 @@ public class ObservationDefinition extends DomainResource {
              *     Customary unit for quantitative results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder customaryUnit(CodeableConcept customaryUnit) {
                 this.customaryUnit = customaryUnit;
@@ -1146,7 +1200,7 @@ public class ObservationDefinition extends DomainResource {
              *     SI unit for quantitative results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unit(CodeableConcept unit) {
                 this.unit = unit;
@@ -1162,7 +1216,7 @@ public class ObservationDefinition extends DomainResource {
              *     SI to Customary unit conversion factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder conversionFactor(Decimal conversionFactor) {
                 this.conversionFactor = conversionFactor;
@@ -1178,7 +1232,7 @@ public class ObservationDefinition extends DomainResource {
              *     Decimal precision of observation quantitative results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder decimalPrecision(Integer decimalPrecision) {
                 this.decimalPrecision = decimalPrecision;
@@ -1275,7 +1329,7 @@ public class ObservationDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getAppliesTo() {
             return appliesTo;
@@ -1432,7 +1486,7 @@ public class ObservationDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1446,12 +1500,15 @@ public class ObservationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1465,12 +1522,15 @@ public class ObservationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1490,12 +1550,15 @@ public class ObservationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1515,12 +1578,15 @@ public class ObservationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1536,7 +1602,7 @@ public class ObservationDefinition extends DomainResource {
              *     reference | critical | absolute
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder category(ObservationRangeCategory category) {
                 this.category = category;
@@ -1552,7 +1618,7 @@ public class ObservationDefinition extends DomainResource {
              *     The interval itself, for continuous or ordinal observations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder range(Range range) {
                 this.range = range;
@@ -1568,7 +1634,7 @@ public class ObservationDefinition extends DomainResource {
              *     Range context qualifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder context(CodeableConcept context) {
                 this.context = context;
@@ -1579,12 +1645,15 @@ public class ObservationDefinition extends DomainResource {
              * <p>
              * Codes to indicate the target population this reference range applies to.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param appliesTo
              *     Targetted population of the range
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder appliesTo(CodeableConcept... appliesTo) {
                 for (CodeableConcept value : appliesTo) {
@@ -1597,15 +1666,18 @@ public class ObservationDefinition extends DomainResource {
              * <p>
              * Codes to indicate the target population this reference range applies to.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param appliesTo
              *     Targetted population of the range
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder appliesTo(Collection<CodeableConcept> appliesTo) {
-                this.appliesTo.addAll(appliesTo);
+                this.appliesTo = new ArrayList<>(appliesTo);
                 return this;
             }
 
@@ -1618,7 +1690,7 @@ public class ObservationDefinition extends DomainResource {
              *     male | female | other | unknown
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder gender(AdministrativeGender gender) {
                 this.gender = gender;
@@ -1635,7 +1707,7 @@ public class ObservationDefinition extends DomainResource {
              *     Applicable age range, if relevant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder age(Range age) {
                 this.age = age;
@@ -1651,7 +1723,7 @@ public class ObservationDefinition extends DomainResource {
              *     Applicable gestational age range, if relevant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder gestationalAge(Range gestationalAge) {
                 this.gestationalAge = gestationalAge;
@@ -1667,7 +1739,7 @@ public class ObservationDefinition extends DomainResource {
              *     Condition associated with the reference range
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder condition(String condition) {
                 this.condition = condition;

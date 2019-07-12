@@ -99,7 +99,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -112,7 +112,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -125,7 +125,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -138,7 +138,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiates() {
         return instantiates;
@@ -224,7 +224,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAllergyIntolerance() {
         return allergyIntolerance;
@@ -238,7 +238,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getFoodPreferenceModifier() {
         return foodPreferenceModifier;
@@ -255,7 +255,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getExcludeFoodModifier() {
         return excludeFoodModifier;
@@ -279,7 +279,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Supplement}.
+     *     An unmodifiable list containing immutable objects of type {@link Supplement}.
      */
     public List<Supplement> getSupplement() {
         return supplement;
@@ -304,7 +304,7 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -472,7 +472,7 @@ public class NutritionOrder extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -489,7 +489,7 @@ public class NutritionOrder extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -507,7 +507,7 @@ public class NutritionOrder extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -523,7 +523,7 @@ public class NutritionOrder extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -542,7 +542,7 @@ public class NutritionOrder extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -554,12 +554,15 @@ public class NutritionOrder extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -571,12 +574,15 @@ public class NutritionOrder extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -590,12 +596,15 @@ public class NutritionOrder extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -609,12 +618,15 @@ public class NutritionOrder extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -634,12 +646,15 @@ public class NutritionOrder extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -659,12 +674,15 @@ public class NutritionOrder extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -675,12 +693,15 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Identifiers assigned to this order by the order sender or by the order receiver.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifiers assigned to this order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -693,15 +714,18 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Identifiers assigned to this order by the order sender or by the order receiver.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifiers assigned to this order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -710,12 +734,15 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -729,15 +756,18 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -746,12 +776,15 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -765,15 +798,18 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -782,12 +818,15 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiates
          *     Instantiates protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiates(Uri... instantiates) {
             for (Uri value : instantiates) {
@@ -801,15 +840,18 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiates
          *     Instantiates protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiates(Collection<Uri> instantiates) {
-            this.instantiates.addAll(instantiates);
+            this.instantiates = new ArrayList<>(instantiates);
             return this;
         }
 
@@ -822,7 +864,7 @@ public class NutritionOrder extends DomainResource {
          *     The encounter associated with this nutrition order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -838,7 +880,7 @@ public class NutritionOrder extends DomainResource {
          *     Who ordered the diet, formula or nutritional supplement
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder orderer(Reference orderer) {
             this.orderer = orderer;
@@ -849,12 +891,15 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder allergyIntolerance(Reference... allergyIntolerance) {
             for (Reference value : allergyIntolerance) {
@@ -867,15 +912,18 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder allergyIntolerance(Collection<Reference> allergyIntolerance) {
-            this.allergyIntolerance.addAll(allergyIntolerance);
+            this.allergyIntolerance = new ArrayList<>(allergyIntolerance);
             return this;
         }
 
@@ -885,12 +933,15 @@ public class NutritionOrder extends DomainResource {
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder foodPreferenceModifier(CodeableConcept... foodPreferenceModifier) {
             for (CodeableConcept value : foodPreferenceModifier) {
@@ -905,15 +956,18 @@ public class NutritionOrder extends DomainResource {
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder foodPreferenceModifier(Collection<CodeableConcept> foodPreferenceModifier) {
-            this.foodPreferenceModifier.addAll(foodPreferenceModifier);
+            this.foodPreferenceModifier = new ArrayList<>(foodPreferenceModifier);
             return this;
         }
 
@@ -926,12 +980,15 @@ public class NutritionOrder extends DomainResource {
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder excludeFoodModifier(CodeableConcept... excludeFoodModifier) {
             for (CodeableConcept value : excludeFoodModifier) {
@@ -949,15 +1006,18 @@ public class NutritionOrder extends DomainResource {
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder excludeFoodModifier(Collection<CodeableConcept> excludeFoodModifier) {
-            this.excludeFoodModifier.addAll(excludeFoodModifier);
+            this.excludeFoodModifier = new ArrayList<>(excludeFoodModifier);
             return this;
         }
 
@@ -970,7 +1030,7 @@ public class NutritionOrder extends DomainResource {
          *     Oral diet components
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder oralDiet(OralDiet oralDiet) {
             this.oralDiet = oralDiet;
@@ -981,12 +1041,15 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supplement
          *     Supplement components
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplement(Supplement... supplement) {
             for (Supplement value : supplement) {
@@ -999,15 +1062,18 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supplement
          *     Supplement components
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplement(Collection<Supplement> supplement) {
-            this.supplement.addAll(supplement);
+            this.supplement = new ArrayList<>(supplement);
             return this;
         }
 
@@ -1021,7 +1087,7 @@ public class NutritionOrder extends DomainResource {
          *     Enteral formula components
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder enteralFormula(EnteralFormula enteralFormula) {
             this.enteralFormula = enteralFormula;
@@ -1032,12 +1098,15 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1050,15 +1119,18 @@ public class NutritionOrder extends DomainResource {
          * <p>
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1124,7 +1196,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -1137,7 +1209,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Timing}.
+         *     An unmodifiable list containing immutable objects of type {@link Timing}.
          */
         public List<Timing> getSchedule() {
             return schedule;
@@ -1150,7 +1222,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Nutrient}.
+         *     An unmodifiable list containing immutable objects of type {@link Nutrient}.
          */
         public List<Nutrient> getNutrient() {
             return nutrient;
@@ -1162,7 +1234,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Texture}.
+         *     An unmodifiable list containing immutable objects of type {@link Texture}.
          */
         public List<Texture> getTexture() {
             return texture;
@@ -1174,7 +1246,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getFluidConsistencyType() {
             return fluidConsistencyType;
@@ -1286,7 +1358,7 @@ public class NutritionOrder extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1300,12 +1372,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1319,12 +1394,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1344,12 +1422,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1369,12 +1450,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1385,12 +1469,15 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept... type) {
                 for (CodeableConcept value : type) {
@@ -1403,15 +1490,18 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<CodeableConcept> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -1420,12 +1510,15 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param schedule
              *     Scheduled frequency of diet
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Timing... schedule) {
                 for (Timing value : schedule) {
@@ -1439,15 +1532,18 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param schedule
              *     Scheduled frequency of diet
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Collection<Timing> schedule) {
-                this.schedule.addAll(schedule);
+                this.schedule = new ArrayList<>(schedule);
                 return this;
             }
 
@@ -1456,12 +1552,15 @@ public class NutritionOrder extends DomainResource {
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param nutrient
              *     Required nutrient modifications
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder nutrient(Nutrient... nutrient) {
                 for (Nutrient value : nutrient) {
@@ -1475,15 +1574,18 @@ public class NutritionOrder extends DomainResource {
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param nutrient
              *     Required nutrient modifications
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder nutrient(Collection<Nutrient> nutrient) {
-                this.nutrient.addAll(nutrient);
+                this.nutrient = new ArrayList<>(nutrient);
                 return this;
             }
 
@@ -1491,12 +1593,15 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param texture
              *     Required texture modifications
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder texture(Texture... texture) {
                 for (Texture value : texture) {
@@ -1509,15 +1614,18 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param texture
              *     Required texture modifications
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder texture(Collection<Texture> texture) {
-                this.texture.addAll(texture);
+                this.texture = new ArrayList<>(texture);
                 return this;
             }
 
@@ -1525,12 +1633,15 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fluidConsistencyType(CodeableConcept... fluidConsistencyType) {
                 for (CodeableConcept value : fluidConsistencyType) {
@@ -1543,15 +1654,18 @@ public class NutritionOrder extends DomainResource {
              * <p>
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fluidConsistencyType(Collection<CodeableConcept> fluidConsistencyType) {
-                this.fluidConsistencyType.addAll(fluidConsistencyType);
+                this.fluidConsistencyType = new ArrayList<>(fluidConsistencyType);
                 return this;
             }
 
@@ -1564,7 +1678,7 @@ public class NutritionOrder extends DomainResource {
              *     Instructions or additional information about the oral diet
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder instruction(String instruction) {
                 this.instruction = instruction;
@@ -1710,7 +1824,7 @@ public class NutritionOrder extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1724,12 +1838,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1743,12 +1860,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1768,12 +1888,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1793,12 +1916,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1814,7 +1940,7 @@ public class NutritionOrder extends DomainResource {
                  *     Type of nutrient that is being modified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(CodeableConcept modifier) {
                     this.modifier = modifier;
@@ -1830,7 +1956,7 @@ public class NutritionOrder extends DomainResource {
                  *     Quantity of the specified nutrient
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(Quantity amount) {
                     this.amount = amount;
@@ -1972,7 +2098,7 @@ public class NutritionOrder extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1986,12 +2112,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2005,12 +2134,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2030,12 +2162,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2055,12 +2190,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2076,7 +2214,7 @@ public class NutritionOrder extends DomainResource {
                  *     Code to indicate how to alter the texture of the foods, e.g. pureed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder modifier(CodeableConcept modifier) {
                     this.modifier = modifier;
@@ -2092,7 +2230,7 @@ public class NutritionOrder extends DomainResource {
                  *     Concepts that are used to identify an entity that is ingested for nutritional purposes
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder foodType(CodeableConcept foodType) {
                     this.foodType = foodType;
@@ -2170,7 +2308,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Timing}.
+         *     An unmodifiable list containing immutable objects of type {@link Timing}.
          */
         public List<Timing> getSchedule() {
             return schedule;
@@ -2290,7 +2428,7 @@ public class NutritionOrder extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2304,12 +2442,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2323,12 +2464,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2348,12 +2492,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2373,12 +2520,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2394,7 +2544,7 @@ public class NutritionOrder extends DomainResource {
              *     Type of supplement product requested
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2410,7 +2560,7 @@ public class NutritionOrder extends DomainResource {
              *     Product or brand name of the nutritional supplement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder productName(String productName) {
                 this.productName = productName;
@@ -2422,12 +2572,15 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param schedule
              *     Scheduled frequency of supplement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Timing... schedule) {
                 for (Timing value : schedule) {
@@ -2441,15 +2594,18 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param schedule
              *     Scheduled frequency of supplement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Collection<Timing> schedule) {
-                this.schedule.addAll(schedule);
+                this.schedule = new ArrayList<>(schedule);
                 return this;
             }
 
@@ -2462,7 +2618,7 @@ public class NutritionOrder extends DomainResource {
              *     Amount of the nutritional supplement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -2478,7 +2634,7 @@ public class NutritionOrder extends DomainResource {
              *     Instructions or additional information about the oral supplement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder instruction(String instruction) {
                 this.instruction = instruction;
@@ -2620,7 +2776,7 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Administration}.
+         *     An unmodifiable list containing immutable objects of type {@link Administration}.
          */
         public List<Administration> getAdministration() {
             return administration;
@@ -2757,7 +2913,7 @@ public class NutritionOrder extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2771,12 +2927,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2790,12 +2949,15 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2815,12 +2977,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2840,12 +3005,15 @@ public class NutritionOrder extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2861,7 +3029,7 @@ public class NutritionOrder extends DomainResource {
              *     Type of enteral or infant formula
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder baseFormulaType(CodeableConcept baseFormulaType) {
                 this.baseFormulaType = baseFormulaType;
@@ -2877,7 +3045,7 @@ public class NutritionOrder extends DomainResource {
              *     Product or brand name of the enteral or infant formula
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder baseFormulaProductName(String baseFormulaProductName) {
                 this.baseFormulaProductName = baseFormulaProductName;
@@ -2894,7 +3062,7 @@ public class NutritionOrder extends DomainResource {
              *     Type of modular component to add to the feeding
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additiveType(CodeableConcept additiveType) {
                 this.additiveType = additiveType;
@@ -2910,7 +3078,7 @@ public class NutritionOrder extends DomainResource {
              *     Product or brand name of the modular additive
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additiveProductName(String additiveProductName) {
                 this.additiveProductName = additiveProductName;
@@ -2928,7 +3096,7 @@ public class NutritionOrder extends DomainResource {
              *     Amount of energy per specified volume that is required
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder caloricDensity(Quantity caloricDensity) {
                 this.caloricDensity = caloricDensity;
@@ -2945,7 +3113,7 @@ public class NutritionOrder extends DomainResource {
              *     How the formula should enter the patient's gastrointestinal tract
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder routeofAdministration(CodeableConcept routeofAdministration) {
                 this.routeofAdministration = routeofAdministration;
@@ -2958,12 +3126,15 @@ public class NutritionOrder extends DomainResource {
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param administration
              *     Formula feeding instruction as structured data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder administration(Administration... administration) {
                 for (Administration value : administration) {
@@ -2978,15 +3149,18 @@ public class NutritionOrder extends DomainResource {
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param administration
              *     Formula feeding instruction as structured data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder administration(Collection<Administration> administration) {
-                this.administration.addAll(administration);
+                this.administration = new ArrayList<>(administration);
                 return this;
             }
 
@@ -3000,7 +3174,7 @@ public class NutritionOrder extends DomainResource {
              *     Upper limit on formula volume per unit of time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder maxVolumeToDeliver(Quantity maxVolumeToDeliver) {
                 this.maxVolumeToDeliver = maxVolumeToDeliver;
@@ -3016,7 +3190,7 @@ public class NutritionOrder extends DomainResource {
              *     Formula feeding instructions expressed as text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder administrationInstruction(String administrationInstruction) {
                 this.administrationInstruction = administrationInstruction;
@@ -3184,7 +3358,7 @@ public class NutritionOrder extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3198,12 +3372,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3217,12 +3394,15 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3242,12 +3422,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3267,12 +3450,15 @@ public class NutritionOrder extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3288,7 +3474,7 @@ public class NutritionOrder extends DomainResource {
                  *     Scheduled frequency of enteral feeding
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder schedule(Timing schedule) {
                     this.schedule = schedule;
@@ -3304,7 +3490,7 @@ public class NutritionOrder extends DomainResource {
                  *     The volume of formula to provide
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder quantity(Quantity quantity) {
                     this.quantity = quantity;
@@ -3320,7 +3506,7 @@ public class NutritionOrder extends DomainResource {
                  *     Speed with which the formula is provided per period of time
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder rate(Element rate) {
                     this.rate = rate;

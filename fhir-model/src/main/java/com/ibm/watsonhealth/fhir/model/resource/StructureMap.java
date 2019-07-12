@@ -173,7 +173,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -276,7 +276,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -302,7 +302,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -314,7 +314,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -352,7 +352,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Structure}.
+     *     An unmodifiable list containing immutable objects of type {@link Structure}.
      */
     public List<Structure> getStructure() {
         return structure;
@@ -364,7 +364,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getimport() {
         return _import;
@@ -376,7 +376,7 @@ public class StructureMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group}.
      */
     public List<Group> getGroup() {
         return group;
@@ -548,7 +548,7 @@ public class StructureMap extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -565,7 +565,7 @@ public class StructureMap extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -583,7 +583,7 @@ public class StructureMap extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -599,7 +599,7 @@ public class StructureMap extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -618,7 +618,7 @@ public class StructureMap extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -630,12 +630,15 @@ public class StructureMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -647,12 +650,15 @@ public class StructureMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -666,12 +672,15 @@ public class StructureMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -685,12 +694,15 @@ public class StructureMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -710,12 +722,15 @@ public class StructureMap extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -735,12 +750,15 @@ public class StructureMap extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -752,12 +770,15 @@ public class StructureMap extends DomainResource {
          * A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the structure map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -771,15 +792,18 @@ public class StructureMap extends DomainResource {
          * A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the structure map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -795,7 +819,7 @@ public class StructureMap extends DomainResource {
          *     Business version of the structure map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -811,7 +835,7 @@ public class StructureMap extends DomainResource {
          *     Name for this structure map (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -828,7 +852,7 @@ public class StructureMap extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -846,7 +870,7 @@ public class StructureMap extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -862,7 +886,7 @@ public class StructureMap extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -873,12 +897,15 @@ public class StructureMap extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -891,15 +918,18 @@ public class StructureMap extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -912,7 +942,7 @@ public class StructureMap extends DomainResource {
          *     Natural language description of the structure map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -925,12 +955,15 @@ public class StructureMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure map instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -945,15 +978,18 @@ public class StructureMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure map instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -961,12 +997,15 @@ public class StructureMap extends DomainResource {
          * <p>
          * A legal or geographic region in which the structure map is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure map (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -979,15 +1018,18 @@ public class StructureMap extends DomainResource {
          * <p>
          * A legal or geographic region in which the structure map is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure map (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1000,7 +1042,7 @@ public class StructureMap extends DomainResource {
          *     Why this structure map is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1017,7 +1059,7 @@ public class StructureMap extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1029,12 +1071,15 @@ public class StructureMap extends DomainResource {
          * A structure definition used by this map. The structure definition may describe instances that are converted, or the 
          * instances that are produced.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param structure
          *     Structure Definition used by this map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder structure(Structure... structure) {
             for (Structure value : structure) {
@@ -1048,15 +1093,18 @@ public class StructureMap extends DomainResource {
          * A structure definition used by this map. The structure definition may describe instances that are converted, or the 
          * instances that are produced.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param structure
          *     Structure Definition used by this map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder structure(Collection<Structure> structure) {
-            this.structure.addAll(structure);
+            this.structure = new ArrayList<>(structure);
             return this;
         }
 
@@ -1064,12 +1112,15 @@ public class StructureMap extends DomainResource {
          * <p>
          * Other maps used by this map (canonical URLs).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param _import
          *     Other maps used by this map (canonical URLs)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder _import(Canonical... _import) {
             for (Canonical value : _import) {
@@ -1082,15 +1133,18 @@ public class StructureMap extends DomainResource {
          * <p>
          * Other maps used by this map (canonical URLs).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param _import
          *     Other maps used by this map (canonical URLs)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder _import(Collection<Canonical> _import) {
-            this._import.addAll(_import);
+            this._import = new ArrayList<>(_import);
             return this;
         }
 
@@ -1290,7 +1344,7 @@ public class StructureMap extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1304,12 +1358,15 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1323,12 +1380,15 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1348,12 +1408,15 @@ public class StructureMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1373,12 +1436,15 @@ public class StructureMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1394,7 +1460,7 @@ public class StructureMap extends DomainResource {
              *     Name for type in this map
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder alias(String alias) {
                 this.alias = alias;
@@ -1410,7 +1476,7 @@ public class StructureMap extends DomainResource {
              *     Documentation on use of structure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(String documentation) {
                 this.documentation = documentation;
@@ -1512,7 +1578,7 @@ public class StructureMap extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Input}.
+         *     An unmodifiable list containing immutable objects of type {@link Input}.
          */
         public List<Input> getInput() {
             return input;
@@ -1524,7 +1590,7 @@ public class StructureMap extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Rule}.
+         *     An unmodifiable list containing immutable objects of type {@link Rule}.
          */
         public List<Rule> getRule() {
             return rule;
@@ -1634,7 +1700,7 @@ public class StructureMap extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1648,12 +1714,15 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1667,12 +1736,15 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1692,12 +1764,15 @@ public class StructureMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1717,12 +1792,15 @@ public class StructureMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1738,7 +1816,7 @@ public class StructureMap extends DomainResource {
              *     Another group that this group adds rules to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder _extends(Id _extends) {
                 this._extends = _extends;
@@ -1754,7 +1832,7 @@ public class StructureMap extends DomainResource {
              *     Additional description/explanation for group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(String documentation) {
                 this.documentation = documentation;
@@ -1939,7 +2017,7 @@ public class StructureMap extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1953,12 +2031,15 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1972,12 +2053,15 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1997,12 +2081,15 @@ public class StructureMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2022,12 +2109,15 @@ public class StructureMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2043,7 +2133,7 @@ public class StructureMap extends DomainResource {
                  *     Type for this instance of data
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(String type) {
                     this.type = type;
@@ -2059,7 +2149,7 @@ public class StructureMap extends DomainResource {
                  *     Documentation for this instance of data
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder documentation(String documentation) {
                     this.documentation = documentation;
@@ -2125,7 +2215,7 @@ public class StructureMap extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Source}.
+             *     An unmodifiable list containing immutable objects of type {@link Source}.
              */
             public List<Source> getSource() {
                 return source;
@@ -2137,7 +2227,7 @@ public class StructureMap extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Target}.
+             *     An unmodifiable list containing immutable objects of type {@link Target}.
              */
             public List<Target> getTarget() {
                 return target;
@@ -2149,7 +2239,7 @@ public class StructureMap extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Rule}.
+             *     An unmodifiable list containing immutable objects of type {@link Rule}.
              */
             public List<StructureMap.Group.Rule> getRule() {
                 return rule;
@@ -2161,7 +2251,7 @@ public class StructureMap extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Dependent}.
+             *     An unmodifiable list containing immutable objects of type {@link Dependent}.
              */
             public List<Dependent> getDependent() {
                 return dependent;
@@ -2281,7 +2371,7 @@ public class StructureMap extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2295,12 +2385,15 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2314,12 +2407,15 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2339,12 +2435,15 @@ public class StructureMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2364,12 +2463,15 @@ public class StructureMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2380,12 +2482,15 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Content to create because of this mapping rule.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param target
                  *     Content to create because of this mapping rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder target(Target... target) {
                     for (Target value : target) {
@@ -2398,15 +2503,18 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Content to create because of this mapping rule.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param target
                  *     Content to create because of this mapping rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder target(Collection<Target> target) {
-                    this.target.addAll(target);
+                    this.target = new ArrayList<>(target);
                     return this;
                 }
 
@@ -2414,12 +2522,15 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Rules contained in this rule.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param rule
                  *     Rules contained in this rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder rule(StructureMap.Group.Rule... rule) {
                     for (StructureMap.Group.Rule value : rule) {
@@ -2432,15 +2543,18 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Rules contained in this rule.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param rule
                  *     Rules contained in this rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder rule(Collection<StructureMap.Group.Rule> rule) {
-                    this.rule.addAll(rule);
+                    this.rule = new ArrayList<>(rule);
                     return this;
                 }
 
@@ -2448,12 +2562,15 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Which other rules to apply in the context of this rule.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param dependent
                  *     Which other rules to apply in the context of this rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder dependent(Dependent... dependent) {
                     for (Dependent value : dependent) {
@@ -2466,15 +2583,18 @@ public class StructureMap extends DomainResource {
                  * <p>
                  * Which other rules to apply in the context of this rule.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param dependent
                  *     Which other rules to apply in the context of this rule
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder dependent(Collection<Dependent> dependent) {
-                    this.dependent.addAll(dependent);
+                    this.dependent = new ArrayList<>(dependent);
                     return this;
                 }
 
@@ -2487,7 +2607,7 @@ public class StructureMap extends DomainResource {
                  *     Documentation for this instance of data
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder documentation(String documentation) {
                     this.documentation = documentation;
@@ -2802,7 +2922,7 @@ public class StructureMap extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2816,12 +2936,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2835,12 +2958,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2860,12 +2986,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2885,12 +3014,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2907,7 +3039,7 @@ public class StructureMap extends DomainResource {
                      *     Specified minimum cardinality
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder min(Integer min) {
                         this.min = min;
@@ -2924,7 +3056,7 @@ public class StructureMap extends DomainResource {
                      *     Specified maximum cardinality (number or *)
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder max(String max) {
                         this.max = max;
@@ -2940,7 +3072,7 @@ public class StructureMap extends DomainResource {
                      *     Rule only applies if source has this type
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder type(String type) {
                         this.type = type;
@@ -2956,7 +3088,7 @@ public class StructureMap extends DomainResource {
                      *     Default value if no value exists
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder defaultValue(Element defaultValue) {
                         this.defaultValue = defaultValue;
@@ -2972,7 +3104,7 @@ public class StructureMap extends DomainResource {
                      *     Optional field for this source
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder element(String element) {
                         this.element = element;
@@ -2988,7 +3120,7 @@ public class StructureMap extends DomainResource {
                      *     first | not_first | last | not_last | only_one
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder listMode(StructureMapSourceListMode listMode) {
                         this.listMode = listMode;
@@ -3004,7 +3136,7 @@ public class StructureMap extends DomainResource {
                      *     Named context for field, if a field is specified
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder variable(Id variable) {
                         this.variable = variable;
@@ -3020,7 +3152,7 @@ public class StructureMap extends DomainResource {
                      *     FHIRPath expression - must be true or the rule does not apply
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder condition(String condition) {
                         this.condition = condition;
@@ -3036,7 +3168,7 @@ public class StructureMap extends DomainResource {
                      *     FHIRPath expression - must be true or the mapping engine throws an error instead of completing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder check(String check) {
                         this.check = check;
@@ -3053,7 +3185,7 @@ public class StructureMap extends DomainResource {
                      *     Message to put in log if source exists (FHIRPath)
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder logMessage(String logMessage) {
                         this.logMessage = logMessage;
@@ -3167,7 +3299,7 @@ public class StructureMap extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link StructureMapTargetListMode}.
+                 *     An unmodifiable list containing immutable objects of type {@link StructureMapTargetListMode}.
                  */
                 public List<StructureMapTargetListMode> getListMode() {
                     return listMode;
@@ -3203,7 +3335,7 @@ public class StructureMap extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Parameter}.
+                 *     An unmodifiable list containing immutable objects of type {@link Parameter}.
                  */
                 public List<Parameter> getParameter() {
                     return parameter;
@@ -3311,7 +3443,7 @@ public class StructureMap extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -3325,12 +3457,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -3344,12 +3479,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3369,12 +3507,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -3394,12 +3535,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3415,7 +3559,7 @@ public class StructureMap extends DomainResource {
                      *     Type or variable this rule applies to
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder context(Id context) {
                         this.context = context;
@@ -3431,7 +3575,7 @@ public class StructureMap extends DomainResource {
                      *     type | variable
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder contextType(StructureMapContextType contextType) {
                         this.contextType = contextType;
@@ -3447,7 +3591,7 @@ public class StructureMap extends DomainResource {
                      *     Field to create in the context
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder element(String element) {
                         this.element = element;
@@ -3463,7 +3607,7 @@ public class StructureMap extends DomainResource {
                      *     Named context for field, if desired, and a field is specified
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder variable(Id variable) {
                         this.variable = variable;
@@ -3474,12 +3618,15 @@ public class StructureMap extends DomainResource {
                      * <p>
                      * If field is a list, how to manage the list.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param listMode
                      *     first | share | last | collate
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder listMode(StructureMapTargetListMode... listMode) {
                         for (StructureMapTargetListMode value : listMode) {
@@ -3492,15 +3639,18 @@ public class StructureMap extends DomainResource {
                      * <p>
                      * If field is a list, how to manage the list.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param listMode
                      *     first | share | last | collate
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder listMode(Collection<StructureMapTargetListMode> listMode) {
-                        this.listMode.addAll(listMode);
+                        this.listMode = new ArrayList<>(listMode);
                         return this;
                     }
 
@@ -3513,7 +3663,7 @@ public class StructureMap extends DomainResource {
                      *     Internal rule reference for shared list items
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder listRuleId(Id listRuleId) {
                         this.listRuleId = listRuleId;
@@ -3529,7 +3679,7 @@ public class StructureMap extends DomainResource {
                      *     create | copy +
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder transform(StructureMapTransform transform) {
                         this.transform = transform;
@@ -3540,12 +3690,15 @@ public class StructureMap extends DomainResource {
                      * <p>
                      * Parameters to the transform.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param parameter
                      *     Parameters to the transform
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder parameter(Parameter... parameter) {
                         for (Parameter value : parameter) {
@@ -3558,15 +3711,18 @@ public class StructureMap extends DomainResource {
                      * <p>
                      * Parameters to the transform.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param parameter
                      *     Parameters to the transform
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder parameter(Collection<Parameter> parameter) {
-                        this.parameter.addAll(parameter);
+                        this.parameter = new ArrayList<>(parameter);
                         return this;
                     }
 
@@ -3697,7 +3853,7 @@ public class StructureMap extends DomainResource {
                          *     Unique id for inter-element referencing
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder id(java.lang.String id) {
@@ -3711,12 +3867,15 @@ public class StructureMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Extension... extension) {
@@ -3730,12 +3889,15 @@ public class StructureMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -3755,12 +3917,15 @@ public class StructureMap extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Extension... modifierExtension) {
@@ -3780,12 +3945,15 @@ public class StructureMap extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3842,7 +4010,7 @@ public class StructureMap extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link String}.
+                 *     An unmodifiable list containing immutable objects of type {@link String}.
                  */
                 public List<String> getVariable() {
                     return variable;
@@ -3932,7 +4100,7 @@ public class StructureMap extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -3946,12 +4114,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -3965,12 +4136,15 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3990,12 +4164,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4015,12 +4192,15 @@ public class StructureMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {

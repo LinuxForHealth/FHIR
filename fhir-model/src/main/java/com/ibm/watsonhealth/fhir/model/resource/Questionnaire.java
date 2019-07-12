@@ -228,7 +228,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -280,7 +280,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getDerivedFrom() {
         return derivedFrom;
@@ -317,7 +317,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
      */
     public List<ResourceType> getSubjectType() {
         return subjectType;
@@ -355,7 +355,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -381,7 +381,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -393,7 +393,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -468,7 +468,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getCode() {
         return code;
@@ -480,7 +480,7 @@ public class Questionnaire extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item}.
      */
     public List<Item> getItem() {
         return item;
@@ -665,7 +665,7 @@ public class Questionnaire extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -682,7 +682,7 @@ public class Questionnaire extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -700,7 +700,7 @@ public class Questionnaire extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -716,7 +716,7 @@ public class Questionnaire extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -735,7 +735,7 @@ public class Questionnaire extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -747,12 +747,15 @@ public class Questionnaire extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -764,12 +767,15 @@ public class Questionnaire extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -783,12 +789,15 @@ public class Questionnaire extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -802,12 +811,15 @@ public class Questionnaire extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -827,12 +839,15 @@ public class Questionnaire extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -852,12 +867,15 @@ public class Questionnaire extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -876,7 +894,7 @@ public class Questionnaire extends DomainResource {
          *     Canonical identifier for this questionnaire, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -888,12 +906,15 @@ public class Questionnaire extends DomainResource {
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -907,15 +928,18 @@ public class Questionnaire extends DomainResource {
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -931,7 +955,7 @@ public class Questionnaire extends DomainResource {
          *     Business version of the questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -948,7 +972,7 @@ public class Questionnaire extends DomainResource {
          *     Name for this questionnaire (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -964,7 +988,7 @@ public class Questionnaire extends DomainResource {
          *     Name for this questionnaire (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -975,12 +999,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * The URL of a Questionnaire that this Questionnaire is based on.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivedFrom(Canonical... derivedFrom) {
             for (Canonical value : derivedFrom) {
@@ -993,15 +1020,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * The URL of a Questionnaire that this Questionnaire is based on.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivedFrom(Collection<Canonical> derivedFrom) {
-            this.derivedFrom.addAll(derivedFrom);
+            this.derivedFrom = new ArrayList<>(derivedFrom);
             return this;
         }
 
@@ -1015,7 +1045,7 @@ public class Questionnaire extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1026,12 +1056,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * The types of subjects that can be the subject of responses created for the questionnaire.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subjectType(ResourceType... subjectType) {
             for (ResourceType value : subjectType) {
@@ -1044,15 +1077,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * The types of subjects that can be the subject of responses created for the questionnaire.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subjectType(Collection<ResourceType> subjectType) {
-            this.subjectType.addAll(subjectType);
+            this.subjectType = new ArrayList<>(subjectType);
             return this;
         }
 
@@ -1067,7 +1103,7 @@ public class Questionnaire extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1083,7 +1119,7 @@ public class Questionnaire extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1094,12 +1130,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1112,15 +1151,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1133,7 +1175,7 @@ public class Questionnaire extends DomainResource {
          *     Natural language description of the questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1146,12 +1188,15 @@ public class Questionnaire extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1166,15 +1211,18 @@ public class Questionnaire extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1182,12 +1230,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * A legal or geographic region in which the questionnaire is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1200,15 +1251,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * A legal or geographic region in which the questionnaire is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1221,7 +1275,7 @@ public class Questionnaire extends DomainResource {
          *     Why this questionnaire is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1238,7 +1292,7 @@ public class Questionnaire extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1255,7 +1309,7 @@ public class Questionnaire extends DomainResource {
          *     When the questionnaire was approved by publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
@@ -1272,7 +1326,7 @@ public class Questionnaire extends DomainResource {
          *     When the questionnaire was last reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastReviewDate(Date lastReviewDate) {
             this.lastReviewDate = lastReviewDate;
@@ -1288,7 +1342,7 @@ public class Questionnaire extends DomainResource {
          *     When the questionnaire is expected to be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effectivePeriod(Period effectivePeriod) {
             this.effectivePeriod = effectivePeriod;
@@ -1299,12 +1353,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param code
          *     Concept that represents the overall questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Coding... code) {
             for (Coding value : code) {
@@ -1317,15 +1374,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param code
          *     Concept that represents the overall questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Collection<Coding> code) {
-            this.code.addAll(code);
+            this.code = new ArrayList<>(code);
             return this;
         }
 
@@ -1333,12 +1393,15 @@ public class Questionnaire extends DomainResource {
          * <p>
          * A particular question, question grouping or display text that is part of the questionnaire.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param item
          *     Questions and sections within the Questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Item... item) {
             for (Item value : item) {
@@ -1351,15 +1414,18 @@ public class Questionnaire extends DomainResource {
          * <p>
          * A particular question, question grouping or display text that is part of the questionnaire.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param item
          *     Questions and sections within the Questionnaire
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder item(Collection<Item> item) {
-            this.item.addAll(item);
+            this.item = new ArrayList<>(item);
             return this;
         }
 
@@ -1492,7 +1558,7 @@ public class Questionnaire extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getCode() {
             return code;
@@ -1543,7 +1609,7 @@ public class Questionnaire extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link EnableWhen}.
+         *     An unmodifiable list containing immutable objects of type {@link EnableWhen}.
          */
         public List<EnableWhen> getEnableWhen() {
             return enableWhen;
@@ -1630,7 +1696,7 @@ public class Questionnaire extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link AnswerOption}.
+         *     An unmodifiable list containing immutable objects of type {@link AnswerOption}.
          */
         public List<AnswerOption> getAnswerOption() {
             return answerOption;
@@ -1643,7 +1709,7 @@ public class Questionnaire extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Initial}.
+         *     An unmodifiable list containing immutable objects of type {@link Initial}.
          */
         public List<Initial> getInitial() {
             return initial;
@@ -1655,7 +1721,7 @@ public class Questionnaire extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Item}.
+         *     An unmodifiable list containing immutable objects of type {@link Item}.
          */
         public List<Questionnaire.Item> getItem() {
             return item;
@@ -1803,7 +1869,7 @@ public class Questionnaire extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1817,12 +1883,15 @@ public class Questionnaire extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1836,12 +1905,15 @@ public class Questionnaire extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1861,12 +1933,15 @@ public class Questionnaire extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1886,12 +1961,15 @@ public class Questionnaire extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1920,7 +1998,7 @@ public class Questionnaire extends DomainResource {
              *     ElementDefinition - details for the item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder definition(Uri definition) {
                 this.definition = definition;
@@ -1932,12 +2010,15 @@ public class Questionnaire extends DomainResource {
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Coding... code) {
                 for (Coding value : code) {
@@ -1951,15 +2032,18 @@ public class Questionnaire extends DomainResource {
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<Coding> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1973,7 +2057,7 @@ public class Questionnaire extends DomainResource {
              *     E.g. "1(a)", "2.5.3"
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
@@ -1989,7 +2073,7 @@ public class Questionnaire extends DomainResource {
              *     Primary text for the item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder text(String text) {
                 this.text = text;
@@ -2001,12 +2085,15 @@ public class Questionnaire extends DomainResource {
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param enableWhen
              *     Only allow data when
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder enableWhen(EnableWhen... enableWhen) {
                 for (EnableWhen value : enableWhen) {
@@ -2020,15 +2107,18 @@ public class Questionnaire extends DomainResource {
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param enableWhen
              *     Only allow data when
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder enableWhen(Collection<EnableWhen> enableWhen) {
-                this.enableWhen.addAll(enableWhen);
+                this.enableWhen = new ArrayList<>(enableWhen);
                 return this;
             }
 
@@ -2041,7 +2131,7 @@ public class Questionnaire extends DomainResource {
              *     all | any
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder enableBehavior(EnableWhenBehavior enableBehavior) {
                 this.enableBehavior = enableBehavior;
@@ -2058,7 +2148,7 @@ public class Questionnaire extends DomainResource {
              *     Whether the item must be included in data results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder required(Boolean required) {
                 this.required = required;
@@ -2075,7 +2165,7 @@ public class Questionnaire extends DomainResource {
              *     Whether the item may repeat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder repeats(Boolean repeats) {
                 this.repeats = repeats;
@@ -2091,7 +2181,7 @@ public class Questionnaire extends DomainResource {
              *     Don't allow human editing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder readOnly(Boolean readOnly) {
                 this.readOnly = readOnly;
@@ -2107,7 +2197,7 @@ public class Questionnaire extends DomainResource {
              *     No more than this many characters
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder maxLength(Integer maxLength) {
                 this.maxLength = maxLength;
@@ -2124,7 +2214,7 @@ public class Questionnaire extends DomainResource {
              *     Valueset containing permitted answers
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder answerValueSet(Canonical answerValueSet) {
                 this.answerValueSet = answerValueSet;
@@ -2135,12 +2225,15 @@ public class Questionnaire extends DomainResource {
              * <p>
              * One of the permitted answers for a "choice" or "open-choice" question.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param answerOption
              *     Permitted answer
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder answerOption(AnswerOption... answerOption) {
                 for (AnswerOption value : answerOption) {
@@ -2153,15 +2246,18 @@ public class Questionnaire extends DomainResource {
              * <p>
              * One of the permitted answers for a "choice" or "open-choice" question.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param answerOption
              *     Permitted answer
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder answerOption(Collection<AnswerOption> answerOption) {
-                this.answerOption.addAll(answerOption);
+                this.answerOption = new ArrayList<>(answerOption);
                 return this;
             }
 
@@ -2170,12 +2266,15 @@ public class Questionnaire extends DomainResource {
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder initial(Initial... initial) {
                 for (Initial value : initial) {
@@ -2189,15 +2288,18 @@ public class Questionnaire extends DomainResource {
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder initial(Collection<Initial> initial) {
-                this.initial.addAll(initial);
+                this.initial = new ArrayList<>(initial);
                 return this;
             }
 
@@ -2205,12 +2307,15 @@ public class Questionnaire extends DomainResource {
              * <p>
              * Text, questions and other groups to be nested beneath a question or group.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param item
              *     Nested questionnaire items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder item(Questionnaire.Item... item) {
                 for (Questionnaire.Item value : item) {
@@ -2223,15 +2328,18 @@ public class Questionnaire extends DomainResource {
              * <p>
              * Text, questions and other groups to be nested beneath a question or group.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param item
              *     Nested questionnaire items
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder item(Collection<Questionnaire.Item> item) {
-                this.item.addAll(item);
+                this.item = new ArrayList<>(item);
                 return this;
             }
 
@@ -2407,7 +2515,7 @@ public class Questionnaire extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2421,12 +2529,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2440,12 +2551,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2465,12 +2579,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2490,12 +2607,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2642,7 +2762,7 @@ public class Questionnaire extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2656,12 +2776,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2675,12 +2798,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2700,12 +2826,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2725,12 +2854,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2746,7 +2878,7 @@ public class Questionnaire extends DomainResource {
                  *     Whether option is selected by default
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder initialSelected(Boolean initialSelected) {
                     this.initialSelected = initialSelected;
@@ -2875,7 +3007,7 @@ public class Questionnaire extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2889,12 +3021,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2908,12 +3043,15 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2933,12 +3071,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2958,12 +3099,15 @@ public class Questionnaire extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

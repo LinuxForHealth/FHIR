@@ -110,7 +110,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -123,7 +123,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -136,7 +136,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -281,7 +281,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -294,7 +294,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -307,7 +307,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -321,7 +321,7 @@ public class FamilyMemberHistory extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Condition}.
+     *     An unmodifiable list containing immutable objects of type {@link Condition}.
      */
     public List<Condition> getCondition() {
         return condition;
@@ -492,7 +492,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -509,7 +509,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -527,7 +527,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -543,7 +543,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -562,7 +562,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -574,12 +574,15 @@ public class FamilyMemberHistory extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -591,12 +594,15 @@ public class FamilyMemberHistory extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -610,12 +616,15 @@ public class FamilyMemberHistory extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -629,12 +638,15 @@ public class FamilyMemberHistory extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -654,12 +666,15 @@ public class FamilyMemberHistory extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -679,12 +694,15 @@ public class FamilyMemberHistory extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -696,12 +714,15 @@ public class FamilyMemberHistory extends DomainResource {
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Id(s) for this record
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -715,15 +736,18 @@ public class FamilyMemberHistory extends DomainResource {
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Id(s) for this record
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -732,12 +756,15 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -751,15 +778,18 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -768,12 +798,15 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -787,15 +820,18 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -808,7 +844,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     subject-unknown | withheld | unable-to-obtain | deferred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dataAbsentReason(CodeableConcept dataAbsentReason) {
             this.dataAbsentReason = dataAbsentReason;
@@ -824,7 +860,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     When history was recorded or last updated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -840,7 +876,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     The family member described
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -856,7 +892,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     male | female | other | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sex(CodeableConcept sex) {
             this.sex = sex;
@@ -872,7 +908,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     (approximate) date of birth
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder born(Element born) {
             this.born = born;
@@ -888,7 +924,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     (approximate) age
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder age(Element age) {
             this.age = age;
@@ -904,7 +940,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Age is estimated?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder estimatedAge(Boolean estimatedAge) {
             this.estimatedAge = estimatedAge;
@@ -921,7 +957,7 @@ public class FamilyMemberHistory extends DomainResource {
          *     Dead? How old/when?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder deceased(Element deceased) {
             this.deceased = deceased;
@@ -932,12 +968,15 @@ public class FamilyMemberHistory extends DomainResource {
          * <p>
          * Describes why the family member history occurred in coded or textual form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why was family member history performed?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -950,15 +989,18 @@ public class FamilyMemberHistory extends DomainResource {
          * <p>
          * Describes why the family member history occurred in coded or textual form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why was family member history performed?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -967,12 +1009,15 @@ public class FamilyMemberHistory extends DomainResource {
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why was family member history performed?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -986,15 +1031,18 @@ public class FamilyMemberHistory extends DomainResource {
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why was family member history performed?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1003,12 +1051,15 @@ public class FamilyMemberHistory extends DomainResource {
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     General note about related person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1022,15 +1073,18 @@ public class FamilyMemberHistory extends DomainResource {
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     General note about related person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1040,12 +1094,15 @@ public class FamilyMemberHistory extends DomainResource {
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param condition
          *     Condition that the related person had
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Condition... condition) {
             for (Condition value : condition) {
@@ -1060,15 +1117,18 @@ public class FamilyMemberHistory extends DomainResource {
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param condition
          *     Condition that the related person had
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Collection<Condition> condition) {
-            this.condition.addAll(condition);
+            this.condition = new ArrayList<>(condition);
             return this;
         }
 
@@ -1188,7 +1248,7 @@ public class FamilyMemberHistory extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
          */
         public List<Annotation> getNote() {
             return note;
@@ -1291,7 +1351,7 @@ public class FamilyMemberHistory extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1305,12 +1365,15 @@ public class FamilyMemberHistory extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1324,12 +1387,15 @@ public class FamilyMemberHistory extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1349,12 +1415,15 @@ public class FamilyMemberHistory extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1374,12 +1443,15 @@ public class FamilyMemberHistory extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1396,7 +1468,7 @@ public class FamilyMemberHistory extends DomainResource {
              *     deceased | permanent disability | etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcome(CodeableConcept outcome) {
                 this.outcome = outcome;
@@ -1413,7 +1485,7 @@ public class FamilyMemberHistory extends DomainResource {
              *     Whether the condition contributed to the cause of death
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder contributedToDeath(Boolean contributedToDeath) {
                 this.contributedToDeath = contributedToDeath;
@@ -1430,7 +1502,7 @@ public class FamilyMemberHistory extends DomainResource {
              *     When condition first manifested
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onset(Element onset) {
                 this.onset = onset;
@@ -1441,12 +1513,15 @@ public class FamilyMemberHistory extends DomainResource {
              * <p>
              * An area where general notes can be placed about this specific condition.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param note
              *     Extra information about condition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder note(Annotation... note) {
                 for (Annotation value : note) {
@@ -1459,15 +1534,18 @@ public class FamilyMemberHistory extends DomainResource {
              * <p>
              * An area where general notes can be placed about this specific condition.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param note
              *     Extra information about condition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder note(Collection<Annotation> note) {
-                this.note.addAll(note);
+                this.note = new ArrayList<>(note);
                 return this;
             }
 

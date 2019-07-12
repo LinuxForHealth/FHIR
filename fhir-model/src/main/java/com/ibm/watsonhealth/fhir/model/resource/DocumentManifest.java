@@ -87,7 +87,7 @@ public class DocumentManifest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -152,7 +152,7 @@ public class DocumentManifest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -164,7 +164,7 @@ public class DocumentManifest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRecipient() {
         return recipient;
@@ -200,7 +200,7 @@ public class DocumentManifest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getContent() {
         return content;
@@ -212,7 +212,7 @@ public class DocumentManifest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Related}.
+     *     An unmodifiable list containing immutable objects of type {@link Related}.
      */
     public List<Related> getRelated() {
         return related;
@@ -358,7 +358,7 @@ public class DocumentManifest extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -375,7 +375,7 @@ public class DocumentManifest extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -393,7 +393,7 @@ public class DocumentManifest extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -409,7 +409,7 @@ public class DocumentManifest extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -428,7 +428,7 @@ public class DocumentManifest extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -440,12 +440,15 @@ public class DocumentManifest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -457,12 +460,15 @@ public class DocumentManifest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -476,12 +482,15 @@ public class DocumentManifest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -495,12 +504,15 @@ public class DocumentManifest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -520,12 +532,15 @@ public class DocumentManifest extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -545,12 +560,15 @@ public class DocumentManifest extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -567,7 +585,7 @@ public class DocumentManifest extends DomainResource {
          *     Unique Identifier for the set of documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder masterIdentifier(Identifier masterIdentifier) {
             this.masterIdentifier = masterIdentifier;
@@ -578,12 +596,15 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Other identifiers associated with the document manifest, including version independent identifiers.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Other identifiers for the manifest
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -596,15 +617,18 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Other identifiers associated with the document manifest, including version independent identifiers.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Other identifiers for the manifest
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -618,7 +642,7 @@ public class DocumentManifest extends DomainResource {
          *     Kind of document set
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -637,7 +661,7 @@ public class DocumentManifest extends DomainResource {
          *     The subject of the set of documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -654,7 +678,7 @@ public class DocumentManifest extends DomainResource {
          *     When this document manifest created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder created(DateTime created) {
             this.created = created;
@@ -665,12 +689,15 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Identifies who is the author of the manifest. Manifest author is not necessarly the author of the references included.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param author
          *     Who and/or what authored the DocumentManifest
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference... author) {
             for (Reference value : author) {
@@ -683,15 +710,18 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Identifies who is the author of the manifest. Manifest author is not necessarly the author of the references included.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param author
          *     Who and/or what authored the DocumentManifest
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Collection<Reference> author) {
-            this.author.addAll(author);
+            this.author = new ArrayList<>(author);
             return this;
         }
 
@@ -699,12 +729,15 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * A patient, practitioner, or organization for which this set of documents is intended.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param recipient
          *     Intended to get notified about this set of documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recipient(Reference... recipient) {
             for (Reference value : recipient) {
@@ -717,15 +750,18 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * A patient, practitioner, or organization for which this set of documents is intended.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param recipient
          *     Intended to get notified about this set of documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recipient(Collection<Reference> recipient) {
-            this.recipient.addAll(recipient);
+            this.recipient = new ArrayList<>(recipient);
             return this;
         }
 
@@ -738,7 +774,7 @@ public class DocumentManifest extends DomainResource {
          *     The source system/application/software
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder source(Uri source) {
             this.source = source;
@@ -754,7 +790,7 @@ public class DocumentManifest extends DomainResource {
          *     Human-readable description (title)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -765,12 +801,15 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param related
          *     Related things
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder related(Related... related) {
             for (Related value : related) {
@@ -783,15 +822,18 @@ public class DocumentManifest extends DomainResource {
          * <p>
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param related
          *     Related things
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder related(Collection<Related> related) {
-            this.related.addAll(related);
+            this.related = new ArrayList<>(related);
             return this;
         }
 
@@ -942,7 +984,7 @@ public class DocumentManifest extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -956,12 +998,15 @@ public class DocumentManifest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -975,12 +1020,15 @@ public class DocumentManifest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1000,12 +1048,15 @@ public class DocumentManifest extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1025,12 +1076,15 @@ public class DocumentManifest extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1046,7 +1100,7 @@ public class DocumentManifest extends DomainResource {
              *     Identifiers of things that are related
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -1062,7 +1116,7 @@ public class DocumentManifest extends DomainResource {
              *     Related Resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder ref(Reference ref) {
                 this.ref = ref;

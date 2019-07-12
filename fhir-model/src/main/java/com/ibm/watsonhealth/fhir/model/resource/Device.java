@@ -109,7 +109,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -135,7 +135,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UdiCarrier}.
+     *     An unmodifiable list containing immutable objects of type {@link UdiCarrier}.
      */
     public List<UdiCarrier> getUdiCarrier() {
         return udiCarrier;
@@ -159,7 +159,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getStatusReason() {
         return statusReason;
@@ -246,7 +246,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DeviceName}.
+     *     An unmodifiable list containing immutable objects of type {@link DeviceName}.
      */
     public List<DeviceName> getDeviceName() {
         return deviceName;
@@ -295,7 +295,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Specialization}.
+     *     An unmodifiable list containing immutable objects of type {@link Specialization}.
      */
     public List<Specialization> getSpecialization() {
         return specialization;
@@ -307,7 +307,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Version}.
+     *     An unmodifiable list containing immutable objects of type {@link Version}.
      */
     public List<Version> getVersion() {
         return version;
@@ -319,7 +319,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Property}.
+     *     An unmodifiable list containing immutable objects of type {@link Property}.
      */
     public List<Property> getProperty() {
         return property;
@@ -355,7 +355,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -391,7 +391,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -403,7 +403,7 @@ public class Device extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSafety() {
         return safety;
@@ -609,7 +609,7 @@ public class Device extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -626,7 +626,7 @@ public class Device extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -644,7 +644,7 @@ public class Device extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -660,7 +660,7 @@ public class Device extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -679,7 +679,7 @@ public class Device extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -691,12 +691,15 @@ public class Device extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -708,12 +711,15 @@ public class Device extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -727,12 +733,15 @@ public class Device extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -746,12 +755,15 @@ public class Device extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -771,12 +783,15 @@ public class Device extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -796,12 +811,15 @@ public class Device extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -812,12 +830,15 @@ public class Device extends DomainResource {
          * <p>
          * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Instance identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -830,15 +851,18 @@ public class Device extends DomainResource {
          * <p>
          * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Instance identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -851,7 +875,7 @@ public class Device extends DomainResource {
          *     The reference to the definition for the device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder definition(Reference definition) {
             this.definition = definition;
@@ -864,12 +888,15 @@ public class Device extends DomainResource {
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param udiCarrier
          *     Unique Device Identifier (UDI) Barcode string
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder udiCarrier(UdiCarrier... udiCarrier) {
             for (UdiCarrier value : udiCarrier) {
@@ -884,15 +911,18 @@ public class Device extends DomainResource {
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param udiCarrier
          *     Unique Device Identifier (UDI) Barcode string
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder udiCarrier(Collection<UdiCarrier> udiCarrier) {
-            this.udiCarrier.addAll(udiCarrier);
+            this.udiCarrier = new ArrayList<>(udiCarrier);
             return this;
         }
 
@@ -905,7 +935,7 @@ public class Device extends DomainResource {
          *     active | inactive | entered-in-error | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(FHIRDeviceStatus status) {
             this.status = status;
@@ -916,12 +946,15 @@ public class Device extends DomainResource {
          * <p>
          * Reason for the dtatus of the Device availability.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param statusReason
          *     online | paused | standby | offline | not-ready | transduc-discon | hw-discon | off
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(CodeableConcept... statusReason) {
             for (CodeableConcept value : statusReason) {
@@ -934,15 +967,18 @@ public class Device extends DomainResource {
          * <p>
          * Reason for the dtatus of the Device availability.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param statusReason
          *     online | paused | standby | offline | not-ready | transduc-discon | hw-discon | off
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(Collection<CodeableConcept> statusReason) {
-            this.statusReason.addAll(statusReason);
+            this.statusReason = new ArrayList<>(statusReason);
             return this;
         }
 
@@ -956,7 +992,7 @@ public class Device extends DomainResource {
          *     The distinct identification string
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder distinctIdentifier(String distinctIdentifier) {
             this.distinctIdentifier = distinctIdentifier;
@@ -972,7 +1008,7 @@ public class Device extends DomainResource {
          *     Name of device manufacturer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder manufacturer(String manufacturer) {
             this.manufacturer = manufacturer;
@@ -988,7 +1024,7 @@ public class Device extends DomainResource {
          *     Date when the device was made
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder manufactureDate(DateTime manufactureDate) {
             this.manufactureDate = manufactureDate;
@@ -1004,7 +1040,7 @@ public class Device extends DomainResource {
          *     Date and time of expiry of this device (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expirationDate(DateTime expirationDate) {
             this.expirationDate = expirationDate;
@@ -1020,7 +1056,7 @@ public class Device extends DomainResource {
          *     Lot number of manufacture
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lotNumber(String lotNumber) {
             this.lotNumber = lotNumber;
@@ -1036,7 +1072,7 @@ public class Device extends DomainResource {
          *     Serial number assigned by the manufacturer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder serialNumber(String serialNumber) {
             this.serialNumber = serialNumber;
@@ -1049,12 +1085,15 @@ public class Device extends DomainResource {
          * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
          * one of the names available from DeviceDefinition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param deviceName
          *     The name of the device as given by the manufacturer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder deviceName(DeviceName... deviceName) {
             for (DeviceName value : deviceName) {
@@ -1069,15 +1108,18 @@ public class Device extends DomainResource {
          * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
          * one of the names available from DeviceDefinition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param deviceName
          *     The name of the device as given by the manufacturer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder deviceName(Collection<DeviceName> deviceName) {
-            this.deviceName.addAll(deviceName);
+            this.deviceName = new ArrayList<>(deviceName);
             return this;
         }
 
@@ -1090,7 +1132,7 @@ public class Device extends DomainResource {
          *     The model number for the device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modelNumber(String modelNumber) {
             this.modelNumber = modelNumber;
@@ -1106,7 +1148,7 @@ public class Device extends DomainResource {
          *     The part number of the device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partNumber(String partNumber) {
             this.partNumber = partNumber;
@@ -1122,7 +1164,7 @@ public class Device extends DomainResource {
          *     The kind or type of device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -1134,13 +1176,16 @@ public class Device extends DomainResource {
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          *     for the communication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialization(Specialization... specialization) {
             for (Specialization value : specialization) {
@@ -1154,16 +1199,19 @@ public class Device extends DomainResource {
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          *     for the communication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialization(Collection<Specialization> specialization) {
-            this.specialization.addAll(specialization);
+            this.specialization = new ArrayList<>(specialization);
             return this;
         }
 
@@ -1171,12 +1219,15 @@ public class Device extends DomainResource {
          * <p>
          * The actual design of the device or software version running on the device.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param version
          *     The actual design of the device or software version running on the device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(Version... version) {
             for (Version value : version) {
@@ -1189,15 +1240,18 @@ public class Device extends DomainResource {
          * <p>
          * The actual design of the device or software version running on the device.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param version
          *     The actual design of the device or software version running on the device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(Collection<Version> version) {
-            this.version.addAll(version);
+            this.version = new ArrayList<>(version);
             return this;
         }
 
@@ -1205,12 +1259,15 @@ public class Device extends DomainResource {
          * <p>
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder property(Property... property) {
             for (Property value : property) {
@@ -1223,15 +1280,18 @@ public class Device extends DomainResource {
          * <p>
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder property(Collection<Property> property) {
-            this.property.addAll(property);
+            this.property = new ArrayList<>(property);
             return this;
         }
 
@@ -1244,7 +1304,7 @@ public class Device extends DomainResource {
          *     Patient to whom Device is affixed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
@@ -1260,7 +1320,7 @@ public class Device extends DomainResource {
          *     Organization responsible for device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder owner(Reference owner) {
             this.owner = owner;
@@ -1271,12 +1331,15 @@ public class Device extends DomainResource {
          * <p>
          * Contact details for an organization or a particular human that is responsible for the device.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Details for human/organization for support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactPoint... contact) {
             for (ContactPoint value : contact) {
@@ -1289,15 +1352,18 @@ public class Device extends DomainResource {
          * <p>
          * Contact details for an organization or a particular human that is responsible for the device.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Details for human/organization for support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactPoint> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1310,7 +1376,7 @@ public class Device extends DomainResource {
          *     Where the device is found
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -1326,7 +1392,7 @@ public class Device extends DomainResource {
          *     Network address to contact device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -1337,12 +1403,15 @@ public class Device extends DomainResource {
          * <p>
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Device notes and comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1355,15 +1424,18 @@ public class Device extends DomainResource {
          * <p>
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Device notes and comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1371,12 +1443,15 @@ public class Device extends DomainResource {
          * <p>
          * Provides additional safety characteristics about a medical device. For example devices containing latex.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param safety
          *     Safety Characteristics of Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder safety(CodeableConcept... safety) {
             for (CodeableConcept value : safety) {
@@ -1389,15 +1464,18 @@ public class Device extends DomainResource {
          * <p>
          * Provides additional safety characteristics about a medical device. For example devices containing latex.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param safety
          *     Safety Characteristics of Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder safety(Collection<CodeableConcept> safety) {
-            this.safety.addAll(safety);
+            this.safety = new ArrayList<>(safety);
             return this;
         }
 
@@ -1410,7 +1488,7 @@ public class Device extends DomainResource {
          *     The parent device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(Reference parent) {
             this.parent = parent;
@@ -1668,7 +1746,7 @@ public class Device extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1682,12 +1760,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1701,12 +1782,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1726,12 +1810,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1751,12 +1838,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1773,7 +1863,7 @@ public class Device extends DomainResource {
              *     Mandatory fixed portion of UDI
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder deviceIdentifier(String deviceIdentifier) {
                 this.deviceIdentifier = deviceIdentifier;
@@ -1797,7 +1887,7 @@ public class Device extends DomainResource {
              *     UDI Issuing Organization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder issuer(Uri issuer) {
                 this.issuer = issuer;
@@ -1815,7 +1905,7 @@ public class Device extends DomainResource {
              *     Regional UDI authority
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder jurisdiction(Uri jurisdiction) {
                 this.jurisdiction = jurisdiction;
@@ -1833,7 +1923,7 @@ public class Device extends DomainResource {
              *     UDI Machine Readable Barcode String
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder carrierAIDC(Base64Binary carrierAIDC) {
                 this.carrierAIDC = carrierAIDC;
@@ -1850,7 +1940,7 @@ public class Device extends DomainResource {
              *     UDI Human Readable Barcode String
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder carrierHRF(String carrierHRF) {
                 this.carrierHRF = carrierHRF;
@@ -1866,7 +1956,7 @@ public class Device extends DomainResource {
              *     barcode | rfid | manual +
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder entryType(UDIEntryType entryType) {
                 this.entryType = entryType;
@@ -2021,7 +2111,7 @@ public class Device extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2035,12 +2125,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2054,12 +2147,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2079,12 +2175,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2104,12 +2203,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2257,7 +2359,7 @@ public class Device extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2271,12 +2373,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2290,12 +2395,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2315,12 +2423,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2340,12 +2451,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2361,7 +2475,7 @@ public class Device extends DomainResource {
              *     The version of the standard that is used to operate and communicate
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(String version) {
                 this.version = version;
@@ -2527,7 +2641,7 @@ public class Device extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2541,12 +2655,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2560,12 +2677,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2585,12 +2705,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2610,12 +2733,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2631,7 +2757,7 @@ public class Device extends DomainResource {
              *     The type of the device version
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2647,7 +2773,7 @@ public class Device extends DomainResource {
              *     A single component of the device version
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder component(Identifier component) {
                 this.component = component;
@@ -2707,7 +2833,7 @@ public class Device extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
          */
         public List<Quantity> getValueQuantity() {
             return valueQuantity;
@@ -2719,7 +2845,7 @@ public class Device extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getValueCode() {
             return valueCode;
@@ -2814,7 +2940,7 @@ public class Device extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2828,12 +2954,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2847,12 +2976,15 @@ public class Device extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2872,12 +3004,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2897,12 +3032,15 @@ public class Device extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2913,12 +3051,15 @@ public class Device extends DomainResource {
              * <p>
              * Property value as a quantity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param valueQuantity
              *     Property value as a quantity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueQuantity(Quantity... valueQuantity) {
                 for (Quantity value : valueQuantity) {
@@ -2931,15 +3072,18 @@ public class Device extends DomainResource {
              * <p>
              * Property value as a quantity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param valueQuantity
              *     Property value as a quantity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueQuantity(Collection<Quantity> valueQuantity) {
-                this.valueQuantity.addAll(valueQuantity);
+                this.valueQuantity = new ArrayList<>(valueQuantity);
                 return this;
             }
 
@@ -2947,12 +3091,15 @@ public class Device extends DomainResource {
              * <p>
              * Property value as a code, e.g., NTP4 (synced to NTP).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueCode(CodeableConcept... valueCode) {
                 for (CodeableConcept value : valueCode) {
@@ -2965,15 +3112,18 @@ public class Device extends DomainResource {
              * <p>
              * Property value as a code, e.g., NTP4 (synced to NTP).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueCode(Collection<CodeableConcept> valueCode) {
-                this.valueCode.addAll(valueCode);
+                this.valueCode = new ArrayList<>(valueCode);
                 return this;
             }
 

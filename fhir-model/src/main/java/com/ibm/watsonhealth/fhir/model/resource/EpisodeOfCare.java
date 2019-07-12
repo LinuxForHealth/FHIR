@@ -76,7 +76,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -101,7 +101,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link StatusHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link StatusHistory}.
      */
     public List<StatusHistory> getStatusHistory() {
         return statusHistory;
@@ -113,7 +113,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -125,7 +125,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -173,7 +173,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReferralRequest() {
         return referralRequest;
@@ -197,7 +197,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getTeam() {
         return team;
@@ -209,7 +209,7 @@ public class EpisodeOfCare extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAccount() {
         return account;
@@ -355,7 +355,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -372,7 +372,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -390,7 +390,7 @@ public class EpisodeOfCare extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -406,7 +406,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -425,7 +425,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -437,12 +437,15 @@ public class EpisodeOfCare extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -454,12 +457,15 @@ public class EpisodeOfCare extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -473,12 +479,15 @@ public class EpisodeOfCare extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -492,12 +501,15 @@ public class EpisodeOfCare extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -517,12 +529,15 @@ public class EpisodeOfCare extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -542,12 +557,15 @@ public class EpisodeOfCare extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -559,12 +577,15 @@ public class EpisodeOfCare extends DomainResource {
          * The EpisodeOfCare may be known by different identifiers for different contexts of use, such as when an external agency 
          * is tracking the Episode for funding purposes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier(s) relevant for this EpisodeOfCare
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -578,15 +599,18 @@ public class EpisodeOfCare extends DomainResource {
          * The EpisodeOfCare may be known by different identifiers for different contexts of use, such as when an external agency 
          * is tracking the Episode for funding purposes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier(s) relevant for this EpisodeOfCare
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -595,12 +619,15 @@ public class EpisodeOfCare extends DomainResource {
          * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
          * resource).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param statusHistory
          *     Past list of status codes (the current status may be included to cover the start date of the status)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusHistory(StatusHistory... statusHistory) {
             for (StatusHistory value : statusHistory) {
@@ -614,15 +641,18 @@ public class EpisodeOfCare extends DomainResource {
          * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
          * resource).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param statusHistory
          *     Past list of status codes (the current status may be included to cover the start date of the status)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusHistory(Collection<StatusHistory> statusHistory) {
-            this.statusHistory.addAll(statusHistory);
+            this.statusHistory = new ArrayList<>(statusHistory);
             return this;
         }
 
@@ -630,12 +660,15 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     Type/class - e.g. specialist referral, disease management
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept... type) {
             for (CodeableConcept value : type) {
@@ -648,15 +681,18 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     Type/class - e.g. specialist referral, disease management
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<CodeableConcept> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -664,12 +700,15 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The list of diagnosis relevant to this episode of care.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this episode of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Diagnosis... diagnosis) {
             for (Diagnosis value : diagnosis) {
@@ -682,15 +721,18 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The list of diagnosis relevant to this episode of care.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this episode of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder diagnosis(Collection<Diagnosis> diagnosis) {
-            this.diagnosis.addAll(diagnosis);
+            this.diagnosis = new ArrayList<>(diagnosis);
             return this;
         }
 
@@ -703,7 +745,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Organization that assumes care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder managingOrganization(Reference managingOrganization) {
             this.managingOrganization = managingOrganization;
@@ -719,7 +761,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Interval during responsibility is assumed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -730,12 +772,15 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param referralRequest
          *     Originating Referral Request(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referralRequest(Reference... referralRequest) {
             for (Reference value : referralRequest) {
@@ -748,15 +793,18 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param referralRequest
          *     Originating Referral Request(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referralRequest(Collection<Reference> referralRequest) {
-            this.referralRequest.addAll(referralRequest);
+            this.referralRequest = new ArrayList<>(referralRequest);
             return this;
         }
 
@@ -769,7 +817,7 @@ public class EpisodeOfCare extends DomainResource {
          *     Care manager/care coordinator for the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder careManager(Reference careManager) {
             this.careManager = careManager;
@@ -780,12 +828,15 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The list of practitioners that may be facilitating this episode of care for specific purposes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param team
          *     Other practitioners facilitating this episode of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder team(Reference... team) {
             for (Reference value : team) {
@@ -798,15 +849,18 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The list of practitioners that may be facilitating this episode of care for specific purposes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param team
          *     Other practitioners facilitating this episode of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder team(Collection<Reference> team) {
-            this.team.addAll(team);
+            this.team = new ArrayList<>(team);
             return this;
         }
 
@@ -814,12 +868,15 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The set of accounts that may be used for billing for this EpisodeOfCare.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder account(Reference... account) {
             for (Reference value : account) {
@@ -832,15 +889,18 @@ public class EpisodeOfCare extends DomainResource {
          * <p>
          * The set of accounts that may be used for billing for this EpisodeOfCare.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder account(Collection<Reference> account) {
-            this.account.addAll(account);
+            this.account = new ArrayList<>(account);
             return this;
         }
 
@@ -998,7 +1058,7 @@ public class EpisodeOfCare extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1012,12 +1072,15 @@ public class EpisodeOfCare extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1031,12 +1094,15 @@ public class EpisodeOfCare extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1056,12 +1122,15 @@ public class EpisodeOfCare extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1081,12 +1150,15 @@ public class EpisodeOfCare extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1251,7 +1323,7 @@ public class EpisodeOfCare extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1265,12 +1337,15 @@ public class EpisodeOfCare extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1284,12 +1359,15 @@ public class EpisodeOfCare extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1309,12 +1387,15 @@ public class EpisodeOfCare extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1334,12 +1415,15 @@ public class EpisodeOfCare extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1355,7 +1439,7 @@ public class EpisodeOfCare extends DomainResource {
              *     Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept role) {
                 this.role = role;
@@ -1371,7 +1455,7 @@ public class EpisodeOfCare extends DomainResource {
              *     Ranking of the diagnosis (for each role type)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder rank(PositiveInt rank) {
                 this.rank = rank;

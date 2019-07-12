@@ -70,7 +70,7 @@ public class ImmunizationRecommendation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -118,7 +118,7 @@ public class ImmunizationRecommendation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Recommendation}.
+     *     An unmodifiable list containing immutable objects of type {@link Recommendation}.
      */
     public List<Recommendation> getRecommendation() {
         return recommendation;
@@ -237,7 +237,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -254,7 +254,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -272,7 +272,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -288,7 +288,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -307,7 +307,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -319,12 +319,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -336,12 +339,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -355,12 +361,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -374,12 +383,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -399,12 +411,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -424,12 +439,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -440,12 +458,15 @@ public class ImmunizationRecommendation extends DomainResource {
          * <p>
          * A unique identifier assigned to this particular recommendation record.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -458,15 +479,18 @@ public class ImmunizationRecommendation extends DomainResource {
          * <p>
          * A unique identifier assigned to this particular recommendation record.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -479,7 +503,7 @@ public class ImmunizationRecommendation extends DomainResource {
          *     Who is responsible for protocol
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authority(Reference authority) {
             this.authority = authority;
@@ -549,7 +573,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getVaccineCode() {
             return vaccineCode;
@@ -573,7 +597,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getContraindicatedVaccineCode() {
             return contraindicatedVaccineCode;
@@ -597,7 +621,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getForecastReason() {
             return forecastReason;
@@ -609,7 +633,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DateCriterion}.
+         *     An unmodifiable list containing immutable objects of type {@link DateCriterion}.
          */
         public List<DateCriterion> getDateCriterion() {
             return dateCriterion;
@@ -669,7 +693,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getSupportingImmunization() {
             return supportingImmunization;
@@ -682,7 +706,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getSupportingPatientInformation() {
             return supportingPatientInformation;
@@ -813,7 +837,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -827,12 +851,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -846,12 +873,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -871,12 +901,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -896,12 +929,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -912,12 +948,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine(s) or vaccine group that pertain to the recommendation.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param vaccineCode
              *     Vaccine or vaccine group recommendation applies to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder vaccineCode(CodeableConcept... vaccineCode) {
                 for (CodeableConcept value : vaccineCode) {
@@ -930,15 +969,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine(s) or vaccine group that pertain to the recommendation.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param vaccineCode
              *     Vaccine or vaccine group recommendation applies to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder vaccineCode(Collection<CodeableConcept> vaccineCode) {
-                this.vaccineCode.addAll(vaccineCode);
+                this.vaccineCode = new ArrayList<>(vaccineCode);
                 return this;
             }
 
@@ -951,7 +993,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Disease to be immunized against
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetDisease(CodeableConcept targetDisease) {
                 this.targetDisease = targetDisease;
@@ -962,12 +1004,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine(s) which should not be used to fulfill the recommendation.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param contraindicatedVaccineCode
              *     Vaccine which is contraindicated to fulfill the recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder contraindicatedVaccineCode(CodeableConcept... contraindicatedVaccineCode) {
                 for (CodeableConcept value : contraindicatedVaccineCode) {
@@ -980,15 +1025,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine(s) which should not be used to fulfill the recommendation.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param contraindicatedVaccineCode
              *     Vaccine which is contraindicated to fulfill the recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder contraindicatedVaccineCode(Collection<CodeableConcept> contraindicatedVaccineCode) {
-                this.contraindicatedVaccineCode.addAll(contraindicatedVaccineCode);
+                this.contraindicatedVaccineCode = new ArrayList<>(contraindicatedVaccineCode);
                 return this;
             }
 
@@ -996,12 +1044,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * The reason for the assigned forecast status.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param forecastReason
              *     Vaccine administration status reason
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder forecastReason(CodeableConcept... forecastReason) {
                 for (CodeableConcept value : forecastReason) {
@@ -1014,15 +1065,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * The reason for the assigned forecast status.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param forecastReason
              *     Vaccine administration status reason
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder forecastReason(Collection<CodeableConcept> forecastReason) {
-                this.forecastReason.addAll(forecastReason);
+                this.forecastReason = new ArrayList<>(forecastReason);
                 return this;
             }
 
@@ -1030,12 +1084,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine date recommendations. For example, earliest date to administer, latest date to administer, etc.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param dateCriterion
              *     Dates governing proposed immunization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dateCriterion(DateCriterion... dateCriterion) {
                 for (DateCriterion value : dateCriterion) {
@@ -1048,15 +1105,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Vaccine date recommendations. For example, earliest date to administer, latest date to administer, etc.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param dateCriterion
              *     Dates governing proposed immunization
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dateCriterion(Collection<DateCriterion> dateCriterion) {
-                this.dateCriterion.addAll(dateCriterion);
+                this.dateCriterion = new ArrayList<>(dateCriterion);
                 return this;
             }
 
@@ -1069,7 +1129,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Protocol details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1085,7 +1145,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Name of vaccination series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder series(String series) {
                 this.series = series;
@@ -1101,7 +1161,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Recommended dose number within series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder doseNumber(Element doseNumber) {
                 this.doseNumber = doseNumber;
@@ -1117,7 +1177,7 @@ public class ImmunizationRecommendation extends DomainResource {
              *     Recommended number of doses for immunity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder seriesDoses(Element seriesDoses) {
                 this.seriesDoses = seriesDoses;
@@ -1128,12 +1188,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Immunization event history and/or evaluation that supports the status and recommendation.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param supportingImmunization
              *     Past immunizations supporting recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportingImmunization(Reference... supportingImmunization) {
                 for (Reference value : supportingImmunization) {
@@ -1146,15 +1209,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * <p>
              * Immunization event history and/or evaluation that supports the status and recommendation.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param supportingImmunization
              *     Past immunizations supporting recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportingImmunization(Collection<Reference> supportingImmunization) {
-                this.supportingImmunization.addAll(supportingImmunization);
+                this.supportingImmunization = new ArrayList<>(supportingImmunization);
                 return this;
             }
 
@@ -1163,12 +1229,15 @@ public class ImmunizationRecommendation extends DomainResource {
              * Patient Information that supports the status and recommendation. This includes patient observations, adverse reactions 
              * and allergy/intolerance information.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param supportingPatientInformation
              *     Patient observations supporting recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportingPatientInformation(Reference... supportingPatientInformation) {
                 for (Reference value : supportingPatientInformation) {
@@ -1182,15 +1251,18 @@ public class ImmunizationRecommendation extends DomainResource {
              * Patient Information that supports the status and recommendation. This includes patient observations, adverse reactions 
              * and allergy/intolerance information.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param supportingPatientInformation
              *     Patient observations supporting recommendation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportingPatientInformation(Collection<Reference> supportingPatientInformation) {
-                this.supportingPatientInformation.addAll(supportingPatientInformation);
+                this.supportingPatientInformation = new ArrayList<>(supportingPatientInformation);
                 return this;
             }
 
@@ -1343,7 +1415,7 @@ public class ImmunizationRecommendation extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1357,12 +1429,15 @@ public class ImmunizationRecommendation extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1376,12 +1451,15 @@ public class ImmunizationRecommendation extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1401,12 +1479,15 @@ public class ImmunizationRecommendation extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1426,12 +1507,15 @@ public class ImmunizationRecommendation extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

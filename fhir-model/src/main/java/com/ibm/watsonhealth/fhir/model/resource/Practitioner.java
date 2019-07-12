@@ -75,7 +75,7 @@ public class Practitioner extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -99,7 +99,7 @@ public class Practitioner extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
      */
     public List<HumanName> getName() {
         return name;
@@ -111,7 +111,7 @@ public class Practitioner extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -125,7 +125,7 @@ Work addresses are not typically
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address}.
      */
     public List<Address> getAddress() {
         return address;
@@ -162,7 +162,7 @@ Work addresses are not typically
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -176,7 +176,7 @@ Work addresses are not typically
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Qualification}.
+     *     An unmodifiable list containing immutable objects of type {@link Qualification}.
      */
     public List<Qualification> getQualification() {
         return qualification;
@@ -188,7 +188,7 @@ Work addresses are not typically
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCommunication() {
         return communication;
@@ -318,7 +318,7 @@ Work addresses are not typically
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -335,7 +335,7 @@ Work addresses are not typically
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -353,7 +353,7 @@ Work addresses are not typically
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -369,7 +369,7 @@ Work addresses are not typically
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -388,7 +388,7 @@ Work addresses are not typically
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -400,12 +400,15 @@ Work addresses are not typically
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -417,12 +420,15 @@ Work addresses are not typically
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -436,12 +442,15 @@ Work addresses are not typically
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -455,12 +464,15 @@ Work addresses are not typically
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -480,12 +492,15 @@ Work addresses are not typically
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -505,12 +520,15 @@ Work addresses are not typically
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -521,12 +539,15 @@ Work addresses are not typically
          * <p>
          * An identifier that applies to this person in this role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     An identifier for the person as this agent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -539,15 +560,18 @@ Work addresses are not typically
          * <p>
          * An identifier that applies to this person in this role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     An identifier for the person as this agent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -560,7 +584,7 @@ Work addresses are not typically
          *     Whether this practitioner's record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -571,12 +595,15 @@ Work addresses are not typically
          * <p>
          * The name(s) associated with the practitioner.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param name
          *     The name(s) associated with the practitioner
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(HumanName... name) {
             for (HumanName value : name) {
@@ -589,15 +616,18 @@ Work addresses are not typically
          * <p>
          * The name(s) associated with the practitioner.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param name
          *     The name(s) associated with the practitioner
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(Collection<HumanName> name) {
-            this.name.addAll(name);
+            this.name = new ArrayList<>(name);
             return this;
         }
 
@@ -605,12 +635,15 @@ Work addresses are not typically
          * <p>
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -623,15 +656,18 @@ Work addresses are not typically
          * <p>
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -641,12 +677,15 @@ Work addresses are not typically
 Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Address... address) {
             for (Address value : address) {
@@ -661,15 +700,18 @@ Work addresses are not typically
 Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Collection<Address> address) {
-            this.address.addAll(address);
+            this.address = new ArrayList<>(address);
             return this;
         }
 
@@ -683,7 +725,7 @@ Work addresses are not typically
          *     male | female | other | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
@@ -699,7 +741,7 @@ Work addresses are not typically
          *     The date on which the practitioner was born
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder birthDate(Date birthDate) {
             this.birthDate = birthDate;
@@ -710,12 +752,15 @@ Work addresses are not typically
          * <p>
          * Image of the person.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param photo
          *     Image of the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Attachment... photo) {
             for (Attachment value : photo) {
@@ -728,15 +773,18 @@ Work addresses are not typically
          * <p>
          * Image of the person.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param photo
          *     Image of the person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Collection<Attachment> photo) {
-            this.photo.addAll(photo);
+            this.photo = new ArrayList<>(photo);
             return this;
         }
 
@@ -746,12 +794,15 @@ Work addresses are not typically
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder qualification(Qualification... qualification) {
             for (Qualification value : qualification) {
@@ -766,15 +817,18 @@ Work addresses are not typically
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder qualification(Collection<Qualification> qualification) {
-            this.qualification.addAll(qualification);
+            this.qualification = new ArrayList<>(qualification);
             return this;
         }
 
@@ -782,12 +836,15 @@ Work addresses are not typically
          * <p>
          * A language the practitioner can use in patient communication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(CodeableConcept... communication) {
             for (CodeableConcept value : communication) {
@@ -800,15 +857,18 @@ Work addresses are not typically
          * <p>
          * A language the practitioner can use in patient communication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Collection<CodeableConcept> communication) {
-            this.communication.addAll(communication);
+            this.communication = new ArrayList<>(communication);
             return this;
         }
 
@@ -869,7 +929,7 @@ Work addresses are not typically
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1004,7 +1064,7 @@ Work addresses are not typically
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1018,12 +1078,15 @@ Work addresses are not typically
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1037,12 +1100,15 @@ Work addresses are not typically
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1062,12 +1128,15 @@ Work addresses are not typically
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1087,12 +1156,15 @@ Work addresses are not typically
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1103,12 +1175,15 @@ Work addresses are not typically
              * <p>
              * An identifier that applies to this person's qualification in this role.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier... identifier) {
                 for (Identifier value : identifier) {
@@ -1121,15 +1196,18 @@ Work addresses are not typically
              * <p>
              * An identifier that applies to this person's qualification in this role.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Collection<Identifier> identifier) {
-                this.identifier.addAll(identifier);
+                this.identifier = new ArrayList<>(identifier);
                 return this;
             }
 
@@ -1142,7 +1220,7 @@ Work addresses are not typically
              *     Period during which the qualification is valid
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1158,7 +1236,7 @@ Work addresses are not typically
              *     Organization that regulates and issues the qualification
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder issuer(Reference issuer) {
                 this.issuer = issuer;

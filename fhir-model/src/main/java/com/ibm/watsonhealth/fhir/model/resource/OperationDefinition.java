@@ -261,7 +261,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -287,7 +287,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -299,7 +299,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -372,7 +372,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
      */
     public List<ResourceType> getResource() {
         return resource;
@@ -448,7 +448,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -461,7 +461,7 @@ public class OperationDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Overload}.
+     *     An unmodifiable list containing immutable objects of type {@link Overload}.
      */
     public List<Overload> getOverload() {
         return overload;
@@ -668,7 +668,7 @@ public class OperationDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -685,7 +685,7 @@ public class OperationDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -703,7 +703,7 @@ public class OperationDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -719,7 +719,7 @@ public class OperationDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -738,7 +738,7 @@ public class OperationDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -750,12 +750,15 @@ public class OperationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -767,12 +770,15 @@ public class OperationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -786,12 +792,15 @@ public class OperationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -805,12 +814,15 @@ public class OperationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -830,12 +842,15 @@ public class OperationDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -855,12 +870,15 @@ public class OperationDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -880,7 +898,7 @@ public class OperationDefinition extends DomainResource {
          *     Canonical identifier for this operation definition, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -899,7 +917,7 @@ public class OperationDefinition extends DomainResource {
          *     Business version of the operation definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -915,7 +933,7 @@ public class OperationDefinition extends DomainResource {
          *     Name for this operation definition (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -932,7 +950,7 @@ public class OperationDefinition extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -950,7 +968,7 @@ public class OperationDefinition extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -966,7 +984,7 @@ public class OperationDefinition extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -977,12 +995,15 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -995,15 +1016,18 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1016,7 +1040,7 @@ public class OperationDefinition extends DomainResource {
          *     Natural language description of the operation definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1029,12 +1053,15 @@ public class OperationDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1049,15 +1076,18 @@ public class OperationDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1065,12 +1095,15 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the operation definition is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1083,15 +1116,18 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the operation definition is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1104,7 +1140,7 @@ public class OperationDefinition extends DomainResource {
          *     Why this operation definition is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1121,7 +1157,7 @@ public class OperationDefinition extends DomainResource {
          *     Whether content is changed by the operation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder affectsState(Boolean affectsState) {
             this.affectsState = affectsState;
@@ -1137,7 +1173,7 @@ public class OperationDefinition extends DomainResource {
          *     Additional information about use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(Markdown comment) {
             this.comment = comment;
@@ -1153,7 +1189,7 @@ public class OperationDefinition extends DomainResource {
          *     Marks this as a profile of the base
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder base(Canonical base) {
             this.base = base;
@@ -1164,12 +1200,15 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * The types on which this operation can be executed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param resource
          *     Types this operation applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resource(ResourceType... resource) {
             for (ResourceType value : resource) {
@@ -1182,15 +1221,18 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * The types on which this operation can be executed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param resource
          *     Types this operation applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resource(Collection<ResourceType> resource) {
-            this.resource.addAll(resource);
+            this.resource = new ArrayList<>(resource);
             return this;
         }
 
@@ -1204,7 +1246,7 @@ public class OperationDefinition extends DomainResource {
          *     Validation information for in parameters
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder inputProfile(Canonical inputProfile) {
             this.inputProfile = inputProfile;
@@ -1221,7 +1263,7 @@ public class OperationDefinition extends DomainResource {
          *     Validation information for out parameters
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outputProfile(Canonical outputProfile) {
             this.outputProfile = outputProfile;
@@ -1232,12 +1274,15 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * The parameters for the operation/query.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parameter
          *     Parameters for the operation/query
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parameter(Parameter... parameter) {
             for (Parameter value : parameter) {
@@ -1250,15 +1295,18 @@ public class OperationDefinition extends DomainResource {
          * <p>
          * The parameters for the operation/query.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parameter
          *     Parameters for the operation/query
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parameter(Collection<Parameter> parameter) {
-            this.parameter.addAll(parameter);
+            this.parameter = new ArrayList<>(parameter);
             return this;
         }
 
@@ -1267,12 +1315,15 @@ public class OperationDefinition extends DomainResource {
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param overload
          *     Define overloaded variants for when generating code
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder overload(Overload... overload) {
             for (Overload value : overload) {
@@ -1286,15 +1337,18 @@ public class OperationDefinition extends DomainResource {
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param overload
          *     Define overloaded variants for when generating code
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder overload(Collection<Overload> overload) {
-            this.overload.addAll(overload);
+            this.overload = new ArrayList<>(overload);
             return this;
         }
 
@@ -1452,7 +1506,7 @@ public class OperationDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
          */
         public List<Canonical> getTargetProfile() {
             return targetProfile;
@@ -1488,7 +1542,7 @@ public class OperationDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ReferencedFrom}.
+         *     An unmodifiable list containing immutable objects of type {@link ReferencedFrom}.
          */
         public List<ReferencedFrom> getReferencedFrom() {
             return referencedFrom;
@@ -1500,7 +1554,7 @@ public class OperationDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
          */
         public List<OperationDefinition.Parameter> getPart() {
             return part;
@@ -1630,7 +1684,7 @@ public class OperationDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1644,12 +1698,15 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1663,12 +1720,15 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1688,12 +1748,15 @@ public class OperationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1713,12 +1776,15 @@ public class OperationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1734,7 +1800,7 @@ public class OperationDefinition extends DomainResource {
              *     Description of meaning/use
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(String documentation) {
                 this.documentation = documentation;
@@ -1750,7 +1816,7 @@ public class OperationDefinition extends DomainResource {
              *     What type this parameter has
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(FHIRAllTypes type) {
                 this.type = type;
@@ -1765,12 +1831,15 @@ public class OperationDefinition extends DomainResource {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetProfile(Canonical... targetProfile) {
                 for (Canonical value : targetProfile) {
@@ -1787,15 +1856,18 @@ public class OperationDefinition extends DomainResource {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetProfile(Collection<Canonical> targetProfile) {
-                this.targetProfile.addAll(targetProfile);
+                this.targetProfile = new ArrayList<>(targetProfile);
                 return this;
             }
 
@@ -1808,7 +1880,7 @@ public class OperationDefinition extends DomainResource {
              *     number | date | string | token | reference | composite | quantity | uri | special
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder searchType(SearchParamType searchType) {
                 this.searchType = searchType;
@@ -1824,7 +1896,7 @@ public class OperationDefinition extends DomainResource {
              *     ValueSet details if this is coded
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder binding(Binding binding) {
                 this.binding = binding;
@@ -1835,12 +1907,15 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param referencedFrom
              *     References to this parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referencedFrom(ReferencedFrom... referencedFrom) {
                 for (ReferencedFrom value : referencedFrom) {
@@ -1853,15 +1928,18 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param referencedFrom
              *     References to this parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referencedFrom(Collection<ReferencedFrom> referencedFrom) {
-                this.referencedFrom.addAll(referencedFrom);
+                this.referencedFrom = new ArrayList<>(referencedFrom);
                 return this;
             }
 
@@ -1869,12 +1947,15 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * The parts of a nested Parameter.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param part
              *     Parts of a nested Parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder part(OperationDefinition.Parameter... part) {
                 for (OperationDefinition.Parameter value : part) {
@@ -1887,15 +1968,18 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * The parts of a nested Parameter.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param part
              *     Parts of a nested Parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder part(Collection<OperationDefinition.Parameter> part) {
-                this.part.addAll(part);
+                this.part = new ArrayList<>(part);
                 return this;
             }
 
@@ -2045,7 +2129,7 @@ public class OperationDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2059,12 +2143,15 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2078,12 +2165,15 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2103,12 +2193,15 @@ public class OperationDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2128,12 +2221,15 @@ public class OperationDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2281,7 +2377,7 @@ public class OperationDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2295,12 +2391,15 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2314,12 +2413,15 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2339,12 +2441,15 @@ public class OperationDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2364,12 +2469,15 @@ public class OperationDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2385,7 +2493,7 @@ public class OperationDefinition extends DomainResource {
                  *     Element id of reference
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder sourceId(String sourceId) {
                     this.sourceId = sourceId;
@@ -2432,7 +2540,7 @@ public class OperationDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String}.
          */
         public List<String> getParameterName() {
             return parameterName;
@@ -2528,7 +2636,7 @@ public class OperationDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2542,12 +2650,15 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2561,12 +2672,15 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2586,12 +2700,15 @@ public class OperationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2611,12 +2728,15 @@ public class OperationDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2627,12 +2747,15 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * Name of parameter to include in overload.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param parameterName
              *     Name of parameter to include in overload
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameterName(String... parameterName) {
                 for (String value : parameterName) {
@@ -2645,15 +2768,18 @@ public class OperationDefinition extends DomainResource {
              * <p>
              * Name of parameter to include in overload.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param parameterName
              *     Name of parameter to include in overload
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder parameterName(Collection<String> parameterName) {
-                this.parameterName.addAll(parameterName);
+                this.parameterName = new ArrayList<>(parameterName);
                 return this;
             }
 
@@ -2666,7 +2792,7 @@ public class OperationDefinition extends DomainResource {
              *     Comments to go on overload
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder comment(String comment) {
                 this.comment = comment;

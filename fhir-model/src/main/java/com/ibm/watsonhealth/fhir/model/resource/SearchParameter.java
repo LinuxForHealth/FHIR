@@ -240,7 +240,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -266,7 +266,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -278,7 +278,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -314,7 +314,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
      */
     public List<ResourceType> getBase() {
         return base;
@@ -374,7 +374,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
      */
     public List<ResourceType> getTarget() {
         return target;
@@ -412,7 +412,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link SearchComparator}.
+     *     An unmodifiable list containing immutable objects of type {@link SearchComparator}.
      */
     public List<SearchComparator> getComparator() {
         return comparator;
@@ -424,7 +424,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link SearchModifierCode}.
+     *     An unmodifiable list containing immutable objects of type {@link SearchModifierCode}.
      */
     public List<SearchModifierCode> getModifier() {
         return modifier;
@@ -439,7 +439,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getChain() {
         return chain;
@@ -451,7 +451,7 @@ public class SearchParameter extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Component}.
+     *     An unmodifiable list containing immutable objects of type {@link Component}.
      */
     public List<Component> getComponent() {
         return component;
@@ -658,7 +658,7 @@ public class SearchParameter extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -675,7 +675,7 @@ public class SearchParameter extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -693,7 +693,7 @@ public class SearchParameter extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -709,7 +709,7 @@ public class SearchParameter extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -728,7 +728,7 @@ public class SearchParameter extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -740,12 +740,15 @@ public class SearchParameter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -757,12 +760,15 @@ public class SearchParameter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -776,12 +782,15 @@ public class SearchParameter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -795,12 +804,15 @@ public class SearchParameter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -820,12 +832,15 @@ public class SearchParameter extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -845,12 +860,15 @@ public class SearchParameter extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -869,7 +887,7 @@ public class SearchParameter extends DomainResource {
          *     Business version of the search parameter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -887,7 +905,7 @@ public class SearchParameter extends DomainResource {
          *     Original definition for the search parameter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivedFrom(Canonical derivedFrom) {
             this.derivedFrom = derivedFrom;
@@ -904,7 +922,7 @@ public class SearchParameter extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -922,7 +940,7 @@ public class SearchParameter extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -938,7 +956,7 @@ public class SearchParameter extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -949,12 +967,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -967,15 +988,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -985,12 +1009,15 @@ public class SearchParameter extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1005,15 +1032,18 @@ public class SearchParameter extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1021,12 +1051,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * A legal or geographic region in which the search parameter is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1039,15 +1072,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * A legal or geographic region in which the search parameter is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1060,7 +1096,7 @@ public class SearchParameter extends DomainResource {
          *     Why this search parameter is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1076,7 +1112,7 @@ public class SearchParameter extends DomainResource {
          *     FHIRPath expression that extracts the values
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expression(String expression) {
             this.expression = expression;
@@ -1092,7 +1128,7 @@ public class SearchParameter extends DomainResource {
          *     XPath that extracts the values
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder xpath(String xpath) {
             this.xpath = xpath;
@@ -1108,7 +1144,7 @@ public class SearchParameter extends DomainResource {
          *     normal | phonetic | nearby | distance | other
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder xpathUsage(XPathUsageType xpathUsage) {
             this.xpathUsage = xpathUsage;
@@ -1119,12 +1155,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Types of resource (if a resource is referenced).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param target
          *     Types of resource (if a resource reference)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(ResourceType... target) {
             for (ResourceType value : target) {
@@ -1137,15 +1176,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Types of resource (if a resource is referenced).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param target
          *     Types of resource (if a resource reference)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Collection<ResourceType> target) {
-            this.target.addAll(target);
+            this.target = new ArrayList<>(target);
             return this;
         }
 
@@ -1159,7 +1201,7 @@ public class SearchParameter extends DomainResource {
          *     Allow multiple values per parameter (or)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder multipleOr(Boolean multipleOr) {
             this.multipleOr = multipleOr;
@@ -1176,7 +1218,7 @@ public class SearchParameter extends DomainResource {
          *     Allow multiple parameters (and)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder multipleAnd(Boolean multipleAnd) {
             this.multipleAnd = multipleAnd;
@@ -1187,12 +1229,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Comparators supported for the search parameter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comparator(SearchComparator... comparator) {
             for (SearchComparator value : comparator) {
@@ -1205,15 +1250,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Comparators supported for the search parameter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comparator(Collection<SearchComparator> comparator) {
-            this.comparator.addAll(comparator);
+            this.comparator = new ArrayList<>(comparator);
             return this;
         }
 
@@ -1221,12 +1269,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * A modifier supported for the search parameter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifier(SearchModifierCode... modifier) {
             for (SearchModifierCode value : modifier) {
@@ -1239,15 +1290,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * A modifier supported for the search parameter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifier(Collection<SearchModifierCode> modifier) {
-            this.modifier.addAll(modifier);
+            this.modifier = new ArrayList<>(modifier);
             return this;
         }
 
@@ -1258,12 +1312,15 @@ public class SearchParameter extends DomainResource {
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param chain
          *     Chained names supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder chain(String... chain) {
             for (String value : chain) {
@@ -1279,15 +1336,18 @@ public class SearchParameter extends DomainResource {
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param chain
          *     Chained names supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder chain(Collection<String> chain) {
-            this.chain.addAll(chain);
+            this.chain = new ArrayList<>(chain);
             return this;
         }
 
@@ -1295,12 +1355,15 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Used to define the parts of a composite search parameter.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param component
          *     For Composite resources to define the parts
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder component(Component... component) {
             for (Component value : component) {
@@ -1313,15 +1376,18 @@ public class SearchParameter extends DomainResource {
          * <p>
          * Used to define the parts of a composite search parameter.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param component
          *     For Composite resources to define the parts
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder component(Collection<Component> component) {
-            this.component.addAll(component);
+            this.component = new ArrayList<>(component);
             return this;
         }
 
@@ -1488,7 +1554,7 @@ public class SearchParameter extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1502,12 +1568,15 @@ public class SearchParameter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1521,12 +1590,15 @@ public class SearchParameter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1546,12 +1618,15 @@ public class SearchParameter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1571,12 +1646,15 @@ public class SearchParameter extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

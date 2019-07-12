@@ -267,7 +267,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link PropertyRepresentation}.
+     *     An unmodifiable list containing immutable objects of type {@link PropertyRepresentation}.
      */
     public List<PropertyRepresentation> getRepresentation() {
         return representation;
@@ -320,7 +320,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getCode() {
         return code;
@@ -401,7 +401,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getAlias() {
         return alias;
@@ -467,7 +467,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Type}.
+     *     An unmodifiable list containing immutable objects of type {@link Type}.
      */
     public List<Type> getType() {
         return type;
@@ -562,7 +562,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Example}.
+     *     An unmodifiable list containing immutable objects of type {@link Example}.
      */
     public List<Example> getExample() {
         return example;
@@ -613,7 +613,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Id}.
+     *     An unmodifiable list containing immutable objects of type {@link Id}.
      */
     public List<Id> getCondition() {
         return condition;
@@ -626,7 +626,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Constraint}.
+     *     An unmodifiable list containing immutable objects of type {@link Constraint}.
      */
     public List<Constraint> getConstraint() {
         return constraint;
@@ -704,7 +704,7 @@ public class ElementDefinition extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Mapping}.
+     *     An unmodifiable list containing immutable objects of type {@link Mapping}.
      */
     public List<Mapping> getMapping() {
         return mapping;
@@ -923,7 +923,7 @@ public class ElementDefinition extends BackboneElement {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -937,12 +937,15 @@ public class ElementDefinition extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -956,12 +959,15 @@ public class ElementDefinition extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -981,12 +987,15 @@ public class ElementDefinition extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -1006,12 +1015,15 @@ public class ElementDefinition extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1022,12 +1034,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder representation(PropertyRepresentation... representation) {
             for (PropertyRepresentation value : representation) {
@@ -1040,15 +1055,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder representation(Collection<PropertyRepresentation> representation) {
-            this.representation.addAll(representation);
+            this.representation = new ArrayList<>(representation);
             return this;
         }
 
@@ -1063,7 +1081,7 @@ public class ElementDefinition extends BackboneElement {
          *     Name for this particular element (in a set of slices)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sliceName(String sliceName) {
             this.sliceName = sliceName;
@@ -1081,7 +1099,7 @@ public class ElementDefinition extends BackboneElement {
          *     If this slice definition constrains an inherited slice definition (or not)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sliceIsConstraining(Boolean sliceIsConstraining) {
             this.sliceIsConstraining = sliceIsConstraining;
@@ -1098,7 +1116,7 @@ public class ElementDefinition extends BackboneElement {
          *     Name for element to display with or prompt for element
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder label(String label) {
             this.label = label;
@@ -1109,12 +1127,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A code that has the same meaning as the element in a particular terminology.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param code
          *     Corresponding codes in terminologies
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Coding... code) {
             for (Coding value : code) {
@@ -1127,15 +1148,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A code that has the same meaning as the element in a particular terminology.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param code
          *     Corresponding codes in terminologies
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Collection<Coding> code) {
-            this.code.addAll(code);
+            this.code = new ArrayList<>(code);
             return this;
         }
 
@@ -1152,7 +1176,7 @@ public class ElementDefinition extends BackboneElement {
          *     This element is sliced - slices follow
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder slicing(Slicing slicing) {
             this.slicing = slicing;
@@ -1168,7 +1192,7 @@ public class ElementDefinition extends BackboneElement {
          *     Concise definition for space-constrained presentation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder _short(String _short) {
             this._short = _short;
@@ -1187,7 +1211,7 @@ public class ElementDefinition extends BackboneElement {
          *     Full formal definition as narrative text
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder definition(Markdown definition) {
             this.definition = definition;
@@ -1204,7 +1228,7 @@ public class ElementDefinition extends BackboneElement {
          *     Comments about the use of this element
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comment(Markdown comment) {
             this.comment = comment;
@@ -1221,7 +1245,7 @@ public class ElementDefinition extends BackboneElement {
          *     Why this resource has been created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requirements(Markdown requirements) {
             this.requirements = requirements;
@@ -1232,12 +1256,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Identifies additional names by which this element might also be known.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param alias
          *     Other names
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(String... alias) {
             for (String value : alias) {
@@ -1250,15 +1277,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Identifies additional names by which this element might also be known.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param alias
          *     Other names
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder alias(Collection<String> alias) {
-            this.alias.addAll(alias);
+            this.alias = new ArrayList<>(alias);
             return this;
         }
 
@@ -1271,7 +1301,7 @@ public class ElementDefinition extends BackboneElement {
          *     Minimum Cardinality
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder min(UnsignedInt min) {
             this.min = min;
@@ -1287,7 +1317,7 @@ public class ElementDefinition extends BackboneElement {
          *     Maximum Cardinality (a number or *)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder max(String max) {
             this.max = max;
@@ -1307,7 +1337,7 @@ public class ElementDefinition extends BackboneElement {
          *     Base definition information for tools
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder base(Base base) {
             this.base = base;
@@ -1325,7 +1355,7 @@ public class ElementDefinition extends BackboneElement {
          *     Reference to definition of content for the element
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contentReference(Uri contentReference) {
             this.contentReference = contentReference;
@@ -1336,12 +1366,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * The data type or resource that the value of this element is permitted to be.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     Data type and Profile for this element
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Type... type) {
             for (Type value : type) {
@@ -1354,15 +1387,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * The data type or resource that the value of this element is permitted to be.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     Data type and Profile for this element
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<Type> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -1376,7 +1412,7 @@ public class ElementDefinition extends BackboneElement {
          *     Specified value if missing from instance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder defaultValue(Element defaultValue) {
             this.defaultValue = defaultValue;
@@ -1393,7 +1429,7 @@ public class ElementDefinition extends BackboneElement {
          *     Implicit meaning when this element is missing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder meaningWhenMissing(Markdown meaningWhenMissing) {
             this.meaningWhenMissing = meaningWhenMissing;
@@ -1410,7 +1446,7 @@ public class ElementDefinition extends BackboneElement {
          *     What the order of the elements means
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder orderMeaning(String orderMeaning) {
             this.orderMeaning = orderMeaning;
@@ -1428,7 +1464,7 @@ public class ElementDefinition extends BackboneElement {
          *     Value must be exactly this
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder fixed(Element fixed) {
             this.fixed = fixed;
@@ -1462,7 +1498,7 @@ public class ElementDefinition extends BackboneElement {
          *     Value must have at least these property values
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder pattern(Element pattern) {
             this.pattern = pattern;
@@ -1473,12 +1509,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param example
          *     Example value (as defined for type)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder example(Example... example) {
             for (Example value : example) {
@@ -1491,15 +1530,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param example
          *     Example value (as defined for type)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder example(Collection<Example> example) {
-            this.example.addAll(example);
+            this.example = new ArrayList<>(example);
             return this;
         }
 
@@ -1513,7 +1555,7 @@ public class ElementDefinition extends BackboneElement {
          *     Minimum Allowed Value (for some types)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder minValue(Element minValue) {
             this.minValue = minValue;
@@ -1530,7 +1572,7 @@ public class ElementDefinition extends BackboneElement {
          *     Maximum Allowed Value (for some types)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maxValue(Element maxValue) {
             this.maxValue = maxValue;
@@ -1547,7 +1589,7 @@ public class ElementDefinition extends BackboneElement {
          *     Max length for strings
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maxLength(Integer maxLength) {
             this.maxLength = maxLength;
@@ -1558,12 +1600,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param condition
          *     Reference to invariant about presence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Id... condition) {
             for (Id value : condition) {
@@ -1576,15 +1621,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param condition
          *     Reference to invariant about presence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Collection<Id> condition) {
-            this.condition.addAll(condition);
+            this.condition = new ArrayList<>(condition);
             return this;
         }
 
@@ -1593,12 +1641,15 @@ public class ElementDefinition extends BackboneElement {
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param constraint
          *     Condition that must evaluate to true
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder constraint(Constraint... constraint) {
             for (Constraint value : constraint) {
@@ -1612,15 +1663,18 @@ public class ElementDefinition extends BackboneElement {
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param constraint
          *     Condition that must evaluate to true
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder constraint(Collection<Constraint> constraint) {
-            this.constraint.addAll(constraint);
+            this.constraint = new ArrayList<>(constraint);
             return this;
         }
 
@@ -1635,7 +1689,7 @@ public class ElementDefinition extends BackboneElement {
          *     If the element must be supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mustSupport(Boolean mustSupport) {
             this.mustSupport = mustSupport;
@@ -1654,7 +1708,7 @@ public class ElementDefinition extends BackboneElement {
          *     If this modifies the meaning of other elements
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder isModifier(Boolean isModifier) {
             this.isModifier = isModifier;
@@ -1670,7 +1724,7 @@ public class ElementDefinition extends BackboneElement {
          *     Reason that this element is marked as a modifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder isModifierReason(String isModifierReason) {
             this.isModifierReason = isModifierReason;
@@ -1686,7 +1740,7 @@ public class ElementDefinition extends BackboneElement {
          *     Include when _summary = true?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder isSummary(Boolean isSummary) {
             this.isSummary = isSummary;
@@ -1703,7 +1757,7 @@ public class ElementDefinition extends BackboneElement {
          *     ValueSet details if this is coded
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder binding(Binding binding) {
             this.binding = binding;
@@ -1714,12 +1768,15 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Identifies a concept from an external specification that roughly corresponds to this element.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param mapping
          *     Map element to another set of definitions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mapping(Mapping... mapping) {
             for (Mapping value : mapping) {
@@ -1732,15 +1789,18 @@ public class ElementDefinition extends BackboneElement {
          * <p>
          * Identifies a concept from an external specification that roughly corresponds to this element.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param mapping
          *     Map element to another set of definitions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mapping(Collection<Mapping> mapping) {
-            this.mapping.addAll(mapping);
+            this.mapping = new ArrayList<>(mapping);
             return this;
         }
 
@@ -1823,7 +1883,7 @@ public class ElementDefinition extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Discriminator}.
+         *     An unmodifiable list containing immutable objects of type {@link Discriminator}.
          */
         public List<Discriminator> getDiscriminator() {
             return discriminator;
@@ -1960,7 +2020,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1974,12 +2034,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1993,12 +2056,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2016,12 +2082,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2039,12 +2108,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2057,12 +2129,15 @@ public class ElementDefinition extends BackboneElement {
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder discriminator(Discriminator... discriminator) {
                 for (Discriminator value : discriminator) {
@@ -2077,15 +2152,18 @@ public class ElementDefinition extends BackboneElement {
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder discriminator(Collection<Discriminator> discriminator) {
-                this.discriminator.addAll(discriminator);
+                this.discriminator = new ArrayList<>(discriminator);
                 return this;
             }
 
@@ -2099,7 +2177,7 @@ public class ElementDefinition extends BackboneElement {
              *     Text description of how slicing works (or not)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2115,7 +2193,7 @@ public class ElementDefinition extends BackboneElement {
              *     If elements must be in same order as slices
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder ordered(Boolean ordered) {
                 this.ordered = ordered;
@@ -2266,7 +2344,7 @@ public class ElementDefinition extends BackboneElement {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2280,12 +2358,15 @@ public class ElementDefinition extends BackboneElement {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2299,12 +2380,15 @@ public class ElementDefinition extends BackboneElement {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2322,12 +2406,15 @@ public class ElementDefinition extends BackboneElement {
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2345,12 +2432,15 @@ public class ElementDefinition extends BackboneElement {
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2522,7 +2612,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2536,12 +2626,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2555,12 +2648,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2578,12 +2674,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2601,12 +2700,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2674,7 +2776,7 @@ public class ElementDefinition extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
          */
         public List<Canonical> getProfile() {
             return profile;
@@ -2690,7 +2792,7 @@ public class ElementDefinition extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
          */
         public List<Canonical> getTargetProfile() {
             return targetProfile;
@@ -2703,7 +2805,7 @@ public class ElementDefinition extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link AggregationMode}.
+         *     An unmodifiable list containing immutable objects of type {@link AggregationMode}.
          */
         public List<AggregationMode> getAggregation() {
             return aggregation;
@@ -2818,7 +2920,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2832,12 +2934,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2851,12 +2956,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2874,12 +2982,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2897,12 +3008,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2917,12 +3031,15 @@ public class ElementDefinition extends BackboneElement {
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder profile(Canonical... profile) {
                 for (Canonical value : profile) {
@@ -2939,15 +3056,18 @@ public class ElementDefinition extends BackboneElement {
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder profile(Collection<Canonical> profile) {
-                this.profile.addAll(profile);
+                this.profile = new ArrayList<>(profile);
                 return this;
             }
 
@@ -2959,12 +3079,15 @@ public class ElementDefinition extends BackboneElement {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetProfile(Canonical... targetProfile) {
                 for (Canonical value : targetProfile) {
@@ -2981,15 +3104,18 @@ public class ElementDefinition extends BackboneElement {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetProfile(Collection<Canonical> targetProfile) {
-                this.targetProfile.addAll(targetProfile);
+                this.targetProfile = new ArrayList<>(targetProfile);
                 return this;
             }
 
@@ -2998,12 +3124,15 @@ public class ElementDefinition extends BackboneElement {
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder aggregation(AggregationMode... aggregation) {
                 for (AggregationMode value : aggregation) {
@@ -3017,15 +3146,18 @@ public class ElementDefinition extends BackboneElement {
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder aggregation(Collection<AggregationMode> aggregation) {
-                this.aggregation.addAll(aggregation);
+                this.aggregation = new ArrayList<>(aggregation);
                 return this;
             }
 
@@ -3038,7 +3170,7 @@ public class ElementDefinition extends BackboneElement {
              *     either | independent | specific
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder versioning(ReferenceVersionRules versioning) {
                 this.versioning = versioning;
@@ -3188,7 +3320,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3202,12 +3334,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3221,12 +3356,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3244,12 +3382,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3267,12 +3408,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3513,7 +3657,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3527,12 +3671,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3546,12 +3693,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3569,12 +3719,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3592,12 +3745,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3613,7 +3769,7 @@ public class ElementDefinition extends BackboneElement {
              *     Why this constraint is necessary or appropriate
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder requirements(String requirements) {
                 this.requirements = requirements;
@@ -3629,7 +3785,7 @@ public class ElementDefinition extends BackboneElement {
              *     FHIRPath expression of constraint
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder expression(String expression) {
                 this.expression = expression;
@@ -3645,7 +3801,7 @@ public class ElementDefinition extends BackboneElement {
              *     XPath expression of constraint
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder xpath(String xpath) {
                 this.xpath = xpath;
@@ -3661,7 +3817,7 @@ public class ElementDefinition extends BackboneElement {
              *     Reference to original source of constraint
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder source(Canonical source) {
                 this.source = source;
@@ -3832,7 +3988,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3846,12 +4002,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3865,12 +4024,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3888,12 +4050,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3911,12 +4076,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3932,7 +4100,7 @@ public class ElementDefinition extends BackboneElement {
              *     Human explanation of the value set
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -3948,7 +4116,7 @@ public class ElementDefinition extends BackboneElement {
              *     Source of value set
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueSet(Canonical valueSet) {
                 this.valueSet = valueSet;
@@ -4134,7 +4302,7 @@ public class ElementDefinition extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4148,12 +4316,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4167,12 +4338,15 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4190,12 +4364,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4213,12 +4390,15 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4234,7 +4414,7 @@ public class ElementDefinition extends BackboneElement {
              *     Computable language of mapping
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder language(Code language) {
                 this.language = language;
@@ -4250,7 +4430,7 @@ public class ElementDefinition extends BackboneElement {
              *     Comments about the mapping or its use
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder comment(String comment) {
                 this.comment = comment;

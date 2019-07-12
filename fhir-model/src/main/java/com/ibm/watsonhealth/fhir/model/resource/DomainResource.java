@@ -98,7 +98,7 @@ public abstract class DomainResource extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Resource}.
+     *     An unmodifiable list containing immutable objects of type {@link Resource}.
      */
     public List<Resource> getContained() {
         return contained;
@@ -113,7 +113,7 @@ public abstract class DomainResource extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension}.
      */
     public List<Extension> getExtension() {
         return extension;
@@ -134,7 +134,7 @@ public abstract class DomainResource extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension}.
      */
     public List<Extension> getModifierExtension() {
         return modifierExtension;
@@ -163,7 +163,7 @@ public abstract class DomainResource extends Resource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -180,7 +180,7 @@ public abstract class DomainResource extends Resource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -198,7 +198,7 @@ public abstract class DomainResource extends Resource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -214,7 +214,7 @@ public abstract class DomainResource extends Resource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -233,7 +233,7 @@ public abstract class DomainResource extends Resource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder text(Narrative text) {
             this.text = text;
@@ -245,12 +245,15 @@ public abstract class DomainResource extends Resource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contained(Resource... contained) {
             for (Resource value : contained) {
@@ -264,15 +267,18 @@ public abstract class DomainResource extends Resource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contained(Collection<Resource> contained) {
-            this.contained.addAll(contained);
+            this.contained = new ArrayList<>(contained);
             return this;
         }
 
@@ -283,12 +289,15 @@ public abstract class DomainResource extends Resource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder extension(Extension... extension) {
             for (Extension value : extension) {
@@ -304,15 +313,18 @@ public abstract class DomainResource extends Resource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder extension(Collection<Extension> extension) {
-            this.extension.addAll(extension);
+            this.extension = new ArrayList<>(extension);
             return this;
         }
 
@@ -329,12 +341,15 @@ public abstract class DomainResource extends Resource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifierExtension(Extension... modifierExtension) {
             for (Extension value : modifierExtension) {
@@ -356,15 +371,18 @@ public abstract class DomainResource extends Resource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
-            this.modifierExtension.addAll(modifierExtension);
+            this.modifierExtension = new ArrayList<>(modifierExtension);
             return this;
         }
 

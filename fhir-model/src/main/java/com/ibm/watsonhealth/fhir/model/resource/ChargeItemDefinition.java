@@ -133,7 +133,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -176,7 +176,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getDerivedFromUri() {
         return derivedFromUri;
@@ -188,7 +188,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getPartOf() {
         return partOf;
@@ -201,7 +201,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getReplaces() {
         return replaces;
@@ -264,7 +264,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -290,7 +290,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -302,7 +302,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -377,7 +377,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getInstance() {
         return instance;
@@ -389,7 +389,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Applicability}.
+     *     An unmodifiable list containing immutable objects of type {@link Applicability}.
      */
     public List<Applicability> getApplicability() {
         return applicability;
@@ -402,7 +402,7 @@ public class ChargeItemDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link PropertyGroup}.
+     *     An unmodifiable list containing immutable objects of type {@link PropertyGroup}.
      */
     public List<PropertyGroup> getPropertyGroup() {
         return propertyGroup;
@@ -592,7 +592,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -609,7 +609,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -627,7 +627,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -643,7 +643,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -662,7 +662,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -674,12 +674,15 @@ public class ChargeItemDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -691,12 +694,15 @@ public class ChargeItemDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -710,12 +716,15 @@ public class ChargeItemDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -729,12 +738,15 @@ public class ChargeItemDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -754,12 +766,15 @@ public class ChargeItemDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -779,12 +794,15 @@ public class ChargeItemDefinition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -796,12 +814,15 @@ public class ChargeItemDefinition extends DomainResource {
          * A formal identifier that is used to identify this charge item definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -815,15 +836,18 @@ public class ChargeItemDefinition extends DomainResource {
          * A formal identifier that is used to identify this charge item definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -842,7 +866,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Business version of the charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -858,7 +882,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Name for this charge item definition (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -870,12 +894,15 @@ public class ChargeItemDefinition extends DomainResource {
          * The URL pointing to an externally-defined charge item definition that is adhered to in whole or in part by this 
          * definition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param derivedFromUri
          *     Underlying externally-defined charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivedFromUri(Uri... derivedFromUri) {
             for (Uri value : derivedFromUri) {
@@ -889,15 +916,18 @@ public class ChargeItemDefinition extends DomainResource {
          * The URL pointing to an externally-defined charge item definition that is adhered to in whole or in part by this 
          * definition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param derivedFromUri
          *     Underlying externally-defined charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder derivedFromUri(Collection<Uri> derivedFromUri) {
-            this.derivedFromUri.addAll(derivedFromUri);
+            this.derivedFromUri = new ArrayList<>(derivedFromUri);
             return this;
         }
 
@@ -905,12 +935,15 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * A larger definition of which this particular definition is a component or step.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partOf
          *     A larger definition of which this particular definition is a component or step
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Canonical... partOf) {
             for (Canonical value : partOf) {
@@ -923,15 +956,18 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * A larger definition of which this particular definition is a component or step.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partOf
          *     A larger definition of which this particular definition is a component or step
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Collection<Canonical> partOf) {
-            this.partOf.addAll(partOf);
+            this.partOf = new ArrayList<>(partOf);
             return this;
         }
 
@@ -940,12 +976,15 @@ public class ChargeItemDefinition extends DomainResource {
          * As new versions of a protocol or guideline are defined, allows identification of what versions are replaced by a new 
          * instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param replaces
          *     Completed or terminated request(s) whose function is taken by this new request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Canonical... replaces) {
             for (Canonical value : replaces) {
@@ -959,15 +998,18 @@ public class ChargeItemDefinition extends DomainResource {
          * As new versions of a protocol or guideline are defined, allows identification of what versions are replaced by a new 
          * instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param replaces
          *     Completed or terminated request(s) whose function is taken by this new request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Collection<Canonical> replaces) {
-            this.replaces.addAll(replaces);
+            this.replaces = new ArrayList<>(replaces);
             return this;
         }
 
@@ -981,7 +1023,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -999,7 +1041,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1015,7 +1057,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1026,12 +1068,15 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1044,15 +1089,18 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1065,7 +1113,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Natural language description of the charge item definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1078,12 +1126,15 @@ public class ChargeItemDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate charge item definition instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1098,15 +1149,18 @@ public class ChargeItemDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate charge item definition instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1114,12 +1168,15 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the charge item definition is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for charge item definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1132,15 +1189,18 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * A legal or geographic region in which the charge item definition is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for charge item definition (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1154,7 +1214,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1171,7 +1231,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     When the charge item definition was approved by publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
@@ -1188,7 +1248,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     When the charge item definition was last reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastReviewDate(Date lastReviewDate) {
             this.lastReviewDate = lastReviewDate;
@@ -1204,7 +1264,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     When the charge item definition is expected to be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effectivePeriod(Period effectivePeriod) {
             this.effectivePeriod = effectivePeriod;
@@ -1220,7 +1280,7 @@ public class ChargeItemDefinition extends DomainResource {
          *     Billing codes or product types this definition applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -1231,12 +1291,15 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * The defined billing details in this resource pertain to the given product instance(s).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instance
          *     Instances this definition applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instance(Reference... instance) {
             for (Reference value : instance) {
@@ -1249,15 +1312,18 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * The defined billing details in this resource pertain to the given product instance(s).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instance
          *     Instances this definition applies to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instance(Collection<Reference> instance) {
-            this.instance.addAll(instance);
+            this.instance = new ArrayList<>(instance);
             return this;
         }
 
@@ -1265,12 +1331,15 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * Expressions that describe applicability criteria for the billing code.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param applicability
          *     Whether or not the billing code is applicable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder applicability(Applicability... applicability) {
             for (Applicability value : applicability) {
@@ -1283,15 +1352,18 @@ public class ChargeItemDefinition extends DomainResource {
          * <p>
          * Expressions that describe applicability criteria for the billing code.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param applicability
          *     Whether or not the billing code is applicable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder applicability(Collection<Applicability> applicability) {
-            this.applicability.addAll(applicability);
+            this.applicability = new ArrayList<>(applicability);
             return this;
         }
 
@@ -1300,12 +1372,15 @@ public class ChargeItemDefinition extends DomainResource {
          * Group of properties which are applicable under the same conditions. If no applicability rules are established for the 
          * group, then all properties always apply.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param propertyGroup
          *     Group of properties which are applicable under the same conditions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder propertyGroup(PropertyGroup... propertyGroup) {
             for (PropertyGroup value : propertyGroup) {
@@ -1319,15 +1394,18 @@ public class ChargeItemDefinition extends DomainResource {
          * Group of properties which are applicable under the same conditions. If no applicability rules are established for the 
          * group, then all properties always apply.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param propertyGroup
          *     Group of properties which are applicable under the same conditions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder propertyGroup(Collection<PropertyGroup> propertyGroup) {
-            this.propertyGroup.addAll(propertyGroup);
+            this.propertyGroup = new ArrayList<>(propertyGroup);
             return this;
         }
 
@@ -1510,7 +1588,7 @@ public class ChargeItemDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1524,12 +1602,15 @@ public class ChargeItemDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1543,12 +1624,15 @@ public class ChargeItemDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1568,12 +1652,15 @@ public class ChargeItemDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1593,12 +1680,15 @@ public class ChargeItemDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1614,7 +1704,7 @@ public class ChargeItemDefinition extends DomainResource {
              *     Natural language description of the condition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1631,7 +1721,7 @@ public class ChargeItemDefinition extends DomainResource {
              *     Language of the expression
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder language(String language) {
                 this.language = language;
@@ -1649,7 +1739,7 @@ public class ChargeItemDefinition extends DomainResource {
              *     Boolean-valued expression
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder expression(String expression) {
                 this.expression = expression;
@@ -1697,7 +1787,7 @@ public class ChargeItemDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Applicability}.
+         *     An unmodifiable list containing immutable objects of type {@link Applicability}.
          */
         public List<ChargeItemDefinition.Applicability> getApplicability() {
             return applicability;
@@ -1712,7 +1802,7 @@ public class ChargeItemDefinition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PriceComponent}.
+         *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
@@ -1796,7 +1886,7 @@ public class ChargeItemDefinition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1810,12 +1900,15 @@ public class ChargeItemDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1829,12 +1922,15 @@ public class ChargeItemDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1854,12 +1950,15 @@ public class ChargeItemDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1879,12 +1978,15 @@ public class ChargeItemDefinition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1895,12 +1997,15 @@ public class ChargeItemDefinition extends DomainResource {
              * <p>
              * Expressions that describe applicability criteria for the priceComponent.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param applicability
              *     Conditions under which the priceComponent is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder applicability(ChargeItemDefinition.Applicability... applicability) {
                 for (ChargeItemDefinition.Applicability value : applicability) {
@@ -1913,15 +2018,18 @@ public class ChargeItemDefinition extends DomainResource {
              * <p>
              * Expressions that describe applicability criteria for the priceComponent.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param applicability
              *     Conditions under which the priceComponent is applicable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder applicability(Collection<ChargeItemDefinition.Applicability> applicability) {
-                this.applicability.addAll(applicability);
+                this.applicability = new ArrayList<>(applicability);
                 return this;
             }
 
@@ -1932,12 +2040,15 @@ public class ChargeItemDefinition extends DomainResource {
              * code is currently under development. The priceComponent element can be used to offer transparency to the recipient of 
              * the Invoice of how the prices have been calculated.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param priceComponent
              *     Components of total line item price
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priceComponent(PriceComponent... priceComponent) {
                 for (PriceComponent value : priceComponent) {
@@ -1953,15 +2064,18 @@ public class ChargeItemDefinition extends DomainResource {
              * code is currently under development. The priceComponent element can be used to offer transparency to the recipient of 
              * the Invoice of how the prices have been calculated.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param priceComponent
              *     Components of total line item price
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priceComponent(Collection<PriceComponent> priceComponent) {
-                this.priceComponent.addAll(priceComponent);
+                this.priceComponent = new ArrayList<>(priceComponent);
                 return this;
             }
 
@@ -2146,7 +2260,7 @@ public class ChargeItemDefinition extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2160,12 +2274,15 @@ public class ChargeItemDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2179,12 +2296,15 @@ public class ChargeItemDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2204,12 +2324,15 @@ public class ChargeItemDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2229,12 +2352,15 @@ public class ChargeItemDefinition extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2251,7 +2377,7 @@ public class ChargeItemDefinition extends DomainResource {
                  *     Code identifying the specific component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -2267,7 +2393,7 @@ public class ChargeItemDefinition extends DomainResource {
                  *     Factor used for calculating this component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder factor(Decimal factor) {
                     this.factor = factor;
@@ -2283,7 +2409,7 @@ public class ChargeItemDefinition extends DomainResource {
                  *     Monetary amount associated with this component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(Money amount) {
                     this.amount = amount;

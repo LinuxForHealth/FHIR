@@ -100,7 +100,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -136,7 +136,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -197,7 +197,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Target}.
+     *     An unmodifiable list containing immutable objects of type {@link Target}.
      */
     public List<Target> getTarget() {
         return target;
@@ -245,7 +245,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAddresses() {
         return addresses;
@@ -257,7 +257,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -269,7 +269,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getOutcomeCode() {
         return outcomeCode;
@@ -281,7 +281,7 @@ public class Goal extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getOutcomeReference() {
         return outcomeReference;
@@ -444,7 +444,7 @@ public class Goal extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -461,7 +461,7 @@ public class Goal extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -479,7 +479,7 @@ public class Goal extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -495,7 +495,7 @@ public class Goal extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -514,7 +514,7 @@ public class Goal extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -526,12 +526,15 @@ public class Goal extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -543,12 +546,15 @@ public class Goal extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -562,12 +568,15 @@ public class Goal extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -581,12 +590,15 @@ public class Goal extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -606,12 +618,15 @@ public class Goal extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -631,12 +646,15 @@ public class Goal extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -648,12 +666,15 @@ public class Goal extends DomainResource {
          * Business identifiers assigned to this goal by the performer or other systems which remain constant as the resource is 
          * updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -667,15 +688,18 @@ public class Goal extends DomainResource {
          * Business identifiers assigned to this goal by the performer or other systems which remain constant as the resource is 
          * updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -688,7 +712,7 @@ public class Goal extends DomainResource {
          *     in-progress | improving | worsening | no-change | achieved | sustaining | not-achieved | no-progress | not-attainable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder achievementStatus(CodeableConcept achievementStatus) {
             this.achievementStatus = achievementStatus;
@@ -699,12 +723,15 @@ public class Goal extends DomainResource {
          * <p>
          * Indicates a category the goal falls within.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     E.g. Treatment, dietary, behavioral, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -717,15 +744,18 @@ public class Goal extends DomainResource {
          * <p>
          * Indicates a category the goal falls within.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     E.g. Treatment, dietary, behavioral, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -738,7 +768,7 @@ public class Goal extends DomainResource {
          *     high-priority | medium-priority | low-priority
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(CodeableConcept priority) {
             this.priority = priority;
@@ -754,7 +784,7 @@ public class Goal extends DomainResource {
          *     When goal pursuit begins
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder start(Element start) {
             this.start = start;
@@ -765,12 +795,15 @@ public class Goal extends DomainResource {
          * <p>
          * Indicates what should be done by when.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param target
          *     Target outcome for the goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Target... target) {
             for (Target value : target) {
@@ -783,15 +816,18 @@ public class Goal extends DomainResource {
          * <p>
          * Indicates what should be done by when.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param target
          *     Target outcome for the goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Collection<Target> target) {
-            this.target.addAll(target);
+            this.target = new ArrayList<>(target);
             return this;
         }
 
@@ -804,7 +840,7 @@ public class Goal extends DomainResource {
          *     When goal status took effect
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusDate(Date statusDate) {
             this.statusDate = statusDate;
@@ -820,7 +856,7 @@ public class Goal extends DomainResource {
          *     Reason for current status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(String statusReason) {
             this.statusReason = statusReason;
@@ -836,7 +872,7 @@ public class Goal extends DomainResource {
          *     Who's responsible for creating Goal?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder expressedBy(Reference expressedBy) {
             this.expressedBy = expressedBy;
@@ -847,12 +883,15 @@ public class Goal extends DomainResource {
          * <p>
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param addresses
          *     Issues addressed by this goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addresses(Reference... addresses) {
             for (Reference value : addresses) {
@@ -865,15 +904,18 @@ public class Goal extends DomainResource {
          * <p>
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param addresses
          *     Issues addressed by this goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addresses(Collection<Reference> addresses) {
-            this.addresses.addAll(addresses);
+            this.addresses = new ArrayList<>(addresses);
             return this;
         }
 
@@ -881,12 +923,15 @@ public class Goal extends DomainResource {
          * <p>
          * Any comments related to the goal.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments about the goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -899,15 +944,18 @@ public class Goal extends DomainResource {
          * <p>
          * Any comments related to the goal.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments about the goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -915,12 +963,15 @@ public class Goal extends DomainResource {
          * <p>
          * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param outcomeCode
          *     What result was achieved regarding the goal?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcomeCode(CodeableConcept... outcomeCode) {
             for (CodeableConcept value : outcomeCode) {
@@ -933,15 +984,18 @@ public class Goal extends DomainResource {
          * <p>
          * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param outcomeCode
          *     What result was achieved regarding the goal?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcomeCode(Collection<CodeableConcept> outcomeCode) {
-            this.outcomeCode.addAll(outcomeCode);
+            this.outcomeCode = new ArrayList<>(outcomeCode);
             return this;
         }
 
@@ -949,12 +1003,15 @@ public class Goal extends DomainResource {
          * <p>
          * Details of what's changed (or not changed).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param outcomeReference
          *     Observation that resulted from goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcomeReference(Reference... outcomeReference) {
             for (Reference value : outcomeReference) {
@@ -967,15 +1024,18 @@ public class Goal extends DomainResource {
          * <p>
          * Details of what's changed (or not changed).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param outcomeReference
          *     Observation that resulted from goal
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcomeReference(Collection<Reference> outcomeReference) {
-            this.outcomeReference.addAll(outcomeReference);
+            this.outcomeReference = new ArrayList<>(outcomeReference);
             return this;
         }
 
@@ -1150,7 +1210,7 @@ public class Goal extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1164,12 +1224,15 @@ public class Goal extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1183,12 +1246,15 @@ public class Goal extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1208,12 +1274,15 @@ public class Goal extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1233,12 +1302,15 @@ public class Goal extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1254,7 +1326,7 @@ public class Goal extends DomainResource {
              *     The parameter whose value is being tracked
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder measure(CodeableConcept measure) {
                 this.measure = measure;
@@ -1273,7 +1345,7 @@ public class Goal extends DomainResource {
              *     The target value to be achieved
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Element detail) {
                 this.detail = detail;
@@ -1289,7 +1361,7 @@ public class Goal extends DomainResource {
              *     Reach goal on or before
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder due(Element due) {
                 this.due = due;

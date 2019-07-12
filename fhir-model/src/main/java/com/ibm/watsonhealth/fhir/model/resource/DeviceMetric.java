@@ -75,7 +75,7 @@ public class DeviceMetric extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -194,7 +194,7 @@ public class DeviceMetric extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Calibration}.
+     *     An unmodifiable list containing immutable objects of type {@link Calibration}.
      */
     public List<Calibration> getCalibration() {
         return calibration;
@@ -332,7 +332,7 @@ public class DeviceMetric extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -349,7 +349,7 @@ public class DeviceMetric extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -367,7 +367,7 @@ public class DeviceMetric extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -383,7 +383,7 @@ public class DeviceMetric extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -402,7 +402,7 @@ public class DeviceMetric extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -414,12 +414,15 @@ public class DeviceMetric extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -431,12 +434,15 @@ public class DeviceMetric extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -450,12 +456,15 @@ public class DeviceMetric extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -469,12 +478,15 @@ public class DeviceMetric extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -494,12 +506,15 @@ public class DeviceMetric extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -519,12 +534,15 @@ public class DeviceMetric extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -536,12 +554,15 @@ public class DeviceMetric extends DomainResource {
          * Unique instance identifiers assigned to a device by the device or gateway software, manufacturers, other organizations 
          * or owners. For example: handle ID.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Instance identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -555,15 +576,18 @@ public class DeviceMetric extends DomainResource {
          * Unique instance identifiers assigned to a device by the device or gateway software, manufacturers, other organizations 
          * or owners. For example: handle ID.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Instance identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -576,7 +600,7 @@ public class DeviceMetric extends DomainResource {
          *     Unit of Measure for the Metric
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder unit(CodeableConcept unit) {
             this.unit = unit;
@@ -593,7 +617,7 @@ public class DeviceMetric extends DomainResource {
          *     Describes the link to the source Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder source(Reference source) {
             this.source = source;
@@ -612,7 +636,7 @@ public class DeviceMetric extends DomainResource {
          *     Describes the link to the parent Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(Reference parent) {
             this.parent = parent;
@@ -628,7 +652,7 @@ public class DeviceMetric extends DomainResource {
          *     on | off | standby | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder operationalStatus(DeviceMetricOperationalStatus operationalStatus) {
             this.operationalStatus = operationalStatus;
@@ -646,7 +670,7 @@ public class DeviceMetric extends DomainResource {
          *     black | red | green | yellow | blue | magenta | cyan | white
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder color(DeviceMetricColor color) {
             this.color = color;
@@ -666,7 +690,7 @@ public class DeviceMetric extends DomainResource {
          *     Describes the measurement repetition time
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder measurementPeriod(Timing measurementPeriod) {
             this.measurementPeriod = measurementPeriod;
@@ -677,12 +701,15 @@ public class DeviceMetric extends DomainResource {
          * <p>
          * Describes the calibrations that have been performed or that are required to be performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param calibration
          *     Describes the calibrations that have been performed or that are required to be performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder calibration(Calibration... calibration) {
             for (Calibration value : calibration) {
@@ -695,15 +722,18 @@ public class DeviceMetric extends DomainResource {
          * <p>
          * Describes the calibrations that have been performed or that are required to be performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param calibration
          *     Describes the calibrations that have been performed or that are required to be performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder calibration(Collection<Calibration> calibration) {
-            this.calibration.addAll(calibration);
+            this.calibration = new ArrayList<>(calibration);
             return this;
         }
 
@@ -870,7 +900,7 @@ public class DeviceMetric extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -884,12 +914,15 @@ public class DeviceMetric extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -903,12 +936,15 @@ public class DeviceMetric extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -928,12 +964,15 @@ public class DeviceMetric extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -953,12 +992,15 @@ public class DeviceMetric extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -974,7 +1016,7 @@ public class DeviceMetric extends DomainResource {
              *     unspecified | offset | gain | two-point
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(DeviceMetricCalibrationType type) {
                 this.type = type;
@@ -990,7 +1032,7 @@ public class DeviceMetric extends DomainResource {
              *     not-calibrated | calibration-required | calibrated | unspecified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder state(DeviceMetricCalibrationState state) {
                 this.state = state;
@@ -1006,7 +1048,7 @@ public class DeviceMetric extends DomainResource {
              *     Describes the time last calibration has been performed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder time(Instant time) {
                 this.time = time;

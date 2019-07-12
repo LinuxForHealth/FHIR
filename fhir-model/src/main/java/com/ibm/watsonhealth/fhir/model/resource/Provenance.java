@@ -79,7 +79,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getTarget() {
         return target;
@@ -116,7 +116,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getPolicy() {
         return policy;
@@ -140,7 +140,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReason() {
         return reason;
@@ -166,7 +166,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Agent}.
+     *     An unmodifiable list containing immutable objects of type {@link Agent}.
      */
     public List<Agent> getAgent() {
         return agent;
@@ -178,7 +178,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Entity}.
+     *     An unmodifiable list containing immutable objects of type {@link Entity}.
      */
     public List<Entity> getEntity() {
         return entity;
@@ -191,7 +191,7 @@ public class Provenance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Signature}.
+     *     An unmodifiable list containing immutable objects of type {@link Signature}.
      */
     public List<Signature> getSignature() {
         return signature;
@@ -330,7 +330,7 @@ public class Provenance extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -347,7 +347,7 @@ public class Provenance extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -365,7 +365,7 @@ public class Provenance extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -381,7 +381,7 @@ public class Provenance extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -400,7 +400,7 @@ public class Provenance extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -412,12 +412,15 @@ public class Provenance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -429,12 +432,15 @@ public class Provenance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -448,12 +454,15 @@ public class Provenance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -467,12 +476,15 @@ public class Provenance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -492,12 +504,15 @@ public class Provenance extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -517,12 +532,15 @@ public class Provenance extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -538,7 +556,7 @@ public class Provenance extends DomainResource {
          *     When the activity occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder occurred(Element occurred) {
             this.occurred = occurred;
@@ -550,12 +568,15 @@ public class Provenance extends DomainResource {
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param policy
          *     Policy or plan the activity was defined by
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policy(Uri... policy) {
             for (Uri value : policy) {
@@ -569,15 +590,18 @@ public class Provenance extends DomainResource {
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param policy
          *     Policy or plan the activity was defined by
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder policy(Collection<Uri> policy) {
-            this.policy.addAll(policy);
+            this.policy = new ArrayList<>(policy);
             return this;
         }
 
@@ -590,7 +614,7 @@ public class Provenance extends DomainResource {
          *     Where the activity occurred, if relevant
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -601,12 +625,15 @@ public class Provenance extends DomainResource {
          * <p>
          * The reason that the activity was taking place.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reason
          *     Reason the activity is occurring
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reason(CodeableConcept... reason) {
             for (CodeableConcept value : reason) {
@@ -619,15 +646,18 @@ public class Provenance extends DomainResource {
          * <p>
          * The reason that the activity was taking place.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reason
          *     Reason the activity is occurring
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reason(Collection<CodeableConcept> reason) {
-            this.reason.addAll(reason);
+            this.reason = new ArrayList<>(reason);
             return this;
         }
 
@@ -641,7 +671,7 @@ public class Provenance extends DomainResource {
          *     Activity that occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder activity(CodeableConcept activity) {
             this.activity = activity;
@@ -652,12 +682,15 @@ public class Provenance extends DomainResource {
          * <p>
          * An entity used in this activity.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param entity
          *     An entity used in this activity
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entity(Entity... entity) {
             for (Entity value : entity) {
@@ -670,15 +703,18 @@ public class Provenance extends DomainResource {
          * <p>
          * An entity used in this activity.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param entity
          *     An entity used in this activity
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entity(Collection<Entity> entity) {
-            this.entity.addAll(entity);
+            this.entity = new ArrayList<>(entity);
             return this;
         }
 
@@ -687,12 +723,15 @@ public class Provenance extends DomainResource {
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param signature
          *     Signature on target
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder signature(Signature... signature) {
             for (Signature value : signature) {
@@ -706,15 +745,18 @@ public class Provenance extends DomainResource {
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param signature
          *     Signature on target
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder signature(Collection<Signature> signature) {
-            this.signature.addAll(signature);
+            this.signature = new ArrayList<>(signature);
             return this;
         }
 
@@ -784,7 +826,7 @@ public class Provenance extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -907,7 +949,7 @@ public class Provenance extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -921,12 +963,15 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -940,12 +985,15 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -965,12 +1013,15 @@ public class Provenance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -990,12 +1041,15 @@ public class Provenance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1011,7 +1065,7 @@ public class Provenance extends DomainResource {
              *     How the agent participated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1023,12 +1077,15 @@ public class Provenance extends DomainResource {
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param role
              *     What the agents role was
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept... role) {
                 for (CodeableConcept value : role) {
@@ -1042,15 +1099,18 @@ public class Provenance extends DomainResource {
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param role
              *     What the agents role was
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(Collection<CodeableConcept> role) {
-                this.role.addAll(role);
+                this.role = new ArrayList<>(role);
                 return this;
             }
 
@@ -1063,7 +1123,7 @@ public class Provenance extends DomainResource {
              *     Who the agent is representing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onBehalfOf(Reference onBehalfOf) {
                 this.onBehalfOf = onBehalfOf;
@@ -1138,7 +1198,7 @@ public class Provenance extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Agent}.
+         *     An unmodifiable list containing immutable objects of type {@link Agent}.
          */
         public List<Provenance.Agent> getAgent() {
             return agent;
@@ -1234,7 +1294,7 @@ public class Provenance extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1248,12 +1308,15 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1267,12 +1330,15 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1292,12 +1358,15 @@ public class Provenance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1317,12 +1386,15 @@ public class Provenance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1335,12 +1407,15 @@ public class Provenance extends DomainResource {
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param agent
              *     Entity is attributed to this agent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder agent(Provenance.Agent... agent) {
                 for (Provenance.Agent value : agent) {
@@ -1355,15 +1430,18 @@ public class Provenance extends DomainResource {
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param agent
              *     Entity is attributed to this agent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder agent(Collection<Provenance.Agent> agent) {
-                this.agent.addAll(agent);
+                this.agent = new ArrayList<>(agent);
                 return this;
             }
 

@@ -101,7 +101,7 @@ public class Parameters extends Resource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -183,7 +183,7 @@ public class Parameters extends Resource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -200,7 +200,7 @@ public class Parameters extends Resource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -218,7 +218,7 @@ public class Parameters extends Resource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -234,7 +234,7 @@ public class Parameters extends Resource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -245,12 +245,15 @@ public class Parameters extends Resource {
          * <p>
          * A parameter passed to or received from the operation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parameter
          *     Operation Parameter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parameter(Parameter... parameter) {
             for (Parameter value : parameter) {
@@ -263,15 +266,18 @@ public class Parameters extends Resource {
          * <p>
          * A parameter passed to or received from the operation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parameter
          *     Operation Parameter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parameter(Collection<Parameter> parameter) {
-            this.parameter.addAll(parameter);
+            this.parameter = new ArrayList<>(parameter);
             return this;
         }
 
@@ -353,7 +359,7 @@ public class Parameters extends Resource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
          */
         public List<Parameters.Parameter> getPart() {
             return part;
@@ -452,7 +458,7 @@ public class Parameters extends Resource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -466,12 +472,15 @@ public class Parameters extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -485,12 +494,15 @@ public class Parameters extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -510,12 +522,15 @@ public class Parameters extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -535,12 +550,15 @@ public class Parameters extends Resource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -556,7 +574,7 @@ public class Parameters extends Resource {
              *     If parameter is a data type
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder value(Element value) {
                 this.value = value;
@@ -572,7 +590,7 @@ public class Parameters extends Resource {
              *     If parameter is a whole resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder resource(Resource resource) {
                 this.resource = resource;
@@ -583,12 +601,15 @@ public class Parameters extends Resource {
              * <p>
              * A named part of a multi-part parameter.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param part
              *     Named part of a multi-part parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder part(Parameters.Parameter... part) {
                 for (Parameters.Parameter value : part) {
@@ -601,15 +622,18 @@ public class Parameters extends Resource {
              * <p>
              * A named part of a multi-part parameter.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param part
              *     Named part of a multi-part parameter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder part(Collection<Parameters.Parameter> part) {
-                this.part.addAll(part);
+                this.part = new ArrayList<>(part);
                 return this;
             }
 

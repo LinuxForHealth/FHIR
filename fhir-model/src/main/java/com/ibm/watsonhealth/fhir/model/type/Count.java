@@ -116,7 +116,7 @@ public class Count extends Quantity {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -130,12 +130,15 @@ public class Count extends Quantity {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -149,12 +152,15 @@ public class Count extends Quantity {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -170,7 +176,7 @@ public class Count extends Quantity {
          *     Numerical value (with implicit precision)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder value(Decimal value) {
@@ -187,7 +193,7 @@ public class Count extends Quantity {
          *     &lt; | &lt;= | &gt;= | &gt; - how to understand the value
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder comparator(QuantityComparator comparator) {
@@ -203,7 +209,7 @@ public class Count extends Quantity {
          *     Unit representation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder unit(String unit) {
@@ -219,7 +225,7 @@ public class Count extends Quantity {
          *     System that defines coded unit form
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder system(Uri system) {
@@ -235,7 +241,7 @@ public class Count extends Quantity {
          *     Coded form of the unit
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder code(Code code) {

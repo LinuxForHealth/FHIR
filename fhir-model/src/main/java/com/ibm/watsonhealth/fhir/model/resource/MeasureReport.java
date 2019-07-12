@@ -93,7 +93,7 @@ public class MeasureReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -205,7 +205,7 @@ public class MeasureReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group}.
      */
     public List<Group> getGroup() {
         return group;
@@ -217,7 +217,7 @@ public class MeasureReport extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEvaluatedResource() {
         return evaluatedResource;
@@ -361,7 +361,7 @@ public class MeasureReport extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -378,7 +378,7 @@ public class MeasureReport extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -396,7 +396,7 @@ public class MeasureReport extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -412,7 +412,7 @@ public class MeasureReport extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -431,7 +431,7 @@ public class MeasureReport extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -443,12 +443,15 @@ public class MeasureReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -460,12 +463,15 @@ public class MeasureReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -479,12 +485,15 @@ public class MeasureReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -498,12 +507,15 @@ public class MeasureReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -523,12 +535,15 @@ public class MeasureReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -548,12 +563,15 @@ public class MeasureReport extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -565,12 +583,15 @@ public class MeasureReport extends DomainResource {
          * A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the MeasureReport
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -584,15 +605,18 @@ public class MeasureReport extends DomainResource {
          * A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced 
          * in a specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the MeasureReport
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -605,7 +629,7 @@ public class MeasureReport extends DomainResource {
          *     What individual(s) the report is for
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -621,7 +645,7 @@ public class MeasureReport extends DomainResource {
          *     When the report was generated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -637,7 +661,7 @@ public class MeasureReport extends DomainResource {
          *     Who is reporting the data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reporter(Reference reporter) {
             this.reporter = reporter;
@@ -653,7 +677,7 @@ public class MeasureReport extends DomainResource {
          *     increase | decrease
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder improvementNotation(CodeableConcept improvementNotation) {
             this.improvementNotation = improvementNotation;
@@ -664,12 +688,15 @@ public class MeasureReport extends DomainResource {
          * <p>
          * The results of the calculation, one for each population group in the measure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param group
          *     Measure results for each group
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Group... group) {
             for (Group value : group) {
@@ -682,15 +709,18 @@ public class MeasureReport extends DomainResource {
          * <p>
          * The results of the calculation, one for each population group in the measure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param group
          *     Measure results for each group
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Collection<Group> group) {
-            this.group.addAll(group);
+            this.group = new ArrayList<>(group);
             return this;
         }
 
@@ -698,12 +728,15 @@ public class MeasureReport extends DomainResource {
          * <p>
          * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param evaluatedResource
          *     What data was used to calculate the measure score
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evaluatedResource(Reference... evaluatedResource) {
             for (Reference value : evaluatedResource) {
@@ -716,15 +749,18 @@ public class MeasureReport extends DomainResource {
          * <p>
          * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param evaluatedResource
          *     What data was used to calculate the measure score
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evaluatedResource(Collection<Reference> evaluatedResource) {
-            this.evaluatedResource.addAll(evaluatedResource);
+            this.evaluatedResource = new ArrayList<>(evaluatedResource);
             return this;
         }
 
@@ -792,7 +828,7 @@ public class MeasureReport extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Population}.
+         *     An unmodifiable list containing immutable objects of type {@link Population}.
          */
         public List<Population> getPopulation() {
             return population;
@@ -818,7 +854,7 @@ public class MeasureReport extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Stratifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Stratifier}.
          */
         public List<Stratifier> getStratifier() {
             return stratifier;
@@ -910,7 +946,7 @@ public class MeasureReport extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -924,12 +960,15 @@ public class MeasureReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -943,12 +982,15 @@ public class MeasureReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -968,12 +1010,15 @@ public class MeasureReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -993,12 +1038,15 @@ public class MeasureReport extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1014,7 +1062,7 @@ public class MeasureReport extends DomainResource {
              *     Meaning of the group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -1025,12 +1073,15 @@ public class MeasureReport extends DomainResource {
              * <p>
              * The populations that make up the population group, one for each type of population appropriate for the measure.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param population
              *     The populations in the group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder population(Population... population) {
                 for (Population value : population) {
@@ -1043,15 +1094,18 @@ public class MeasureReport extends DomainResource {
              * <p>
              * The populations that make up the population group, one for each type of population appropriate for the measure.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param population
              *     The populations in the group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder population(Collection<Population> population) {
-                this.population.addAll(population);
+                this.population = new ArrayList<>(population);
                 return this;
             }
 
@@ -1065,7 +1119,7 @@ public class MeasureReport extends DomainResource {
              *     What score this group achieved
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder measureScore(Quantity measureScore) {
                 this.measureScore = measureScore;
@@ -1077,12 +1131,15 @@ public class MeasureReport extends DomainResource {
              * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
              * measure.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param stratifier
              *     Stratification results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder stratifier(Stratifier... stratifier) {
                 for (Stratifier value : stratifier) {
@@ -1096,15 +1153,18 @@ public class MeasureReport extends DomainResource {
              * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
              * measure.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param stratifier
              *     Stratification results
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder stratifier(Collection<Stratifier> stratifier) {
-                this.stratifier.addAll(stratifier);
+                this.stratifier = new ArrayList<>(stratifier);
                 return this;
             }
 
@@ -1262,7 +1322,7 @@ public class MeasureReport extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1276,12 +1336,15 @@ public class MeasureReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1295,12 +1358,15 @@ public class MeasureReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1320,12 +1386,15 @@ public class MeasureReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1345,12 +1414,15 @@ public class MeasureReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1367,7 +1439,7 @@ public class MeasureReport extends DomainResource {
                  *     measure-population | measure-population-exclusion | measure-observation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -1383,7 +1455,7 @@ public class MeasureReport extends DomainResource {
                  *     Size of the population
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder count(Integer count) {
                     this.count = count;
@@ -1399,7 +1471,7 @@ public class MeasureReport extends DomainResource {
                  *     For subject-list reports, the subject results in this population
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder subjectResults(Reference subjectResults) {
                     this.subjectResults = subjectResults;
@@ -1447,7 +1519,7 @@ public class MeasureReport extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getCode() {
                 return code;
@@ -1460,7 +1532,7 @@ public class MeasureReport extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Stratum}.
+             *     An unmodifiable list containing immutable objects of type {@link Stratum}.
              */
             public List<Stratum> getStratum() {
                 return stratum;
@@ -1544,7 +1616,7 @@ public class MeasureReport extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1558,12 +1630,15 @@ public class MeasureReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1577,12 +1652,15 @@ public class MeasureReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1602,12 +1680,15 @@ public class MeasureReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1627,12 +1708,15 @@ public class MeasureReport extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1643,12 +1727,15 @@ public class MeasureReport extends DomainResource {
                  * <p>
                  * The meaning of this stratifier, as defined in the measure definition.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param code
                  *     What stratifier of the group
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept... code) {
                     for (CodeableConcept value : code) {
@@ -1661,15 +1748,18 @@ public class MeasureReport extends DomainResource {
                  * <p>
                  * The meaning of this stratifier, as defined in the measure definition.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param code
                  *     What stratifier of the group
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(Collection<CodeableConcept> code) {
-                    this.code.addAll(code);
+                    this.code = new ArrayList<>(code);
                     return this;
                 }
 
@@ -1678,12 +1768,15 @@ public class MeasureReport extends DomainResource {
                  * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
                  * administrative gender, there will be four strata, one for each possible gender value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param stratum
                  *     Stratum results, one for each unique value, or set of values, in the stratifier, or stratifier components
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder stratum(Stratum... stratum) {
                     for (Stratum value : stratum) {
@@ -1697,15 +1790,18 @@ public class MeasureReport extends DomainResource {
                  * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
                  * administrative gender, there will be four strata, one for each possible gender value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param stratum
                  *     Stratum results, one for each unique value, or set of values, in the stratifier, or stratifier components
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder stratum(Collection<Stratum> stratum) {
-                    this.stratum.addAll(stratum);
+                    this.stratum = new ArrayList<>(stratum);
                     return this;
                 }
 
@@ -1765,7 +1861,7 @@ public class MeasureReport extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Component}.
+                 *     An unmodifiable list containing immutable objects of type {@link Component}.
                  */
                 public List<Component> getComponent() {
                     return component;
@@ -1777,7 +1873,7 @@ public class MeasureReport extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link Population}.
+                 *     An unmodifiable list containing immutable objects of type {@link Population}.
                  */
                 public List<Population> getPopulation() {
                     return population;
@@ -1882,7 +1978,7 @@ public class MeasureReport extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -1896,12 +1992,15 @@ public class MeasureReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -1915,12 +2014,15 @@ public class MeasureReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -1940,12 +2042,15 @@ public class MeasureReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -1965,12 +2070,15 @@ public class MeasureReport extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1987,7 +2095,7 @@ public class MeasureReport extends DomainResource {
                      *     The stratum value, e.g. male
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder value(CodeableConcept value) {
                         this.value = value;
@@ -1998,12 +2106,15 @@ public class MeasureReport extends DomainResource {
                      * <p>
                      * A stratifier component value.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param component
                      *     Stratifier component values
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder component(Component... component) {
                         for (Component value : component) {
@@ -2016,15 +2127,18 @@ public class MeasureReport extends DomainResource {
                      * <p>
                      * A stratifier component value.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param component
                      *     Stratifier component values
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder component(Collection<Component> component) {
-                        this.component.addAll(component);
+                        this.component = new ArrayList<>(component);
                         return this;
                     }
 
@@ -2032,12 +2146,15 @@ public class MeasureReport extends DomainResource {
                      * <p>
                      * The populations that make up the stratum, one for each type of population appropriate to the measure.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param population
                      *     Population results in this stratum
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder population(Population... population) {
                         for (Population value : population) {
@@ -2050,15 +2167,18 @@ public class MeasureReport extends DomainResource {
                      * <p>
                      * The populations that make up the stratum, one for each type of population appropriate to the measure.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param population
                      *     Population results in this stratum
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder population(Collection<Population> population) {
-                        this.population.addAll(population);
+                        this.population = new ArrayList<>(population);
                         return this;
                     }
 
@@ -2072,7 +2192,7 @@ public class MeasureReport extends DomainResource {
                      *     What score this stratum achieved
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder measureScore(Quantity measureScore) {
                         this.measureScore = measureScore;
@@ -2221,7 +2341,7 @@ public class MeasureReport extends DomainResource {
                          *     Unique id for inter-element referencing
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder id(java.lang.String id) {
@@ -2235,12 +2355,15 @@ public class MeasureReport extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Extension... extension) {
@@ -2254,12 +2377,15 @@ public class MeasureReport extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2279,12 +2405,15 @@ public class MeasureReport extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Extension... modifierExtension) {
@@ -2304,12 +2433,15 @@ public class MeasureReport extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2468,7 +2600,7 @@ public class MeasureReport extends DomainResource {
                          *     Unique id for inter-element referencing
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder id(java.lang.String id) {
@@ -2482,12 +2614,15 @@ public class MeasureReport extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Extension... extension) {
@@ -2501,12 +2636,15 @@ public class MeasureReport extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2526,12 +2664,15 @@ public class MeasureReport extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Extension... modifierExtension) {
@@ -2551,12 +2692,15 @@ public class MeasureReport extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2573,7 +2717,7 @@ public class MeasureReport extends DomainResource {
                          *     measure-population | measure-population-exclusion | measure-observation
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder code(CodeableConcept code) {
                             this.code = code;
@@ -2589,7 +2733,7 @@ public class MeasureReport extends DomainResource {
                          *     Size of the population
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder count(Integer count) {
                             this.count = count;
@@ -2606,7 +2750,7 @@ public class MeasureReport extends DomainResource {
                          *     For subject-list reports, the subject results in this population
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder subjectResults(Reference subjectResults) {
                             this.subjectResults = subjectResults;

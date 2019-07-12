@@ -167,7 +167,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getSynonym() {
         return synonym;
@@ -179,7 +179,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatedMedicationKnowledge}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedMedicationKnowledge}.
      */
     public List<RelatedMedicationKnowledge> getRelatedMedicationKnowledge() {
         return relatedMedicationKnowledge;
@@ -193,7 +193,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAssociatedMedication() {
         return associatedMedication;
@@ -206,7 +206,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getProductType() {
         return productType;
@@ -218,7 +218,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Monograph}.
+     *     An unmodifiable list containing immutable objects of type {@link Monograph}.
      */
     public List<Monograph> getMonograph() {
         return monograph;
@@ -230,7 +230,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Ingredient}.
+     *     An unmodifiable list containing immutable objects of type {@link Ingredient}.
      */
     public List<Ingredient> getIngredient() {
         return ingredient;
@@ -254,7 +254,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getIntendedRoute() {
         return intendedRoute;
@@ -266,7 +266,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Cost}.
+     *     An unmodifiable list containing immutable objects of type {@link Cost}.
      */
     public List<Cost> getCost() {
         return cost;
@@ -278,7 +278,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link MonitoringProgram}.
+     *     An unmodifiable list containing immutable objects of type {@link MonitoringProgram}.
      */
     public List<MonitoringProgram> getMonitoringProgram() {
         return monitoringProgram;
@@ -290,7 +290,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AdministrationGuidelines}.
+     *     An unmodifiable list containing immutable objects of type {@link AdministrationGuidelines}.
      */
     public List<AdministrationGuidelines> getAdministrationGuidelines() {
         return administrationGuidelines;
@@ -302,7 +302,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link MedicineClassification}.
+     *     An unmodifiable list containing immutable objects of type {@link MedicineClassification}.
      */
     public List<MedicineClassification> getMedicineClassification() {
         return medicineClassification;
@@ -326,7 +326,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DrugCharacteristic}.
+     *     An unmodifiable list containing immutable objects of type {@link DrugCharacteristic}.
      */
     public List<DrugCharacteristic> getDrugCharacteristic() {
         return drugCharacteristic;
@@ -339,7 +339,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getContraindication() {
         return contraindication;
@@ -351,7 +351,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Regulatory}.
+     *     An unmodifiable list containing immutable objects of type {@link Regulatory}.
      */
     public List<Regulatory> getRegulatory() {
         return regulatory;
@@ -363,7 +363,7 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Kinetics}.
+     *     An unmodifiable list containing immutable objects of type {@link Kinetics}.
      */
     public List<Kinetics> getKinetics() {
         return kinetics;
@@ -541,7 +541,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -558,7 +558,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -576,7 +576,7 @@ public class MedicationKnowledge extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -592,7 +592,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -611,7 +611,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -623,12 +623,15 @@ public class MedicationKnowledge extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -640,12 +643,15 @@ public class MedicationKnowledge extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -659,12 +665,15 @@ public class MedicationKnowledge extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -678,12 +687,15 @@ public class MedicationKnowledge extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -703,12 +715,15 @@ public class MedicationKnowledge extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -728,12 +743,15 @@ public class MedicationKnowledge extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -751,7 +769,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Code that identifies this medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -768,7 +786,7 @@ public class MedicationKnowledge extends DomainResource {
          *     active | inactive | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(MedicationKnowledgeStatus status) {
             this.status = status;
@@ -785,7 +803,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Manufacturer of the item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder manufacturer(Reference manufacturer) {
             this.manufacturer = manufacturer;
@@ -801,7 +819,7 @@ public class MedicationKnowledge extends DomainResource {
          *     powder | tablets | capsule +
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder doseForm(CodeableConcept doseForm) {
             this.doseForm = doseForm;
@@ -819,7 +837,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Amount of drug in package
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder amount(Quantity amount) {
             this.amount = amount;
@@ -831,12 +849,15 @@ public class MedicationKnowledge extends DomainResource {
          * Additional names for a medication, for example, the name(s) given to a medication in different countries. For example, 
          * acetaminophen and paracetamol or salbutamol and albuterol.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param synonym
          *     Additional names for a medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder synonym(String... synonym) {
             for (String value : synonym) {
@@ -850,15 +871,18 @@ public class MedicationKnowledge extends DomainResource {
          * Additional names for a medication, for example, the name(s) given to a medication in different countries. For example, 
          * acetaminophen and paracetamol or salbutamol and albuterol.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param synonym
          *     Additional names for a medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder synonym(Collection<String> synonym) {
-            this.synonym.addAll(synonym);
+            this.synonym = new ArrayList<>(synonym);
             return this;
         }
 
@@ -866,12 +890,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Associated or related knowledge about a medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatedMedicationKnowledge
          *     Associated or related medication information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedMedicationKnowledge(RelatedMedicationKnowledge... relatedMedicationKnowledge) {
             for (RelatedMedicationKnowledge value : relatedMedicationKnowledge) {
@@ -884,15 +911,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Associated or related knowledge about a medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatedMedicationKnowledge
          *     Associated or related medication information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedMedicationKnowledge(Collection<RelatedMedicationKnowledge> relatedMedicationKnowledge) {
-            this.relatedMedicationKnowledge.addAll(relatedMedicationKnowledge);
+            this.relatedMedicationKnowledge = new ArrayList<>(relatedMedicationKnowledge);
             return this;
         }
 
@@ -902,12 +932,15 @@ public class MedicationKnowledge extends DomainResource {
          * Therapeutic Moeity (e.g. Rosuvastatin) or if this is a generic medication (e.g. Rosuvastatin), this would link to a 
          * branded product (e.g. Crestor).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param associatedMedication
          *     A medication resource that is associated with this medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder associatedMedication(Reference... associatedMedication) {
             for (Reference value : associatedMedication) {
@@ -922,15 +955,18 @@ public class MedicationKnowledge extends DomainResource {
          * Therapeutic Moeity (e.g. Rosuvastatin) or if this is a generic medication (e.g. Rosuvastatin), this would link to a 
          * branded product (e.g. Crestor).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param associatedMedication
          *     A medication resource that is associated with this medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder associatedMedication(Collection<Reference> associatedMedication) {
-            this.associatedMedication.addAll(associatedMedication);
+            this.associatedMedication = new ArrayList<>(associatedMedication);
             return this;
         }
 
@@ -939,12 +975,15 @@ public class MedicationKnowledge extends DomainResource {
          * Category of the medication or product (e.g. branded product, therapeutic moeity, generic product, innovator product, 
          * etc.).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param productType
          *     Category of the medication or product
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder productType(CodeableConcept... productType) {
             for (CodeableConcept value : productType) {
@@ -958,15 +997,18 @@ public class MedicationKnowledge extends DomainResource {
          * Category of the medication or product (e.g. branded product, therapeutic moeity, generic product, innovator product, 
          * etc.).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param productType
          *     Category of the medication or product
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder productType(Collection<CodeableConcept> productType) {
-            this.productType.addAll(productType);
+            this.productType = new ArrayList<>(productType);
             return this;
         }
 
@@ -974,12 +1016,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Associated documentation about the medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param monograph
          *     Associated documentation about the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monograph(Monograph... monograph) {
             for (Monograph value : monograph) {
@@ -992,15 +1037,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Associated documentation about the medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param monograph
          *     Associated documentation about the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monograph(Collection<Monograph> monograph) {
-            this.monograph.addAll(monograph);
+            this.monograph = new ArrayList<>(monograph);
             return this;
         }
 
@@ -1008,12 +1056,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Identifies a particular constituent of interest in the product.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param ingredient
          *     Active or inactive ingredient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder ingredient(Ingredient... ingredient) {
             for (Ingredient value : ingredient) {
@@ -1026,15 +1077,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Identifies a particular constituent of interest in the product.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param ingredient
          *     Active or inactive ingredient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder ingredient(Collection<Ingredient> ingredient) {
-            this.ingredient.addAll(ingredient);
+            this.ingredient = new ArrayList<>(ingredient);
             return this;
         }
 
@@ -1047,7 +1101,7 @@ public class MedicationKnowledge extends DomainResource {
          *     The instructions for preparing the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder preparationInstruction(Markdown preparationInstruction) {
             this.preparationInstruction = preparationInstruction;
@@ -1058,12 +1112,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The intended or approved route of administration.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param intendedRoute
          *     The intended or approved route of administration
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder intendedRoute(CodeableConcept... intendedRoute) {
             for (CodeableConcept value : intendedRoute) {
@@ -1076,15 +1133,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The intended or approved route of administration.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param intendedRoute
          *     The intended or approved route of administration
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder intendedRoute(Collection<CodeableConcept> intendedRoute) {
-            this.intendedRoute.addAll(intendedRoute);
+            this.intendedRoute = new ArrayList<>(intendedRoute);
             return this;
         }
 
@@ -1092,12 +1152,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The price of the medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param cost
          *     The pricing of the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder cost(Cost... cost) {
             for (Cost value : cost) {
@@ -1110,15 +1173,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The price of the medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param cost
          *     The pricing of the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder cost(Collection<Cost> cost) {
-            this.cost.addAll(cost);
+            this.cost = new ArrayList<>(cost);
             return this;
         }
 
@@ -1126,12 +1192,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The program under which the medication is reviewed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param monitoringProgram
          *     Program under which a medication is reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monitoringProgram(MonitoringProgram... monitoringProgram) {
             for (MonitoringProgram value : monitoringProgram) {
@@ -1144,15 +1213,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The program under which the medication is reviewed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param monitoringProgram
          *     Program under which a medication is reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monitoringProgram(Collection<MonitoringProgram> monitoringProgram) {
-            this.monitoringProgram.addAll(monitoringProgram);
+            this.monitoringProgram = new ArrayList<>(monitoringProgram);
             return this;
         }
 
@@ -1160,12 +1232,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Guidelines for the administration of the medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param administrationGuidelines
          *     Guidelines for administration of the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder administrationGuidelines(AdministrationGuidelines... administrationGuidelines) {
             for (AdministrationGuidelines value : administrationGuidelines) {
@@ -1178,15 +1253,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Guidelines for the administration of the medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param administrationGuidelines
          *     Guidelines for administration of the medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder administrationGuidelines(Collection<AdministrationGuidelines> administrationGuidelines) {
-            this.administrationGuidelines.addAll(administrationGuidelines);
+            this.administrationGuidelines = new ArrayList<>(administrationGuidelines);
             return this;
         }
 
@@ -1194,12 +1272,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Categorization of the medication within a formulary or classification system.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param medicineClassification
          *     Categorization of the medication within a formulary or classification system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder medicineClassification(MedicineClassification... medicineClassification) {
             for (MedicineClassification value : medicineClassification) {
@@ -1212,15 +1293,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Categorization of the medication within a formulary or classification system.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param medicineClassification
          *     Categorization of the medication within a formulary or classification system
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder medicineClassification(Collection<MedicineClassification> medicineClassification) {
-            this.medicineClassification.addAll(medicineClassification);
+            this.medicineClassification = new ArrayList<>(medicineClassification);
             return this;
         }
 
@@ -1233,7 +1317,7 @@ public class MedicationKnowledge extends DomainResource {
          *     Details about packaged medications
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder packaging(Packaging packaging) {
             this.packaging = packaging;
@@ -1244,12 +1328,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Specifies descriptive properties of the medicine, such as color, shape, imprints, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param drugCharacteristic
          *     Specifies descriptive properties of the medicine
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder drugCharacteristic(DrugCharacteristic... drugCharacteristic) {
             for (DrugCharacteristic value : drugCharacteristic) {
@@ -1262,15 +1349,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Specifies descriptive properties of the medicine, such as color, shape, imprints, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param drugCharacteristic
          *     Specifies descriptive properties of the medicine
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder drugCharacteristic(Collection<DrugCharacteristic> drugCharacteristic) {
-            this.drugCharacteristic.addAll(drugCharacteristic);
+            this.drugCharacteristic = new ArrayList<>(drugCharacteristic);
             return this;
         }
 
@@ -1279,12 +1369,15 @@ public class MedicationKnowledge extends DomainResource {
          * Potential clinical issue with or between medication(s) (for example, drug-drug interaction, drug-disease 
          * contraindication, drug-allergy interaction, etc.).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contraindication
          *     Potential clinical issue with or between medication(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contraindication(Reference... contraindication) {
             for (Reference value : contraindication) {
@@ -1298,15 +1391,18 @@ public class MedicationKnowledge extends DomainResource {
          * Potential clinical issue with or between medication(s) (for example, drug-drug interaction, drug-disease 
          * contraindication, drug-allergy interaction, etc.).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contraindication
          *     Potential clinical issue with or between medication(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contraindication(Collection<Reference> contraindication) {
-            this.contraindication.addAll(contraindication);
+            this.contraindication = new ArrayList<>(contraindication);
             return this;
         }
 
@@ -1314,12 +1410,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Regulatory information about a medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param regulatory
          *     Regulatory information about a medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder regulatory(Regulatory... regulatory) {
             for (Regulatory value : regulatory) {
@@ -1332,15 +1431,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * Regulatory information about a medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param regulatory
          *     Regulatory information about a medication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder regulatory(Collection<Regulatory> regulatory) {
-            this.regulatory.addAll(regulatory);
+            this.regulatory = new ArrayList<>(regulatory);
             return this;
         }
 
@@ -1348,12 +1450,15 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The time course of drug absorption, distribution, metabolism and excretion of a medication from the body.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param kinetics
          *     The time course of drug absorption, distribution, metabolism and excretion of a medication from the body
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder kinetics(Kinetics... kinetics) {
             for (Kinetics value : kinetics) {
@@ -1366,15 +1471,18 @@ public class MedicationKnowledge extends DomainResource {
          * <p>
          * The time course of drug absorption, distribution, metabolism and excretion of a medication from the body.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param kinetics
          *     The time course of drug absorption, distribution, metabolism and excretion of a medication from the body
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder kinetics(Collection<Kinetics> kinetics) {
-            this.kinetics.addAll(kinetics);
+            this.kinetics = new ArrayList<>(kinetics);
             return this;
         }
 
@@ -1453,7 +1561,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getReference() {
             return reference;
@@ -1543,7 +1651,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1557,12 +1665,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1576,12 +1687,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1601,12 +1715,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1626,12 +1743,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1771,7 +1891,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1785,12 +1905,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1804,12 +1927,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1829,12 +1955,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1854,12 +1983,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1875,7 +2007,7 @@ public class MedicationKnowledge extends DomainResource {
              *     The category of medication document
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1891,7 +2023,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Associated documentation about the medication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder source(Reference source) {
                 this.source = source;
@@ -2059,7 +2191,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2073,12 +2205,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2092,12 +2227,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2117,12 +2255,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2142,12 +2283,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2163,7 +2307,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Active ingredient indicator
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder isActive(Boolean isActive) {
                 this.isActive = isActive;
@@ -2180,7 +2324,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Quantity of ingredient present
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder strength(Ratio strength) {
                 this.strength = strength;
@@ -2349,7 +2493,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2363,12 +2507,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2382,12 +2529,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2407,12 +2557,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2432,12 +2585,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2453,7 +2609,7 @@ public class MedicationKnowledge extends DomainResource {
              *     The source or owner for the price information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder source(String source) {
                 this.source = source;
@@ -2594,7 +2750,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2608,12 +2764,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2627,12 +2786,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2652,12 +2814,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2677,12 +2842,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2698,7 +2866,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Type of program under which the medication is monitored
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2714,7 +2882,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Name of the reviewing program
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -2762,7 +2930,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Dosage}.
+         *     An unmodifiable list containing immutable objects of type {@link Dosage}.
          */
         public List<Dosage> getDosage() {
             return dosage;
@@ -2787,7 +2955,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PatientCharacteristics}.
+         *     An unmodifiable list containing immutable objects of type {@link PatientCharacteristics}.
          */
         public List<PatientCharacteristics> getPatientCharacteristics() {
             return patientCharacteristics;
@@ -2875,7 +3043,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2889,12 +3057,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2908,12 +3079,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2933,12 +3107,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2958,12 +3135,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2974,12 +3154,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Dosage for the medication for the specific guidelines.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param dosage
              *     Dosage for the medication for the specific guidelines
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dosage(Dosage... dosage) {
                 for (Dosage value : dosage) {
@@ -2992,15 +3175,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Dosage for the medication for the specific guidelines.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param dosage
              *     Dosage for the medication for the specific guidelines
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dosage(Collection<Dosage> dosage) {
-                this.dosage.addAll(dosage);
+                this.dosage = new ArrayList<>(dosage);
                 return this;
             }
 
@@ -3013,7 +3199,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Indication for use that apply to the specific administration guidelines
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder indication(Element indication) {
                 this.indication = indication;
@@ -3025,12 +3211,15 @@ public class MedicationKnowledge extends DomainResource {
              * Characteristics of the patient that are relevant to the administration guidelines (for example, height, weight, 
              * gender, etc.).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param patientCharacteristics
              *     Characteristics of the patient that are relevant to the administration guidelines
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder patientCharacteristics(PatientCharacteristics... patientCharacteristics) {
                 for (PatientCharacteristics value : patientCharacteristics) {
@@ -3044,15 +3233,18 @@ public class MedicationKnowledge extends DomainResource {
              * Characteristics of the patient that are relevant to the administration guidelines (for example, height, weight, 
              * gender, etc.).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param patientCharacteristics
              *     Characteristics of the patient that are relevant to the administration guidelines
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder patientCharacteristics(Collection<PatientCharacteristics> patientCharacteristics) {
-                this.patientCharacteristics.addAll(patientCharacteristics);
+                this.patientCharacteristics = new ArrayList<>(patientCharacteristics);
                 return this;
             }
 
@@ -3107,7 +3299,7 @@ public class MedicationKnowledge extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Dosage}.
+             *     An unmodifiable list containing immutable objects of type {@link Dosage}.
              */
             public List<com.ibm.watsonhealth.fhir.model.type.Dosage> getDosage() {
                 return dosage;
@@ -3197,7 +3389,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3211,12 +3403,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3230,12 +3425,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3255,12 +3453,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3280,12 +3481,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3342,7 +3546,7 @@ public class MedicationKnowledge extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getValue() {
                 return value;
@@ -3433,7 +3637,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3447,12 +3651,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3466,12 +3673,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3491,12 +3701,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3516,12 +3729,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3532,12 +3748,15 @@ public class MedicationKnowledge extends DomainResource {
                  * <p>
                  * The specific characteristic (e.g. height, weight, gender, etc.).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param value
                  *     The specific characteristic
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder value(String... value) {
                     for (String _value : value) {
@@ -3550,15 +3769,18 @@ public class MedicationKnowledge extends DomainResource {
                  * <p>
                  * The specific characteristic (e.g. height, weight, gender, etc.).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param value
                  *     The specific characteristic
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder value(Collection<String> value) {
-                    this.value.addAll(value);
+                    this.value = new ArrayList<>(value);
                     return this;
                 }
 
@@ -3613,7 +3835,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getClassification() {
             return classification;
@@ -3704,7 +3926,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3718,12 +3940,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3737,12 +3962,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3762,12 +3990,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3787,12 +4018,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3803,12 +4037,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specific category assigned to the medication (e.g. anti-infective, anti-hypertensive, antibiotic, etc.).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param classification
              *     Specific category assigned to the medication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder classification(CodeableConcept... classification) {
                 for (CodeableConcept value : classification) {
@@ -3821,15 +4058,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specific category assigned to the medication (e.g. anti-infective, anti-hypertensive, antibiotic, etc.).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param classification
              *     Specific category assigned to the medication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder classification(Collection<CodeableConcept> classification) {
-                this.classification.addAll(classification);
+                this.classification = new ArrayList<>(classification);
                 return this;
             }
 
@@ -3968,7 +4208,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3982,12 +4222,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4001,12 +4244,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4026,12 +4272,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4051,12 +4300,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4073,7 +4325,7 @@ public class MedicationKnowledge extends DomainResource {
              *     A code that defines the specific type of packaging that the medication can be found in
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -4089,7 +4341,7 @@ public class MedicationKnowledge extends DomainResource {
              *     The number of product units the package would contain if fully loaded
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -4231,7 +4483,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4245,12 +4497,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4264,12 +4519,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4289,12 +4547,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4314,12 +4575,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4335,7 +4599,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Code specifying the type of characteristic of medication
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -4351,7 +4615,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Description of the characteristic
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder value(Element value) {
                 this.value = value;
@@ -4413,7 +4677,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Substitution}.
+         *     An unmodifiable list containing immutable objects of type {@link Substitution}.
          */
         public List<Substitution> getSubstitution() {
             return substitution;
@@ -4425,7 +4689,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Schedule}.
+         *     An unmodifiable list containing immutable objects of type {@link Schedule}.
          */
         public List<Schedule> getSchedule() {
             return schedule;
@@ -4536,7 +4800,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -4550,12 +4814,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -4569,12 +4836,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4594,12 +4864,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -4619,12 +4892,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4635,12 +4911,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specifies if changes are allowed when dispensing a medication from a regulatory perspective.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param substitution
              *     Specifies if changes are allowed when dispensing a medication from a regulatory perspective
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder substitution(Substitution... substitution) {
                 for (Substitution value : substitution) {
@@ -4653,15 +4932,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specifies if changes are allowed when dispensing a medication from a regulatory perspective.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param substitution
              *     Specifies if changes are allowed when dispensing a medication from a regulatory perspective
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder substitution(Collection<Substitution> substitution) {
-                this.substitution.addAll(substitution);
+                this.substitution = new ArrayList<>(substitution);
                 return this;
             }
 
@@ -4669,12 +4951,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specifies the schedule of a medication in jurisdiction.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param schedule
              *     Specifies the schedule of a medication in jurisdiction
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Schedule... schedule) {
                 for (Schedule value : schedule) {
@@ -4687,15 +4972,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * Specifies the schedule of a medication in jurisdiction.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param schedule
              *     Specifies the schedule of a medication in jurisdiction
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder schedule(Collection<Schedule> schedule) {
-                this.schedule.addAll(schedule);
+                this.schedule = new ArrayList<>(schedule);
                 return this;
             }
 
@@ -4708,7 +4996,7 @@ public class MedicationKnowledge extends DomainResource {
              *     The maximum number of units of the medication that can be dispensed in a period
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder maxDispense(MaxDispense maxDispense) {
                 this.maxDispense = maxDispense;
@@ -4856,7 +5144,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4870,12 +5158,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4889,12 +5180,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4914,12 +5208,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4939,12 +5236,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5071,7 +5371,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -5085,12 +5385,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -5104,12 +5407,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5129,12 +5435,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -5154,12 +5463,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5306,7 +5618,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -5320,12 +5632,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -5339,12 +5654,15 @@ public class MedicationKnowledge extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5364,12 +5682,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -5389,12 +5710,15 @@ public class MedicationKnowledge extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5410,7 +5734,7 @@ public class MedicationKnowledge extends DomainResource {
                  *     The period that applies to the maximum number of units
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder period(Duration period) {
                     this.period = period;
@@ -5458,7 +5782,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
          */
         public List<Quantity> getAreaUnderCurve() {
             return areaUnderCurve;
@@ -5470,7 +5794,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
          */
         public List<Quantity> getLethalDose50() {
             return lethalDose50;
@@ -5570,7 +5894,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5584,12 +5908,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5603,12 +5930,15 @@ public class MedicationKnowledge extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5628,12 +5958,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5653,12 +5986,15 @@ public class MedicationKnowledge extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5669,12 +6005,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * The drug concentration measured at certain discrete points in time.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param areaUnderCurve
              *     The drug concentration measured at certain discrete points in time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder areaUnderCurve(Quantity... areaUnderCurve) {
                 for (Quantity value : areaUnderCurve) {
@@ -5687,15 +6026,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * The drug concentration measured at certain discrete points in time.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param areaUnderCurve
              *     The drug concentration measured at certain discrete points in time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder areaUnderCurve(Collection<Quantity> areaUnderCurve) {
-                this.areaUnderCurve.addAll(areaUnderCurve);
+                this.areaUnderCurve = new ArrayList<>(areaUnderCurve);
                 return this;
             }
 
@@ -5703,12 +6045,15 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * The median lethal dose of a drug.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param lethalDose50
              *     The median lethal dose of a drug
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder lethalDose50(Quantity... lethalDose50) {
                 for (Quantity value : lethalDose50) {
@@ -5721,15 +6066,18 @@ public class MedicationKnowledge extends DomainResource {
              * <p>
              * The median lethal dose of a drug.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param lethalDose50
              *     The median lethal dose of a drug
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder lethalDose50(Collection<Quantity> lethalDose50) {
-                this.lethalDose50.addAll(lethalDose50);
+                this.lethalDose50 = new ArrayList<>(lethalDose50);
                 return this;
             }
 
@@ -5742,7 +6090,7 @@ public class MedicationKnowledge extends DomainResource {
              *     Time required for concentration in the body to decrease by half
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder halfLifePeriod(Duration halfLifePeriod) {
                 this.halfLifePeriod = halfLifePeriod;

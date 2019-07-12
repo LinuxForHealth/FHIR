@@ -157,7 +157,7 @@ public class ProdCharacteristic extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getColor() {
         return color;
@@ -169,7 +169,7 @@ public class ProdCharacteristic extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getImprint() {
         return imprint;
@@ -182,7 +182,7 @@ public class ProdCharacteristic extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getImage() {
         return image;
@@ -315,7 +315,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -329,12 +329,15 @@ public class ProdCharacteristic extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -348,12 +351,15 @@ public class ProdCharacteristic extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -373,12 +379,15 @@ public class ProdCharacteristic extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -398,12 +407,15 @@ public class ProdCharacteristic extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -423,7 +435,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder height(Quantity height) {
             this.height = height;
@@ -443,7 +455,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder width(Quantity width) {
             this.width = width;
@@ -463,7 +475,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder depth(Quantity depth) {
             this.depth = depth;
@@ -483,7 +495,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder weight(Quantity weight) {
             this.weight = weight;
@@ -503,7 +515,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder nominalVolume(Quantity nominalVolume) {
             this.nominalVolume = nominalVolume;
@@ -523,7 +535,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder externalDiameter(Quantity externalDiameter) {
             this.externalDiameter = externalDiameter;
@@ -541,7 +553,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder shape(String shape) {
             this.shape = shape;
@@ -553,13 +565,16 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param color
          *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder color(String... color) {
             for (String value : color) {
@@ -573,16 +588,19 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param color
          *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          *     identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder color(Collection<String> color) {
-            this.color.addAll(color);
+            this.color = new ArrayList<>(color);
             return this;
         }
 
@@ -590,12 +608,15 @@ public class ProdCharacteristic extends BackboneElement {
          * <p>
          * Where applicable, the imprint can be specified as text.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param imprint
          *     Where applicable, the imprint can be specified as text
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imprint(String... imprint) {
             for (String value : imprint) {
@@ -608,15 +629,18 @@ public class ProdCharacteristic extends BackboneElement {
          * <p>
          * Where applicable, the imprint can be specified as text.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param imprint
          *     Where applicable, the imprint can be specified as text
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imprint(Collection<String> imprint) {
-            this.imprint.addAll(imprint);
+            this.imprint = new ArrayList<>(imprint);
             return this;
         }
 
@@ -625,13 +649,16 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          * implementations.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param image
          *     Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          *     implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder image(Attachment... image) {
             for (Attachment value : image) {
@@ -645,16 +672,19 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          * implementations.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param image
          *     Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          *     implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder image(Collection<Attachment> image) {
-            this.image.addAll(image);
+            this.image = new ArrayList<>(image);
             return this;
         }
 
@@ -669,7 +699,7 @@ public class ProdCharacteristic extends BackboneElement {
          *     term identifier shall be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder scoring(CodeableConcept scoring) {
             this.scoring = scoring;

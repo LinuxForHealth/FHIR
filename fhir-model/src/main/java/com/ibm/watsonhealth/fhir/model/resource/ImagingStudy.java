@@ -96,7 +96,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -121,7 +121,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getModality() {
         return modality;
@@ -169,7 +169,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -193,7 +193,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getInterpreter() {
         return interpreter;
@@ -207,7 +207,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -259,7 +259,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getProcedureCode() {
         return procedureCode;
@@ -283,7 +283,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -295,7 +295,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -309,7 +309,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -334,7 +334,7 @@ public class ImagingStudy extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Series}.
+     *     An unmodifiable list containing immutable objects of type {@link Series}.
      */
     public List<Series> getSeries() {
         return series;
@@ -512,7 +512,7 @@ public class ImagingStudy extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -529,7 +529,7 @@ public class ImagingStudy extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -547,7 +547,7 @@ public class ImagingStudy extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -563,7 +563,7 @@ public class ImagingStudy extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -582,7 +582,7 @@ public class ImagingStudy extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -594,12 +594,15 @@ public class ImagingStudy extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -611,12 +614,15 @@ public class ImagingStudy extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -630,12 +636,15 @@ public class ImagingStudy extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -649,12 +658,15 @@ public class ImagingStudy extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -674,12 +686,15 @@ public class ImagingStudy extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -699,12 +714,15 @@ public class ImagingStudy extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -715,12 +733,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifiers for the whole study
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -733,15 +754,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifiers for the whole study
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -750,12 +774,15 @@ public class ImagingStudy extends DomainResource {
          * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
          * 29 (value set OID 1.2.840.10008.6.1.19).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modality
          *     All series modality if actual acquisition modalities
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modality(Coding... modality) {
             for (Coding value : modality) {
@@ -769,15 +796,18 @@ public class ImagingStudy extends DomainResource {
          * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
          * 29 (value set OID 1.2.840.10008.6.1.19).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modality
          *     All series modality if actual acquisition modalities
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modality(Collection<Coding> modality) {
-            this.modality.addAll(modality);
+            this.modality = new ArrayList<>(modality);
             return this;
         }
 
@@ -790,7 +820,7 @@ public class ImagingStudy extends DomainResource {
          *     Encounter with which this imaging study is associated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -806,7 +836,7 @@ public class ImagingStudy extends DomainResource {
          *     When the study was started
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder started(DateTime started) {
             this.started = started;
@@ -817,12 +847,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * A list of the diagnostic requests that resulted in this imaging study being performed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     Request fulfilled
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -835,15 +868,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * A list of the diagnostic requests that resulted in this imaging study being performed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     Request fulfilled
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -856,7 +892,7 @@ public class ImagingStudy extends DomainResource {
          *     Referring physician
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referrer(Reference referrer) {
             this.referrer = referrer;
@@ -867,12 +903,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Who read the study and interpreted the images or other content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param interpreter
          *     Who interpreted images
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder interpreter(Reference... interpreter) {
             for (Reference value : interpreter) {
@@ -885,15 +924,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Who read the study and interpreted the images or other content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param interpreter
          *     Who interpreted images
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder interpreter(Collection<Reference> interpreter) {
-            this.interpreter.addAll(interpreter);
+            this.interpreter = new ArrayList<>(interpreter);
             return this;
         }
 
@@ -903,12 +945,15 @@ public class ImagingStudy extends DomainResource {
          * information about using DICOM endpoints. A study-level endpoint applies to each series in the study, unless overridden 
          * by a series-level endpoint with the same Endpoint.connectionType.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endpoint
          *     Study access endpoint
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Reference... endpoint) {
             for (Reference value : endpoint) {
@@ -923,15 +968,18 @@ public class ImagingStudy extends DomainResource {
          * information about using DICOM endpoints. A study-level endpoint applies to each series in the study, unless overridden 
          * by a series-level endpoint with the same Endpoint.connectionType.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endpoint
          *     Study access endpoint
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Collection<Reference> endpoint) {
-            this.endpoint.addAll(endpoint);
+            this.endpoint = new ArrayList<>(endpoint);
             return this;
         }
 
@@ -946,7 +994,7 @@ public class ImagingStudy extends DomainResource {
          *     Number of Study Related Series
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder numberOfSeries(UnsignedInt numberOfSeries) {
             this.numberOfSeries = numberOfSeries;
@@ -964,7 +1012,7 @@ public class ImagingStudy extends DomainResource {
          *     Number of Study Related Instances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder numberOfInstances(UnsignedInt numberOfInstances) {
             this.numberOfInstances = numberOfInstances;
@@ -980,7 +1028,7 @@ public class ImagingStudy extends DomainResource {
          *     The performed Procedure reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedureReference(Reference procedureReference) {
             this.procedureReference = procedureReference;
@@ -991,12 +1039,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * The code for the performed procedure type.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param procedureCode
          *     The performed procedure code
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedureCode(CodeableConcept... procedureCode) {
             for (CodeableConcept value : procedureCode) {
@@ -1009,15 +1060,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * The code for the performed procedure type.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param procedureCode
          *     The performed procedure code
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder procedureCode(Collection<CodeableConcept> procedureCode) {
-            this.procedureCode.addAll(procedureCode);
+            this.procedureCode = new ArrayList<>(procedureCode);
             return this;
         }
 
@@ -1030,7 +1084,7 @@ public class ImagingStudy extends DomainResource {
          *     Where ImagingStudy occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -1041,12 +1095,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Description of clinical condition indicating why the ImagingStudy was requested.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Why the study was requested
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -1059,15 +1116,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Description of clinical condition indicating why the ImagingStudy was requested.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Why the study was requested
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -1075,12 +1135,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Indicates another resource whose existence justifies this Study.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Why was study performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -1093,15 +1156,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Indicates another resource whose existence justifies this Study.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Why was study performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1111,12 +1177,15 @@ public class ImagingStudy extends DomainResource {
          * Observations or findings about the imaging study should be recorded in another resource, e.g. Observation, and not in 
          * this element.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     User-defined comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1131,15 +1200,18 @@ public class ImagingStudy extends DomainResource {
          * Observations or findings about the imaging study should be recorded in another resource, e.g. Observation, and not in 
          * this element.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     User-defined comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1153,7 +1225,7 @@ public class ImagingStudy extends DomainResource {
          *     Institution-generated description
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -1164,12 +1236,15 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Each study has one or more series of images or other content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param series
          *     Each study has one or more series of instances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder series(Series... series) {
             for (Series value : series) {
@@ -1182,15 +1257,18 @@ public class ImagingStudy extends DomainResource {
          * <p>
          * Each study has one or more series of images or other content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param series
          *     Each study has one or more series of instances
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder series(Collection<Series> series) {
-            this.series.addAll(series);
+            this.series = new ArrayList<>(series);
             return this;
         }
 
@@ -1337,7 +1415,7 @@ public class ImagingStudy extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getEndpoint() {
             return endpoint;
@@ -1377,7 +1455,7 @@ public class ImagingStudy extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getSpecimen() {
             return specimen;
@@ -1401,7 +1479,7 @@ public class ImagingStudy extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Performer}.
+         *     An unmodifiable list containing immutable objects of type {@link Performer}.
          */
         public List<Performer> getPerformer() {
             return performer;
@@ -1413,7 +1491,7 @@ public class ImagingStudy extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Instance}.
+         *     An unmodifiable list containing immutable objects of type {@link Instance}.
          */
         public List<Instance> getInstance() {
             return instance;
@@ -1545,7 +1623,7 @@ public class ImagingStudy extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1559,12 +1637,15 @@ public class ImagingStudy extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1578,12 +1659,15 @@ public class ImagingStudy extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1603,12 +1687,15 @@ public class ImagingStudy extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1628,12 +1715,15 @@ public class ImagingStudy extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1649,7 +1739,7 @@ public class ImagingStudy extends DomainResource {
              *     Numeric identifier of this series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder number(UnsignedInt number) {
                 this.number = number;
@@ -1665,7 +1755,7 @@ public class ImagingStudy extends DomainResource {
              *     A short human readable summary of the series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1683,7 +1773,7 @@ public class ImagingStudy extends DomainResource {
              *     Number of Series Related Instances
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder numberOfInstances(UnsignedInt numberOfInstances) {
                 this.numberOfInstances = numberOfInstances;
@@ -1696,12 +1786,15 @@ public class ImagingStudy extends DomainResource {
              * information about using DICOM endpoints. A series-level endpoint, if present, has precedence over a study-level 
              * endpoint with the same Endpoint.connectionType.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param endpoint
              *     Series access endpoint
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder endpoint(Reference... endpoint) {
                 for (Reference value : endpoint) {
@@ -1716,15 +1809,18 @@ public class ImagingStudy extends DomainResource {
              * information about using DICOM endpoints. A series-level endpoint, if present, has precedence over a study-level 
              * endpoint with the same Endpoint.connectionType.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param endpoint
              *     Series access endpoint
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder endpoint(Collection<Reference> endpoint) {
-                this.endpoint.addAll(endpoint);
+                this.endpoint = new ArrayList<>(endpoint);
                 return this;
             }
 
@@ -1740,7 +1836,7 @@ public class ImagingStudy extends DomainResource {
              *     Body part examined
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bodySite(Coding bodySite) {
                 this.bodySite = bodySite;
@@ -1757,7 +1853,7 @@ public class ImagingStudy extends DomainResource {
              *     Body part laterality
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder laterality(Coding laterality) {
                 this.laterality = laterality;
@@ -1768,12 +1864,15 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param specimen
              *     Specimen imaged
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specimen(Reference... specimen) {
                 for (Reference value : specimen) {
@@ -1786,15 +1885,18 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param specimen
              *     Specimen imaged
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specimen(Collection<Reference> specimen) {
-                this.specimen.addAll(specimen);
+                this.specimen = new ArrayList<>(specimen);
                 return this;
             }
 
@@ -1807,7 +1909,7 @@ public class ImagingStudy extends DomainResource {
              *     When the series started
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder started(DateTime started) {
                 this.started = started;
@@ -1818,12 +1920,15 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * Indicates who or what performed the series and how they were involved.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param performer
              *     Who performed the series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder performer(Performer... performer) {
                 for (Performer value : performer) {
@@ -1836,15 +1941,18 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * Indicates who or what performed the series and how they were involved.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param performer
              *     Who performed the series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder performer(Collection<Performer> performer) {
-                this.performer.addAll(performer);
+                this.performer = new ArrayList<>(performer);
                 return this;
             }
 
@@ -1852,12 +1960,15 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * A single SOP instance within the series, e.g. an image, or presentation state.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param instance
              *     A single SOP instance from the series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder instance(Instance... instance) {
                 for (Instance value : instance) {
@@ -1870,15 +1981,18 @@ public class ImagingStudy extends DomainResource {
              * <p>
              * A single SOP instance within the series, e.g. an image, or presentation state.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param instance
              *     A single SOP instance from the series
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder instance(Collection<Instance> instance) {
-                this.instance.addAll(instance);
+                this.instance = new ArrayList<>(instance);
                 return this;
             }
 
@@ -2031,7 +2145,7 @@ public class ImagingStudy extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2045,12 +2159,15 @@ public class ImagingStudy extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2064,12 +2181,15 @@ public class ImagingStudy extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2089,12 +2209,15 @@ public class ImagingStudy extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2114,12 +2237,15 @@ public class ImagingStudy extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2135,7 +2261,7 @@ public class ImagingStudy extends DomainResource {
                  *     Type of performance
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder function(CodeableConcept function) {
                     this.function = function;
@@ -2320,7 +2446,7 @@ public class ImagingStudy extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2334,12 +2460,15 @@ public class ImagingStudy extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2353,12 +2482,15 @@ public class ImagingStudy extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2378,12 +2510,15 @@ public class ImagingStudy extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2403,12 +2538,15 @@ public class ImagingStudy extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2424,7 +2562,7 @@ public class ImagingStudy extends DomainResource {
                  *     The number of this instance in the series
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder number(UnsignedInt number) {
                     this.number = number;
@@ -2440,7 +2578,7 @@ public class ImagingStudy extends DomainResource {
                  *     Description of instance
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder title(String title) {
                     this.title = title;

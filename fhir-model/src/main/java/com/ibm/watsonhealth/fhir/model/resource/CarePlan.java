@@ -116,7 +116,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -129,7 +129,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -142,7 +142,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -154,7 +154,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -166,7 +166,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -178,7 +178,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -216,7 +216,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -312,7 +312,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getContributor() {
         return contributor;
@@ -324,7 +324,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getCareTeam() {
         return careTeam;
@@ -336,7 +336,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAddresses() {
         return addresses;
@@ -349,7 +349,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -361,7 +361,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getGoal() {
         return goal;
@@ -374,7 +374,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Activity}.
+     *     An unmodifiable list containing immutable objects of type {@link Activity}.
      */
     public List<Activity> getActivity() {
         return activity;
@@ -386,7 +386,7 @@ public class CarePlan extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -577,7 +577,7 @@ public class CarePlan extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -594,7 +594,7 @@ public class CarePlan extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -612,7 +612,7 @@ public class CarePlan extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -628,7 +628,7 @@ public class CarePlan extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -647,7 +647,7 @@ public class CarePlan extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -659,12 +659,15 @@ public class CarePlan extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -676,12 +679,15 @@ public class CarePlan extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -695,12 +701,15 @@ public class CarePlan extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -714,12 +723,15 @@ public class CarePlan extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -739,12 +751,15 @@ public class CarePlan extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -764,12 +779,15 @@ public class CarePlan extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -781,12 +799,15 @@ public class CarePlan extends DomainResource {
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -800,15 +821,18 @@ public class CarePlan extends DomainResource {
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -817,12 +841,15 @@ public class CarePlan extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -836,15 +863,18 @@ public class CarePlan extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -853,12 +883,15 @@ public class CarePlan extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -872,15 +905,18 @@ public class CarePlan extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -888,12 +924,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * A care plan that is fulfilled in whole or in part by this care plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     Fulfills CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -906,15 +945,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * A care plan that is fulfilled in whole or in part by this care plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     Fulfills CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -922,12 +964,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * Completed or terminated care plan whose function is taken by this new care plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Reference... replaces) {
             for (Reference value : replaces) {
@@ -940,15 +985,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * Completed or terminated care plan whose function is taken by this new care plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Collection<Reference> replaces) {
-            this.replaces.addAll(replaces);
+            this.replaces = new ArrayList<>(replaces);
             return this;
         }
 
@@ -956,12 +1004,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * A larger care plan of which this particular care plan is a component or step.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param partOf
          *     Part of referenced CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Reference... partOf) {
             for (Reference value : partOf) {
@@ -974,15 +1025,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * A larger care plan of which this particular care plan is a component or step.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param partOf
          *     Part of referenced CarePlan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder partOf(Collection<Reference> partOf) {
-            this.partOf.addAll(partOf);
+            this.partOf = new ArrayList<>(partOf);
             return this;
         }
 
@@ -991,12 +1045,15 @@ public class CarePlan extends DomainResource {
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Type of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -1010,15 +1067,18 @@ public class CarePlan extends DomainResource {
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Type of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -1031,7 +1091,7 @@ public class CarePlan extends DomainResource {
          *     Human-friendly name for the care plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1047,7 +1107,7 @@ public class CarePlan extends DomainResource {
          *     Summary of nature of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -1063,7 +1123,7 @@ public class CarePlan extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -1079,7 +1139,7 @@ public class CarePlan extends DomainResource {
          *     Time period plan covers
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -1095,7 +1155,7 @@ public class CarePlan extends DomainResource {
          *     Date record was first recorded
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder created(DateTime created) {
             this.created = created;
@@ -1111,7 +1171,7 @@ public class CarePlan extends DomainResource {
          *     Who is the designated responsible party
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference author) {
             this.author = author;
@@ -1122,12 +1182,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies the individual(s) or organization who provided the contents of the care plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contributor
          *     Who provided the content of the care plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contributor(Reference... contributor) {
             for (Reference value : contributor) {
@@ -1140,15 +1203,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies the individual(s) or organization who provided the contents of the care plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contributor
          *     Who provided the content of the care plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contributor(Collection<Reference> contributor) {
-            this.contributor.addAll(contributor);
+            this.contributor = new ArrayList<>(contributor);
             return this;
         }
 
@@ -1156,12 +1222,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param careTeam
          *     Who's involved in plan?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder careTeam(Reference... careTeam) {
             for (Reference value : careTeam) {
@@ -1174,15 +1243,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param careTeam
          *     Who's involved in plan?
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder careTeam(Collection<Reference> careTeam) {
-            this.careTeam.addAll(careTeam);
+            this.careTeam = new ArrayList<>(careTeam);
             return this;
         }
 
@@ -1190,12 +1262,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param addresses
          *     Health issues this plan addresses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addresses(Reference... addresses) {
             for (Reference value : addresses) {
@@ -1208,15 +1283,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param addresses
          *     Health issues this plan addresses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder addresses(Collection<Reference> addresses) {
-            this.addresses.addAll(addresses);
+            this.addresses = new ArrayList<>(addresses);
             return this;
         }
 
@@ -1225,12 +1303,15 @@ public class CarePlan extends DomainResource {
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supportingInfo
          *     Information considered as part of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Reference... supportingInfo) {
             for (Reference value : supportingInfo) {
@@ -1244,15 +1325,18 @@ public class CarePlan extends DomainResource {
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supportingInfo
          *     Information considered as part of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
-            this.supportingInfo.addAll(supportingInfo);
+            this.supportingInfo = new ArrayList<>(supportingInfo);
             return this;
         }
 
@@ -1260,12 +1344,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * Describes the intended objective(s) of carrying out the care plan.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param goal
          *     Desired outcome of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder goal(Reference... goal) {
             for (Reference value : goal) {
@@ -1278,15 +1365,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * Describes the intended objective(s) of carrying out the care plan.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param goal
          *     Desired outcome of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder goal(Collection<Reference> goal) {
-            this.goal.addAll(goal);
+            this.goal = new ArrayList<>(goal);
             return this;
         }
 
@@ -1295,12 +1385,15 @@ public class CarePlan extends DomainResource {
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param activity
          *     Action to occur as part of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder activity(Activity... activity) {
             for (Activity value : activity) {
@@ -1314,15 +1407,18 @@ public class CarePlan extends DomainResource {
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param activity
          *     Action to occur as part of plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder activity(Collection<Activity> activity) {
-            this.activity.addAll(activity);
+            this.activity = new ArrayList<>(activity);
             return this;
         }
 
@@ -1330,12 +1426,15 @@ public class CarePlan extends DomainResource {
          * <p>
          * General notes about the care plan not covered elsewhere.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments about the plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1348,15 +1447,18 @@ public class CarePlan extends DomainResource {
          * <p>
          * General notes about the care plan not covered elsewhere.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments about the plan
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1429,7 +1531,7 @@ public class CarePlan extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getOutcomeCodeableConcept() {
             return outcomeCodeableConcept;
@@ -1443,7 +1545,7 @@ public class CarePlan extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getOutcomeReference() {
             return outcomeReference;
@@ -1455,7 +1557,7 @@ public class CarePlan extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
          */
         public List<Annotation> getProgress() {
             return progress;
@@ -1576,7 +1678,7 @@ public class CarePlan extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1590,12 +1692,15 @@ public class CarePlan extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1609,12 +1714,15 @@ public class CarePlan extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1634,12 +1742,15 @@ public class CarePlan extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1659,12 +1770,15 @@ public class CarePlan extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1676,12 +1790,15 @@ public class CarePlan extends DomainResource {
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcomeCodeableConcept(CodeableConcept... outcomeCodeableConcept) {
                 for (CodeableConcept value : outcomeCodeableConcept) {
@@ -1695,15 +1812,18 @@ public class CarePlan extends DomainResource {
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcomeCodeableConcept(Collection<CodeableConcept> outcomeCodeableConcept) {
-                this.outcomeCodeableConcept.addAll(outcomeCodeableConcept);
+                this.outcomeCodeableConcept = new ArrayList<>(outcomeCodeableConcept);
                 return this;
             }
 
@@ -1713,12 +1833,15 @@ public class CarePlan extends DomainResource {
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcomeReference(Reference... outcomeReference) {
                 for (Reference value : outcomeReference) {
@@ -1733,15 +1856,18 @@ public class CarePlan extends DomainResource {
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outcomeReference(Collection<Reference> outcomeReference) {
-                this.outcomeReference.addAll(outcomeReference);
+                this.outcomeReference = new ArrayList<>(outcomeReference);
                 return this;
             }
 
@@ -1749,12 +1875,15 @@ public class CarePlan extends DomainResource {
              * <p>
              * Notes about the adherence/status/progress of the activity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param progress
              *     Comments about the activity status/progress
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder progress(Annotation... progress) {
                 for (Annotation value : progress) {
@@ -1767,15 +1896,18 @@ public class CarePlan extends DomainResource {
              * <p>
              * Notes about the adherence/status/progress of the activity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param progress
              *     Comments about the activity status/progress
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder progress(Collection<Annotation> progress) {
-                this.progress.addAll(progress);
+                this.progress = new ArrayList<>(progress);
                 return this;
             }
 
@@ -1788,7 +1920,7 @@ public class CarePlan extends DomainResource {
              *     Activity details defined in specific resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reference(Reference reference) {
                 this.reference = reference;
@@ -1805,7 +1937,7 @@ public class CarePlan extends DomainResource {
              *     In-line definition of activity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail detail) {
                 this.detail = detail;
@@ -1899,7 +2031,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
              */
             public List<Canonical> getInstantiatesCanonical() {
                 return instantiatesCanonical;
@@ -1912,7 +2044,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Uri}.
+             *     An unmodifiable list containing immutable objects of type {@link Uri}.
              */
             public List<Uri> getInstantiatesUri() {
                 return instantiatesUri;
@@ -1937,7 +2069,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getReasonCode() {
                 return reasonCode;
@@ -1950,7 +2082,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getReasonReference() {
                 return reasonReference;
@@ -1962,7 +2094,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getGoal() {
                 return goal;
@@ -2035,7 +2167,7 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference}.
              */
             public List<Reference> getPerformer() {
                 return performer;
@@ -2236,7 +2368,7 @@ public class CarePlan extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2250,12 +2382,15 @@ public class CarePlan extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2269,12 +2404,15 @@ public class CarePlan extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2294,12 +2432,15 @@ public class CarePlan extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2319,12 +2460,15 @@ public class CarePlan extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2342,7 +2486,7 @@ public class CarePlan extends DomainResource {
                  *     Kind of resource
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder kind(CarePlanActivityKind kind) {
                     this.kind = kind;
@@ -2354,12 +2498,15 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
                     for (Canonical value : instantiatesCanonical) {
@@ -2373,15 +2520,18 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-                    this.instantiatesCanonical.addAll(instantiatesCanonical);
+                    this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
                     return this;
                 }
 
@@ -2390,12 +2540,15 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder instantiatesUri(Uri... instantiatesUri) {
                     for (Uri value : instantiatesUri) {
@@ -2409,15 +2562,18 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-                    this.instantiatesUri.addAll(instantiatesUri);
+                    this.instantiatesUri = new ArrayList<>(instantiatesUri);
                     return this;
                 }
 
@@ -2430,7 +2586,7 @@ public class CarePlan extends DomainResource {
                  *     Detail type of activity
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -2442,12 +2598,15 @@ public class CarePlan extends DomainResource {
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonCode(CodeableConcept... reasonCode) {
                     for (CodeableConcept value : reasonCode) {
@@ -2461,15 +2620,18 @@ public class CarePlan extends DomainResource {
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-                    this.reasonCode.addAll(reasonCode);
+                    this.reasonCode = new ArrayList<>(reasonCode);
                     return this;
                 }
 
@@ -2478,12 +2640,15 @@ public class CarePlan extends DomainResource {
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param reasonReference
                  *     Why activity is needed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonReference(Reference... reasonReference) {
                     for (Reference value : reasonReference) {
@@ -2497,15 +2662,18 @@ public class CarePlan extends DomainResource {
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param reasonReference
                  *     Why activity is needed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder reasonReference(Collection<Reference> reasonReference) {
-                    this.reasonReference.addAll(reasonReference);
+                    this.reasonReference = new ArrayList<>(reasonReference);
                     return this;
                 }
 
@@ -2513,12 +2681,15 @@ public class CarePlan extends DomainResource {
                  * <p>
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param goal
                  *     Goals this activity relates to
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder goal(Reference... goal) {
                     for (Reference value : goal) {
@@ -2531,15 +2702,18 @@ public class CarePlan extends DomainResource {
                  * <p>
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param goal
                  *     Goals this activity relates to
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder goal(Collection<Reference> goal) {
-                    this.goal.addAll(goal);
+                    this.goal = new ArrayList<>(goal);
                     return this;
                 }
 
@@ -2552,7 +2726,7 @@ public class CarePlan extends DomainResource {
                  *     Reason for current status
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder statusReason(CodeableConcept statusReason) {
                     this.statusReason = statusReason;
@@ -2569,7 +2743,7 @@ public class CarePlan extends DomainResource {
                  *     If true, activity is prohibiting action
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder doNotPerform(Boolean doNotPerform) {
                     this.doNotPerform = doNotPerform;
@@ -2585,7 +2759,7 @@ public class CarePlan extends DomainResource {
                  *     When activity is to occur
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder scheduled(Element scheduled) {
                     this.scheduled = scheduled;
@@ -2601,7 +2775,7 @@ public class CarePlan extends DomainResource {
                  *     Where it should happen
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder location(Reference location) {
                     this.location = location;
@@ -2612,12 +2786,15 @@ public class CarePlan extends DomainResource {
                  * <p>
                  * Identifies who's expected to be involved in the activity.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param performer
                  *     Who will be responsible?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performer(Reference... performer) {
                     for (Reference value : performer) {
@@ -2630,15 +2807,18 @@ public class CarePlan extends DomainResource {
                  * <p>
                  * Identifies who's expected to be involved in the activity.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param performer
                  *     Who will be responsible?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder performer(Collection<Reference> performer) {
-                    this.performer.addAll(performer);
+                    this.performer = new ArrayList<>(performer);
                     return this;
                 }
 
@@ -2651,7 +2831,7 @@ public class CarePlan extends DomainResource {
                  *     What is to be administered/supplied
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder product(Element product) {
                     this.product = product;
@@ -2667,7 +2847,7 @@ public class CarePlan extends DomainResource {
                  *     How to consume/day?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder dailyAmount(Quantity dailyAmount) {
                     this.dailyAmount = dailyAmount;
@@ -2683,7 +2863,7 @@ public class CarePlan extends DomainResource {
                  *     How much to administer/supply/consume
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder quantity(Quantity quantity) {
                     this.quantity = quantity;
@@ -2701,7 +2881,7 @@ public class CarePlan extends DomainResource {
                  *     Extra info describing activity to perform
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(String description) {
                     this.description = description;

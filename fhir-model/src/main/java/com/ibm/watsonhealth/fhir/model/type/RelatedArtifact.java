@@ -231,7 +231,7 @@ public class RelatedArtifact extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -245,12 +245,15 @@ public class RelatedArtifact extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -264,12 +267,15 @@ public class RelatedArtifact extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -286,7 +292,7 @@ public class RelatedArtifact extends Element {
          *     Short label
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder label(String label) {
             this.label = label;
@@ -302,7 +308,7 @@ public class RelatedArtifact extends Element {
          *     Brief description of the related artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder display(String display) {
             this.display = display;
@@ -319,7 +325,7 @@ public class RelatedArtifact extends Element {
          *     Bibliographic citation for the artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder citation(Markdown citation) {
             this.citation = citation;
@@ -335,7 +341,7 @@ public class RelatedArtifact extends Element {
          *     Where the artifact can be accessed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Url url) {
             this.url = url;
@@ -351,7 +357,7 @@ public class RelatedArtifact extends Element {
          *     What document is being referenced
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder document(Attachment document) {
             this.document = document;
@@ -367,7 +373,7 @@ public class RelatedArtifact extends Element {
          *     What resource is being referenced
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resource(Canonical resource) {
             this.resource = resource;

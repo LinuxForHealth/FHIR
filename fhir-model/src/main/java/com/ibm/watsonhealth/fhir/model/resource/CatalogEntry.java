@@ -78,7 +78,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -126,7 +126,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getAdditionalIdentifier() {
         return additionalIdentifier;
@@ -138,7 +138,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getClassification() {
         return classification;
@@ -200,7 +200,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getAdditionalCharacteristic() {
         return additionalCharacteristic;
@@ -212,7 +212,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getAdditionalClassification() {
         return additionalClassification;
@@ -224,7 +224,7 @@ public class CatalogEntry extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatedEntry}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedEntry}.
      */
     public List<RelatedEntry> getRelatedEntry() {
         return relatedEntry;
@@ -374,7 +374,7 @@ public class CatalogEntry extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -391,7 +391,7 @@ public class CatalogEntry extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -409,7 +409,7 @@ public class CatalogEntry extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -425,7 +425,7 @@ public class CatalogEntry extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -444,7 +444,7 @@ public class CatalogEntry extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -456,12 +456,15 @@ public class CatalogEntry extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -473,12 +476,15 @@ public class CatalogEntry extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -492,12 +498,15 @@ public class CatalogEntry extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -511,12 +520,15 @@ public class CatalogEntry extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -536,12 +548,15 @@ public class CatalogEntry extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -561,12 +576,15 @@ public class CatalogEntry extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -577,12 +595,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Unique identifier of the catalog item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -595,15 +616,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Unique identifier of the catalog item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -616,7 +640,7 @@ public class CatalogEntry extends DomainResource {
          *     The type of item - medication, device, service, protocol or other
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -627,12 +651,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param additionalIdentifier
          *     Any additional identifier(s) for the catalog item, in the same granularity or concept
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalIdentifier(Identifier... additionalIdentifier) {
             for (Identifier value : additionalIdentifier) {
@@ -645,15 +672,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param additionalIdentifier
          *     Any additional identifier(s) for the catalog item, in the same granularity or concept
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalIdentifier(Collection<Identifier> additionalIdentifier) {
-            this.additionalIdentifier.addAll(additionalIdentifier);
+            this.additionalIdentifier = new ArrayList<>(additionalIdentifier);
             return this;
         }
 
@@ -661,12 +691,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Classes of devices, or ATC for medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param classification
          *     Classification (category or class) of the item entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder classification(CodeableConcept... classification) {
             for (CodeableConcept value : classification) {
@@ -679,15 +712,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Classes of devices, or ATC for medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param classification
          *     Classification (category or class) of the item entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder classification(Collection<CodeableConcept> classification) {
-            this.classification.addAll(classification);
+            this.classification = new ArrayList<>(classification);
             return this;
         }
 
@@ -701,7 +737,7 @@ public class CatalogEntry extends DomainResource {
          *     draft | active | retired | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
@@ -717,7 +753,7 @@ public class CatalogEntry extends DomainResource {
          *     The time period in which this catalog entry is expected to be active
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validityPeriod(Period validityPeriod) {
             this.validityPeriod = validityPeriod;
@@ -733,7 +769,7 @@ public class CatalogEntry extends DomainResource {
          *     The date until which this catalog entry is expected to be active
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validTo(DateTime validTo) {
             this.validTo = validTo;
@@ -750,7 +786,7 @@ public class CatalogEntry extends DomainResource {
          *     When was this catalog last updated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastUpdated(DateTime lastUpdated) {
             this.lastUpdated = lastUpdated;
@@ -761,12 +797,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used for examplefor Out of Formulary, or any specifics.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param additionalCharacteristic
          *     Additional characteristics of the catalog entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalCharacteristic(CodeableConcept... additionalCharacteristic) {
             for (CodeableConcept value : additionalCharacteristic) {
@@ -779,15 +818,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used for examplefor Out of Formulary, or any specifics.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param additionalCharacteristic
          *     Additional characteristics of the catalog entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalCharacteristic(Collection<CodeableConcept> additionalCharacteristic) {
-            this.additionalCharacteristic.addAll(additionalCharacteristic);
+            this.additionalCharacteristic = new ArrayList<>(additionalCharacteristic);
             return this;
         }
 
@@ -795,12 +837,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * User for example for ATC classification, or.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param additionalClassification
          *     Additional classification of the catalog entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalClassification(CodeableConcept... additionalClassification) {
             for (CodeableConcept value : additionalClassification) {
@@ -813,15 +858,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * User for example for ATC classification, or.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param additionalClassification
          *     Additional classification of the catalog entry
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder additionalClassification(Collection<CodeableConcept> additionalClassification) {
-            this.additionalClassification.addAll(additionalClassification);
+            this.additionalClassification = new ArrayList<>(additionalClassification);
             return this;
         }
 
@@ -829,12 +877,15 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used for example, to point to a substance, or to a device used to administer a medication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatedEntry
          *     An item that this catalog entry is related to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedEntry(RelatedEntry... relatedEntry) {
             for (RelatedEntry value : relatedEntry) {
@@ -847,15 +898,18 @@ public class CatalogEntry extends DomainResource {
          * <p>
          * Used for example, to point to a substance, or to a device used to administer a medication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatedEntry
          *     An item that this catalog entry is related to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedEntry(Collection<RelatedEntry> relatedEntry) {
-            this.relatedEntry.addAll(relatedEntry);
+            this.relatedEntry = new ArrayList<>(relatedEntry);
             return this;
         }
 
@@ -1013,7 +1067,7 @@ public class CatalogEntry extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1027,12 +1081,15 @@ public class CatalogEntry extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1046,12 +1103,15 @@ public class CatalogEntry extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1071,12 +1131,15 @@ public class CatalogEntry extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1096,12 +1159,15 @@ public class CatalogEntry extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

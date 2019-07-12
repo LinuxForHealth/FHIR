@@ -99,7 +99,7 @@ public class Address extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getLine() {
         return line;
@@ -285,7 +285,7 @@ public class Address extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -299,12 +299,15 @@ public class Address extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -318,12 +321,15 @@ public class Address extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -339,7 +345,7 @@ public class Address extends Element {
          *     home | work | temp | old | billing - purpose of this address
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder use(AddressUse use) {
             this.use = use;
@@ -356,7 +362,7 @@ public class Address extends Element {
          *     postal | physical | both
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(AddressType type) {
             this.type = type;
@@ -373,7 +379,7 @@ public class Address extends Element {
          *     Text representation of the address
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder text(String text) {
             this.text = text;
@@ -385,12 +391,15 @@ public class Address extends Element {
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder line(String... line) {
             for (String value : line) {
@@ -404,15 +413,18 @@ public class Address extends Element {
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder line(Collection<String> line) {
-            this.line.addAll(line);
+            this.line = new ArrayList<>(line);
             return this;
         }
 
@@ -425,7 +437,7 @@ public class Address extends Element {
          *     Name of city, town etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder city(String city) {
             this.city = city;
@@ -441,7 +453,7 @@ public class Address extends Element {
          *     District name (aka county)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder district(String district) {
             this.district = district;
@@ -458,7 +470,7 @@ public class Address extends Element {
          *     Sub-unit of country (abbreviations ok)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder state(String state) {
             this.state = state;
@@ -474,7 +486,7 @@ public class Address extends Element {
          *     Postal code for area
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder postalCode(String postalCode) {
             this.postalCode = postalCode;
@@ -490,7 +502,7 @@ public class Address extends Element {
          *     Country (e.g. can be ISO 3166 2 or 3 letter code)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder country(String country) {
             this.country = country;
@@ -506,7 +518,7 @@ public class Address extends Element {
          *     Time period when address was/is in use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;

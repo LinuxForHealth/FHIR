@@ -118,7 +118,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -203,7 +203,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getResultingCondition() {
         return resultingCondition;
@@ -279,7 +279,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getContributor() {
         return contributor;
@@ -291,7 +291,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link SuspectEntity}.
+     *     An unmodifiable list containing immutable objects of type {@link SuspectEntity}.
      */
     public List<SuspectEntity> getSuspectEntity() {
         return suspectEntity;
@@ -303,7 +303,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSubjectMedicalHistory() {
         return subjectMedicalHistory;
@@ -315,7 +315,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReferenceDocument() {
         return referenceDocument;
@@ -327,7 +327,7 @@ public class AdverseEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getStudy() {
         return study;
@@ -505,7 +505,7 @@ public class AdverseEvent extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -522,7 +522,7 @@ public class AdverseEvent extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -540,7 +540,7 @@ public class AdverseEvent extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -556,7 +556,7 @@ public class AdverseEvent extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -575,7 +575,7 @@ public class AdverseEvent extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -587,12 +587,15 @@ public class AdverseEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -604,12 +607,15 @@ public class AdverseEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -623,12 +629,15 @@ public class AdverseEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -642,12 +651,15 @@ public class AdverseEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -667,12 +679,15 @@ public class AdverseEvent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -692,12 +707,15 @@ public class AdverseEvent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -714,7 +732,7 @@ public class AdverseEvent extends DomainResource {
          *     Business identifier for the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
@@ -725,6 +743,9 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * The overall type of event, intended for search and filtering purposes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     product-problem | product-quality | product-use-error | wrong-dose | incorrect-prescribing-information | wrong-
@@ -732,7 +753,7 @@ public class AdverseEvent extends DomainResource {
          *     use-error | problem-different-manufacturer | unsafe-physical-environment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -745,6 +766,9 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * The overall type of event, intended for search and filtering purposes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     product-problem | product-quality | product-use-error | wrong-dose | incorrect-prescribing-information | wrong-
@@ -752,10 +776,10 @@ public class AdverseEvent extends DomainResource {
          *     use-error | problem-different-manufacturer | unsafe-physical-environment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -768,7 +792,7 @@ public class AdverseEvent extends DomainResource {
          *     Type of the event itself in relation to the subject
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder event(CodeableConcept event) {
             this.event = event;
@@ -784,7 +808,7 @@ public class AdverseEvent extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -800,7 +824,7 @@ public class AdverseEvent extends DomainResource {
          *     When the event occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -816,7 +840,7 @@ public class AdverseEvent extends DomainResource {
          *     When the event was detected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder detected(DateTime detected) {
             this.detected = detected;
@@ -832,7 +856,7 @@ public class AdverseEvent extends DomainResource {
          *     When the event was recorded
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recordedDate(DateTime recordedDate) {
             this.recordedDate = recordedDate;
@@ -844,12 +868,15 @@ public class AdverseEvent extends DomainResource {
          * Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a 
          * chemical).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param resultingCondition
          *     Effect on the subject due to this event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resultingCondition(Reference... resultingCondition) {
             for (Reference value : resultingCondition) {
@@ -863,15 +890,18 @@ public class AdverseEvent extends DomainResource {
          * Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a 
          * chemical).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param resultingCondition
          *     Effect on the subject due to this event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder resultingCondition(Collection<Reference> resultingCondition) {
-            this.resultingCondition.addAll(resultingCondition);
+            this.resultingCondition = new ArrayList<>(resultingCondition);
             return this;
         }
 
@@ -884,7 +914,7 @@ public class AdverseEvent extends DomainResource {
          *     Location where adverse event occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference location) {
             this.location = location;
@@ -900,7 +930,7 @@ public class AdverseEvent extends DomainResource {
          *     Seriousness of the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder seriousness(CodeableConcept seriousness) {
             this.seriousness = seriousness;
@@ -917,7 +947,7 @@ public class AdverseEvent extends DomainResource {
          *     mild | moderate | severe
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder severity(CodeableConcept severity) {
             this.severity = severity;
@@ -933,7 +963,7 @@ public class AdverseEvent extends DomainResource {
          *     resolved | recovering | ongoing | resolvedWithSequelae | fatal | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcome(CodeableConcept outcome) {
             this.outcome = outcome;
@@ -949,7 +979,7 @@ public class AdverseEvent extends DomainResource {
          *     Who recorded the adverse event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recorder(Reference recorder) {
             this.recorder = recorder;
@@ -963,12 +993,15 @@ public class AdverseEvent extends DomainResource {
          * perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of 
          * clinical history), or information about what activity was performed (e.g. informant witness).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contributor(Reference... contributor) {
             for (Reference value : contributor) {
@@ -984,15 +1017,18 @@ public class AdverseEvent extends DomainResource {
          * perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of 
          * clinical history), or information about what activity was performed (e.g. informant witness).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contributor(Collection<Reference> contributor) {
-            this.contributor.addAll(contributor);
+            this.contributor = new ArrayList<>(contributor);
             return this;
         }
 
@@ -1000,12 +1036,15 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * Describes the entity that is suspected to have caused the adverse event.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param suspectEntity
          *     The suspected agent causing the adverse event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder suspectEntity(SuspectEntity... suspectEntity) {
             for (SuspectEntity value : suspectEntity) {
@@ -1018,15 +1057,18 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * Describes the entity that is suspected to have caused the adverse event.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param suspectEntity
          *     The suspected agent causing the adverse event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder suspectEntity(Collection<SuspectEntity> suspectEntity) {
-            this.suspectEntity.addAll(suspectEntity);
+            this.suspectEntity = new ArrayList<>(suspectEntity);
             return this;
         }
 
@@ -1034,12 +1076,15 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.subjectMedicalHistory.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subjectMedicalHistory(Reference... subjectMedicalHistory) {
             for (Reference value : subjectMedicalHistory) {
@@ -1052,15 +1097,18 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.subjectMedicalHistory.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subjectMedicalHistory(Collection<Reference> subjectMedicalHistory) {
-            this.subjectMedicalHistory.addAll(subjectMedicalHistory);
+            this.subjectMedicalHistory = new ArrayList<>(subjectMedicalHistory);
             return this;
         }
 
@@ -1068,12 +1116,15 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.referenceDocument.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referenceDocument(Reference... referenceDocument) {
             for (Reference value : referenceDocument) {
@@ -1086,15 +1137,18 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.referenceDocument.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referenceDocument(Collection<Reference> referenceDocument) {
-            this.referenceDocument.addAll(referenceDocument);
+            this.referenceDocument = new ArrayList<>(referenceDocument);
             return this;
         }
 
@@ -1102,12 +1156,15 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.study.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param study
          *     AdverseEvent.study
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder study(Reference... study) {
             for (Reference value : study) {
@@ -1120,15 +1177,18 @@ public class AdverseEvent extends DomainResource {
          * <p>
          * AdverseEvent.study.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param study
          *     AdverseEvent.study
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder study(Collection<Reference> study) {
-            this.study.addAll(study);
+            this.study = new ArrayList<>(study);
             return this;
         }
 
@@ -1204,7 +1264,7 @@ public class AdverseEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Causality}.
+         *     An unmodifiable list containing immutable objects of type {@link Causality}.
          */
         public List<Causality> getCausality() {
             return causality;
@@ -1295,7 +1355,7 @@ public class AdverseEvent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1309,12 +1369,15 @@ public class AdverseEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1328,12 +1391,15 @@ public class AdverseEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1353,12 +1419,15 @@ public class AdverseEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1378,12 +1447,15 @@ public class AdverseEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1394,12 +1466,15 @@ public class AdverseEvent extends DomainResource {
              * <p>
              * Information on the possible cause of the event.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param causality
              *     Information on the possible cause of the event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder causality(Causality... causality) {
                 for (Causality value : causality) {
@@ -1412,15 +1487,18 @@ public class AdverseEvent extends DomainResource {
              * <p>
              * Information on the possible cause of the event.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param causality
              *     Information on the possible cause of the event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder causality(Collection<Causality> causality) {
-                this.causality.addAll(causality);
+                this.causality = new ArrayList<>(causality);
                 return this;
             }
 
@@ -1593,7 +1671,7 @@ public class AdverseEvent extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1607,12 +1685,15 @@ public class AdverseEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1626,12 +1707,15 @@ public class AdverseEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1651,12 +1735,15 @@ public class AdverseEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1676,12 +1763,15 @@ public class AdverseEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1697,7 +1787,7 @@ public class AdverseEvent extends DomainResource {
                  *     Assessment of if the entity caused the event
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder assessment(CodeableConcept assessment) {
                     this.assessment = assessment;
@@ -1713,7 +1803,7 @@ public class AdverseEvent extends DomainResource {
                  *     AdverseEvent.suspectEntity.causalityProductRelatedness
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder productRelatedness(String productRelatedness) {
                     this.productRelatedness = productRelatedness;
@@ -1729,7 +1819,7 @@ public class AdverseEvent extends DomainResource {
                  *     AdverseEvent.suspectEntity.causalityAuthor
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder author(Reference author) {
                     this.author = author;
@@ -1745,7 +1835,7 @@ public class AdverseEvent extends DomainResource {
                  *     ProbabilityScale | Bayesian | Checklist
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder method(CodeableConcept method) {
                     this.method = method;

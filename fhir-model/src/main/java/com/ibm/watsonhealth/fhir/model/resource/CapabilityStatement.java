@@ -302,7 +302,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -330,7 +330,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -342,7 +342,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -394,7 +394,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiates() {
         return instantiates;
@@ -408,7 +408,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getImports() {
         return imports;
@@ -459,7 +459,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code}.
      */
     public List<Code> getFormat() {
         return format;
@@ -471,7 +471,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code}.
      */
     public List<Code> getPatchFormat() {
         return patchFormat;
@@ -483,7 +483,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getImplementationGuide() {
         return implementationGuide;
@@ -495,7 +495,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Rest}.
+     *     An unmodifiable list containing immutable objects of type {@link Rest}.
      */
     public List<Rest> getRest() {
         return rest;
@@ -507,7 +507,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Messaging}.
+     *     An unmodifiable list containing immutable objects of type {@link Messaging}.
      */
     public List<Messaging> getMessaging() {
         return messaging;
@@ -519,7 +519,7 @@ public class CapabilityStatement extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Document}.
+     *     An unmodifiable list containing immutable objects of type {@link Document}.
      */
     public List<Document> getDocument() {
         return document;
@@ -724,7 +724,7 @@ public class CapabilityStatement extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -741,7 +741,7 @@ public class CapabilityStatement extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -759,7 +759,7 @@ public class CapabilityStatement extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -775,7 +775,7 @@ public class CapabilityStatement extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -794,7 +794,7 @@ public class CapabilityStatement extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -806,12 +806,15 @@ public class CapabilityStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(com.ibm.watsonhealth.fhir.model.resource.Resource... contained) {
@@ -823,12 +826,15 @@ public class CapabilityStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<com.ibm.watsonhealth.fhir.model.resource.Resource> contained) {
@@ -842,12 +848,15 @@ public class CapabilityStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -861,12 +870,15 @@ public class CapabilityStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -886,12 +898,15 @@ public class CapabilityStatement extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -911,12 +926,15 @@ public class CapabilityStatement extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -936,7 +954,7 @@ public class CapabilityStatement extends DomainResource {
          *     Canonical identifier for this capability statement, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -955,7 +973,7 @@ public class CapabilityStatement extends DomainResource {
          *     Business version of the capability statement
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -972,7 +990,7 @@ public class CapabilityStatement extends DomainResource {
          *     Name for this capability statement (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -988,7 +1006,7 @@ public class CapabilityStatement extends DomainResource {
          *     Name for this capability statement (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1005,7 +1023,7 @@ public class CapabilityStatement extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1021,7 +1039,7 @@ public class CapabilityStatement extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1032,12 +1050,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1050,15 +1071,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1073,7 +1097,7 @@ public class CapabilityStatement extends DomainResource {
          *     Natural language description of the capability statement
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1086,12 +1110,15 @@ public class CapabilityStatement extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1106,15 +1133,18 @@ public class CapabilityStatement extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1122,12 +1152,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A legal or geographic region in which the capability statement is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1140,15 +1173,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A legal or geographic region in which the capability statement is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1161,7 +1197,7 @@ public class CapabilityStatement extends DomainResource {
          *     Why this capability statement is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1178,7 +1214,7 @@ public class CapabilityStatement extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1191,12 +1227,15 @@ public class CapabilityStatement extends DomainResource {
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiates(Canonical... instantiates) {
             for (Canonical value : instantiates) {
@@ -1211,15 +1250,18 @@ public class CapabilityStatement extends DomainResource {
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiates(Collection<Canonical> instantiates) {
-            this.instantiates.addAll(instantiates);
+            this.instantiates = new ArrayList<>(instantiates);
             return this;
         }
 
@@ -1229,12 +1271,15 @@ public class CapabilityStatement extends DomainResource {
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imports(Canonical... imports) {
             for (Canonical value : imports) {
@@ -1249,15 +1294,18 @@ public class CapabilityStatement extends DomainResource {
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder imports(Collection<Canonical> imports) {
-            this.imports.addAll(imports);
+            this.imports = new ArrayList<>(imports);
             return this;
         }
 
@@ -1271,7 +1319,7 @@ public class CapabilityStatement extends DomainResource {
          *     Software that is covered by this capability statement
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder software(Software software) {
             this.software = software;
@@ -1288,7 +1336,7 @@ public class CapabilityStatement extends DomainResource {
          *     If this describes a specific instance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implementation(Implementation implementation) {
             this.implementation = implementation;
@@ -1299,12 +1347,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A list of the patch formats supported by this implementation using their content types.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param patchFormat
          *     Patch formats supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patchFormat(Code... patchFormat) {
             for (Code value : patchFormat) {
@@ -1317,15 +1368,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A list of the patch formats supported by this implementation using their content types.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param patchFormat
          *     Patch formats supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patchFormat(Collection<Code> patchFormat) {
-            this.patchFormat.addAll(patchFormat);
+            this.patchFormat = new ArrayList<>(patchFormat);
             return this;
         }
 
@@ -1333,12 +1387,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A list of implementation guides that the server does (or should) support in their entirety.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param implementationGuide
          *     Implementation guides supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implementationGuide(Canonical... implementationGuide) {
             for (Canonical value : implementationGuide) {
@@ -1351,15 +1408,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A list of implementation guides that the server does (or should) support in their entirety.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param implementationGuide
          *     Implementation guides supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implementationGuide(Collection<Canonical> implementationGuide) {
-            this.implementationGuide.addAll(implementationGuide);
+            this.implementationGuide = new ArrayList<>(implementationGuide);
             return this;
         }
 
@@ -1367,12 +1427,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A definition of the restful capabilities of the solution, if any.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param rest
          *     If the endpoint is a RESTful one
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rest(Rest... rest) {
             for (Rest value : rest) {
@@ -1385,15 +1448,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A definition of the restful capabilities of the solution, if any.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param rest
          *     If the endpoint is a RESTful one
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rest(Collection<Rest> rest) {
-            this.rest.addAll(rest);
+            this.rest = new ArrayList<>(rest);
             return this;
         }
 
@@ -1401,12 +1467,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A description of the messaging capabilities of the solution.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param messaging
          *     If messaging is supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder messaging(Messaging... messaging) {
             for (Messaging value : messaging) {
@@ -1419,15 +1488,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A description of the messaging capabilities of the solution.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param messaging
          *     If messaging is supported
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder messaging(Collection<Messaging> messaging) {
-            this.messaging.addAll(messaging);
+            this.messaging = new ArrayList<>(messaging);
             return this;
         }
 
@@ -1435,12 +1507,15 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A document definition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param document
          *     Document definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder document(Document... document) {
             for (Document value : document) {
@@ -1453,15 +1528,18 @@ public class CapabilityStatement extends DomainResource {
          * <p>
          * A document definition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param document
          *     Document definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder document(Collection<Document> document) {
-            this.document.addAll(document);
+            this.document = new ArrayList<>(document);
             return this;
         }
 
@@ -1649,7 +1727,7 @@ public class CapabilityStatement extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1663,12 +1741,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1682,12 +1763,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1707,12 +1791,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1732,12 +1819,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1753,7 +1843,7 @@ public class CapabilityStatement extends DomainResource {
              *     Version covered by this statement
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder version(String version) {
                 this.version = version;
@@ -1769,7 +1859,7 @@ public class CapabilityStatement extends DomainResource {
              *     Date this version was released
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder releaseDate(DateTime releaseDate) {
                 this.releaseDate = releaseDate;
@@ -1939,7 +2029,7 @@ public class CapabilityStatement extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1953,12 +2043,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1972,12 +2065,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1997,12 +2093,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2022,12 +2121,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2044,7 +2146,7 @@ public class CapabilityStatement extends DomainResource {
              *     Base URL for the installation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder url(Url url) {
                 this.url = url;
@@ -2061,7 +2163,7 @@ public class CapabilityStatement extends DomainResource {
              *     Organization that manages the data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder custodian(Reference custodian) {
                 this.custodian = custodian;
@@ -2155,7 +2257,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource}.
          */
         public List<Resource> getResource() {
             return resource;
@@ -2167,7 +2269,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Interaction}.
+         *     An unmodifiable list containing immutable objects of type {@link Interaction}.
          */
         public List<Interaction> getInteraction() {
             return interaction;
@@ -2180,7 +2282,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link SearchParam}.
+         *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
          */
         public List<CapabilityStatement.Rest.Resource.SearchParam> getSearchParam() {
             return searchParam;
@@ -2192,7 +2294,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Operation}.
+         *     An unmodifiable list containing immutable objects of type {@link Operation}.
          */
         public List<CapabilityStatement.Rest.Resource.Operation> getOperation() {
             return operation;
@@ -2205,7 +2307,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
          */
         public List<Canonical> getCompartment() {
             return compartment;
@@ -2320,7 +2422,7 @@ public class CapabilityStatement extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2334,12 +2436,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2353,12 +2458,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2378,12 +2486,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2403,12 +2514,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2424,7 +2538,7 @@ public class CapabilityStatement extends DomainResource {
              *     General description of implementation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Markdown documentation) {
                 this.documentation = documentation;
@@ -2440,7 +2554,7 @@ public class CapabilityStatement extends DomainResource {
              *     Information about security of implementation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder security(Security security) {
                 this.security = security;
@@ -2451,12 +2565,15 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * A specification of the restful capabilities of the solution for a specific resource type.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param resource
              *     Resource served on the REST interface
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder resource(Resource... resource) {
                 for (Resource value : resource) {
@@ -2469,15 +2586,18 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * A specification of the restful capabilities of the solution for a specific resource type.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param resource
              *     Resource served on the REST interface
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder resource(Collection<Resource> resource) {
-                this.resource.addAll(resource);
+                this.resource = new ArrayList<>(resource);
                 return this;
             }
 
@@ -2485,12 +2605,15 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * A specification of restful operations supported by the system.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param interaction
              *     What operations are supported?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder interaction(Interaction... interaction) {
                 for (Interaction value : interaction) {
@@ -2503,15 +2626,18 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * A specification of restful operations supported by the system.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param interaction
              *     What operations are supported?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder interaction(Collection<Interaction> interaction) {
-                this.interaction.addAll(interaction);
+                this.interaction = new ArrayList<>(interaction);
                 return this;
             }
 
@@ -2520,12 +2646,15 @@ public class CapabilityStatement extends DomainResource {
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param searchParam
              *     Search parameters for searching all resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder searchParam(CapabilityStatement.Rest.Resource.SearchParam... searchParam) {
                 for (CapabilityStatement.Rest.Resource.SearchParam value : searchParam) {
@@ -2539,15 +2668,18 @@ public class CapabilityStatement extends DomainResource {
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param searchParam
              *     Search parameters for searching all resources
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder searchParam(Collection<CapabilityStatement.Rest.Resource.SearchParam> searchParam) {
-                this.searchParam.addAll(searchParam);
+                this.searchParam = new ArrayList<>(searchParam);
                 return this;
             }
 
@@ -2555,12 +2687,15 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param operation
              *     Definition of a system level operation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder operation(CapabilityStatement.Rest.Resource.Operation... operation) {
                 for (CapabilityStatement.Rest.Resource.Operation value : operation) {
@@ -2573,15 +2708,18 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param operation
              *     Definition of a system level operation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder operation(Collection<CapabilityStatement.Rest.Resource.Operation> operation) {
-                this.operation.addAll(operation);
+                this.operation = new ArrayList<>(operation);
                 return this;
             }
 
@@ -2590,12 +2728,15 @@ public class CapabilityStatement extends DomainResource {
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param compartment
              *     Compartments served/used by system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder compartment(Canonical... compartment) {
                 for (Canonical value : compartment) {
@@ -2609,15 +2750,18 @@ public class CapabilityStatement extends DomainResource {
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param compartment
              *     Compartments served/used by system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder compartment(Collection<Canonical> compartment) {
-                this.compartment.addAll(compartment);
+                this.compartment = new ArrayList<>(compartment);
                 return this;
             }
 
@@ -2678,7 +2822,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
              */
             public List<CodeableConcept> getService() {
                 return service;
@@ -2778,7 +2922,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2792,12 +2936,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2811,12 +2958,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2836,12 +2986,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2861,12 +3014,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2882,7 +3038,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Adds CORS Headers (http://enable-cors.org/)
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder cors(Boolean cors) {
                     this.cors = cors;
@@ -2893,12 +3049,15 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * Types of security services that are supported/required by the system.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder service(CodeableConcept... service) {
                     for (CodeableConcept value : service) {
@@ -2911,15 +3070,18 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * Types of security services that are supported/required by the system.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder service(Collection<CodeableConcept> service) {
-                    this.service.addAll(service);
+                    this.service = new ArrayList<>(service);
                     return this;
                 }
 
@@ -2932,7 +3094,7 @@ public class CapabilityStatement extends DomainResource {
                  *     General description of how security works
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(Markdown description) {
                     this.description = description;
@@ -3039,7 +3201,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
              */
             public List<Canonical> getSupportedProfile() {
                 return supportedProfile;
@@ -3063,7 +3225,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Interaction}.
+             *     An unmodifiable list containing immutable objects of type {@link Interaction}.
              */
             public List<Interaction> getInteraction() {
                 return interaction;
@@ -3164,7 +3326,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link ReferenceHandlingPolicy}.
+             *     An unmodifiable list containing immutable objects of type {@link ReferenceHandlingPolicy}.
              */
             public List<ReferenceHandlingPolicy> getReferencePolicy() {
                 return referencePolicy;
@@ -3176,7 +3338,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getSearchInclude() {
                 return searchInclude;
@@ -3188,7 +3350,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String}.
              */
             public List<String> getSearchRevInclude() {
                 return searchRevInclude;
@@ -3201,7 +3363,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link SearchParam}.
+             *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
              */
             public List<SearchParam> getSearchParam() {
                 return searchParam;
@@ -3214,7 +3376,7 @@ public class CapabilityStatement extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Operation}.
+             *     An unmodifiable list containing immutable objects of type {@link Operation}.
              */
             public List<Operation> getOperation() {
                 return operation;
@@ -3365,7 +3527,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -3379,12 +3541,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -3398,12 +3563,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3423,12 +3591,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3448,12 +3619,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3471,7 +3645,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Base System profile for all uses of resource
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder profile(Canonical profile) {
                     this.profile = profile;
@@ -3486,12 +3660,15 @@ public class CapabilityStatement extends DomainResource {
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder supportedProfile(Canonical... supportedProfile) {
                     for (Canonical value : supportedProfile) {
@@ -3508,15 +3685,18 @@ public class CapabilityStatement extends DomainResource {
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder supportedProfile(Collection<Canonical> supportedProfile) {
-                    this.supportedProfile.addAll(supportedProfile);
+                    this.supportedProfile = new ArrayList<>(supportedProfile);
                     return this;
                 }
 
@@ -3529,7 +3709,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Additional information about the use of the resource type
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder documentation(Markdown documentation) {
                     this.documentation = documentation;
@@ -3540,12 +3720,15 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * Identifies a restful operation supported by the solution.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param interaction
                  *     What operations are supported?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder interaction(Interaction... interaction) {
                     for (Interaction value : interaction) {
@@ -3558,15 +3741,18 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * Identifies a restful operation supported by the solution.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param interaction
                  *     What operations are supported?
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder interaction(Collection<Interaction> interaction) {
-                    this.interaction.addAll(interaction);
+                    this.interaction = new ArrayList<>(interaction);
                     return this;
                 }
 
@@ -3582,7 +3768,7 @@ public class CapabilityStatement extends DomainResource {
                  *     no-version | versioned | versioned-update
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder versioning(ResourceVersionPolicy versioning) {
                     this.versioning = versioning;
@@ -3598,7 +3784,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Whether vRead can return past versions
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder readHistory(Boolean readHistory) {
                     this.readHistory = readHistory;
@@ -3616,7 +3802,7 @@ public class CapabilityStatement extends DomainResource {
                  *     If update can commit to a new identity
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder updateCreate(Boolean updateCreate) {
                     this.updateCreate = updateCreate;
@@ -3632,7 +3818,7 @@ public class CapabilityStatement extends DomainResource {
                  *     If allows/uses conditional create
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder conditionalCreate(Boolean conditionalCreate) {
                     this.conditionalCreate = conditionalCreate;
@@ -3648,7 +3834,7 @@ public class CapabilityStatement extends DomainResource {
                  *     not-supported | modified-since | not-match | full-support
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder conditionalRead(ConditionalReadStatus conditionalRead) {
                     this.conditionalRead = conditionalRead;
@@ -3664,7 +3850,7 @@ public class CapabilityStatement extends DomainResource {
                  *     If allows/uses conditional update
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder conditionalUpdate(Boolean conditionalUpdate) {
                     this.conditionalUpdate = conditionalUpdate;
@@ -3680,7 +3866,7 @@ public class CapabilityStatement extends DomainResource {
                  *     not-supported | single | multiple - how conditional delete is supported
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder conditionalDelete(ConditionalDeleteStatus conditionalDelete) {
                     this.conditionalDelete = conditionalDelete;
@@ -3691,12 +3877,15 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A set of flags that defines how references are supported.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder referencePolicy(ReferenceHandlingPolicy... referencePolicy) {
                     for (ReferenceHandlingPolicy value : referencePolicy) {
@@ -3709,15 +3898,18 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A set of flags that defines how references are supported.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder referencePolicy(Collection<ReferenceHandlingPolicy> referencePolicy) {
-                    this.referencePolicy.addAll(referencePolicy);
+                    this.referencePolicy = new ArrayList<>(referencePolicy);
                     return this;
                 }
 
@@ -3725,12 +3917,15 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A list of _include values supported by the server.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchInclude(String... searchInclude) {
                     for (String value : searchInclude) {
@@ -3743,15 +3938,18 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A list of _include values supported by the server.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchInclude(Collection<String> searchInclude) {
-                    this.searchInclude.addAll(searchInclude);
+                    this.searchInclude = new ArrayList<>(searchInclude);
                     return this;
                 }
 
@@ -3759,12 +3957,15 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A list of _revinclude (reverse include) values supported by the server.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchRevInclude(String... searchRevInclude) {
                     for (String value : searchRevInclude) {
@@ -3777,15 +3978,18 @@ public class CapabilityStatement extends DomainResource {
                  * <p>
                  * A list of _revinclude (reverse include) values supported by the server.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchRevInclude(Collection<String> searchRevInclude) {
-                    this.searchRevInclude.addAll(searchRevInclude);
+                    this.searchRevInclude = new ArrayList<>(searchRevInclude);
                     return this;
                 }
 
@@ -3794,12 +3998,15 @@ public class CapabilityStatement extends DomainResource {
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchParam(SearchParam... searchParam) {
                     for (SearchParam value : searchParam) {
@@ -3813,15 +4020,18 @@ public class CapabilityStatement extends DomainResource {
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder searchParam(Collection<SearchParam> searchParam) {
-                    this.searchParam.addAll(searchParam);
+                    this.searchParam = new ArrayList<>(searchParam);
                     return this;
                 }
 
@@ -3830,12 +4040,15 @@ public class CapabilityStatement extends DomainResource {
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param operation
                  *     Definition of a resource operation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder operation(Operation... operation) {
                     for (Operation value : operation) {
@@ -3849,15 +4062,18 @@ public class CapabilityStatement extends DomainResource {
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param operation
                  *     Definition of a resource operation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder operation(Collection<Operation> operation) {
-                    this.operation.addAll(operation);
+                    this.operation = new ArrayList<>(operation);
                     return this;
                 }
 
@@ -4017,7 +4233,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4031,12 +4247,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4050,12 +4269,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4075,12 +4297,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4100,12 +4325,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4122,7 +4350,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Anything special about operation behavior
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder documentation(Markdown documentation) {
                         this.documentation = documentation;
@@ -4312,7 +4540,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4326,12 +4554,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4345,12 +4576,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4370,12 +4604,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4395,12 +4632,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4419,7 +4659,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Source of definition for parameter
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder definition(Canonical definition) {
                         this.definition = definition;
@@ -4436,7 +4676,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Server-specific usage
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder documentation(Markdown documentation) {
                         this.documentation = documentation;
@@ -4611,7 +4851,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -4625,12 +4865,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -4644,12 +4887,15 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4669,12 +4915,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -4694,12 +4943,15 @@ public class CapabilityStatement extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4716,7 +4968,7 @@ public class CapabilityStatement extends DomainResource {
                      *     Specific details about operation behavior
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder documentation(Markdown documentation) {
                         this.documentation = documentation;
@@ -4866,7 +5118,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4880,12 +5132,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4899,12 +5154,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4924,12 +5182,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4949,12 +5210,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4971,7 +5235,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Anything special about operation behavior
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder documentation(Markdown documentation) {
                     this.documentation = documentation;
@@ -5021,7 +5285,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Endpoint}.
+         *     An unmodifiable list containing immutable objects of type {@link Endpoint}.
          */
         public List<Endpoint> getEndpoint() {
             return endpoint;
@@ -5059,7 +5323,7 @@ public class CapabilityStatement extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link SupportedMessage}.
+         *     An unmodifiable list containing immutable objects of type {@link SupportedMessage}.
          */
         public List<SupportedMessage> getSupportedMessage() {
             return supportedMessage;
@@ -5151,7 +5415,7 @@ public class CapabilityStatement extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5165,12 +5429,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -5184,12 +5451,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5209,12 +5479,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -5234,12 +5507,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5250,12 +5526,15 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param endpoint
              *     Where messages should be sent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder endpoint(Endpoint... endpoint) {
                 for (Endpoint value : endpoint) {
@@ -5268,15 +5547,18 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param endpoint
              *     Where messages should be sent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder endpoint(Collection<Endpoint> endpoint) {
-                this.endpoint.addAll(endpoint);
+                this.endpoint = new ArrayList<>(endpoint);
                 return this;
             }
 
@@ -5290,7 +5572,7 @@ public class CapabilityStatement extends DomainResource {
              *     Reliable Message Cache Length (min)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder reliableCache(UnsignedInt reliableCache) {
                 this.reliableCache = reliableCache;
@@ -5307,7 +5589,7 @@ public class CapabilityStatement extends DomainResource {
              *     Messaging interface behavior details
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Markdown documentation) {
                 this.documentation = documentation;
@@ -5318,12 +5600,15 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * References to message definitions for messages this system can send or receive.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param supportedMessage
              *     Messages supported by this system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportedMessage(SupportedMessage... supportedMessage) {
                 for (SupportedMessage value : supportedMessage) {
@@ -5336,15 +5621,18 @@ public class CapabilityStatement extends DomainResource {
              * <p>
              * References to message definitions for messages this system can send or receive.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param supportedMessage
              *     Messages supported by this system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder supportedMessage(Collection<SupportedMessage> supportedMessage) {
-                this.supportedMessage.addAll(supportedMessage);
+                this.supportedMessage = new ArrayList<>(supportedMessage);
                 return this;
             }
 
@@ -5491,7 +5779,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -5505,12 +5793,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -5524,12 +5815,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5549,12 +5843,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -5574,12 +5871,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5725,7 +6025,7 @@ public class CapabilityStatement extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -5739,12 +6039,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -5758,12 +6061,15 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5783,12 +6089,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -5808,12 +6117,15 @@ public class CapabilityStatement extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5981,7 +6293,7 @@ public class CapabilityStatement extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -5995,12 +6307,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -6014,12 +6329,15 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -6039,12 +6357,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -6064,12 +6385,15 @@ public class CapabilityStatement extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6086,7 +6410,7 @@ public class CapabilityStatement extends DomainResource {
              *     Description of document support
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder documentation(Markdown documentation) {
                 this.documentation = documentation;

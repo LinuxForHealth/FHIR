@@ -42,7 +42,7 @@ public abstract class BackboneElement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension}.
      */
     public List<Extension> getModifierExtension() {
         return modifierExtension;
@@ -69,7 +69,7 @@ public abstract class BackboneElement extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -83,12 +83,15 @@ public abstract class BackboneElement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -102,12 +105,15 @@ public abstract class BackboneElement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -127,12 +133,15 @@ public abstract class BackboneElement extends Element {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifierExtension(Extension... modifierExtension) {
             for (Extension value : modifierExtension) {
@@ -154,15 +163,18 @@ public abstract class BackboneElement extends Element {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
-            this.modifierExtension.addAll(modifierExtension);
+            this.modifierExtension = new ArrayList<>(modifierExtension);
             return this;
         }
 

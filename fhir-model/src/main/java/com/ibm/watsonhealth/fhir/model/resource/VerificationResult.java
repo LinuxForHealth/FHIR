@@ -80,7 +80,7 @@ public class VerificationResult extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getTarget() {
         return target;
@@ -92,7 +92,7 @@ public class VerificationResult extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getTargetLocation() {
         return targetLocation;
@@ -154,7 +154,7 @@ public class VerificationResult extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getValidationProcess() {
         return validationProcess;
@@ -214,7 +214,7 @@ public class VerificationResult extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link PrimarySource}.
+     *     An unmodifiable list containing immutable objects of type {@link PrimarySource}.
      */
     public List<PrimarySource> getPrimarySource() {
         return primarySource;
@@ -238,7 +238,7 @@ public class VerificationResult extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Validator}.
+     *     An unmodifiable list containing immutable objects of type {@link Validator}.
      */
     public List<Validator> getValidator() {
         return validator;
@@ -391,7 +391,7 @@ public class VerificationResult extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -408,7 +408,7 @@ public class VerificationResult extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -426,7 +426,7 @@ public class VerificationResult extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -442,7 +442,7 @@ public class VerificationResult extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -461,7 +461,7 @@ public class VerificationResult extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -473,12 +473,15 @@ public class VerificationResult extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -490,12 +493,15 @@ public class VerificationResult extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -509,12 +515,15 @@ public class VerificationResult extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -528,12 +537,15 @@ public class VerificationResult extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -553,12 +565,15 @@ public class VerificationResult extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -578,12 +593,15 @@ public class VerificationResult extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -594,12 +612,15 @@ public class VerificationResult extends DomainResource {
          * <p>
          * A resource that was validated.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param target
          *     A resource that was validated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Reference... target) {
             for (Reference value : target) {
@@ -612,15 +633,18 @@ public class VerificationResult extends DomainResource {
          * <p>
          * A resource that was validated.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param target
          *     A resource that was validated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Collection<Reference> target) {
-            this.target.addAll(target);
+            this.target = new ArrayList<>(target);
             return this;
         }
 
@@ -628,12 +652,15 @@ public class VerificationResult extends DomainResource {
          * <p>
          * The fhirpath location(s) within the resource that was validated.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder targetLocation(String... targetLocation) {
             for (String value : targetLocation) {
@@ -646,15 +673,18 @@ public class VerificationResult extends DomainResource {
          * <p>
          * The fhirpath location(s) within the resource that was validated.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder targetLocation(Collection<String> targetLocation) {
-            this.targetLocation.addAll(targetLocation);
+            this.targetLocation = new ArrayList<>(targetLocation);
             return this;
         }
 
@@ -667,7 +697,7 @@ public class VerificationResult extends DomainResource {
          *     none | initial | periodic
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder need(CodeableConcept need) {
             this.need = need;
@@ -683,7 +713,7 @@ public class VerificationResult extends DomainResource {
          *     When the validation status was updated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusDate(DateTime statusDate) {
             this.statusDate = statusDate;
@@ -699,7 +729,7 @@ public class VerificationResult extends DomainResource {
          *     nothing | primary | multiple
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validationType(CodeableConcept validationType) {
             this.validationType = validationType;
@@ -711,13 +741,16 @@ public class VerificationResult extends DomainResource {
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          *     standalone; in context)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validationProcess(CodeableConcept... validationProcess) {
             for (CodeableConcept value : validationProcess) {
@@ -731,16 +764,19 @@ public class VerificationResult extends DomainResource {
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          *     standalone; in context)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validationProcess(Collection<CodeableConcept> validationProcess) {
-            this.validationProcess.addAll(validationProcess);
+            this.validationProcess = new ArrayList<>(validationProcess);
             return this;
         }
 
@@ -753,7 +789,7 @@ public class VerificationResult extends DomainResource {
          *     Frequency of revalidation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder frequency(Timing frequency) {
             this.frequency = frequency;
@@ -769,7 +805,7 @@ public class VerificationResult extends DomainResource {
          *     The date/time validation was last completed (including failed validations)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastPerformed(DateTime lastPerformed) {
             this.lastPerformed = lastPerformed;
@@ -785,7 +821,7 @@ public class VerificationResult extends DomainResource {
          *     The date when target is next validated, if appropriate
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder nextScheduled(Date nextScheduled) {
             this.nextScheduled = nextScheduled;
@@ -801,7 +837,7 @@ public class VerificationResult extends DomainResource {
          *     fatal | warn | rec-only | none
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder failureAction(CodeableConcept failureAction) {
             this.failureAction = failureAction;
@@ -812,12 +848,15 @@ public class VerificationResult extends DomainResource {
          * <p>
          * Information about the primary source(s) involved in validation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder primarySource(PrimarySource... primarySource) {
             for (PrimarySource value : primarySource) {
@@ -830,15 +869,18 @@ public class VerificationResult extends DomainResource {
          * <p>
          * Information about the primary source(s) involved in validation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder primarySource(Collection<PrimarySource> primarySource) {
-            this.primarySource.addAll(primarySource);
+            this.primarySource = new ArrayList<>(primarySource);
             return this;
         }
 
@@ -851,7 +893,7 @@ public class VerificationResult extends DomainResource {
          *     Information about the entity attesting to information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder attestation(Attestation attestation) {
             this.attestation = attestation;
@@ -862,12 +904,15 @@ public class VerificationResult extends DomainResource {
          * <p>
          * Information about the entity validating information.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param validator
          *     Information about the entity validating information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validator(Validator... validator) {
             for (Validator value : validator) {
@@ -880,15 +925,18 @@ public class VerificationResult extends DomainResource {
          * <p>
          * Information about the entity validating information.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param validator
          *     Information about the entity validating information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder validator(Collection<Validator> validator) {
-            this.validator.addAll(validator);
+            this.validator = new ArrayList<>(validator);
             return this;
         }
 
@@ -969,7 +1017,7 @@ public class VerificationResult extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -981,7 +1029,7 @@ public class VerificationResult extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCommunicationMethod() {
             return communicationMethod;
@@ -1029,7 +1077,7 @@ public class VerificationResult extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getPushTypeAvailable() {
             return pushTypeAvailable;
@@ -1133,7 +1181,7 @@ public class VerificationResult extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1147,12 +1195,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1166,12 +1217,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1191,12 +1245,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1216,12 +1273,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1237,7 +1297,7 @@ public class VerificationResult extends DomainResource {
              *     Reference to the primary source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder who(Reference who) {
                 this.who = who;
@@ -1249,13 +1309,16 @@ public class VerificationResult extends DomainResource {
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              *     Registration Authority; legal source; issuing source; authoritative source)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept... type) {
                 for (CodeableConcept value : type) {
@@ -1269,16 +1332,19 @@ public class VerificationResult extends DomainResource {
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              *     Registration Authority; legal source; issuing source; authoritative source)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<CodeableConcept> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -1286,12 +1352,15 @@ public class VerificationResult extends DomainResource {
              * <p>
              * Method for communicating with the primary source (manual; API; Push).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder communicationMethod(CodeableConcept... communicationMethod) {
                 for (CodeableConcept value : communicationMethod) {
@@ -1304,15 +1373,18 @@ public class VerificationResult extends DomainResource {
              * <p>
              * Method for communicating with the primary source (manual; API; Push).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder communicationMethod(Collection<CodeableConcept> communicationMethod) {
-                this.communicationMethod.addAll(communicationMethod);
+                this.communicationMethod = new ArrayList<>(communicationMethod);
                 return this;
             }
 
@@ -1325,7 +1397,7 @@ public class VerificationResult extends DomainResource {
              *     successful | failed | unknown
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder validationStatus(CodeableConcept validationStatus) {
                 this.validationStatus = validationStatus;
@@ -1341,7 +1413,7 @@ public class VerificationResult extends DomainResource {
              *     When the target was validated against the primary source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder validationDate(DateTime validationDate) {
                 this.validationDate = validationDate;
@@ -1357,7 +1429,7 @@ public class VerificationResult extends DomainResource {
              *     yes | no | undetermined
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder canPushUpdates(CodeableConcept canPushUpdates) {
                 this.canPushUpdates = canPushUpdates;
@@ -1368,12 +1440,15 @@ public class VerificationResult extends DomainResource {
              * <p>
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param pushTypeAvailable
              *     specific | any | source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder pushTypeAvailable(CodeableConcept... pushTypeAvailable) {
                 for (CodeableConcept value : pushTypeAvailable) {
@@ -1386,15 +1461,18 @@ public class VerificationResult extends DomainResource {
              * <p>
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param pushTypeAvailable
              *     specific | any | source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder pushTypeAvailable(Collection<CodeableConcept> pushTypeAvailable) {
-                this.pushTypeAvailable.addAll(pushTypeAvailable);
+                this.pushTypeAvailable = new ArrayList<>(pushTypeAvailable);
                 return this;
             }
 
@@ -1648,7 +1726,7 @@ public class VerificationResult extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1662,12 +1740,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1681,12 +1762,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1706,12 +1790,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1731,12 +1818,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1752,7 +1842,7 @@ public class VerificationResult extends DomainResource {
              *     The individual or organization attesting to information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder who(Reference who) {
                 this.who = who;
@@ -1768,7 +1858,7 @@ public class VerificationResult extends DomainResource {
              *     When the who is asserting on behalf of another (organization or individual)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onBehalfOf(Reference onBehalfOf) {
                 this.onBehalfOf = onBehalfOf;
@@ -1784,7 +1874,7 @@ public class VerificationResult extends DomainResource {
              *     The method by which attested information was submitted/retrieved
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder communicationMethod(CodeableConcept communicationMethod) {
                 this.communicationMethod = communicationMethod;
@@ -1800,7 +1890,7 @@ public class VerificationResult extends DomainResource {
              *     The date the information was attested to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Date date) {
                 this.date = date;
@@ -1816,7 +1906,7 @@ public class VerificationResult extends DomainResource {
              *     A digital identity certificate associated with the attestation source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sourceIdentityCertificate(String sourceIdentityCertificate) {
                 this.sourceIdentityCertificate = sourceIdentityCertificate;
@@ -1834,7 +1924,7 @@ public class VerificationResult extends DomainResource {
              *     attestation source
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder proxyIdentityCertificate(String proxyIdentityCertificate) {
                 this.proxyIdentityCertificate = proxyIdentityCertificate;
@@ -1851,7 +1941,7 @@ public class VerificationResult extends DomainResource {
              *     Proxy signature
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder proxySignature(Signature proxySignature) {
                 this.proxySignature = proxySignature;
@@ -1867,7 +1957,7 @@ public class VerificationResult extends DomainResource {
              *     Attester signature
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sourceSignature(Signature sourceSignature) {
                 this.sourceSignature = sourceSignature;
@@ -2040,7 +2130,7 @@ public class VerificationResult extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2054,12 +2144,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2073,12 +2166,15 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2098,12 +2194,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2123,12 +2222,15 @@ public class VerificationResult extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2144,7 +2246,7 @@ public class VerificationResult extends DomainResource {
              *     A digital identity certificate associated with the validator
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identityCertificate(String identityCertificate) {
                 this.identityCertificate = identityCertificate;
@@ -2160,7 +2262,7 @@ public class VerificationResult extends DomainResource {
              *     Validator signature
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder attestationSignature(Signature attestationSignature) {
                 this.attestationSignature = attestationSignature;

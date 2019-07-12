@@ -82,7 +82,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -142,7 +142,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCode() {
         return code;
@@ -154,7 +154,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -166,7 +166,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getLocation() {
         return location;
@@ -178,7 +178,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getHealthcareService() {
         return healthcareService;
@@ -190,7 +190,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -202,7 +202,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AvailableTime}.
+     *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
      */
     public List<AvailableTime> getAvailableTime() {
         return availableTime;
@@ -214,7 +214,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link NotAvailable}.
+     *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
      */
     public List<NotAvailable> getNotAvailable() {
         return notAvailable;
@@ -239,7 +239,7 @@ public class PractitionerRole extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -385,7 +385,7 @@ public class PractitionerRole extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -402,7 +402,7 @@ public class PractitionerRole extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -420,7 +420,7 @@ public class PractitionerRole extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -436,7 +436,7 @@ public class PractitionerRole extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -455,7 +455,7 @@ public class PractitionerRole extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -467,12 +467,15 @@ public class PractitionerRole extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -484,12 +487,15 @@ public class PractitionerRole extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -503,12 +509,15 @@ public class PractitionerRole extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -522,12 +531,15 @@ public class PractitionerRole extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -547,12 +559,15 @@ public class PractitionerRole extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -572,12 +587,15 @@ public class PractitionerRole extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -588,12 +606,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Business Identifiers that are specific to a role/location.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifiers that are specific to a role/location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -606,15 +627,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Business Identifiers that are specific to a role/location.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifiers that are specific to a role/location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -627,7 +651,7 @@ public class PractitionerRole extends DomainResource {
          *     Whether this practitioner role record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -643,7 +667,7 @@ public class PractitionerRole extends DomainResource {
          *     The period during which the practitioner is authorized to perform in these role(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -659,7 +683,7 @@ public class PractitionerRole extends DomainResource {
          *     Practitioner that is able to provide the defined services for the organization
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder practitioner(Reference practitioner) {
             this.practitioner = practitioner;
@@ -675,7 +699,7 @@ public class PractitionerRole extends DomainResource {
          *     Organization where the roles are available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder organization(Reference organization) {
             this.organization = organization;
@@ -686,12 +710,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Roles which this practitioner is authorized to perform for the organization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param code
          *     Roles which this practitioner may perform
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept... code) {
             for (CodeableConcept value : code) {
@@ -704,15 +731,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Roles which this practitioner is authorized to perform for the organization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param code
          *     Roles which this practitioner may perform
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Collection<CodeableConcept> code) {
-            this.code.addAll(code);
+            this.code = new ArrayList<>(code);
             return this;
         }
 
@@ -720,12 +750,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Specific specialty of the practitioner.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specialty
          *     Specific specialty of the practitioner
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(CodeableConcept... specialty) {
             for (CodeableConcept value : specialty) {
@@ -738,15 +771,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Specific specialty of the practitioner.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specialty
          *     Specific specialty of the practitioner
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
-            this.specialty.addAll(specialty);
+            this.specialty = new ArrayList<>(specialty);
             return this;
         }
 
@@ -754,12 +790,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The location(s) at which this practitioner provides care.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param location
          *     The location(s) at which this practitioner provides care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Reference... location) {
             for (Reference value : location) {
@@ -772,15 +811,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The location(s) at which this practitioner provides care.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param location
          *     The location(s) at which this practitioner provides care
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder location(Collection<Reference> location) {
-            this.location.addAll(location);
+            this.location = new ArrayList<>(location);
             return this;
         }
 
@@ -788,12 +830,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder healthcareService(Reference... healthcareService) {
             for (Reference value : healthcareService) {
@@ -806,15 +851,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder healthcareService(Collection<Reference> healthcareService) {
-            this.healthcareService.addAll(healthcareService);
+            this.healthcareService = new ArrayList<>(healthcareService);
             return this;
         }
 
@@ -822,12 +870,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Contact details that are specific to the role/location/service.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     Contact details that are specific to the role/location/service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -840,15 +891,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Contact details that are specific to the role/location/service.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     Contact details that are specific to the role/location/service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -856,12 +910,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param availableTime
          *     Times the Service Site is available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availableTime(AvailableTime... availableTime) {
             for (AvailableTime value : availableTime) {
@@ -874,15 +931,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param availableTime
          *     Times the Service Site is available
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availableTime(Collection<AvailableTime> availableTime) {
-            this.availableTime.addAll(availableTime);
+            this.availableTime = new ArrayList<>(availableTime);
             return this;
         }
 
@@ -890,12 +950,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The practitioner is not available or performing this role during this period of time due to the provided reason.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder notAvailable(NotAvailable... notAvailable) {
             for (NotAvailable value : notAvailable) {
@@ -908,15 +971,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * The practitioner is not available or performing this role during this period of time due to the provided reason.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder notAvailable(Collection<NotAvailable> notAvailable) {
-            this.notAvailable.addAll(notAvailable);
+            this.notAvailable = new ArrayList<>(notAvailable);
             return this;
         }
 
@@ -930,7 +996,7 @@ public class PractitionerRole extends DomainResource {
          *     Description of availability exceptions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder availabilityExceptions(String availabilityExceptions) {
             this.availabilityExceptions = availabilityExceptions;
@@ -941,12 +1007,15 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for the practitioner with this role.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Reference... endpoint) {
             for (Reference value : endpoint) {
@@ -959,15 +1028,18 @@ public class PractitionerRole extends DomainResource {
          * <p>
          * Technical endpoints providing access to services operated for the practitioner with this role.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endpoint(Collection<Reference> endpoint) {
-            this.endpoint.addAll(endpoint);
+            this.endpoint = new ArrayList<>(endpoint);
             return this;
         }
 
@@ -1030,7 +1102,7 @@ public class PractitionerRole extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DaysOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
          */
         public List<DaysOfWeek> getDaysOfWeek() {
             return daysOfWeek;
@@ -1158,7 +1230,7 @@ public class PractitionerRole extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1172,12 +1244,15 @@ public class PractitionerRole extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1191,12 +1266,15 @@ public class PractitionerRole extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1216,12 +1294,15 @@ public class PractitionerRole extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1241,12 +1322,15 @@ public class PractitionerRole extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1257,12 +1341,15 @@ public class PractitionerRole extends DomainResource {
              * <p>
              * Indicates which days of the week are available between the start and end Times.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder daysOfWeek(DaysOfWeek... daysOfWeek) {
                 for (DaysOfWeek value : daysOfWeek) {
@@ -1275,15 +1362,18 @@ public class PractitionerRole extends DomainResource {
              * <p>
              * Indicates which days of the week are available between the start and end Times.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder daysOfWeek(Collection<DaysOfWeek> daysOfWeek) {
-                this.daysOfWeek.addAll(daysOfWeek);
+                this.daysOfWeek = new ArrayList<>(daysOfWeek);
                 return this;
             }
 
@@ -1296,7 +1386,7 @@ public class PractitionerRole extends DomainResource {
              *     Always available? e.g. 24 hour service
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder allDay(Boolean allDay) {
                 this.allDay = allDay;
@@ -1312,7 +1402,7 @@ public class PractitionerRole extends DomainResource {
              *     Opening time of day (ignored if allDay = true)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder availableStartTime(Time availableStartTime) {
                 this.availableStartTime = availableStartTime;
@@ -1328,7 +1418,7 @@ public class PractitionerRole extends DomainResource {
              *     Closing time of day (ignored if allDay = true)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder availableEndTime(Time availableEndTime) {
                 this.availableEndTime = availableEndTime;
@@ -1479,7 +1569,7 @@ public class PractitionerRole extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1493,12 +1583,15 @@ public class PractitionerRole extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1512,12 +1605,15 @@ public class PractitionerRole extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1537,12 +1633,15 @@ public class PractitionerRole extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1562,12 +1661,15 @@ public class PractitionerRole extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1583,7 +1685,7 @@ public class PractitionerRole extends DomainResource {
              *     Service not available from this date
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder during(Period during) {
                 this.during = during;

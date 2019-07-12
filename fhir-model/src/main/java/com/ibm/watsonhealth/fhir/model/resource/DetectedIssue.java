@@ -78,7 +78,7 @@ public class DetectedIssue extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -163,7 +163,7 @@ public class DetectedIssue extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getImplicated() {
         return implicated;
@@ -176,7 +176,7 @@ public class DetectedIssue extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Evidence}.
+     *     An unmodifiable list containing immutable objects of type {@link Evidence}.
      */
     public List<Evidence> getEvidence() {
         return evidence;
@@ -214,7 +214,7 @@ public class DetectedIssue extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Mitigation}.
+     *     An unmodifiable list containing immutable objects of type {@link Mitigation}.
      */
     public List<Mitigation> getMitigation() {
         return mitigation;
@@ -359,7 +359,7 @@ public class DetectedIssue extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -376,7 +376,7 @@ public class DetectedIssue extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -394,7 +394,7 @@ public class DetectedIssue extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -410,7 +410,7 @@ public class DetectedIssue extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -429,7 +429,7 @@ public class DetectedIssue extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -441,12 +441,15 @@ public class DetectedIssue extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -458,12 +461,15 @@ public class DetectedIssue extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -477,12 +483,15 @@ public class DetectedIssue extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -496,12 +505,15 @@ public class DetectedIssue extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -521,12 +533,15 @@ public class DetectedIssue extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -546,12 +561,15 @@ public class DetectedIssue extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -562,12 +580,15 @@ public class DetectedIssue extends DomainResource {
          * <p>
          * Business identifier associated with the detected issue record.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Unique id for the detected issue
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -580,15 +601,18 @@ public class DetectedIssue extends DomainResource {
          * <p>
          * Business identifier associated with the detected issue record.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Unique id for the detected issue
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -601,7 +625,7 @@ public class DetectedIssue extends DomainResource {
          *     Issue Category, e.g. drug-drug, duplicate therapy, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -617,7 +641,7 @@ public class DetectedIssue extends DomainResource {
          *     high | moderate | low
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder severity(DetectedIssueSeverity severity) {
             this.severity = severity;
@@ -633,7 +657,7 @@ public class DetectedIssue extends DomainResource {
          *     Associated patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
@@ -649,7 +673,7 @@ public class DetectedIssue extends DomainResource {
          *     When identified
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identified(Element identified) {
             this.identified = identified;
@@ -666,7 +690,7 @@ public class DetectedIssue extends DomainResource {
          *     The provider or device that identified the issue
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Reference author) {
             this.author = author;
@@ -677,12 +701,15 @@ public class DetectedIssue extends DomainResource {
          * <p>
          * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param implicated
          *     Problem resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implicated(Reference... implicated) {
             for (Reference value : implicated) {
@@ -695,15 +722,18 @@ public class DetectedIssue extends DomainResource {
          * <p>
          * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param implicated
          *     Problem resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder implicated(Collection<Reference> implicated) {
-            this.implicated.addAll(implicated);
+            this.implicated = new ArrayList<>(implicated);
             return this;
         }
 
@@ -712,12 +742,15 @@ public class DetectedIssue extends DomainResource {
          * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
          * GuidanceResponse or MeasureReport.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param evidence
          *     Supporting evidence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evidence(Evidence... evidence) {
             for (Evidence value : evidence) {
@@ -731,15 +764,18 @@ public class DetectedIssue extends DomainResource {
          * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
          * GuidanceResponse or MeasureReport.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param evidence
          *     Supporting evidence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evidence(Collection<Evidence> evidence) {
-            this.evidence.addAll(evidence);
+            this.evidence = new ArrayList<>(evidence);
             return this;
         }
 
@@ -752,7 +788,7 @@ public class DetectedIssue extends DomainResource {
          *     Description and context
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder detail(String detail) {
             this.detail = detail;
@@ -768,7 +804,7 @@ public class DetectedIssue extends DomainResource {
          *     Authority for issue
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reference(Uri reference) {
             this.reference = reference;
@@ -781,12 +817,15 @@ public class DetectedIssue extends DomainResource {
          * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
          * reduce/eliminate the need for any action.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param mitigation
          *     Step taken to address
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mitigation(Mitigation... mitigation) {
             for (Mitigation value : mitigation) {
@@ -801,15 +840,18 @@ public class DetectedIssue extends DomainResource {
          * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
          * reduce/eliminate the need for any action.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param mitigation
          *     Step taken to address
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mitigation(Collection<Mitigation> mitigation) {
-            this.mitigation.addAll(mitigation);
+            this.mitigation = new ArrayList<>(mitigation);
             return this;
         }
 
@@ -866,7 +908,7 @@ public class DetectedIssue extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -878,7 +920,7 @@ public class DetectedIssue extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getDetail() {
             return detail;
@@ -962,7 +1004,7 @@ public class DetectedIssue extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -976,12 +1018,15 @@ public class DetectedIssue extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -995,12 +1040,15 @@ public class DetectedIssue extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1020,12 +1068,15 @@ public class DetectedIssue extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1045,12 +1096,15 @@ public class DetectedIssue extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1061,12 +1115,15 @@ public class DetectedIssue extends DomainResource {
              * <p>
              * A manifestation that led to the recording of this detected issue.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Manifestation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -1079,15 +1136,18 @@ public class DetectedIssue extends DomainResource {
              * <p>
              * A manifestation that led to the recording of this detected issue.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Manifestation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1095,12 +1155,15 @@ public class DetectedIssue extends DomainResource {
              * <p>
              * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Supporting information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Reference... detail) {
                 for (Reference value : detail) {
@@ -1113,15 +1176,18 @@ public class DetectedIssue extends DomainResource {
              * <p>
              * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Supporting information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Reference> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -1288,7 +1354,7 @@ public class DetectedIssue extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1302,12 +1368,15 @@ public class DetectedIssue extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1321,12 +1390,15 @@ public class DetectedIssue extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1346,12 +1418,15 @@ public class DetectedIssue extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1371,12 +1446,15 @@ public class DetectedIssue extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1392,7 +1470,7 @@ public class DetectedIssue extends DomainResource {
              *     Date committed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(DateTime date) {
                 this.date = date;
@@ -1408,7 +1486,7 @@ public class DetectedIssue extends DomainResource {
              *     Who is committing?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder author(Reference author) {
                 this.author = author;

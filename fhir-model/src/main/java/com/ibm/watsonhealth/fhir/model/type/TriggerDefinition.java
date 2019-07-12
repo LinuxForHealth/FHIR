@@ -109,7 +109,7 @@ public class TriggerDefinition extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DataRequirement}.
+     *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
      */
     public List<DataRequirement> getData() {
         return data;
@@ -222,7 +222,7 @@ public class TriggerDefinition extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -236,12 +236,15 @@ public class TriggerDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -255,12 +258,15 @@ public class TriggerDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -277,7 +283,7 @@ public class TriggerDefinition extends Element {
          *     Name or URI that identifies the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -293,7 +299,7 @@ public class TriggerDefinition extends Element {
          *     Timing of the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder timing(Element timing) {
             this.timing = timing;
@@ -305,12 +311,15 @@ public class TriggerDefinition extends Element {
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(DataRequirement... data) {
             for (DataRequirement value : data) {
@@ -324,15 +333,18 @@ public class TriggerDefinition extends Element {
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(Collection<DataRequirement> data) {
-            this.data.addAll(data);
+            this.data = new ArrayList<>(data);
             return this;
         }
 
@@ -346,7 +358,7 @@ public class TriggerDefinition extends Element {
          *     Whether the event triggers (boolean expression)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(Expression condition) {
             this.condition = condition;

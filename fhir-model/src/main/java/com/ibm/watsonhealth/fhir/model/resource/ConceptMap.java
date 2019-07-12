@@ -242,7 +242,7 @@ public class ConceptMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -268,7 +268,7 @@ public class ConceptMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -280,7 +280,7 @@ public class ConceptMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -343,7 +343,7 @@ public class ConceptMap extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group}.
      */
     public List<Group> getGroup() {
         return group;
@@ -512,7 +512,7 @@ public class ConceptMap extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -529,7 +529,7 @@ public class ConceptMap extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -547,7 +547,7 @@ public class ConceptMap extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -563,7 +563,7 @@ public class ConceptMap extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -582,7 +582,7 @@ public class ConceptMap extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -594,12 +594,15 @@ public class ConceptMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -611,12 +614,15 @@ public class ConceptMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -630,12 +636,15 @@ public class ConceptMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -649,12 +658,15 @@ public class ConceptMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -674,12 +686,15 @@ public class ConceptMap extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -699,12 +714,15 @@ public class ConceptMap extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -723,7 +741,7 @@ public class ConceptMap extends DomainResource {
          *     Canonical identifier for this concept map, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -740,7 +758,7 @@ public class ConceptMap extends DomainResource {
          *     Additional identifier for the concept map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
@@ -759,7 +777,7 @@ public class ConceptMap extends DomainResource {
          *     Business version of the concept map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -776,7 +794,7 @@ public class ConceptMap extends DomainResource {
          *     Name for this concept map (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -792,7 +810,7 @@ public class ConceptMap extends DomainResource {
          *     Name for this concept map (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -809,7 +827,7 @@ public class ConceptMap extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -827,7 +845,7 @@ public class ConceptMap extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -843,7 +861,7 @@ public class ConceptMap extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -854,12 +872,15 @@ public class ConceptMap extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -872,15 +893,18 @@ public class ConceptMap extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -893,7 +917,7 @@ public class ConceptMap extends DomainResource {
          *     Natural language description of the concept map
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -906,12 +930,15 @@ public class ConceptMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -926,15 +953,18 @@ public class ConceptMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -942,12 +972,15 @@ public class ConceptMap extends DomainResource {
          * <p>
          * A legal or geographic region in which the concept map is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -960,15 +993,18 @@ public class ConceptMap extends DomainResource {
          * <p>
          * A legal or geographic region in which the concept map is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -981,7 +1017,7 @@ public class ConceptMap extends DomainResource {
          *     Why this concept map is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -998,7 +1034,7 @@ public class ConceptMap extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1015,7 +1051,7 @@ public class ConceptMap extends DomainResource {
          *     The source value set that contains the concepts that are being mapped
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder source(Element source) {
             this.source = source;
@@ -1032,7 +1068,7 @@ public class ConceptMap extends DomainResource {
          *     The target value set which provides context for the mappings
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder target(Element target) {
             this.target = target;
@@ -1043,12 +1079,15 @@ public class ConceptMap extends DomainResource {
          * <p>
          * A group of mappings that all have the same source and target system.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param group
          *     Same source and target systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Group... group) {
             for (Group value : group) {
@@ -1061,15 +1100,18 @@ public class ConceptMap extends DomainResource {
          * <p>
          * A group of mappings that all have the same source and target system.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param group
          *     Same source and target systems
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Collection<Group> group) {
-            this.group.addAll(group);
+            this.group = new ArrayList<>(group);
             return this;
         }
 
@@ -1187,7 +1229,7 @@ public class ConceptMap extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Element}.
+         *     An unmodifiable list containing immutable objects of type {@link Element}.
          */
         public List<Element> getElement() {
             return element;
@@ -1307,7 +1349,7 @@ public class ConceptMap extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1321,12 +1363,15 @@ public class ConceptMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1340,12 +1385,15 @@ public class ConceptMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1365,12 +1413,15 @@ public class ConceptMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1390,12 +1441,15 @@ public class ConceptMap extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1411,7 +1465,7 @@ public class ConceptMap extends DomainResource {
              *     Source system where concepts to be mapped are defined
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder source(Uri source) {
                 this.source = source;
@@ -1427,7 +1481,7 @@ public class ConceptMap extends DomainResource {
              *     Specific version of the code system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sourceVersion(String sourceVersion) {
                 this.sourceVersion = sourceVersion;
@@ -1443,7 +1497,7 @@ public class ConceptMap extends DomainResource {
              *     Target system that the concepts are to be mapped to
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder target(Uri target) {
                 this.target = target;
@@ -1459,7 +1513,7 @@ public class ConceptMap extends DomainResource {
              *     Specific version of the code system
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder targetVersion(String targetVersion) {
                 this.targetVersion = targetVersion;
@@ -1476,7 +1530,7 @@ public class ConceptMap extends DomainResource {
              *     What to do when there is no mapping for the source concept
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder unmapped(Unmapped unmapped) {
                 this.unmapped = unmapped;
@@ -1550,7 +1604,7 @@ public class ConceptMap extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Target}.
+             *     An unmodifiable list containing immutable objects of type {@link Target}.
              */
             public List<Target> getTarget() {
                 return target;
@@ -1638,7 +1692,7 @@ public class ConceptMap extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1652,12 +1706,15 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1671,12 +1728,15 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1696,12 +1756,15 @@ public class ConceptMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1721,12 +1784,15 @@ public class ConceptMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1742,7 +1808,7 @@ public class ConceptMap extends DomainResource {
                  *     Identifies element being mapped
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(Code code) {
                     this.code = code;
@@ -1758,7 +1824,7 @@ public class ConceptMap extends DomainResource {
                  *     Display for the code
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder display(String display) {
                     this.display = display;
@@ -1769,12 +1835,15 @@ public class ConceptMap extends DomainResource {
                  * <p>
                  * A concept from the target value set that this concept maps to.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param target
                  *     Concept in target system for element
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder target(Target... target) {
                     for (Target value : target) {
@@ -1787,15 +1856,18 @@ public class ConceptMap extends DomainResource {
                  * <p>
                  * A concept from the target value set that this concept maps to.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param target
                  *     Concept in target system for element
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder target(Collection<Target> target) {
-                    this.target.addAll(target);
+                    this.target = new ArrayList<>(target);
                     return this;
                 }
 
@@ -1896,7 +1968,7 @@ public class ConceptMap extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link DependsOn}.
+                 *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
                  */
                 public List<DependsOn> getDependsOn() {
                     return dependsOn;
@@ -1910,7 +1982,7 @@ public class ConceptMap extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     A list containing immutable objects of type {@link DependsOn}.
+                 *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
                  */
                 public List<ConceptMap.Group.Element.Target.DependsOn> getProduct() {
                     return product;
@@ -2017,7 +2089,7 @@ public class ConceptMap extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2031,12 +2103,15 @@ public class ConceptMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2050,12 +2125,15 @@ public class ConceptMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2075,12 +2153,15 @@ public class ConceptMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2100,12 +2181,15 @@ public class ConceptMap extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2121,7 +2205,7 @@ public class ConceptMap extends DomainResource {
                      *     Code that identifies the target element
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder code(Code code) {
                         this.code = code;
@@ -2137,7 +2221,7 @@ public class ConceptMap extends DomainResource {
                      *     Display for the code
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder display(String display) {
                         this.display = display;
@@ -2153,7 +2237,7 @@ public class ConceptMap extends DomainResource {
                      *     Description of status/issues in mapping
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder comment(String comment) {
                         this.comment = comment;
@@ -2165,12 +2249,15 @@ public class ConceptMap extends DomainResource {
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder dependsOn(DependsOn... dependsOn) {
                         for (DependsOn value : dependsOn) {
@@ -2184,15 +2271,18 @@ public class ConceptMap extends DomainResource {
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder dependsOn(Collection<DependsOn> dependsOn) {
-                        this.dependsOn.addAll(dependsOn);
+                        this.dependsOn = new ArrayList<>(dependsOn);
                         return this;
                     }
 
@@ -2202,12 +2292,15 @@ public class ConceptMap extends DomainResource {
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder product(ConceptMap.Group.Element.Target.DependsOn... product) {
                         for (ConceptMap.Group.Element.Target.DependsOn value : product) {
@@ -2222,15 +2315,18 @@ public class ConceptMap extends DomainResource {
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder product(Collection<ConceptMap.Group.Element.Target.DependsOn> product) {
-                        this.product.addAll(product);
+                        this.product = new ArrayList<>(product);
                         return this;
                     }
 
@@ -2418,7 +2514,7 @@ public class ConceptMap extends DomainResource {
                          *     Unique id for inter-element referencing
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder id(java.lang.String id) {
@@ -2432,12 +2528,15 @@ public class ConceptMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Extension... extension) {
@@ -2451,12 +2550,15 @@ public class ConceptMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2476,12 +2578,15 @@ public class ConceptMap extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Adds new element(s) to the existing list
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Extension... modifierExtension) {
@@ -2501,12 +2606,15 @@ public class ConceptMap extends DomainResource {
                          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * </p>
+                         * <p>
+                         * Replaces existing list with a new one containing elements from the Collection
+                         * </p>
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2523,7 +2631,7 @@ public class ConceptMap extends DomainResource {
                          *     Code System (if necessary)
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder system(Canonical system) {
                             this.system = system;
@@ -2539,7 +2647,7 @@ public class ConceptMap extends DomainResource {
                          *     Display for the code (if value is a code)
                          * 
                          * @return
-                         *     A reference to this Builder instance.
+                         *     A reference to this Builder instance
                          */
                         public Builder display(String display) {
                             this.display = display;
@@ -2731,7 +2839,7 @@ public class ConceptMap extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2745,12 +2853,15 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2764,12 +2875,15 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2789,12 +2903,15 @@ public class ConceptMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2814,12 +2931,15 @@ public class ConceptMap extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2835,7 +2955,7 @@ public class ConceptMap extends DomainResource {
                  *     Fixed code when mode = fixed
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(Code code) {
                     this.code = code;
@@ -2851,7 +2971,7 @@ public class ConceptMap extends DomainResource {
                  *     Display for the code
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder display(String display) {
                     this.display = display;
@@ -2868,7 +2988,7 @@ public class ConceptMap extends DomainResource {
                  *     canonical reference to an additional ConceptMap to use for mapping if the source concept is unmapped
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder url(Canonical url) {
                     this.url = url;

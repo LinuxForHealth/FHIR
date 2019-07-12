@@ -85,7 +85,7 @@ public class PaymentReconciliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -229,7 +229,7 @@ public class PaymentReconciliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Detail}.
+     *     An unmodifiable list containing immutable objects of type {@link Detail}.
      */
     public List<Detail> getDetail() {
         return detail;
@@ -253,7 +253,7 @@ public class PaymentReconciliation extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ProcessNote}.
+     *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
      */
     public List<ProcessNote> getProcessNote() {
         return processNote;
@@ -413,7 +413,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -430,7 +430,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -448,7 +448,7 @@ public class PaymentReconciliation extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -464,7 +464,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -483,7 +483,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -495,12 +495,15 @@ public class PaymentReconciliation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -512,12 +515,15 @@ public class PaymentReconciliation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -531,12 +537,15 @@ public class PaymentReconciliation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -550,12 +559,15 @@ public class PaymentReconciliation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -575,12 +587,15 @@ public class PaymentReconciliation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -600,12 +615,15 @@ public class PaymentReconciliation extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -616,12 +634,15 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * A unique identifier assigned to this payment reconciliation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for a payment reconciliation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -634,15 +655,18 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * A unique identifier assigned to this payment reconciliation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for a payment reconciliation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -655,7 +679,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Period covered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -671,7 +695,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Party generating payment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder paymentIssuer(Reference paymentIssuer) {
             this.paymentIssuer = paymentIssuer;
@@ -687,7 +711,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Reference to requesting resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(Reference request) {
             this.request = request;
@@ -703,7 +727,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Responsible practitioner
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requestor(Reference requestor) {
             this.requestor = requestor;
@@ -719,7 +743,7 @@ public class PaymentReconciliation extends DomainResource {
          *     queued | complete | error | partial
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcome(RemittanceOutcome outcome) {
             this.outcome = outcome;
@@ -735,7 +759,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Disposition message
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
@@ -751,7 +775,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Business identifier for the payment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder paymentIdentifier(Identifier paymentIdentifier) {
             this.paymentIdentifier = paymentIdentifier;
@@ -762,12 +786,15 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * Distribution of the payment amount for a previously acknowledged payable.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param detail
          *     Settlement particulars
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder detail(Detail... detail) {
             for (Detail value : detail) {
@@ -780,15 +807,18 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * Distribution of the payment amount for a previously acknowledged payable.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param detail
          *     Settlement particulars
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder detail(Collection<Detail> detail) {
-            this.detail.addAll(detail);
+            this.detail = new ArrayList<>(detail);
             return this;
         }
 
@@ -801,7 +831,7 @@ public class PaymentReconciliation extends DomainResource {
          *     Printed form identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder formCode(CodeableConcept formCode) {
             this.formCode = formCode;
@@ -812,12 +842,15 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * A note that describes or explains the processing in a human readable form.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param processNote
          *     Note concerning processing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(ProcessNote... processNote) {
             for (ProcessNote value : processNote) {
@@ -830,15 +863,18 @@ public class PaymentReconciliation extends DomainResource {
          * <p>
          * A note that describes or explains the processing in a human readable form.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param processNote
          *     Note concerning processing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processNote(Collection<ProcessNote> processNote) {
-            this.processNote.addAll(processNote);
+            this.processNote = new ArrayList<>(processNote);
             return this;
         }
 
@@ -1141,7 +1177,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1155,12 +1191,15 @@ public class PaymentReconciliation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1174,12 +1213,15 @@ public class PaymentReconciliation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1199,12 +1241,15 @@ public class PaymentReconciliation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1224,12 +1269,15 @@ public class PaymentReconciliation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1245,7 +1293,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Business identifier of the payment detail
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
@@ -1261,7 +1309,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Business identifier of the prior payment detail
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder predecessor(Identifier predecessor) {
                 this.predecessor = predecessor;
@@ -1277,7 +1325,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Request giving rise to the payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder request(Reference request) {
                 this.request = request;
@@ -1293,7 +1341,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Submitter of the request
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder submitter(Reference submitter) {
                 this.submitter = submitter;
@@ -1309,7 +1357,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Response committing to a payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder response(Reference response) {
                 this.response = response;
@@ -1325,7 +1373,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Date of commitment to pay
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder date(Date date) {
                 this.date = date;
@@ -1341,7 +1389,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Contact for the response
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder responsible(Reference responsible) {
                 this.responsible = responsible;
@@ -1357,7 +1405,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Recipient of the payment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder payee(Reference payee) {
                 this.payee = payee;
@@ -1373,7 +1421,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Amount allocated to this payable
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder amount(Money amount) {
                 this.amount = amount;
@@ -1522,7 +1570,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1536,12 +1584,15 @@ public class PaymentReconciliation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1555,12 +1606,15 @@ public class PaymentReconciliation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1580,12 +1634,15 @@ public class PaymentReconciliation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1605,12 +1662,15 @@ public class PaymentReconciliation extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1626,7 +1686,7 @@ public class PaymentReconciliation extends DomainResource {
              *     display | print | printoper
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(NoteType type) {
                 this.type = type;
@@ -1642,7 +1702,7 @@ public class PaymentReconciliation extends DomainResource {
              *     Note explanatory text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder text(String text) {
                 this.text = text;

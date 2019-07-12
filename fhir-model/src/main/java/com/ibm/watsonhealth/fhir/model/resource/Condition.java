@@ -126,7 +126,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -162,7 +162,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -198,7 +198,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -297,7 +297,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Stage}.
+     *     An unmodifiable list containing immutable objects of type {@link Stage}.
      */
     public List<Stage> getStage() {
         return stage;
@@ -310,7 +310,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Evidence}.
+     *     An unmodifiable list containing immutable objects of type {@link Evidence}.
      */
     public List<Evidence> getEvidence() {
         return evidence;
@@ -323,7 +323,7 @@ public class Condition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -488,7 +488,7 @@ public class Condition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -505,7 +505,7 @@ public class Condition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -523,7 +523,7 @@ public class Condition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -539,7 +539,7 @@ public class Condition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -558,7 +558,7 @@ public class Condition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -570,12 +570,15 @@ public class Condition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -587,12 +590,15 @@ public class Condition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -606,12 +612,15 @@ public class Condition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -625,12 +634,15 @@ public class Condition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -650,12 +662,15 @@ public class Condition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -675,12 +690,15 @@ public class Condition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -692,12 +710,15 @@ public class Condition extends DomainResource {
          * Business identifiers assigned to this condition by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Ids for this condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -711,15 +732,18 @@ public class Condition extends DomainResource {
          * Business identifiers assigned to this condition by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Ids for this condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -732,7 +756,7 @@ public class Condition extends DomainResource {
          *     active | recurrence | relapse | inactive | remission | resolved
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clinicalStatus(CodeableConcept clinicalStatus) {
             this.clinicalStatus = clinicalStatus;
@@ -748,7 +772,7 @@ public class Condition extends DomainResource {
          *     unconfirmed | provisional | differential | confirmed | refuted | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder verificationStatus(CodeableConcept verificationStatus) {
             this.verificationStatus = verificationStatus;
@@ -759,12 +783,15 @@ public class Condition extends DomainResource {
          * <p>
          * A category assigned to the condition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     problem-list-item | encounter-diagnosis
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -777,15 +804,18 @@ public class Condition extends DomainResource {
          * <p>
          * A category assigned to the condition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     problem-list-item | encounter-diagnosis
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -798,7 +828,7 @@ public class Condition extends DomainResource {
          *     Subjective severity of condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder severity(CodeableConcept severity) {
             this.severity = severity;
@@ -814,7 +844,7 @@ public class Condition extends DomainResource {
          *     Identification of the condition, problem or diagnosis
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -825,12 +855,15 @@ public class Condition extends DomainResource {
          * <p>
          * The anatomical location where this condition manifests itself.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param bodySite
          *     Anatomical location, if relevant
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(CodeableConcept... bodySite) {
             for (CodeableConcept value : bodySite) {
@@ -843,15 +876,18 @@ public class Condition extends DomainResource {
          * <p>
          * The anatomical location where this condition manifests itself.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param bodySite
          *     Anatomical location, if relevant
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(Collection<CodeableConcept> bodySite) {
-            this.bodySite.addAll(bodySite);
+            this.bodySite = new ArrayList<>(bodySite);
             return this;
         }
 
@@ -864,7 +900,7 @@ public class Condition extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -880,7 +916,7 @@ public class Condition extends DomainResource {
          *     Estimated or actual date, date-time, or age
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder onset(Element onset) {
             this.onset = onset;
@@ -898,7 +934,7 @@ public class Condition extends DomainResource {
          *     When in resolution/remission
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder abatement(Element abatement) {
             this.abatement = abatement;
@@ -915,7 +951,7 @@ public class Condition extends DomainResource {
          *     Date record was first recorded
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recordedDate(DateTime recordedDate) {
             this.recordedDate = recordedDate;
@@ -931,7 +967,7 @@ public class Condition extends DomainResource {
          *     Who recorded the condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recorder(Reference recorder) {
             this.recorder = recorder;
@@ -947,7 +983,7 @@ public class Condition extends DomainResource {
          *     Person who asserts this condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder asserter(Reference asserter) {
             this.asserter = asserter;
@@ -958,12 +994,15 @@ public class Condition extends DomainResource {
          * <p>
          * Clinical stage or grade of a condition. May include formal severity assessments.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param stage
          *     Stage/grade, usually assessed formally
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder stage(Stage... stage) {
             for (Stage value : stage) {
@@ -976,15 +1015,18 @@ public class Condition extends DomainResource {
          * <p>
          * Clinical stage or grade of a condition. May include formal severity assessments.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param stage
          *     Stage/grade, usually assessed formally
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder stage(Collection<Stage> stage) {
-            this.stage.addAll(stage);
+            this.stage = new ArrayList<>(stage);
             return this;
         }
 
@@ -993,12 +1035,15 @@ public class Condition extends DomainResource {
          * Supporting evidence / manifestations that are the basis of the Condition's verification status, such as evidence that 
          * confirmed or refuted the condition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param evidence
          *     Supporting evidence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evidence(Evidence... evidence) {
             for (Evidence value : evidence) {
@@ -1012,15 +1057,18 @@ public class Condition extends DomainResource {
          * Supporting evidence / manifestations that are the basis of the Condition's verification status, such as evidence that 
          * confirmed or refuted the condition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param evidence
          *     Supporting evidence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder evidence(Collection<Evidence> evidence) {
-            this.evidence.addAll(evidence);
+            this.evidence = new ArrayList<>(evidence);
             return this;
         }
 
@@ -1029,12 +1077,15 @@ public class Condition extends DomainResource {
          * Additional information about the Condition. This is a general notes/comments entry for description of the Condition, 
          * its diagnosis and prognosis.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Additional information about the Condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1048,15 +1099,18 @@ public class Condition extends DomainResource {
          * Additional information about the Condition. This is a general notes/comments entry for description of the Condition, 
          * its diagnosis and prognosis.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Additional information about the Condition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1131,7 +1185,7 @@ public class Condition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getAssessment() {
             return assessment;
@@ -1231,7 +1285,7 @@ public class Condition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1245,12 +1299,15 @@ public class Condition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1264,12 +1321,15 @@ public class Condition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1289,12 +1349,15 @@ public class Condition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1314,12 +1377,15 @@ public class Condition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1335,7 +1401,7 @@ public class Condition extends DomainResource {
              *     Simple summary (disease specific)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder summary(CodeableConcept summary) {
                 this.summary = summary;
@@ -1346,12 +1412,15 @@ public class Condition extends DomainResource {
              * <p>
              * Reference to a formal record of the evidence on which the staging assessment is based.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param assessment
              *     Formal record of assessment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder assessment(Reference... assessment) {
                 for (Reference value : assessment) {
@@ -1364,15 +1433,18 @@ public class Condition extends DomainResource {
              * <p>
              * Reference to a formal record of the evidence on which the staging assessment is based.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param assessment
              *     Formal record of assessment
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder assessment(Collection<Reference> assessment) {
-                this.assessment.addAll(assessment);
+                this.assessment = new ArrayList<>(assessment);
                 return this;
             }
 
@@ -1385,7 +1457,7 @@ public class Condition extends DomainResource {
              *     Kind of staging
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1433,7 +1505,7 @@ public class Condition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1445,7 +1517,7 @@ public class Condition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getDetail() {
             return detail;
@@ -1529,7 +1601,7 @@ public class Condition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1543,12 +1615,15 @@ public class Condition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1562,12 +1637,15 @@ public class Condition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1587,12 +1665,15 @@ public class Condition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1612,12 +1693,15 @@ public class Condition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1628,12 +1712,15 @@ public class Condition extends DomainResource {
              * <p>
              * A manifestation or symptom that led to the recording of this condition.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Manifestation/symptom
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -1646,15 +1733,18 @@ public class Condition extends DomainResource {
              * <p>
              * A manifestation or symptom that led to the recording of this condition.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Manifestation/symptom
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1662,12 +1752,15 @@ public class Condition extends DomainResource {
              * <p>
              * Links to other relevant information, including pathology reports.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Supporting information found elsewhere
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Reference... detail) {
                 for (Reference value : detail) {
@@ -1680,15 +1773,18 @@ public class Condition extends DomainResource {
              * <p>
              * Links to other relevant information, including pathology reports.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Supporting information found elsewhere
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Reference> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 

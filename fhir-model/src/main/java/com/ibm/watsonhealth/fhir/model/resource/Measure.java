@@ -173,7 +173,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -304,7 +304,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -330,7 +330,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -342,7 +342,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -430,7 +430,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -442,7 +442,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -454,7 +454,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -466,7 +466,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -478,7 +478,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -490,7 +490,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -502,7 +502,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -554,7 +554,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -630,7 +630,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Markdown}.
+     *     An unmodifiable list containing immutable objects of type {@link Markdown}.
      */
     public List<Markdown> getDefinition() {
         return definition;
@@ -654,7 +654,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group}.
      */
     public List<Group> getGroup() {
         return group;
@@ -667,7 +667,7 @@ public class Measure extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link SupplementalData}.
+     *     An unmodifiable list containing immutable objects of type {@link SupplementalData}.
      */
     public List<SupplementalData> getSupplementalData() {
         return supplementalData;
@@ -928,7 +928,7 @@ public class Measure extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -945,7 +945,7 @@ public class Measure extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -963,7 +963,7 @@ public class Measure extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -979,7 +979,7 @@ public class Measure extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -998,7 +998,7 @@ public class Measure extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -1010,12 +1010,15 @@ public class Measure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -1027,12 +1030,15 @@ public class Measure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -1046,12 +1052,15 @@ public class Measure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -1065,12 +1074,15 @@ public class Measure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -1090,12 +1102,15 @@ public class Measure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -1115,12 +1130,15 @@ public class Measure extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1139,7 +1157,7 @@ public class Measure extends DomainResource {
          *     Canonical identifier for this measure, represented as a URI (globally unique)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder url(Uri url) {
             this.url = url;
@@ -1151,12 +1169,15 @@ public class Measure extends DomainResource {
          * A formal identifier that is used to identify this measure when it is represented in other formats, or referenced in a 
          * specification, model, design or an instance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -1170,15 +1191,18 @@ public class Measure extends DomainResource {
          * A formal identifier that is used to identify this measure when it is represented in other formats, or referenced in a 
          * specification, model, design or an instance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Additional identifier for the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1197,7 +1221,7 @@ public class Measure extends DomainResource {
          *     Business version of the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder version(String version) {
             this.version = version;
@@ -1214,7 +1238,7 @@ public class Measure extends DomainResource {
          *     Name for this measure (computer friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(String name) {
             this.name = name;
@@ -1230,7 +1254,7 @@ public class Measure extends DomainResource {
          *     Name for this measure (human friendly)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder title(String title) {
             this.title = title;
@@ -1246,7 +1270,7 @@ public class Measure extends DomainResource {
          *     Subordinate title of the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
@@ -1263,7 +1287,7 @@ public class Measure extends DomainResource {
          *     For testing purposes, not real usage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
@@ -1280,7 +1304,7 @@ public class Measure extends DomainResource {
          *     E.g. Patient, Practitioner, RelatedPerson, Organization, Location, Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Element subject) {
             this.subject = subject;
@@ -1298,7 +1322,7 @@ public class Measure extends DomainResource {
          *     Date last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -1314,7 +1338,7 @@ public class Measure extends DomainResource {
          *     Name of the publisher (organization or individual)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder publisher(String publisher) {
             this.publisher = publisher;
@@ -1325,12 +1349,15 @@ public class Measure extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(ContactDetail... contact) {
             for (ContactDetail value : contact) {
@@ -1343,15 +1370,18 @@ public class Measure extends DomainResource {
          * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<ContactDetail> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -1364,7 +1394,7 @@ public class Measure extends DomainResource {
          *     Natural language description of the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(Markdown description) {
             this.description = description;
@@ -1377,12 +1407,15 @@ public class Measure extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate measure instances.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(UsageContext... useContext) {
             for (UsageContext value : useContext) {
@@ -1397,15 +1430,18 @@ public class Measure extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate measure instances.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder useContext(Collection<UsageContext> useContext) {
-            this.useContext.addAll(useContext);
+            this.useContext = new ArrayList<>(useContext);
             return this;
         }
 
@@ -1413,12 +1449,15 @@ public class Measure extends DomainResource {
          * <p>
          * A legal or geographic region in which the measure is intended to be used.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for measure (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(CodeableConcept... jurisdiction) {
             for (CodeableConcept value : jurisdiction) {
@@ -1431,15 +1470,18 @@ public class Measure extends DomainResource {
          * <p>
          * A legal or geographic region in which the measure is intended to be used.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param jurisdiction
          *     Intended jurisdiction for measure (if applicable)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
-            this.jurisdiction.addAll(jurisdiction);
+            this.jurisdiction = new ArrayList<>(jurisdiction);
             return this;
         }
 
@@ -1452,7 +1494,7 @@ public class Measure extends DomainResource {
          *     Why this measure is defined
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
@@ -1468,7 +1510,7 @@ public class Measure extends DomainResource {
          *     Describes the clinical usage of the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder usage(String usage) {
             this.usage = usage;
@@ -1485,7 +1527,7 @@ public class Measure extends DomainResource {
          *     Use and/or publishing restrictions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copyright(Markdown copyright) {
             this.copyright = copyright;
@@ -1502,7 +1544,7 @@ public class Measure extends DomainResource {
          *     When the measure was approved by publisher
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
@@ -1519,7 +1561,7 @@ public class Measure extends DomainResource {
          *     When the measure was last reviewed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastReviewDate(Date lastReviewDate) {
             this.lastReviewDate = lastReviewDate;
@@ -1535,7 +1577,7 @@ public class Measure extends DomainResource {
          *     When the measure is expected to be used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effectivePeriod(Period effectivePeriod) {
             this.effectivePeriod = effectivePeriod;
@@ -1547,12 +1589,15 @@ public class Measure extends DomainResource {
          * Descriptive topics related to the content of the measure. Topics provide a high-level categorization grouping types of 
          * measures that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param topic
          *     The category of the measure, such as Education, Treatment, Assessment, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(CodeableConcept... topic) {
             for (CodeableConcept value : topic) {
@@ -1566,15 +1611,18 @@ public class Measure extends DomainResource {
          * Descriptive topics related to the content of the measure. Topics provide a high-level categorization grouping types of 
          * measures that can be useful for filtering and searching.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param topic
          *     The category of the measure, such as Education, Treatment, Assessment, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder topic(Collection<CodeableConcept> topic) {
-            this.topic.addAll(topic);
+            this.topic = new ArrayList<>(topic);
             return this;
         }
 
@@ -1582,12 +1630,15 @@ public class Measure extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(ContactDetail... author) {
             for (ContactDetail value : author) {
@@ -1600,15 +1651,18 @@ public class Measure extends DomainResource {
          * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder author(Collection<ContactDetail> author) {
-            this.author.addAll(author);
+            this.author = new ArrayList<>(author);
             return this;
         }
 
@@ -1616,12 +1670,15 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(ContactDetail... editor) {
             for (ContactDetail value : editor) {
@@ -1634,15 +1691,18 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder editor(Collection<ContactDetail> editor) {
-            this.editor.addAll(editor);
+            this.editor = new ArrayList<>(editor);
             return this;
         }
 
@@ -1650,12 +1710,15 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(ContactDetail... reviewer) {
             for (ContactDetail value : reviewer) {
@@ -1668,15 +1731,18 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
-            this.reviewer.addAll(reviewer);
+            this.reviewer = new ArrayList<>(reviewer);
             return this;
         }
 
@@ -1684,12 +1750,15 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(ContactDetail... endorser) {
             for (ContactDetail value : endorser) {
@@ -1702,15 +1771,18 @@ public class Measure extends DomainResource {
          * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
-            this.endorser.addAll(endorser);
+            this.endorser = new ArrayList<>(endorser);
             return this;
         }
 
@@ -1718,12 +1790,15 @@ public class Measure extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(RelatedArtifact... relatedArtifact) {
             for (RelatedArtifact value : relatedArtifact) {
@@ -1736,15 +1811,18 @@ public class Measure extends DomainResource {
          * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
-            this.relatedArtifact.addAll(relatedArtifact);
+            this.relatedArtifact = new ArrayList<>(relatedArtifact);
             return this;
         }
 
@@ -1752,12 +1830,15 @@ public class Measure extends DomainResource {
          * <p>
          * A reference to a Library resource containing the formal logic used by the measure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param library
          *     Logic used by the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Canonical... library) {
             for (Canonical value : library) {
@@ -1770,15 +1851,18 @@ public class Measure extends DomainResource {
          * <p>
          * A reference to a Library resource containing the formal logic used by the measure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param library
          *     Logic used by the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder library(Collection<Canonical> library) {
-            this.library.addAll(library);
+            this.library = new ArrayList<>(library);
             return this;
         }
 
@@ -1792,7 +1876,7 @@ public class Measure extends DomainResource {
          *     Disclaimer for use of the measure or its referenced content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disclaimer(Markdown disclaimer) {
             this.disclaimer = disclaimer;
@@ -1809,7 +1893,7 @@ public class Measure extends DomainResource {
          *     proportion | ratio | continuous-variable | cohort
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder scoring(CodeableConcept scoring) {
             this.scoring = scoring;
@@ -1826,7 +1910,7 @@ public class Measure extends DomainResource {
          *     opportunity | all-or-nothing | linear | weighted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder compositeScoring(CodeableConcept compositeScoring) {
             this.compositeScoring = compositeScoring;
@@ -1838,12 +1922,15 @@ public class Measure extends DomainResource {
          * Indicates whether the measure is used to examine a process, an outcome over time, a patient-reported outcome, or a 
          * structure measure such as utilization.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param type
          *     process | outcome | structure | patient-reported-outcome | composite
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept... type) {
             for (CodeableConcept value : type) {
@@ -1857,15 +1944,18 @@ public class Measure extends DomainResource {
          * Indicates whether the measure is used to examine a process, an outcome over time, a patient-reported outcome, or a 
          * structure measure such as utilization.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param type
          *     process | outcome | structure | patient-reported-outcome | composite
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(Collection<CodeableConcept> type) {
-            this.type.addAll(type);
+            this.type = new ArrayList<>(type);
             return this;
         }
 
@@ -1879,7 +1969,7 @@ public class Measure extends DomainResource {
          *     How risk adjustment is applied for this measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder riskAdjustment(String riskAdjustment) {
             this.riskAdjustment = riskAdjustment;
@@ -1896,7 +1986,7 @@ public class Measure extends DomainResource {
          *     How is rate aggregation performed for this measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rateAggregation(String rateAggregation) {
             this.rateAggregation = rateAggregation;
@@ -1913,7 +2003,7 @@ public class Measure extends DomainResource {
          *     Detailed description of why the measure exists
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder rationale(Markdown rationale) {
             this.rationale = rationale;
@@ -1929,7 +2019,7 @@ public class Measure extends DomainResource {
          *     Summary of clinical guidelines
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clinicalRecommendationStatement(Markdown clinicalRecommendationStatement) {
             this.clinicalRecommendationStatement = clinicalRecommendationStatement;
@@ -1946,7 +2036,7 @@ public class Measure extends DomainResource {
          *     increase | decrease
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder improvementNotation(CodeableConcept improvementNotation) {
             this.improvementNotation = improvementNotation;
@@ -1957,12 +2047,15 @@ public class Measure extends DomainResource {
          * <p>
          * Provides a description of an individual term used within the measure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param definition
          *     Defined terms used in the measure documentation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder definition(Markdown... definition) {
             for (Markdown value : definition) {
@@ -1975,15 +2068,18 @@ public class Measure extends DomainResource {
          * <p>
          * Provides a description of an individual term used within the measure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param definition
          *     Defined terms used in the measure documentation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder definition(Collection<Markdown> definition) {
-            this.definition.addAll(definition);
+            this.definition = new ArrayList<>(definition);
             return this;
         }
 
@@ -1996,7 +2092,7 @@ public class Measure extends DomainResource {
          *     Additional guidance for implementers
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder guidance(Markdown guidance) {
             this.guidance = guidance;
@@ -2007,12 +2103,15 @@ public class Measure extends DomainResource {
          * <p>
          * A group of population criteria for the measure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param group
          *     Population criteria group
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Group... group) {
             for (Group value : group) {
@@ -2025,15 +2124,18 @@ public class Measure extends DomainResource {
          * <p>
          * A group of population criteria for the measure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param group
          *     Population criteria group
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder group(Collection<Group> group) {
-            this.group.addAll(group);
+            this.group = new ArrayList<>(group);
             return this;
         }
 
@@ -2042,12 +2144,15 @@ public class Measure extends DomainResource {
          * The supplemental data criteria for the measure report, specified as either the name of a valid CQL expression within a 
          * referenced library, or a valid FHIR Resource Path.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supplementalData
          *     What other data should be reported with the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplementalData(SupplementalData... supplementalData) {
             for (SupplementalData value : supplementalData) {
@@ -2061,15 +2166,18 @@ public class Measure extends DomainResource {
          * The supplemental data criteria for the measure report, specified as either the name of a valid CQL expression within a 
          * referenced library, or a valid FHIR Resource Path.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supplementalData
          *     What other data should be reported with the measure
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supplementalData(Collection<SupplementalData> supplementalData) {
-            this.supplementalData.addAll(supplementalData);
+            this.supplementalData = new ArrayList<>(supplementalData);
             return this;
         }
 
@@ -2183,7 +2291,7 @@ public class Measure extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Population}.
+         *     An unmodifiable list containing immutable objects of type {@link Population}.
          */
         public List<Population> getPopulation() {
             return population;
@@ -2196,7 +2304,7 @@ public class Measure extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Stratifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Stratifier}.
          */
         public List<Stratifier> getStratifier() {
             return stratifier;
@@ -2288,7 +2396,7 @@ public class Measure extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2302,12 +2410,15 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2321,12 +2432,15 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2346,12 +2460,15 @@ public class Measure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2371,12 +2488,15 @@ public class Measure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2393,7 +2513,7 @@ public class Measure extends DomainResource {
              *     Meaning of the group
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -2409,7 +2529,7 @@ public class Measure extends DomainResource {
              *     Summary description
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2420,12 +2540,15 @@ public class Measure extends DomainResource {
              * <p>
              * A population criteria for the measure.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param population
              *     Population criteria
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder population(Population... population) {
                 for (Population value : population) {
@@ -2438,15 +2561,18 @@ public class Measure extends DomainResource {
              * <p>
              * A population criteria for the measure.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param population
              *     Population criteria
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder population(Collection<Population> population) {
-                this.population.addAll(population);
+                this.population = new ArrayList<>(population);
                 return this;
             }
 
@@ -2455,12 +2581,15 @@ public class Measure extends DomainResource {
              * The stratifier criteria for the measure report, specified as either the name of a valid CQL expression defined within 
              * a referenced library or a valid FHIR Resource Path.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param stratifier
              *     Stratifier criteria for the measure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder stratifier(Stratifier... stratifier) {
                 for (Stratifier value : stratifier) {
@@ -2474,15 +2603,18 @@ public class Measure extends DomainResource {
              * The stratifier criteria for the measure report, specified as either the name of a valid CQL expression defined within 
              * a referenced library or a valid FHIR Resource Path.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param stratifier
              *     Stratifier criteria for the measure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder stratifier(Collection<Stratifier> stratifier) {
-                this.stratifier.addAll(stratifier);
+                this.stratifier = new ArrayList<>(stratifier);
                 return this;
             }
 
@@ -2647,7 +2779,7 @@ public class Measure extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2661,12 +2793,15 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2680,12 +2815,15 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2705,12 +2843,15 @@ public class Measure extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2730,12 +2871,15 @@ public class Measure extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2752,7 +2896,7 @@ public class Measure extends DomainResource {
                  *     measure-population | measure-population-exclusion | measure-observation
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -2768,7 +2912,7 @@ public class Measure extends DomainResource {
                  *     The human readable description of this population criteria
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(String description) {
                     this.description = description;
@@ -2858,7 +3002,7 @@ public class Measure extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Component}.
+             *     An unmodifiable list containing immutable objects of type {@link Component}.
              */
             public List<Component> getComponent() {
                 return component;
@@ -2950,7 +3094,7 @@ public class Measure extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2964,12 +3108,15 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2983,12 +3130,15 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3008,12 +3158,15 @@ public class Measure extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3033,12 +3186,15 @@ public class Measure extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3055,7 +3211,7 @@ public class Measure extends DomainResource {
                  *     Meaning of the stratifier
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -3071,7 +3227,7 @@ public class Measure extends DomainResource {
                  *     The human readable description of this stratifier
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder description(String description) {
                     this.description = description;
@@ -3088,7 +3244,7 @@ public class Measure extends DomainResource {
                  *     How the measure should be stratified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder criteria(Expression criteria) {
                     this.criteria = criteria;
@@ -3100,12 +3256,15 @@ public class Measure extends DomainResource {
                  * A component of the stratifier criteria for the measure report, specified as either the name of a valid CQL expression 
                  * defined within a referenced library or a valid FHIR Resource Path.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param component
                  *     Stratifier criteria component for the measure
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder component(Component... component) {
                     for (Component value : component) {
@@ -3119,15 +3278,18 @@ public class Measure extends DomainResource {
                  * A component of the stratifier criteria for the measure report, specified as either the name of a valid CQL expression 
                  * defined within a referenced library or a valid FHIR Resource Path.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param component
                  *     Stratifier criteria component for the measure
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder component(Collection<Component> component) {
-                    this.component.addAll(component);
+                    this.component = new ArrayList<>(component);
                     return this;
                 }
 
@@ -3295,7 +3457,7 @@ public class Measure extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -3309,12 +3471,15 @@ public class Measure extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -3328,12 +3493,15 @@ public class Measure extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3353,12 +3521,15 @@ public class Measure extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -3378,12 +3549,15 @@ public class Measure extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3400,7 +3574,7 @@ public class Measure extends DomainResource {
                      *     Meaning of the stratifier component
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder code(CodeableConcept code) {
                         this.code = code;
@@ -3416,7 +3590,7 @@ public class Measure extends DomainResource {
                      *     The human readable description of this stratifier component
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder description(String description) {
                         this.description = description;
@@ -3485,7 +3659,7 @@ public class Measure extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getUsage() {
             return usage;
@@ -3610,7 +3784,7 @@ public class Measure extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3624,12 +3798,15 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3643,12 +3820,15 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3668,12 +3848,15 @@ public class Measure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3693,12 +3876,15 @@ public class Measure extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3716,7 +3902,7 @@ public class Measure extends DomainResource {
              *     Meaning of the supplemental data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -3729,12 +3915,15 @@ public class Measure extends DomainResource {
              * additional information requested to augment the measure information. Risk adjustment factor indicates the data is 
              * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param usage
              *     supplemental-data | risk-adjustment-factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder usage(CodeableConcept... usage) {
                 for (CodeableConcept value : usage) {
@@ -3749,15 +3938,18 @@ public class Measure extends DomainResource {
              * additional information requested to augment the measure information. Risk adjustment factor indicates the data is 
              * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param usage
              *     supplemental-data | risk-adjustment-factor
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder usage(Collection<CodeableConcept> usage) {
-                this.usage.addAll(usage);
+                this.usage = new ArrayList<>(usage);
                 return this;
             }
 
@@ -3770,7 +3962,7 @@ public class Measure extends DomainResource {
              *     The human readable description of this supplemental data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;

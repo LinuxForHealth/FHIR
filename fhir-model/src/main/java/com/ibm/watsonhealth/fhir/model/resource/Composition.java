@@ -145,7 +145,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -195,7 +195,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -231,7 +231,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attester}.
+     *     An unmodifiable list containing immutable objects of type {@link Attester}.
      */
     public List<Attester> getAttester() {
         return attester;
@@ -256,7 +256,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link RelatesTo}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
      */
     public List<RelatesTo> getRelatesTo() {
         return relatesTo;
@@ -268,7 +268,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Event}.
+     *     An unmodifiable list containing immutable objects of type {@link Event}.
      */
     public List<Event> getEvent() {
         return event;
@@ -280,7 +280,7 @@ public class Composition extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Section}.
+     *     An unmodifiable list containing immutable objects of type {@link Section}.
      */
     public List<Section> getSection() {
         return section;
@@ -441,7 +441,7 @@ public class Composition extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -458,7 +458,7 @@ public class Composition extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -476,7 +476,7 @@ public class Composition extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -492,7 +492,7 @@ public class Composition extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -511,7 +511,7 @@ public class Composition extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -523,12 +523,15 @@ public class Composition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -540,12 +543,15 @@ public class Composition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -559,12 +565,15 @@ public class Composition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -578,12 +587,15 @@ public class Composition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -603,12 +615,15 @@ public class Composition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -628,12 +643,15 @@ public class Composition extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -650,7 +668,7 @@ public class Composition extends DomainResource {
          *     Version-independent identifier for the Composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
@@ -662,12 +680,15 @@ public class Composition extends DomainResource {
          * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
          * from the code specified in the Composition Type.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Categorization of Composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -681,15 +702,18 @@ public class Composition extends DomainResource {
          * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
          * from the code specified in the Composition Type.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Categorization of Composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -704,7 +728,7 @@ public class Composition extends DomainResource {
          *     Who and/or what the composition is about
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -720,7 +744,7 @@ public class Composition extends DomainResource {
          *     Context of the Composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -736,7 +760,7 @@ public class Composition extends DomainResource {
          *     As defined by affinity domain
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder confidentiality(DocumentConfidentiality confidentiality) {
             this.confidentiality = confidentiality;
@@ -747,12 +771,15 @@ public class Composition extends DomainResource {
          * <p>
          * A participant who has attested to the accuracy of the composition/document.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param attester
          *     Attests to accuracy of composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder attester(Attester... attester) {
             for (Attester value : attester) {
@@ -765,15 +792,18 @@ public class Composition extends DomainResource {
          * <p>
          * A participant who has attested to the accuracy of the composition/document.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param attester
          *     Attests to accuracy of composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder attester(Collection<Attester> attester) {
-            this.attester.addAll(attester);
+            this.attester = new ArrayList<>(attester);
             return this;
         }
 
@@ -787,7 +817,7 @@ public class Composition extends DomainResource {
          *     Organization which maintains the composition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder custodian(Reference custodian) {
             this.custodian = custodian;
@@ -798,12 +828,15 @@ public class Composition extends DomainResource {
          * <p>
          * Relationships that this composition has with other compositions or documents that already exist.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relatesTo
          *     Relationships to other compositions/documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatesTo(RelatesTo... relatesTo) {
             for (RelatesTo value : relatesTo) {
@@ -816,15 +849,18 @@ public class Composition extends DomainResource {
          * <p>
          * Relationships that this composition has with other compositions or documents that already exist.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relatesTo
          *     Relationships to other compositions/documents
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relatesTo(Collection<RelatesTo> relatesTo) {
-            this.relatesTo.addAll(relatesTo);
+            this.relatesTo = new ArrayList<>(relatesTo);
             return this;
         }
 
@@ -832,12 +868,15 @@ public class Composition extends DomainResource {
          * <p>
          * The clinical service, such as a colonoscopy or an appendectomy, being documented.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param event
          *     The clinical service(s) being documented
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder event(Event... event) {
             for (Event value : event) {
@@ -850,15 +889,18 @@ public class Composition extends DomainResource {
          * <p>
          * The clinical service, such as a colonoscopy or an appendectomy, being documented.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param event
          *     The clinical service(s) being documented
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder event(Collection<Event> event) {
-            this.event.addAll(event);
+            this.event = new ArrayList<>(event);
             return this;
         }
 
@@ -866,12 +908,15 @@ public class Composition extends DomainResource {
          * <p>
          * The root of the sections that make up the composition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param section
          *     Composition is broken into sections
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder section(Section... section) {
             for (Section value : section) {
@@ -884,15 +929,18 @@ public class Composition extends DomainResource {
          * <p>
          * The root of the sections that make up the composition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param section
          *     Composition is broken into sections
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder section(Collection<Section> section) {
-            this.section.addAll(section);
+            this.section = new ArrayList<>(section);
             return this;
         }
 
@@ -1068,7 +1116,7 @@ public class Composition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1082,12 +1130,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1101,12 +1152,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1126,12 +1180,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1151,12 +1208,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1172,7 +1232,7 @@ public class Composition extends DomainResource {
              *     When the composition was attested
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder time(DateTime time) {
                 this.time = time;
@@ -1188,7 +1248,7 @@ public class Composition extends DomainResource {
              *     Who attested the composition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder party(Reference party) {
                 this.party = party;
@@ -1336,7 +1396,7 @@ public class Composition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1350,12 +1410,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1369,12 +1432,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1394,12 +1460,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1419,12 +1488,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1472,7 +1544,7 @@ public class Composition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1498,7 +1570,7 @@ public class Composition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getDetail() {
             return detail;
@@ -1586,7 +1658,7 @@ public class Composition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1600,12 +1672,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1619,12 +1694,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1644,12 +1722,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1669,12 +1750,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1687,12 +1771,15 @@ public class Composition extends DomainResource {
              * some cases, the event is inherent in the typeCode, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     Code(s) that apply to the event being documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept... code) {
                 for (CodeableConcept value : code) {
@@ -1707,15 +1794,18 @@ public class Composition extends DomainResource {
              * some cases, the event is inherent in the typeCode, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     Code(s) that apply to the event being documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<CodeableConcept> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1729,7 +1819,7 @@ public class Composition extends DomainResource {
              *     The period covered by the documentation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1741,12 +1831,15 @@ public class Composition extends DomainResource {
              * The description and/or reference of the event(s) being documented. For example, this could be used to document such a 
              * colonoscopy or an appendectomy.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     The event(s) being documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Reference... detail) {
                 for (Reference value : detail) {
@@ -1760,15 +1853,18 @@ public class Composition extends DomainResource {
              * The description and/or reference of the event(s) being documented. For example, this could be used to document such a 
              * colonoscopy or an appendectomy.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     The event(s) being documented
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Reference> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -1853,7 +1949,7 @@ public class Composition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getAuthor() {
             return author;
@@ -1921,7 +2017,7 @@ public class Composition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getEntry() {
             return entry;
@@ -1945,7 +2041,7 @@ public class Composition extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Section}.
+         *     An unmodifiable list containing immutable objects of type {@link Section}.
          */
         public List<Composition.Section> getSection() {
             return section;
@@ -2061,7 +2157,7 @@ public class Composition extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2075,12 +2171,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2094,12 +2193,15 @@ public class Composition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2119,12 +2221,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2144,12 +2249,15 @@ public class Composition extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2166,7 +2274,7 @@ public class Composition extends DomainResource {
              *     Label for section (e.g. for ToC)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder title(String title) {
                 this.title = title;
@@ -2182,7 +2290,7 @@ public class Composition extends DomainResource {
              *     Classification of section (recommended)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
@@ -2193,12 +2301,15 @@ public class Composition extends DomainResource {
              * <p>
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param author
              *     Who and/or what authored the section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder author(Reference... author) {
                 for (Reference value : author) {
@@ -2211,15 +2322,18 @@ public class Composition extends DomainResource {
              * <p>
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param author
              *     Who and/or what authored the section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder author(Collection<Reference> author) {
-                this.author.addAll(author);
+                this.author = new ArrayList<>(author);
                 return this;
             }
 
@@ -2236,7 +2350,7 @@ public class Composition extends DomainResource {
              *     Who/what the section is about, when it is not about the subject of composition
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder focus(Reference focus) {
                 this.focus = focus;
@@ -2254,7 +2368,7 @@ public class Composition extends DomainResource {
              *     Text summary of the section, for human interpretation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder text(Narrative text) {
                 this.text = text;
@@ -2272,7 +2386,7 @@ public class Composition extends DomainResource {
              *     working | snapshot | changes
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder mode(SectionMode mode) {
                 this.mode = mode;
@@ -2288,7 +2402,7 @@ public class Composition extends DomainResource {
              *     Order of section entries
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder orderedBy(CodeableConcept orderedBy) {
                 this.orderedBy = orderedBy;
@@ -2299,12 +2413,15 @@ public class Composition extends DomainResource {
              * <p>
              * A reference to the actual resource from which the narrative in the section is derived.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param entry
              *     A reference to data that supports this section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder entry(Reference... entry) {
                 for (Reference value : entry) {
@@ -2317,15 +2434,18 @@ public class Composition extends DomainResource {
              * <p>
              * A reference to the actual resource from which the narrative in the section is derived.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param entry
              *     A reference to data that supports this section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder entry(Collection<Reference> entry) {
-                this.entry.addAll(entry);
+                this.entry = new ArrayList<>(entry);
                 return this;
             }
 
@@ -2338,7 +2458,7 @@ public class Composition extends DomainResource {
              *     Why the section is empty
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder emptyReason(CodeableConcept emptyReason) {
                 this.emptyReason = emptyReason;
@@ -2349,12 +2469,15 @@ public class Composition extends DomainResource {
              * <p>
              * A nested sub-section within this section.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param section
              *     Nested Section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder section(Composition.Section... section) {
                 for (Composition.Section value : section) {
@@ -2367,15 +2490,18 @@ public class Composition extends DomainResource {
              * <p>
              * A nested sub-section within this section.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param section
              *     Nested Section
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder section(Collection<Composition.Section> section) {
-                this.section.addAll(section);
+                this.section = new ArrayList<>(section);
                 return this;
             }
 

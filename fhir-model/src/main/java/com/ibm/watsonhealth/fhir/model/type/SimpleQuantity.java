@@ -193,7 +193,7 @@ public class SimpleQuantity extends Quantity {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -207,12 +207,15 @@ public class SimpleQuantity extends Quantity {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -226,12 +229,15 @@ public class SimpleQuantity extends Quantity {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -247,7 +253,7 @@ public class SimpleQuantity extends Quantity {
          *     Numerical value (with implicit precision)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder value(Decimal value) {
             this.value = value;
@@ -263,7 +269,7 @@ public class SimpleQuantity extends Quantity {
          *     &lt; | &lt;= | &gt;= | &gt; - how to understand the value
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder comparator(QuantityComparator comparator) {
             this.comparator = comparator;
@@ -279,7 +285,7 @@ public class SimpleQuantity extends Quantity {
          *     Unit representation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder unit(String unit) {
             this.unit = unit;
@@ -295,7 +301,7 @@ public class SimpleQuantity extends Quantity {
          *     System that defines coded unit form
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder system(Uri system) {
             this.system = system;
@@ -311,7 +317,7 @@ public class SimpleQuantity extends Quantity {
          *     Coded form of the unit
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(Code code) {
             this.code = code;

@@ -111,7 +111,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -223,7 +223,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Variant}.
+     *     An unmodifiable list containing immutable objects of type {@link Variant}.
      */
     public List<Variant> getVariant() {
         return variant;
@@ -249,7 +249,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Quality}.
+     *     An unmodifiable list containing immutable objects of type {@link Quality}.
      */
     public List<Quality> getQuality() {
         return quality;
@@ -275,7 +275,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Repository}.
+     *     An unmodifiable list containing immutable objects of type {@link Repository}.
      */
     public List<Repository> getRepository() {
         return repository;
@@ -287,7 +287,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPointer() {
         return pointer;
@@ -299,7 +299,7 @@ public class MolecularSequence extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link StructureVariant}.
+     *     An unmodifiable list containing immutable objects of type {@link StructureVariant}.
      */
     public List<StructureVariant> getStructureVariant() {
         return structureVariant;
@@ -460,7 +460,7 @@ public class MolecularSequence extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -477,7 +477,7 @@ public class MolecularSequence extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -495,7 +495,7 @@ public class MolecularSequence extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -511,7 +511,7 @@ public class MolecularSequence extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -530,7 +530,7 @@ public class MolecularSequence extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -542,12 +542,15 @@ public class MolecularSequence extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -559,12 +562,15 @@ public class MolecularSequence extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -578,12 +584,15 @@ public class MolecularSequence extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -597,12 +606,15 @@ public class MolecularSequence extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -622,12 +634,15 @@ public class MolecularSequence extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -647,12 +662,15 @@ public class MolecularSequence extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -663,12 +681,15 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -681,15 +702,18 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -702,7 +726,7 @@ public class MolecularSequence extends DomainResource {
          *     aa | dna | rna
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(SequenceType type) {
             this.type = type;
@@ -718,7 +742,7 @@ public class MolecularSequence extends DomainResource {
          *     Who and/or what this is about
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
@@ -734,7 +758,7 @@ public class MolecularSequence extends DomainResource {
          *     Specimen used for sequencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specimen(Reference specimen) {
             this.specimen = specimen;
@@ -750,7 +774,7 @@ public class MolecularSequence extends DomainResource {
          *     The method for sequencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder device(Reference device) {
             this.device = device;
@@ -766,7 +790,7 @@ public class MolecularSequence extends DomainResource {
          *     Who should be responsible for test result
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference performer) {
             this.performer = performer;
@@ -782,7 +806,7 @@ public class MolecularSequence extends DomainResource {
          *     The number of copies of the sequence of interest. (RNASeq)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quantity(Quantity quantity) {
             this.quantity = quantity;
@@ -798,7 +822,7 @@ public class MolecularSequence extends DomainResource {
          *     A sequence used as reference
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder referenceSeq(ReferenceSeq referenceSeq) {
             this.referenceSeq = referenceSeq;
@@ -812,12 +836,15 @@ public class MolecularSequence extends DomainResource {
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param variant
          *     Variant in sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder variant(Variant... variant) {
             for (Variant value : variant) {
@@ -833,15 +860,18 @@ public class MolecularSequence extends DomainResource {
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param variant
          *     Variant in sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder variant(Collection<Variant> variant) {
-            this.variant.addAll(variant);
+            this.variant = new ArrayList<>(variant);
             return this;
         }
 
@@ -855,7 +885,7 @@ public class MolecularSequence extends DomainResource {
          *     Sequence that was observed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder observedSeq(String observedSeq) {
             this.observedSeq = observedSeq;
@@ -867,12 +897,15 @@ public class MolecularSequence extends DomainResource {
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param quality
          *     An set of value as quality of sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quality(Quality... quality) {
             for (Quality value : quality) {
@@ -886,15 +919,18 @@ public class MolecularSequence extends DomainResource {
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param quality
          *     An set of value as quality of sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quality(Collection<Quality> quality) {
-            this.quality.addAll(quality);
+            this.quality = new ArrayList<>(quality);
             return this;
         }
 
@@ -908,7 +944,7 @@ public class MolecularSequence extends DomainResource {
          *     Average number of reads representing a given nucleotide in the reconstructed sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder readCoverage(Integer readCoverage) {
             this.readCoverage = readCoverage;
@@ -920,12 +956,15 @@ public class MolecularSequence extends DomainResource {
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder repository(Repository... repository) {
             for (Repository value : repository) {
@@ -939,15 +978,18 @@ public class MolecularSequence extends DomainResource {
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder repository(Collection<Repository> repository) {
-            this.repository.addAll(repository);
+            this.repository = new ArrayList<>(repository);
             return this;
         }
 
@@ -955,12 +997,15 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * Pointer to next atomic sequence which at most contains one variant.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param pointer
          *     Pointer to next atomic sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder pointer(Reference... pointer) {
             for (Reference value : pointer) {
@@ -973,15 +1018,18 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * Pointer to next atomic sequence which at most contains one variant.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param pointer
          *     Pointer to next atomic sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder pointer(Collection<Reference> pointer) {
-            this.pointer.addAll(pointer);
+            this.pointer = new ArrayList<>(pointer);
             return this;
         }
 
@@ -989,12 +1037,15 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * Information about chromosome structure variation.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param structureVariant
          *     Structural variant
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder structureVariant(StructureVariant... structureVariant) {
             for (StructureVariant value : structureVariant) {
@@ -1007,15 +1058,18 @@ public class MolecularSequence extends DomainResource {
          * <p>
          * Information about chromosome structure variation.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param structureVariant
          *     Structural variant
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder structureVariant(Collection<StructureVariant> structureVariant) {
-            this.structureVariant.addAll(structureVariant);
+            this.structureVariant = new ArrayList<>(structureVariant);
             return this;
         }
 
@@ -1307,7 +1361,7 @@ public class MolecularSequence extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1321,12 +1375,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1340,12 +1397,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1365,12 +1425,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1390,12 +1453,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1413,7 +1479,7 @@ public class MolecularSequence extends DomainResource {
              *     Chromosome containing genetic finding
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder chromosome(CodeableConcept chromosome) {
                 this.chromosome = chromosome;
@@ -1430,7 +1496,7 @@ public class MolecularSequence extends DomainResource {
              *     The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder genomeBuild(String genomeBuild) {
                 this.genomeBuild = genomeBuild;
@@ -1447,7 +1513,7 @@ public class MolecularSequence extends DomainResource {
              *     sense | antisense
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder orientation(OrientationType orientation) {
                 this.orientation = orientation;
@@ -1465,7 +1531,7 @@ public class MolecularSequence extends DomainResource {
              *     Reference identifier
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referenceSeqId(CodeableConcept referenceSeqId) {
                 this.referenceSeqId = referenceSeqId;
@@ -1481,7 +1547,7 @@ public class MolecularSequence extends DomainResource {
              *     A pointer to another MolecularSequence entity as reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referenceSeqPointer(Reference referenceSeqPointer) {
                 this.referenceSeqPointer = referenceSeqPointer;
@@ -1497,7 +1563,7 @@ public class MolecularSequence extends DomainResource {
              *     A string to represent reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referenceSeqString(String referenceSeqString) {
                 this.referenceSeqString = referenceSeqString;
@@ -1514,7 +1580,7 @@ public class MolecularSequence extends DomainResource {
              *     watson | crick
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder strand(StrandType strand) {
                 this.strand = strand;
@@ -1531,7 +1597,7 @@ public class MolecularSequence extends DomainResource {
              *     Start position of the window on the reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder windowStart(Integer windowStart) {
                 this.windowStart = windowStart;
@@ -1549,7 +1615,7 @@ public class MolecularSequence extends DomainResource {
              *     End position of the window on the reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder windowEnd(Integer windowEnd) {
                 this.windowEnd = windowEnd;
@@ -1785,7 +1851,7 @@ public class MolecularSequence extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1799,12 +1865,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1818,12 +1887,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1843,12 +1915,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1868,12 +1943,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1890,7 +1968,7 @@ public class MolecularSequence extends DomainResource {
              *     Start position of the variant on the reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder start(Integer start) {
                 this.start = start;
@@ -1908,7 +1986,7 @@ public class MolecularSequence extends DomainResource {
              *     End position of the variant on the reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder end(Integer end) {
                 this.end = end;
@@ -1927,7 +2005,7 @@ public class MolecularSequence extends DomainResource {
              *     Allele that was observed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder observedAllele(String observedAllele) {
                 this.observedAllele = observedAllele;
@@ -1946,7 +2024,7 @@ public class MolecularSequence extends DomainResource {
              *     Allele in the reference sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder referenceAllele(String referenceAllele) {
                 this.referenceAllele = referenceAllele;
@@ -1965,7 +2043,7 @@ public class MolecularSequence extends DomainResource {
              *     Extended CIGAR string for aligning the sequence with reference bases
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder cigar(String cigar) {
                 this.cigar = cigar;
@@ -1981,7 +2059,7 @@ public class MolecularSequence extends DomainResource {
              *     Pointer to observed variant information
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder variantPointer(Reference variantPointer) {
                 this.variantPointer = variantPointer;
@@ -2380,7 +2458,7 @@ public class MolecularSequence extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2394,12 +2472,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2413,12 +2494,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2438,12 +2522,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2463,12 +2550,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2484,7 +2574,7 @@ public class MolecularSequence extends DomainResource {
              *     Standard sequence for comparison
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder standardSequence(CodeableConcept standardSequence) {
                 this.standardSequence = standardSequence;
@@ -2501,7 +2591,7 @@ public class MolecularSequence extends DomainResource {
              *     Start position of the sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder start(Integer start) {
                 this.start = start;
@@ -2518,7 +2608,7 @@ public class MolecularSequence extends DomainResource {
              *     End position of the sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder end(Integer end) {
                 this.end = end;
@@ -2535,7 +2625,7 @@ public class MolecularSequence extends DomainResource {
              *     Quality score for the comparison
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder score(Quantity score) {
                 this.score = score;
@@ -2551,7 +2641,7 @@ public class MolecularSequence extends DomainResource {
              *     Method to get quality
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder method(CodeableConcept method) {
                 this.method = method;
@@ -2569,7 +2659,7 @@ public class MolecularSequence extends DomainResource {
              *     True positives from the perspective of the truth data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder truthTP(Decimal truthTP) {
                 this.truthTP = truthTP;
@@ -2587,7 +2677,7 @@ public class MolecularSequence extends DomainResource {
              *     True positives from the perspective of the query data
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder queryTP(Decimal queryTP) {
                 this.queryTP = queryTP;
@@ -2605,7 +2695,7 @@ public class MolecularSequence extends DomainResource {
              *     False negatives
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder truthFN(Decimal truthFN) {
                 this.truthFN = truthFN;
@@ -2622,7 +2712,7 @@ public class MolecularSequence extends DomainResource {
              *     False positives
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder queryFP(Decimal queryFP) {
                 this.queryFP = queryFP;
@@ -2639,7 +2729,7 @@ public class MolecularSequence extends DomainResource {
              *     False positives where the non-REF alleles in the Truth and Query Call Sets match
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder gtFP(Decimal gtFP) {
                 this.gtFP = gtFP;
@@ -2655,7 +2745,7 @@ public class MolecularSequence extends DomainResource {
              *     Precision of comparison
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder precision(Decimal precision) {
                 this.precision = precision;
@@ -2671,7 +2761,7 @@ public class MolecularSequence extends DomainResource {
              *     Recall of comparison
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder recall(Decimal recall) {
                 this.recall = recall;
@@ -2687,7 +2777,7 @@ public class MolecularSequence extends DomainResource {
              *     F-score
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fScore(Decimal fScore) {
                 this.fScore = fScore;
@@ -2703,7 +2793,7 @@ public class MolecularSequence extends DomainResource {
              *     Receiver Operator Characteristic (ROC) Curve
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder roc(Roc roc) {
                 this.roc = roc;
@@ -2770,7 +2860,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer}.
              */
             public List<Integer> getScore() {
                 return score;
@@ -2782,7 +2872,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer}.
              */
             public List<Integer> getNumTP() {
                 return numTP;
@@ -2794,7 +2884,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer}.
              */
             public List<Integer> getNumFP() {
                 return numFP;
@@ -2806,7 +2896,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer}.
              */
             public List<Integer> getNumFN() {
                 return numFN;
@@ -2818,7 +2908,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
              */
             public List<Decimal> getPrecision() {
                 return precision;
@@ -2830,7 +2920,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
              */
             public List<Decimal> getSensitivity() {
                 return sensitivity;
@@ -2842,7 +2932,7 @@ public class MolecularSequence extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
              */
             public List<Decimal> getFMeasure() {
                 return fMeasure;
@@ -2946,7 +3036,7 @@ public class MolecularSequence extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2960,12 +3050,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2979,12 +3072,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3004,12 +3100,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -3029,12 +3128,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3045,12 +3147,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Invidual data point representing the GQ (genotype quality) score threshold.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param score
                  *     Genotype quality score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder score(Integer... score) {
                     for (Integer value : score) {
@@ -3063,15 +3168,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Invidual data point representing the GQ (genotype quality) score threshold.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param score
                  *     Genotype quality score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder score(Collection<Integer> score) {
-                    this.score.addAll(score);
+                    this.score = new ArrayList<>(score);
                     return this;
                 }
 
@@ -3079,12 +3187,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of true positives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numTP(Integer... numTP) {
                     for (Integer value : numTP) {
@@ -3097,15 +3208,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of true positives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numTP(Collection<Integer> numTP) {
-                    this.numTP.addAll(numTP);
+                    this.numTP = new ArrayList<>(numTP);
                     return this;
                 }
 
@@ -3113,12 +3227,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of false positives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numFP(Integer... numFP) {
                     for (Integer value : numFP) {
@@ -3131,15 +3248,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of false positives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numFP(Collection<Integer> numFP) {
-                    this.numFP.addAll(numFP);
+                    this.numFP = new ArrayList<>(numFP);
                     return this;
                 }
 
@@ -3147,12 +3267,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numFN(Integer... numFN) {
                     for (Integer value : numFN) {
@@ -3165,15 +3288,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder numFN(Collection<Integer> numFN) {
-                    this.numFN.addAll(numFN);
+                    this.numFN = new ArrayList<>(numFN);
                     return this;
                 }
 
@@ -3181,12 +3307,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated precision if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param precision
                  *     Precision of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder precision(Decimal... precision) {
                     for (Decimal value : precision) {
@@ -3199,15 +3328,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated precision if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param precision
                  *     Precision of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder precision(Collection<Decimal> precision) {
-                    this.precision.addAll(precision);
+                    this.precision = new ArrayList<>(precision);
                     return this;
                 }
 
@@ -3215,12 +3347,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder sensitivity(Decimal... sensitivity) {
                     for (Decimal value : sensitivity) {
@@ -3233,15 +3368,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder sensitivity(Collection<Decimal> sensitivity) {
-                    this.sensitivity.addAll(sensitivity);
+                    this.sensitivity = new ArrayList<>(sensitivity);
                     return this;
                 }
 
@@ -3249,12 +3387,15 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder fMeasure(Decimal... fMeasure) {
                     for (Decimal value : fMeasure) {
@@ -3267,15 +3408,18 @@ public class MolecularSequence extends DomainResource {
                  * <p>
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder fMeasure(Collection<Decimal> fMeasure) {
-                    this.fMeasure.addAll(fMeasure);
+                    this.fMeasure = new ArrayList<>(fMeasure);
                     return this;
                 }
 
@@ -3502,7 +3646,7 @@ public class MolecularSequence extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3516,12 +3660,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3535,12 +3682,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3560,12 +3710,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3585,12 +3738,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3606,7 +3762,7 @@ public class MolecularSequence extends DomainResource {
              *     URI of the repository
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder url(Uri url) {
                 this.url = url;
@@ -3622,7 +3778,7 @@ public class MolecularSequence extends DomainResource {
              *     Repository's name
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -3639,7 +3795,7 @@ public class MolecularSequence extends DomainResource {
              *     Id of the dataset that used to call for dataset in repository
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder datasetId(String datasetId) {
                 this.datasetId = datasetId;
@@ -3656,7 +3812,7 @@ public class MolecularSequence extends DomainResource {
              *     Id of the variantset that used to call for variantset in repository
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder variantsetId(String variantsetId) {
                 this.variantsetId = variantsetId;
@@ -3672,7 +3828,7 @@ public class MolecularSequence extends DomainResource {
              *     Id of the read
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder readsetId(String readsetId) {
                 this.readsetId = readsetId;
@@ -3871,7 +4027,7 @@ public class MolecularSequence extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -3885,12 +4041,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -3904,12 +4063,15 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3929,12 +4091,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -3954,12 +4119,15 @@ public class MolecularSequence extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3975,7 +4143,7 @@ public class MolecularSequence extends DomainResource {
              *     Structural variant change type
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder variantType(CodeableConcept variantType) {
                 this.variantType = variantType;
@@ -3991,7 +4159,7 @@ public class MolecularSequence extends DomainResource {
              *     Does the structural variant have base pair resolution breakpoints?
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exact(Boolean exact) {
                 this.exact = exact;
@@ -4007,7 +4175,7 @@ public class MolecularSequence extends DomainResource {
              *     Structural variant length
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder length(Integer length) {
                 this.length = length;
@@ -4023,7 +4191,7 @@ public class MolecularSequence extends DomainResource {
              *     Structural variant outer
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder outer(Outer outer) {
                 this.outer = outer;
@@ -4039,7 +4207,7 @@ public class MolecularSequence extends DomainResource {
              *     Structural variant inner
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder inner(Inner inner) {
                 this.inner = inner;
@@ -4185,7 +4353,7 @@ public class MolecularSequence extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4199,12 +4367,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4218,12 +4389,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4243,12 +4417,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4268,12 +4445,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4290,7 +4470,7 @@ public class MolecularSequence extends DomainResource {
                  *     Structural variant outer start
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder start(Integer start) {
                     this.start = start;
@@ -4307,7 +4487,7 @@ public class MolecularSequence extends DomainResource {
                  *     Structural variant outer end
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder end(Integer end) {
                     this.end = end;
@@ -4451,7 +4631,7 @@ public class MolecularSequence extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -4465,12 +4645,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -4484,12 +4667,15 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4509,12 +4695,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -4534,12 +4723,15 @@ public class MolecularSequence extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4556,7 +4748,7 @@ public class MolecularSequence extends DomainResource {
                  *     Structural variant inner start
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder start(Integer start) {
                     this.start = start;
@@ -4573,7 +4765,7 @@ public class MolecularSequence extends DomainResource {
                  *     Structural variant inner end
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder end(Integer end) {
                     this.end = end;

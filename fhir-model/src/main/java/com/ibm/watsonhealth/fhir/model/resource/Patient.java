@@ -100,7 +100,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -132,7 +132,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
      */
     public List<HumanName> getName() {
         return name;
@@ -144,7 +144,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -193,7 +193,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address}.
      */
     public List<Address> getAddress() {
         return address;
@@ -229,7 +229,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -241,7 +241,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Contact}.
+     *     An unmodifiable list containing immutable objects of type {@link Contact}.
      */
     public List<Contact> getContact() {
         return contact;
@@ -253,7 +253,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Communication}.
+     *     An unmodifiable list containing immutable objects of type {@link Communication}.
      */
     public List<Communication> getCommunication() {
         return communication;
@@ -265,7 +265,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getGeneralPractitioner() {
         return generalPractitioner;
@@ -289,7 +289,7 @@ public class Patient extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link}.
      */
     public List<Link> getLink() {
         return link;
@@ -443,7 +443,7 @@ public class Patient extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -460,7 +460,7 @@ public class Patient extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -478,7 +478,7 @@ public class Patient extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -494,7 +494,7 @@ public class Patient extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -513,7 +513,7 @@ public class Patient extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -525,12 +525,15 @@ public class Patient extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -542,12 +545,15 @@ public class Patient extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -561,12 +567,15 @@ public class Patient extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -580,12 +589,15 @@ public class Patient extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -605,12 +617,15 @@ public class Patient extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -630,12 +645,15 @@ public class Patient extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -646,12 +664,15 @@ public class Patient extends DomainResource {
          * <p>
          * An identifier for this patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     An identifier for this patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -664,15 +685,18 @@ public class Patient extends DomainResource {
          * <p>
          * An identifier for this patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     An identifier for this patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -693,7 +717,7 @@ public class Patient extends DomainResource {
          *     Whether this patient's record is in active use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder active(Boolean active) {
             this.active = active;
@@ -704,12 +728,15 @@ public class Patient extends DomainResource {
          * <p>
          * A name associated with the individual.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param name
          *     A name associated with the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(HumanName... name) {
             for (HumanName value : name) {
@@ -722,15 +749,18 @@ public class Patient extends DomainResource {
          * <p>
          * A name associated with the individual.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param name
          *     A name associated with the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(Collection<HumanName> name) {
-            this.name.addAll(name);
+            this.name = new ArrayList<>(name);
             return this;
         }
 
@@ -738,12 +768,15 @@ public class Patient extends DomainResource {
          * <p>
          * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(ContactPoint... telecom) {
             for (ContactPoint value : telecom) {
@@ -756,15 +789,18 @@ public class Patient extends DomainResource {
          * <p>
          * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param telecom
          *     A contact detail for the individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
-            this.telecom.addAll(telecom);
+            this.telecom = new ArrayList<>(telecom);
             return this;
         }
 
@@ -778,7 +814,7 @@ public class Patient extends DomainResource {
          *     male | female | other | unknown
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
@@ -794,7 +830,7 @@ public class Patient extends DomainResource {
          *     The date of birth for the individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder birthDate(Date birthDate) {
             this.birthDate = birthDate;
@@ -810,7 +846,7 @@ public class Patient extends DomainResource {
          *     Indicates if the individual is deceased or not
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder deceased(Element deceased) {
             this.deceased = deceased;
@@ -821,12 +857,15 @@ public class Patient extends DomainResource {
          * <p>
          * An address for the individual.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param address
          *     An address for the individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Address... address) {
             for (Address value : address) {
@@ -839,15 +878,18 @@ public class Patient extends DomainResource {
          * <p>
          * An address for the individual.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param address
          *     An address for the individual
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder address(Collection<Address> address) {
-            this.address.addAll(address);
+            this.address = new ArrayList<>(address);
             return this;
         }
 
@@ -860,7 +902,7 @@ public class Patient extends DomainResource {
          *     Marital (civil) status of a patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder maritalStatus(CodeableConcept maritalStatus) {
             this.maritalStatus = maritalStatus;
@@ -876,7 +918,7 @@ public class Patient extends DomainResource {
          *     Whether patient is part of a multiple birth
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder multipleBirth(Element multipleBirth) {
             this.multipleBirth = multipleBirth;
@@ -887,12 +929,15 @@ public class Patient extends DomainResource {
          * <p>
          * Image of the patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param photo
          *     Image of the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Attachment... photo) {
             for (Attachment value : photo) {
@@ -905,15 +950,18 @@ public class Patient extends DomainResource {
          * <p>
          * Image of the patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param photo
          *     Image of the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder photo(Collection<Attachment> photo) {
-            this.photo.addAll(photo);
+            this.photo = new ArrayList<>(photo);
             return this;
         }
 
@@ -921,12 +969,15 @@ public class Patient extends DomainResource {
          * <p>
          * A contact party (e.g. guardian, partner, friend) for the patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contact
          *     A contact party (e.g. guardian, partner, friend) for the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Contact... contact) {
             for (Contact value : contact) {
@@ -939,15 +990,18 @@ public class Patient extends DomainResource {
          * <p>
          * A contact party (e.g. guardian, partner, friend) for the patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contact
          *     A contact party (e.g. guardian, partner, friend) for the patient
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder contact(Collection<Contact> contact) {
-            this.contact.addAll(contact);
+            this.contact = new ArrayList<>(contact);
             return this;
         }
 
@@ -955,12 +1009,15 @@ public class Patient extends DomainResource {
          * <p>
          * A language which may be used to communicate with the patient about his or her health.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param communication
          *     A language which may be used to communicate with the patient about his or her health
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Communication... communication) {
             for (Communication value : communication) {
@@ -973,15 +1030,18 @@ public class Patient extends DomainResource {
          * <p>
          * A language which may be used to communicate with the patient about his or her health.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param communication
          *     A language which may be used to communicate with the patient about his or her health
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder communication(Collection<Communication> communication) {
-            this.communication.addAll(communication);
+            this.communication = new ArrayList<>(communication);
             return this;
         }
 
@@ -989,12 +1049,15 @@ public class Patient extends DomainResource {
          * <p>
          * Patient's nominated care provider.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder generalPractitioner(Reference... generalPractitioner) {
             for (Reference value : generalPractitioner) {
@@ -1007,15 +1070,18 @@ public class Patient extends DomainResource {
          * <p>
          * Patient's nominated care provider.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder generalPractitioner(Collection<Reference> generalPractitioner) {
-            this.generalPractitioner.addAll(generalPractitioner);
+            this.generalPractitioner = new ArrayList<>(generalPractitioner);
             return this;
         }
 
@@ -1028,7 +1094,7 @@ public class Patient extends DomainResource {
          *     Organization that is the custodian of the patient record
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder managingOrganization(Reference managingOrganization) {
             this.managingOrganization = managingOrganization;
@@ -1039,12 +1105,15 @@ public class Patient extends DomainResource {
          * <p>
          * Link to another patient resource that concerns the same actual patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param link
          *     Link to another patient resource that concerns the same actual person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder link(Link... link) {
             for (Link value : link) {
@@ -1057,15 +1126,18 @@ public class Patient extends DomainResource {
          * <p>
          * Link to another patient resource that concerns the same actual patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param link
          *     Link to another patient resource that concerns the same actual person
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder link(Collection<Link> link) {
-            this.link.addAll(link);
+            this.link = new ArrayList<>(link);
             return this;
         }
 
@@ -1136,7 +1208,7 @@ public class Patient extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getRelationship() {
             return relationship;
@@ -1160,7 +1232,7 @@ public class Patient extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link ContactPoint}.
+         *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
          */
         public List<ContactPoint> getTelecom() {
             return telecom;
@@ -1313,7 +1385,7 @@ public class Patient extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1327,12 +1399,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1346,12 +1421,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1371,12 +1449,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1396,12 +1477,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1412,12 +1496,15 @@ public class Patient extends DomainResource {
              * <p>
              * The nature of the relationship between the patient and the contact person.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param relationship
              *     The kind of relationship
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relationship(CodeableConcept... relationship) {
                 for (CodeableConcept value : relationship) {
@@ -1430,15 +1517,18 @@ public class Patient extends DomainResource {
              * <p>
              * The nature of the relationship between the patient and the contact person.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param relationship
              *     The kind of relationship
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder relationship(Collection<CodeableConcept> relationship) {
-                this.relationship.addAll(relationship);
+                this.relationship = new ArrayList<>(relationship);
                 return this;
             }
 
@@ -1451,7 +1541,7 @@ public class Patient extends DomainResource {
              *     A name associated with the contact person
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(HumanName name) {
                 this.name = name;
@@ -1462,12 +1552,15 @@ public class Patient extends DomainResource {
              * <p>
              * A contact detail for the person, e.g. a telephone number or an email address.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param telecom
              *     A contact detail for the person
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder telecom(ContactPoint... telecom) {
                 for (ContactPoint value : telecom) {
@@ -1480,15 +1573,18 @@ public class Patient extends DomainResource {
              * <p>
              * A contact detail for the person, e.g. a telephone number or an email address.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param telecom
              *     A contact detail for the person
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder telecom(Collection<ContactPoint> telecom) {
-                this.telecom.addAll(telecom);
+                this.telecom = new ArrayList<>(telecom);
                 return this;
             }
 
@@ -1501,7 +1597,7 @@ public class Patient extends DomainResource {
              *     Address for the contact person
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder address(Address address) {
                 this.address = address;
@@ -1518,7 +1614,7 @@ public class Patient extends DomainResource {
              *     male | female | other | unknown
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder gender(AdministrativeGender gender) {
                 this.gender = gender;
@@ -1534,7 +1630,7 @@ public class Patient extends DomainResource {
              *     Organization that is associated with the contact
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder organization(Reference organization) {
                 this.organization = organization;
@@ -1550,7 +1646,7 @@ public class Patient extends DomainResource {
              *     The period during which this contact person or organization is valid to be contacted relating to this patient
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Period period) {
                 this.period = period;
@@ -1706,7 +1802,7 @@ public class Patient extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1720,12 +1816,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1739,12 +1838,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1764,12 +1866,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1789,12 +1894,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1810,7 +1918,7 @@ public class Patient extends DomainResource {
              *     Language preference indicator
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder preferred(Boolean preferred) {
                 this.preferred = preferred;
@@ -1957,7 +2065,7 @@ public class Patient extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1971,12 +2079,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1990,12 +2101,15 @@ public class Patient extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2015,12 +2129,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2040,12 +2157,15 @@ public class Patient extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

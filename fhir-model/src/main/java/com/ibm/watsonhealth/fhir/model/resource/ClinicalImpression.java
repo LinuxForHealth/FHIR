@@ -98,7 +98,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -234,7 +234,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getProblem() {
         return problem;
@@ -248,7 +248,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Investigation}.
+     *     An unmodifiable list containing immutable objects of type {@link Investigation}.
      */
     public List<Investigation> getInvestigation() {
         return investigation;
@@ -261,7 +261,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getProtocol() {
         return protocol;
@@ -285,7 +285,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Finding}.
+     *     An unmodifiable list containing immutable objects of type {@link Finding}.
      */
     public List<Finding> getFinding() {
         return finding;
@@ -297,7 +297,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getPrognosisCodeableConcept() {
         return prognosisCodeableConcept;
@@ -309,7 +309,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPrognosisReference() {
         return prognosisReference;
@@ -321,7 +321,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -334,7 +334,7 @@ public class ClinicalImpression extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -512,7 +512,7 @@ public class ClinicalImpression extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -529,7 +529,7 @@ public class ClinicalImpression extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -547,7 +547,7 @@ public class ClinicalImpression extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -563,7 +563,7 @@ public class ClinicalImpression extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -582,7 +582,7 @@ public class ClinicalImpression extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -594,12 +594,15 @@ public class ClinicalImpression extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -611,12 +614,15 @@ public class ClinicalImpression extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -630,12 +636,15 @@ public class ClinicalImpression extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -649,12 +658,15 @@ public class ClinicalImpression extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -674,12 +686,15 @@ public class ClinicalImpression extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -699,12 +714,15 @@ public class ClinicalImpression extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -716,12 +734,15 @@ public class ClinicalImpression extends DomainResource {
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -735,15 +756,18 @@ public class ClinicalImpression extends DomainResource {
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -756,7 +780,7 @@ public class ClinicalImpression extends DomainResource {
          *     Reason for current status
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder statusReason(CodeableConcept statusReason) {
             this.statusReason = statusReason;
@@ -772,7 +796,7 @@ public class ClinicalImpression extends DomainResource {
          *     Kind of assessment performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -789,7 +813,7 @@ public class ClinicalImpression extends DomainResource {
          *     Why/how the assessment was performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder description(String description) {
             this.description = description;
@@ -806,7 +830,7 @@ public class ClinicalImpression extends DomainResource {
          *     Encounter created as part of
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -822,7 +846,7 @@ public class ClinicalImpression extends DomainResource {
          *     Time of assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder effective(Element effective) {
             this.effective = effective;
@@ -838,7 +862,7 @@ public class ClinicalImpression extends DomainResource {
          *     When the assessment was documented
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -854,7 +878,7 @@ public class ClinicalImpression extends DomainResource {
          *     The clinician performing the assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder assessor(Reference assessor) {
             this.assessor = assessor;
@@ -872,7 +896,7 @@ public class ClinicalImpression extends DomainResource {
          *     Reference to last assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder previous(Reference previous) {
             this.previous = previous;
@@ -883,12 +907,15 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * A list of the relevant problems/conditions for a patient.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param problem
          *     Relevant impressions of patient state
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder problem(Reference... problem) {
             for (Reference value : problem) {
@@ -901,15 +928,18 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * A list of the relevant problems/conditions for a patient.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param problem
          *     Relevant impressions of patient state
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder problem(Collection<Reference> problem) {
-            this.problem.addAll(problem);
+            this.problem = new ArrayList<>(problem);
             return this;
         }
 
@@ -919,12 +949,15 @@ public class ClinicalImpression extends DomainResource {
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder investigation(Investigation... investigation) {
             for (Investigation value : investigation) {
@@ -939,15 +972,18 @@ public class ClinicalImpression extends DomainResource {
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder investigation(Collection<Investigation> investigation) {
-            this.investigation.addAll(investigation);
+            this.investigation = new ArrayList<>(investigation);
             return this;
         }
 
@@ -956,12 +992,15 @@ public class ClinicalImpression extends DomainResource {
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param protocol
          *     Clinical Protocol followed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder protocol(Uri... protocol) {
             for (Uri value : protocol) {
@@ -975,15 +1014,18 @@ public class ClinicalImpression extends DomainResource {
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param protocol
          *     Clinical Protocol followed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder protocol(Collection<Uri> protocol) {
-            this.protocol.addAll(protocol);
+            this.protocol = new ArrayList<>(protocol);
             return this;
         }
 
@@ -996,7 +1038,7 @@ public class ClinicalImpression extends DomainResource {
          *     Summary of the assessment
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder summary(String summary) {
             this.summary = summary;
@@ -1007,12 +1049,15 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder finding(Finding... finding) {
             for (Finding value : finding) {
@@ -1025,15 +1070,18 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder finding(Collection<Finding> finding) {
-            this.finding.addAll(finding);
+            this.finding = new ArrayList<>(finding);
             return this;
         }
 
@@ -1041,12 +1089,15 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Estimate of likely outcome.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prognosisCodeableConcept(CodeableConcept... prognosisCodeableConcept) {
             for (CodeableConcept value : prognosisCodeableConcept) {
@@ -1059,15 +1110,18 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Estimate of likely outcome.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prognosisCodeableConcept(Collection<CodeableConcept> prognosisCodeableConcept) {
-            this.prognosisCodeableConcept.addAll(prognosisCodeableConcept);
+            this.prognosisCodeableConcept = new ArrayList<>(prognosisCodeableConcept);
             return this;
         }
 
@@ -1075,12 +1129,15 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * RiskAssessment expressing likely outcome.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prognosisReference(Reference... prognosisReference) {
             for (Reference value : prognosisReference) {
@@ -1093,15 +1150,18 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * RiskAssessment expressing likely outcome.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder prognosisReference(Collection<Reference> prognosisReference) {
-            this.prognosisReference.addAll(prognosisReference);
+            this.prognosisReference = new ArrayList<>(prognosisReference);
             return this;
         }
 
@@ -1109,12 +1169,15 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Information supporting the clinical impression.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Reference... supportingInfo) {
             for (Reference value : supportingInfo) {
@@ -1127,15 +1190,18 @@ public class ClinicalImpression extends DomainResource {
          * <p>
          * Information supporting the clinical impression.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
-            this.supportingInfo.addAll(supportingInfo);
+            this.supportingInfo = new ArrayList<>(supportingInfo);
             return this;
         }
 
@@ -1144,12 +1210,15 @@ public class ClinicalImpression extends DomainResource {
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments made about the ClinicalImpression
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1163,15 +1232,18 @@ public class ClinicalImpression extends DomainResource {
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments made about the ClinicalImpression
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1250,7 +1322,7 @@ public class ClinicalImpression extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getItem() {
             return item;
@@ -1341,7 +1413,7 @@ public class ClinicalImpression extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1355,12 +1427,15 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1374,12 +1449,15 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1399,12 +1477,15 @@ public class ClinicalImpression extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1424,12 +1505,15 @@ public class ClinicalImpression extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1440,12 +1524,15 @@ public class ClinicalImpression extends DomainResource {
              * <p>
              * A record of a specific investigation that was undertaken.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param item
              *     Record of a specific investigation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder item(Reference... item) {
                 for (Reference value : item) {
@@ -1458,15 +1545,18 @@ public class ClinicalImpression extends DomainResource {
              * <p>
              * A record of a specific investigation that was undertaken.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param item
              *     Record of a specific investigation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder item(Collection<Reference> item) {
-                this.item.addAll(item);
+                this.item = new ArrayList<>(item);
                 return this;
             }
 
@@ -1622,7 +1712,7 @@ public class ClinicalImpression extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1636,12 +1726,15 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1655,12 +1748,15 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1680,12 +1776,15 @@ public class ClinicalImpression extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1705,12 +1804,15 @@ public class ClinicalImpression extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1726,7 +1828,7 @@ public class ClinicalImpression extends DomainResource {
              *     What was found
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemCodeableConcept(CodeableConcept itemCodeableConcept) {
                 this.itemCodeableConcept = itemCodeableConcept;
@@ -1742,7 +1844,7 @@ public class ClinicalImpression extends DomainResource {
              *     What was found
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder itemReference(Reference itemReference) {
                 this.itemReference = itemReference;
@@ -1758,7 +1860,7 @@ public class ClinicalImpression extends DomainResource {
              *     Which investigations support finding
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder basis(String basis) {
                 this.basis = basis;

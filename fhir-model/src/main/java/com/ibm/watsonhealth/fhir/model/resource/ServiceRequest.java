@@ -134,7 +134,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -147,7 +147,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -160,7 +160,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri}.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -172,7 +172,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -184,7 +184,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -233,7 +233,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -284,7 +284,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getOrderDetail() {
         return orderDetail;
@@ -395,7 +395,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -408,7 +408,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getLocationCode() {
         return locationCode;
@@ -421,7 +421,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getLocationReference() {
         return locationReference;
@@ -434,7 +434,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -447,7 +447,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -460,7 +460,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -476,7 +476,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -488,7 +488,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSpecimen() {
         return specimen;
@@ -500,7 +500,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -512,7 +512,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -536,7 +536,7 @@ public class ServiceRequest extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -767,7 +767,7 @@ public class ServiceRequest extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -784,7 +784,7 @@ public class ServiceRequest extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -802,7 +802,7 @@ public class ServiceRequest extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -818,7 +818,7 @@ public class ServiceRequest extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -837,7 +837,7 @@ public class ServiceRequest extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -849,12 +849,15 @@ public class ServiceRequest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -866,12 +869,15 @@ public class ServiceRequest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -885,12 +891,15 @@ public class ServiceRequest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -904,12 +913,15 @@ public class ServiceRequest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -929,12 +941,15 @@ public class ServiceRequest extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -954,12 +969,15 @@ public class ServiceRequest extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -970,12 +988,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Identifiers assigned to this order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -988,15 +1009,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Identifiers assigned to this order
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -1005,12 +1029,15 @@ public class ServiceRequest extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this ServiceRequest.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Canonical... instantiatesCanonical) {
             for (Canonical value : instantiatesCanonical) {
@@ -1024,15 +1051,18 @@ public class ServiceRequest extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this ServiceRequest.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
-            this.instantiatesCanonical.addAll(instantiatesCanonical);
+            this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
             return this;
         }
 
@@ -1041,12 +1071,15 @@ public class ServiceRequest extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this ServiceRequest.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Uri... instantiatesUri) {
             for (Uri value : instantiatesUri) {
@@ -1060,15 +1093,18 @@ public class ServiceRequest extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this ServiceRequest.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
-            this.instantiatesUri.addAll(instantiatesUri);
+            this.instantiatesUri = new ArrayList<>(instantiatesUri);
             return this;
         }
 
@@ -1076,12 +1112,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Plan/proposal/order fulfilled by this request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param basedOn
          *     What request fulfills
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Reference... basedOn) {
             for (Reference value : basedOn) {
@@ -1094,15 +1133,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Plan/proposal/order fulfilled by this request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param basedOn
          *     What request fulfills
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder basedOn(Collection<Reference> basedOn) {
-            this.basedOn.addAll(basedOn);
+            this.basedOn = new ArrayList<>(basedOn);
             return this;
         }
 
@@ -1110,12 +1152,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * The request takes the place of the referenced completed or terminated request(s).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param replaces
          *     What request replaces
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Reference... replaces) {
             for (Reference value : replaces) {
@@ -1128,15 +1173,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * The request takes the place of the referenced completed or terminated request(s).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param replaces
          *     What request replaces
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder replaces(Collection<Reference> replaces) {
-            this.replaces.addAll(replaces);
+            this.replaces = new ArrayList<>(replaces);
             return this;
         }
 
@@ -1150,7 +1198,7 @@ public class ServiceRequest extends DomainResource {
          *     Composite Request ID
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requisition(Identifier requisition) {
             this.requisition = requisition;
@@ -1161,12 +1209,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     Classification of service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(CodeableConcept... category) {
             for (CodeableConcept value : category) {
@@ -1179,15 +1230,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     Classification of service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -1200,7 +1254,7 @@ public class ServiceRequest extends DomainResource {
          *     routine | urgent | asap | stat
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder priority(ServiceRequestPriority priority) {
             this.priority = priority;
@@ -1216,7 +1270,7 @@ public class ServiceRequest extends DomainResource {
          *     True if service/procedure should not be performed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder doNotPerform(Boolean doNotPerform) {
             this.doNotPerform = doNotPerform;
@@ -1233,7 +1287,7 @@ public class ServiceRequest extends DomainResource {
          *     What is being requested/ordered
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -1246,12 +1300,15 @@ public class ServiceRequest extends DomainResource {
          * urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may 
          * require additional instructions specifying how the bandage should be applied.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param orderDetail
          *     Additional order information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder orderDetail(CodeableConcept... orderDetail) {
             for (CodeableConcept value : orderDetail) {
@@ -1266,15 +1323,18 @@ public class ServiceRequest extends DomainResource {
          * urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may 
          * require additional instructions specifying how the bandage should be applied.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param orderDetail
          *     Additional order information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder orderDetail(Collection<CodeableConcept> orderDetail) {
-            this.orderDetail.addAll(orderDetail);
+            this.orderDetail = new ArrayList<>(orderDetail);
             return this;
         }
 
@@ -1288,7 +1348,7 @@ public class ServiceRequest extends DomainResource {
          *     Service amount
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quantity(Element quantity) {
             this.quantity = quantity;
@@ -1304,7 +1364,7 @@ public class ServiceRequest extends DomainResource {
          *     Encounter in which the request was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -1320,7 +1380,7 @@ public class ServiceRequest extends DomainResource {
          *     When service should occur
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder occurrence(Element occurrence) {
             this.occurrence = occurrence;
@@ -1337,7 +1397,7 @@ public class ServiceRequest extends DomainResource {
          *     Preconditions for service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder asNeeded(Element asNeeded) {
             this.asNeeded = asNeeded;
@@ -1353,7 +1413,7 @@ public class ServiceRequest extends DomainResource {
          *     Date request signed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder authoredOn(DateTime authoredOn) {
             this.authoredOn = authoredOn;
@@ -1369,7 +1429,7 @@ public class ServiceRequest extends DomainResource {
          *     Who/what is requesting service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder requester(Reference requester) {
             this.requester = requester;
@@ -1385,7 +1445,7 @@ public class ServiceRequest extends DomainResource {
          *     Performer role
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performerType(CodeableConcept performerType) {
             this.performerType = performerType;
@@ -1396,12 +1456,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param performer
          *     Requested performer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Reference... performer) {
             for (Reference value : performer) {
@@ -1414,15 +1477,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param performer
          *     Requested performer
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder performer(Collection<Reference> performer) {
-            this.performer.addAll(performer);
+            this.performer = new ArrayList<>(performer);
             return this;
         }
 
@@ -1431,12 +1497,15 @@ public class ServiceRequest extends DomainResource {
          * The preferred location(s) where the procedure should actually happen in coded or free text form. E.g. at home or 
          * nursing day care center.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param locationCode
          *     Requested location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationCode(CodeableConcept... locationCode) {
             for (CodeableConcept value : locationCode) {
@@ -1450,15 +1519,18 @@ public class ServiceRequest extends DomainResource {
          * The preferred location(s) where the procedure should actually happen in coded or free text form. E.g. at home or 
          * nursing day care center.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param locationCode
          *     Requested location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationCode(Collection<CodeableConcept> locationCode) {
-            this.locationCode.addAll(locationCode);
+            this.locationCode = new ArrayList<>(locationCode);
             return this;
         }
 
@@ -1467,12 +1539,15 @@ public class ServiceRequest extends DomainResource {
          * A reference to the the preferred location(s) where the procedure should actually happen. E.g. at home or nursing day 
          * care center.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param locationReference
          *     Requested location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationReference(Reference... locationReference) {
             for (Reference value : locationReference) {
@@ -1486,15 +1561,18 @@ public class ServiceRequest extends DomainResource {
          * A reference to the the preferred location(s) where the procedure should actually happen. E.g. at home or nursing day 
          * care center.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param locationReference
          *     Requested location
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder locationReference(Collection<Reference> locationReference) {
-            this.locationReference.addAll(locationReference);
+            this.locationReference = new ArrayList<>(locationReference);
             return this;
         }
 
@@ -1503,12 +1581,15 @@ public class ServiceRequest extends DomainResource {
          * An explanation or justification for why this service is being requested in coded or textual form. This is often for 
          * billing purposes. May relate to the resources referred to in `supportingInfo`.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonCode
          *     Explanation/Justification for procedure or service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(CodeableConcept... reasonCode) {
             for (CodeableConcept value : reasonCode) {
@@ -1522,15 +1603,18 @@ public class ServiceRequest extends DomainResource {
          * An explanation or justification for why this service is being requested in coded or textual form. This is often for 
          * billing purposes. May relate to the resources referred to in `supportingInfo`.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonCode
          *     Explanation/Justification for procedure or service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
-            this.reasonCode.addAll(reasonCode);
+            this.reasonCode = new ArrayList<>(reasonCode);
             return this;
         }
 
@@ -1539,12 +1623,15 @@ public class ServiceRequest extends DomainResource {
          * Indicates another resource that provides a justification for why this service is being requested. May relate to the 
          * resources referred to in `supportingInfo`.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reasonReference
          *     Explanation/Justification for service or service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Reference... reasonReference) {
             for (Reference value : reasonReference) {
@@ -1558,15 +1645,18 @@ public class ServiceRequest extends DomainResource {
          * Indicates another resource that provides a justification for why this service is being requested. May relate to the 
          * resources referred to in `supportingInfo`.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reasonReference
          *     Explanation/Justification for service or service
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
-            this.reasonReference.addAll(reasonReference);
+            this.reasonReference = new ArrayList<>(reasonReference);
             return this;
         }
 
@@ -1575,12 +1665,15 @@ public class ServiceRequest extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be needed for delivering 
          * the requested service.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param insurance
          *     Associated insurance coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Reference... insurance) {
             for (Reference value : insurance) {
@@ -1594,15 +1687,18 @@ public class ServiceRequest extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be needed for delivering 
          * the requested service.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param insurance
          *     Associated insurance coverage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder insurance(Collection<Reference> insurance) {
-            this.insurance.addAll(insurance);
+            this.insurance = new ArrayList<>(insurance);
             return this;
         }
 
@@ -1614,12 +1710,15 @@ public class ServiceRequest extends DomainResource {
          * requested by the producer (filler) to provide context or supporting information needed to complete the order. For 
          * example, reporting the amount of inspired oxygen for blood gas measurements.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param supportingInfo
          *     Additional clinical information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Reference... supportingInfo) {
             for (Reference value : supportingInfo) {
@@ -1636,15 +1735,18 @@ public class ServiceRequest extends DomainResource {
          * requested by the producer (filler) to provide context or supporting information needed to complete the order. For 
          * example, reporting the amount of inspired oxygen for blood gas measurements.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param supportingInfo
          *     Additional clinical information
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
-            this.supportingInfo.addAll(supportingInfo);
+            this.supportingInfo = new ArrayList<>(supportingInfo);
             return this;
         }
 
@@ -1652,12 +1754,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * One or more specimens that the laboratory procedure will use.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param specimen
          *     Procedure Samples
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specimen(Reference... specimen) {
             for (Reference value : specimen) {
@@ -1670,15 +1775,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * One or more specimens that the laboratory procedure will use.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param specimen
          *     Procedure Samples
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder specimen(Collection<Reference> specimen) {
-            this.specimen.addAll(specimen);
+            this.specimen = new ArrayList<>(specimen);
             return this;
         }
 
@@ -1686,12 +1794,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Anatomic location where the procedure should be performed. This is the target site.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param bodySite
          *     Location on Body
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(CodeableConcept... bodySite) {
             for (CodeableConcept value : bodySite) {
@@ -1704,15 +1815,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Anatomic location where the procedure should be performed. This is the target site.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param bodySite
          *     Location on Body
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder bodySite(Collection<CodeableConcept> bodySite) {
-            this.bodySite.addAll(bodySite);
+            this.bodySite = new ArrayList<>(bodySite);
             return this;
         }
 
@@ -1720,12 +1834,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Any other notes and comments made about the service request. For example, internal billing notes.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -1738,15 +1855,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Any other notes and comments made about the service request. For example, internal billing notes.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1759,7 +1879,7 @@ public class ServiceRequest extends DomainResource {
          *     Patient or consumer-oriented instructions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder patientInstruction(String patientInstruction) {
             this.patientInstruction = patientInstruction;
@@ -1770,12 +1890,15 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Key events in the history of the request.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param relevantHistory
          *     Request provenance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Reference... relevantHistory) {
             for (Reference value : relevantHistory) {
@@ -1788,15 +1911,18 @@ public class ServiceRequest extends DomainResource {
          * <p>
          * Key events in the history of the request.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param relevantHistory
          *     Request provenance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder relevantHistory(Collection<Reference> relevantHistory) {
-            this.relevantHistory.addAll(relevantHistory);
+            this.relevantHistory = new ArrayList<>(relevantHistory);
             return this;
         }
 

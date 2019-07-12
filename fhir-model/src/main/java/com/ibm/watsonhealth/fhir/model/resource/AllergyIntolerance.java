@@ -107,7 +107,7 @@ public class AllergyIntolerance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -156,7 +156,7 @@ public class AllergyIntolerance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link AllergyIntoleranceCategory}.
+     *     An unmodifiable list containing immutable objects of type {@link AllergyIntoleranceCategory}.
      */
     public List<AllergyIntoleranceCategory> getCategory() {
         return category;
@@ -286,7 +286,7 @@ public class AllergyIntolerance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -298,7 +298,7 @@ public class AllergyIntolerance extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reaction}.
+     *     An unmodifiable list containing immutable objects of type {@link Reaction}.
      */
     public List<Reaction> getReaction() {
         return reaction;
@@ -459,7 +459,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -476,7 +476,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -494,7 +494,7 @@ public class AllergyIntolerance extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -510,7 +510,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -529,7 +529,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -541,12 +541,15 @@ public class AllergyIntolerance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -558,12 +561,15 @@ public class AllergyIntolerance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -577,12 +583,15 @@ public class AllergyIntolerance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -596,12 +605,15 @@ public class AllergyIntolerance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -621,12 +633,15 @@ public class AllergyIntolerance extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -646,12 +661,15 @@ public class AllergyIntolerance extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -663,12 +681,15 @@ public class AllergyIntolerance extends DomainResource {
          * Business identifiers assigned to this AllergyIntolerance by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -682,15 +703,18 @@ public class AllergyIntolerance extends DomainResource {
          * Business identifiers assigned to this AllergyIntolerance by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -703,7 +727,7 @@ public class AllergyIntolerance extends DomainResource {
          *     active | inactive | resolved
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clinicalStatus(CodeableConcept clinicalStatus) {
             this.clinicalStatus = clinicalStatus;
@@ -720,7 +744,7 @@ public class AllergyIntolerance extends DomainResource {
          *     unconfirmed | confirmed | refuted | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder verificationStatus(CodeableConcept verificationStatus) {
             this.verificationStatus = verificationStatus;
@@ -736,7 +760,7 @@ public class AllergyIntolerance extends DomainResource {
          *     allergy | intolerance - Underlying mechanism (if known)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(AllergyIntoleranceType type) {
             this.type = type;
@@ -747,12 +771,15 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Category of the identified substance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param category
          *     food | medication | environment | biologic
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(AllergyIntoleranceCategory... category) {
             for (AllergyIntoleranceCategory value : category) {
@@ -765,15 +792,18 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Category of the identified substance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param category
          *     food | medication | environment | biologic
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder category(Collection<AllergyIntoleranceCategory> category) {
-            this.category.addAll(category);
+            this.category = new ArrayList<>(category);
             return this;
         }
 
@@ -786,7 +816,7 @@ public class AllergyIntolerance extends DomainResource {
          *     low | high | unable-to-assess
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder criticality(AllergyIntoleranceCriticality criticality) {
             this.criticality = criticality;
@@ -811,7 +841,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Code that identifies the allergy or intolerance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -827,7 +857,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Encounter when the allergy or intolerance was asserted
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
@@ -843,7 +873,7 @@ public class AllergyIntolerance extends DomainResource {
          *     When allergy or intolerance was identified
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder onset(Element onset) {
             this.onset = onset;
@@ -860,7 +890,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Date first version of the resource instance was recorded
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recordedDate(DateTime recordedDate) {
             this.recordedDate = recordedDate;
@@ -876,7 +906,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Who recorded the sensitivity
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recorder(Reference recorder) {
             this.recorder = recorder;
@@ -892,7 +922,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Source of the information about the allergy
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder asserter(Reference asserter) {
             this.asserter = asserter;
@@ -908,7 +938,7 @@ public class AllergyIntolerance extends DomainResource {
          *     Date(/time) of last known occurrence of a reaction
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastOccurrence(DateTime lastOccurrence) {
             this.lastOccurrence = lastOccurrence;
@@ -919,12 +949,15 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Additional text not captured in other fields
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -937,15 +970,18 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Additional text not captured in other fields
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -953,12 +989,15 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Details about each adverse reaction event linked to exposure to the identified substance.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param reaction
          *     Adverse Reaction Events linked to exposure to substance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reaction(Reaction... reaction) {
             for (Reaction value : reaction) {
@@ -971,15 +1010,18 @@ public class AllergyIntolerance extends DomainResource {
          * <p>
          * Details about each adverse reaction event linked to exposure to the identified substance.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param reaction
          *     Adverse Reaction Events linked to exposure to substance
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder reaction(Collection<Reaction> reaction) {
-            this.reaction.addAll(reaction);
+            this.reaction = new ArrayList<>(reaction);
             return this;
         }
 
@@ -1067,7 +1109,7 @@ public class AllergyIntolerance extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getManifestation() {
             return manifestation;
@@ -1128,7 +1170,7 @@ public class AllergyIntolerance extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
          */
         public List<Annotation> getNote() {
             return note;
@@ -1239,7 +1281,7 @@ public class AllergyIntolerance extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1253,12 +1295,15 @@ public class AllergyIntolerance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1272,12 +1317,15 @@ public class AllergyIntolerance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1297,12 +1345,15 @@ public class AllergyIntolerance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1322,12 +1373,15 @@ public class AllergyIntolerance extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1349,7 +1403,7 @@ public class AllergyIntolerance extends DomainResource {
              *     Specific substance or pharmaceutical product considered to be responsible for event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder substance(CodeableConcept substance) {
                 this.substance = substance;
@@ -1365,7 +1419,7 @@ public class AllergyIntolerance extends DomainResource {
              *     Description of the event as a whole
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1381,7 +1435,7 @@ public class AllergyIntolerance extends DomainResource {
              *     Date(/time) when manifestations showed
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder onset(DateTime onset) {
                 this.onset = onset;
@@ -1398,7 +1452,7 @@ public class AllergyIntolerance extends DomainResource {
              *     mild | moderate | severe (of event as a whole)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder severity(AllergyIntoleranceSeverity severity) {
                 this.severity = severity;
@@ -1414,7 +1468,7 @@ public class AllergyIntolerance extends DomainResource {
              *     How the subject was exposed to the substance
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder exposureRoute(CodeableConcept exposureRoute) {
                 this.exposureRoute = exposureRoute;
@@ -1425,12 +1479,15 @@ public class AllergyIntolerance extends DomainResource {
              * <p>
              * Additional text about the adverse reaction event not captured in other fields.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param note
              *     Text about event not captured in other fields
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder note(Annotation... note) {
                 for (Annotation value : note) {
@@ -1443,15 +1500,18 @@ public class AllergyIntolerance extends DomainResource {
              * <p>
              * Additional text about the adverse reaction event not captured in other fields.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param note
              *     Text about event not captured in other fields
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder note(Collection<Annotation> note) {
-                this.note.addAll(note);
+                this.note = new ArrayList<>(note);
                 return this;
             }
 

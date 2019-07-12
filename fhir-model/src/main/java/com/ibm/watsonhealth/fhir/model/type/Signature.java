@@ -53,7 +53,7 @@ public class Signature extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getType() {
         return type;
@@ -238,7 +238,7 @@ public class Signature extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -252,12 +252,15 @@ public class Signature extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -271,12 +274,15 @@ public class Signature extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -292,7 +298,7 @@ public class Signature extends Element {
          *     The party represented
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder onBehalfOf(Reference onBehalfOf) {
             this.onBehalfOf = onBehalfOf;
@@ -308,7 +314,7 @@ public class Signature extends Element {
          *     The technical format of the signed resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder targetFormat(Code targetFormat) {
             this.targetFormat = targetFormat;
@@ -325,7 +331,7 @@ public class Signature extends Element {
          *     The technical format of the signature
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sigFormat(Code sigFormat) {
             this.sigFormat = sigFormat;
@@ -342,7 +348,7 @@ public class Signature extends Element {
          *     The actual signature content (XML DigSig. JWS, picture, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder data(Base64Binary data) {
             this.data = data;

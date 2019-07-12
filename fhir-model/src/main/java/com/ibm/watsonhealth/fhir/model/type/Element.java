@@ -61,7 +61,7 @@ public abstract class Element extends AbstractVisitable {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension}.
      */
     public List<Extension> getExtension() {
         return extension;
@@ -96,7 +96,7 @@ public abstract class Element extends AbstractVisitable {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder id(java.lang.String id) {
             this.id = id;
@@ -110,12 +110,15 @@ public abstract class Element extends AbstractVisitable {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder extension(Extension... extension) {
             for (Extension value : extension) {
@@ -131,15 +134,18 @@ public abstract class Element extends AbstractVisitable {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder extension(Collection<Extension> extension) {
-            this.extension.addAll(extension);
+            this.extension = new ArrayList<>(extension);
             return this;
         }
 

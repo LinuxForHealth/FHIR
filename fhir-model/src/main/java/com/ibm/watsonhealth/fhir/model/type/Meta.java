@@ -90,7 +90,7 @@ public class Meta extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getProfile() {
         return profile;
@@ -103,7 +103,7 @@ public class Meta extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getSecurity() {
         return security;
@@ -116,7 +116,7 @@ public class Meta extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getTag() {
         return tag;
@@ -213,7 +213,7 @@ public class Meta extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -227,12 +227,15 @@ public class Meta extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -246,12 +249,15 @@ public class Meta extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -268,7 +274,7 @@ public class Meta extends Element {
          *     Version specific identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder versionId(Id versionId) {
             this.versionId = versionId;
@@ -284,7 +290,7 @@ public class Meta extends Element {
          *     When the resource version last changed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lastUpdated(Instant lastUpdated) {
             this.lastUpdated = lastUpdated;
@@ -302,7 +308,7 @@ public class Meta extends Element {
          *     Identifies where the resource comes from
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder source(Uri source) {
             this.source = source;
@@ -315,12 +321,15 @@ public class Meta extends Element {
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param profile
          *     Profiles this resource claims to conform to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder profile(Canonical... profile) {
             for (Canonical value : profile) {
@@ -335,15 +344,18 @@ public class Meta extends Element {
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param profile
          *     Profiles this resource claims to conform to
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder profile(Collection<Canonical> profile) {
-            this.profile.addAll(profile);
+            this.profile = new ArrayList<>(profile);
             return this;
         }
 
@@ -352,12 +364,15 @@ public class Meta extends Element {
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param security
          *     Security Labels applied to this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder security(Coding... security) {
             for (Coding value : security) {
@@ -371,15 +386,18 @@ public class Meta extends Element {
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param security
          *     Security Labels applied to this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder security(Collection<Coding> security) {
-            this.security.addAll(security);
+            this.security = new ArrayList<>(security);
             return this;
         }
 
@@ -388,12 +406,15 @@ public class Meta extends Element {
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param tag
          *     Tags applied to this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder tag(Coding... tag) {
             for (Coding value : tag) {
@@ -407,15 +428,18 @@ public class Meta extends Element {
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param tag
          *     Tags applied to this resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder tag(Collection<Coding> tag) {
-            this.tag.addAll(tag);
+            this.tag = new ArrayList<>(tag);
             return this;
         }
 

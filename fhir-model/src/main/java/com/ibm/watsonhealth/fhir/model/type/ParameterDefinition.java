@@ -232,7 +232,7 @@ public class ParameterDefinition extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -246,12 +246,15 @@ public class ParameterDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -265,12 +268,15 @@ public class ParameterDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -286,7 +292,7 @@ public class ParameterDefinition extends Element {
          *     Name used to access the parameter value
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder name(Code name) {
             this.name = name;
@@ -302,7 +308,7 @@ public class ParameterDefinition extends Element {
          *     Minimum cardinality
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder min(Integer min) {
             this.min = min;
@@ -318,7 +324,7 @@ public class ParameterDefinition extends Element {
          *     Maximum cardinality (a number of *)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder max(String max) {
             this.max = max;
@@ -334,7 +340,7 @@ public class ParameterDefinition extends Element {
          *     A brief description of the parameter
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder documentation(String documentation) {
             this.documentation = documentation;
@@ -350,7 +356,7 @@ public class ParameterDefinition extends Element {
          *     What profile the value is expected to be
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder profile(Canonical profile) {
             this.profile = profile;

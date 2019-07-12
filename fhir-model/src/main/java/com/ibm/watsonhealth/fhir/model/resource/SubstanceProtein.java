@@ -89,7 +89,7 @@ public class SubstanceProtein extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getDisulfideLinkage() {
         return disulfideLinkage;
@@ -105,7 +105,7 @@ public class SubstanceProtein extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Subunit}.
+     *     An unmodifiable list containing immutable objects of type {@link Subunit}.
      */
     public List<Subunit> getSubunit() {
         return subunit;
@@ -211,7 +211,7 @@ public class SubstanceProtein extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -228,7 +228,7 @@ public class SubstanceProtein extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -246,7 +246,7 @@ public class SubstanceProtein extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -262,7 +262,7 @@ public class SubstanceProtein extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -281,7 +281,7 @@ public class SubstanceProtein extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -293,12 +293,15 @@ public class SubstanceProtein extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -310,12 +313,15 @@ public class SubstanceProtein extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -329,12 +335,15 @@ public class SubstanceProtein extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -348,12 +357,15 @@ public class SubstanceProtein extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -373,12 +385,15 @@ public class SubstanceProtein extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -398,12 +413,15 @@ public class SubstanceProtein extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -421,7 +439,7 @@ public class SubstanceProtein extends DomainResource {
          *     available or derivable from a nucleic acid sequence
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sequenceType(CodeableConcept sequenceType) {
             this.sequenceType = sequenceType;
@@ -439,7 +457,7 @@ public class SubstanceProtein extends DomainResource {
          *     SubstanceProtein shall be described. It is possible that the number of subunits can be variable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder numberOfSubunits(Integer numberOfSubunits) {
             this.numberOfSubunits = numberOfSubunits;
@@ -453,6 +471,9 @@ public class SubstanceProtein extends DomainResource {
          * number and position within subunit followed by the abbreviation of the amino acids involved. The disulfide linkage 
          * positions shall actually contain the amino acid Cysteine at the respective positions.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param disulfideLinkage
          *     The disulphide bond between two cysteine residues either on the same subunit or on two different subunits shall be 
@@ -461,7 +482,7 @@ public class SubstanceProtein extends DomainResource {
          *     positions shall actually contain the amino acid Cysteine at the respective positions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disulfideLinkage(String... disulfideLinkage) {
             for (String value : disulfideLinkage) {
@@ -477,6 +498,9 @@ public class SubstanceProtein extends DomainResource {
          * number and position within subunit followed by the abbreviation of the amino acids involved. The disulfide linkage 
          * positions shall actually contain the amino acid Cysteine at the respective positions.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param disulfideLinkage
          *     The disulphide bond between two cysteine residues either on the same subunit or on two different subunits shall be 
@@ -485,10 +509,10 @@ public class SubstanceProtein extends DomainResource {
          *     positions shall actually contain the amino acid Cysteine at the respective positions
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder disulfideLinkage(Collection<String> disulfideLinkage) {
-            this.disulfideLinkage.addAll(disulfideLinkage);
+            this.disulfideLinkage = new ArrayList<>(disulfideLinkage);
             return this;
         }
 
@@ -500,6 +524,9 @@ public class SubstanceProtein extends DomainResource {
          * sequence. Subunits are listed in order of decreasing length; sequences of the same length will be ordered by 
          * decreasing molecular weight; subunits that have identical sequences will be repeated multiple times.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subunit
          *     This subclause refers to the description of each subunit constituting the SubstanceProtein. A subunit is a linear 
@@ -509,7 +536,7 @@ public class SubstanceProtein extends DomainResource {
          *     decreasing molecular weight; subunits that have identical sequences will be repeated multiple times
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subunit(Subunit... subunit) {
             for (Subunit value : subunit) {
@@ -526,6 +553,9 @@ public class SubstanceProtein extends DomainResource {
          * sequence. Subunits are listed in order of decreasing length; sequences of the same length will be ordered by 
          * decreasing molecular weight; subunits that have identical sequences will be repeated multiple times.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subunit
          *     This subclause refers to the description of each subunit constituting the SubstanceProtein. A subunit is a linear 
@@ -535,10 +565,10 @@ public class SubstanceProtein extends DomainResource {
          *     decreasing molecular weight; subunits that have identical sequences will be repeated multiple times
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subunit(Collection<Subunit> subunit) {
-            this.subunit.addAll(subunit);
+            this.subunit = new ArrayList<>(subunit);
             return this;
         }
 
@@ -805,7 +835,7 @@ public class SubstanceProtein extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -819,12 +849,15 @@ public class SubstanceProtein extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -838,12 +871,15 @@ public class SubstanceProtein extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -863,12 +899,15 @@ public class SubstanceProtein extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -888,12 +927,15 @@ public class SubstanceProtein extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -913,7 +955,7 @@ public class SubstanceProtein extends DomainResource {
              *     sequential subscripts
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subunit(Integer subunit) {
                 this.subunit = subunit;
@@ -937,7 +979,7 @@ public class SubstanceProtein extends DomainResource {
              *     will be distinguished by their position in the sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sequence(String sequence) {
                 this.sequence = sequence;
@@ -953,7 +995,7 @@ public class SubstanceProtein extends DomainResource {
              *     Length of linear sequences of amino acids contained in the subunit
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder length(Integer length) {
                 this.length = length;
@@ -977,7 +1019,7 @@ public class SubstanceProtein extends DomainResource {
              *     will be distinguished by their position in the sequence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sequenceAttachment(Attachment sequenceAttachment) {
                 this.sequenceAttachment = sequenceAttachment;
@@ -993,7 +1035,7 @@ public class SubstanceProtein extends DomainResource {
              *     Unique identifier for molecular fragment modification based on the ISO 11238 Substance ID
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder nTerminalModificationId(Identifier nTerminalModificationId) {
                 this.nTerminalModificationId = nTerminalModificationId;
@@ -1009,7 +1051,7 @@ public class SubstanceProtein extends DomainResource {
              *     The name of the fragment modified at the N-terminal of the SubstanceProtein shall be specified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder nTerminalModification(String nTerminalModification) {
                 this.nTerminalModification = nTerminalModification;
@@ -1025,7 +1067,7 @@ public class SubstanceProtein extends DomainResource {
              *     Unique identifier for molecular fragment modification based on the ISO 11238 Substance ID
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder cTerminalModificationId(Identifier cTerminalModificationId) {
                 this.cTerminalModificationId = cTerminalModificationId;
@@ -1041,7 +1083,7 @@ public class SubstanceProtein extends DomainResource {
              *     The modification at the C-terminal shall be specified
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder cTerminalModification(String cTerminalModification) {
                 this.cTerminalModification = cTerminalModification;

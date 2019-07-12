@@ -90,7 +90,7 @@ public class Invoice extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -174,7 +174,7 @@ public class Invoice extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant}.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -211,7 +211,7 @@ public class Invoice extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link LineItem}.
+     *     An unmodifiable list containing immutable objects of type {@link LineItem}.
      */
     public List<LineItem> getLineItem() {
         return lineItem;
@@ -225,7 +225,7 @@ public class Invoice extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link PriceComponent}.
+     *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
      */
     public List<Invoice.LineItem.PriceComponent> getTotalPriceComponent() {
         return totalPriceComponent;
@@ -273,7 +273,7 @@ public class Invoice extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -434,7 +434,7 @@ public class Invoice extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -451,7 +451,7 @@ public class Invoice extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -469,7 +469,7 @@ public class Invoice extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -485,7 +485,7 @@ public class Invoice extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -504,7 +504,7 @@ public class Invoice extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -516,12 +516,15 @@ public class Invoice extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -533,12 +536,15 @@ public class Invoice extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -552,12 +558,15 @@ public class Invoice extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -571,12 +580,15 @@ public class Invoice extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -596,12 +608,15 @@ public class Invoice extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -621,12 +636,15 @@ public class Invoice extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -637,12 +655,15 @@ public class Invoice extends DomainResource {
          * <p>
          * Identifier of this Invoice, often used for reference in correspondence about this invoice or for tracking of payments.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -655,15 +676,18 @@ public class Invoice extends DomainResource {
          * <p>
          * Identifier of this Invoice, often used for reference in correspondence about this invoice or for tracking of payments.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     Business Identifier for item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -676,7 +700,7 @@ public class Invoice extends DomainResource {
          *     Reason for cancellation of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder cancelledReason(String cancelledReason) {
             this.cancelledReason = cancelledReason;
@@ -692,7 +716,7 @@ public class Invoice extends DomainResource {
          *     Type of Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -708,7 +732,7 @@ public class Invoice extends DomainResource {
          *     Recipient(s) of goods and services
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -724,7 +748,7 @@ public class Invoice extends DomainResource {
          *     Recipient of this invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder recipient(Reference recipient) {
             this.recipient = recipient;
@@ -740,7 +764,7 @@ public class Invoice extends DomainResource {
          *     Invoice date / posting date
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder date(DateTime date) {
             this.date = date;
@@ -751,12 +775,15 @@ public class Invoice extends DomainResource {
          * <p>
          * Indicates who or what performed or participated in the charged service.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param participant
          *     Participant in creation of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Participant... participant) {
             for (Participant value : participant) {
@@ -769,15 +796,18 @@ public class Invoice extends DomainResource {
          * <p>
          * Indicates who or what performed or participated in the charged service.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param participant
          *     Participant in creation of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder participant(Collection<Participant> participant) {
-            this.participant.addAll(participant);
+            this.participant = new ArrayList<>(participant);
             return this;
         }
 
@@ -790,7 +820,7 @@ public class Invoice extends DomainResource {
          *     Issuing Organization of Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder issuer(Reference issuer) {
             this.issuer = issuer;
@@ -806,7 +836,7 @@ public class Invoice extends DomainResource {
          *     Account that is being balanced
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder account(Reference account) {
             this.account = account;
@@ -818,12 +848,15 @@ public class Invoice extends DomainResource {
          * Each line item represents one charge for goods and services rendered. Details such as date, code and amount are found 
          * in the referenced ChargeItem resource.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param lineItem
          *     Line items of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lineItem(LineItem... lineItem) {
             for (LineItem value : lineItem) {
@@ -837,15 +870,18 @@ public class Invoice extends DomainResource {
          * Each line item represents one charge for goods and services rendered. Details such as date, code and amount are found 
          * in the referenced ChargeItem resource.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param lineItem
          *     Line items of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder lineItem(Collection<LineItem> lineItem) {
-            this.lineItem.addAll(lineItem);
+            this.lineItem = new ArrayList<>(lineItem);
             return this;
         }
 
@@ -855,12 +891,15 @@ public class Invoice extends DomainResource {
          * in certain conditions. The priceComponent element can be used to offer transparency to the recipient of the Invoice of 
          * how the total price was calculated.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param totalPriceComponent
          *     Components of Invoice total
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder totalPriceComponent(Invoice.LineItem.PriceComponent... totalPriceComponent) {
             for (Invoice.LineItem.PriceComponent value : totalPriceComponent) {
@@ -875,15 +914,18 @@ public class Invoice extends DomainResource {
          * in certain conditions. The priceComponent element can be used to offer transparency to the recipient of the Invoice of 
          * how the total price was calculated.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param totalPriceComponent
          *     Components of Invoice total
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder totalPriceComponent(Collection<Invoice.LineItem.PriceComponent> totalPriceComponent) {
-            this.totalPriceComponent.addAll(totalPriceComponent);
+            this.totalPriceComponent = new ArrayList<>(totalPriceComponent);
             return this;
         }
 
@@ -896,7 +938,7 @@ public class Invoice extends DomainResource {
          *     Net total of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder totalNet(Money totalNet) {
             this.totalNet = totalNet;
@@ -912,7 +954,7 @@ public class Invoice extends DomainResource {
          *     Gross total of this Invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder totalGross(Money totalGross) {
             this.totalGross = totalGross;
@@ -928,7 +970,7 @@ public class Invoice extends DomainResource {
          *     Payment details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder paymentTerms(Markdown paymentTerms) {
             this.paymentTerms = paymentTerms;
@@ -939,12 +981,15 @@ public class Invoice extends DomainResource {
          * <p>
          * Comments made about the invoice by the issuer, subject, or other participants.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments made about the invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -957,15 +1002,18 @@ public class Invoice extends DomainResource {
          * <p>
          * Comments made about the invoice by the issuer, subject, or other participants.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments made about the invoice
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1129,7 +1177,7 @@ public class Invoice extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1143,12 +1191,15 @@ public class Invoice extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1162,12 +1213,15 @@ public class Invoice extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1187,12 +1241,15 @@ public class Invoice extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1212,12 +1269,15 @@ public class Invoice extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1234,7 +1294,7 @@ public class Invoice extends DomainResource {
              *     Type of involvement in creation of this Invoice
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept role) {
                 this.role = role;
@@ -1310,7 +1370,7 @@ public class Invoice extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link PriceComponent}.
+         *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
@@ -1405,7 +1465,7 @@ public class Invoice extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1419,12 +1479,15 @@ public class Invoice extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1438,12 +1501,15 @@ public class Invoice extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1463,12 +1529,15 @@ public class Invoice extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1488,12 +1557,15 @@ public class Invoice extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1509,7 +1581,7 @@ public class Invoice extends DomainResource {
              *     Sequence number of line item
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sequence(PositiveInt sequence) {
                 this.sequence = sequence;
@@ -1523,12 +1595,15 @@ public class Invoice extends DomainResource {
              * code is currently under development. The priceComponent element can be used to offer transparency to the recipient of 
              * the Invoice as to how the prices have been calculated.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param priceComponent
              *     Components of total line item price
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priceComponent(PriceComponent... priceComponent) {
                 for (PriceComponent value : priceComponent) {
@@ -1544,15 +1619,18 @@ public class Invoice extends DomainResource {
              * code is currently under development. The priceComponent element can be used to offer transparency to the recipient of 
              * the Invoice as to how the prices have been calculated.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param priceComponent
              *     Components of total line item price
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder priceComponent(Collection<PriceComponent> priceComponent) {
-                this.priceComponent.addAll(priceComponent);
+                this.priceComponent = new ArrayList<>(priceComponent);
                 return this;
             }
 
@@ -1737,7 +1815,7 @@ public class Invoice extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1751,12 +1829,15 @@ public class Invoice extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1770,12 +1851,15 @@ public class Invoice extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1795,12 +1879,15 @@ public class Invoice extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1820,12 +1907,15 @@ public class Invoice extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1842,7 +1932,7 @@ public class Invoice extends DomainResource {
                  *     Code identifying the specific component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
@@ -1858,7 +1948,7 @@ public class Invoice extends DomainResource {
                  *     Factor used for calculating this component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder factor(Decimal factor) {
                     this.factor = factor;
@@ -1874,7 +1964,7 @@ public class Invoice extends DomainResource {
                  *     Monetary amount associated with this component
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(Money amount) {
                     this.amount = amount;

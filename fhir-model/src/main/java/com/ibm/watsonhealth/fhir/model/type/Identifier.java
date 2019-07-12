@@ -203,7 +203,7 @@ public class Identifier extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -217,12 +217,15 @@ public class Identifier extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -236,12 +239,15 @@ public class Identifier extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -257,7 +263,7 @@ public class Identifier extends Element {
          *     usual | official | temp | secondary | old (If known)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder use(IdentifierUse use) {
             this.use = use;
@@ -273,7 +279,7 @@ public class Identifier extends Element {
          *     Description of identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -289,7 +295,7 @@ public class Identifier extends Element {
          *     The namespace for the identifier value
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder system(Uri system) {
             this.system = system;
@@ -305,7 +311,7 @@ public class Identifier extends Element {
          *     The value that is unique
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder value(String value) {
             this.value = value;
@@ -321,7 +327,7 @@ public class Identifier extends Element {
          *     Time period when id is/was valid for use
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -337,7 +343,7 @@ public class Identifier extends Element {
          *     Organization that issued id (may be just text)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder assigner(Reference assigner) {
             this.assigner = assigner;

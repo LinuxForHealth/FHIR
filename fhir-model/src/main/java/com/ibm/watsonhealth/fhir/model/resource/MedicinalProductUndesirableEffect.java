@@ -55,7 +55,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -103,7 +103,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Population}.
+     *     An unmodifiable list containing immutable objects of type {@link Population}.
      */
     public List<Population> getPopulation() {
         return population;
@@ -213,7 +213,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -230,7 +230,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -248,7 +248,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -264,7 +264,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -283,7 +283,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -295,12 +295,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -312,12 +315,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -331,12 +337,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -350,12 +359,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -375,12 +387,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -400,12 +415,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -416,12 +434,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * <p>
          * The medication for which this is an indication.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subject
          *     The medication for which this is an indication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference... subject) {
             for (Reference value : subject) {
@@ -434,15 +455,18 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * <p>
          * The medication for which this is an indication.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subject
          *     The medication for which this is an indication
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Collection<Reference> subject) {
-            this.subject.addAll(subject);
+            this.subject = new ArrayList<>(subject);
             return this;
         }
 
@@ -455,7 +479,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     The symptom, condition or undesirable effect
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder symptomConditionEffect(CodeableConcept symptomConditionEffect) {
             this.symptomConditionEffect = symptomConditionEffect;
@@ -471,7 +495,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     Classification of the effect
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder classification(CodeableConcept classification) {
             this.classification = classification;
@@ -487,7 +511,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          *     The frequency of occurrence of the effect
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder frequencyOfOccurrence(CodeableConcept frequencyOfOccurrence) {
             this.frequencyOfOccurrence = frequencyOfOccurrence;
@@ -498,12 +522,15 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * <p>
          * The population group to which this applies.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param population
          *     The population group to which this applies
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder population(Population... population) {
             for (Population value : population) {
@@ -516,15 +543,18 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * <p>
          * The population group to which this applies.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param population
          *     The population group to which this applies
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder population(Collection<Population> population) {
-            this.population.addAll(population);
+            this.population = new ArrayList<>(population);
             return this;
         }
 

@@ -112,7 +112,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Subunit}.
+     *     An unmodifiable list containing immutable objects of type {@link Subunit}.
      */
     public List<Subunit> getSubunit() {
         return subunit;
@@ -222,7 +222,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -239,7 +239,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -257,7 +257,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -273,7 +273,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -292,7 +292,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -304,12 +304,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -321,12 +324,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -340,12 +346,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -359,12 +368,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -384,12 +396,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -409,12 +424,15 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -430,7 +448,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     The type of the sequence shall be specified based on a controlled vocabulary
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sequenceType(CodeableConcept sequenceType) {
             this.sequenceType = sequenceType;
@@ -450,7 +468,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     specified in the reference source, the assumption is that there is 1 subunit
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder numberOfSubunits(Integer numberOfSubunits) {
             this.numberOfSubunits = numberOfSubunits;
@@ -470,7 +488,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     shall be used as separator as follows: “Subunitnumber Residue”
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder areaOfHybridisation(String areaOfHybridisation) {
             this.areaOfHybridisation = areaOfHybridisation;
@@ -486,7 +504,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          *     (TBC)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder oligoNucleotideType(CodeableConcept oligoNucleotideType) {
             this.oligoNucleotideType = oligoNucleotideType;
@@ -498,13 +516,16 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          * subunits that have identical sequences will be repeated multiple times.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subunit
          *     Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          *     subunits that have identical sequences will be repeated multiple times
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subunit(Subunit... subunit) {
             for (Subunit value : subunit) {
@@ -518,16 +539,19 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          * subunits that have identical sequences will be repeated multiple times.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subunit
          *     Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          *     subunits that have identical sequences will be repeated multiple times
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subunit(Collection<Subunit> subunit) {
-            this.subunit.addAll(subunit);
+            this.subunit = new ArrayList<>(subunit);
             return this;
         }
 
@@ -668,7 +692,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Linkage}.
+         *     An unmodifiable list containing immutable objects of type {@link Linkage}.
          */
         public List<Linkage> getLinkage() {
             return linkage;
@@ -680,7 +704,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Sugar}.
+         *     An unmodifiable list containing immutable objects of type {@link Sugar}.
          */
         public List<Sugar> getSugar() {
             return sugar;
@@ -788,7 +812,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -802,12 +826,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -821,12 +848,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -846,12 +876,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -871,12 +904,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -894,7 +930,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     by molecular weight. Subunits that have identical sequences will be repeated and have sequential subscripts
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder subunit(Integer subunit) {
                 this.subunit = subunit;
@@ -912,7 +948,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     sequence, sugar and type of phosphate or non-phosphate linkage should also be captured
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sequence(String sequence) {
                 this.sequence = sequence;
@@ -928,7 +964,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     The length of the sequence shall be captured
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder length(Integer length) {
                 this.length = length;
@@ -944,7 +980,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     (TBC)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sequenceAttachment(Attachment sequenceAttachment) {
                 this.sequenceAttachment = sequenceAttachment;
@@ -964,7 +1000,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     separate representation would be redundant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fivePrime(CodeableConcept fivePrime) {
                 this.fivePrime = fivePrime;
@@ -984,7 +1020,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              *     separate representation would be redundant
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder threePrime(CodeableConcept threePrime) {
                 this.threePrime = threePrime;
@@ -995,12 +1031,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>
              * The linkages between sugar residues will also be captured.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param linkage
              *     The linkages between sugar residues will also be captured
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder linkage(Linkage... linkage) {
                 for (Linkage value : linkage) {
@@ -1013,15 +1052,18 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>
              * The linkages between sugar residues will also be captured.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param linkage
              *     The linkages between sugar residues will also be captured
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder linkage(Collection<Linkage> linkage) {
-                this.linkage.addAll(linkage);
+                this.linkage = new ArrayList<>(linkage);
                 return this;
             }
 
@@ -1029,12 +1071,15 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>
              * 5.3.6.8.1 Sugar ID (Mandatory).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param sugar
              *     5.3.6.8.1 Sugar ID (Mandatory)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sugar(Sugar... sugar) {
                 for (Sugar value : sugar) {
@@ -1047,15 +1092,18 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>
              * 5.3.6.8.1 Sugar ID (Mandatory).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param sugar
              *     5.3.6.8.1 Sugar ID (Mandatory)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder sugar(Collection<Sugar> sugar) {
-                this.sugar.addAll(sugar);
+                this.sugar = new ArrayList<>(sugar);
                 return this;
             }
 
@@ -1238,7 +1286,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1252,12 +1300,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1271,12 +1322,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1296,12 +1350,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1321,12 +1378,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1346,7 +1406,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     Linkage connectivity is assumed to be 3’-5’. If the linkage is either 3’-3’ or 5’-5’ this should be specified
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder connectivity(String connectivity) {
                     this.connectivity = connectivity;
@@ -1362,7 +1422,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     Each linkage will be registered as a fragment and have an ID
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder identifier(Identifier identifier) {
                     this.identifier = identifier;
@@ -1380,7 +1440,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     linkage
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder name(String name) {
                     this.name = name;
@@ -1396,7 +1456,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     Residues shall be captured as described in 5.3.6.8.3
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder residueSite(String residueSite) {
                     this.residueSite = residueSite;
@@ -1559,7 +1619,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1573,12 +1633,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1592,12 +1655,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1617,12 +1683,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1642,12 +1711,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1663,7 +1735,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     The Substance ID of the sugar or sugar-like component that make up the nucleotide
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder identifier(Identifier identifier) {
                     this.identifier = identifier;
@@ -1679,7 +1751,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     The name of the sugar or sugar-like component that make up the nucleotide
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder name(String name) {
                     this.name = name;
@@ -1697,7 +1769,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                  *     ‘direction consistent with the base sequences listed above
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder residueSite(String residueSite) {
                     this.residueSite = residueSite;

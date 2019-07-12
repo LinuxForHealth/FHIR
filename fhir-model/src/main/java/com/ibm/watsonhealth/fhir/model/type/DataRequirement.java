@@ -85,7 +85,7 @@ public class DataRequirement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
     public List<Canonical> getProfile() {
         return profile;
@@ -116,7 +116,7 @@ public class DataRequirement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getMustSupport() {
         return mustSupport;
@@ -129,7 +129,7 @@ public class DataRequirement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeFilter}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeFilter}.
      */
     public List<CodeFilter> getCodeFilter() {
         return codeFilter;
@@ -142,7 +142,7 @@ public class DataRequirement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DateFilter}.
+     *     An unmodifiable list containing immutable objects of type {@link DateFilter}.
      */
     public List<DateFilter> getDateFilter() {
         return dateFilter;
@@ -166,7 +166,7 @@ public class DataRequirement extends Element {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Sort}.
+     *     An unmodifiable list containing immutable objects of type {@link Sort}.
      */
     public List<Sort> getSort() {
         return sort;
@@ -278,7 +278,7 @@ public class DataRequirement extends Element {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -292,12 +292,15 @@ public class DataRequirement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -311,12 +314,15 @@ public class DataRequirement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -327,12 +333,15 @@ public class DataRequirement extends Element {
          * <p>
          * The profile of the required data, specified as the uri of the profile definition.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param profile
          *     The profile of the required data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder profile(Canonical... profile) {
             for (Canonical value : profile) {
@@ -345,15 +354,18 @@ public class DataRequirement extends Element {
          * <p>
          * The profile of the required data, specified as the uri of the profile definition.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param profile
          *     The profile of the required data
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder profile(Collection<Canonical> profile) {
-            this.profile.addAll(profile);
+            this.profile = new ArrayList<>(profile);
             return this;
         }
 
@@ -366,7 +378,7 @@ public class DataRequirement extends Element {
          *     E.g. Patient, Practitioner, RelatedPerson, Organization, Location, Device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Element subject) {
             this.subject = subject;
@@ -384,12 +396,15 @@ public class DataRequirement extends Element {
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mustSupport(String... mustSupport) {
             for (String value : mustSupport) {
@@ -409,15 +424,18 @@ public class DataRequirement extends Element {
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder mustSupport(Collection<String> mustSupport) {
-            this.mustSupport.addAll(mustSupport);
+            this.mustSupport = new ArrayList<>(mustSupport);
             return this;
         }
 
@@ -426,12 +444,15 @@ public class DataRequirement extends Element {
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param codeFilter
          *     What codes are expected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder codeFilter(CodeFilter... codeFilter) {
             for (CodeFilter value : codeFilter) {
@@ -445,15 +466,18 @@ public class DataRequirement extends Element {
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param codeFilter
          *     What codes are expected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder codeFilter(Collection<CodeFilter> codeFilter) {
-            this.codeFilter.addAll(codeFilter);
+            this.codeFilter = new ArrayList<>(codeFilter);
             return this;
         }
 
@@ -462,12 +486,15 @@ public class DataRequirement extends Element {
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dateFilter(DateFilter... dateFilter) {
             for (DateFilter value : dateFilter) {
@@ -481,15 +508,18 @@ public class DataRequirement extends Element {
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder dateFilter(Collection<DateFilter> dateFilter) {
-            this.dateFilter.addAll(dateFilter);
+            this.dateFilter = new ArrayList<>(dateFilter);
             return this;
         }
 
@@ -502,7 +532,7 @@ public class DataRequirement extends Element {
          *     Number of results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder limit(PositiveInt limit) {
             this.limit = limit;
@@ -513,12 +543,15 @@ public class DataRequirement extends Element {
          * <p>
          * Specifies the order of the results to be returned.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param sort
          *     Order of the results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sort(Sort... sort) {
             for (Sort value : sort) {
@@ -531,15 +564,18 @@ public class DataRequirement extends Element {
          * <p>
          * Specifies the order of the results to be returned.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param sort
          *     Order of the results
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder sort(Collection<Sort> sort) {
-            this.sort.addAll(sort);
+            this.sort = new ArrayList<>(sort);
             return this;
         }
 
@@ -635,7 +671,7 @@ public class DataRequirement extends Element {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getCode() {
             return code;
@@ -727,7 +763,7 @@ public class DataRequirement extends Element {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -741,12 +777,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -760,12 +799,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -783,12 +825,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -806,12 +851,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -831,7 +879,7 @@ public class DataRequirement extends Element {
              *     A code-valued attribute to filter on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder path(String path) {
                 this.path = path;
@@ -848,7 +896,7 @@ public class DataRequirement extends Element {
              *     A coded (token) parameter to search on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder searchParam(String searchParam) {
                 this.searchParam = searchParam;
@@ -866,7 +914,7 @@ public class DataRequirement extends Element {
              *     Valueset for the filter
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder valueSet(Canonical valueSet) {
                 this.valueSet = valueSet;
@@ -879,12 +927,15 @@ public class DataRequirement extends Element {
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param code
              *     What code is expected
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Coding... code) {
                 for (Coding value : code) {
@@ -899,15 +950,18 @@ public class DataRequirement extends Element {
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param code
              *     What code is expected
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder code(Collection<Coding> code) {
-                this.code.addAll(code);
+                this.code = new ArrayList<>(code);
                 return this;
             }
 
@@ -1075,7 +1129,7 @@ public class DataRequirement extends Element {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1089,12 +1143,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1108,12 +1165,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1131,12 +1191,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1154,12 +1217,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1179,7 +1245,7 @@ public class DataRequirement extends Element {
              *     A date-valued attribute to filter on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder path(String path) {
                 this.path = path;
@@ -1196,7 +1262,7 @@ public class DataRequirement extends Element {
              *     A date valued parameter to search on
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder searchParam(String searchParam) {
                 this.searchParam = searchParam;
@@ -1215,7 +1281,7 @@ public class DataRequirement extends Element {
              *     The value of the filter, as a Period, DateTime, or Duration value
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder value(Element value) {
                 this.value = value;
@@ -1366,7 +1432,7 @@ public class DataRequirement extends Element {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1380,12 +1446,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1399,12 +1468,15 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1422,12 +1494,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1445,12 +1520,15 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

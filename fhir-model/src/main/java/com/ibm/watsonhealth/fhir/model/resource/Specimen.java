@@ -80,7 +80,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -155,7 +155,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getParent() {
         return parent;
@@ -167,7 +167,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRequest() {
         return request;
@@ -191,7 +191,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Processing}.
+     *     An unmodifiable list containing immutable objects of type {@link Processing}.
      */
     public List<Processing> getProcessing() {
         return processing;
@@ -204,7 +204,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Container}.
+     *     An unmodifiable list containing immutable objects of type {@link Container}.
      */
     public List<Container> getContainer() {
         return container;
@@ -216,7 +216,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCondition() {
         return condition;
@@ -229,7 +229,7 @@ public class Specimen extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
      */
     public List<Annotation> getNote() {
         return note;
@@ -371,7 +371,7 @@ public class Specimen extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -388,7 +388,7 @@ public class Specimen extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -406,7 +406,7 @@ public class Specimen extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -422,7 +422,7 @@ public class Specimen extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -441,7 +441,7 @@ public class Specimen extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -453,12 +453,15 @@ public class Specimen extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -470,12 +473,15 @@ public class Specimen extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(java.util.Collection<Resource> contained) {
@@ -489,12 +495,15 @@ public class Specimen extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -508,12 +517,15 @@ public class Specimen extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(java.util.Collection<Extension> extension) {
@@ -533,12 +545,15 @@ public class Specimen extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -558,12 +573,15 @@ public class Specimen extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -574,12 +592,15 @@ public class Specimen extends DomainResource {
          * <p>
          * Id for specimen.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External Identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -592,15 +613,18 @@ public class Specimen extends DomainResource {
          * <p>
          * Id for specimen.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External Identifier
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(java.util.Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -614,7 +638,7 @@ public class Specimen extends DomainResource {
          *     Identifier assigned by the lab
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder accessionIdentifier(Identifier accessionIdentifier) {
             this.accessionIdentifier = accessionIdentifier;
@@ -630,7 +654,7 @@ public class Specimen extends DomainResource {
          *     available | unavailable | unsatisfactory | entered-in-error
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(SpecimenStatus status) {
             this.status = status;
@@ -646,7 +670,7 @@ public class Specimen extends DomainResource {
          *     Kind of material that forms the specimen
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
@@ -664,7 +688,7 @@ public class Specimen extends DomainResource {
          *     sample), or a sampling of a substance or a device
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subject(Reference subject) {
             this.subject = subject;
@@ -680,7 +704,7 @@ public class Specimen extends DomainResource {
          *     The time when specimen was received for processing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder receivedTime(DateTime receivedTime) {
             this.receivedTime = receivedTime;
@@ -692,12 +716,15 @@ public class Specimen extends DomainResource {
          * Reference to the parent (source) specimen which is used when the specimen was either derived from or a component of 
          * another specimen.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parent
          *     Specimen from which this specimen originated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(Reference... parent) {
             for (Reference value : parent) {
@@ -711,15 +738,18 @@ public class Specimen extends DomainResource {
          * Reference to the parent (source) specimen which is used when the specimen was either derived from or a component of 
          * another specimen.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parent
          *     Specimen from which this specimen originated
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(java.util.Collection<Reference> parent) {
-            this.parent.addAll(parent);
+            this.parent = new ArrayList<>(parent);
             return this;
         }
 
@@ -727,12 +757,15 @@ public class Specimen extends DomainResource {
          * <p>
          * Details concerning a service request that required a specimen to be collected.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param request
          *     Why the specimen was collected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(Reference... request) {
             for (Reference value : request) {
@@ -745,15 +778,18 @@ public class Specimen extends DomainResource {
          * <p>
          * Details concerning a service request that required a specimen to be collected.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param request
          *     Why the specimen was collected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(java.util.Collection<Reference> request) {
-            this.request.addAll(request);
+            this.request = new ArrayList<>(request);
             return this;
         }
 
@@ -766,7 +802,7 @@ public class Specimen extends DomainResource {
          *     Collection details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder collection(Collection collection) {
             this.collection = collection;
@@ -777,12 +813,15 @@ public class Specimen extends DomainResource {
          * <p>
          * Details concerning processing and processing steps for the specimen.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param processing
          *     Processing and processing step details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processing(Processing... processing) {
             for (Processing value : processing) {
@@ -795,15 +834,18 @@ public class Specimen extends DomainResource {
          * <p>
          * Details concerning processing and processing steps for the specimen.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param processing
          *     Processing and processing step details
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processing(java.util.Collection<Processing> processing) {
-            this.processing.addAll(processing);
+            this.processing = new ArrayList<>(processing);
             return this;
         }
 
@@ -812,12 +854,15 @@ public class Specimen extends DomainResource {
          * The container holding the specimen. The recursive nature of containers; i.e. blood in tube in tray in rack is not 
          * addressed here.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param container
          *     Direct container of specimen (tube/slide, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder container(Container... container) {
             for (Container value : container) {
@@ -831,15 +876,18 @@ public class Specimen extends DomainResource {
          * The container holding the specimen. The recursive nature of containers; i.e. blood in tube in tray in rack is not 
          * addressed here.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param container
          *     Direct container of specimen (tube/slide, etc.)
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder container(java.util.Collection<Container> container) {
-            this.container.addAll(container);
+            this.container = new ArrayList<>(container);
             return this;
         }
 
@@ -847,12 +895,15 @@ public class Specimen extends DomainResource {
          * <p>
          * A mode or state of being that describes the nature of the specimen.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param condition
          *     State of the specimen
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(CodeableConcept... condition) {
             for (CodeableConcept value : condition) {
@@ -865,15 +916,18 @@ public class Specimen extends DomainResource {
          * <p>
          * A mode or state of being that describes the nature of the specimen.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param condition
          *     State of the specimen
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder condition(java.util.Collection<CodeableConcept> condition) {
-            this.condition.addAll(condition);
+            this.condition = new ArrayList<>(condition);
             return this;
         }
 
@@ -882,12 +936,15 @@ public class Specimen extends DomainResource {
          * To communicate any details or issues about the specimen or during the specimen collection. (for example: broken vial, 
          * sent with patient, frozen).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(Annotation... note) {
             for (Annotation value : note) {
@@ -901,15 +958,18 @@ public class Specimen extends DomainResource {
          * To communicate any details or issues about the specimen or during the specimen collection. (for example: broken vial, 
          * sent with patient, frozen).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param note
          *     Comments
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder note(java.util.Collection<Annotation> note) {
-            this.note.addAll(note);
+            this.note = new ArrayList<>(note);
             return this;
         }
 
@@ -1155,7 +1215,7 @@ public class Specimen extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1169,12 +1229,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1188,12 +1251,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1213,12 +1279,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1238,12 +1307,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1259,7 +1331,7 @@ public class Specimen extends DomainResource {
              *     Who collected the specimen
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder collector(Reference collector) {
                 this.collector = collector;
@@ -1275,7 +1347,7 @@ public class Specimen extends DomainResource {
              *     Collection time
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder collected(Element collected) {
                 this.collected = collected;
@@ -1291,7 +1363,7 @@ public class Specimen extends DomainResource {
              *     How long it took to collect specimen
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder duration(Duration duration) {
                 this.duration = duration;
@@ -1308,7 +1380,7 @@ public class Specimen extends DomainResource {
              *     The quantity of specimen collected
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder quantity(Quantity quantity) {
                 this.quantity = quantity;
@@ -1324,7 +1396,7 @@ public class Specimen extends DomainResource {
              *     Technique used to perform collection
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder method(CodeableConcept method) {
                 this.method = method;
@@ -1341,7 +1413,7 @@ public class Specimen extends DomainResource {
              *     Anatomical collection site
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bodySite(CodeableConcept bodySite) {
                 this.bodySite = bodySite;
@@ -1357,7 +1429,7 @@ public class Specimen extends DomainResource {
              *     Whether or how long patient abstained from food and/or drink
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder fastingStatus(Element fastingStatus) {
                 this.fastingStatus = fastingStatus;
@@ -1436,7 +1508,7 @@ public class Specimen extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference}.
          */
         public List<Reference> getAdditive() {
             return additive;
@@ -1541,7 +1613,7 @@ public class Specimen extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1555,12 +1627,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1574,12 +1649,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1599,12 +1677,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1624,12 +1705,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1645,7 +1729,7 @@ public class Specimen extends DomainResource {
              *     Textual description of procedure
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1661,7 +1745,7 @@ public class Specimen extends DomainResource {
              *     Indicates the treatment step applied to the specimen
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder procedure(CodeableConcept procedure) {
                 this.procedure = procedure;
@@ -1672,12 +1756,15 @@ public class Specimen extends DomainResource {
              * <p>
              * Material used in the processing step.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param additive
              *     Material used in the processing step
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additive(Reference... additive) {
                 for (Reference value : additive) {
@@ -1690,15 +1777,18 @@ public class Specimen extends DomainResource {
              * <p>
              * Material used in the processing step.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param additive
              *     Material used in the processing step
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additive(java.util.Collection<Reference> additive) {
-                this.additive.addAll(additive);
+                this.additive = new ArrayList<>(additive);
                 return this;
             }
 
@@ -1712,7 +1802,7 @@ public class Specimen extends DomainResource {
              *     Date and time of specimen processing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder time(Element time) {
                 this.time = time;
@@ -1770,7 +1860,7 @@ public class Specimen extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1931,7 +2021,7 @@ public class Specimen extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1945,12 +2035,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1964,12 +2057,15 @@ public class Specimen extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1989,12 +2085,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2014,12 +2113,15 @@ public class Specimen extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -2031,12 +2133,15 @@ public class Specimen extends DomainResource {
              * Id for container. There may be multiple; a manufacturer's bar code, lab assigned identifier, etc. The container ID may 
              * differ from the specimen id in some circumstances.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param identifier
              *     Id for the container
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(Identifier... identifier) {
                 for (Identifier value : identifier) {
@@ -2050,15 +2155,18 @@ public class Specimen extends DomainResource {
              * Id for container. There may be multiple; a manufacturer's bar code, lab assigned identifier, etc. The container ID may 
              * differ from the specimen id in some circumstances.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param identifier
              *     Id for the container
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder identifier(java.util.Collection<Identifier> identifier) {
-                this.identifier.addAll(identifier);
+                this.identifier = new ArrayList<>(identifier);
                 return this;
             }
 
@@ -2071,7 +2179,7 @@ public class Specimen extends DomainResource {
              *     Textual description of the container
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2087,7 +2195,7 @@ public class Specimen extends DomainResource {
              *     Kind of container directly associated with specimen
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -2103,7 +2211,7 @@ public class Specimen extends DomainResource {
              *     Container volume or size
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder capacity(Quantity capacity) {
                 this.capacity = capacity;
@@ -2120,7 +2228,7 @@ public class Specimen extends DomainResource {
              *     Quantity of specimen within container
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder specimenQuantity(Quantity specimenQuantity) {
                 this.specimenQuantity = specimenQuantity;
@@ -2136,7 +2244,7 @@ public class Specimen extends DomainResource {
              *     Additive associated with container
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additive(Element additive) {
                 this.additive = additive;

@@ -547,7 +547,7 @@ public class CodeGenerator {
             String fieldType = getFieldType(structureDefinition, elementDefinition);
             
             if (isRepeating(elementDefinition)) {
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, cb);
+                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", cb);
                 if (!declaredBy) {
                     cb.override();
                 }
@@ -575,14 +575,15 @@ public class CodeGenerator {
                     paramType = "java.util." + paramType;
                 }
                 
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, cb);
+                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "collection", cb);
                 if (!declaredBy) {
                     cb.override();
                 }
                 cb.method(mods("public"), "Builder", fieldName, params(param(paramType, fieldName)));
                 
                 if (declaredBy) {
-                    cb.invoke(_this(fieldName), "addAll", args(fieldName));
+//                  cb.invoke(_this(fieldName), "addAll", args(fieldName));
+                    cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
                     cb._return("this");
                 } else {
                     cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
@@ -590,7 +591,7 @@ public class CodeGenerator {
                 
                 cb.end();
             } else {
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, cb);
+                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", cb);
                 if (!declaredBy) {
                     cb.override();
                 }
@@ -703,10 +704,26 @@ public class CodeGenerator {
         cb._end();
     }
 
-    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, CodeBuilder cb) {
+    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
         cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
+        
+        switch (paramType) {
+        case "single":
+            // do nothing
+            break;
+        case "varargs":
+            cb.javadoc("<p>", false);
+            cb.javadoc("Adds new element(s) to the existing list", false);
+            cb.javadoc("</p>", false);
+            break;
+        case "collection":
+            cb.javadoc("<p>", false);
+            cb.javadoc("Replaces existing list with a new one containing elements from the Collection", false);
+            cb.javadoc("</p>", false);
+            break;
+        }
         cb.javadoc("");
         
         String _short = elementDefinition.getString("short");
@@ -714,9 +731,7 @@ public class CodeGenerator {
         
         cb.javadoc("");
         
-        String link = getFieldType(structureDefinition, elementDefinition, false);
-        link = link.substring(link.lastIndexOf(".") + 1);
-        cb.javadocReturn("A reference to this Builder instance.");
+        cb.javadocReturn("A reference to this Builder instance");
         cb.javadocEnd();
     }
     
@@ -1117,7 +1132,7 @@ public class CodeGenerator {
         if (isRepeating(elementDefinition)) {
             String reference = getFieldType(structureDefinition, elementDefinition, false);
             reference = reference.substring(reference.lastIndexOf(".") + 1);
-            cb.javadocReturn("A list containing immutable objects of type " + javadocLink(reference) + ".");
+            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
             String reference = fieldType;
             if (!"java.lang.String".equals(fieldType)) {
@@ -1158,6 +1173,14 @@ public class CodeGenerator {
         generateClass(structureDefinition, Collections.singletonList(path), cb, false);
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
@@ -1724,7 +1747,15 @@ public class CodeGenerator {
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/FHIRJsonParser.java");
-
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+        
         Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
@@ -2213,7 +2244,15 @@ public class CodeGenerator {
                 
                 
                 File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + bindingName + ".java");
-
+                try {
+                    if (!file.exists()) {
+                        file.getParentFile().mkdirs();
+                        Files.createFile(file.toPath());
+                    }
+                } catch (Exception e) {
+                    throw new Error(e);
+                }
+                
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write(cb.toString());
                 } catch (Exception e) {
@@ -2297,6 +2336,14 @@ public class CodeGenerator {
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/Visitor.java");
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());

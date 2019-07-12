@@ -100,7 +100,7 @@ public class AuditEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding}.
      */
     public List<Coding> getSubtype() {
         return subtype;
@@ -172,7 +172,7 @@ public class AuditEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getPurposeOfEvent() {
         return purposeOfEvent;
@@ -184,7 +184,7 @@ public class AuditEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Agent}.
+     *     An unmodifiable list containing immutable objects of type {@link Agent}.
      */
     public List<Agent> getAgent() {
         return agent;
@@ -208,7 +208,7 @@ public class AuditEvent extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Entity}.
+     *     An unmodifiable list containing immutable objects of type {@link Entity}.
      */
     public List<Entity> getEntity() {
         return entity;
@@ -352,7 +352,7 @@ public class AuditEvent extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -369,7 +369,7 @@ public class AuditEvent extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -387,7 +387,7 @@ public class AuditEvent extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -403,7 +403,7 @@ public class AuditEvent extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -422,7 +422,7 @@ public class AuditEvent extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -434,12 +434,15 @@ public class AuditEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -451,12 +454,15 @@ public class AuditEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -470,12 +476,15 @@ public class AuditEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -489,12 +498,15 @@ public class AuditEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -514,12 +526,15 @@ public class AuditEvent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -539,12 +554,15 @@ public class AuditEvent extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -555,12 +573,15 @@ public class AuditEvent extends DomainResource {
          * <p>
          * Identifier for the category of event.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param subtype
          *     More specific type/id for the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtype(Coding... subtype) {
             for (Coding value : subtype) {
@@ -573,15 +594,18 @@ public class AuditEvent extends DomainResource {
          * <p>
          * Identifier for the category of event.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param subtype
          *     More specific type/id for the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder subtype(Collection<Coding> subtype) {
-            this.subtype.addAll(subtype);
+            this.subtype = new ArrayList<>(subtype);
             return this;
         }
 
@@ -594,7 +618,7 @@ public class AuditEvent extends DomainResource {
          *     Type of action performed during the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder action(AuditEventAction action) {
             this.action = action;
@@ -610,7 +634,7 @@ public class AuditEvent extends DomainResource {
          *     When the activity occurred
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder period(Period period) {
             this.period = period;
@@ -626,7 +650,7 @@ public class AuditEvent extends DomainResource {
          *     Whether the event succeeded or failed
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcome(AuditEventOutcome outcome) {
             this.outcome = outcome;
@@ -642,7 +666,7 @@ public class AuditEvent extends DomainResource {
          *     Description of the event outcome
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder outcomeDesc(String outcomeDesc) {
             this.outcomeDesc = outcomeDesc;
@@ -653,12 +677,15 @@ public class AuditEvent extends DomainResource {
          * <p>
          * The purposeOfUse (reason) that was used during the event being recorded.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purposeOfEvent(CodeableConcept... purposeOfEvent) {
             for (CodeableConcept value : purposeOfEvent) {
@@ -671,15 +698,18 @@ public class AuditEvent extends DomainResource {
          * <p>
          * The purposeOfUse (reason) that was used during the event being recorded.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder purposeOfEvent(Collection<CodeableConcept> purposeOfEvent) {
-            this.purposeOfEvent.addAll(purposeOfEvent);
+            this.purposeOfEvent = new ArrayList<>(purposeOfEvent);
             return this;
         }
 
@@ -687,12 +717,15 @@ public class AuditEvent extends DomainResource {
          * <p>
          * Specific instances of data or objects that have been accessed.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param entity
          *     Data or objects used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entity(Entity... entity) {
             for (Entity value : entity) {
@@ -705,15 +738,18 @@ public class AuditEvent extends DomainResource {
          * <p>
          * Specific instances of data or objects that have been accessed.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param entity
          *     Data or objects used
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder entity(Collection<Entity> entity) {
-            this.entity.addAll(entity);
+            this.entity = new ArrayList<>(entity);
             return this;
         }
 
@@ -796,7 +832,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -871,7 +907,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Uri}.
+         *     An unmodifiable list containing immutable objects of type {@link Uri}.
          */
         public List<Uri> getPolicy() {
             return policy;
@@ -907,7 +943,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
          */
         public List<CodeableConcept> getPurposeOfUse() {
             return purposeOfUse;
@@ -1034,7 +1070,7 @@ public class AuditEvent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1048,12 +1084,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1067,12 +1106,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1092,12 +1134,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1117,12 +1162,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1138,7 +1186,7 @@ public class AuditEvent extends DomainResource {
              *     How agent participated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
@@ -1150,12 +1198,15 @@ public class AuditEvent extends DomainResource {
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param role
              *     Agent role in the event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(CodeableConcept... role) {
                 for (CodeableConcept value : role) {
@@ -1169,15 +1220,18 @@ public class AuditEvent extends DomainResource {
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param role
              *     Agent role in the event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(Collection<CodeableConcept> role) {
-                this.role.addAll(role);
+                this.role = new ArrayList<>(role);
                 return this;
             }
 
@@ -1190,7 +1244,7 @@ public class AuditEvent extends DomainResource {
              *     Identifier of who
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder who(Reference who) {
                 this.who = who;
@@ -1207,7 +1261,7 @@ public class AuditEvent extends DomainResource {
              *     Alternative User identity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder altId(String altId) {
                 this.altId = altId;
@@ -1223,7 +1277,7 @@ public class AuditEvent extends DomainResource {
              *     Human friendly name for the agent
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -1239,7 +1293,7 @@ public class AuditEvent extends DomainResource {
              *     Where
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder location(Reference location) {
                 this.location = location;
@@ -1252,12 +1306,15 @@ public class AuditEvent extends DomainResource {
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param policy
              *     Policy that authorized event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder policy(Uri... policy) {
                 for (Uri value : policy) {
@@ -1272,15 +1329,18 @@ public class AuditEvent extends DomainResource {
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param policy
              *     Policy that authorized event
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder policy(Collection<Uri> policy) {
-                this.policy.addAll(policy);
+                this.policy = new ArrayList<>(policy);
                 return this;
             }
 
@@ -1293,7 +1353,7 @@ public class AuditEvent extends DomainResource {
              *     Type of media
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder media(Coding media) {
                 this.media = media;
@@ -1309,7 +1369,7 @@ public class AuditEvent extends DomainResource {
              *     Logical network location for application activity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder network(Network network) {
                 this.network = network;
@@ -1320,12 +1380,15 @@ public class AuditEvent extends DomainResource {
              * <p>
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param purposeOfUse
              *     Reason given for this user
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder purposeOfUse(CodeableConcept... purposeOfUse) {
                 for (CodeableConcept value : purposeOfUse) {
@@ -1338,15 +1401,18 @@ public class AuditEvent extends DomainResource {
              * <p>
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param purposeOfUse
              *     Reason given for this user
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder purposeOfUse(Collection<CodeableConcept> purposeOfUse) {
-                this.purposeOfUse.addAll(purposeOfUse);
+                this.purposeOfUse = new ArrayList<>(purposeOfUse);
                 return this;
             }
 
@@ -1492,7 +1558,7 @@ public class AuditEvent extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1506,12 +1572,15 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1525,12 +1594,15 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1550,12 +1622,15 @@ public class AuditEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1575,12 +1650,15 @@ public class AuditEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1596,7 +1674,7 @@ public class AuditEvent extends DomainResource {
                  *     Identifier for the network access point of the user device
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder address(String address) {
                     this.address = address;
@@ -1612,7 +1690,7 @@ public class AuditEvent extends DomainResource {
                  *     The type of network access point
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(AuditEventAgentNetworkType type) {
                     this.type = type;
@@ -1686,7 +1764,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getType() {
             return type;
@@ -1781,7 +1859,7 @@ public class AuditEvent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1795,12 +1873,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1814,12 +1895,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1839,12 +1923,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1864,12 +1951,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1886,7 +1976,7 @@ public class AuditEvent extends DomainResource {
              *     Logical source location within the enterprise
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder site(String site) {
                 this.site = site;
@@ -1897,12 +1987,15 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Code specifying the type of source where event originated.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param type
              *     The type of source where event originated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Coding... type) {
                 for (Coding value : type) {
@@ -1915,15 +2008,18 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Code specifying the type of source where event originated.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param type
              *     The type of source where event originated
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Collection<Coding> type) {
-                this.type.addAll(type);
+                this.type = new ArrayList<>(type);
                 return this;
             }
 
@@ -2028,7 +2124,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding}.
          */
         public List<Coding> getSecurityLabel() {
             return securityLabel;
@@ -2076,7 +2172,7 @@ public class AuditEvent extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail}.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -2188,7 +2284,7 @@ public class AuditEvent extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -2202,12 +2298,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -2221,12 +2320,15 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2246,12 +2348,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -2271,12 +2376,15 @@ public class AuditEvent extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2292,7 +2400,7 @@ public class AuditEvent extends DomainResource {
              *     Specific instance of resource
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder what(Reference what) {
                 this.what = what;
@@ -2308,7 +2416,7 @@ public class AuditEvent extends DomainResource {
              *     Type of entity involved
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder type(Coding type) {
                 this.type = type;
@@ -2324,7 +2432,7 @@ public class AuditEvent extends DomainResource {
              *     What role the entity played
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder role(Coding role) {
                 this.role = role;
@@ -2340,7 +2448,7 @@ public class AuditEvent extends DomainResource {
              *     Life-cycle stage for the entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder lifecycle(Coding lifecycle) {
                 this.lifecycle = lifecycle;
@@ -2351,12 +2459,15 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Security labels for the identified entity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param securityLabel
              *     Security labels on the entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(Coding... securityLabel) {
                 for (Coding value : securityLabel) {
@@ -2369,15 +2480,18 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Security labels for the identified entity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param securityLabel
              *     Security labels on the entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder securityLabel(Collection<Coding> securityLabel) {
-                this.securityLabel.addAll(securityLabel);
+                this.securityLabel = new ArrayList<>(securityLabel);
                 return this;
             }
 
@@ -2390,7 +2504,7 @@ public class AuditEvent extends DomainResource {
              *     Descriptor for entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder name(String name) {
                 this.name = name;
@@ -2406,7 +2520,7 @@ public class AuditEvent extends DomainResource {
              *     Descriptive text
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2422,7 +2536,7 @@ public class AuditEvent extends DomainResource {
              *     Query parameters
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder query(Base64Binary query) {
                 this.query = query;
@@ -2433,12 +2547,15 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Tagged value pairs for conveying additional information about the entity.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param detail
              *     Additional Information about the entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Detail... detail) {
                 for (Detail value : detail) {
@@ -2451,15 +2568,18 @@ public class AuditEvent extends DomainResource {
              * <p>
              * Tagged value pairs for conveying additional information about the entity.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param detail
              *     Additional Information about the entity
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder detail(Collection<Detail> detail) {
-                this.detail.addAll(detail);
+                this.detail = new ArrayList<>(detail);
                 return this;
             }
 
@@ -2610,7 +2730,7 @@ public class AuditEvent extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -2624,12 +2744,15 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -2643,12 +2766,15 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2668,12 +2794,15 @@ public class AuditEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -2693,12 +2822,15 @@ public class AuditEvent extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

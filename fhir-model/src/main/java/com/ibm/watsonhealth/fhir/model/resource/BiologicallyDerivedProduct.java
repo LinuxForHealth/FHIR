@@ -80,7 +80,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -128,7 +128,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getRequest() {
         return request;
@@ -152,7 +152,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference}.
      */
     public List<Reference> getParent() {
         return parent;
@@ -177,7 +177,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Processing}.
+     *     An unmodifiable list containing immutable objects of type {@link Processing}.
      */
     public List<Processing> getProcessing() {
         return processing;
@@ -202,7 +202,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Storage}.
+     *     An unmodifiable list containing immutable objects of type {@link Storage}.
      */
     public List<Storage> getStorage() {
         return storage;
@@ -336,7 +336,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -353,7 +353,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -371,7 +371,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -387,7 +387,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -406,7 +406,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -418,12 +418,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -435,12 +438,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(java.util.Collection<Resource> contained) {
@@ -454,12 +460,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -473,12 +482,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(java.util.Collection<Extension> extension) {
@@ -498,12 +510,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -523,12 +538,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -541,12 +559,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * processes and/or used to refer to it when a direct URL reference to the resource itself is not appropriate (e.g. in 
          * CDA documents, or in written / printed documentation).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param identifier
          *     External ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(Identifier... identifier) {
             for (Identifier value : identifier) {
@@ -561,15 +582,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * processes and/or used to refer to it when a direct URL reference to the resource itself is not appropriate (e.g. in 
          * CDA documents, or in written / printed documentation).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param identifier
          *     External ids for this item
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder identifier(java.util.Collection<Identifier> identifier) {
-            this.identifier.addAll(identifier);
+            this.identifier = new ArrayList<>(identifier);
             return this;
         }
 
@@ -582,7 +606,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     organ | tissue | fluid | cells | biologicalAgent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder productCategory(BiologicallyDerivedProductCategory productCategory) {
             this.productCategory = productCategory;
@@ -598,7 +622,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     What this biologically derived product is
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder productCode(CodeableConcept productCode) {
             this.productCode = productCode;
@@ -614,7 +638,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     available | unavailable
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder status(BiologicallyDerivedProductStatus status) {
             this.status = status;
@@ -625,12 +649,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Procedure request to obtain this biologically derived product.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param request
          *     Procedure request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(Reference... request) {
             for (Reference value : request) {
@@ -643,15 +670,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Procedure request to obtain this biologically derived product.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param request
          *     Procedure request
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder request(java.util.Collection<Reference> request) {
-            this.request.addAll(request);
+            this.request = new ArrayList<>(request);
             return this;
         }
 
@@ -664,7 +694,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     The amount of this biologically derived product
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder quantity(Integer quantity) {
             this.quantity = quantity;
@@ -675,12 +705,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Parent product (if any).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param parent
          *     BiologicallyDerivedProduct parent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(Reference... parent) {
             for (Reference value : parent) {
@@ -693,15 +726,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Parent product (if any).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param parent
          *     BiologicallyDerivedProduct parent
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder parent(java.util.Collection<Reference> parent) {
-            this.parent.addAll(parent);
+            this.parent = new ArrayList<>(parent);
             return this;
         }
 
@@ -714,7 +750,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     How this product was collected
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder collection(Collection collection) {
             this.collection = collection;
@@ -726,12 +762,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Any processing of the product during collection that does not change the fundamental nature of the product. For 
          * example adding anti-coagulants during the collection of Peripheral Blood Stem Cells.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param processing
          *     Any processing of the product during collection
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processing(Processing... processing) {
             for (Processing value : processing) {
@@ -745,15 +784,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Any processing of the product during collection that does not change the fundamental nature of the product. For 
          * example adding anti-coagulants during the collection of Peripheral Blood Stem Cells.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param processing
          *     Any processing of the product during collection
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder processing(java.util.Collection<Processing> processing) {
-            this.processing.addAll(processing);
+            this.processing = new ArrayList<>(processing);
             return this;
         }
 
@@ -767,7 +809,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     Any manipulation of product post-collection
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder manipulation(Manipulation manipulation) {
             this.manipulation = manipulation;
@@ -778,12 +820,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Product storage.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param storage
          *     Product storage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder storage(Storage... storage) {
             for (Storage value : storage) {
@@ -796,15 +841,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * <p>
          * Product storage.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param storage
          *     Product storage
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder storage(java.util.Collection<Storage> storage) {
-            this.storage.addAll(storage);
+            this.storage = new ArrayList<>(storage);
             return this;
         }
 
@@ -975,7 +1023,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -989,12 +1037,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1008,12 +1059,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1033,12 +1087,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1058,12 +1115,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1079,7 +1139,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Individual performing collection
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder collector(Reference collector) {
                 this.collector = collector;
@@ -1096,7 +1156,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Who is product from
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder source(Reference source) {
                 this.source = source;
@@ -1112,7 +1172,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Time of product collection
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder collected(Element collected) {
                 this.collected = collected;
@@ -1292,7 +1352,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1306,12 +1366,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1325,12 +1388,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1350,12 +1416,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1375,12 +1444,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1396,7 +1468,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Description of of processing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1412,7 +1484,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Procesing code
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder procedure(CodeableConcept procedure) {
                 this.procedure = procedure;
@@ -1428,7 +1500,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Substance added during processing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder additive(Reference additive) {
                 this.additive = additive;
@@ -1444,7 +1516,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Time of processing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder time(Element time) {
                 this.time = time;
@@ -1589,7 +1661,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1603,12 +1675,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1622,12 +1697,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1647,12 +1725,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1672,12 +1753,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1693,7 +1777,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Description of manipulation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -1709,7 +1793,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Time of manipulation
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder time(Element time) {
                 this.time = time;
@@ -1887,7 +1971,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1901,12 +1985,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1920,12 +2007,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(java.util.Collection<Extension> extension) {
@@ -1945,12 +2035,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1970,12 +2063,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
@@ -1991,7 +2087,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Description of storage
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder description(String description) {
                 this.description = description;
@@ -2007,7 +2103,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Storage temperature
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder temperature(Decimal temperature) {
                 this.temperature = temperature;
@@ -2023,7 +2119,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     farenheit | celsius | kelvin
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder scale(BiologicallyDerivedProductStorageScale scale) {
                 this.scale = scale;
@@ -2039,7 +2135,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              *     Storage timeperiod
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder duration(Period duration) {
                 this.duration = duration;

@@ -85,7 +85,7 @@ public class SubstancePolymer extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
      */
     public List<CodeableConcept> getCopolymerConnectivity() {
         return copolymerConnectivity;
@@ -97,7 +97,7 @@ public class SubstancePolymer extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String}.
      */
     public List<String> getModification() {
         return modification;
@@ -109,7 +109,7 @@ public class SubstancePolymer extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link MonomerSet}.
+     *     An unmodifiable list containing immutable objects of type {@link MonomerSet}.
      */
     public List<MonomerSet> getMonomerSet() {
         return monomerSet;
@@ -121,7 +121,7 @@ public class SubstancePolymer extends DomainResource {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link Repeat}.
+     *     An unmodifiable list containing immutable objects of type {@link Repeat}.
      */
     public List<Repeat> getRepeat() {
         return repeat;
@@ -235,7 +235,7 @@ public class SubstancePolymer extends DomainResource {
          *     Logical id of this artifact
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(Id id) {
@@ -252,7 +252,7 @@ public class SubstancePolymer extends DomainResource {
          *     Metadata about the resource
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder meta(Meta meta) {
@@ -270,7 +270,7 @@ public class SubstancePolymer extends DomainResource {
          *     A set of rules under which this content was created
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder implicitRules(Uri implicitRules) {
@@ -286,7 +286,7 @@ public class SubstancePolymer extends DomainResource {
          *     Language of the resource content
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder language(Code language) {
@@ -305,7 +305,7 @@ public class SubstancePolymer extends DomainResource {
          *     Text summary of the resource, for human interpretation
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder text(Narrative text) {
@@ -317,12 +317,15 @@ public class SubstancePolymer extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Resource... contained) {
@@ -334,12 +337,15 @@ public class SubstancePolymer extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -353,12 +359,15 @@ public class SubstancePolymer extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -372,12 +381,15 @@ public class SubstancePolymer extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -397,12 +409,15 @@ public class SubstancePolymer extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -422,12 +437,15 @@ public class SubstancePolymer extends DomainResource {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -443,7 +461,7 @@ public class SubstancePolymer extends DomainResource {
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder clazz(CodeableConcept clazz) {
             this.clazz = clazz;
@@ -459,7 +477,7 @@ public class SubstancePolymer extends DomainResource {
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder geometry(CodeableConcept geometry) {
             this.geometry = geometry;
@@ -470,12 +488,15 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param copolymerConnectivity
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copolymerConnectivity(CodeableConcept... copolymerConnectivity) {
             for (CodeableConcept value : copolymerConnectivity) {
@@ -488,15 +509,18 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param copolymerConnectivity
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder copolymerConnectivity(Collection<CodeableConcept> copolymerConnectivity) {
-            this.copolymerConnectivity.addAll(copolymerConnectivity);
+            this.copolymerConnectivity = new ArrayList<>(copolymerConnectivity);
             return this;
         }
 
@@ -504,12 +528,15 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modification
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modification(String... modification) {
             for (String value : modification) {
@@ -522,15 +549,18 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modification
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder modification(Collection<String> modification) {
-            this.modification.addAll(modification);
+            this.modification = new ArrayList<>(modification);
             return this;
         }
 
@@ -538,12 +568,15 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param monomerSet
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monomerSet(MonomerSet... monomerSet) {
             for (MonomerSet value : monomerSet) {
@@ -556,15 +589,18 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param monomerSet
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder monomerSet(Collection<MonomerSet> monomerSet) {
-            this.monomerSet.addAll(monomerSet);
+            this.monomerSet = new ArrayList<>(monomerSet);
             return this;
         }
 
@@ -572,12 +608,15 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param repeat
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder repeat(Repeat... repeat) {
             for (Repeat value : repeat) {
@@ -590,15 +629,18 @@ public class SubstancePolymer extends DomainResource {
          * <p>
          * Todo.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param repeat
          *     Todo
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder repeat(Collection<Repeat> repeat) {
-            this.repeat.addAll(repeat);
+            this.repeat = new ArrayList<>(repeat);
             return this;
         }
 
@@ -661,7 +703,7 @@ public class SubstancePolymer extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link StartingMaterial}.
+         *     An unmodifiable list containing immutable objects of type {@link StartingMaterial}.
          */
         public List<StartingMaterial> getStartingMaterial() {
             return startingMaterial;
@@ -745,7 +787,7 @@ public class SubstancePolymer extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -759,12 +801,15 @@ public class SubstancePolymer extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -778,12 +823,15 @@ public class SubstancePolymer extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -803,12 +851,15 @@ public class SubstancePolymer extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -828,12 +879,15 @@ public class SubstancePolymer extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -849,7 +903,7 @@ public class SubstancePolymer extends DomainResource {
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder ratioType(CodeableConcept ratioType) {
                 this.ratioType = ratioType;
@@ -860,12 +914,15 @@ public class SubstancePolymer extends DomainResource {
              * <p>
              * Todo.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param startingMaterial
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder startingMaterial(StartingMaterial... startingMaterial) {
                 for (StartingMaterial value : startingMaterial) {
@@ -878,15 +935,18 @@ public class SubstancePolymer extends DomainResource {
              * <p>
              * Todo.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param startingMaterial
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder startingMaterial(Collection<StartingMaterial> startingMaterial) {
-                this.startingMaterial.addAll(startingMaterial);
+                this.startingMaterial = new ArrayList<>(startingMaterial);
                 return this;
             }
 
@@ -1060,7 +1120,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1074,12 +1134,15 @@ public class SubstancePolymer extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1093,12 +1156,15 @@ public class SubstancePolymer extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1118,12 +1184,15 @@ public class SubstancePolymer extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1143,12 +1212,15 @@ public class SubstancePolymer extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1164,7 +1236,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder material(CodeableConcept material) {
                     this.material = material;
@@ -1180,7 +1252,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder type(CodeableConcept type) {
                     this.type = type;
@@ -1196,7 +1268,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder isDefining(Boolean isDefining) {
                     this.isDefining = isDefining;
@@ -1212,7 +1284,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(SubstanceAmount amount) {
                     this.amount = amount;
@@ -1301,7 +1373,7 @@ public class SubstancePolymer extends DomainResource {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link RepeatUnit}.
+         *     An unmodifiable list containing immutable objects of type {@link RepeatUnit}.
          */
         public List<RepeatUnit> getRepeatUnit() {
             return repeatUnit;
@@ -1393,7 +1465,7 @@ public class SubstancePolymer extends DomainResource {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -1407,12 +1479,15 @@ public class SubstancePolymer extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -1426,12 +1501,15 @@ public class SubstancePolymer extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1451,12 +1529,15 @@ public class SubstancePolymer extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -1476,12 +1557,15 @@ public class SubstancePolymer extends DomainResource {
              * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1497,7 +1581,7 @@ public class SubstancePolymer extends DomainResource {
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder numberOfUnits(Integer numberOfUnits) {
                 this.numberOfUnits = numberOfUnits;
@@ -1513,7 +1597,7 @@ public class SubstancePolymer extends DomainResource {
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder averageMolecularFormula(String averageMolecularFormula) {
                 this.averageMolecularFormula = averageMolecularFormula;
@@ -1529,7 +1613,7 @@ public class SubstancePolymer extends DomainResource {
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder repeatUnitAmountType(CodeableConcept repeatUnitAmountType) {
                 this.repeatUnitAmountType = repeatUnitAmountType;
@@ -1540,12 +1624,15 @@ public class SubstancePolymer extends DomainResource {
              * <p>
              * Todo.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param repeatUnit
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder repeatUnit(RepeatUnit... repeatUnit) {
                 for (RepeatUnit value : repeatUnit) {
@@ -1558,15 +1645,18 @@ public class SubstancePolymer extends DomainResource {
              * <p>
              * Todo.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param repeatUnit
              *     Todo
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder repeatUnit(Collection<RepeatUnit> repeatUnit) {
-                this.repeatUnit.addAll(repeatUnit);
+                this.repeatUnit = new ArrayList<>(repeatUnit);
                 return this;
             }
 
@@ -1652,7 +1742,7 @@ public class SubstancePolymer extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link DegreeOfPolymerisation}.
+             *     An unmodifiable list containing immutable objects of type {@link DegreeOfPolymerisation}.
              */
             public List<DegreeOfPolymerisation> getDegreeOfPolymerisation() {
                 return degreeOfPolymerisation;
@@ -1664,7 +1754,7 @@ public class SubstancePolymer extends DomainResource {
              * </p>
              * 
              * @return
-             *     A list containing immutable objects of type {@link StructuralRepresentation}.
+             *     An unmodifiable list containing immutable objects of type {@link StructuralRepresentation}.
              */
             public List<StructuralRepresentation> getStructuralRepresentation() {
                 return structuralRepresentation;
@@ -1760,7 +1850,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Unique id for inter-element referencing
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder id(java.lang.String id) {
@@ -1774,12 +1864,15 @@ public class SubstancePolymer extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Extension... extension) {
@@ -1793,12 +1886,15 @@ public class SubstancePolymer extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1818,12 +1914,15 @@ public class SubstancePolymer extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Extension... modifierExtension) {
@@ -1843,12 +1942,15 @@ public class SubstancePolymer extends DomainResource {
                  * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1864,7 +1966,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder orientationOfPolymerisation(CodeableConcept orientationOfPolymerisation) {
                     this.orientationOfPolymerisation = orientationOfPolymerisation;
@@ -1880,7 +1982,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder repeatUnit(String repeatUnit) {
                     this.repeatUnit = repeatUnit;
@@ -1896,7 +1998,7 @@ public class SubstancePolymer extends DomainResource {
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder amount(SubstanceAmount amount) {
                     this.amount = amount;
@@ -1907,12 +2009,15 @@ public class SubstancePolymer extends DomainResource {
                  * <p>
                  * Todo.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param degreeOfPolymerisation
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder degreeOfPolymerisation(DegreeOfPolymerisation... degreeOfPolymerisation) {
                     for (DegreeOfPolymerisation value : degreeOfPolymerisation) {
@@ -1925,15 +2030,18 @@ public class SubstancePolymer extends DomainResource {
                  * <p>
                  * Todo.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param degreeOfPolymerisation
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder degreeOfPolymerisation(Collection<DegreeOfPolymerisation> degreeOfPolymerisation) {
-                    this.degreeOfPolymerisation.addAll(degreeOfPolymerisation);
+                    this.degreeOfPolymerisation = new ArrayList<>(degreeOfPolymerisation);
                     return this;
                 }
 
@@ -1941,12 +2049,15 @@ public class SubstancePolymer extends DomainResource {
                  * <p>
                  * Todo.
                  * </p>
+                 * <p>
+                 * Adds new element(s) to the existing list
+                 * </p>
                  * 
                  * @param structuralRepresentation
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder structuralRepresentation(StructuralRepresentation... structuralRepresentation) {
                     for (StructuralRepresentation value : structuralRepresentation) {
@@ -1959,15 +2070,18 @@ public class SubstancePolymer extends DomainResource {
                  * <p>
                  * Todo.
                  * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
                  * 
                  * @param structuralRepresentation
                  *     Todo
                  * 
                  * @return
-                 *     A reference to this Builder instance.
+                 *     A reference to this Builder instance
                  */
                 public Builder structuralRepresentation(Collection<StructuralRepresentation> structuralRepresentation) {
-                    this.structuralRepresentation.addAll(structuralRepresentation);
+                    this.structuralRepresentation = new ArrayList<>(structuralRepresentation);
                     return this;
                 }
 
@@ -2108,7 +2222,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2122,12 +2236,15 @@ public class SubstancePolymer extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2141,12 +2258,15 @@ public class SubstancePolymer extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2166,12 +2286,15 @@ public class SubstancePolymer extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2191,12 +2314,15 @@ public class SubstancePolymer extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2212,7 +2338,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Todo
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder degree(CodeableConcept degree) {
                         this.degree = degree;
@@ -2228,7 +2354,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Todo
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder amount(SubstanceAmount amount) {
                         this.amount = amount;
@@ -2388,7 +2514,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Unique id for inter-element referencing
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder id(java.lang.String id) {
@@ -2402,12 +2528,15 @@ public class SubstancePolymer extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Extension... extension) {
@@ -2421,12 +2550,15 @@ public class SubstancePolymer extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2446,12 +2578,15 @@ public class SubstancePolymer extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Adds new element(s) to the existing list
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Extension... modifierExtension) {
@@ -2471,12 +2606,15 @@ public class SubstancePolymer extends DomainResource {
                      * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2492,7 +2630,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Todo
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder type(CodeableConcept type) {
                         this.type = type;
@@ -2508,7 +2646,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Todo
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder representation(String representation) {
                         this.representation = representation;
@@ -2524,7 +2662,7 @@ public class SubstancePolymer extends DomainResource {
                      *     Todo
                      * 
                      * @return
-                     *     A reference to this Builder instance.
+                     *     A reference to this Builder instance
                      */
                     public Builder attachment(Attachment attachment) {
                         this.attachment = attachment;

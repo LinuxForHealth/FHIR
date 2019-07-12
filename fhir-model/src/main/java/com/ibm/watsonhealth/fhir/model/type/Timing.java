@@ -114,7 +114,7 @@ public class Timing extends BackboneElement {
      * </p>
      * 
      * @return
-     *     A list containing immutable objects of type {@link DateTime}.
+     *     An unmodifiable list containing immutable objects of type {@link DateTime}.
      */
     public List<DateTime> getEvent() {
         return event;
@@ -230,7 +230,7 @@ public class Timing extends BackboneElement {
          *     Unique id for inter-element referencing
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder id(java.lang.String id) {
@@ -244,12 +244,15 @@ public class Timing extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Extension... extension) {
@@ -263,12 +266,15 @@ public class Timing extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -288,12 +294,15 @@ public class Timing extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Extension... modifierExtension) {
@@ -313,12 +322,15 @@ public class Timing extends BackboneElement {
          * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -329,12 +341,15 @@ public class Timing extends BackboneElement {
          * <p>
          * Identifies specific times when the event occurs.
          * </p>
+         * <p>
+         * Adds new element(s) to the existing list
+         * </p>
          * 
          * @param event
          *     When the event occurs
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder event(DateTime... event) {
             for (DateTime value : event) {
@@ -347,15 +362,18 @@ public class Timing extends BackboneElement {
          * <p>
          * Identifies specific times when the event occurs.
          * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
          * 
          * @param event
          *     When the event occurs
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder event(Collection<DateTime> event) {
-            this.event.addAll(event);
+            this.event = new ArrayList<>(event);
             return this;
         }
 
@@ -368,7 +386,7 @@ public class Timing extends BackboneElement {
          *     When the event is to occur
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder repeat(Repeat repeat) {
             this.repeat = repeat;
@@ -388,7 +406,7 @@ public class Timing extends BackboneElement {
          *     BID | TID | QID | AM | PM | QD | QOD | +
          * 
          * @return
-         *     A reference to this Builder instance.
+         *     A reference to this Builder instance
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
@@ -601,7 +619,7 @@ public class Timing extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link DayOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DayOfWeek}.
          */
         public List<DayOfWeek> getDayOfWeek() {
             return dayOfWeek;
@@ -613,7 +631,7 @@ public class Timing extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link Time}.
+         *     An unmodifiable list containing immutable objects of type {@link Time}.
          */
         public List<Time> getTimeOfDay() {
             return timeOfDay;
@@ -626,7 +644,7 @@ public class Timing extends BackboneElement {
          * </p>
          * 
          * @return
-         *     A list containing immutable objects of type {@link EventTiming}.
+         *     An unmodifiable list containing immutable objects of type {@link EventTiming}.
          */
         public List<EventTiming> getWhen() {
             return when;
@@ -775,7 +793,7 @@ public class Timing extends BackboneElement {
              *     Unique id for inter-element referencing
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder id(java.lang.String id) {
@@ -789,12 +807,15 @@ public class Timing extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Extension... extension) {
@@ -808,12 +829,15 @@ public class Timing extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -831,12 +855,15 @@ public class Timing extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Extension... modifierExtension) {
@@ -854,12 +881,15 @@ public class Timing extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -876,7 +906,7 @@ public class Timing extends BackboneElement {
              *     Length/Range of lengths, or (Start and/or end) limits
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder bounds(Element bounds) {
                 this.bounds = bounds;
@@ -893,7 +923,7 @@ public class Timing extends BackboneElement {
              *     Number of times to repeat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder count(PositiveInt count) {
                 this.count = count;
@@ -909,7 +939,7 @@ public class Timing extends BackboneElement {
              *     Maximum number of times to repeat
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder countMax(PositiveInt countMax) {
                 this.countMax = countMax;
@@ -926,7 +956,7 @@ public class Timing extends BackboneElement {
              *     How long when it happens
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder duration(Decimal duration) {
                 this.duration = duration;
@@ -943,7 +973,7 @@ public class Timing extends BackboneElement {
              *     How long when it happens (Max)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder durationMax(Decimal durationMax) {
                 this.durationMax = durationMax;
@@ -959,7 +989,7 @@ public class Timing extends BackboneElement {
              *     s | min | h | d | wk | mo | a - unit of time (UCUM)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder durationUnit(UnitsOfTime durationUnit) {
                 this.durationUnit = durationUnit;
@@ -976,7 +1006,7 @@ public class Timing extends BackboneElement {
              *     Event occurs frequency times per period
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder frequency(PositiveInt frequency) {
                 this.frequency = frequency;
@@ -993,7 +1023,7 @@ public class Timing extends BackboneElement {
              *     Event occurs up to frequencyMax times per period
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder frequencyMax(PositiveInt frequencyMax) {
                 this.frequencyMax = frequencyMax;
@@ -1011,7 +1041,7 @@ public class Timing extends BackboneElement {
              *     Event occurs frequency times per period
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder period(Decimal period) {
                 this.period = period;
@@ -1028,7 +1058,7 @@ public class Timing extends BackboneElement {
              *     Upper limit of period (3-4 hours)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder periodMax(Decimal periodMax) {
                 this.periodMax = periodMax;
@@ -1044,7 +1074,7 @@ public class Timing extends BackboneElement {
              *     s | min | h | d | wk | mo | a - unit of time (UCUM)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder periodUnit(UnitsOfTime periodUnit) {
                 this.periodUnit = periodUnit;
@@ -1055,12 +1085,15 @@ public class Timing extends BackboneElement {
              * <p>
              * If one or more days of week is provided, then the action happens only on the specified day(s).
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param dayOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dayOfWeek(DayOfWeek... dayOfWeek) {
                 for (DayOfWeek value : dayOfWeek) {
@@ -1073,15 +1106,18 @@ public class Timing extends BackboneElement {
              * <p>
              * If one or more days of week is provided, then the action happens only on the specified day(s).
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param dayOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder dayOfWeek(Collection<DayOfWeek> dayOfWeek) {
-                this.dayOfWeek.addAll(dayOfWeek);
+                this.dayOfWeek = new ArrayList<>(dayOfWeek);
                 return this;
             }
 
@@ -1089,12 +1125,15 @@ public class Timing extends BackboneElement {
              * <p>
              * Specified time of day for action to take place.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param timeOfDay
              *     Time of day for action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder timeOfDay(Time... timeOfDay) {
                 for (Time value : timeOfDay) {
@@ -1107,15 +1146,18 @@ public class Timing extends BackboneElement {
              * <p>
              * Specified time of day for action to take place.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param timeOfDay
              *     Time of day for action
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder timeOfDay(Collection<Time> timeOfDay) {
-                this.timeOfDay.addAll(timeOfDay);
+                this.timeOfDay = new ArrayList<>(timeOfDay);
                 return this;
             }
 
@@ -1124,12 +1166,15 @@ public class Timing extends BackboneElement {
              * An approximate time period during the day, potentially linked to an event of daily living that indicates when the 
              * action should occur.
              * </p>
+             * <p>
+             * Adds new element(s) to the existing list
+             * </p>
              * 
              * @param when
              *     Code for time period of occurrence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder when(EventTiming... when) {
                 for (EventTiming value : when) {
@@ -1143,15 +1188,18 @@ public class Timing extends BackboneElement {
              * An approximate time period during the day, potentially linked to an event of daily living that indicates when the 
              * action should occur.
              * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
              * 
              * @param when
              *     Code for time period of occurrence
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder when(Collection<EventTiming> when) {
-                this.when.addAll(when);
+                this.when = new ArrayList<>(when);
                 return this;
             }
 
@@ -1165,7 +1213,7 @@ public class Timing extends BackboneElement {
              *     Minutes from event (before or after)
              * 
              * @return
-             *     A reference to this Builder instance.
+             *     A reference to this Builder instance
              */
             public Builder offset(UnsignedInt offset) {
                 this.offset = offset;
