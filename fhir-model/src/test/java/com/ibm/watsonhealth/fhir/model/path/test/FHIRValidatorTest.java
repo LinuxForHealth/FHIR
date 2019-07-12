@@ -34,7 +34,6 @@ public class FHIRValidatorTest {
                     .value(String.of("Hello, World!"))
                     .build())
                 .build();
-        id = Id.builder().build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(true))
