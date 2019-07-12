@@ -639,15 +639,15 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
             
             if (!value.getValueDate().isPartial()) {
-            	// fully qualified date (a point in time)
+                // fully qualified date (a point in time)
                 start = date;
                 end = date;
                 whereClauseSegment.append(tableAlias).append(VALUE_DATE).append(operator.value())
                                   .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE);
             }
             else { 
-            	end = Date.from(QueryBuilderUtil.getEnd(value.getValueDate()));
-            	
+                end = Date.from(QueryBuilderUtil.getEnd(value.getValueDate()));
+
                 // For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated to cover a range.
                 // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
                 if (operator.equals(JDBCOperator.EQ)) { 

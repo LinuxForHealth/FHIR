@@ -7,8 +7,10 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dto;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 
 /**
@@ -165,5 +167,35 @@ public class Parameter {
 
     public void setType(Type type) {
         this.type = type;
+    }
+    
+    /**
+     * We know our type, so we can call the correct method on the visitor
+     * TODO although this is JDBC territory, we should probably wrap this
+     * SQLException in something application-specific
+     * @param visitor
+     */
+    public void visit(IParameterVisitor visitor) throws FHIRPersistenceException {
+        switch (this.type) {
+        case STRING:
+            visitor.stringValue(name, valueString);
+            break;
+        case NUMBER:
+            visitor.numberValue(name, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
+            break;
+        case DATE:
+            visitor.dateValue(name, this.valueDate, this.valueDateStart, this.valueDateEnd);
+            break;
+        case TOKEN:
+            visitor.tokenValue(name, this.valueSystem, this.valueString);
+            break;
+        case QUANTITY:
+            visitor.quantityValue(name, this.valueSystem, this.valueCode, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
+            break;
+        case REFERENCE:
+            throw new IllegalArgumentException("reference not supported here: " + name);
+        case URI:
+            throw new IllegalArgumentException("uri not supported here: " + name);
+        }
     }
 }

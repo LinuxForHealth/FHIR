@@ -23,7 +23,7 @@ public class ReadOperation implements ITestResourceOperation {
 		final Resource resource = tc.getResource();
 		final FHIRPersistenceContext context = tc.createPersistenceContext();
 		
-		final String logicalId = resource.getId().getId();
+		final String logicalId = resource.getId().getValue();
 		
 		Resource newResource = tc.getPersistence().read(context, resource.getClass(), logicalId);
 		

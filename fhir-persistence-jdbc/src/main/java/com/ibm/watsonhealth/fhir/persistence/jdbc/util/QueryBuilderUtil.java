@@ -26,23 +26,23 @@ public class QueryBuilderUtil {
      * @return
      */
     public static java.time.Instant getEnd(DateTime dateTime) {
-    	java.time.Instant result;
-    	
-    	TemporalAccessor ta = dateTime.getValue();
-    	if (ta instanceof Year) {
-    		result = java.time.Instant.from(((Year) ta).plusYears(1));
-    	}
-    	else if (ta instanceof YearMonth) {
-    		result = java.time.Instant.from(((YearMonth) ta).plusMonths(1));
-    	}
-    	else if (ta instanceof LocalDate) {
-    		result = java.time.Instant.from(((LocalDate) ta).plusDays(1));
-    	}
-    	else {
-    		throw new IllegalStateException("DateTime must be partial");
-    	}
+        java.time.Instant result;
 
-    	return result;
+        TemporalAccessor ta = dateTime.getValue();
+        if (ta instanceof Year) {
+            result = java.time.Instant.from(((Year) ta).plusYears(1));
+        }
+        else if (ta instanceof YearMonth) {
+            result = java.time.Instant.from(((YearMonth) ta).plusMonths(1));
+        }
+        else if (ta instanceof LocalDate) {
+            result = java.time.Instant.from(((LocalDate) ta).plusDays(1));
+        }
+        else {
+            throw new IllegalStateException("DateTime must be partial");
+        }
+
+        return result;
     }
 
 }

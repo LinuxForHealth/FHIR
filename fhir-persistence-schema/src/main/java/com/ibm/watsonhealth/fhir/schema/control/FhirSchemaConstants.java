@@ -29,7 +29,7 @@ public class FhirSchemaConstants {
     public static final String TENANT_SEQUENCE = "TENANT_SEQUENCE";
 
     // Tenant constants
-    public static final String TENANT_ID = "TENANT_ID";
+    public static final String MT_ID = "MT_ID";
     public static final String TENANT_HASH = "TENANT_HASH";
     public static final String TENANT_SALT = "TENANT_SALT";
     public static final String TENANT_NAME = "TENANT_NAME";
@@ -59,7 +59,7 @@ public class FhirSchemaConstants {
     public static final String SITE_ID = "SITE_ID";
     public static final String STUDY_ID = "STUDY_ID";
     public static final String PATIENT_ID = "PATIENT_ID";
-    public static final String TENANT_DATA_ID = "TENANT_DATA_ID";
+    public static final String TENANT_ID = "TENANT_ID";
 
 
     public static final String RESOURCE_TYPES = "RESOURCE_TYPES";

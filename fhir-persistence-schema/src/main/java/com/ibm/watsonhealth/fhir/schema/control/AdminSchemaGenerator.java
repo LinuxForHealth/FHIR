@@ -10,7 +10,7 @@ import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.IDX;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANTS;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
-import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANT_ID;
+import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
@@ -135,11 +135,11 @@ public class AdminSchemaGenerator {
     protected void addTenantTable(PhysicalDataModel model) {
 
         this.tenantsTable = Table.builder(adminSchemaName, TENANTS)
-                .addIntColumn(            TENANT_ID,             false)
+                .addIntColumn(            MT_ID,             false)
                 .addVarcharColumn(      TENANT_NAME,        36,  false) // probably a UUID
                 .addVarcharColumn(    TENANT_STATUS,        16,  false)
                 .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
-                .addPrimaryKey("TENANT_PK", TENANT_ID)
+                .addPrimaryKey("TENANT_PK", MT_ID)
                 .setTablespace(fhirTablespace)
                 .build(model)
                 ;
@@ -159,13 +159,13 @@ public class AdminSchemaGenerator {
 
         this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
                 .addIntColumn(        TENANT_KEY_ID,             false) // PK
-                .addIntColumn(            TENANT_ID,             false) // FK to TENANTS
+                .addIntColumn(            MT_ID,             false) // FK to TENANTS
                 .addVarcharColumn(      TENANT_SALT,        44,  false) // 32 bytes == 44 Base64 symbols
                 .addVarbinaryColumn(    TENANT_HASH,        32,  false) // SHA-256 => 32 bytes
                 .addUniqueIndex(IDX + "TENANT_KEY_SALT", TENANT_SALT)   // we want every salt to be unique
-                .addUniqueIndex(IDX + "TENANT_KEY_TIDH", TENANT_ID, TENANT_HASH)   // for set_tenant query
+                .addUniqueIndex(IDX + "TENANT_KEY_TIDH", MT_ID, TENANT_HASH)   // for set_tenant query
                 .addPrimaryKey("TENANT_KEY_PK", TENANT_KEY_ID)
-                .addForeignKeyConstraint(FK + TENANT_KEYS + "_TNID", adminSchemaName, TENANTS, TENANT_ID) // dependency
+                .addForeignKeyConstraint(FK + TENANT_KEYS + "_TNID", adminSchemaName, TENANTS, MT_ID) // dependency
                 .setTablespace(fhirTablespace)
                 .build(model)
                 ;

@@ -35,7 +35,6 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
-import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
@@ -223,7 +222,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             }
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, this.performCacheDiagnostics());
+            log.log(Level.SEVERE, "FK violation", e);
+//            log.log(Level.SEVERE, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -510,7 +510,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 }
             }
             else {
-            	throw new FHIRPersistenceException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
+                throw new FHIRPersistenceException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
             }
                     
             return resourceBuilder.build();

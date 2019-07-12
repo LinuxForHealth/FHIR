@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.database.utils.model.Sequence;
 import com.ibm.watsonhealth.database.utils.model.SessionVariableDef;
 import com.ibm.watsonhealth.database.utils.model.Table;
 import com.ibm.watsonhealth.database.utils.model.Tablespace;
+import com.ibm.watsonhealth.fhir.model.type.FHIRResourceType;
 
 import static com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants.*;
 
@@ -113,102 +114,9 @@ public class FhirSchemaGenerator {
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
         // All the resource types we will create tables for
-        resourceTypes.add("Account");
-        resourceTypes.add("AllergyIntolerance");
-        resourceTypes.add("Appointment");
-        resourceTypes.add("AppointmentResponse");
-        resourceTypes.add("AuditEvent");
-        resourceTypes.add("Basic");
-        resourceTypes.add("Binary");
-        resourceTypes.add("BodySite");
-        resourceTypes.add("Bundle");
-        resourceTypes.add("CarePlan");
-        resourceTypes.add("Claim");
-        resourceTypes.add("ClaimResponse");
-        resourceTypes.add("ClinicalImpression");
-        resourceTypes.add("Communication");
-        resourceTypes.add("CommunicationRequest");
-        resourceTypes.add("Composition");
-        resourceTypes.add("ConceptMap");
-        resourceTypes.add("Condition");
-        resourceTypes.add("Conformance");
-        resourceTypes.add("Contract");
-        resourceTypes.add("Coverage");
-        resourceTypes.add("DataElement");
-        resourceTypes.add("DetectedIssue");
-        resourceTypes.add("Device");
-        resourceTypes.add("DeviceComponent");
-        resourceTypes.add("DeviceMetric");
-        resourceTypes.add("DeviceUseRequest");
-        resourceTypes.add("DeviceUseStatement");
-        resourceTypes.add("DiagnosticOrder");
-        resourceTypes.add("DiagnosticReport");
-        resourceTypes.add("DocumentManifest");
-        resourceTypes.add("DocumentReference");
-        resourceTypes.add("DomainResource");
-        resourceTypes.add("EligibilityRequest");
-        resourceTypes.add("EligibilityResponse");
-        resourceTypes.add("Encounter");
-        resourceTypes.add("EnrollmentRequest");
-        resourceTypes.add("EnrollmentResponse");
-        resourceTypes.add("EpisodeOfCare");
-        resourceTypes.add("ExplanationOfBenefit");
-        resourceTypes.add("FamilyMemberHistory");
-        resourceTypes.add("Flag");
-        resourceTypes.add("Goal");
-        resourceTypes.add("Group");
-        resourceTypes.add("HealthcareService");
-        resourceTypes.add("ImagingObjectSelection");
-        resourceTypes.add("ImagingStudy");
-        resourceTypes.add("Immunization");
-        resourceTypes.add("ImmunizationRecommendation");
-        resourceTypes.add("ImplementationGuide");
-        resourceTypes.add("List");
-        resourceTypes.add("Location");
-        resourceTypes.add("Media");
-        resourceTypes.add("Medication");
-        resourceTypes.add("MedicationAdministration");
-        resourceTypes.add("MedicationDispense");
-        resourceTypes.add("MedicationOrder");
-        resourceTypes.add("MedicationStatement");
-        resourceTypes.add("MessageHeader");
-        resourceTypes.add("NamingSystem");
-        resourceTypes.add("NutritionOrder");
-        resourceTypes.add("Observation");
-        resourceTypes.add("OperationDefinition");
-        resourceTypes.add("OperationOutcome");
-        resourceTypes.add("Order");
-        resourceTypes.add("OrderResponse");
-        resourceTypes.add("Organization");
-        resourceTypes.add("Parameters");
-        resourceTypes.add("Patient");
-        resourceTypes.add("PaymentNotice");
-        resourceTypes.add("PaymentReconciliation");
-        resourceTypes.add("Person");
-        resourceTypes.add("Practitioner");
-        resourceTypes.add("Procedure");
-        resourceTypes.add("ProcedureRequest");
-        resourceTypes.add("ProcessRequest");
-        resourceTypes.add("ProcessResponse");
-        resourceTypes.add("Provenance");
-        resourceTypes.add("Questionnaire");
-        resourceTypes.add("QuestionnaireResponse");
-        resourceTypes.add("ReferralRequest");
-        resourceTypes.add("RelatedPerson");
-        resourceTypes.add("Resource");
-        resourceTypes.add("RiskAssessment");
-        resourceTypes.add("Schedule");
-        resourceTypes.add("SearchParameter");
-        resourceTypes.add("Slot");
-        resourceTypes.add("Specimen");
-        resourceTypes.add("StructureDefinition");
-        resourceTypes.add("Subscription");
-        resourceTypes.add("Substance");
-        resourceTypes.add("SupplyDelivery");
-        resourceTypes.add("SupplyRequest");
-        resourceTypes.add("TestScript");
-        resourceTypes.add("ValueSet");
-        resourceTypes.add("VisionPrescription");
+        for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
+            resourceTypes.add(rt.value());
+        }
     }
 
     /**
@@ -218,7 +126,6 @@ public class FhirSchemaGenerator {
     public void buildSchema(PhysicalDataModel model) {
 
         // Build the complete model first so that we know it's consistent
-
         addFhirSequence(model);
         addParameterNames(model);
         addCodeSystems(model);
@@ -263,12 +170,11 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
     protected void addResourceTypes(PhysicalDataModel model) {
 
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
-                .addIntColumn(           TENANT_ID,      false)
+                .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
-                .addUniqueIndex(IDX + "unq_resource_types_rt", TENANT_ID, RESOURCE_TYPE)
-                .addPrimaryKey(RESOURCE_TYPES + "_PK", TENANT_ID, RESOURCE_TYPE_ID)
-                .addPartitionDef(TENANT_ID, PART_LOWER, PART_UPPER)
+                .addUniqueIndex(IDX + "unq_resource_types_rt", RESOURCE_TYPE)
+                .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
@@ -342,16 +248,15 @@ CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) I
     protected void addParameterNames(PhysicalDataModel model) {
 
         // The index which also used by the database to support the primary key constraint
-        String[] prfIndexCols = {TENANT_ID, PARAMETER_NAME};
+        String[] prfIndexCols = {PARAMETER_NAME};
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
 
         parameterNamesTable = Table.builder(schemaName, PARAMETER_NAMES)
-                .addIntColumn(             TENANT_ID,              false)
+                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,              false)
                 .addVarcharColumn(    PARAMETER_NAME,         255, false)
                 .addUniqueIndex(IDX + "PARAMETER_NAME_RTNM", Arrays.asList(prfIndexCols), Arrays.asList(prfIncludeCols))
-                .addPrimaryKey(PARAMETER_NAMES + "_PK", TENANT_ID, PARAMETER_NAME_ID)
-                .addPartitionDef(TENANT_ID, PART_LOWER, PART_UPPER)
+                .addPrimaryKey(PARAMETER_NAMES + "_PK", PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
@@ -378,12 +283,11 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     protected void addCodeSystems(PhysicalDataModel model) {
 
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
-                .addIntColumn(           TENANT_ID,         false)
+                .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
-                .addUniqueIndex(IDX + "CODE_SYSTEM_CINM", TENANT_ID, CODE_SYSTEM_NAME)
-                .addPrimaryKey(CODE_SYSTEMS + "_PK", TENANT_ID, CODE_SYSTEM_ID)
-                .addPartitionDef(TENANT_ID, PART_LOWER, PART_UPPER)
+                .addUniqueIndex(IDX + "CODE_SYSTEM_CINM", CODE_SYSTEM_NAME)
+                .addPrimaryKey(CODE_SYSTEMS + "_PK", CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)

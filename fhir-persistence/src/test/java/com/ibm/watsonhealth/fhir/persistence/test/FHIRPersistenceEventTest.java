@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
  * Tests associated with the FHIRPersistenceContextImpl class.
  */
 public class FHIRPersistenceEventTest extends FHIRModelTestBase {
+    private static final String PATIENT_A = "patient-example-a.json";
     
     @Test
     public void test1() {
@@ -46,7 +47,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     
     @Test
     public void test2() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readResource(Patient.class, PATIENT_A);
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -63,7 +64,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     
     @Test
     public void test3() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readResource(Patient.class, PATIENT_A);
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -86,7 +87,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     
     @Test
     public void testGetHeaderString() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readResource(Patient.class, PATIENT_A);
         Map<String, Object> properties = new HashMap<>();
         
         Map<String, String> reqProps = new HashMap<String, String>();

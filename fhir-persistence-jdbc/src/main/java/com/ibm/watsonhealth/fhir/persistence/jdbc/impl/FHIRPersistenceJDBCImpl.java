@@ -181,12 +181,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
     
     protected Instant instant(long millis) {
-    	java.time.Instant time = java.time.Instant.ofEpochMilli(millis);
-    	return Instant.builder().value(time.atZone(systemZoneId)).build();
-	}
+        java.time.Instant time = java.time.Instant.ofEpochMilli(millis);
+        return Instant.builder().value(time.atZone(systemZoneId)).build();
+    }
     
     protected Id id(String idString) {
-    	return Id.of(idString);
+        return Id.of(idString);
     }
 
     /* (non-Javadoc)
@@ -720,7 +720,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 resource = rb.build();
                 
                 if (elements != null && resource.getClass().equals(resourceType)) {
-                	resource = FHIRPersistenceUtil.addFilteredTag(resource);
+                    resource = FHIRPersistenceUtil.addFilteredTag(resource);
                 }
             }
         }
@@ -973,10 +973,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
 
     private OperationOutcome buildOKOperationOutcome() {
-    	return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
+        return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
     }
 
     private OperationOutcome buildErrorOperationOutcome() {
-    	return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
+        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
     }
 }

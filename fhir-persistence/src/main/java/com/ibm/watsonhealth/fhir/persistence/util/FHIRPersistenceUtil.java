@@ -51,10 +51,10 @@ public class FHIRPersistenceUtil {
                     int pageSize = Integer.parseInt(first);
                     context.setPageSize(pageSize);
                 } else if ("_since".equals(name)) {
-            		DateTime dt = DateTime.of(first);
+                    DateTime dt = DateTime.of(first);
                     if (!dt.isPartial()) {
-                    	Instant since = Instant.of(ZonedDateTime.from(dt.getValue()));
-                    	context.setSince(since);
+                        Instant since = Instant.of(ZonedDateTime.from(dt.getValue()));
+                        context.setSince(since);
                     }
                     else {
                         throw new FHIRPersistenceException("The '_since' parameter must be a fully specified ISO 8601 date/time");
@@ -145,18 +145,18 @@ public class FHIRPersistenceUtil {
      */
     public static Resource createDeletedResourceMarker(Resource deletedResource) {
         try {
-        	// Build a fresh meta with only versionid/lastupdated defined
-        	Meta meta = Meta.builder()
-        			.versionId(deletedResource.getMeta().getVersionId())
-        			.lastUpdated(deletedResource.getMeta().getLastUpdated())
-        			.build();
-        	
-        	// TODO this will clone the entire resource, but we only want the minimal parameters
-        	Resource deletedResourceMarker = deletedResource.toBuilder()
-        			.id(deletedResource.getId())
-        			.meta(meta)
-        			.build();
-        	
+            // Build a fresh meta with only versionid/lastupdated defined
+            Meta meta = Meta.builder()
+                    .versionId(deletedResource.getMeta().getVersionId())
+                    .lastUpdated(deletedResource.getMeta().getLastUpdated())
+                    .build();
+
+            // TODO this will clone the entire resource, but we only want the minimal parameters
+            Resource deletedResourceMarker = deletedResource.toBuilder()
+                    .id(deletedResource.getId())
+                    .meta(meta)
+                    .build();
+
             return deletedResourceMarker;
         } catch (Exception e) {
             throw new IllegalStateException("Error while creating deletion marker for resource of type "
@@ -169,20 +169,19 @@ public class FHIRPersistenceUtil {
      * @param resource
      */
     public static Resource addFilteredTag(Resource resource) {
-        
-    	
+
         if (resource.getMeta() == null) {
-        	// model objects are immutable, so we need to build a new one
-        	resource = resource.toBuilder().meta(Meta.builder().build()).build();
+            // model objects are immutable, so we need to build a new one
+            resource = resource.toBuilder().meta(Meta.builder().build()).build();
         }
-        
+
         if (!FHIRUtil.containsTag(resource, FILTERED_TAG)) {
-        	Meta newMeta = resource.getMeta().toBuilder().tag(FILTERED_TAG).build();
-        	
-        	// rebuild the resource with the new meta
-        	resource = resource.toBuilder().meta(newMeta).build();
+            Meta newMeta = resource.getMeta().toBuilder().tag(FILTERED_TAG).build();
+
+            // rebuild the resource with the new meta
+            resource = resource.toBuilder().meta(newMeta).build();
         }
-        
+
         return resource;
     }
 }

@@ -37,7 +37,6 @@ import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.resource.Device.UdiCarrier;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
@@ -111,7 +110,7 @@ public class FHIRModelTestBase {
         }
         
         // If we didn't find the file yet, then look on the classpath.
-        String resourceName = (fileName.startsWith("testdata/") ? fileName : "testdata/" + fileName);
+        String resourceName = (fileName.startsWith("testdata-r4/") ? fileName : "testdata-r4/" + fileName);
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName);
         if (is != null) {
             return is;

@@ -381,7 +381,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
-        	// handles all the variants of partial dates
+            // handles all the variants of partial dates
             String stringDateValue = value.toString();
             
             Parameter p = new Parameter();
@@ -496,11 +496,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             Parameter p = new Parameter();
             if (value.getFamily() != null) {
-            	// family just a string in R4 (not a list)
-            	p = new Parameter();
-            	p.setName(paramname);
-            	p.setValueString(value.getFamily().getValue());
-            	parameters.add(p);
+                // family just a string in R4 (not a list)
+                p = new Parameter();
+                p.setName(paramname);
+                p.setValueString(value.getFamily().getValue());
+                parameters.add(p);
             }
             if (value.getGiven() != null) {
                 for(com.ibm.watsonhealth.fhir.model.type.String given : value.getGiven()) {
@@ -734,13 +734,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             if (value.getStart() == null || value.getStart().getValue() == null) {
                 p.setValueDateStart(SMALLEST_TIMESTAMP);
             } else {
-            	java.time.Instant startInst = java.time.Instant.from(value.getStart().getValue());
+                java.time.Instant startInst = java.time.Instant.from(value.getStart().getValue());
                 p.setValueDateStart(Timestamp.from(startInst));
             }
             if (value.getEnd() == null || value.getEnd().getValue() == null) {
                 p.setValueDateEnd(LARGEST_TIMESTAMP);
             } else {
-            	java.time.Instant endInst = java.time.Instant.from(value.getEnd().getValue());
+                java.time.Instant endInst = java.time.Instant.from(value.getEnd().getValue());
                 p.setValueDateEnd(Timestamp.from(endInst));
             }
             parameters.add(p);
@@ -965,112 +965,112 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         return null;
     }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.BackboneElement)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, BackboneElement value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.BackboneElement)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, BackboneElement value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.ContactDetail)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, ContactDetail value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.ContactDetail)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, ContactDetail value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Contributor)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, Contributor value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Contributor)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Contributor value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.DataRequirement)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, DataRequirement value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.DataRequirement)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, DataRequirement value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Expression)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, Expression value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Expression)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Expression value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Money)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, Money value) throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Money)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Money value) throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Narrative)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, Narrative value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.Narrative)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Narrative value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.ParameterDefinition)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, ParameterDefinition value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.ParameterDefinition)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, ParameterDefinition value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.RelatedArtifact)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, RelatedArtifact value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.RelatedArtifact)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, RelatedArtifact value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.TriggerDefinition)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, TriggerDefinition value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.TriggerDefinition)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, TriggerDefinition value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.UsageContext)
-	 */
-	@Override
-	public List<Parameter> process(SearchParameter parameter, UsageContext value)
-			throws FHIRPersistenceProcessorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.util.Processor#process(com.ibm.watsonhealth.fhir.model.resource.SearchParameter, com.ibm.watsonhealth.fhir.model.type.UsageContext)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, UsageContext value)
+            throws FHIRPersistenceProcessorException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

@@ -455,7 +455,6 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     }
 
     protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType.ValueSet issueType) throws FHIRPersistenceDataAccessException {
-    	
         Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRPersistenceDataAccessException(msg).withIssue(ooi);
     }

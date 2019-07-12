@@ -41,7 +41,11 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
                         
                 case NORMALIZED:     persistenceImpl = new FHIRPersistenceJDBCNormalizedImpl();
                                     break;
-                
+
+                                    // TODO. Use updated persistence impl
+                case MULTITENANT:     persistenceImpl = new FHIRPersistenceJDBCNormalizedImpl();
+                break;
+
                 default: throw new FHIRPersistenceNotSupportedException("Unsupported schema type: " + schemaType.value());
             }
             

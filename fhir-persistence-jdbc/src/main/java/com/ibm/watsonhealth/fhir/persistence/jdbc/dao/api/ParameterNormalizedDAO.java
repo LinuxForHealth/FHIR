@@ -61,6 +61,23 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+
+    
+    /**
+     * Acquire and return the id associated with the passed parameter name.
+     * @param parameterName The name of a valid FHIR search parameter.
+     * @return Integer A parameter id.
+     * @throws FHIRPersistenceException
+     */
+    Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException;
+
+    /**
+     * Acquire and return the id associated with the passed code-system name.
+     * @param codeSystemName The name of a valid code-system.
+     * @return Integer A code-system id.
+     * @throws FHIRPersistenceException
+     */
+    public Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
     
     /**
      * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.

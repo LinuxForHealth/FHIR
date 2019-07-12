@@ -13,7 +13,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc;
  */
 public enum SchemaType {
     BASIC("basic"), 
-    NORMALIZED("normalized"); 
+    NORMALIZED("normalized"),
+    MULTITENANT("multitenant"); 
             
     private String value = null;
     

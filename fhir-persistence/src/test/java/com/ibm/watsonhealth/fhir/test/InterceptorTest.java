@@ -11,12 +11,14 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -29,6 +31,8 @@ import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
  * and is registered with the interceptor framework.
  */
 public class InterceptorTest extends FHIRModelTestBase {
+    private static final String GOOD_PATIENT = "patient-example-a.json";
+
     protected static FHIRPersistenceInterceptorMgr mgr = null;
     protected static Patient patient = null;
     protected static Patient badPatient = null;
@@ -41,8 +45,16 @@ public class InterceptorTest extends FHIRModelTestBase {
         mgr = FHIRPersistenceInterceptorMgr.getInstance();
         assertNotNull(mgr);
 
-        patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        badPatient = readResource(Patient.class, "Patient_JohnException.json");
+        patient = readResource(Patient.class, GOOD_PATIENT);
+
+        // Inject a new family name of "Exception" to trigger errors from MyInterceptor
+        Patient.Builder builder = patient.toBuilder();
+        builder.name(Collections.emptyList());
+        builder.name(HumanName.builder().family(com.ibm.watsonhealth.fhir.model.type.String.of("Exception")).build());
+        badPatient = builder.build();
+        
+        // Quick check to make sure we've set up the test correctly
+        assertEquals("Exception", badPatient.getName().get(0).getFamily().getValue());
     }
 
     @Test

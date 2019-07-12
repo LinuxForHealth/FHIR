@@ -487,7 +487,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @return Integer A parameter id.
      * @throws FHIRPersistenceException
      */
-    private Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
+    @Override
+    public Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
         final String METHODNAME = "acquireParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -522,7 +523,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @return Integer A code-system id.
      * @throws FHIRPersistenceException
      */
-    private Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
+    @Override
+    public Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
         final String METHODNAME = "acquireCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
         
