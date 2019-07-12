@@ -531,7 +531,7 @@ public class Location extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -573,7 +573,7 @@ public class Location extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -623,7 +623,7 @@ public class Location extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -670,7 +670,7 @@ public class Location extends DomainResource {
          * Unique code or number identifying the location to its users.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -761,7 +761,7 @@ public class Location extends DomainResource {
          * A list of alternate names that the location is known as, or was known as, in the past.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param alias
@@ -834,7 +834,7 @@ public class Location extends DomainResource {
          * Indicates the type of function performed at the location.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param type
@@ -875,7 +875,7 @@ public class Location extends DomainResource {
          * mobile numbers, email addresses and web sites.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param telecom
@@ -997,7 +997,7 @@ public class Location extends DomainResource {
          * What days/times during a week is this location usually open.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param hoursOfOperation
@@ -1054,7 +1054,7 @@ public class Location extends DomainResource {
          * Technical endpoints providing access to services operated for the location.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endpoint
@@ -1297,7 +1297,7 @@ public class Location extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1347,7 +1347,7 @@ public class Location extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1601,7 +1601,7 @@ public class Location extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1651,7 +1651,7 @@ public class Location extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1698,7 +1698,7 @@ public class Location extends DomainResource {
              * Indicates which days of the week are available between the start and end Times.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param daysOfWeek

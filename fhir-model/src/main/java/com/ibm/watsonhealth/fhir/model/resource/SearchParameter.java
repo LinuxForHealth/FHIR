@@ -645,7 +645,7 @@ public class SearchParameter extends DomainResource {
             this.status = status;
             this.description = description;
             this.code = code;
-            this.base = base;
+            this.base = new ArrayList<>(base);
             this.type = type;
         }
 
@@ -741,7 +741,7 @@ public class SearchParameter extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -783,7 +783,7 @@ public class SearchParameter extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -833,7 +833,7 @@ public class SearchParameter extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -968,7 +968,7 @@ public class SearchParameter extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1010,7 +1010,7 @@ public class SearchParameter extends DomainResource {
          * may be used to assist with indexing and searching for appropriate search parameter instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1052,7 +1052,7 @@ public class SearchParameter extends DomainResource {
          * A legal or geographic region in which the search parameter is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1156,7 +1156,7 @@ public class SearchParameter extends DomainResource {
          * Types of resource (if a resource is referenced).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param target
@@ -1230,7 +1230,7 @@ public class SearchParameter extends DomainResource {
          * Comparators supported for the search parameter.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param comparator
@@ -1270,7 +1270,7 @@ public class SearchParameter extends DomainResource {
          * A modifier supported for the search parameter.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifier
@@ -1313,7 +1313,7 @@ public class SearchParameter extends DomainResource {
          * drawn from SearchParameter.code for a parameter on the target resource type.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param chain
@@ -1356,7 +1356,7 @@ public class SearchParameter extends DomainResource {
          * Used to define the parts of a composite search parameter.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param component
@@ -1577,7 +1577,7 @@ public class SearchParameter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1627,7 +1627,7 @@ public class SearchParameter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

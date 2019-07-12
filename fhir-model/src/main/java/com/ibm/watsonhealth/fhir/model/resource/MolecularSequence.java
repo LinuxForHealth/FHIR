@@ -543,7 +543,7 @@ public class MolecularSequence extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -585,7 +585,7 @@ public class MolecularSequence extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -635,7 +635,7 @@ public class MolecularSequence extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -682,7 +682,7 @@ public class MolecularSequence extends DomainResource {
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -837,7 +837,7 @@ public class MolecularSequence extends DomainResource {
          * string.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param variant
@@ -898,7 +898,7 @@ public class MolecularSequence extends DomainResource {
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param quality
@@ -957,7 +957,7 @@ public class MolecularSequence extends DomainResource {
          * target's observedSeq.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param repository
@@ -998,7 +998,7 @@ public class MolecularSequence extends DomainResource {
          * Pointer to next atomic sequence which at most contains one variant.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param pointer
@@ -1038,7 +1038,7 @@ public class MolecularSequence extends DomainResource {
          * Information about chromosome structure variation.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param structureVariant
@@ -1391,7 +1391,7 @@ public class MolecularSequence extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1441,7 +1441,7 @@ public class MolecularSequence extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1893,7 +1893,7 @@ public class MolecularSequence extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1943,7 +1943,7 @@ public class MolecularSequence extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2521,7 +2521,7 @@ public class MolecularSequence extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2571,7 +2571,7 @@ public class MolecularSequence extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3112,7 +3112,7 @@ public class MolecularSequence extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3162,7 +3162,7 @@ public class MolecularSequence extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3209,7 +3209,7 @@ public class MolecularSequence extends DomainResource {
                  * Invidual data point representing the GQ (genotype quality) score threshold.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param score
@@ -3249,7 +3249,7 @@ public class MolecularSequence extends DomainResource {
                  * The number of true positives if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param numTP
@@ -3289,7 +3289,7 @@ public class MolecularSequence extends DomainResource {
                  * The number of false positives if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param numFP
@@ -3329,7 +3329,7 @@ public class MolecularSequence extends DomainResource {
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param numFN
@@ -3369,7 +3369,7 @@ public class MolecularSequence extends DomainResource {
                  * Calculated precision if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param precision
@@ -3409,7 +3409,7 @@ public class MolecularSequence extends DomainResource {
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param sensitivity
@@ -3449,7 +3449,7 @@ public class MolecularSequence extends DomainResource {
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param fMeasure
@@ -3734,7 +3734,7 @@ public class MolecularSequence extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3784,7 +3784,7 @@ public class MolecularSequence extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4126,7 +4126,7 @@ public class MolecularSequence extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4176,7 +4176,7 @@ public class MolecularSequence extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4460,7 +4460,7 @@ public class MolecularSequence extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4510,7 +4510,7 @@ public class MolecularSequence extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4746,7 +4746,7 @@ public class MolecularSequence extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4796,7 +4796,7 @@ public class MolecularSequence extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

@@ -248,7 +248,7 @@ public class TriggerDefinition extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -323,7 +323,7 @@ public class TriggerDefinition extends Element {
          * all the data requirements must be true.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param data

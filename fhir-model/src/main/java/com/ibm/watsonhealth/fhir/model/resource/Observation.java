@@ -703,7 +703,7 @@ public class Observation extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -745,7 +745,7 @@ public class Observation extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -795,7 +795,7 @@ public class Observation extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -842,7 +842,7 @@ public class Observation extends DomainResource {
          * A unique identifier assigned to this observation.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -883,7 +883,7 @@ public class Observation extends DomainResource {
          * require a patient to have laboratory test performed before it is dispensed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -925,7 +925,7 @@ public class Observation extends DomainResource {
          * procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -966,7 +966,7 @@ public class Observation extends DomainResource {
          * A code that classifies the general type of observation being made.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -1029,7 +1029,7 @@ public class Observation extends DomainResource {
          * example, the child is the patient of record and the mother is the focus.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param focus
@@ -1125,7 +1125,7 @@ public class Observation extends DomainResource {
          * Who was responsible for asserting the observed value as "true".
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -1197,7 +1197,7 @@ public class Observation extends DomainResource {
          * A categorical assessment of an observation value. For example, high, low, normal.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param interpretation
@@ -1237,7 +1237,7 @@ public class Observation extends DomainResource {
          * Comments about the observation or the results.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1343,7 +1343,7 @@ public class Observation extends DomainResource {
          * would be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param referenceRange
@@ -1386,7 +1386,7 @@ public class Observation extends DomainResource {
          * includes the target as a member of the group.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param hasMember
@@ -1428,7 +1428,7 @@ public class Observation extends DomainResource {
          * calculated anion gap or a fetal measurement based on an ultrasound image.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param derivedFrom
@@ -1471,7 +1471,7 @@ public class Observation extends DomainResource {
          * pressure measurement and multiple component observations for genetics observations.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param component
@@ -1778,7 +1778,7 @@ public class Observation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1828,7 +1828,7 @@ public class Observation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1931,7 +1931,7 @@ public class Observation extends DomainResource {
              * code for African American would be used.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param appliesTo
@@ -2231,7 +2231,7 @@ public class Observation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2281,7 +2281,7 @@ public class Observation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2360,7 +2360,7 @@ public class Observation extends DomainResource {
              * A categorical assessment of an observation value. For example, high, low, normal.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param interpretation
@@ -2400,7 +2400,7 @@ public class Observation extends DomainResource {
              * Guidance on how to interpret the value by comparison to a normal or recommended range.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param referenceRange

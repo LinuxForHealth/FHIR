@@ -666,7 +666,7 @@ public class ResearchStudy extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -708,7 +708,7 @@ public class ResearchStudy extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -758,7 +758,7 @@ public class ResearchStudy extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -805,7 +805,7 @@ public class ResearchStudy extends DomainResource {
          * Identifiers assigned to this research study by the sponsor or other systems.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -861,7 +861,7 @@ public class ResearchStudy extends DomainResource {
          * The set of steps expected to be performed as part of the execution of the study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param protocol
@@ -901,7 +901,7 @@ public class ResearchStudy extends DomainResource {
          * A larger research study of which this particular study is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -976,7 +976,7 @@ public class ResearchStudy extends DomainResource {
          * randomization, safety vs. efficacy, etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -1018,7 +1018,7 @@ public class ResearchStudy extends DomainResource {
          * gain more information about.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param focus
@@ -1060,7 +1060,7 @@ public class ResearchStudy extends DomainResource {
          * an inclusion criterion "healthy volunteer", but the target condition code would be a Lupus SNOMED code.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param condition
@@ -1101,7 +1101,7 @@ public class ResearchStudy extends DomainResource {
          * Contact details to assist a user in learning more about or engaging with the study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1141,7 +1141,7 @@ public class ResearchStudy extends DomainResource {
          * Citations, references and other related documents.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1181,7 +1181,7 @@ public class ResearchStudy extends DomainResource {
          * Key terms to aid in searching for or filtering the study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param keyword
@@ -1221,7 +1221,7 @@ public class ResearchStudy extends DomainResource {
          * Indicates a country, state or other region where the study is taking place.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param location
@@ -1278,7 +1278,7 @@ public class ResearchStudy extends DomainResource {
          * female Europeans between the ages of 20 and 45 with early onset diabetes".
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param enrollment
@@ -1369,7 +1369,7 @@ public class ResearchStudy extends DomainResource {
          * A facility in which study activities are conducted.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param site
@@ -1425,7 +1425,7 @@ public class ResearchStudy extends DomainResource {
          * Comments made about the study by the performer, subject or other participants.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1466,7 +1466,7 @@ public class ResearchStudy extends DomainResource {
          * exposure to drug B, wash-out, follow-up.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param arm
@@ -1508,7 +1508,7 @@ public class ResearchStudy extends DomainResource {
          * collected during the study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param objective
@@ -1754,7 +1754,7 @@ public class ResearchStudy extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1804,7 +1804,7 @@ public class ResearchStudy extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2037,7 +2037,7 @@ public class ResearchStudy extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2087,7 +2087,7 @@ public class ResearchStudy extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

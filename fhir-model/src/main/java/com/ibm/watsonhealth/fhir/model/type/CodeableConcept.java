@@ -158,7 +158,7 @@ public class CodeableConcept extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -199,7 +199,7 @@ public class CodeableConcept extends Element {
          * A reference to a code defined by a terminology system.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param coding

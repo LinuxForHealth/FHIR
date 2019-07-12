@@ -1011,7 +1011,7 @@ public class Measure extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -1053,7 +1053,7 @@ public class Measure extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -1103,7 +1103,7 @@ public class Measure extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1170,7 +1170,7 @@ public class Measure extends DomainResource {
          * specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1350,7 +1350,7 @@ public class Measure extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1408,7 +1408,7 @@ public class Measure extends DomainResource {
          * may be used to assist with indexing and searching for appropriate measure instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1450,7 +1450,7 @@ public class Measure extends DomainResource {
          * A legal or geographic region in which the measure is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1590,7 +1590,7 @@ public class Measure extends DomainResource {
          * measures that can be useful for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param topic
@@ -1631,7 +1631,7 @@ public class Measure extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param author
@@ -1671,7 +1671,7 @@ public class Measure extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param editor
@@ -1711,7 +1711,7 @@ public class Measure extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reviewer
@@ -1751,7 +1751,7 @@ public class Measure extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endorser
@@ -1791,7 +1791,7 @@ public class Measure extends DomainResource {
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1831,7 +1831,7 @@ public class Measure extends DomainResource {
          * A reference to a Library resource containing the formal logic used by the measure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param library
@@ -1923,7 +1923,7 @@ public class Measure extends DomainResource {
          * structure measure such as utilization.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param type
@@ -2048,7 +2048,7 @@ public class Measure extends DomainResource {
          * Provides a description of an individual term used within the measure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param definition
@@ -2104,7 +2104,7 @@ public class Measure extends DomainResource {
          * A group of population criteria for the measure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param group
@@ -2145,7 +2145,7 @@ public class Measure extends DomainResource {
          * referenced library, or a valid FHIR Resource Path.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supplementalData
@@ -2421,7 +2421,7 @@ public class Measure extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2471,7 +2471,7 @@ public class Measure extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2551,7 +2551,7 @@ public class Measure extends DomainResource {
              * A population criteria for the measure.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param population
@@ -2592,7 +2592,7 @@ public class Measure extends DomainResource {
              * a referenced library or a valid FHIR Resource Path.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param stratifier
@@ -2813,7 +2813,7 @@ public class Measure extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2863,7 +2863,7 @@ public class Measure extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3138,7 +3138,7 @@ public class Measure extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3188,7 +3188,7 @@ public class Measure extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3286,7 +3286,7 @@ public class Measure extends DomainResource {
                  * defined within a referenced library or a valid FHIR Resource Path.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param component
@@ -3510,7 +3510,7 @@ public class Measure extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -3560,7 +3560,7 @@ public class Measure extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3847,7 +3847,7 @@ public class Measure extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3897,7 +3897,7 @@ public class Measure extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3964,7 +3964,7 @@ public class Measure extends DomainResource {
              * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param usage

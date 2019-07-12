@@ -575,7 +575,7 @@ public class Appointment extends DomainResource {
         private Builder(AppointmentStatus status, List<Participant> participant) {
             super();
             this.status = status;
-            this.participant = participant;
+            this.participant = new ArrayList<>(participant);
         }
 
         /**
@@ -670,7 +670,7 @@ public class Appointment extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -712,7 +712,7 @@ public class Appointment extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -762,7 +762,7 @@ public class Appointment extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -811,7 +811,7 @@ public class Appointment extends DomainResource {
          * written / printed documentation).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -870,7 +870,7 @@ public class Appointment extends DomainResource {
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param serviceCategory
@@ -910,7 +910,7 @@ public class Appointment extends DomainResource {
          * The specific service that is to be performed during this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param serviceType
@@ -950,7 +950,7 @@ public class Appointment extends DomainResource {
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param specialty
@@ -1006,7 +1006,7 @@ public class Appointment extends DomainResource {
          * The coded reason that this appointment is being scheduled. This is more clinical than administrative.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1048,7 +1048,7 @@ public class Appointment extends DomainResource {
          * be a Condition (with other resources referenced in the evidence.detail), or a Procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1124,7 +1124,7 @@ public class Appointment extends DomainResource {
          * Additional information to support the appointment provided when making the appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supportingInformation
@@ -1215,7 +1215,7 @@ public class Appointment extends DomainResource {
          * The slots from the participants' schedules that will be filled by the appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param slot
@@ -1306,7 +1306,7 @@ public class Appointment extends DomainResource {
          * The service request this appointment is allocated to assess (e.g. incoming referral or procedure request).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -1351,7 +1351,7 @@ public class Appointment extends DomainResource {
          * calculated by the scheduling system.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param requestedPeriod
@@ -1636,7 +1636,7 @@ public class Appointment extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1686,7 +1686,7 @@ public class Appointment extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1733,7 +1733,7 @@ public class Appointment extends DomainResource {
              * Role of participant in the appointment.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param type

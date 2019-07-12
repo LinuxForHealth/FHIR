@@ -342,7 +342,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -384,7 +384,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -434,7 +434,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -497,7 +497,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * Manufacturer of the item (Note that this should be named "manufacturer" but it currently causes technical issues).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param manufacturer
@@ -537,7 +537,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * Ingredient.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param ingredient
@@ -593,7 +593,7 @@ public class MedicinalProductManufactured extends DomainResource {
          * Other codeable characteristics.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param otherCharacteristics

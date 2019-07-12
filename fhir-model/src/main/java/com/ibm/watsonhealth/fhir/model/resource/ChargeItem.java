@@ -700,7 +700,7 @@ public class ChargeItem extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -742,7 +742,7 @@ public class ChargeItem extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -792,7 +792,7 @@ public class ChargeItem extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -839,7 +839,7 @@ public class ChargeItem extends DomainResource {
          * Identifiers assigned to this event performer or other systems.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -879,7 +879,7 @@ public class ChargeItem extends DomainResource {
          * References the (external) source of pricing information, rules of application for the code this ChargeItem uses.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param definitionUri
@@ -919,7 +919,7 @@ public class ChargeItem extends DomainResource {
          * References the source of pricing information, rules of application for the code this ChargeItem uses.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param definitionCanonical
@@ -959,7 +959,7 @@ public class ChargeItem extends DomainResource {
          * ChargeItems can be grouped to larger ChargeItems covering the whole set.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -1031,7 +1031,7 @@ public class ChargeItem extends DomainResource {
          * Indicates who or what performed or participated in the charged service.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -1135,7 +1135,7 @@ public class ChargeItem extends DomainResource {
          * The anatomical location where the related service has been applied.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param bodysite
@@ -1256,7 +1256,7 @@ public class ChargeItem extends DomainResource {
          * Describes why the event occurred in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reason
@@ -1296,7 +1296,7 @@ public class ChargeItem extends DomainResource {
          * Indicated the rendered service that caused this charge.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param service
@@ -1352,7 +1352,7 @@ public class ChargeItem extends DomainResource {
          * Account into which this ChargeItems belongs.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param account
@@ -1392,7 +1392,7 @@ public class ChargeItem extends DomainResource {
          * Comments made about the event by the performer, subject or other participants.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1432,7 +1432,7 @@ public class ChargeItem extends DomainResource {
          * Further information supporting this charge.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supportingInformation
@@ -1657,7 +1657,7 @@ public class ChargeItem extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1707,7 +1707,7 @@ public class ChargeItem extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

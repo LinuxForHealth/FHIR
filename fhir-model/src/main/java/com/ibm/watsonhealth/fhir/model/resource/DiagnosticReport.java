@@ -559,7 +559,7 @@ public class DiagnosticReport extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -601,7 +601,7 @@ public class DiagnosticReport extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -651,7 +651,7 @@ public class DiagnosticReport extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -698,7 +698,7 @@ public class DiagnosticReport extends DomainResource {
          * Identifiers assigned to this report by the performer or other systems.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -738,7 +738,7 @@ public class DiagnosticReport extends DomainResource {
          * Details concerning a service requested.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -779,7 +779,7 @@ public class DiagnosticReport extends DomainResource {
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -888,7 +888,7 @@ public class DiagnosticReport extends DomainResource {
          * The diagnostic service that is responsible for issuing the report.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -928,7 +928,7 @@ public class DiagnosticReport extends DomainResource {
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param resultsInterpreter
@@ -968,7 +968,7 @@ public class DiagnosticReport extends DomainResource {
          * Details about the specimens on which this diagnostic report is based.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param specimen
@@ -1008,7 +1008,7 @@ public class DiagnosticReport extends DomainResource {
          * [Observations](observation.html) that are part of this diagnostic report.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param result
@@ -1050,7 +1050,7 @@ public class DiagnosticReport extends DomainResource {
          * information to provide views of the source images.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param imagingStudy
@@ -1093,7 +1093,7 @@ public class DiagnosticReport extends DomainResource {
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param media
@@ -1150,7 +1150,7 @@ public class DiagnosticReport extends DomainResource {
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param conclusionCode
@@ -1191,7 +1191,7 @@ public class DiagnosticReport extends DomainResource {
          * they SHALL be semantically equivalent.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param presentedForm
@@ -1412,7 +1412,7 @@ public class DiagnosticReport extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1462,7 +1462,7 @@ public class DiagnosticReport extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

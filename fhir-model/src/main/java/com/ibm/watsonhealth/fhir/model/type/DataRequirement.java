@@ -307,7 +307,7 @@ public class DataRequirement extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -348,7 +348,7 @@ public class DataRequirement extends Element {
          * The profile of the required data, specified as the uri of the profile definition.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param profile
@@ -411,7 +411,7 @@ public class DataRequirement extends Element {
          * full details).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param mustSupport
@@ -459,7 +459,7 @@ public class DataRequirement extends Element {
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param codeFilter
@@ -501,7 +501,7 @@ public class DataRequirement extends Element {
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dateFilter
@@ -558,7 +558,7 @@ public class DataRequirement extends Element {
          * Specifies the order of the results to be returned.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param sort
@@ -802,7 +802,7 @@ public class DataRequirement extends Element {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -850,7 +850,7 @@ public class DataRequirement extends Element {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -952,7 +952,7 @@ public class DataRequirement extends Element {
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param code
@@ -1177,7 +1177,7 @@ public class DataRequirement extends Element {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1225,7 +1225,7 @@ public class DataRequirement extends Element {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1488,7 +1488,7 @@ public class DataRequirement extends Element {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1536,7 +1536,7 @@ public class DataRequirement extends Element {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

@@ -662,7 +662,7 @@ public class EventDefinition extends DomainResource {
         private Builder(PublicationStatus status, List<TriggerDefinition> trigger) {
             super();
             this.status = status;
-            this.trigger = trigger;
+            this.trigger = new ArrayList<>(trigger);
         }
 
         /**
@@ -757,7 +757,7 @@ public class EventDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -799,7 +799,7 @@ public class EventDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -849,7 +849,7 @@ public class EventDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -916,7 +916,7 @@ public class EventDefinition extends DomainResource {
          * referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1092,7 +1092,7 @@ public class EventDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1150,7 +1150,7 @@ public class EventDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate event definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1192,7 +1192,7 @@ public class EventDefinition extends DomainResource {
          * A legal or geographic region in which the event definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1332,7 +1332,7 @@ public class EventDefinition extends DomainResource {
          * for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param topic
@@ -1373,7 +1373,7 @@ public class EventDefinition extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param author
@@ -1413,7 +1413,7 @@ public class EventDefinition extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param editor
@@ -1453,7 +1453,7 @@ public class EventDefinition extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reviewer
@@ -1493,7 +1493,7 @@ public class EventDefinition extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endorser
@@ -1533,7 +1533,7 @@ public class EventDefinition extends DomainResource {
          * Related resources such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relatedArtifact

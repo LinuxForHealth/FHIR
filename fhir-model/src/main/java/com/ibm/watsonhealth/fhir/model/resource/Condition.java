@@ -571,7 +571,7 @@ public class Condition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -613,7 +613,7 @@ public class Condition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -663,7 +663,7 @@ public class Condition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -711,7 +711,7 @@ public class Condition extends DomainResource {
          * resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -784,7 +784,7 @@ public class Condition extends DomainResource {
          * A category assigned to the condition.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -856,7 +856,7 @@ public class Condition extends DomainResource {
          * The anatomical location where this condition manifests itself.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param bodySite
@@ -995,7 +995,7 @@ public class Condition extends DomainResource {
          * Clinical stage or grade of a condition. May include formal severity assessments.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param stage
@@ -1036,7 +1036,7 @@ public class Condition extends DomainResource {
          * confirmed or refuted the condition.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param evidence
@@ -1078,7 +1078,7 @@ public class Condition extends DomainResource {
          * its diagnosis and prognosis.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1309,7 +1309,7 @@ public class Condition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1359,7 +1359,7 @@ public class Condition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1422,7 +1422,7 @@ public class Condition extends DomainResource {
              * Reference to a formal record of the evidence on which the staging assessment is based.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param assessment
@@ -1633,7 +1633,7 @@ public class Condition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1683,7 +1683,7 @@ public class Condition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1730,7 +1730,7 @@ public class Condition extends DomainResource {
              * A manifestation or symptom that led to the recording of this condition.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param code
@@ -1770,7 +1770,7 @@ public class Condition extends DomainResource {
              * Links to other relevant information, including pathology reports.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param detail

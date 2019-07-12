@@ -622,7 +622,7 @@ public class ValueSet extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -664,7 +664,7 @@ public class ValueSet extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -714,7 +714,7 @@ public class ValueSet extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -781,7 +781,7 @@ public class ValueSet extends DomainResource {
          * a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -923,7 +923,7 @@ public class ValueSet extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -983,7 +983,7 @@ public class ValueSet extends DomainResource {
          * may be used to assist with indexing and searching for appropriate value set instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1025,7 +1025,7 @@ public class ValueSet extends DomainResource {
          * A legal or geographic region in which the value set is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1343,7 +1343,7 @@ public class ValueSet extends DomainResource {
 
             private Builder(List<Include> include) {
                 super();
-                this.include = include;
+                this.include = new ArrayList<>(include);
             }
 
             /**
@@ -1371,7 +1371,7 @@ public class ValueSet extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1421,7 +1421,7 @@ public class ValueSet extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1504,7 +1504,7 @@ public class ValueSet extends DomainResource {
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param exclude
@@ -1757,7 +1757,7 @@ public class ValueSet extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -1807,7 +1807,7 @@ public class ValueSet extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1886,7 +1886,7 @@ public class ValueSet extends DomainResource {
                  * Specifies a concept to be included or excluded.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param concept
@@ -1927,7 +1927,7 @@ public class ValueSet extends DomainResource {
                  * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param filter
@@ -1970,7 +1970,7 @@ public class ValueSet extends DomainResource {
                  * referenced value sets.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param valueSet
@@ -2195,7 +2195,7 @@ public class ValueSet extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -2245,7 +2245,7 @@ public class ValueSet extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2310,7 +2310,7 @@ public class ValueSet extends DomainResource {
                      * purposes, used for particular purposes, etc.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param designation
@@ -2530,7 +2530,7 @@ public class ValueSet extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to the existing list
+                         * Adds new element(s) to existing list
                          * </p>
                          * 
                          * @param extension
@@ -2580,7 +2580,7 @@ public class ValueSet extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to the existing list
+                         * Adds new element(s) to existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -2843,7 +2843,7 @@ public class ValueSet extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -2893,7 +2893,7 @@ public class ValueSet extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3183,7 +3183,7 @@ public class ValueSet extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3233,7 +3233,7 @@ public class ValueSet extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3334,7 +3334,7 @@ public class ValueSet extends DomainResource {
              * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param parameter
@@ -3375,7 +3375,7 @@ public class ValueSet extends DomainResource {
              * The codes that are contained in the value set expansion.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param contains
@@ -3579,7 +3579,7 @@ public class ValueSet extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3629,7 +3629,7 @@ public class ValueSet extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3965,7 +3965,7 @@ public class ValueSet extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4015,7 +4015,7 @@ public class ValueSet extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4165,7 +4165,7 @@ public class ValueSet extends DomainResource {
                  * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param designation
@@ -4206,7 +4206,7 @@ public class ValueSet extends DomainResource {
                  * Other codes and entries contained under this entry in the hierarchy.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param contains

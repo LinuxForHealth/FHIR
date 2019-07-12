@@ -595,7 +595,7 @@ public class ImagingStudy extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -637,7 +637,7 @@ public class ImagingStudy extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -687,7 +687,7 @@ public class ImagingStudy extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -734,7 +734,7 @@ public class ImagingStudy extends DomainResource {
          * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -775,7 +775,7 @@ public class ImagingStudy extends DomainResource {
          * 29 (value set OID 1.2.840.10008.6.1.19).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modality
@@ -848,7 +848,7 @@ public class ImagingStudy extends DomainResource {
          * A list of the diagnostic requests that resulted in this imaging study being performed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -904,7 +904,7 @@ public class ImagingStudy extends DomainResource {
          * Who read the study and interpreted the images or other content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param interpreter
@@ -946,7 +946,7 @@ public class ImagingStudy extends DomainResource {
          * by a series-level endpoint with the same Endpoint.connectionType.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endpoint
@@ -1040,7 +1040,7 @@ public class ImagingStudy extends DomainResource {
          * The code for the performed procedure type.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param procedureCode
@@ -1096,7 +1096,7 @@ public class ImagingStudy extends DomainResource {
          * Description of clinical condition indicating why the ImagingStudy was requested.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1136,7 +1136,7 @@ public class ImagingStudy extends DomainResource {
          * Indicates another resource whose existence justifies this Study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1178,7 +1178,7 @@ public class ImagingStudy extends DomainResource {
          * this element.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1237,7 +1237,7 @@ public class ImagingStudy extends DomainResource {
          * Each study has one or more series of images or other content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param series
@@ -1656,7 +1656,7 @@ public class ImagingStudy extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1706,7 +1706,7 @@ public class ImagingStudy extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1805,7 +1805,7 @@ public class ImagingStudy extends DomainResource {
              * endpoint with the same Endpoint.connectionType.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param endpoint
@@ -1883,7 +1883,7 @@ public class ImagingStudy extends DomainResource {
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param specimen
@@ -1939,7 +1939,7 @@ public class ImagingStudy extends DomainResource {
              * Indicates who or what performed the series and how they were involved.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param performer
@@ -1979,7 +1979,7 @@ public class ImagingStudy extends DomainResource {
              * A single SOP instance within the series, e.g. an image, or presentation state.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param instance
@@ -2186,7 +2186,7 @@ public class ImagingStudy extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2236,7 +2236,7 @@ public class ImagingStudy extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2497,7 +2497,7 @@ public class ImagingStudy extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2547,7 +2547,7 @@ public class ImagingStudy extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

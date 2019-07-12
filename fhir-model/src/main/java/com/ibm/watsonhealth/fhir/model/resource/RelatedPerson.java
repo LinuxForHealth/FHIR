@@ -442,7 +442,7 @@ public class RelatedPerson extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -484,7 +484,7 @@ public class RelatedPerson extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -534,7 +534,7 @@ public class RelatedPerson extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -581,7 +581,7 @@ public class RelatedPerson extends DomainResource {
          * Identifier for a person within a particular scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -637,7 +637,7 @@ public class RelatedPerson extends DomainResource {
          * The nature of the relationship between a patient and the related person.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relationship
@@ -677,7 +677,7 @@ public class RelatedPerson extends DomainResource {
          * A name associated with the person.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param name
@@ -717,7 +717,7 @@ public class RelatedPerson extends DomainResource {
          * A contact detail for the person, e.g. a telephone number or an email address.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param telecom
@@ -790,7 +790,7 @@ public class RelatedPerson extends DomainResource {
          * Address where the related person can be contacted or visited.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param address
@@ -830,7 +830,7 @@ public class RelatedPerson extends DomainResource {
          * Image of the person.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param photo
@@ -887,7 +887,7 @@ public class RelatedPerson extends DomainResource {
          * A language which may be used to communicate with about the patient's health.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param communication
@@ -1102,7 +1102,7 @@ public class RelatedPerson extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1152,7 +1152,7 @@ public class RelatedPerson extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

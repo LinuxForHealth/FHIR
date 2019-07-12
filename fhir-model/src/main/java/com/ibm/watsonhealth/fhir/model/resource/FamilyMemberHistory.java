@@ -575,7 +575,7 @@ public class FamilyMemberHistory extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -617,7 +617,7 @@ public class FamilyMemberHistory extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -667,7 +667,7 @@ public class FamilyMemberHistory extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -715,7 +715,7 @@ public class FamilyMemberHistory extends DomainResource {
          * the resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -757,7 +757,7 @@ public class FamilyMemberHistory extends DomainResource {
          * part by this FamilyMemberHistory.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -799,7 +799,7 @@ public class FamilyMemberHistory extends DomainResource {
          * whole or in part by this FamilyMemberHistory.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -969,7 +969,7 @@ public class FamilyMemberHistory extends DomainResource {
          * Describes why the family member history occurred in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1010,7 +1010,7 @@ public class FamilyMemberHistory extends DomainResource {
          * history event.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1052,7 +1052,7 @@ public class FamilyMemberHistory extends DomainResource {
          * the condition property, but this is not always possible.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1095,7 +1095,7 @@ public class FamilyMemberHistory extends DomainResource {
          * condition.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param condition
@@ -1377,7 +1377,7 @@ public class FamilyMemberHistory extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1427,7 +1427,7 @@ public class FamilyMemberHistory extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1525,7 +1525,7 @@ public class FamilyMemberHistory extends DomainResource {
              * An area where general notes can be placed about this specific condition.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param note
