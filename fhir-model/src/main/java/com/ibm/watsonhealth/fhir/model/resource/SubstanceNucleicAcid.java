@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -606,9 +607,7 @@ public class SubstanceNucleicAcid extends DomainResource {
             threePrime = builder.threePrime;
             linkage = Collections.unmodifiableList(builder.linkage);
             sugar = Collections.unmodifiableList(builder.sugar);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -714,7 +713,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (subunit != null) || 
                 (sequence != null) || 
@@ -1163,9 +1162,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1220,7 +1217,7 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (connectivity != null) || 
                     (identifier != null) || 
@@ -1526,9 +1523,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1569,7 +1564,7 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (identifier != null) || 
                     (name != null) || 

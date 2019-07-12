@@ -56,9 +56,7 @@ public class Dosage extends BackboneElement {
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -221,7 +219,7 @@ public class Dosage extends BackboneElement {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (sequence != null) || 
             (text != null) || 
@@ -771,9 +769,7 @@ public class Dosage extends BackboneElement {
             type = builder.type;
             dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, Quantity.class);
             rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, Quantity.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -813,7 +809,7 @@ public class Dosage extends BackboneElement {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (dose != null) || 

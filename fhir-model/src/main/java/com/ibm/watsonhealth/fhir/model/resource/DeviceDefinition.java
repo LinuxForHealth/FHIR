@@ -1487,9 +1487,7 @@ public class DeviceDefinition extends DomainResource {
             deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
             issuer = ValidationSupport.requireNonNull(builder.issuer, "issuer");
             jurisdiction = ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1530,7 +1528,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (deviceIdentifier != null) || 
                 (issuer != null) || 
@@ -1762,9 +1760,7 @@ public class DeviceDefinition extends DomainResource {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1793,7 +1789,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (type != null);
@@ -2020,9 +2016,7 @@ public class DeviceDefinition extends DomainResource {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
             version = builder.version;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2050,7 +2044,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (systemType != null) || 
                 (version != null);
@@ -2294,9 +2288,7 @@ public class DeviceDefinition extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             description = Collections.unmodifiableList(builder.description);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2324,7 +2316,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 !description.isEmpty();
@@ -2594,9 +2586,7 @@ public class DeviceDefinition extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
             valueCode = Collections.unmodifiableList(builder.valueCode);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2636,7 +2626,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 !valueQuantity.isEmpty() || 
@@ -2952,9 +2942,7 @@ public class DeviceDefinition extends DomainResource {
             substance = ValidationSupport.requireNonNull(builder.substance, "substance");
             alternate = builder.alternate;
             allergenicIndicator = builder.allergenicIndicator;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2994,7 +2982,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (substance != null) || 
                 (alternate != null) || 

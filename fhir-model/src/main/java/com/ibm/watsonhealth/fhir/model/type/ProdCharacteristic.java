@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -51,9 +52,7 @@ public class ProdCharacteristic extends BackboneElement {
         imprint = Collections.unmodifiableList(builder.imprint);
         image = Collections.unmodifiableList(builder.image);
         scoring = builder.scoring;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -205,7 +204,7 @@ public class ProdCharacteristic extends BackboneElement {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (height != null) || 
             (width != null) || 

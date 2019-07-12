@@ -1652,9 +1652,7 @@ public class StructureDefinition extends DomainResource {
             uri = builder.uri;
             name = builder.name;
             comment = builder.comment;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1706,7 +1704,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (identity != null) || 
                 (uri != null) || 
@@ -1994,9 +1992,7 @@ public class StructureDefinition extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2024,7 +2020,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (expression != null);
@@ -2249,9 +2245,7 @@ public class StructureDefinition extends DomainResource {
         private Snapshot(Builder builder) {
             super(builder);
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2267,7 +2261,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !element.isEmpty();
         }
@@ -2485,9 +2479,7 @@ public class StructureDefinition extends DomainResource {
         private Differential(Builder builder) {
             super(builder);
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2503,7 +2495,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !element.isEmpty();
         }

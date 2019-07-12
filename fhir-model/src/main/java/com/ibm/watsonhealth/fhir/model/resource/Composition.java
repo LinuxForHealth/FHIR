@@ -989,9 +989,7 @@ public class Composition extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             time = builder.time;
             party = builder.party;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1031,7 +1029,7 @@ public class Composition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (mode != null) || 
                 (time != null) || 
@@ -1297,9 +1295,7 @@ public class Composition extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1327,7 +1323,7 @@ public class Composition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (target != null);
@@ -1555,9 +1551,7 @@ public class Composition extends DomainResource {
             code = Collections.unmodifiableList(builder.code);
             period = builder.period;
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1601,7 +1595,7 @@ public class Composition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !code.isEmpty() || 
                 (period != null) || 
@@ -1948,9 +1942,7 @@ public class Composition extends DomainResource {
             entry = Collections.unmodifiableList(builder.entry);
             emptyReason = builder.emptyReason;
             section = Collections.unmodifiableList(builder.section);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2083,7 +2075,7 @@ public class Composition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (title != null) || 
                 (code != null) || 

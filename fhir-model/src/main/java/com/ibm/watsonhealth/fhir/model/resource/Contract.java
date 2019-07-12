@@ -1957,9 +1957,7 @@ public class Contract extends DomainResource {
             publicationDate = builder.publicationDate;
             publicationStatus = ValidationSupport.requireNonNull(builder.publicationStatus, "publicationStatus");
             copyright = builder.copyright;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2039,7 +2037,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (subType != null) || 
@@ -2378,9 +2376,7 @@ public class Contract extends DomainResource {
             asset = Collections.unmodifiableList(builder.asset);
             action = Collections.unmodifiableList(builder.action);
             group = Collections.unmodifiableList(builder.group);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2532,7 +2528,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (identifier != null) || 
                 (issued != null) || 
@@ -3102,9 +3098,7 @@ public class Contract extends DomainResource {
                 classification = ValidationSupport.requireNonNull(builder.classification, "classification");
                 category = Collections.unmodifiableList(builder.category);
                 control = Collections.unmodifiableList(builder.control);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3158,7 +3152,7 @@ public class Contract extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     !number.isEmpty() || 
                     (classification != null) || 
@@ -3536,9 +3530,7 @@ public class Contract extends DomainResource {
                 text = builder.text;
                 linkId = Collections.unmodifiableList(builder.linkId);
                 securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3664,7 +3656,7 @@ public class Contract extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     !identifier.isEmpty() || 
                     !party.isEmpty() || 
@@ -4239,9 +4231,7 @@ public class Contract extends DomainResource {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
                     role = ValidationSupport.requireNonNull(builder.role, "role");
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4269,7 +4259,7 @@ public class Contract extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         !reference.isEmpty() || 
                         (role != null);
@@ -4493,9 +4483,7 @@ public class Contract extends DomainResource {
                 private Answer(Builder builder) {
                     super(builder);
                     value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4513,7 +4501,7 @@ public class Contract extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (value != null);
                 }
@@ -4760,9 +4748,7 @@ public class Contract extends DomainResource {
                 answer = Collections.unmodifiableList(builder.answer);
                 securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
                 valuedItem = Collections.unmodifiableList(builder.valuedItem);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4948,7 +4934,7 @@ public class Contract extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (scope != null) || 
                     !type.isEmpty() || 
@@ -5755,9 +5741,7 @@ public class Contract extends DomainResource {
                     reference = builder.reference;
                     code = Collections.unmodifiableList(builder.code);
                     text = builder.text;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5798,7 +5782,7 @@ public class Contract extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (reference != null) || 
                         !code.isEmpty() || 
@@ -6123,9 +6107,7 @@ public class Contract extends DomainResource {
                     recipient = builder.recipient;
                     linkId = Collections.unmodifiableList(builder.linkId);
                     securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -6304,7 +6286,7 @@ public class Contract extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (entity != null) || 
                         (identifier != null) || 
@@ -6918,9 +6900,7 @@ public class Contract extends DomainResource {
                 reasonLinkId = Collections.unmodifiableList(builder.reasonLinkId);
                 note = Collections.unmodifiableList(builder.note);
                 securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -7182,7 +7162,7 @@ public class Contract extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (doNotPerform != null) || 
                     (type != null) || 
@@ -8133,9 +8113,7 @@ public class Contract extends DomainResource {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
                     role = builder.role;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -8163,7 +8141,7 @@ public class Contract extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         !reference.isEmpty() || 
                         (role != null);
@@ -8413,9 +8391,7 @@ public class Contract extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = ValidationSupport.requireNonNull(builder.party, "party");
             signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -8455,7 +8431,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (party != null) || 
@@ -8688,9 +8664,7 @@ public class Contract extends DomainResource {
         private Friendly(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -8707,7 +8681,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (content != null);
         }
@@ -8925,9 +8899,7 @@ public class Contract extends DomainResource {
         private Legal(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -8943,7 +8915,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (content != null);
         }
@@ -9161,9 +9133,7 @@ public class Contract extends DomainResource {
         private Rule(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -9179,7 +9149,7 @@ public class Contract extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (content != null);
         }

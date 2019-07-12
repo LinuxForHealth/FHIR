@@ -1876,9 +1876,7 @@ public class ResearchElementDefinition extends DomainResource {
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
             participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2028,7 +2026,7 @@ public class ResearchElementDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (definition != null) || 
                 !usageContext.isEmpty() || 

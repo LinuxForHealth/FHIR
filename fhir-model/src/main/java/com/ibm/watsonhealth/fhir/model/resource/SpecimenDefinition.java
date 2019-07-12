@@ -676,9 +676,7 @@ public class SpecimenDefinition extends DomainResource {
             retentionTime = builder.retentionTime;
             rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
             handling = Collections.unmodifiableList(builder.handling);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -780,7 +778,7 @@ public class SpecimenDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (isDerived != null) || 
                 (type != null) || 
@@ -1218,9 +1216,7 @@ public class SpecimenDefinition extends DomainResource {
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
                 additive = Collections.unmodifiableList(builder.additive);
                 preparation = builder.preparation;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1321,7 +1317,7 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (material != null) || 
                     (type != null) || 
@@ -1731,9 +1727,7 @@ public class SpecimenDefinition extends DomainResource {
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1750,7 +1744,7 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (additive != null);
                 }
@@ -1976,9 +1970,7 @@ public class SpecimenDefinition extends DomainResource {
                 temperatureRange = builder.temperatureRange;
                 maxDuration = builder.maxDuration;
                 instruction = builder.instruction;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2032,7 +2024,7 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (temperatureQualifier != null) || 
                     (temperatureRange != null) || 

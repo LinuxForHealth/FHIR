@@ -19,6 +19,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.ibm.watsonhealth.fhir.model.type.Element;
+
 public final class ValidationSupport {    
     private static final int MIN_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
@@ -136,5 +138,11 @@ public final class ValidationSupport {
             throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
         }
         return element;
+    }
+    
+    public static void requireValueOrChildren(Element element) {
+        if (!element.hasValue() && !element.hasChildren()) {
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
     }
 }

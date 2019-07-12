@@ -780,9 +780,7 @@ public class DeviceMetric extends DomainResource {
             type = builder.type;
             state = builder.state;
             time = builder.time;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -822,7 +820,7 @@ public class DeviceMetric extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (state != null) || 

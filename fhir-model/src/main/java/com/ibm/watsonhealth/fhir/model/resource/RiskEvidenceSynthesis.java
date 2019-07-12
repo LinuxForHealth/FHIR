@@ -1767,9 +1767,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             description = builder.description;
             numberOfStudies = builder.numberOfStudies;
             numberOfParticipants = builder.numberOfParticipants;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1809,7 +1807,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (numberOfStudies != null) || 
@@ -2095,9 +2093,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             denominatorCount = builder.denominatorCount;
             numeratorCount = builder.numeratorCount;
             precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2185,7 +2181,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (type != null) || 
@@ -2576,9 +2572,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 level = builder.level;
                 from = builder.from;
                 to = builder.to;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2630,7 +2624,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (level != null) || 
@@ -2931,9 +2925,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             rating = Collections.unmodifiableList(builder.rating);
             note = Collections.unmodifiableList(builder.note);
             certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2973,7 +2965,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !rating.isEmpty() || 
                 !note.isEmpty() || 
@@ -3322,9 +3314,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 type = builder.type;
                 rating = Collections.unmodifiableList(builder.rating);
                 note = Collections.unmodifiableList(builder.note);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3364,7 +3354,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     !rating.isEmpty() || 

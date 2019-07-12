@@ -30,6 +30,7 @@ import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -1045,9 +1046,7 @@ public class CareTeam extends DomainResource {
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1100,7 +1099,7 @@ public class CareTeam extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !role.isEmpty() || 
                 (member != null) || 

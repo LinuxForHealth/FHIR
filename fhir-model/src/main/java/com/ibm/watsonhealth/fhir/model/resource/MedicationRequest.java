@@ -1826,9 +1826,7 @@ public class MedicationRequest extends DomainResource {
             quantity = builder.quantity;
             expectedSupplyDuration = builder.expectedSupplyDuration;
             performer = builder.performer;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1921,7 +1919,7 @@ public class MedicationRequest extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (initialFill != null) || 
                 (dispenseInterval != null) || 
@@ -2289,9 +2287,7 @@ public class MedicationRequest extends DomainResource {
                 super(builder);
                 quantity = builder.quantity;
                 duration = builder.duration;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2319,7 +2315,7 @@ public class MedicationRequest extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (quantity != null) || 
                     (duration != null);
@@ -2576,9 +2572,7 @@ public class MedicationRequest extends DomainResource {
             super(builder);
             allowed = ValidationSupport.requireChoiceElement(builder.allowed, "allowed", Boolean.class, CodeableConcept.class);
             reason = builder.reason;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2606,7 +2600,7 @@ public class MedicationRequest extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (allowed != null) || 
                 (reason != null);

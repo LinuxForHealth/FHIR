@@ -1199,9 +1199,7 @@ public class ValueSet extends DomainResource {
             inactive = builder.inactive;
             include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
             exclude = Collections.unmodifiableList(builder.exclude);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1257,7 +1255,7 @@ public class ValueSet extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (lockedDate != null) || 
                 (inactive != null) || 
@@ -1578,9 +1576,7 @@ public class ValueSet extends DomainResource {
                 concept = Collections.unmodifiableList(builder.concept);
                 filter = Collections.unmodifiableList(builder.filter);
                 valueSet = Collections.unmodifiableList(builder.valueSet);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1647,7 +1643,7 @@ public class ValueSet extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (system != null) || 
                     (version != null) || 
@@ -2046,9 +2042,7 @@ public class ValueSet extends DomainResource {
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     display = builder.display;
                     designation = Collections.unmodifiableList(builder.designation);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2090,7 +2084,7 @@ public class ValueSet extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (code != null) || 
                         (display != null) || 
@@ -2385,9 +2379,7 @@ public class ValueSet extends DomainResource {
                         language = builder.language;
                         use = builder.use;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
-                        if (!hasValue() && !hasChildren()) {
-                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                        }
+                        ValidationSupport.requireValueOrChildren(this);
                     }
 
                     /**
@@ -2427,7 +2419,7 @@ public class ValueSet extends DomainResource {
                     }
 
                     @Override
-                    protected boolean hasChildren() {
+                    public boolean hasChildren() {
                         return super.hasChildren() || 
                             (language != null) || 
                             (use != null) || 
@@ -2697,9 +2689,7 @@ public class ValueSet extends DomainResource {
                     property = ValidationSupport.requireNonNull(builder.property, "property");
                     op = ValidationSupport.requireNonNull(builder.op, "op");
                     value = ValidationSupport.requireNonNull(builder.value, "value");
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2742,7 +2732,7 @@ public class ValueSet extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (property != null) || 
                         (op != null) || 
@@ -2985,9 +2975,7 @@ public class ValueSet extends DomainResource {
             offset = builder.offset;
             parameter = Collections.unmodifiableList(builder.parameter);
             contains = Collections.unmodifiableList(builder.contains);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3069,7 +3057,7 @@ public class ValueSet extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (identifier != null) || 
                 (timestamp != null) || 
@@ -3456,9 +3444,7 @@ public class ValueSet extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3487,7 +3473,7 @@ public class ValueSet extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (name != null) || 
                     (value != null);
@@ -3743,9 +3729,7 @@ public class ValueSet extends DomainResource {
                 display = builder.display;
                 designation = Collections.unmodifiableList(builder.designation);
                 contains = Collections.unmodifiableList(builder.contains);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3852,7 +3836,7 @@ public class ValueSet extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (system != null) || 
                     (_abstract != null) || 

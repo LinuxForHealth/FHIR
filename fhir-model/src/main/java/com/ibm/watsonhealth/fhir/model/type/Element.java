@@ -76,11 +76,11 @@ public abstract class Element extends AbstractVisitable {
         return elementType.cast(this);
     }
 
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return false;
     }
 
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return !extension.isEmpty();
     }
 

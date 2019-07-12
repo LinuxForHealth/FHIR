@@ -632,9 +632,7 @@ public class MedicinalProductIngredient extends DomainResource {
             group = ValidationSupport.requireNonNull(builder.group, "group");
             confidentiality = builder.confidentiality;
             strength = Collections.unmodifiableList(builder.strength);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -686,7 +684,7 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (group != null) || 
@@ -991,9 +989,7 @@ public class MedicinalProductIngredient extends DomainResource {
                 measurementPoint = builder.measurementPoint;
                 country = Collections.unmodifiableList(builder.country);
                 referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1084,7 +1080,7 @@ public class MedicinalProductIngredient extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (presentation != null) || 
                     (presentationLowLimit != null) || 
@@ -1495,9 +1491,7 @@ public class MedicinalProductIngredient extends DomainResource {
                     strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
                     country = Collections.unmodifiableList(builder.country);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1561,7 +1555,7 @@ public class MedicinalProductIngredient extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (substance != null) || 
                         (strength != null) || 
@@ -1897,9 +1891,7 @@ public class MedicinalProductIngredient extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             strength = Collections.unmodifiableList(builder.strength);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1927,7 +1919,7 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 !strength.isEmpty();

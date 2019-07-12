@@ -1165,9 +1165,7 @@ public class Condition extends DomainResource {
             summary = builder.summary;
             assessment = Collections.unmodifiableList(builder.assessment);
             type = builder.type;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1207,7 +1205,7 @@ public class Condition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (summary != null) || 
                 !assessment.isEmpty() || 
@@ -1508,9 +1506,7 @@ public class Condition extends DomainResource {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1538,7 +1534,7 @@ public class Condition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !code.isEmpty() || 
                 !detail.isEmpty();

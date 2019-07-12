@@ -957,9 +957,7 @@ public class CatalogEntry extends DomainResource {
             super(builder);
             relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
             item = ValidationSupport.requireNonNull(builder.item, "item");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -987,7 +985,7 @@ public class CatalogEntry extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (relationtype != null) || 
                 (item != null);

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.type.AddressType;
 import com.ibm.watsonhealth.fhir.model.type.AddressUse;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -52,9 +53,7 @@ public class Address extends Element {
         postalCode = builder.postalCode;
         country = builder.country;
         period = builder.period;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -182,7 +181,7 @@ public class Address extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (use != null) || 
             (type != null) || 

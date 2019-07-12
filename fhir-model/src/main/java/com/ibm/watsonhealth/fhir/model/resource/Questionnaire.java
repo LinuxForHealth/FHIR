@@ -1511,9 +1511,7 @@ public class Questionnaire extends DomainResource {
             answerOption = Collections.unmodifiableList(builder.answerOption);
             initial = Collections.unmodifiableList(builder.initial);
             item = Collections.unmodifiableList(builder.item);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1731,7 +1729,7 @@ public class Questionnaire extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (linkId != null) || 
                 (definition != null) || 
@@ -2412,9 +2410,7 @@ public class Questionnaire extends DomainResource {
                 question = ValidationSupport.requireNonNull(builder.question, "question");
                 operator = ValidationSupport.requireNonNull(builder.operator, "operator");
                 answer = ValidationSupport.requireChoiceElement(builder.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2454,7 +2450,7 @@ public class Questionnaire extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (question != null) || 
                     (operator != null) || 
@@ -2686,9 +2682,7 @@ public class Questionnaire extends DomainResource {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
                 initialSelected = builder.initialSelected;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2716,7 +2710,7 @@ public class Questionnaire extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (value != null) || 
                     (initialSelected != null);
@@ -2959,9 +2953,7 @@ public class Questionnaire extends DomainResource {
             private Initial(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2977,7 +2969,7 @@ public class Questionnaire extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (value != null);
             }

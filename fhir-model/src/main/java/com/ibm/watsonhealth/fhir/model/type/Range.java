@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -37,9 +38,7 @@ public class Range extends Element {
         super(builder);
         low = builder.low;
         high = builder.high;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -67,7 +66,7 @@ public class Range extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (low != null) || 
             (high != null);

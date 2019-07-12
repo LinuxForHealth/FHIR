@@ -805,9 +805,7 @@ public class MedicinalProductPackaged extends DomainResource {
             super(builder);
             outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
             immediatePackaging = builder.immediatePackaging;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -835,7 +833,7 @@ public class MedicinalProductPackaged extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (outerPackaging != null) || 
                 (immediatePackaging != null);
@@ -1099,9 +1097,7 @@ public class MedicinalProductPackaged extends DomainResource {
             otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
             shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
             manufacturer = Collections.unmodifiableList(builder.manufacturer);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1249,7 +1245,7 @@ public class MedicinalProductPackaged extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !identifier.isEmpty() || 
                 (type != null) || 

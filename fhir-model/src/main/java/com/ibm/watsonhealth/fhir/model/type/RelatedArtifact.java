@@ -41,9 +41,7 @@ public class RelatedArtifact extends Element {
         url = builder.url;
         document = builder.document;
         resource = builder.resource;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -133,7 +131,7 @@ public class RelatedArtifact extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (type != null) || 
             (label != null) || 

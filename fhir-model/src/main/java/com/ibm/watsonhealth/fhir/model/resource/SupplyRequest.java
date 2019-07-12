@@ -1009,9 +1009,7 @@ public class SupplyRequest extends DomainResource {
             super(builder);
             code = builder.code;
             value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1039,7 +1037,7 @@ public class SupplyRequest extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (value != null);

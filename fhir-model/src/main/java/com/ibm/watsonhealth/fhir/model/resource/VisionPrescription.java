@@ -626,9 +626,7 @@ public class VisionPrescription extends DomainResource {
             color = builder.color;
             brand = builder.brand;
             note = Collections.unmodifiableList(builder.note);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -800,7 +798,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (product != null) || 
                 (eye != null) || 
@@ -1339,9 +1337,7 @@ public class VisionPrescription extends DomainResource {
                 super(builder);
                 amount = ValidationSupport.requireNonNull(builder.amount, "amount");
                 base = ValidationSupport.requireNonNull(builder.base, "base");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1369,7 +1365,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (amount != null) || 
                     (base != null);

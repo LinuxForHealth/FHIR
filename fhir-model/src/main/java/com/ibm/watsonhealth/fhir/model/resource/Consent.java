@@ -972,9 +972,7 @@ public class Consent extends DomainResource {
             super(builder);
             authority = builder.authority;
             uri = builder.uri;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1004,7 +1002,7 @@ public class Consent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (authority != null) || 
                 (uri != null);
@@ -1263,9 +1261,7 @@ public class Consent extends DomainResource {
             verified = ValidationSupport.requireNonNull(builder.verified, "verified");
             verifiedWith = builder.verifiedWith;
             verificationDate = builder.verificationDate;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1305,7 +1301,7 @@ public class Consent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (verified != null) || 
                 (verifiedWith != null) || 
@@ -1589,9 +1585,7 @@ public class Consent extends DomainResource {
             dataPeriod = builder.dataPeriod;
             data = Collections.unmodifiableList(builder.data);
             provision = Collections.unmodifiableList(builder.provision);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1731,7 +1725,7 @@ public class Consent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (period != null) || 
@@ -2382,9 +2376,7 @@ public class Consent extends DomainResource {
                 super(builder);
                 role = ValidationSupport.requireNonNull(builder.role, "role");
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2413,7 +2405,7 @@ public class Consent extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (role != null) || 
                     (reference != null);
@@ -2639,9 +2631,7 @@ public class Consent extends DomainResource {
                 super(builder);
                 meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2669,7 +2659,7 @@ public class Consent extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (meaning != null) || 
                     (reference != null);

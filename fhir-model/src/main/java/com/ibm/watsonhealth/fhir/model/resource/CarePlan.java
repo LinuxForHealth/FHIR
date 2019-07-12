@@ -1522,9 +1522,7 @@ public class CarePlan extends DomainResource {
             progress = Collections.unmodifiableList(builder.progress);
             reference = builder.reference;
             detail = builder.detail;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1592,7 +1590,7 @@ public class CarePlan extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !outcomeCodeableConcept.isEmpty() || 
                 !outcomeReference.isEmpty() || 
@@ -2021,9 +2019,7 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2240,7 +2236,7 @@ public class CarePlan extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (kind != null) || 
                     !instantiatesCanonical.isEmpty() || 

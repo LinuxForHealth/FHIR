@@ -1782,9 +1782,7 @@ public class Procedure extends DomainResource {
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
             onBehalfOf = builder.onBehalfOf;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1825,7 +1823,7 @@ public class Procedure extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (function != null) || 
                 (actor != null) || 
@@ -2093,9 +2091,7 @@ public class Procedure extends DomainResource {
             super(builder);
             action = builder.action;
             manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2123,7 +2119,7 @@ public class Procedure extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (action != null) || 
                 (manipulated != null);

@@ -49,7 +49,7 @@ public abstract class BackboneElement extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             !modifierExtension.isEmpty();
     }

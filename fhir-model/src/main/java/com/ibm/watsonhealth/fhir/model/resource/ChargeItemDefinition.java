@@ -1465,9 +1465,7 @@ public class ChargeItemDefinition extends DomainResource {
             description = builder.description;
             language = builder.language;
             expression = builder.expression;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1510,7 +1508,7 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (language != null) || 
@@ -1790,9 +1788,7 @@ public class ChargeItemDefinition extends DomainResource {
             super(builder);
             applicability = Collections.unmodifiableList(builder.applicability);
             priceComponent = Collections.unmodifiableList(builder.priceComponent);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1823,7 +1819,7 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !applicability.isEmpty() || 
                 !priceComponent.isEmpty();
@@ -2137,9 +2133,7 @@ public class ChargeItemDefinition extends DomainResource {
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2192,7 +2186,7 @@ public class ChargeItemDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (code != null) || 

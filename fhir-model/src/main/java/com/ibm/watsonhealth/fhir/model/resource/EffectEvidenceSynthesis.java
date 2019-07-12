@@ -1854,9 +1854,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             description = builder.description;
             numberOfStudies = builder.numberOfStudies;
             numberOfParticipants = builder.numberOfParticipants;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1896,7 +1894,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (numberOfStudies != null) || 
@@ -2176,9 +2174,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             exposureState = builder.exposureState;
             variantState = builder.variantState;
             riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2230,7 +2226,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (exposureState != null) || 
@@ -2526,9 +2522,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
             precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2604,7 +2598,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (type != null) || 
@@ -2973,9 +2967,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 level = builder.level;
                 from = builder.from;
                 to = builder.to;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3027,7 +3019,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (level != null) || 
@@ -3328,9 +3320,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             rating = Collections.unmodifiableList(builder.rating);
             note = Collections.unmodifiableList(builder.note);
             certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3370,7 +3360,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !rating.isEmpty() || 
                 !note.isEmpty() || 
@@ -3719,9 +3709,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 type = builder.type;
                 rating = Collections.unmodifiableList(builder.rating);
                 note = Collections.unmodifiableList(builder.note);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3761,7 +3749,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     !rating.isEmpty() || 

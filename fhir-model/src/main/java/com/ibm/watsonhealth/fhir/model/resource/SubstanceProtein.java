@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -625,9 +626,7 @@ public class SubstanceProtein extends DomainResource {
             nTerminalModification = builder.nTerminalModification;
             cTerminalModificationId = builder.cTerminalModificationId;
             cTerminalModification = builder.cTerminalModification;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -737,7 +736,7 @@ public class SubstanceProtein extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (subunit != null) || 
                 (sequence != null) || 

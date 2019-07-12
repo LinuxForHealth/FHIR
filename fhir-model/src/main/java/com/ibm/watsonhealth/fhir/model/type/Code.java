@@ -32,7 +32,7 @@ public class Code extends String {
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 

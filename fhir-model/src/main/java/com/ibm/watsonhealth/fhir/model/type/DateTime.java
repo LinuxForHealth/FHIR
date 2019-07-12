@@ -41,9 +41,7 @@ public class DateTime extends Element {
         super(builder);
         value = builder.value;
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -63,12 +61,12 @@ public class DateTime extends Element {
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren();
     }
 

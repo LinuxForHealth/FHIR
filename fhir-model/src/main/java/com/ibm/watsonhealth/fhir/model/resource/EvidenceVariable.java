@@ -1644,9 +1644,7 @@ public class EvidenceVariable extends DomainResource {
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             timeFromStart = builder.timeFromStart;
             groupMeasure = builder.groupMeasure;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1737,7 +1735,7 @@ public class EvidenceVariable extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (definition != null) || 

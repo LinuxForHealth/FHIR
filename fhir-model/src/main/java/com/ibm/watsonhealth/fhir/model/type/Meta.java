@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -41,9 +42,7 @@ public class Meta extends Element {
         profile = Collections.unmodifiableList(builder.profile);
         security = Collections.unmodifiableList(builder.security);
         tag = Collections.unmodifiableList(builder.tag);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -126,7 +125,7 @@ public class Meta extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (versionId != null) || 
             (lastUpdated != null) || 

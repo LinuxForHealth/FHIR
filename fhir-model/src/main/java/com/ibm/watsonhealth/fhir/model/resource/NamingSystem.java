@@ -880,9 +880,7 @@ public class NamingSystem extends DomainResource {
             preferred = builder.preferred;
             comment = builder.comment;
             period = builder.period;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -947,7 +945,7 @@ public class NamingSystem extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (value != null) || 

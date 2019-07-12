@@ -1280,9 +1280,7 @@ public class MedicationAdministration extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1310,7 +1308,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (function != null) || 
                 (actor != null);
@@ -1562,9 +1560,7 @@ public class MedicationAdministration extends DomainResource {
             method = builder.method;
             dose = builder.dose;
             rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Quantity.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1650,7 +1646,7 @@ The dosage instructions should reflect the
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (text != null) || 
                 (site != null) || 

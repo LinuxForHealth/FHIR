@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -1038,9 +1039,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             fraction = builder.fraction;
             materialType = builder.materialType;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1069,7 +1068,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (fraction != null) || 
                 (materialType != null);
@@ -1339,9 +1338,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             author = Collections.unmodifiableList(builder.author);
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1444,7 +1441,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (family != null) || 
                 (genus != null) || 
@@ -1859,9 +1856,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 super(builder);
                 authorType = builder.authorType;
                 authorDescription = builder.authorDescription;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1893,7 +1888,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (authorType != null) || 
                     (authorDescription != null);
@@ -2160,9 +2155,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 paternalOrganismId = builder.paternalOrganismId;
                 paternalOrganismName = builder.paternalOrganismName;
                 hybridType = builder.hybridType;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2230,7 +2223,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (maternalOrganismId != null) || 
                     (maternalOrganismName != null) || 
@@ -2562,9 +2555,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 phylum = builder.phylum;
                 clazz = builder.clazz;
                 order = builder.order;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2616,7 +2607,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (kingdom != null) || 
                     (phylum != null) || 
@@ -2915,9 +2906,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             part = builder.part;
             partLocation = builder.partLocation;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2946,7 +2935,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (part != null) || 
                 (partLocation != null);

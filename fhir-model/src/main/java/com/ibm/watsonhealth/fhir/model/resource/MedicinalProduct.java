@@ -1384,9 +1384,7 @@ public class MedicinalProduct extends DomainResource {
             productName = ValidationSupport.requireNonNull(builder.productName, "productName");
             namePart = Collections.unmodifiableList(builder.namePart);
             countryLanguage = Collections.unmodifiableList(builder.countryLanguage);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1426,7 +1424,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (productName != null) || 
                 !namePart.isEmpty() || 
@@ -1739,9 +1737,7 @@ public class MedicinalProduct extends DomainResource {
                 super(builder);
                 part = ValidationSupport.requireNonNull(builder.part, "part");
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1769,7 +1765,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (part != null) || 
                     (type != null);
@@ -1997,9 +1993,7 @@ public class MedicinalProduct extends DomainResource {
                 country = ValidationSupport.requireNonNull(builder.country, "country");
                 jurisdiction = builder.jurisdiction;
                 language = ValidationSupport.requireNonNull(builder.language, "language");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2039,7 +2033,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (country != null) || 
                     (jurisdiction != null) || 
@@ -2298,9 +2292,7 @@ public class MedicinalProduct extends DomainResource {
             confidentialityIndicator = builder.confidentialityIndicator;
             manufacturer = Collections.unmodifiableList(builder.manufacturer);
             regulator = builder.regulator;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2376,7 +2368,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (operationType != null) || 
                 (authorisationReferenceNumber != null) || 
@@ -2752,9 +2744,7 @@ public class MedicinalProduct extends DomainResource {
             status = builder.status;
             date = builder.date;
             species = builder.species;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2842,7 +2832,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !identifier.isEmpty() || 
                 (type != null) || 

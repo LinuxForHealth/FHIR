@@ -1514,9 +1514,7 @@ public class Encounter extends DomainResource {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = ValidationSupport.requireNonNull(builder.period, "period");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1544,7 +1542,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (status != null) || 
                 (period != null);
@@ -1774,9 +1772,7 @@ public class Encounter extends DomainResource {
             super(builder);
             clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
             period = ValidationSupport.requireNonNull(builder.period, "period");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1804,7 +1800,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (clazz != null) || 
                 (period != null);
@@ -2032,9 +2028,7 @@ public class Encounter extends DomainResource {
             type = Collections.unmodifiableList(builder.type);
             period = builder.period;
             individual = builder.individual;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2075,7 +2069,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !type.isEmpty() || 
                 (period != null) || 
@@ -2378,9 +2372,7 @@ public class Encounter extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             use = builder.use;
             rank = builder.rank;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2422,7 +2414,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (condition != null) || 
                 (use != null) || 
@@ -2702,9 +2694,7 @@ public class Encounter extends DomainResource {
             specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2817,7 +2807,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (preAdmissionIdentifier != null) || 
                 (origin != null) || 
@@ -3304,9 +3294,7 @@ public class Encounter extends DomainResource {
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3360,7 +3348,7 @@ public class Encounter extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (location != null) || 
                 (status != null) || 

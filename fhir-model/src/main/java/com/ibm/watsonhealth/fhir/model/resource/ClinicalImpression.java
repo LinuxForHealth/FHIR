@@ -1300,9 +1300,7 @@ public class ClinicalImpression extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             item = Collections.unmodifiableList(builder.item);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1332,7 +1330,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 !item.isEmpty();
@@ -1602,9 +1600,7 @@ public class ClinicalImpression extends DomainResource {
             itemCodeableConcept = builder.itemCodeableConcept;
             itemReference = builder.itemReference;
             basis = builder.basis;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1644,7 +1640,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (itemCodeableConcept != null) || 
                 (itemReference != null) || 

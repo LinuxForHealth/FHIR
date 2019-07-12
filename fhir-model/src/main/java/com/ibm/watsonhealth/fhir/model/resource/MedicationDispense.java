@@ -1470,9 +1470,7 @@ public class MedicationDispense extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1501,7 +1499,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (function != null) || 
                 (actor != null);
@@ -1751,9 +1749,7 @@ public class MedicationDispense extends DomainResource {
             type = builder.type;
             reason = Collections.unmodifiableList(builder.reason);
             responsibleParty = Collections.unmodifiableList(builder.responsibleParty);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1805,7 +1801,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (wasSubstituted != null) || 
                 (type != null) || 

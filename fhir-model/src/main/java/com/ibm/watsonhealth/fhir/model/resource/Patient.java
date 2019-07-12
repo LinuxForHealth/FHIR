@@ -1200,9 +1200,7 @@ public class Patient extends DomainResource {
             gender = builder.gender;
             organization = builder.organization;
             period = builder.period;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1291,7 +1289,7 @@ public class Patient extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !relationship.isEmpty() || 
                 (name != null) || 
@@ -1704,9 +1702,7 @@ public class Patient extends DomainResource {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
             preferred = builder.preferred;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1736,7 +1732,7 @@ public class Patient extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (language != null) || 
                 (preferred != null);
@@ -1980,9 +1976,7 @@ public class Patient extends DomainResource {
             super(builder);
             other = ValidationSupport.requireNonNull(builder.other, "other");
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2010,7 +2004,7 @@ public class Patient extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (other != null) || 
                 (type != null);

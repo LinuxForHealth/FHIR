@@ -1007,9 +1007,7 @@ public class GraphDefinition extends DomainResource {
             max = builder.max;
             description = builder.description;
             target = Collections.unmodifiableList(builder.target);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1085,7 +1083,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (path != null) || 
                 (sliceName != null) || 
@@ -1456,9 +1454,7 @@ public class GraphDefinition extends DomainResource {
                 profile = builder.profile;
                 compartment = Collections.unmodifiableList(builder.compartment);
                 link = Collections.unmodifiableList(builder.link);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1522,7 +1518,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (params != null) || 
@@ -1885,9 +1881,7 @@ public class GraphDefinition extends DomainResource {
                     rule = ValidationSupport.requireNonNull(builder.rule, "rule");
                     expression = builder.expression;
                     description = builder.description;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1952,7 +1946,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (use != null) || 
                         (code != null) || 

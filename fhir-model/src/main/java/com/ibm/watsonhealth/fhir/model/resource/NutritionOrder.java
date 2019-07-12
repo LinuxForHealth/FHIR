@@ -1188,9 +1188,7 @@ public class NutritionOrder extends DomainResource {
             texture = Collections.unmodifiableList(builder.texture);
             fluidConsistencyType = Collections.unmodifiableList(builder.fluidConsistencyType);
             instruction = builder.instruction;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1268,7 +1266,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !type.isEmpty() || 
                 !schedule.isEmpty() || 
@@ -1734,9 +1732,7 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 amount = builder.amount;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1764,7 +1760,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (modifier != null) || 
                     (amount != null);
@@ -2018,9 +2014,7 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 foodType = builder.foodType;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2048,7 +2042,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (modifier != null) || 
                     (foodType != null);
@@ -2309,9 +2303,7 @@ public class NutritionOrder extends DomainResource {
             schedule = Collections.unmodifiableList(builder.schedule);
             quantity = builder.quantity;
             instruction = builder.instruction;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2376,7 +2368,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (productName != null) || 
@@ -2737,9 +2729,7 @@ public class NutritionOrder extends DomainResource {
             administration = Collections.unmodifiableList(builder.administration);
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2858,7 +2848,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (baseFormulaType != null) || 
                 (baseFormulaProductName != null) || 
@@ -3302,9 +3292,7 @@ public class NutritionOrder extends DomainResource {
                 schedule = builder.schedule;
                 quantity = builder.quantity;
                 rate = ValidationSupport.choiceElement(builder.rate, "rate", Quantity.class, Ratio.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3344,7 +3332,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (schedule != null) || 
                     (quantity != null) || 

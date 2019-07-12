@@ -36,9 +36,7 @@ public class Contributor extends Element {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         name = ValidationSupport.requireNonNull(builder.name, "name");
         contact = Collections.unmodifiableList(builder.contact);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -78,7 +76,7 @@ public class Contributor extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (type != null) || 
             (name != null) || 

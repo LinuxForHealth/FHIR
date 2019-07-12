@@ -811,9 +811,7 @@ public class AuditEvent extends DomainResource {
             media = builder.media;
             network = builder.network;
             purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -953,7 +951,7 @@ public class AuditEvent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 !role.isEmpty() || 
@@ -1473,9 +1471,7 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 address = builder.address;
                 type = builder.type;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1503,7 +1499,7 @@ public class AuditEvent extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (address != null) || 
                     (type != null);
@@ -1760,9 +1756,7 @@ public class AuditEvent extends DomainResource {
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
             type = Collections.unmodifiableList(builder.type);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1803,7 +1797,7 @@ public class AuditEvent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (site != null) || 
                 (observer != null) || 
@@ -2108,9 +2102,7 @@ public class AuditEvent extends DomainResource {
             description = builder.description;
             query = builder.query;
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2222,7 +2214,7 @@ public class AuditEvent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (what != null) || 
                 (type != null) || 
@@ -2677,9 +2669,7 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2707,7 +2697,7 @@ public class AuditEvent extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (value != null);

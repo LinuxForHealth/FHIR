@@ -33,9 +33,7 @@ public class Uri extends Element {
         value = builder.value;
         ValidationSupport.checkMaxLength(value);
         ValidationSupport.checkValue(value, PATTERN);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -51,12 +49,12 @@ public class Uri extends Element {
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren();
     }
 

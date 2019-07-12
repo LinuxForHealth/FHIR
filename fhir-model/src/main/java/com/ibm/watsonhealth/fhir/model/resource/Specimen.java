@@ -1029,9 +1029,7 @@ public class Specimen extends DomainResource {
             method = builder.method;
             bodySite = builder.bodySite;
             fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1121,7 +1119,7 @@ public class Specimen extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (collector != null) || 
                 (collected != null) || 
@@ -1491,9 +1489,7 @@ public class Specimen extends DomainResource {
             procedure = builder.procedure;
             additive = Collections.unmodifiableList(builder.additive);
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1546,7 +1542,7 @@ public class Specimen extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (procedure != null) || 
@@ -1878,9 +1874,7 @@ public class Specimen extends DomainResource {
             capacity = builder.capacity;
             specimenQuantity = builder.specimenQuantity;
             additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1958,7 +1952,7 @@ public class Specimen extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !identifier.isEmpty() || 
                 (description != null) || 

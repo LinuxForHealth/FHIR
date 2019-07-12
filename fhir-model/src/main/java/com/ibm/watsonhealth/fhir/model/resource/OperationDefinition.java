@@ -1422,9 +1422,7 @@ public class OperationDefinition extends DomainResource {
             binding = builder.binding;
             referencedFrom = Collections.unmodifiableList(builder.referencedFrom);
             part = Collections.unmodifiableList(builder.part);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1564,7 +1562,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (use != null) || 
@@ -2037,9 +2035,7 @@ public class OperationDefinition extends DomainResource {
                 super(builder);
                 strength = ValidationSupport.requireNonNull(builder.strength, "strength");
                 valueSet = ValidationSupport.requireNonNull(builder.valueSet, "valueSet");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2068,7 +2064,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (strength != null) || 
                     (valueSet != null);
@@ -2294,9 +2290,7 @@ public class OperationDefinition extends DomainResource {
                 super(builder);
                 source = ValidationSupport.requireNonNull(builder.source, "source");
                 sourceId = builder.sourceId;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2325,7 +2319,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (source != null) || 
                     (sourceId != null);
@@ -2571,9 +2565,7 @@ public class OperationDefinition extends DomainResource {
             super(builder);
             parameterName = Collections.unmodifiableList(builder.parameterName);
             comment = builder.comment;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2601,7 +2593,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !parameterName.isEmpty() || 
                 (comment != null);

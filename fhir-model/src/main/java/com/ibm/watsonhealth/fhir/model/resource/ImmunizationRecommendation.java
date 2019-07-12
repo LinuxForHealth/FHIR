@@ -565,9 +565,7 @@ public class ImmunizationRecommendation extends DomainResource {
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
             supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -716,7 +714,7 @@ public class ImmunizationRecommendation extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !vaccineCode.isEmpty() || 
                 (targetDisease != null) || 
@@ -1325,9 +1323,7 @@ public class ImmunizationRecommendation extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireNonNull(builder.value, "value");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1355,7 +1351,7 @@ public class ImmunizationRecommendation extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (code != null) || 
                     (value != null);

@@ -929,9 +929,12 @@ public class CodeGenerator {
                     !isStringSubtype(structureDefinition) && 
                     !isUriSubtype(structureDefinition)) || 
                     nested) {
+                /*
                 cb._if("!hasValue() && !hasChildren()")
                     ._throw(_new("IllegalStateException", args(quote("ele-1: All FHIR elements must have a @value or children"))))
                 ._end();
+                */
+                cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
             }
 
             cb.end().newLine();
@@ -1345,6 +1348,7 @@ public class CodeGenerator {
             
             if (isBackboneElement(elementDefinition)) {
                 imports.add("com.ibm.watsonhealth.fhir.model.type.BackboneElement");
+                imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
             }
             
             if (path.endsWith("collection") && isBackboneElement(elementDefinition)) {
@@ -1443,6 +1447,13 @@ public class CodeGenerator {
             }
         }
         
+        if ((!isResource(structureDefinition) && 
+                !isAbstract(structureDefinition) && 
+                !isStringSubtype(structureDefinition) && 
+                !isUriSubtype(structureDefinition))) {
+            imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
+        }
+        
         if (isDecimal(structureDefinition)) {
             imports.add("java.math.BigDecimal");
         }
@@ -1526,7 +1537,7 @@ public class CodeGenerator {
             cb.override();
         }
         
-        cb.method(mods("protected"), "boolean", "hasValue");
+        cb.method(mods("public"), "boolean", "hasValue");
         
         if ("Element".equals(name)) {
             cb._return("false");
@@ -1551,7 +1562,7 @@ public class CodeGenerator {
             cb.override();
         }
         
-        cb.method(mods("protected"), "boolean", "hasChildren");
+        cb.method(mods("public"), "boolean", "hasChildren");
         
         int level = path.split("\\.").length + 2;
         StringJoiner joiner = new StringJoiner(" || " + System.lineSeparator() + indent(level));

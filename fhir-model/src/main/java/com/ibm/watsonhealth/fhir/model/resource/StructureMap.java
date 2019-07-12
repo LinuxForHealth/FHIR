@@ -1200,9 +1200,7 @@ public class StructureMap extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             alias = builder.alias;
             documentation = builder.documentation;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1254,7 +1252,7 @@ public class StructureMap extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (url != null) || 
                 (mode != null) || 
@@ -1534,9 +1532,7 @@ public class StructureMap extends DomainResource {
             documentation = builder.documentation;
             input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
             rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1612,7 +1608,7 @@ public class StructureMap extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (_extends != null) || 
@@ -1899,9 +1895,7 @@ public class StructureMap extends DomainResource {
                 type = builder.type;
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
                 documentation = builder.documentation;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1953,7 +1947,7 @@ public class StructureMap extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (name != null) || 
                     (type != null) || 
@@ -2233,9 +2227,7 @@ public class StructureMap extends DomainResource {
                 rule = Collections.unmodifiableList(builder.rule);
                 dependent = Collections.unmodifiableList(builder.dependent);
                 documentation = builder.documentation;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2311,7 +2303,7 @@ public class StructureMap extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (name != null) || 
                     !source.isEmpty() || 
@@ -2716,9 +2708,7 @@ public class StructureMap extends DomainResource {
                     condition = builder.condition;
                     check = builder.check;
                     logMessage = builder.logMessage;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2857,7 +2847,7 @@ public class StructureMap extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (context != null) || 
                         (min != null) || 
@@ -3314,9 +3304,7 @@ public class StructureMap extends DomainResource {
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
                     parameter = Collections.unmodifiableList(builder.parameter);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -3416,7 +3404,7 @@ public class StructureMap extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (context != null) || 
                         (contextType != null) || 
@@ -3847,9 +3835,7 @@ public class StructureMap extends DomainResource {
                     private Parameter(Builder builder) {
                         super(builder);
                         value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
-                        if (!hasValue() && !hasChildren()) {
-                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                        }
+                        ValidationSupport.requireValueOrChildren(this);
                     }
 
                     /**
@@ -3865,7 +3851,7 @@ public class StructureMap extends DomainResource {
                     }
 
                     @Override
-                    protected boolean hasChildren() {
+                    public boolean hasChildren() {
                         return super.hasChildren() || 
                             (value != null);
                     }
@@ -4086,9 +4072,7 @@ public class StructureMap extends DomainResource {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
                     variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4116,7 +4100,7 @@ public class StructureMap extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (name != null) || 
                         !variable.isEmpty();

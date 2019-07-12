@@ -1142,9 +1142,7 @@ public class Location extends DomainResource {
             longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
             latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
             altitude = builder.altitude;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1187,7 +1185,7 @@ public class Location extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (longitude != null) || 
                 (latitude != null) || 
@@ -1442,9 +1440,7 @@ public class Location extends DomainResource {
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1496,7 +1492,7 @@ public class Location extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !daysOfWeek.isEmpty() || 
                 (allDay != null) || 

@@ -828,9 +828,7 @@ public class TestReport extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             uri = ValidationSupport.requireNonNull(builder.uri, "uri");
             display = builder.display;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -870,7 +868,7 @@ public class TestReport extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (uri != null) || 
@@ -1118,9 +1116,7 @@ public class TestReport extends DomainResource {
         private Setup(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1136,7 +1132,7 @@ public class TestReport extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !action.isEmpty();
         }
@@ -1355,9 +1351,7 @@ public class TestReport extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1385,7 +1379,7 @@ public class TestReport extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (operation != null) || 
                     (_assert != null);
@@ -1640,9 +1634,7 @@ public class TestReport extends DomainResource {
                     result = ValidationSupport.requireNonNull(builder.result, "result");
                     message = builder.message;
                     detail = builder.detail;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1682,7 +1674,7 @@ public class TestReport extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (result != null) || 
                         (message != null) || 
@@ -1950,9 +1942,7 @@ public class TestReport extends DomainResource {
                     result = ValidationSupport.requireNonNull(builder.result, "result");
                     message = builder.message;
                     detail = builder.detail;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1992,7 +1982,7 @@ public class TestReport extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (result != null) || 
                         (message != null) || 
@@ -2262,9 +2252,7 @@ public class TestReport extends DomainResource {
             name = builder.name;
             description = builder.description;
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2304,7 +2292,7 @@ public class TestReport extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (description != null) || 
@@ -2569,9 +2557,7 @@ public class TestReport extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2599,7 +2585,7 @@ public class TestReport extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (operation != null) || 
                     (_assert != null);
@@ -2853,9 +2839,7 @@ public class TestReport extends DomainResource {
         private Teardown(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2871,7 +2855,7 @@ public class TestReport extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !action.isEmpty();
         }
@@ -3088,9 +3072,7 @@ public class TestReport extends DomainResource {
             private Action(Builder builder) {
                 super(builder);
                 operation = ValidationSupport.requireNonNull(builder.operation, "operation");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3106,7 +3088,7 @@ public class TestReport extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (operation != null);
             }

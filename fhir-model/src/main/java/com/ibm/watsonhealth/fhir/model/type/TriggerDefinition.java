@@ -63,9 +63,7 @@ public class TriggerDefinition extends Element {
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
         data = Collections.unmodifiableList(builder.data);
         condition = builder.condition;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -132,7 +130,7 @@ public class TriggerDefinition extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (type != null) || 
             (name != null) || 

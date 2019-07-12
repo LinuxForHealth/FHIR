@@ -805,9 +805,7 @@ public class Provenance extends DomainResource {
             role = Collections.unmodifiableList(builder.role);
             who = ValidationSupport.requireNonNull(builder.who, "who");
             onBehalfOf = builder.onBehalfOf;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -860,7 +858,7 @@ public class Provenance extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 !role.isEmpty() || 
@@ -1176,9 +1174,7 @@ public class Provenance extends DomainResource {
             role = ValidationSupport.requireNonNull(builder.role, "role");
             what = ValidationSupport.requireNonNull(builder.what, "what");
             agent = Collections.unmodifiableList(builder.agent);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1220,7 +1216,7 @@ public class Provenance extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (role != null) || 
                 (what != null) || 

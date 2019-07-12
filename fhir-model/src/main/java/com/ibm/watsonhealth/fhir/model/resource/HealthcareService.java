@@ -1626,9 +1626,7 @@ public class HealthcareService extends DomainResource {
             super(builder);
             code = builder.code;
             comment = builder.comment;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1656,7 +1654,7 @@ public class HealthcareService extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (comment != null);
@@ -1914,9 +1912,7 @@ public class HealthcareService extends DomainResource {
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1968,7 +1964,7 @@ public class HealthcareService extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !daysOfWeek.isEmpty() || 
                 (allDay != null) || 
@@ -2290,9 +2286,7 @@ public class HealthcareService extends DomainResource {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
             during = builder.during;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2320,7 +2314,7 @@ public class HealthcareService extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (during != null);

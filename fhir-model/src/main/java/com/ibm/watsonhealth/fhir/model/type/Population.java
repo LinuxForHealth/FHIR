@@ -34,9 +34,7 @@ public class Population extends BackboneElement {
         gender = builder.gender;
         race = builder.race;
         physiologicalCondition = builder.physiologicalCondition;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -88,7 +86,7 @@ public class Population extends BackboneElement {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (age != null) || 
             (gender != null) || 

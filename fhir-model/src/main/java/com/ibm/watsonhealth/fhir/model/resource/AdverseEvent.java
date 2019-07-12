@@ -1243,9 +1243,7 @@ public class AdverseEvent extends DomainResource {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
             causality = Collections.unmodifiableList(builder.causality);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1274,7 +1272,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (instance != null) || 
                 !causality.isEmpty();
@@ -1545,9 +1543,7 @@ public class AdverseEvent extends DomainResource {
                 productRelatedness = builder.productRelatedness;
                 author = builder.author;
                 method = builder.method;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1599,7 +1595,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (assessment != null) || 
                     (productRelatedness != null) || 

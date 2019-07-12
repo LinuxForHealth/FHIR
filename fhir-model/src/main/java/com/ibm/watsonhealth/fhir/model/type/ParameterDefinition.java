@@ -43,9 +43,7 @@ public class ParameterDefinition extends Element {
         documentation = builder.documentation;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         profile = builder.profile;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -133,7 +131,7 @@ public class ParameterDefinition extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (name != null) || 
             (use != null) || 

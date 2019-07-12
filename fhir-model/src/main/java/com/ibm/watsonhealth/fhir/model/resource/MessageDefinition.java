@@ -1457,9 +1457,7 @@ public class MessageDefinition extends DomainResource {
             profile = builder.profile;
             min = ValidationSupport.requireNonNull(builder.min, "min");
             max = builder.max;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1513,7 +1511,7 @@ public class MessageDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (profile != null) || 
@@ -1786,9 +1784,7 @@ public class MessageDefinition extends DomainResource {
             super(builder);
             message = ValidationSupport.requireNonNull(builder.message, "message");
             situation = builder.situation;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1817,7 +1813,7 @@ public class MessageDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (message != null) || 
                 (situation != null);

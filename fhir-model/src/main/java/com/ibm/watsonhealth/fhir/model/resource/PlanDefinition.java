@@ -1861,9 +1861,7 @@ public class PlanDefinition extends DomainResource {
             addresses = Collections.unmodifiableList(builder.addresses);
             documentation = Collections.unmodifiableList(builder.documentation);
             target = Collections.unmodifiableList(builder.target);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1953,7 +1951,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (category != null) || 
                 (description != null) || 
@@ -2382,9 +2380,7 @@ public class PlanDefinition extends DomainResource {
                 measure = builder.measure;
                 detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
                 due = builder.due;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2427,7 +2423,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (measure != null) || 
                     (detail != null) || 
@@ -2757,9 +2753,7 @@ public class PlanDefinition extends DomainResource {
             transform = builder.transform;
             dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
             action = Collections.unmodifiableList(builder.action);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3097,7 +3091,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (prefix != null) || 
                 (title != null) || 
@@ -4205,9 +4199,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
                 expression = builder.expression;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4235,7 +4227,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (kind != null) || 
                     (expression != null);
@@ -4481,9 +4473,7 @@ public class PlanDefinition extends DomainResource {
                 actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
                 relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
                 offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4523,7 +4513,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (actionId != null) || 
                     (relationship != null) || 
@@ -4773,9 +4763,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 role = builder.role;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4803,7 +4791,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (role != null);
@@ -5049,9 +5037,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 path = builder.path;
                 expression = builder.expression;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5083,7 +5069,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (path != null) || 
                     (expression != null);

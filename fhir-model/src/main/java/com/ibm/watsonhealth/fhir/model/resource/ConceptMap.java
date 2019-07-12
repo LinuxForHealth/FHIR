@@ -1173,9 +1173,7 @@ public class ConceptMap extends DomainResource {
             targetVersion = builder.targetVersion;
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
             unmapped = builder.unmapped;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1252,7 +1250,7 @@ public class ConceptMap extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (source != null) || 
                 (sourceVersion != null) || 
@@ -1586,9 +1584,7 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 target = Collections.unmodifiableList(builder.target);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1628,7 +1624,7 @@ public class ConceptMap extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (code != null) || 
                     (display != null) || 
@@ -1935,9 +1931,7 @@ public class ConceptMap extends DomainResource {
                     comment = builder.comment;
                     dependsOn = Collections.unmodifiableList(builder.dependsOn);
                     product = Collections.unmodifiableList(builder.product);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2017,7 +2011,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (code != null) || 
                         (display != null) || 
@@ -2407,9 +2401,7 @@ public class ConceptMap extends DomainResource {
                         system = builder.system;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
                         display = builder.display;
-                        if (!hasValue() && !hasChildren()) {
-                            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                        }
+                        ValidationSupport.requireValueOrChildren(this);
                     }
 
                     /**
@@ -2463,7 +2455,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     @Override
-                    protected boolean hasChildren() {
+                    public boolean hasChildren() {
                         return super.hasChildren() || 
                             (property != null) || 
                             (system != null) || 
@@ -2743,9 +2735,7 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 url = builder.url;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2801,7 +2791,7 @@ public class ConceptMap extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (mode != null) || 
                     (code != null) || 

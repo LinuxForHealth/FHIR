@@ -1065,9 +1065,7 @@ public class Invoice extends DomainResource {
             super(builder);
             role = builder.role;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1096,7 +1094,7 @@ public class Invoice extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (role != null) || 
                 (actor != null);
@@ -1344,9 +1342,7 @@ public class Invoice extends DomainResource {
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
             priceComponent = Collections.unmodifiableList(builder.priceComponent);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1390,7 +1386,7 @@ public class Invoice extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (sequence != null) || 
                 (chargeItem != null) || 
@@ -1692,9 +1688,7 @@ public class Invoice extends DomainResource {
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1747,7 +1741,7 @@ public class Invoice extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (type != null) || 
                     (code != null) || 

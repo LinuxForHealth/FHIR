@@ -1424,9 +1424,7 @@ public class CommunicationRequest extends DomainResource {
         private Payload(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", String.class, Attachment.class, Reference.class);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1442,7 +1440,7 @@ public class CommunicationRequest extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (content != null);
         }

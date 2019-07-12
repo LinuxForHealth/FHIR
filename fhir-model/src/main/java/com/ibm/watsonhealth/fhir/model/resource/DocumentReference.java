@@ -1056,9 +1056,7 @@ public class DocumentReference extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireNonNull(builder.target, "target");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1086,7 +1084,7 @@ public class DocumentReference extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (target != null);
@@ -1312,9 +1310,7 @@ public class DocumentReference extends DomainResource {
             super(builder);
             attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
             format = builder.format;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1343,7 +1339,7 @@ public class DocumentReference extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (attachment != null) || 
                 (format != null);
@@ -1598,9 +1594,7 @@ public class DocumentReference extends DomainResource {
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
             related = Collections.unmodifiableList(builder.related);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1692,7 +1686,7 @@ public class DocumentReference extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 !encounter.isEmpty() || 
                 !event.isEmpty() || 

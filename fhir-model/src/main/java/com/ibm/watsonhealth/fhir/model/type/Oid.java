@@ -32,7 +32,7 @@ public class Oid extends Uri {
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 

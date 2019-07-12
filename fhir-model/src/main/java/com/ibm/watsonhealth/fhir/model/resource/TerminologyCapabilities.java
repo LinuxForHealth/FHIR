@@ -1363,9 +1363,7 @@ public class TerminologyCapabilities extends DomainResource {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
             version = builder.version;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1393,7 +1391,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (version != null);
@@ -1638,9 +1636,7 @@ public class TerminologyCapabilities extends DomainResource {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
             url = builder.url;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1668,7 +1664,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (description != null) || 
                 (url != null);
@@ -1915,9 +1911,7 @@ public class TerminologyCapabilities extends DomainResource {
             uri = builder.uri;
             version = Collections.unmodifiableList(builder.version);
             subsumption = builder.subsumption;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1957,7 +1951,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (uri != null) || 
                 !version.isEmpty() || 
@@ -2264,9 +2258,7 @@ public class TerminologyCapabilities extends DomainResource {
                 language = Collections.unmodifiableList(builder.language);
                 filter = Collections.unmodifiableList(builder.filter);
                 property = Collections.unmodifiableList(builder.property);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2342,7 +2334,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (code != null) || 
                     (isDefault != null) || 
@@ -2755,9 +2747,7 @@ public class TerminologyCapabilities extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2785,7 +2775,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (code != null) || 
                         !op.isEmpty();
@@ -3019,9 +3009,7 @@ public class TerminologyCapabilities extends DomainResource {
             incomplete = builder.incomplete;
             parameter = Collections.unmodifiableList(builder.parameter);
             textFilter = builder.textFilter;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3085,7 +3073,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (hierarchical != null) || 
                 (paging != null) || 
@@ -3428,9 +3416,7 @@ public class TerminologyCapabilities extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 documentation = builder.documentation;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3458,7 +3444,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (name != null) || 
                     (documentation != null);
@@ -3701,9 +3687,7 @@ public class TerminologyCapabilities extends DomainResource {
         private ValidateCode(Builder builder) {
             super(builder);
             translations = ValidationSupport.requireNonNull(builder.translations, "translations");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3719,7 +3703,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (translations != null);
         }
@@ -3937,9 +3921,7 @@ public class TerminologyCapabilities extends DomainResource {
         private Translation(Builder builder) {
             super(builder);
             needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3955,7 +3937,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (needsMap != null);
         }
@@ -4173,9 +4155,7 @@ public class TerminologyCapabilities extends DomainResource {
         private Closure(Builder builder) {
             super(builder);
             translation = builder.translation;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4191,7 +4171,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (translation != null);
         }

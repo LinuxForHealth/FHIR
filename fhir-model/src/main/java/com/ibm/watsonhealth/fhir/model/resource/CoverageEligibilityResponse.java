@@ -893,9 +893,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
             item = Collections.unmodifiableList(builder.item);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -949,7 +947,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (coverage != null) || 
                 (inforce != null) || 
@@ -1285,9 +1283,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 authorizationRequired = builder.authorizationRequired;
                 authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
                 authorizationUrl = builder.authorizationUrl;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1460,7 +1456,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (category != null) || 
                     (productOrService != null) || 
@@ -2052,9 +2048,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                     type = ValidationSupport.requireNonNull(builder.type, "type");
                     allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
                     used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2094,7 +2088,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (type != null) || 
                         (allowed != null) || 
@@ -2360,9 +2354,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         private Error(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2378,7 +2370,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null);
         }

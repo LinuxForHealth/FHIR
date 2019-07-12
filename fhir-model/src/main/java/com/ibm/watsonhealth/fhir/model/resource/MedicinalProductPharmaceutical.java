@@ -694,9 +694,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             status = builder.status;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -724,7 +722,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (status != null);
@@ -978,9 +976,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
             targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1073,7 +1069,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
                 (firstDose != null) || 
@@ -1460,9 +1456,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1490,7 +1484,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (code != null) || 
                     !withdrawalPeriod.isEmpty();
@@ -1759,9 +1753,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
                     value = ValidationSupport.requireNonNull(builder.value, "value");
                     supportingInformation = builder.supportingInformation;
-                    if (!hasValue() && !hasChildren()) {
-                        throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                    }
+                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1801,7 +1793,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 }
 
                 @Override
-                protected boolean hasChildren() {
+                public boolean hasChildren() {
                     return super.hasChildren() || 
                         (tissue != null) || 
                         (value != null) || 

@@ -864,9 +864,7 @@ public class Account extends DomainResource {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             priority = builder.priority;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -898,7 +896,7 @@ public class Account extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (coverage != null) || 
                 (priority != null);
@@ -1144,9 +1142,7 @@ public class Account extends DomainResource {
             party = ValidationSupport.requireNonNull(builder.party, "party");
             onHold = builder.onHold;
             period = builder.period;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1186,7 +1182,7 @@ public class Account extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (party != null) || 
                 (onHold != null) || 

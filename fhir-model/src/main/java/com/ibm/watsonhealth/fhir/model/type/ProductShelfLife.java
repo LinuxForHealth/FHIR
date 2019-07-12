@@ -37,9 +37,7 @@ public class ProductShelfLife extends BackboneElement {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         period = ValidationSupport.requireNonNull(builder.period, "period");
         specialPrecautionsForStorage = Collections.unmodifiableList(builder.specialPrecautionsForStorage);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -97,7 +95,7 @@ public class ProductShelfLife extends BackboneElement {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (identifier != null) || 
             (type != null) || 

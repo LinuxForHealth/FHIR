@@ -37,9 +37,7 @@ public class MarketingStatus extends BackboneElement {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         dateRange = ValidationSupport.requireNonNull(builder.dateRange, "dateRange");
         restoreDate = builder.restoreDate;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -113,7 +111,7 @@ public class MarketingStatus extends BackboneElement {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (country != null) || 
             (jurisdiction != null) || 

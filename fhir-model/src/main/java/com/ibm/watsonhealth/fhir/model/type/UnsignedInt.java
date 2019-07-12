@@ -27,18 +27,16 @@ public class UnsignedInt extends Integer {
     private UnsignedInt(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, MIN_VALUE);
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren();
     }
 

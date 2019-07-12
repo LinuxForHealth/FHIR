@@ -31,7 +31,7 @@ public class Markdown extends String {
     }
 
     @Override
-    protected boolean hasValue() {
+    public boolean hasValue() {
         return (value != null);
     }
 

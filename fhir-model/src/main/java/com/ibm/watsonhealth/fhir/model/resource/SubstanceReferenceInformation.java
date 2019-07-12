@@ -652,9 +652,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
             source = Collections.unmodifiableList(builder.source);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -694,7 +692,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (geneSequenceOrigin != null) || 
                 (gene != null) || 
@@ -996,9 +994,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             type = builder.type;
             element = builder.element;
             source = Collections.unmodifiableList(builder.source);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1038,7 +1034,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (type != null) || 
                 (element != null) || 
@@ -1342,9 +1338,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             classification = builder.classification;
             subtype = Collections.unmodifiableList(builder.subtype);
             source = Collections.unmodifiableList(builder.source);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1396,7 +1390,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (domain != null) || 
                 (classification != null) || 
@@ -1754,9 +1748,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
             source = Collections.unmodifiableList(builder.source);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1856,7 +1848,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (target != null) || 
                 (type != null) || 

@@ -804,9 +804,7 @@ public class MessageHeader extends DomainResource {
             target = builder.target;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
             receiver = builder.receiver;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -859,7 +857,7 @@ public class MessageHeader extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (target != null) || 
@@ -1154,9 +1152,7 @@ public class MessageHeader extends DomainResource {
             version = builder.version;
             contact = builder.contact;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1220,7 +1216,7 @@ public class MessageHeader extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (name != null) || 
                 (software != null) || 
@@ -1532,9 +1528,7 @@ public class MessageHeader extends DomainResource {
             identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1575,7 +1569,7 @@ public class MessageHeader extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (identifier != null) || 
                 (code != null) || 

@@ -852,9 +852,7 @@ public class Person extends DomainResource {
             super(builder);
             target = ValidationSupport.requireNonNull(builder.target, "target");
             assurance = builder.assurance;
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -882,7 +880,7 @@ public class Person extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (target != null) || 
                 (assurance != null);

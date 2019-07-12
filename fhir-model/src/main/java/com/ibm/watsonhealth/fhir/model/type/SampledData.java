@@ -41,9 +41,7 @@ public class SampledData extends Element {
         upperLimit = builder.upperLimit;
         dimensions = ValidationSupport.requireNonNull(builder.dimensions, "dimensions");
         data = builder.data;
-        if (!hasValue() && !hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-        }
+        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -136,7 +134,7 @@ public class SampledData extends Element {
     }
 
     @Override
-    protected boolean hasChildren() {
+    public boolean hasChildren() {
         return super.hasChildren() || 
             (origin != null) || 
             (period != null) || 

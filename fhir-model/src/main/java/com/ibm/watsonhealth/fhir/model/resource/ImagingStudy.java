@@ -1343,9 +1343,7 @@ public class ImagingStudy extends DomainResource {
             started = builder.started;
             performer = Collections.unmodifiableList(builder.performer);
             instance = Collections.unmodifiableList(builder.instance);
-            if (!hasValue() && !hasChildren()) {
-                throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-            }
+            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1501,7 +1499,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         @Override
-        protected boolean hasChildren() {
+        public boolean hasChildren() {
             return super.hasChildren() || 
                 (uid != null) || 
                 (number != null) || 
@@ -2054,9 +2052,7 @@ public class ImagingStudy extends DomainResource {
                 super(builder);
                 function = builder.function;
                 actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2084,7 +2080,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (function != null) || 
                     (actor != null);
@@ -2332,9 +2328,7 @@ public class ImagingStudy extends DomainResource {
                 sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
                 number = builder.number;
                 title = builder.title;
-                if (!hasValue() && !hasChildren()) {
-                    throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
-                }
+                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2386,7 +2380,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             @Override
-            protected boolean hasChildren() {
+            public boolean hasChildren() {
                 return super.hasChildren() || 
                     (uid != null) || 
                     (sopClass != null) || 
