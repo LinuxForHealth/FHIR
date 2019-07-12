@@ -24,7 +24,7 @@ import org.apache.maven.project.MavenProject;
 import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
 
 /**
- * This class coordinates the calls to the fhir-tool plguin
+ * This class coordinates the calls to the fhir-tool plugin
  * 
  * The phase is initialize. To find a list of phases -
  * https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference
