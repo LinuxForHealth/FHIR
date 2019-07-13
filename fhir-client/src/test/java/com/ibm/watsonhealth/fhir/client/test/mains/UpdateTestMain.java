@@ -11,6 +11,9 @@ import com.ibm.watsonhealth.fhir.model.type.Quantity;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -36,11 +39,20 @@ public class UpdateTestMain {
         Observation observation = response.readEntity(Observation.class);
         FHIRUtil.write(observation, Format.JSON, System.out);
         
+                
+        List <Component> newCompList = new ArrayList<Component>();
+        int i = 0;
+        for (Component component: observation.getComponent()) {
+            // change first component only
+            if ( i == 0 ) {
+                component = component.toBuilder()
+                        .value(Quantity.builder().value(Decimal.of(120)).unit(string("mmHg")).build()).build(); 
+            } 
+            newCompList.add(component);
+            i++;
+        }
         
-        Component componentNew = observation.getComponent().get(0).toBuilder()
-            .value(Quantity.builder().value(Decimal.of(120)).unit(string("mmHg")).build()).build(); 
-        
-        observation.getComponent().set(0, componentNew);
+        observation = observation.toBuilder().component(newCompList).build();
         
         Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         response = target.path("Observation/14").request().put(observationEntity);
