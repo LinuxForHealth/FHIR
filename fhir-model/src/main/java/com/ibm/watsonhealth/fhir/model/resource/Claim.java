@@ -636,7 +636,7 @@ public class Claim extends DomainResource {
             this.created = created;
             this.provider = provider;
             this.priority = priority;
-            this.insurance = new ArrayList<>(insurance);
+            this.insurance = insurance;
         }
 
         /**
@@ -731,7 +731,7 @@ public class Claim extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -773,7 +773,7 @@ public class Claim extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -823,7 +823,7 @@ public class Claim extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -870,7 +870,7 @@ public class Claim extends DomainResource {
          * A unique identifier assigned to this claim.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -992,7 +992,7 @@ public class Claim extends DomainResource {
          * event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param related
@@ -1114,7 +1114,7 @@ public class Claim extends DomainResource {
          * The members of the team who provided the products and services.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param careTeam
@@ -1155,7 +1155,7 @@ public class Claim extends DomainResource {
          * concurrent issues.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1196,7 +1196,7 @@ public class Claim extends DomainResource {
          * Information about diagnoses relevant to the claim items.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param diagnosis
@@ -1236,7 +1236,7 @@ public class Claim extends DomainResource {
          * Procedures performed on the patient relevant to the billing items with the claim.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param procedure
@@ -1293,7 +1293,7 @@ public class Claim extends DomainResource {
          * sub-details.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param item
@@ -1544,7 +1544,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1594,7 +1594,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1850,7 +1850,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1900,7 +1900,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2180,7 +2180,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2230,7 +2230,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2566,7 +2566,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2616,7 +2616,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2950,7 +2950,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3000,7 +3000,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3047,7 +3047,7 @@ public class Claim extends DomainResource {
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -3339,7 +3339,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3389,7 +3389,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3436,7 +3436,7 @@ public class Claim extends DomainResource {
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -3492,7 +3492,7 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param udi
@@ -3793,7 +3793,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3843,7 +3843,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3923,7 +3923,7 @@ public class Claim extends DomainResource {
              * services or products related to the prior authorization.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param preAuthRef
@@ -4162,7 +4162,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4212,7 +4212,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4818,7 +4818,7 @@ public class Claim extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4868,7 +4868,7 @@ public class Claim extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4915,7 +4915,7 @@ public class Claim extends DomainResource {
              * CareTeam members related to this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param careTeamSequence
@@ -4955,7 +4955,7 @@ public class Claim extends DomainResource {
              * Diagnosis applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param diagnosisSequence
@@ -4995,7 +4995,7 @@ public class Claim extends DomainResource {
              * Procedures applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param procedureSequence
@@ -5035,7 +5035,7 @@ public class Claim extends DomainResource {
              * Exceptions, special conditions and supporting information applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param informationSequence
@@ -5107,7 +5107,7 @@ public class Claim extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifier
@@ -5147,7 +5147,7 @@ public class Claim extends DomainResource {
              * Identifies the program under which this may be recovered.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param programCode
@@ -5285,7 +5285,7 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param udi
@@ -5341,7 +5341,7 @@ public class Claim extends DomainResource {
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param subSite
@@ -5381,7 +5381,7 @@ public class Claim extends DomainResource {
              * The Encounters during which this Claim was created or to which the creation of this record is tightly associated.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param encounter
@@ -5421,7 +5421,7 @@ public class Claim extends DomainResource {
              * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -5831,7 +5831,7 @@ public class Claim extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5881,7 +5881,7 @@ public class Claim extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5960,7 +5960,7 @@ public class Claim extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifier
@@ -6000,7 +6000,7 @@ public class Claim extends DomainResource {
                  * Identifies the program under which this may be recovered.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param programCode
@@ -6106,7 +6106,7 @@ public class Claim extends DomainResource {
                  * Unique Device Identifiers associated with this line item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param udi
@@ -6146,7 +6146,7 @@ public class Claim extends DomainResource {
                  * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param subDetail
@@ -6528,7 +6528,7 @@ public class Claim extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -6578,7 +6578,7 @@ public class Claim extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -6657,7 +6657,7 @@ public class Claim extends DomainResource {
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifier
@@ -6697,7 +6697,7 @@ public class Claim extends DomainResource {
                      * Identifies the program under which this may be recovered.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param programCode
@@ -6803,7 +6803,7 @@ public class Claim extends DomainResource {
                      * Unique Device Identifiers associated with this line item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param udi

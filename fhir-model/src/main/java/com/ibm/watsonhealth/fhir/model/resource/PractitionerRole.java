@@ -468,7 +468,7 @@ public class PractitionerRole extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -510,7 +510,7 @@ public class PractitionerRole extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -560,7 +560,7 @@ public class PractitionerRole extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -607,7 +607,7 @@ public class PractitionerRole extends DomainResource {
          * Business Identifiers that are specific to a role/location.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -711,7 +711,7 @@ public class PractitionerRole extends DomainResource {
          * Roles which this practitioner is authorized to perform for the organization.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param code
@@ -751,7 +751,7 @@ public class PractitionerRole extends DomainResource {
          * Specific specialty of the practitioner.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialty
@@ -791,7 +791,7 @@ public class PractitionerRole extends DomainResource {
          * The location(s) at which this practitioner provides care.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param location
@@ -831,7 +831,7 @@ public class PractitionerRole extends DomainResource {
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param healthcareService
@@ -871,7 +871,7 @@ public class PractitionerRole extends DomainResource {
          * Contact details that are specific to the role/location/service.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -911,7 +911,7 @@ public class PractitionerRole extends DomainResource {
          * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param availableTime
@@ -951,7 +951,7 @@ public class PractitionerRole extends DomainResource {
          * The practitioner is not available or performing this role during this period of time due to the provided reason.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param notAvailable
@@ -1008,7 +1008,7 @@ public class PractitionerRole extends DomainResource {
          * Technical endpoints providing access to services operated for the practitioner with this role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endpoint
@@ -1255,7 +1255,7 @@ public class PractitionerRole extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1305,7 +1305,7 @@ public class PractitionerRole extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1352,7 +1352,7 @@ public class PractitionerRole extends DomainResource {
              * Indicates which days of the week are available between the start and end Times.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param daysOfWeek
@@ -1602,7 +1602,7 @@ public class PractitionerRole extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1652,7 +1652,7 @@ public class PractitionerRole extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

@@ -323,7 +323,7 @@ public class SpecimenDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -365,7 +365,7 @@ public class SpecimenDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -415,7 +415,7 @@ public class SpecimenDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -494,7 +494,7 @@ public class SpecimenDefinition extends DomainResource {
          * Preparation of the patient for specimen collection.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param patientPreparation
@@ -550,7 +550,7 @@ public class SpecimenDefinition extends DomainResource {
          * The action to be performed for collecting the specimen.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param collection
@@ -590,7 +590,7 @@ public class SpecimenDefinition extends DomainResource {
          * Specimen conditioned in a container as expected by the testing laboratory.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param typeTested
@@ -914,7 +914,7 @@ public class SpecimenDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -964,7 +964,7 @@ public class SpecimenDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1092,7 +1092,7 @@ public class SpecimenDefinition extends DomainResource {
              * Criterion for rejection of the specimen in its container by the laboratory.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param rejectionCriterion
@@ -1133,7 +1133,7 @@ public class SpecimenDefinition extends DomainResource {
              * process.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param handling
@@ -1446,7 +1446,7 @@ public class SpecimenDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1496,7 +1496,7 @@ public class SpecimenDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1640,7 +1640,7 @@ public class SpecimenDefinition extends DomainResource {
                  * Citrate, EDTA.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param additive
@@ -1843,7 +1843,7 @@ public class SpecimenDefinition extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -1893,7 +1893,7 @@ public class SpecimenDefinition extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2133,7 +2133,7 @@ public class SpecimenDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2183,7 +2183,7 @@ public class SpecimenDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

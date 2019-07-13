@@ -90,7 +90,7 @@ public abstract class BackboneElement extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -140,7 +140,7 @@ public abstract class BackboneElement extends Element {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension

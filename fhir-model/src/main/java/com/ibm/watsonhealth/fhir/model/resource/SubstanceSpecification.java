@@ -557,7 +557,7 @@ public class SubstanceSpecification extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -599,7 +599,7 @@ public class SubstanceSpecification extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -649,7 +649,7 @@ public class SubstanceSpecification extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -776,7 +776,7 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param source
@@ -832,7 +832,7 @@ public class SubstanceSpecification extends DomainResource {
          * Moiety, for structural modifications.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param moiety
@@ -872,7 +872,7 @@ public class SubstanceSpecification extends DomainResource {
          * General specifications for this substance, including how it is related to other substances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param property
@@ -944,7 +944,7 @@ public class SubstanceSpecification extends DomainResource {
          * Codes associated with the substance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param code
@@ -984,7 +984,7 @@ public class SubstanceSpecification extends DomainResource {
          * Names applicable to this substance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param name
@@ -1024,7 +1024,7 @@ public class SubstanceSpecification extends DomainResource {
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param molecularWeight
@@ -1064,7 +1064,7 @@ public class SubstanceSpecification extends DomainResource {
          * A link between this substance and another, with details of the relationship.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relationship
@@ -1437,7 +1437,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1487,7 +1487,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1861,7 +1861,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1911,7 +1911,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2309,7 +2309,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2359,7 +2359,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2472,7 +2472,7 @@ public class SubstanceSpecification extends DomainResource {
              * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param isotope
@@ -2528,7 +2528,7 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param source
@@ -2568,7 +2568,7 @@ public class SubstanceSpecification extends DomainResource {
              * Molecular structural representation.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param representation
@@ -2823,7 +2823,7 @@ public class SubstanceSpecification extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2873,7 +2873,7 @@ public class SubstanceSpecification extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3175,7 +3175,7 @@ public class SubstanceSpecification extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -3225,7 +3225,7 @@ public class SubstanceSpecification extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3496,7 +3496,7 @@ public class SubstanceSpecification extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3546,7 +3546,7 @@ public class SubstanceSpecification extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3853,7 +3853,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3903,7 +3903,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4014,7 +4014,7 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param source
@@ -4389,7 +4389,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4439,7 +4439,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4534,7 +4534,7 @@ public class SubstanceSpecification extends DomainResource {
              * Language of the name.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param language
@@ -4575,7 +4575,7 @@ public class SubstanceSpecification extends DomainResource {
              * colour additive.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param domain
@@ -4618,7 +4618,7 @@ public class SubstanceSpecification extends DomainResource {
              * The jurisdiction where this name applies.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param jurisdiction
@@ -4658,7 +4658,7 @@ public class SubstanceSpecification extends DomainResource {
              * A synonym of this name.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param synonym
@@ -4698,7 +4698,7 @@ public class SubstanceSpecification extends DomainResource {
              * A translation for this name.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param translation
@@ -4738,7 +4738,7 @@ public class SubstanceSpecification extends DomainResource {
              * Details of the official nature of this name.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param official
@@ -4778,7 +4778,7 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param source
@@ -4997,7 +4997,7 @@ public class SubstanceSpecification extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5047,7 +5047,7 @@ public class SubstanceSpecification extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5394,7 +5394,7 @@ public class SubstanceSpecification extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -5444,7 +5444,7 @@ public class SubstanceSpecification extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5591,7 +5591,7 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param source

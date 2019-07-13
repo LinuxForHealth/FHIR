@@ -346,7 +346,7 @@ public class DocumentManifest extends DomainResource {
         private Builder(DocumentReferenceStatus status, List<Reference> content) {
             super();
             this.status = status;
-            this.content = new ArrayList<>(content);
+            this.content = content;
         }
 
         /**
@@ -441,7 +441,7 @@ public class DocumentManifest extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -483,7 +483,7 @@ public class DocumentManifest extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -533,7 +533,7 @@ public class DocumentManifest extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -597,7 +597,7 @@ public class DocumentManifest extends DomainResource {
          * Other identifiers associated with the document manifest, including version independent identifiers.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -690,7 +690,7 @@ public class DocumentManifest extends DomainResource {
          * Identifies who is the author of the manifest. Manifest author is not necessarly the author of the references included.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param author
@@ -730,7 +730,7 @@ public class DocumentManifest extends DomainResource {
          * A patient, practitioner, or organization for which this set of documents is intended.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param recipient
@@ -802,7 +802,7 @@ public class DocumentManifest extends DomainResource {
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param related
@@ -1007,7 +1007,7 @@ public class DocumentManifest extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1057,7 +1057,7 @@ public class DocumentManifest extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

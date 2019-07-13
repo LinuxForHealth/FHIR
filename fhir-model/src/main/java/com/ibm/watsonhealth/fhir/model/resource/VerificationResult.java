@@ -474,7 +474,7 @@ public class VerificationResult extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -516,7 +516,7 @@ public class VerificationResult extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -566,7 +566,7 @@ public class VerificationResult extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -613,7 +613,7 @@ public class VerificationResult extends DomainResource {
          * A resource that was validated.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param target
@@ -653,7 +653,7 @@ public class VerificationResult extends DomainResource {
          * The fhirpath location(s) within the resource that was validated.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param targetLocation
@@ -742,7 +742,7 @@ public class VerificationResult extends DomainResource {
          * standalone; in context).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param validationProcess
@@ -849,7 +849,7 @@ public class VerificationResult extends DomainResource {
          * Information about the primary source(s) involved in validation.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param primarySource
@@ -905,7 +905,7 @@ public class VerificationResult extends DomainResource {
          * Information about the entity validating information.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param validator
@@ -1209,7 +1209,7 @@ public class VerificationResult extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1259,7 +1259,7 @@ public class VerificationResult extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1323,7 +1323,7 @@ public class VerificationResult extends DomainResource {
              * Registration Authority; legal source; issuing source; authoritative source).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -1366,7 +1366,7 @@ public class VerificationResult extends DomainResource {
              * Method for communicating with the primary source (manual; API; Push).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param communicationMethod
@@ -1454,7 +1454,7 @@ public class VerificationResult extends DomainResource {
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param pushTypeAvailable
@@ -1768,7 +1768,7 @@ public class VerificationResult extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1818,7 +1818,7 @@ public class VerificationResult extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2181,7 +2181,7 @@ public class VerificationResult extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2231,7 +2231,7 @@ public class VerificationResult extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

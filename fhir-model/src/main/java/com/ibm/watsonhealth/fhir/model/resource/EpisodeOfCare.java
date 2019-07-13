@@ -438,7 +438,7 @@ public class EpisodeOfCare extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -480,7 +480,7 @@ public class EpisodeOfCare extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -530,7 +530,7 @@ public class EpisodeOfCare extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -578,7 +578,7 @@ public class EpisodeOfCare extends DomainResource {
          * is tracking the Episode for funding purposes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -620,7 +620,7 @@ public class EpisodeOfCare extends DomainResource {
          * resource).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param statusHistory
@@ -661,7 +661,7 @@ public class EpisodeOfCare extends DomainResource {
          * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param type
@@ -701,7 +701,7 @@ public class EpisodeOfCare extends DomainResource {
          * The list of diagnosis relevant to this episode of care.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param diagnosis
@@ -773,7 +773,7 @@ public class EpisodeOfCare extends DomainResource {
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param referralRequest
@@ -829,7 +829,7 @@ public class EpisodeOfCare extends DomainResource {
          * The list of practitioners that may be facilitating this episode of care for specific purposes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param team
@@ -869,7 +869,7 @@ public class EpisodeOfCare extends DomainResource {
          * The set of accounts that may be used for billing for this EpisodeOfCare.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param account
@@ -1081,7 +1081,7 @@ public class EpisodeOfCare extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1131,7 +1131,7 @@ public class EpisodeOfCare extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1355,7 +1355,7 @@ public class EpisodeOfCare extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1405,7 +1405,7 @@ public class EpisodeOfCare extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

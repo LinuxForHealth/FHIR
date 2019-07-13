@@ -546,7 +546,7 @@ public class RiskAssessment extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -588,7 +588,7 @@ public class RiskAssessment extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -638,7 +638,7 @@ public class RiskAssessment extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -685,7 +685,7 @@ public class RiskAssessment extends DomainResource {
          * Business identifier assigned to the risk assessment.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -853,7 +853,7 @@ public class RiskAssessment extends DomainResource {
          * The reason the risk assessment was performed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -893,7 +893,7 @@ public class RiskAssessment extends DomainResource {
          * Resources supporting the reason the risk assessment was performed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -934,7 +934,7 @@ public class RiskAssessment extends DomainResource {
          * Conditions, etc.).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basis
@@ -975,7 +975,7 @@ public class RiskAssessment extends DomainResource {
          * Describes the expected outcome for the subject.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param prediction
@@ -1031,7 +1031,7 @@ public class RiskAssessment extends DomainResource {
          * Additional comments about the risk assessment.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1319,7 +1319,7 @@ public class RiskAssessment extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1369,7 +1369,7 @@ public class RiskAssessment extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

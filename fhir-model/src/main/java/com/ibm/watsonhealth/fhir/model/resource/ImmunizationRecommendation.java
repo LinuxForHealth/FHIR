@@ -225,7 +225,7 @@ public class ImmunizationRecommendation extends DomainResource {
             super();
             this.patient = patient;
             this.date = date;
-            this.recommendation = new ArrayList<>(recommendation);
+            this.recommendation = recommendation;
         }
 
         /**
@@ -320,7 +320,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -362,7 +362,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -412,7 +412,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -459,7 +459,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * A unique identifier assigned to this particular recommendation record.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -870,7 +870,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -920,7 +920,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -967,7 +967,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * Vaccine(s) or vaccine group that pertain to the recommendation.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param vaccineCode
@@ -1023,7 +1023,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * Vaccine(s) which should not be used to fulfill the recommendation.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param contraindicatedVaccineCode
@@ -1063,7 +1063,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * The reason for the assigned forecast status.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param forecastReason
@@ -1103,7 +1103,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * Vaccine date recommendations. For example, earliest date to administer, latest date to administer, etc.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param dateCriterion
@@ -1207,7 +1207,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * Immunization event history and/or evaluation that supports the status and recommendation.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param supportingImmunization
@@ -1248,7 +1248,7 @@ public class ImmunizationRecommendation extends DomainResource {
              * and allergy/intolerance information.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param supportingPatientInformation
@@ -1456,7 +1456,7 @@ public class ImmunizationRecommendation extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1506,7 +1506,7 @@ public class ImmunizationRecommendation extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

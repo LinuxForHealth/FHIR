@@ -372,7 +372,7 @@ public class MedicinalProductIndication extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -414,7 +414,7 @@ public class MedicinalProductIndication extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -464,7 +464,7 @@ public class MedicinalProductIndication extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -511,7 +511,7 @@ public class MedicinalProductIndication extends DomainResource {
          * The medication for which this is an indication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subject
@@ -583,7 +583,7 @@ public class MedicinalProductIndication extends DomainResource {
          * Comorbidity (concurrent condition) or co-infection as part of the indication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param comorbidity
@@ -655,7 +655,7 @@ public class MedicinalProductIndication extends DomainResource {
          * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param otherTherapy
@@ -695,7 +695,7 @@ public class MedicinalProductIndication extends DomainResource {
          * Describe the undesirable effects of the medicinal product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param undesirableEffect
@@ -735,7 +735,7 @@ public class MedicinalProductIndication extends DomainResource {
          * The population group to which this applies.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param population
@@ -946,7 +946,7 @@ public class MedicinalProductIndication extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -996,7 +996,7 @@ public class MedicinalProductIndication extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

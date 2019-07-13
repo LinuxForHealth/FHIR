@@ -575,7 +575,7 @@ public class RequestGroup extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -617,7 +617,7 @@ public class RequestGroup extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -667,7 +667,7 @@ public class RequestGroup extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -714,7 +714,7 @@ public class RequestGroup extends DomainResource {
          * Allows a service to provide a unique, business identifier for the request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -755,7 +755,7 @@ public class RequestGroup extends DomainResource {
          * whole or in part by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -797,7 +797,7 @@ public class RequestGroup extends DomainResource {
          * or in part by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -838,7 +838,7 @@ public class RequestGroup extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -878,7 +878,7 @@ public class RequestGroup extends DomainResource {
          * Completed or terminated request(s) whose function is taken by this new request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param replaces
@@ -1031,7 +1031,7 @@ public class RequestGroup extends DomainResource {
          * Describes the reason for the request group in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1071,7 +1071,7 @@ public class RequestGroup extends DomainResource {
          * Indicates another resource whose existence justifies this request group.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1111,7 +1111,7 @@ public class RequestGroup extends DomainResource {
          * Provides a mechanism to communicate additional information about the response.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1151,7 +1151,7 @@ public class RequestGroup extends DomainResource {
          * The actions, if any, produced by the evaluation of the artifact.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param action
@@ -1688,7 +1688,7 @@ public class RequestGroup extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1738,7 +1738,7 @@ public class RequestGroup extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1867,7 +1867,7 @@ public class RequestGroup extends DomainResource {
              * section of a documentation template.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param code
@@ -1909,7 +1909,7 @@ public class RequestGroup extends DomainResource {
              * Information resources can include inline text commentary and links to web resources.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param documentation
@@ -1950,7 +1950,7 @@ public class RequestGroup extends DomainResource {
              * An expression that describes applicability criteria, or start/stop conditions for the action.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param condition
@@ -1990,7 +1990,7 @@ public class RequestGroup extends DomainResource {
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param relatedAction
@@ -2046,7 +2046,7 @@ public class RequestGroup extends DomainResource {
              * The participant that should perform or be responsible for this action.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param participant
@@ -2198,7 +2198,7 @@ public class RequestGroup extends DomainResource {
              * Sub actions.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param action
@@ -2414,7 +2414,7 @@ public class RequestGroup extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2464,7 +2464,7 @@ public class RequestGroup extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2706,7 +2706,7 @@ public class RequestGroup extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2756,7 +2756,7 @@ public class RequestGroup extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

@@ -421,7 +421,7 @@ public class Slot extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -463,7 +463,7 @@ public class Slot extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -513,7 +513,7 @@ public class Slot extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -560,7 +560,7 @@ public class Slot extends DomainResource {
          * External Ids for this item.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -600,7 +600,7 @@ public class Slot extends DomainResource {
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param serviceCategory
@@ -642,7 +642,7 @@ public class Slot extends DomainResource {
          * availability resource.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param serviceType
@@ -688,7 +688,7 @@ public class Slot extends DomainResource {
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialty

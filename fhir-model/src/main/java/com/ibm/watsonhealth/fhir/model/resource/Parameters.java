@@ -246,7 +246,7 @@ public class Parameters extends Resource {
          * A parameter passed to or received from the operation.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param parameter
@@ -483,7 +483,7 @@ public class Parameters extends Resource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -533,7 +533,7 @@ public class Parameters extends Resource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -612,7 +612,7 @@ public class Parameters extends Resource {
              * A named part of a multi-part parameter.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param part

@@ -413,7 +413,7 @@ public class SupplyDelivery extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -455,7 +455,7 @@ public class SupplyDelivery extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -505,7 +505,7 @@ public class SupplyDelivery extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -552,7 +552,7 @@ public class SupplyDelivery extends DomainResource {
          * Identifier for the supply delivery event that is used to identify it across multiple disparate systems.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -592,7 +592,7 @@ public class SupplyDelivery extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -632,7 +632,7 @@ public class SupplyDelivery extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param partOf
@@ -785,7 +785,7 @@ public class SupplyDelivery extends DomainResource {
          * Identifies the person who picked up the Supply.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param receiver
@@ -992,7 +992,7 @@ public class SupplyDelivery extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1042,7 +1042,7 @@ public class SupplyDelivery extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

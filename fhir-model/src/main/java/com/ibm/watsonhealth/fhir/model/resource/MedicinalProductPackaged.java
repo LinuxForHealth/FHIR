@@ -287,7 +287,7 @@ public class MedicinalProductPackaged extends DomainResource {
 
         private Builder(List<PackageItem> packageItem) {
             super();
-            this.packageItem = new ArrayList<>(packageItem);
+            this.packageItem = packageItem;
         }
 
         /**
@@ -382,7 +382,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -424,7 +424,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -474,7 +474,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -521,7 +521,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Unique identifier.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -561,7 +561,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * The product with this is a pack for.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subject
@@ -633,7 +633,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Marketing information.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param marketingStatus
@@ -689,7 +689,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Manufacturer of this Package Item.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param manufacturer
@@ -729,7 +729,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Batch numbering.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param batchIdentifier
@@ -939,7 +939,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -989,7 +989,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1402,7 +1402,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1452,7 +1452,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1499,7 +1499,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Including possibly Data Carrier Identifier.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param identifier
@@ -1539,7 +1539,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Material type of the package item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param material
@@ -1579,7 +1579,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * A possible alternate material for the packaging.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param alternateMaterial
@@ -1619,7 +1619,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * A device accompanying a medicinal product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param device
@@ -1659,7 +1659,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * The manufactured item as contained in the packaged medicinal product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param manufacturedItem
@@ -1699,7 +1699,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Allows containers within containers.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param packageItem
@@ -1755,7 +1755,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Other codeable characteristics.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param otherCharacteristics
@@ -1795,7 +1795,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Shelf Life and storage information.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param shelfLifeStorage
@@ -1835,7 +1835,7 @@ public class MedicinalProductPackaged extends DomainResource {
              * Manufacturer of this Package Item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param manufacturer

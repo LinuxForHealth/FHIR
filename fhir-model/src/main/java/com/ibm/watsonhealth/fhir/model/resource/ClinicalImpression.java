@@ -595,7 +595,7 @@ public class ClinicalImpression extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -637,7 +637,7 @@ public class ClinicalImpression extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -687,7 +687,7 @@ public class ClinicalImpression extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -735,7 +735,7 @@ public class ClinicalImpression extends DomainResource {
          * the resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -908,7 +908,7 @@ public class ClinicalImpression extends DomainResource {
          * A list of the relevant problems/conditions for a patient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param problem
@@ -950,7 +950,7 @@ public class ClinicalImpression extends DomainResource {
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param investigation
@@ -993,7 +993,7 @@ public class ClinicalImpression extends DomainResource {
          * evidence in support of the diagnosis.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param protocol
@@ -1050,7 +1050,7 @@ public class ClinicalImpression extends DomainResource {
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param finding
@@ -1090,7 +1090,7 @@ public class ClinicalImpression extends DomainResource {
          * Estimate of likely outcome.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param prognosisCodeableConcept
@@ -1130,7 +1130,7 @@ public class ClinicalImpression extends DomainResource {
          * RiskAssessment expressing likely outcome.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param prognosisReference
@@ -1170,7 +1170,7 @@ public class ClinicalImpression extends DomainResource {
          * Information supporting the clinical impression.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1211,7 +1211,7 @@ public class ClinicalImpression extends DomainResource {
          * the original author could also appear.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1436,7 +1436,7 @@ public class ClinicalImpression extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1486,7 +1486,7 @@ public class ClinicalImpression extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1533,7 +1533,7 @@ public class ClinicalImpression extends DomainResource {
              * A record of a specific investigation that was undertaken.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param item
@@ -1744,7 +1744,7 @@ public class ClinicalImpression extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1794,7 +1794,7 @@ public class ClinicalImpression extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

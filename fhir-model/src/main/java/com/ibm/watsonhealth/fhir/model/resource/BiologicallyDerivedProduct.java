@@ -419,7 +419,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -461,7 +461,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -511,7 +511,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -560,7 +560,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * CDA documents, or in written / printed documentation).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -650,7 +650,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Procedure request to obtain this biologically derived product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param request
@@ -706,7 +706,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Parent product (if any).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param parent
@@ -763,7 +763,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * example adding anti-coagulants during the collection of Peripheral Blood Stem Cells.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param processing
@@ -821,7 +821,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Product storage.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param storage
@@ -1047,7 +1047,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1097,7 +1097,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1386,7 +1386,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1436,7 +1436,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1703,7 +1703,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1753,7 +1753,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2023,7 +2023,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2073,7 +2073,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

@@ -846,7 +846,7 @@ public class Contract extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -888,7 +888,7 @@ public class Contract extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -938,7 +938,7 @@ public class Contract extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -985,7 +985,7 @@ public class Contract extends DomainResource {
          * Unique identifier for this Contract or a derivative that references a Source Contract.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1187,7 +1187,7 @@ public class Contract extends DomainResource {
          * The target entity impacted by or of interest to parties to the agreement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subject
@@ -1229,7 +1229,7 @@ public class Contract extends DomainResource {
          * contracts and policies.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param authority
@@ -1273,7 +1273,7 @@ public class Contract extends DomainResource {
          * relative to resources.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param domain
@@ -1315,7 +1315,7 @@ public class Contract extends DomainResource {
          * Sites in which the contract is complied with, exercised, or in force.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param site
@@ -1408,7 +1408,7 @@ public class Contract extends DomainResource {
          * g., a domain specific contract number related to legislation.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param alias
@@ -1516,7 +1516,7 @@ public class Contract extends DomainResource {
          * the context of the Contract's scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subType
@@ -1574,7 +1574,7 @@ public class Contract extends DomainResource {
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param term
@@ -1614,7 +1614,7 @@ public class Contract extends DomainResource {
          * Information that may be needed by/relevant to the performer in their execution of this term action.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1657,7 +1657,7 @@ public class Contract extends DomainResource {
          * html#Provenance.entity.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relevantHistory
@@ -1702,7 +1702,7 @@ public class Contract extends DomainResource {
          * contract such as a notary or witness.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param signer
@@ -1747,7 +1747,7 @@ public class Contract extends DomainResource {
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param friendly
@@ -1790,7 +1790,7 @@ public class Contract extends DomainResource {
          * List of Legal expressions or representations of this Contract.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param legal
@@ -1830,7 +1830,7 @@ public class Contract extends DomainResource {
          * List of Computable Policy Rule Language Representations of this Contract.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param rule
@@ -2164,7 +2164,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2214,7 +2214,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2684,7 +2684,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2734,7 +2734,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2896,7 +2896,7 @@ public class Contract extends DomainResource {
              * identified..
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param securityLabel
@@ -2937,7 +2937,7 @@ public class Contract extends DomainResource {
              * Contract Term Asset List.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param asset
@@ -2978,7 +2978,7 @@ public class Contract extends DomainResource {
              * taking place.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param action
@@ -3019,7 +3019,7 @@ public class Contract extends DomainResource {
              * Nested group of Contract Provisions.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param group
@@ -3268,7 +3268,7 @@ public class Contract extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3318,7 +3318,7 @@ public class Contract extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3365,7 +3365,7 @@ public class Contract extends DomainResource {
                  * Number used to link this term or term element to the applicable Security Label.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param number
@@ -3406,7 +3406,7 @@ public class Contract extends DomainResource {
                  * elements.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param category
@@ -3447,7 +3447,7 @@ public class Contract extends DomainResource {
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param control
@@ -3795,7 +3795,7 @@ public class Contract extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3845,7 +3845,7 @@ public class Contract extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3892,7 +3892,7 @@ public class Contract extends DomainResource {
                  * Unique identifier for this particular Contract Provision.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param identifier
@@ -3932,7 +3932,7 @@ public class Contract extends DomainResource {
                  * Offer Recipient.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param party
@@ -4022,7 +4022,7 @@ public class Contract extends DomainResource {
                  * How the decision about a Contract was conveyed.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param decisionMode
@@ -4062,7 +4062,7 @@ public class Contract extends DomainResource {
                  * Response to offer text.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param answer
@@ -4118,7 +4118,7 @@ public class Contract extends DomainResource {
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param linkId
@@ -4158,7 +4158,7 @@ public class Contract extends DomainResource {
                  * Security labels that protects the offer.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param securityLabelNumber
@@ -4335,7 +4335,7 @@ public class Contract extends DomainResource {
 
                     private Builder(List<Reference> reference, CodeableConcept role) {
                         super();
-                        this.reference = new ArrayList<>(reference);
+                        this.reference = reference;
                         this.role = role;
                     }
 
@@ -4364,7 +4364,7 @@ public class Contract extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4414,7 +4414,7 @@ public class Contract extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -4600,7 +4600,7 @@ public class Contract extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4650,7 +4650,7 @@ public class Contract extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -5098,7 +5098,7 @@ public class Contract extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5148,7 +5148,7 @@ public class Contract extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5211,7 +5211,7 @@ public class Contract extends DomainResource {
                  * Target entity type about which the term may be concerned.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param type
@@ -5251,7 +5251,7 @@ public class Contract extends DomainResource {
                  * Associated entities.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param typeReference
@@ -5291,7 +5291,7 @@ public class Contract extends DomainResource {
                  * May be a subtype or part of an offered asset.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param subtype
@@ -5348,7 +5348,7 @@ public class Contract extends DomainResource {
                  * Circumstance of the asset.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param context
@@ -5404,7 +5404,7 @@ public class Contract extends DomainResource {
                  * Type of Asset availability for use or ownership.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param periodType
@@ -5444,7 +5444,7 @@ public class Contract extends DomainResource {
                  * Asset relevant contractual time period.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param period
@@ -5484,7 +5484,7 @@ public class Contract extends DomainResource {
                  * Time period of asset use.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param usePeriod
@@ -5541,7 +5541,7 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param linkId
@@ -5581,7 +5581,7 @@ public class Contract extends DomainResource {
                  * Response to assets.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param answer
@@ -5621,7 +5621,7 @@ public class Contract extends DomainResource {
                  * Security labels that protects the asset.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param securityLabelNumber
@@ -5661,7 +5661,7 @@ public class Contract extends DomainResource {
                  * Contract Valued Item List.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param valuedItem
@@ -5886,7 +5886,7 @@ public class Contract extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -5936,7 +5936,7 @@ public class Contract extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -6000,7 +6000,7 @@ public class Contract extends DomainResource {
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param code
@@ -6445,7 +6445,7 @@ public class Contract extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -6495,7 +6495,7 @@ public class Contract extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -6741,7 +6741,7 @@ public class Contract extends DomainResource {
                      * QuestionnaireResponse.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param linkId
@@ -6782,7 +6782,7 @@ public class Contract extends DomainResource {
                      * A set of security labels that define which terms are controlled by this condition.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param securityLabelNumber
@@ -7365,7 +7365,7 @@ public class Contract extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -7415,7 +7415,7 @@ public class Contract extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -7478,7 +7478,7 @@ public class Contract extends DomainResource {
                  * Entity of the action.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param subject
@@ -7519,7 +7519,7 @@ public class Contract extends DomainResource {
                  * QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param linkId
@@ -7577,7 +7577,7 @@ public class Contract extends DomainResource {
                  * QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param contextLinkId
@@ -7634,7 +7634,7 @@ public class Contract extends DomainResource {
                  * Who or what initiated the action and has responsibility for its activation.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param requester
@@ -7675,7 +7675,7 @@ public class Contract extends DomainResource {
                  * QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param requesterLinkId
@@ -7716,7 +7716,7 @@ public class Contract extends DomainResource {
                  * The type of individual that is desired or required to perform or not perform the action.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param performerType
@@ -7789,7 +7789,7 @@ public class Contract extends DomainResource {
                  * referenced form or QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param performerLinkId
@@ -7830,7 +7830,7 @@ public class Contract extends DomainResource {
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param reasonCode
@@ -7870,7 +7870,7 @@ public class Contract extends DomainResource {
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param reasonReference
@@ -7910,7 +7910,7 @@ public class Contract extends DomainResource {
                  * Describes why the action is to be performed or not performed in textual form.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param reason
@@ -7951,7 +7951,7 @@ public class Contract extends DomainResource {
                  * referenced form or QuestionnaireResponse.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param reasonLinkId
@@ -7992,7 +7992,7 @@ public class Contract extends DomainResource {
                  * Comments made about the term action made by the requester, performer, subject or other participants.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param note
@@ -8032,7 +8032,7 @@ public class Contract extends DomainResource {
                  * Security labels that protects the action.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param securityLabelNumber
@@ -8219,7 +8219,7 @@ public class Contract extends DomainResource {
 
                     private Builder(List<Reference> reference) {
                         super();
-                        this.reference = new ArrayList<>(reference);
+                        this.reference = reference;
                     }
 
                     /**
@@ -8247,7 +8247,7 @@ public class Contract extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -8297,7 +8297,7 @@ public class Contract extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -8514,7 +8514,7 @@ public class Contract extends DomainResource {
                 super();
                 this.type = type;
                 this.party = party;
-                this.signature = new ArrayList<>(signature);
+                this.signature = signature;
             }
 
             /**
@@ -8542,7 +8542,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -8592,7 +8592,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -8780,7 +8780,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -8830,7 +8830,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -9014,7 +9014,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -9064,7 +9064,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -9248,7 +9248,7 @@ public class Contract extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -9298,7 +9298,7 @@ public class Contract extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

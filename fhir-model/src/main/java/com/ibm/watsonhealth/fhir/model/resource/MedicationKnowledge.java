@@ -624,7 +624,7 @@ public class MedicationKnowledge extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -666,7 +666,7 @@ public class MedicationKnowledge extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -716,7 +716,7 @@ public class MedicationKnowledge extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -850,7 +850,7 @@ public class MedicationKnowledge extends DomainResource {
          * acetaminophen and paracetamol or salbutamol and albuterol.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param synonym
@@ -891,7 +891,7 @@ public class MedicationKnowledge extends DomainResource {
          * Associated or related knowledge about a medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatedMedicationKnowledge
@@ -933,7 +933,7 @@ public class MedicationKnowledge extends DomainResource {
          * branded product (e.g. Crestor).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param associatedMedication
@@ -976,7 +976,7 @@ public class MedicationKnowledge extends DomainResource {
          * etc.).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param productType
@@ -1017,7 +1017,7 @@ public class MedicationKnowledge extends DomainResource {
          * Associated documentation about the medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param monograph
@@ -1057,7 +1057,7 @@ public class MedicationKnowledge extends DomainResource {
          * Identifies a particular constituent of interest in the product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param ingredient
@@ -1113,7 +1113,7 @@ public class MedicationKnowledge extends DomainResource {
          * The intended or approved route of administration.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param intendedRoute
@@ -1153,7 +1153,7 @@ public class MedicationKnowledge extends DomainResource {
          * The price of the medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param cost
@@ -1193,7 +1193,7 @@ public class MedicationKnowledge extends DomainResource {
          * The program under which the medication is reviewed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param monitoringProgram
@@ -1233,7 +1233,7 @@ public class MedicationKnowledge extends DomainResource {
          * Guidelines for the administration of the medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param administrationGuidelines
@@ -1273,7 +1273,7 @@ public class MedicationKnowledge extends DomainResource {
          * Categorization of the medication within a formulary or classification system.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param medicineClassification
@@ -1329,7 +1329,7 @@ public class MedicationKnowledge extends DomainResource {
          * Specifies descriptive properties of the medicine, such as color, shape, imprints, etc.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param drugCharacteristic
@@ -1370,7 +1370,7 @@ public class MedicationKnowledge extends DomainResource {
          * contraindication, drug-allergy interaction, etc.).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contraindication
@@ -1411,7 +1411,7 @@ public class MedicationKnowledge extends DomainResource {
          * Regulatory information about a medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param regulatory
@@ -1451,7 +1451,7 @@ public class MedicationKnowledge extends DomainResource {
          * The time course of drug absorption, distribution, metabolism and excretion of a medication from the body.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param kinetics
@@ -1646,7 +1646,7 @@ public class MedicationKnowledge extends DomainResource {
             private Builder(CodeableConcept type, List<Reference> reference) {
                 super();
                 this.type = type;
-                this.reference = new ArrayList<>(reference);
+                this.reference = reference;
             }
 
             /**
@@ -1674,7 +1674,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1724,7 +1724,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1922,7 +1922,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1972,7 +1972,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2231,7 +2231,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2281,7 +2281,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2542,7 +2542,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2592,7 +2592,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2807,7 +2807,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2857,7 +2857,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3109,7 +3109,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3159,7 +3159,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3206,7 +3206,7 @@ public class MedicationKnowledge extends DomainResource {
              * Dosage for the medication for the specific guidelines.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param dosage
@@ -3263,7 +3263,7 @@ public class MedicationKnowledge extends DomainResource {
              * gender, etc.).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param patientCharacteristics
@@ -3435,7 +3435,7 @@ public class MedicationKnowledge extends DomainResource {
                 private Builder(CodeableConcept type, List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
                     super();
                     this.type = type;
-                    this.dosage = new ArrayList<>(dosage);
+                    this.dosage = dosage;
                 }
 
                 /**
@@ -3463,7 +3463,7 @@ public class MedicationKnowledge extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3513,7 +3513,7 @@ public class MedicationKnowledge extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3719,7 +3719,7 @@ public class MedicationKnowledge extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3769,7 +3769,7 @@ public class MedicationKnowledge extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3816,7 +3816,7 @@ public class MedicationKnowledge extends DomainResource {
                  * The specific characteristic (e.g. height, weight, gender, etc.).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param value
@@ -4016,7 +4016,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4066,7 +4066,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4113,7 +4113,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specific category assigned to the medication (e.g. anti-infective, anti-hypertensive, antibiotic, etc.).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param classification
@@ -4306,7 +4306,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4356,7 +4356,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4589,7 +4589,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4639,7 +4639,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4916,7 +4916,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4966,7 +4966,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5013,7 +5013,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specifies if changes are allowed when dispensing a medication from a regulatory perspective.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param substitution
@@ -5053,7 +5053,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specifies the schedule of a medication in jurisdiction.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param schedule
@@ -5268,7 +5268,7 @@ public class MedicationKnowledge extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5318,7 +5318,7 @@ public class MedicationKnowledge extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5502,7 +5502,7 @@ public class MedicationKnowledge extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5552,7 +5552,7 @@ public class MedicationKnowledge extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5757,7 +5757,7 @@ public class MedicationKnowledge extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5807,7 +5807,7 @@ public class MedicationKnowledge extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -6042,7 +6042,7 @@ public class MedicationKnowledge extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -6092,7 +6092,7 @@ public class MedicationKnowledge extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -6139,7 +6139,7 @@ public class MedicationKnowledge extends DomainResource {
              * The drug concentration measured at certain discrete points in time.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param areaUnderCurve
@@ -6179,7 +6179,7 @@ public class MedicationKnowledge extends DomainResource {
              * The median lethal dose of a drug.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param lethalDose50

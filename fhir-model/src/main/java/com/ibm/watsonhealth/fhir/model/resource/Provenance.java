@@ -316,9 +316,9 @@ public class Provenance extends DomainResource {
 
         private Builder(List<Reference> target, Instant recorded, List<Agent> agent) {
             super();
-            this.target = new ArrayList<>(target);
+            this.target = target;
             this.recorded = recorded;
-            this.agent = new ArrayList<>(agent);
+            this.agent = agent;
         }
 
         /**
@@ -413,7 +413,7 @@ public class Provenance extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -455,7 +455,7 @@ public class Provenance extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -505,7 +505,7 @@ public class Provenance extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -569,7 +569,7 @@ public class Provenance extends DomainResource {
          * documents, such as patient consent, guarantor funding, etc.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param policy
@@ -626,7 +626,7 @@ public class Provenance extends DomainResource {
          * The reason that the activity was taking place.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reason
@@ -683,7 +683,7 @@ public class Provenance extends DomainResource {
          * An entity used in this activity.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param entity
@@ -724,7 +724,7 @@ public class Provenance extends DomainResource {
          * signature is indicated.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param signature
@@ -974,7 +974,7 @@ public class Provenance extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1024,7 +1024,7 @@ public class Provenance extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1088,7 +1088,7 @@ public class Provenance extends DomainResource {
              * activity.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param role
@@ -1328,7 +1328,7 @@ public class Provenance extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1378,7 +1378,7 @@ public class Provenance extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1427,7 +1427,7 @@ public class Provenance extends DomainResource {
              * which generated the entity.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param agent

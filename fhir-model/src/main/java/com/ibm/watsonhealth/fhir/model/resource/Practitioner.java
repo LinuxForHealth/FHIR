@@ -401,7 +401,7 @@ Work addresses are not typically
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -443,7 +443,7 @@ Work addresses are not typically
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -493,7 +493,7 @@ Work addresses are not typically
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -540,7 +540,7 @@ Work addresses are not typically
          * An identifier that applies to this person in this role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -596,7 +596,7 @@ Work addresses are not typically
          * The name(s) associated with the practitioner.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param name
@@ -636,7 +636,7 @@ Work addresses are not typically
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -678,7 +678,7 @@ Work addresses are not typically
          * entered in this property as they are usually role dependent.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param address
@@ -753,7 +753,7 @@ Work addresses are not typically
          * Image of the person.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param photo
@@ -795,7 +795,7 @@ Work addresses are not typically
          * medicine within a certian locality.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param qualification
@@ -837,7 +837,7 @@ Work addresses are not typically
          * A language the practitioner can use in patient communication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param communication
@@ -1089,7 +1089,7 @@ Work addresses are not typically
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1139,7 +1139,7 @@ Work addresses are not typically
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1186,7 +1186,7 @@ Work addresses are not typically
              * An identifier that applies to this person's qualification in this role.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param identifier

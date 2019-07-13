@@ -185,7 +185,7 @@ public class Contributor extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -226,7 +226,7 @@ public class Contributor extends Element {
          * Contact details to assist a user in finding and communicating with the contributor.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact

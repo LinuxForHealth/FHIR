@@ -1103,7 +1103,7 @@ public class ActivityDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -1145,7 +1145,7 @@ public class ActivityDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -1195,7 +1195,7 @@ public class ActivityDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1263,7 +1263,7 @@ public class ActivityDefinition extends DomainResource {
          * referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1442,7 +1442,7 @@ public class ActivityDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1500,7 +1500,7 @@ public class ActivityDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate activity definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1542,7 +1542,7 @@ public class ActivityDefinition extends DomainResource {
          * A legal or geographic region in which the activity definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1682,7 +1682,7 @@ public class ActivityDefinition extends DomainResource {
          * that can be useful for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param topic
@@ -1723,7 +1723,7 @@ public class ActivityDefinition extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param author
@@ -1763,7 +1763,7 @@ public class ActivityDefinition extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param editor
@@ -1803,7 +1803,7 @@ public class ActivityDefinition extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reviewer
@@ -1843,7 +1843,7 @@ public class ActivityDefinition extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endorser
@@ -1883,7 +1883,7 @@ public class ActivityDefinition extends DomainResource {
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1923,7 +1923,7 @@ public class ActivityDefinition extends DomainResource {
          * A reference to a Library resource containing any formal logic used by the activity definition.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param library
@@ -2095,7 +2095,7 @@ public class ActivityDefinition extends DomainResource {
          * Indicates who should participate in performing the action described.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param participant
@@ -2167,7 +2167,7 @@ public class ActivityDefinition extends DomainResource {
          * Provides detailed dosage instructions in the same way that they are described for MedicationRequest resources.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param dosage
@@ -2207,7 +2207,7 @@ public class ActivityDefinition extends DomainResource {
          * Indicates the sites on the subject's body where the procedure should be performed (I.e. the target sites).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param bodySite
@@ -2247,7 +2247,7 @@ public class ActivityDefinition extends DomainResource {
          * Defines specimen requirements for the action to be performed, such as required specimens for a lab test.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specimenRequirement
@@ -2287,7 +2287,7 @@ public class ActivityDefinition extends DomainResource {
          * Defines observation requirements for the action to be performed, such as body weight or surface area.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param observationRequirement
@@ -2327,7 +2327,7 @@ public class ActivityDefinition extends DomainResource {
          * Defines the observations that are expected to be produced by the action.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param observationResultRequirement
@@ -2386,7 +2386,7 @@ public class ActivityDefinition extends DomainResource {
          * expression that calculated the weight, and the path on the request resource that would contain the result.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param dynamicValue
@@ -2635,7 +2635,7 @@ public class ActivityDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2685,7 +2685,7 @@ public class ActivityDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2912,7 +2912,7 @@ public class ActivityDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2962,7 +2962,7 @@ public class ActivityDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

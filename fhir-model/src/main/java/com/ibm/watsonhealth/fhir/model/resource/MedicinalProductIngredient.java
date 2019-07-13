@@ -327,7 +327,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -369,7 +369,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -419,7 +419,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -499,7 +499,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * Manufacturer of this Ingredient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param manufacturer
@@ -539,7 +539,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * A specified substance that comprises this ingredient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specifiedSubstance
@@ -801,7 +801,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -851,7 +851,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -914,7 +914,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param strength
@@ -1211,7 +1211,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1261,7 +1261,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1376,7 +1376,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * The country or countries for which the strength range applies.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param country
@@ -1416,7 +1416,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Strength expressed in terms of a reference substance.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param referenceStrength
@@ -1676,7 +1676,7 @@ public class MedicinalProductIngredient extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -1726,7 +1726,7 @@ public class MedicinalProductIngredient extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -1821,7 +1821,7 @@ public class MedicinalProductIngredient extends DomainResource {
                      * The country or countries for which the strength range applies.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param country
@@ -2025,7 +2025,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2075,7 +2075,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2122,7 +2122,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param strength

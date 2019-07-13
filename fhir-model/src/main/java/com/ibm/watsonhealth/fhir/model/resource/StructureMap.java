@@ -536,7 +536,7 @@ public class StructureMap extends DomainResource {
             this.url = url;
             this.name = name;
             this.status = status;
-            this.group = new ArrayList<>(group);
+            this.group = group;
         }
 
         /**
@@ -631,7 +631,7 @@ public class StructureMap extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -673,7 +673,7 @@ public class StructureMap extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -723,7 +723,7 @@ public class StructureMap extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -771,7 +771,7 @@ public class StructureMap extends DomainResource {
          * in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -898,7 +898,7 @@ public class StructureMap extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -956,7 +956,7 @@ public class StructureMap extends DomainResource {
          * may be used to assist with indexing and searching for appropriate structure map instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -998,7 +998,7 @@ public class StructureMap extends DomainResource {
          * A legal or geographic region in which the structure map is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1072,7 +1072,7 @@ public class StructureMap extends DomainResource {
          * instances that are produced.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param structure
@@ -1113,7 +1113,7 @@ public class StructureMap extends DomainResource {
          * Other maps used by this map (canonical URLs).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param _import
@@ -1369,7 +1369,7 @@ public class StructureMap extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1419,7 +1419,7 @@ public class StructureMap extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1708,8 +1708,8 @@ public class StructureMap extends DomainResource {
                 super();
                 this.name = name;
                 this.typeMode = typeMode;
-                this.input = new ArrayList<>(input);
-                this.rule = new ArrayList<>(rule);
+                this.input = input;
+                this.rule = rule;
             }
 
             /**
@@ -1737,7 +1737,7 @@ public class StructureMap extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1787,7 +1787,7 @@ public class StructureMap extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2064,7 +2064,7 @@ public class StructureMap extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2114,7 +2114,7 @@ public class StructureMap extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2402,7 +2402,7 @@ public class StructureMap extends DomainResource {
                 private Builder(Id name, List<Source> source) {
                     super();
                     this.name = name;
-                    this.source = new ArrayList<>(source);
+                    this.source = source;
                 }
 
                 /**
@@ -2430,7 +2430,7 @@ public class StructureMap extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2480,7 +2480,7 @@ public class StructureMap extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2527,7 +2527,7 @@ public class StructureMap extends DomainResource {
                  * Content to create because of this mapping rule.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param target
@@ -2567,7 +2567,7 @@ public class StructureMap extends DomainResource {
                  * Rules contained in this rule.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param rule
@@ -2607,7 +2607,7 @@ public class StructureMap extends DomainResource {
                  * Which other rules to apply in the context of this rule.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param dependent
@@ -2998,7 +2998,7 @@ public class StructureMap extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -3048,7 +3048,7 @@ public class StructureMap extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3533,7 +3533,7 @@ public class StructureMap extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -3583,7 +3583,7 @@ public class StructureMap extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3694,7 +3694,7 @@ public class StructureMap extends DomainResource {
                      * If field is a list, how to manage the list.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param listMode
@@ -3766,7 +3766,7 @@ public class StructureMap extends DomainResource {
                      * Parameters to the transform.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param parameter
@@ -3950,7 +3950,7 @@ public class StructureMap extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param extension
@@ -4000,7 +4000,7 @@ public class StructureMap extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -4177,7 +4177,7 @@ public class StructureMap extends DomainResource {
                     private Builder(Id name, List<String> variable) {
                         super();
                         this.name = name;
-                        this.variable = new ArrayList<>(variable);
+                        this.variable = variable;
                     }
 
                     /**
@@ -4205,7 +4205,7 @@ public class StructureMap extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4255,7 +4255,7 @@ public class StructureMap extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension

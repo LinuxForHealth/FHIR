@@ -480,7 +480,7 @@ public class InsurancePlan extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -522,7 +522,7 @@ public class InsurancePlan extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -572,7 +572,7 @@ public class InsurancePlan extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -620,7 +620,7 @@ public class InsurancePlan extends DomainResource {
          * propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -677,7 +677,7 @@ public class InsurancePlan extends DomainResource {
          * The kind of health insurance product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param type
@@ -733,7 +733,7 @@ public class InsurancePlan extends DomainResource {
          * A list of alternate names that the product is known as, or was known as in the past.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param alias
@@ -823,7 +823,7 @@ public class InsurancePlan extends DomainResource {
          * The geographic region in which a health insurance product's benefits apply.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param coverageArea
@@ -863,7 +863,7 @@ public class InsurancePlan extends DomainResource {
          * The contact for the health insurance product for a certain purpose.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -903,7 +903,7 @@ public class InsurancePlan extends DomainResource {
          * The technical endpoints providing access to services operated for the health insurance product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endpoint
@@ -943,7 +943,7 @@ public class InsurancePlan extends DomainResource {
          * Reference to the network included in the health insurance product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param network
@@ -983,7 +983,7 @@ public class InsurancePlan extends DomainResource {
          * Details about the coverage offered by the insurance product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param coverage
@@ -1023,7 +1023,7 @@ public class InsurancePlan extends DomainResource {
          * Details about an insurance plan.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param plan
@@ -1270,7 +1270,7 @@ public class InsurancePlan extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1320,7 +1320,7 @@ public class InsurancePlan extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1399,7 +1399,7 @@ public class InsurancePlan extends DomainResource {
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param telecom
@@ -1610,7 +1610,7 @@ public class InsurancePlan extends DomainResource {
             private Builder(CodeableConcept type, List<Benefit> benefit) {
                 super();
                 this.type = type;
-                this.benefit = new ArrayList<>(benefit);
+                this.benefit = benefit;
             }
 
             /**
@@ -1638,7 +1638,7 @@ public class InsurancePlan extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1688,7 +1688,7 @@ public class InsurancePlan extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1735,7 +1735,7 @@ public class InsurancePlan extends DomainResource {
              * Reference to the network that providing the type of coverage.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param network
@@ -1952,7 +1952,7 @@ public class InsurancePlan extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2002,7 +2002,7 @@ public class InsurancePlan extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2065,7 +2065,7 @@ public class InsurancePlan extends DomainResource {
                  * The specific limits on the benefit.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param limit
@@ -2258,7 +2258,7 @@ public class InsurancePlan extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -2308,7 +2308,7 @@ public class InsurancePlan extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2620,7 +2620,7 @@ public class InsurancePlan extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2670,7 +2670,7 @@ public class InsurancePlan extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2718,7 +2718,7 @@ public class InsurancePlan extends DomainResource {
              * propagates from server to server.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param identifier
@@ -2775,7 +2775,7 @@ public class InsurancePlan extends DomainResource {
              * The geographic region in which a health insurance plan's benefits apply.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param coverageArea
@@ -2815,7 +2815,7 @@ public class InsurancePlan extends DomainResource {
              * Reference to the network that providing the type of coverage.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param network
@@ -2855,7 +2855,7 @@ public class InsurancePlan extends DomainResource {
              * Overall costs associated with the plan.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param generalCost
@@ -2895,7 +2895,7 @@ public class InsurancePlan extends DomainResource {
              * Costs associated with the coverage provided by the product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param specificCost
@@ -3129,7 +3129,7 @@ public class InsurancePlan extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3179,7 +3179,7 @@ public class InsurancePlan extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3452,7 +3452,7 @@ public class InsurancePlan extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3502,7 +3502,7 @@ public class InsurancePlan extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3549,7 +3549,7 @@ public class InsurancePlan extends DomainResource {
                  * List of the specific benefits under this category of benefit.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param benefit
@@ -3748,7 +3748,7 @@ public class InsurancePlan extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -3798,7 +3798,7 @@ public class InsurancePlan extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3845,7 +3845,7 @@ public class InsurancePlan extends DomainResource {
                      * List of the costs associated with a specific benefit.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param cost
@@ -4082,7 +4082,7 @@ public class InsurancePlan extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param extension
@@ -4132,7 +4132,7 @@ public class InsurancePlan extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -4195,7 +4195,7 @@ public class InsurancePlan extends DomainResource {
                          * Additional information about the cost, such as information about funding sources (e.g. HSA, HRA, FSA, RRA).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param qualifiers

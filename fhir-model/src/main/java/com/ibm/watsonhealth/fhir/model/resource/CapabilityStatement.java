@@ -712,7 +712,7 @@ public class CapabilityStatement extends DomainResource {
             this.date = date;
             this.kind = kind;
             this.fhirVersion = fhirVersion;
-            this.format = new ArrayList<>(format);
+            this.format = format;
         }
 
         /**
@@ -807,7 +807,7 @@ public class CapabilityStatement extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -849,7 +849,7 @@ public class CapabilityStatement extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -899,7 +899,7 @@ public class CapabilityStatement extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1051,7 +1051,7 @@ public class CapabilityStatement extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1111,7 +1111,7 @@ public class CapabilityStatement extends DomainResource {
          * may be used to assist with indexing and searching for appropriate capability statement instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1153,7 +1153,7 @@ public class CapabilityStatement extends DomainResource {
          * A legal or geographic region in which the capability statement is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1228,7 +1228,7 @@ public class CapabilityStatement extends DomainResource {
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiates
@@ -1272,7 +1272,7 @@ public class CapabilityStatement extends DomainResource {
          * same resources, interactions and operations to add additional details to them.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param imports
@@ -1348,7 +1348,7 @@ public class CapabilityStatement extends DomainResource {
          * A list of the patch formats supported by this implementation using their content types.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param patchFormat
@@ -1388,7 +1388,7 @@ public class CapabilityStatement extends DomainResource {
          * A list of implementation guides that the server does (or should) support in their entirety.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param implementationGuide
@@ -1428,7 +1428,7 @@ public class CapabilityStatement extends DomainResource {
          * A definition of the restful capabilities of the solution, if any.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param rest
@@ -1468,7 +1468,7 @@ public class CapabilityStatement extends DomainResource {
          * A description of the messaging capabilities of the solution.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param messaging
@@ -1508,7 +1508,7 @@ public class CapabilityStatement extends DomainResource {
          * A document definition.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param document
@@ -1751,7 +1751,7 @@ public class CapabilityStatement extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1801,7 +1801,7 @@ public class CapabilityStatement extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2062,7 +2062,7 @@ public class CapabilityStatement extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2112,7 +2112,7 @@ public class CapabilityStatement extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2469,7 +2469,7 @@ public class CapabilityStatement extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2519,7 +2519,7 @@ public class CapabilityStatement extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2598,7 +2598,7 @@ public class CapabilityStatement extends DomainResource {
              * A specification of the restful capabilities of the solution for a specific resource type.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param resource
@@ -2638,7 +2638,7 @@ public class CapabilityStatement extends DomainResource {
              * A specification of restful operations supported by the system.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param interaction
@@ -2679,7 +2679,7 @@ public class CapabilityStatement extends DomainResource {
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param searchParam
@@ -2720,7 +2720,7 @@ public class CapabilityStatement extends DomainResource {
              * Definition of an operation or a named query together with its parameters and their meaning and type.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param operation
@@ -2761,7 +2761,7 @@ public class CapabilityStatement extends DomainResource {
              * a CompartmentDefinition resource by its canonical URL .
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param compartment
@@ -2978,7 +2978,7 @@ public class CapabilityStatement extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3028,7 +3028,7 @@ public class CapabilityStatement extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3091,7 +3091,7 @@ public class CapabilityStatement extends DomainResource {
                  * Types of security services that are supported/required by the system.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param service
@@ -3606,7 +3606,7 @@ public class CapabilityStatement extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3656,7 +3656,7 @@ public class CapabilityStatement extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3725,7 +3725,7 @@ public class CapabilityStatement extends DomainResource {
                  * in [Using Profiles](profiling.html#profile-uses).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param supportedProfile
@@ -3785,7 +3785,7 @@ public class CapabilityStatement extends DomainResource {
                  * Identifies a restful operation supported by the solution.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param interaction
@@ -3942,7 +3942,7 @@ public class CapabilityStatement extends DomainResource {
                  * A set of flags that defines how references are supported.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param referencePolicy
@@ -3982,7 +3982,7 @@ public class CapabilityStatement extends DomainResource {
                  * A list of _include values supported by the server.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param searchInclude
@@ -4022,7 +4022,7 @@ public class CapabilityStatement extends DomainResource {
                  * A list of _revinclude (reverse include) values supported by the server.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param searchRevInclude
@@ -4063,7 +4063,7 @@ public class CapabilityStatement extends DomainResource {
                  * specification, or additional ones defined for/by the implementation.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param searchParam
@@ -4105,7 +4105,7 @@ public class CapabilityStatement extends DomainResource {
                  * definition of the operation for details about how to invoke the operation, and the parameters.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param operation
@@ -4320,7 +4320,7 @@ public class CapabilityStatement extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4370,7 +4370,7 @@ public class CapabilityStatement extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -4637,7 +4637,7 @@ public class CapabilityStatement extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4687,7 +4687,7 @@ public class CapabilityStatement extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -4957,7 +4957,7 @@ public class CapabilityStatement extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -5007,7 +5007,7 @@ public class CapabilityStatement extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -5232,7 +5232,7 @@ public class CapabilityStatement extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5282,7 +5282,7 @@ public class CapabilityStatement extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5539,7 +5539,7 @@ public class CapabilityStatement extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -5589,7 +5589,7 @@ public class CapabilityStatement extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5636,7 +5636,7 @@ public class CapabilityStatement extends DomainResource {
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param endpoint
@@ -5710,7 +5710,7 @@ public class CapabilityStatement extends DomainResource {
              * References to message definitions for messages this system can send or receive.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param supportedMessage
@@ -5911,7 +5911,7 @@ public class CapabilityStatement extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5961,7 +5961,7 @@ public class CapabilityStatement extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -6165,7 +6165,7 @@ public class CapabilityStatement extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -6215,7 +6215,7 @@ public class CapabilityStatement extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -6442,7 +6442,7 @@ public class CapabilityStatement extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -6492,7 +6492,7 @@ public class CapabilityStatement extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

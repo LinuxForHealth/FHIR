@@ -618,7 +618,7 @@ public class DeviceDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -660,7 +660,7 @@ public class DeviceDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -710,7 +710,7 @@ public class DeviceDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -758,7 +758,7 @@ public class DeviceDefinition extends DomainResource {
          * example: handle ID.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -801,7 +801,7 @@ public class DeviceDefinition extends DomainResource {
          * jurisdictions it could have been sold.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param udiDeviceIdentifier
@@ -859,7 +859,7 @@ public class DeviceDefinition extends DomainResource {
          * A name given to the device to identify it.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param deviceName
@@ -932,7 +932,7 @@ public class DeviceDefinition extends DomainResource {
          * for the communication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialization
@@ -975,7 +975,7 @@ public class DeviceDefinition extends DomainResource {
          * The available versions of the device, e.g., software versions.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param version
@@ -1015,7 +1015,7 @@ public class DeviceDefinition extends DomainResource {
          * Safety characteristics of the device.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param safety
@@ -1055,7 +1055,7 @@ public class DeviceDefinition extends DomainResource {
          * Shelf Life and storage information.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param shelfLifeStorage
@@ -1111,7 +1111,7 @@ public class DeviceDefinition extends DomainResource {
          * Language code for the human-readable text strings produced by the device (all supported).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param languageCode
@@ -1151,7 +1151,7 @@ public class DeviceDefinition extends DomainResource {
          * Device capabilities.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param capability
@@ -1191,7 +1191,7 @@ public class DeviceDefinition extends DomainResource {
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param property
@@ -1247,7 +1247,7 @@ public class DeviceDefinition extends DomainResource {
          * Contact details for an organization or a particular human that is responsible for the device.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1319,7 +1319,7 @@ public class DeviceDefinition extends DomainResource {
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1393,7 +1393,7 @@ public class DeviceDefinition extends DomainResource {
          * A substance used to create the material(s) of which the device is made.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param material
@@ -1639,7 +1639,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1689,7 +1689,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1894,7 +1894,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1944,7 +1944,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2150,7 +2150,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2200,7 +2200,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2422,7 +2422,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2472,7 +2472,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2519,7 +2519,7 @@ public class DeviceDefinition extends DomainResource {
              * Description of capability.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param description
@@ -2737,7 +2737,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2787,7 +2787,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2834,7 +2834,7 @@ public class DeviceDefinition extends DomainResource {
              * Property value as a quantity.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param valueQuantity
@@ -2874,7 +2874,7 @@ public class DeviceDefinition extends DomainResource {
              * Property value as a code, e.g., NTP4 (synced to NTP).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param valueCode
@@ -3093,7 +3093,7 @@ public class DeviceDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3143,7 +3143,7 @@ public class DeviceDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

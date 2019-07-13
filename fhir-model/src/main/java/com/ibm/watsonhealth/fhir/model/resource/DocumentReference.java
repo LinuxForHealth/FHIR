@@ -426,7 +426,7 @@ public class DocumentReference extends DomainResource {
         private Builder(DocumentReferenceStatus status, List<Content> content) {
             super();
             this.status = status;
-            this.content = new ArrayList<>(content);
+            this.content = content;
         }
 
         /**
@@ -521,7 +521,7 @@ public class DocumentReference extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -563,7 +563,7 @@ public class DocumentReference extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -613,7 +613,7 @@ public class DocumentReference extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -677,7 +677,7 @@ public class DocumentReference extends DomainResource {
          * Other identifiers associated with the document, including version independent identifiers.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -751,7 +751,7 @@ public class DocumentReference extends DomainResource {
          * derived from the code specified in the DocumentReference.type.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -826,7 +826,7 @@ public class DocumentReference extends DomainResource {
          * Identifies who is responsible for adding the information to the document.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param author
@@ -898,7 +898,7 @@ public class DocumentReference extends DomainResource {
          * Relationships that this document has with other document references that already exist.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatesTo
@@ -956,7 +956,7 @@ public class DocumentReference extends DomainResource {
          * contains a snapshot of the security labels on the document the reference refers to.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param securityLabel
@@ -1189,7 +1189,7 @@ public class DocumentReference extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1239,7 +1239,7 @@ public class DocumentReference extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1445,7 +1445,7 @@ public class DocumentReference extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1495,7 +1495,7 @@ public class DocumentReference extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1810,7 +1810,7 @@ public class DocumentReference extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1860,7 +1860,7 @@ public class DocumentReference extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1907,7 +1907,7 @@ public class DocumentReference extends DomainResource {
              * Describes the clinical encounter or type of care that the document content is associated with.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param encounter
@@ -1949,7 +1949,7 @@ public class DocumentReference extends DomainResource {
              * being documented is necessarily a "History and Physical" act.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param event
@@ -2057,7 +2057,7 @@ public class DocumentReference extends DomainResource {
              * Related identifiers or resources associated with the DocumentReference.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param related

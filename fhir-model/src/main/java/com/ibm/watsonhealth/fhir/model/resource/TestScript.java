@@ -778,7 +778,7 @@ public class TestScript extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -820,7 +820,7 @@ public class TestScript extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -870,7 +870,7 @@ public class TestScript extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1020,7 +1020,7 @@ public class TestScript extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1078,7 +1078,7 @@ public class TestScript extends DomainResource {
          * may be used to assist with indexing and searching for appropriate test script instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1120,7 +1120,7 @@ public class TestScript extends DomainResource {
          * A legal or geographic region in which the test script is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1193,7 +1193,7 @@ public class TestScript extends DomainResource {
          * An abstract server used in operations within this test script in the origin element.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param origin
@@ -1233,7 +1233,7 @@ public class TestScript extends DomainResource {
          * An abstract server used in operations within this test script in the destination element.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param destination
@@ -1289,7 +1289,7 @@ public class TestScript extends DomainResource {
          * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param fixture
@@ -1329,7 +1329,7 @@ public class TestScript extends DomainResource {
          * Reference to the profile to be used for validation.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param profile
@@ -1369,7 +1369,7 @@ public class TestScript extends DomainResource {
          * Variable is set based either on element value in response body or on header field value in the response headers.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param variable
@@ -1425,7 +1425,7 @@ public class TestScript extends DomainResource {
          * A test in this script.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param test
@@ -1663,7 +1663,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1713,7 +1713,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1917,7 +1917,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1967,7 +1967,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2144,7 +2144,7 @@ public class TestScript extends DomainResource {
 
             private Builder(List<Capability> capability) {
                 super();
-                this.capability = new ArrayList<>(capability);
+                this.capability = capability;
             }
 
             /**
@@ -2172,7 +2172,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2222,7 +2222,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2269,7 +2269,7 @@ public class TestScript extends DomainResource {
              * A link to the FHIR specification that this test is covering.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param link
@@ -2467,7 +2467,7 @@ public class TestScript extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2517,7 +2517,7 @@ public class TestScript extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2839,7 +2839,7 @@ public class TestScript extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2889,7 +2889,7 @@ public class TestScript extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2952,7 +2952,7 @@ public class TestScript extends DomainResource {
                  * Which origin server these requirements apply to.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param origin
@@ -3008,7 +3008,7 @@ public class TestScript extends DomainResource {
                  * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param link
@@ -3235,7 +3235,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3285,7 +3285,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3623,7 +3623,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3673,7 +3673,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3950,7 +3950,7 @@ public class TestScript extends DomainResource {
 
             private Builder(List<Action> action) {
                 super();
-                this.action = new ArrayList<>(action);
+                this.action = action;
             }
 
             /**
@@ -3978,7 +3978,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4028,7 +4028,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4225,7 +4225,7 @@ public class TestScript extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -4275,7 +4275,7 @@ public class TestScript extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4801,7 +4801,7 @@ public class TestScript extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -4851,7 +4851,7 @@ public class TestScript extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -5060,7 +5060,7 @@ public class TestScript extends DomainResource {
                      * Header elements would be used to set HTTP headers.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param requestHeader
@@ -5352,7 +5352,7 @@ public class TestScript extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param extension
@@ -5402,7 +5402,7 @@ public class TestScript extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -5992,7 +5992,7 @@ public class TestScript extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -6042,7 +6042,7 @@ public class TestScript extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -6602,7 +6602,7 @@ public class TestScript extends DomainResource {
 
             private Builder(List<Action> action) {
                 super();
-                this.action = new ArrayList<>(action);
+                this.action = action;
             }
 
             /**
@@ -6630,7 +6630,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -6680,7 +6680,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -6911,7 +6911,7 @@ public class TestScript extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -6961,7 +6961,7 @@ public class TestScript extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -7152,7 +7152,7 @@ public class TestScript extends DomainResource {
 
             private Builder(List<Action> action) {
                 super();
-                this.action = new ArrayList<>(action);
+                this.action = action;
             }
 
             /**
@@ -7180,7 +7180,7 @@ public class TestScript extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -7230,7 +7230,7 @@ public class TestScript extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -7413,7 +7413,7 @@ public class TestScript extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -7463,7 +7463,7 @@ public class TestScript extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

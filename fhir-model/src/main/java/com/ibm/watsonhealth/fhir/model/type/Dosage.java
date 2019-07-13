@@ -373,7 +373,7 @@ public class Dosage extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -423,7 +423,7 @@ public class Dosage extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -504,7 +504,7 @@ public class Dosage extends BackboneElement {
          * to direct sunlight or sunlamps").
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param additionalInstruction
@@ -643,7 +643,7 @@ public class Dosage extends BackboneElement {
          * The amount of medication administered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param doseAndRate
@@ -913,7 +913,7 @@ public class Dosage extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -961,7 +961,7 @@ public class Dosage extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

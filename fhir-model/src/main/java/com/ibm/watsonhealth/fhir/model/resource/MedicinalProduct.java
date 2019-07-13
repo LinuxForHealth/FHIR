@@ -485,7 +485,7 @@ public class MedicinalProduct extends DomainResource {
 
         private Builder(List<Name> name) {
             super();
-            this.name = new ArrayList<>(name);
+            this.name = name;
         }
 
         /**
@@ -580,7 +580,7 @@ public class MedicinalProduct extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -622,7 +622,7 @@ public class MedicinalProduct extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -672,7 +672,7 @@ public class MedicinalProduct extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -719,7 +719,7 @@ public class MedicinalProduct extends DomainResource {
          * Business identifier for this product. Could be an MPID.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -839,7 +839,7 @@ public class MedicinalProduct extends DomainResource {
          * Whether the Medicinal Product is subject to special measures for regulatory reasons.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialMeasures
@@ -895,7 +895,7 @@ public class MedicinalProduct extends DomainResource {
          * Allows the product to be classified by various systems.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param productClassification
@@ -935,7 +935,7 @@ public class MedicinalProduct extends DomainResource {
          * Marketing status of the medicinal product, in contrast to marketing authorizaton.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param marketingStatus
@@ -975,7 +975,7 @@ public class MedicinalProduct extends DomainResource {
          * Pharmaceutical aspects of product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param pharmaceuticalProduct
@@ -1015,7 +1015,7 @@ public class MedicinalProduct extends DomainResource {
          * Package representation for the product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param packagedMedicinalProduct
@@ -1055,7 +1055,7 @@ public class MedicinalProduct extends DomainResource {
          * Supporting documentation, typically for regulatory submission.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param attachedDocument
@@ -1095,7 +1095,7 @@ public class MedicinalProduct extends DomainResource {
          * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param masterFile
@@ -1135,7 +1135,7 @@ public class MedicinalProduct extends DomainResource {
          * A product specific contact, person (in a role), or an organization.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1175,7 +1175,7 @@ public class MedicinalProduct extends DomainResource {
          * Clinical trials or studies that this product is involved in.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param clinicalTrial
@@ -1215,7 +1215,7 @@ public class MedicinalProduct extends DomainResource {
          * Reference to another product, e.g. for linking authorised to investigational product.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param crossReference
@@ -1255,7 +1255,7 @@ public class MedicinalProduct extends DomainResource {
          * An operation applied to the product, for manufacturing or adminsitrative purpose.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param manufacturingBusinessOperation
@@ -1295,7 +1295,7 @@ public class MedicinalProduct extends DomainResource {
          * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialDesignation
@@ -1535,7 +1535,7 @@ public class MedicinalProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1585,7 +1585,7 @@ public class MedicinalProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1632,7 +1632,7 @@ public class MedicinalProduct extends DomainResource {
              * Coding words or phrases of the name.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param namePart
@@ -1672,7 +1672,7 @@ public class MedicinalProduct extends DomainResource {
              * Country where the name applies.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param countryLanguage
@@ -1870,7 +1870,7 @@ public class MedicinalProduct extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1920,7 +1920,7 @@ public class MedicinalProduct extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2145,7 +2145,7 @@ public class MedicinalProduct extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2195,7 +2195,7 @@ public class MedicinalProduct extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2487,7 +2487,7 @@ public class MedicinalProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2537,7 +2537,7 @@ public class MedicinalProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2648,7 +2648,7 @@ public class MedicinalProduct extends DomainResource {
              * The manufacturer or establishment associated with the process.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param manufacturer
@@ -2956,7 +2956,7 @@ public class MedicinalProduct extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3006,7 +3006,7 @@ public class MedicinalProduct extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3053,7 +3053,7 @@ public class MedicinalProduct extends DomainResource {
              * Identifier for the designation, or procedure number.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param identifier

@@ -850,7 +850,7 @@ public class ServiceRequest extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -892,7 +892,7 @@ public class ServiceRequest extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -942,7 +942,7 @@ public class ServiceRequest extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -989,7 +989,7 @@ public class ServiceRequest extends DomainResource {
          * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1030,7 +1030,7 @@ public class ServiceRequest extends DomainResource {
          * part by this ServiceRequest.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -1072,7 +1072,7 @@ public class ServiceRequest extends DomainResource {
          * whole or in part by this ServiceRequest.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -1113,7 +1113,7 @@ public class ServiceRequest extends DomainResource {
          * Plan/proposal/order fulfilled by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -1153,7 +1153,7 @@ public class ServiceRequest extends DomainResource {
          * The request takes the place of the referenced completed or terminated request(s).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param replaces
@@ -1210,7 +1210,7 @@ public class ServiceRequest extends DomainResource {
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -1301,7 +1301,7 @@ public class ServiceRequest extends DomainResource {
          * require additional instructions specifying how the bandage should be applied.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param orderDetail
@@ -1457,7 +1457,7 @@ public class ServiceRequest extends DomainResource {
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param performer
@@ -1498,7 +1498,7 @@ public class ServiceRequest extends DomainResource {
          * nursing day care center.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param locationCode
@@ -1540,7 +1540,7 @@ public class ServiceRequest extends DomainResource {
          * care center.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param locationReference
@@ -1582,7 +1582,7 @@ public class ServiceRequest extends DomainResource {
          * billing purposes. May relate to the resources referred to in `supportingInfo`.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1624,7 +1624,7 @@ public class ServiceRequest extends DomainResource {
          * resources referred to in `supportingInfo`.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1666,7 +1666,7 @@ public class ServiceRequest extends DomainResource {
          * the requested service.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param insurance
@@ -1711,7 +1711,7 @@ public class ServiceRequest extends DomainResource {
          * example, reporting the amount of inspired oxygen for blood gas measurements.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1755,7 +1755,7 @@ public class ServiceRequest extends DomainResource {
          * One or more specimens that the laboratory procedure will use.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specimen
@@ -1795,7 +1795,7 @@ public class ServiceRequest extends DomainResource {
          * Anatomic location where the procedure should be performed. This is the target site.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param bodySite
@@ -1835,7 +1835,7 @@ public class ServiceRequest extends DomainResource {
          * Any other notes and comments made about the service request. For example, internal billing notes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1891,7 +1891,7 @@ public class ServiceRequest extends DomainResource {
          * Key events in the history of the request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relevantHistory

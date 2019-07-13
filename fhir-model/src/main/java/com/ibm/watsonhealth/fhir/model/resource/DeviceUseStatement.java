@@ -460,7 +460,7 @@ public class DeviceUseStatement extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -502,7 +502,7 @@ public class DeviceUseStatement extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -552,7 +552,7 @@ public class DeviceUseStatement extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -599,7 +599,7 @@ public class DeviceUseStatement extends DomainResource {
          * An external identifier for this statement such as an IRI.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -639,7 +639,7 @@ public class DeviceUseStatement extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this DeviceUseStatement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -680,7 +680,7 @@ public class DeviceUseStatement extends DomainResource {
          * derive the DeviceUseStatement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param derivedFrom
@@ -769,7 +769,7 @@ public class DeviceUseStatement extends DomainResource {
          * Reason or justification for the use of the device.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -809,7 +809,7 @@ public class DeviceUseStatement extends DomainResource {
          * Indicates another resource whose existence justifies this DeviceUseStatement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -866,7 +866,7 @@ public class DeviceUseStatement extends DomainResource {
          * in a class. These may include for example a comment, an instruction, or a note associated with the statement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note

@@ -587,7 +587,7 @@ public class MedicationAdministration extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -629,7 +629,7 @@ public class MedicationAdministration extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -679,7 +679,7 @@ public class MedicationAdministration extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -729,7 +729,7 @@ public class MedicationAdministration extends DomainResource {
          * server to server.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -772,7 +772,7 @@ public class MedicationAdministration extends DomainResource {
          * A protocol, guideline, orderset, or other definition that was adhered to in whole or in part by this event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiates
@@ -812,7 +812,7 @@ public class MedicationAdministration extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param partOf
@@ -852,7 +852,7 @@ public class MedicationAdministration extends DomainResource {
          * A code indicating why the administration was not performed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param statusReason
@@ -925,7 +925,7 @@ public class MedicationAdministration extends DomainResource {
          * Additional information (for example, patient height and weight) that supports the administration of the medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInformation
@@ -965,7 +965,7 @@ public class MedicationAdministration extends DomainResource {
          * Indicates who or what performed the medication administration and how they were involved.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param performer
@@ -1005,7 +1005,7 @@ public class MedicationAdministration extends DomainResource {
          * A code indicating why the medication was given.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1045,7 +1045,7 @@ public class MedicationAdministration extends DomainResource {
          * Condition or observation that supports why the medication was administered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1101,7 +1101,7 @@ public class MedicationAdministration extends DomainResource {
          * The device used in administering the medication to the patient. For example, a particular infusion pump.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param device
@@ -1141,7 +1141,7 @@ public class MedicationAdministration extends DomainResource {
          * Extra information about the medication administration that is not conveyed by the other attributes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1197,7 +1197,7 @@ public class MedicationAdministration extends DomainResource {
          * A summary of the events of interest that have occurred, such as when the administration was verified.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param eventHistory
@@ -1414,7 +1414,7 @@ public class MedicationAdministration extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1464,7 +1464,7 @@ public class MedicationAdministration extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1765,7 +1765,7 @@ The dosage instructions should reflect the
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1815,7 +1815,7 @@ The dosage instructions should reflect the
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

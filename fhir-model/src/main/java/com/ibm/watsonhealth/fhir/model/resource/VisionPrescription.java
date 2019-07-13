@@ -280,7 +280,7 @@ public class VisionPrescription extends DomainResource {
             this.patient = patient;
             this.dateWritten = dateWritten;
             this.prescriber = prescriber;
-            this.lensSpecification = new ArrayList<>(lensSpecification);
+            this.lensSpecification = lensSpecification;
         }
 
         /**
@@ -375,7 +375,7 @@ public class VisionPrescription extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -417,7 +417,7 @@ public class VisionPrescription extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -467,7 +467,7 @@ public class VisionPrescription extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -514,7 +514,7 @@ public class VisionPrescription extends DomainResource {
          * A unique identifier assigned to this vision prescription.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -965,7 +965,7 @@ public class VisionPrescription extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1015,7 +1015,7 @@ public class VisionPrescription extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1110,7 +1110,7 @@ public class VisionPrescription extends DomainResource {
              * Allows for adjustment on two axis.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param prism
@@ -1262,7 +1262,7 @@ public class VisionPrescription extends DomainResource {
              * Notes for special requirements such as coatings and lens materials.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param note
@@ -1470,7 +1470,7 @@ public class VisionPrescription extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1520,7 +1520,7 @@ public class VisionPrescription extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

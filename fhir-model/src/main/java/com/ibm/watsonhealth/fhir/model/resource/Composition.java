@@ -428,7 +428,7 @@ public class Composition extends DomainResource {
             this.status = status;
             this.type = type;
             this.date = date;
-            this.author = new ArrayList<>(author);
+            this.author = author;
             this.title = title;
         }
 
@@ -524,7 +524,7 @@ public class Composition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -566,7 +566,7 @@ public class Composition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -616,7 +616,7 @@ public class Composition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -681,7 +681,7 @@ public class Composition extends DomainResource {
          * from the code specified in the Composition Type.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -772,7 +772,7 @@ public class Composition extends DomainResource {
          * A participant who has attested to the accuracy of the composition/document.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param attester
@@ -829,7 +829,7 @@ public class Composition extends DomainResource {
          * Relationships that this composition has with other compositions or documents that already exist.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatesTo
@@ -869,7 +869,7 @@ public class Composition extends DomainResource {
          * The clinical service, such as a colonoscopy or an appendectomy, being documented.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param event
@@ -909,7 +909,7 @@ public class Composition extends DomainResource {
          * The root of the sections that make up the composition.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param section
@@ -1140,7 +1140,7 @@ public class Composition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1190,7 +1190,7 @@ public class Composition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1428,7 +1428,7 @@ public class Composition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1478,7 +1478,7 @@ public class Composition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1699,7 +1699,7 @@ public class Composition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1749,7 +1749,7 @@ public class Composition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1798,7 +1798,7 @@ public class Composition extends DomainResource {
              * being documented is necessarily a "History and Physical" act.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param code
@@ -1858,7 +1858,7 @@ public class Composition extends DomainResource {
              * colonoscopy or an appendectomy.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -2214,7 +2214,7 @@ public class Composition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2264,7 +2264,7 @@ public class Composition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2344,7 +2344,7 @@ public class Composition extends DomainResource {
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param author
@@ -2456,7 +2456,7 @@ public class Composition extends DomainResource {
              * A reference to the actual resource from which the narrative in the section is derived.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param entry
@@ -2512,7 +2512,7 @@ public class Composition extends DomainResource {
              * A nested sub-section within this section.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param section

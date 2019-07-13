@@ -768,7 +768,7 @@ public class ResearchElementDefinition extends DomainResource {
             super();
             this.status = status;
             this.type = type;
-            this.characteristic = new ArrayList<>(characteristic);
+            this.characteristic = characteristic;
         }
 
         /**
@@ -863,7 +863,7 @@ public class ResearchElementDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -905,7 +905,7 @@ public class ResearchElementDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -955,7 +955,7 @@ public class ResearchElementDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1023,7 +1023,7 @@ public class ResearchElementDefinition extends DomainResource {
          * or referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1220,7 +1220,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1276,7 +1276,7 @@ public class ResearchElementDefinition extends DomainResource {
          * A human-readable string to clarify or explain concepts about the resource.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param comment
@@ -1318,7 +1318,7 @@ public class ResearchElementDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate research element definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1360,7 +1360,7 @@ public class ResearchElementDefinition extends DomainResource {
          * A legal or geographic region in which the research element definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1500,7 +1500,7 @@ public class ResearchElementDefinition extends DomainResource {
          * grouping types of ResearchElementDefinitions that can be useful for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param topic
@@ -1541,7 +1541,7 @@ public class ResearchElementDefinition extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param author
@@ -1581,7 +1581,7 @@ public class ResearchElementDefinition extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param editor
@@ -1621,7 +1621,7 @@ public class ResearchElementDefinition extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reviewer
@@ -1661,7 +1661,7 @@ public class ResearchElementDefinition extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endorser
@@ -1701,7 +1701,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1741,7 +1741,7 @@ public class ResearchElementDefinition extends DomainResource {
          * A reference to a Library resource containing the formal logic used by the ResearchElementDefinition.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param library
@@ -2182,7 +2182,7 @@ public class ResearchElementDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2232,7 +2232,7 @@ public class ResearchElementDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2279,7 +2279,7 @@ public class ResearchElementDefinition extends DomainResource {
              * Use UsageContext to define the members of the population, such as Age Ranges, Genders, Settings.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param usageContext

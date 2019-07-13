@@ -652,7 +652,7 @@ public class Encounter extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -694,7 +694,7 @@ public class Encounter extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -744,7 +744,7 @@ public class Encounter extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -791,7 +791,7 @@ public class Encounter extends DomainResource {
          * Identifier(s) by which this encounter is known.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -832,7 +832,7 @@ public class Encounter extends DomainResource {
          * historical versions of the resource, or even have the server store them.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param statusHistory
@@ -877,7 +877,7 @@ public class Encounter extends DomainResource {
          * emergency to inpatient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param classHistory
@@ -921,7 +921,7 @@ public class Encounter extends DomainResource {
          * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param type
@@ -1013,7 +1013,7 @@ public class Encounter extends DomainResource {
          * another encounter to it (the episode of care could span years).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param episodeOfCare
@@ -1057,7 +1057,7 @@ public class Encounter extends DomainResource {
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -1097,7 +1097,7 @@ public class Encounter extends DomainResource {
          * The list of people responsible for providing the service.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param participant
@@ -1137,7 +1137,7 @@ public class Encounter extends DomainResource {
          * The appointment that scheduled this encounter.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param appointment
@@ -1210,7 +1210,7 @@ public class Encounter extends DomainResource {
          * diagnosis.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1252,7 +1252,7 @@ public class Encounter extends DomainResource {
          * diagnosis.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1293,7 +1293,7 @@ public class Encounter extends DomainResource {
          * The list of diagnosis relevant to this encounter.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param diagnosis
@@ -1333,7 +1333,7 @@ public class Encounter extends DomainResource {
          * The set of accounts that may be used for billing for this Encounter.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param account
@@ -1389,7 +1389,7 @@ public class Encounter extends DomainResource {
          * List of locations where the patient has been during this encounter.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param location
@@ -1647,7 +1647,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1697,7 +1697,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1905,7 +1905,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1955,7 +1955,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2173,7 +2173,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2223,7 +2223,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2270,7 +2270,7 @@ public class Encounter extends DomainResource {
              * Role of participant in encounter.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -2525,7 +2525,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2575,7 +2575,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2941,7 +2941,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2991,7 +2991,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3103,7 +3103,7 @@ public class Encounter extends DomainResource {
              * Diet preferences reported by the patient.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param dietPreference
@@ -3143,7 +3143,7 @@ public class Encounter extends DomainResource {
              * Special courtesies (VIP, board member).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param specialCourtesy
@@ -3184,7 +3184,7 @@ public class Encounter extends DomainResource {
              * equipment or other things.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param specialArrangement
@@ -3464,7 +3464,7 @@ public class Encounter extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3514,7 +3514,7 @@ public class Encounter extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

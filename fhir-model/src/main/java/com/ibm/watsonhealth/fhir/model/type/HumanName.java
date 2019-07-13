@@ -257,7 +257,7 @@ public class HumanName extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -348,7 +348,7 @@ public class HumanName extends Element {
          * Given name.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param given
@@ -389,7 +389,7 @@ public class HumanName extends Element {
          * appears at the start of the name.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param prefix
@@ -431,7 +431,7 @@ public class HumanName extends Element {
          * appears at the end of the name.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param suffix

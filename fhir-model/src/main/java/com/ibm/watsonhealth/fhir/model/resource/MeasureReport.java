@@ -444,7 +444,7 @@ public class MeasureReport extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -486,7 +486,7 @@ public class MeasureReport extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -536,7 +536,7 @@ public class MeasureReport extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -584,7 +584,7 @@ public class MeasureReport extends DomainResource {
          * in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -689,7 +689,7 @@ public class MeasureReport extends DomainResource {
          * The results of the calculation, one for each population group in the measure.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param group
@@ -729,7 +729,7 @@ public class MeasureReport extends DomainResource {
          * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param evaluatedResource
@@ -971,7 +971,7 @@ public class MeasureReport extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1021,7 +1021,7 @@ public class MeasureReport extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1084,7 +1084,7 @@ public class MeasureReport extends DomainResource {
              * The populations that make up the population group, one for each type of population appropriate for the measure.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param population
@@ -1142,7 +1142,7 @@ public class MeasureReport extends DomainResource {
              * measure.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param stratifier
@@ -1356,7 +1356,7 @@ public class MeasureReport extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1406,7 +1406,7 @@ public class MeasureReport extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1658,7 +1658,7 @@ public class MeasureReport extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1708,7 +1708,7 @@ public class MeasureReport extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1755,7 +1755,7 @@ public class MeasureReport extends DomainResource {
                  * The meaning of this stratifier, as defined in the measure definition.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param code
@@ -1796,7 +1796,7 @@ public class MeasureReport extends DomainResource {
                  * administrative gender, there will be four strata, one for each possible gender value.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param stratum
@@ -2030,7 +2030,7 @@ public class MeasureReport extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -2080,7 +2080,7 @@ public class MeasureReport extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2144,7 +2144,7 @@ public class MeasureReport extends DomainResource {
                      * A stratifier component value.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param component
@@ -2184,7 +2184,7 @@ public class MeasureReport extends DomainResource {
                      * The populations that make up the stratum, one for each type of population appropriate to the measure.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param population
@@ -2401,7 +2401,7 @@ public class MeasureReport extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param extension
@@ -2451,7 +2451,7 @@ public class MeasureReport extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -2669,7 +2669,7 @@ public class MeasureReport extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param extension
@@ -2719,7 +2719,7 @@ public class MeasureReport extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to existing list
+                         * Adds new element(s) to the existing list
                          * </p>
                          * 
                          * @param modifierExtension

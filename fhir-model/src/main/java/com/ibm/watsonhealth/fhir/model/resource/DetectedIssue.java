@@ -442,7 +442,7 @@ public class DetectedIssue extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -484,7 +484,7 @@ public class DetectedIssue extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -534,7 +534,7 @@ public class DetectedIssue extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -581,7 +581,7 @@ public class DetectedIssue extends DomainResource {
          * Business identifier associated with the detected issue record.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -702,7 +702,7 @@ public class DetectedIssue extends DomainResource {
          * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param implicated
@@ -743,7 +743,7 @@ public class DetectedIssue extends DomainResource {
          * GuidanceResponse or MeasureReport.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param evidence
@@ -818,7 +818,7 @@ public class DetectedIssue extends DomainResource {
          * reduce/eliminate the need for any action.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param mitigation
@@ -1027,7 +1027,7 @@ public class DetectedIssue extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1077,7 +1077,7 @@ public class DetectedIssue extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1124,7 +1124,7 @@ public class DetectedIssue extends DomainResource {
              * A manifestation that led to the recording of this detected issue.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param code
@@ -1164,7 +1164,7 @@ public class DetectedIssue extends DomainResource {
              * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -1386,7 +1386,7 @@ public class DetectedIssue extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1436,7 +1436,7 @@ public class DetectedIssue extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

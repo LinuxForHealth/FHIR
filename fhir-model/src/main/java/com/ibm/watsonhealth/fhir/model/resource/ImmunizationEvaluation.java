@@ -459,7 +459,7 @@ public class ImmunizationEvaluation extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -501,7 +501,7 @@ public class ImmunizationEvaluation extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -551,7 +551,7 @@ public class ImmunizationEvaluation extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -598,7 +598,7 @@ public class ImmunizationEvaluation extends DomainResource {
          * A unique identifier assigned to this immunization evaluation record.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -671,7 +671,7 @@ public class ImmunizationEvaluation extends DomainResource {
          * recommendations.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param doseStatusReason

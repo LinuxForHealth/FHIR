@@ -330,7 +330,7 @@ public class Endpoint extends DomainResource {
             super();
             this.status = status;
             this.connectionType = connectionType;
-            this.payloadType = new ArrayList<>(payloadType);
+            this.payloadType = payloadType;
             this.address = address;
         }
 
@@ -426,7 +426,7 @@ public class Endpoint extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -468,7 +468,7 @@ public class Endpoint extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -518,7 +518,7 @@ public class Endpoint extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -565,7 +565,7 @@ public class Endpoint extends DomainResource {
          * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -639,7 +639,7 @@ public class Endpoint extends DomainResource {
          * troubleshooting.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -697,7 +697,7 @@ public class Endpoint extends DomainResource {
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param payloadMimeType
@@ -740,7 +740,7 @@ public class Endpoint extends DomainResource {
          * Additional headers / information to send as part of the notification.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param header

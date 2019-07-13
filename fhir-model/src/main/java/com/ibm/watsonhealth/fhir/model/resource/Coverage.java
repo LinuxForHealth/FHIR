@@ -446,7 +446,7 @@ public class Coverage extends DomainResource {
             super();
             this.status = status;
             this.beneficiary = beneficiary;
-            this.payor = new ArrayList<>(payor);
+            this.payor = payor;
         }
 
         /**
@@ -541,7 +541,7 @@ public class Coverage extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -583,7 +583,7 @@ public class Coverage extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -633,7 +633,7 @@ public class Coverage extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -680,7 +680,7 @@ public class Coverage extends DomainResource {
          * A unique identifier assigned to this coverage.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -835,7 +835,7 @@ public class Coverage extends DomainResource {
          * A suite of underwriter specific classifiers.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param clazz
@@ -911,7 +911,7 @@ public class Coverage extends DomainResource {
          * have been included on the health card.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param costToBeneficiary
@@ -969,7 +969,7 @@ public class Coverage extends DomainResource {
          * The policy(s) which constitute this insurance coverage.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contract
@@ -1206,7 +1206,7 @@ public class Coverage extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1256,7 +1256,7 @@ public class Coverage extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1498,7 +1498,7 @@ public class Coverage extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1548,7 +1548,7 @@ public class Coverage extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1611,7 +1611,7 @@ public class Coverage extends DomainResource {
              * A suite of codes indicating exceptions or reductions to patient costs and their effective periods.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param exception
@@ -1810,7 +1810,7 @@ public class Coverage extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1860,7 +1860,7 @@ public class Coverage extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

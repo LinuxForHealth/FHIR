@@ -526,7 +526,7 @@ public class Patient extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -568,7 +568,7 @@ public class Patient extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -618,7 +618,7 @@ public class Patient extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -665,7 +665,7 @@ public class Patient extends DomainResource {
          * An identifier for this patient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -729,7 +729,7 @@ public class Patient extends DomainResource {
          * A name associated with the individual.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param name
@@ -769,7 +769,7 @@ public class Patient extends DomainResource {
          * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -858,7 +858,7 @@ public class Patient extends DomainResource {
          * An address for the individual.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param address
@@ -930,7 +930,7 @@ public class Patient extends DomainResource {
          * Image of the patient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param photo
@@ -970,7 +970,7 @@ public class Patient extends DomainResource {
          * A contact party (e.g. guardian, partner, friend) for the patient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1010,7 +1010,7 @@ public class Patient extends DomainResource {
          * A language which may be used to communicate with the patient about his or her health.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param communication
@@ -1050,7 +1050,7 @@ public class Patient extends DomainResource {
          * Patient's nominated care provider.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param generalPractitioner
@@ -1106,7 +1106,7 @@ public class Patient extends DomainResource {
          * Link to another patient resource that concerns the same actual patient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param link
@@ -1413,7 +1413,7 @@ public class Patient extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1463,7 +1463,7 @@ public class Patient extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1510,7 +1510,7 @@ public class Patient extends DomainResource {
              * The nature of the relationship between the patient and the contact person.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param relationship
@@ -1566,7 +1566,7 @@ public class Patient extends DomainResource {
              * A contact detail for the person, e.g. a telephone number or an email address.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param telecom
@@ -1838,7 +1838,7 @@ public class Patient extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1888,7 +1888,7 @@ public class Patient extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2109,7 +2109,7 @@ public class Patient extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2159,7 +2159,7 @@ public class Patient extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

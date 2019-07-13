@@ -413,7 +413,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         private Builder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
             super();
             this.status = status;
-            this.purpose = new ArrayList<>(purpose);
+            this.purpose = purpose;
             this.patient = patient;
             this.created = created;
             this.request = request;
@@ -513,7 +513,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -555,7 +555,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -605,7 +605,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -652,7 +652,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * A unique identifier assigned to this coverage eligiblity request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -740,7 +740,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * Financial instruments for reimbursement for the health care products and services.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param insurance
@@ -813,7 +813,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * Errors encountered during the processing of the request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param error
@@ -1063,7 +1063,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1113,7 +1113,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1193,7 +1193,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Benefits and optionally current balances, and authorization details by category or service.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param item
@@ -1615,7 +1615,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1665,7 +1665,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1744,7 +1744,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifier
@@ -1897,7 +1897,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * Benefits used to date.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param benefit
@@ -1953,7 +1953,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * Codes or comments regarding information or actions associated with the preauthorization.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param authorizationSupporting
@@ -2199,7 +2199,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -2249,7 +2249,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2469,7 +2469,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2519,7 +2519,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

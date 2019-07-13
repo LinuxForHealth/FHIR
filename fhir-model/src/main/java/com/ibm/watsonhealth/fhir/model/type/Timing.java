@@ -254,7 +254,7 @@ public class Timing extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -304,7 +304,7 @@ public class Timing extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -351,7 +351,7 @@ public class Timing extends BackboneElement {
          * Identifies specific times when the event occurs.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param event
@@ -838,7 +838,7 @@ public class Timing extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -886,7 +886,7 @@ public class Timing extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1116,7 +1116,7 @@ public class Timing extends BackboneElement {
              * If one or more days of week is provided, then the action happens only on the specified day(s).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param dayOfWeek
@@ -1156,7 +1156,7 @@ public class Timing extends BackboneElement {
              * Specified time of day for action to take place.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param timeOfDay
@@ -1197,7 +1197,7 @@ public class Timing extends BackboneElement {
              * action should occur.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param when

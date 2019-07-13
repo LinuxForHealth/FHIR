@@ -339,7 +339,7 @@ public class AuditEvent extends DomainResource {
             super();
             this.type = type;
             this.recorded = recorded;
-            this.agent = new ArrayList<>(agent);
+            this.agent = agent;
             this.source = source;
         }
 
@@ -435,7 +435,7 @@ public class AuditEvent extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -477,7 +477,7 @@ public class AuditEvent extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -527,7 +527,7 @@ public class AuditEvent extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -574,7 +574,7 @@ public class AuditEvent extends DomainResource {
          * Identifier for the category of event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subtype
@@ -678,7 +678,7 @@ public class AuditEvent extends DomainResource {
          * The purposeOfUse (reason) that was used during the event being recorded.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param purposeOfEvent
@@ -718,7 +718,7 @@ public class AuditEvent extends DomainResource {
          * Specific instances of data or objects that have been accessed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param entity
@@ -1102,7 +1102,7 @@ public class AuditEvent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1152,7 +1152,7 @@ public class AuditEvent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1216,7 +1216,7 @@ public class AuditEvent extends DomainResource {
              * system (e.g. RBAC, ABAC) used in the local context.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param role
@@ -1324,7 +1324,7 @@ public class AuditEvent extends DomainResource {
              * token used.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param policy
@@ -1398,7 +1398,7 @@ public class AuditEvent extends DomainResource {
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param purposeOfUse
@@ -1598,7 +1598,7 @@ public class AuditEvent extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1648,7 +1648,7 @@ public class AuditEvent extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1908,7 +1908,7 @@ public class AuditEvent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1958,7 +1958,7 @@ public class AuditEvent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2022,7 +2022,7 @@ public class AuditEvent extends DomainResource {
              * Code specifying the type of source where event originated.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -2348,7 +2348,7 @@ public class AuditEvent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2398,7 +2398,7 @@ public class AuditEvent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2509,7 +2509,7 @@ public class AuditEvent extends DomainResource {
              * Security labels for the identified entity.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param securityLabel
@@ -2597,7 +2597,7 @@ public class AuditEvent extends DomainResource {
              * Tagged value pairs for conveying additional information about the entity.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -2802,7 +2802,7 @@ public class AuditEvent extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2852,7 +2852,7 @@ public class AuditEvent extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

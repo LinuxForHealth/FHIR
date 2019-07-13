@@ -397,7 +397,7 @@ public class NamingSystem extends DomainResource {
             this.status = status;
             this.kind = kind;
             this.date = date;
-            this.uniqueId = new ArrayList<>(uniqueId);
+            this.uniqueId = uniqueId;
         }
 
         /**
@@ -492,7 +492,7 @@ public class NamingSystem extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -534,7 +534,7 @@ public class NamingSystem extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -584,7 +584,7 @@ public class NamingSystem extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -647,7 +647,7 @@ public class NamingSystem extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -739,7 +739,7 @@ public class NamingSystem extends DomainResource {
          * may be used to assist with indexing and searching for appropriate naming system instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -781,7 +781,7 @@ public class NamingSystem extends DomainResource {
          * A legal or geographic region in which the naming system is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1067,7 +1067,7 @@ public class NamingSystem extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1117,7 +1117,7 @@ public class NamingSystem extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

@@ -834,7 +834,7 @@ public class PlanDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -876,7 +876,7 @@ public class PlanDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -926,7 +926,7 @@ public class PlanDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -993,7 +993,7 @@ public class PlanDefinition extends DomainResource {
          * referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1189,7 +1189,7 @@ public class PlanDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1247,7 +1247,7 @@ public class PlanDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate plan definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1289,7 +1289,7 @@ public class PlanDefinition extends DomainResource {
          * A legal or geographic region in which the plan definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1429,7 +1429,7 @@ public class PlanDefinition extends DomainResource {
          * definition that can be useful for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param topic
@@ -1470,7 +1470,7 @@ public class PlanDefinition extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param author
@@ -1510,7 +1510,7 @@ public class PlanDefinition extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param editor
@@ -1550,7 +1550,7 @@ public class PlanDefinition extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reviewer
@@ -1590,7 +1590,7 @@ public class PlanDefinition extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endorser
@@ -1630,7 +1630,7 @@ public class PlanDefinition extends DomainResource {
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1670,7 +1670,7 @@ public class PlanDefinition extends DomainResource {
          * A reference to a Library resource containing any formal logic used by the plan definition.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param library
@@ -1711,7 +1711,7 @@ public class PlanDefinition extends DomainResource {
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param goal
@@ -1752,7 +1752,7 @@ public class PlanDefinition extends DomainResource {
          * An action or group of actions to be taken as part of the plan.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param action
@@ -2082,7 +2082,7 @@ public class PlanDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2132,7 +2132,7 @@ public class PlanDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2227,7 +2227,7 @@ public class PlanDefinition extends DomainResource {
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param addresses
@@ -2268,7 +2268,7 @@ public class PlanDefinition extends DomainResource {
              * the goal. Information resources can include inline text commentary and links to web resources.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param documentation
@@ -2309,7 +2309,7 @@ public class PlanDefinition extends DomainResource {
              * Indicates what should be done and within what timeframe.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param target
@@ -2527,7 +2527,7 @@ public class PlanDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2577,7 +2577,7 @@ public class PlanDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3315,7 +3315,7 @@ public class PlanDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3365,7 +3365,7 @@ public class PlanDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3494,7 +3494,7 @@ public class PlanDefinition extends DomainResource {
              * section of a documentation template.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param code
@@ -3535,7 +3535,7 @@ public class PlanDefinition extends DomainResource {
              * A description of why this action is necessary or appropriate.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param reason
@@ -3576,7 +3576,7 @@ public class PlanDefinition extends DomainResource {
              * Information resources can include inline text commentary and links to web resources.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param documentation
@@ -3618,7 +3618,7 @@ public class PlanDefinition extends DomainResource {
              * definition.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param goalId
@@ -3675,7 +3675,7 @@ public class PlanDefinition extends DomainResource {
              * A description of when the action should be triggered.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param trigger
@@ -3715,7 +3715,7 @@ public class PlanDefinition extends DomainResource {
              * An expression that describes applicability criteria or start/stop conditions for the action.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param condition
@@ -3755,7 +3755,7 @@ public class PlanDefinition extends DomainResource {
              * Defines input data requirements for the action.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param input
@@ -3795,7 +3795,7 @@ public class PlanDefinition extends DomainResource {
              * Defines the outputs of the action, if any.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param output
@@ -3835,7 +3835,7 @@ public class PlanDefinition extends DomainResource {
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param relatedAction
@@ -3891,7 +3891,7 @@ public class PlanDefinition extends DomainResource {
              * Indicates who should participate in performing the action described.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param participant
@@ -4063,7 +4063,7 @@ public class PlanDefinition extends DomainResource {
              * the weight, and the path on the resource that would contain the result.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param dynamicValue
@@ -4107,7 +4107,7 @@ public class PlanDefinition extends DomainResource {
              * as part of realizing the action definition.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param action
@@ -4333,7 +4333,7 @@ public class PlanDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -4383,7 +4383,7 @@ public class PlanDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4625,7 +4625,7 @@ public class PlanDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -4675,7 +4675,7 @@ public class PlanDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4897,7 +4897,7 @@ public class PlanDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -4947,7 +4947,7 @@ public class PlanDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -5168,7 +5168,7 @@ public class PlanDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -5218,7 +5218,7 @@ public class PlanDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

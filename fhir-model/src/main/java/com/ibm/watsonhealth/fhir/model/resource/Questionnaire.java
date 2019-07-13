@@ -748,7 +748,7 @@ public class Questionnaire extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -790,7 +790,7 @@ public class Questionnaire extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -840,7 +840,7 @@ public class Questionnaire extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -907,7 +907,7 @@ public class Questionnaire extends DomainResource {
          * in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1000,7 +1000,7 @@ public class Questionnaire extends DomainResource {
          * The URL of a Questionnaire that this Questionnaire is based on.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param derivedFrom
@@ -1057,7 +1057,7 @@ public class Questionnaire extends DomainResource {
          * The types of subjects that can be the subject of responses created for the questionnaire.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subjectType
@@ -1131,7 +1131,7 @@ public class Questionnaire extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contact
@@ -1189,7 +1189,7 @@ public class Questionnaire extends DomainResource {
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param useContext
@@ -1231,7 +1231,7 @@ public class Questionnaire extends DomainResource {
          * A legal or geographic region in which the questionnaire is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1354,7 +1354,7 @@ public class Questionnaire extends DomainResource {
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param code
@@ -1394,7 +1394,7 @@ public class Questionnaire extends DomainResource {
          * A particular question, question grouping or display text that is part of the questionnaire.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param item
@@ -1906,7 +1906,7 @@ public class Questionnaire extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1956,7 +1956,7 @@ public class Questionnaire extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2033,7 +2033,7 @@ public class Questionnaire extends DomainResource {
              * and answers).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param code
@@ -2108,7 +2108,7 @@ public class Questionnaire extends DomainResource {
              * specified condition is true.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param enableWhen
@@ -2248,7 +2248,7 @@ public class Questionnaire extends DomainResource {
              * One of the permitted answers for a "choice" or "open-choice" question.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param answerOption
@@ -2289,7 +2289,7 @@ public class Questionnaire extends DomainResource {
              * input.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param initial
@@ -2330,7 +2330,7 @@ public class Questionnaire extends DomainResource {
              * Text, questions and other groups to be nested beneath a question or group.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param item
@@ -2561,7 +2561,7 @@ public class Questionnaire extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2611,7 +2611,7 @@ public class Questionnaire extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2816,7 +2816,7 @@ public class Questionnaire extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2866,7 +2866,7 @@ public class Questionnaire extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3068,7 +3068,7 @@ public class Questionnaire extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3118,7 +3118,7 @@ public class Questionnaire extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

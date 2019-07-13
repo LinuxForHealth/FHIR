@@ -505,7 +505,7 @@ public class GuidanceResponse extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -547,7 +547,7 @@ public class GuidanceResponse extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -597,7 +597,7 @@ public class GuidanceResponse extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -661,7 +661,7 @@ public class GuidanceResponse extends DomainResource {
          * Allows a service to provide unique, business identifiers for the response.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -765,7 +765,7 @@ public class GuidanceResponse extends DomainResource {
          * Describes the reason for the guidance response in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -807,7 +807,7 @@ public class GuidanceResponse extends DomainResource {
          * indication of the cause for the response.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -849,7 +849,7 @@ public class GuidanceResponse extends DomainResource {
          * Provides a mechanism to communicate additional information about the response.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -890,7 +890,7 @@ public class GuidanceResponse extends DomainResource {
          * produce informational or warning messages. These messages will be provided by this element.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param evaluationMessage
@@ -967,7 +967,7 @@ public class GuidanceResponse extends DomainResource {
          * evaluation. A subsequent request to the service should include this data.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param dataRequirement

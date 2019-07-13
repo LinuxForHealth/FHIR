@@ -669,7 +669,7 @@ public class DeviceRequest extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -711,7 +711,7 @@ public class DeviceRequest extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -761,7 +761,7 @@ public class DeviceRequest extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -808,7 +808,7 @@ public class DeviceRequest extends DomainResource {
          * Identifiers assigned to this order by the orderer or by the receiver.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -849,7 +849,7 @@ public class DeviceRequest extends DomainResource {
          * part by this DeviceRequest.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -891,7 +891,7 @@ public class DeviceRequest extends DomainResource {
          * whole or in part by this DeviceRequest.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -932,7 +932,7 @@ public class DeviceRequest extends DomainResource {
          * Plan/proposal/order fulfilled by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -972,7 +972,7 @@ public class DeviceRequest extends DomainResource {
          * The request takes the place of the referenced completed or terminated request(s).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param priorRequest
@@ -1060,7 +1060,7 @@ public class DeviceRequest extends DomainResource {
          * Specific parameters for the ordered item. For example, the prism value for lenses.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param parameter
@@ -1198,7 +1198,7 @@ public class DeviceRequest extends DomainResource {
          * Reason or justification for the use of this device.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1238,7 +1238,7 @@ public class DeviceRequest extends DomainResource {
          * Reason or justification for the use of this device.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1279,7 +1279,7 @@ public class DeviceRequest extends DomainResource {
          * the requested service.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param insurance
@@ -1321,7 +1321,7 @@ public class DeviceRequest extends DomainResource {
          * include where on the subject's body the device will be used (i.e. the target site).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1363,7 +1363,7 @@ public class DeviceRequest extends DomainResource {
          * class. These may include for example a comment, an instruction, or a note associated with the statement.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1404,7 +1404,7 @@ public class DeviceRequest extends DomainResource {
          * Key events in the history of the request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relevantHistory
@@ -1620,7 +1620,7 @@ public class DeviceRequest extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1670,7 +1670,7 @@ public class DeviceRequest extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

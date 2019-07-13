@@ -457,7 +457,7 @@ public class CatalogEntry extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -499,7 +499,7 @@ public class CatalogEntry extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -549,7 +549,7 @@ public class CatalogEntry extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -596,7 +596,7 @@ public class CatalogEntry extends DomainResource {
          * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -652,7 +652,7 @@ public class CatalogEntry extends DomainResource {
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param additionalIdentifier
@@ -692,7 +692,7 @@ public class CatalogEntry extends DomainResource {
          * Classes of devices, or ATC for medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param classification
@@ -798,7 +798,7 @@ public class CatalogEntry extends DomainResource {
          * Used for examplefor Out of Formulary, or any specifics.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param additionalCharacteristic
@@ -838,7 +838,7 @@ public class CatalogEntry extends DomainResource {
          * User for example for ATC classification, or.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param additionalClassification
@@ -878,7 +878,7 @@ public class CatalogEntry extends DomainResource {
          * Used for example, to point to a substance, or to a device used to administer a medication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param relatedEntry
@@ -1090,7 +1090,7 @@ public class CatalogEntry extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1140,7 +1140,7 @@ public class CatalogEntry extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

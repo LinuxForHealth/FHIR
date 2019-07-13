@@ -656,7 +656,7 @@ public class HealthcareService extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -698,7 +698,7 @@ public class HealthcareService extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -748,7 +748,7 @@ public class HealthcareService extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -795,7 +795,7 @@ public class HealthcareService extends DomainResource {
          * External identifiers for this item.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -868,7 +868,7 @@ public class HealthcareService extends DomainResource {
          * Identifies the broad category of service being performed or delivered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -908,7 +908,7 @@ public class HealthcareService extends DomainResource {
          * The specific type of service that may be delivered or performed.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param type
@@ -948,7 +948,7 @@ public class HealthcareService extends DomainResource {
          * Collection of specialties handled by the service site. This is more of a medical term.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialty
@@ -988,7 +988,7 @@ public class HealthcareService extends DomainResource {
          * The location(s) where this healthcare service may be provided.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param location
@@ -1094,7 +1094,7 @@ public class HealthcareService extends DomainResource {
          * List of contacts related to this specific healthcare service.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -1134,7 +1134,7 @@ public class HealthcareService extends DomainResource {
          * The location(s) that this service is available to (not where the service is provided).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param coverageArea
@@ -1174,7 +1174,7 @@ public class HealthcareService extends DomainResource {
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param serviceProvisionCode
@@ -1214,7 +1214,7 @@ public class HealthcareService extends DomainResource {
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param eligibility
@@ -1254,7 +1254,7 @@ public class HealthcareService extends DomainResource {
          * Programs that this service is applicable to.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param program
@@ -1294,7 +1294,7 @@ public class HealthcareService extends DomainResource {
          * Collection of characteristics (attributes).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param characteristic
@@ -1336,7 +1336,7 @@ public class HealthcareService extends DomainResource {
          * languages used.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param communication
@@ -1378,7 +1378,7 @@ public class HealthcareService extends DomainResource {
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param referralMethod
@@ -1435,7 +1435,7 @@ public class HealthcareService extends DomainResource {
          * A collection of times that the Service Site is available.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param availableTime
@@ -1475,7 +1475,7 @@ public class HealthcareService extends DomainResource {
          * The HealthcareService is not available during this period of time due to the provided reason.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param notAvailable
@@ -1533,7 +1533,7 @@ public class HealthcareService extends DomainResource {
          * resource.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endpoint
@@ -1753,7 +1753,7 @@ public class HealthcareService extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1803,7 +1803,7 @@ public class HealthcareService extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2073,7 +2073,7 @@ public class HealthcareService extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2123,7 +2123,7 @@ public class HealthcareService extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2170,7 +2170,7 @@ public class HealthcareService extends DomainResource {
              * Indicates which days of the week are available between the start and end Times.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param daysOfWeek
@@ -2420,7 +2420,7 @@ public class HealthcareService extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2470,7 +2470,7 @@ public class HealthcareService extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

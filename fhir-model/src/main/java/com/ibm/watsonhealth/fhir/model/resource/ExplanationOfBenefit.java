@@ -932,7 +932,7 @@ public class ExplanationOfBenefit extends DomainResource {
             this.insurer = insurer;
             this.provider = provider;
             this.outcome = outcome;
-            this.insurance = new ArrayList<>(insurance);
+            this.insurance = insurance;
         }
 
         /**
@@ -1027,7 +1027,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -1069,7 +1069,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -1119,7 +1119,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1166,7 +1166,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * A unique identifier assigned to this explanation of benefit.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1305,7 +1305,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param related
@@ -1476,7 +1476,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param preAuthRef
@@ -1517,7 +1517,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * as provided.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param preAuthRefPeriod
@@ -1558,7 +1558,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The members of the team who provided the products and services.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param careTeam
@@ -1599,7 +1599,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * concurrent issues.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1640,7 +1640,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Information about diagnoses relevant to the claim items.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param diagnosis
@@ -1680,7 +1680,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Procedures performed on the patient relevant to the billing items with the claim.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param procedure
@@ -1753,7 +1753,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * groups of sub-details.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param item
@@ -1794,7 +1794,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param addItem
@@ -1834,7 +1834,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param adjudication
@@ -1874,7 +1874,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Categorized monetary totals for the adjudication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param total
@@ -1962,7 +1962,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param processNote
@@ -2018,7 +2018,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Balance by Benefit Category.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param benefitBalance
@@ -2267,7 +2267,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2317,7 +2317,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2566,7 +2566,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2616,7 +2616,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2913,7 +2913,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2963,7 +2963,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3299,7 +3299,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3349,7 +3349,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3683,7 +3683,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3733,7 +3733,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3780,7 +3780,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -4072,7 +4072,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4122,7 +4122,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4169,7 +4169,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -4225,7 +4225,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param udi
@@ -4448,7 +4448,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4498,7 +4498,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4546,7 +4546,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * services or products related to the prior authorization.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param preAuthRef
@@ -4759,7 +4759,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -4809,7 +4809,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5471,7 +5471,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -5521,7 +5521,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5568,7 +5568,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Care team members related to this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param careTeamSequence
@@ -5608,7 +5608,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Diagnoses applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param diagnosisSequence
@@ -5648,7 +5648,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Procedures applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param procedureSequence
@@ -5688,7 +5688,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Exceptions, special conditions and supporting information applicable for this service or product.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param informationSequence
@@ -5760,7 +5760,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifier
@@ -5800,7 +5800,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Identifies the program under which this may be recovered.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param programCode
@@ -5938,7 +5938,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param udi
@@ -5994,7 +5994,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param subSite
@@ -6034,7 +6034,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * A billed item may include goods or services provided in multiple encounters.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param encounter
@@ -6074,7 +6074,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param noteNumber
@@ -6115,7 +6115,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * simple product or service then this is the result of the adjudication of this item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param adjudication
@@ -6156,7 +6156,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Second-tier of goods and services.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -6415,7 +6415,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -6465,7 +6465,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -6953,7 +6953,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -7003,7 +7003,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -7082,7 +7082,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifier
@@ -7122,7 +7122,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Identifies the program under which this may be recovered.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param programCode
@@ -7228,7 +7228,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Unique Device Identifiers associated with this line item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param udi
@@ -7268,7 +7268,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param noteNumber
@@ -7308,7 +7308,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * The adjudication results.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param adjudication
@@ -7348,7 +7348,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Third-tier of goods and services.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param subDetail
@@ -7770,7 +7770,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -7820,7 +7820,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -7899,7 +7899,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifier
@@ -7939,7 +7939,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Identifies the program under which this may be recovered.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param programCode
@@ -8045,7 +8045,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Unique Device Identifiers associated with this line item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param udi
@@ -8085,7 +8085,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param noteNumber
@@ -8125,7 +8125,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * The adjudication results.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param adjudication
@@ -8644,7 +8644,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -8694,7 +8694,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -8741,7 +8741,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Claim items which this service line is intended to replace.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param itemSequence
@@ -8781,7 +8781,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detailSequence
@@ -8822,7 +8822,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * replace.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param subDetailSequence
@@ -8863,7 +8863,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The providers who are authorized for the services rendered to the patient.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param provider
@@ -8903,7 +8903,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifier
@@ -8943,7 +8943,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Identifies the program under which this may be recovered.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param programCode
@@ -9097,7 +9097,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param subSite
@@ -9137,7 +9137,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param noteNumber
@@ -9177,7 +9177,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The adjudication results.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param adjudication
@@ -9217,7 +9217,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The second-tier service adjudications for payor added services.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param detail
@@ -9567,7 +9567,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -9617,7 +9617,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -9664,7 +9664,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifier
@@ -9770,7 +9770,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param noteNumber
@@ -9810,7 +9810,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * The adjudication results.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param adjudication
@@ -9850,7 +9850,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * The third-tier service adjudications for payor added services.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param subDetail
@@ -10172,7 +10172,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param extension
@@ -10222,7 +10222,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -10269,7 +10269,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param modifier
@@ -10375,7 +10375,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param noteNumber
@@ -10415,7 +10415,7 @@ public class ExplanationOfBenefit extends DomainResource {
                      * The adjudication results.
                      * </p>
                      * <p>
-                     * Adds new element(s) to existing list
+                     * Adds new element(s) to the existing list
                      * </p>
                      * 
                      * @param adjudication
@@ -10623,7 +10623,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -10673,7 +10673,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -10948,7 +10948,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -10998,7 +10998,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -11337,7 +11337,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -11387,7 +11387,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -11775,7 +11775,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -11825,7 +11825,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -11969,7 +11969,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * Benefits Used to date.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param financial
@@ -12192,7 +12192,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -12242,7 +12242,7 @@ public class ExplanationOfBenefit extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension

@@ -212,7 +212,7 @@ public class ProductShelfLife extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -262,7 +262,7 @@ public class ProductShelfLife extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -326,7 +326,7 @@ public class ProductShelfLife extends BackboneElement {
          * term and the controlled term identifier shall be specified.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialPrecautionsForStorage

@@ -628,7 +628,7 @@ public class CommunicationRequest extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -670,7 +670,7 @@ public class CommunicationRequest extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -720,7 +720,7 @@ public class CommunicationRequest extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -768,7 +768,7 @@ public class CommunicationRequest extends DomainResource {
          * the resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -809,7 +809,7 @@ public class CommunicationRequest extends DomainResource {
          * A plan or proposal that is fulfilled in whole or in part by this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -849,7 +849,7 @@ public class CommunicationRequest extends DomainResource {
          * Completed or terminated request(s) whose function is taken by this new request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param replaces
@@ -922,7 +922,7 @@ public class CommunicationRequest extends DomainResource {
          * The type of message to be sent such as alert, notification, reminder, instruction, etc.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -994,7 +994,7 @@ public class CommunicationRequest extends DomainResource {
          * A channel that was used for this communication (e.g. email, fax).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param medium
@@ -1051,7 +1051,7 @@ public class CommunicationRequest extends DomainResource {
          * associated.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param about
@@ -1109,7 +1109,7 @@ public class CommunicationRequest extends DomainResource {
          * Text, attachment(s), or resource(s) to be communicated to the recipient.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param payload
@@ -1199,7 +1199,7 @@ public class CommunicationRequest extends DomainResource {
          * target of the communication.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param recipient
@@ -1257,7 +1257,7 @@ public class CommunicationRequest extends DomainResource {
          * Describes why the request is being made in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1297,7 +1297,7 @@ public class CommunicationRequest extends DomainResource {
          * Indicates another resource whose existence justifies this request.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1337,7 +1337,7 @@ public class CommunicationRequest extends DomainResource {
          * Comments made about the request by the requester, sender, recipient, subject or other participants.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1539,7 +1539,7 @@ public class CommunicationRequest extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1589,7 +1589,7 @@ public class CommunicationRequest extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension

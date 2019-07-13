@@ -428,7 +428,7 @@ public class OrganizationAffiliation extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -470,7 +470,7 @@ public class OrganizationAffiliation extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -520,7 +520,7 @@ public class OrganizationAffiliation extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -567,7 +567,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Business identifiers that are specific to this role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -673,7 +673,7 @@ public class OrganizationAffiliation extends DomainResource {
          * the indicated locations (if defined).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param network
@@ -716,7 +716,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Definition of the role the participatingOrganization plays in the association.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param code
@@ -756,7 +756,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Specific specialty of the participatingOrganization in the context of the role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param specialty
@@ -796,7 +796,7 @@ public class OrganizationAffiliation extends DomainResource {
          * The location(s) at which the role occurs.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param location
@@ -836,7 +836,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Healthcare services provided through the role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param healthcareService
@@ -876,7 +876,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Contact details at the participatingOrganization relevant to this Affiliation.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -916,7 +916,7 @@ public class OrganizationAffiliation extends DomainResource {
          * Technical endpoints providing access to services operated for this role.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param endpoint

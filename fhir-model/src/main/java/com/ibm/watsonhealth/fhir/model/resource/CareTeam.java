@@ -458,7 +458,7 @@ public class CareTeam extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -500,7 +500,7 @@ public class CareTeam extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -550,7 +550,7 @@ public class CareTeam extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -598,7 +598,7 @@ public class CareTeam extends DomainResource {
          * resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -656,7 +656,7 @@ public class CareTeam extends DomainResource {
          * team, episode of care team, longitudinal care team.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param category
@@ -761,7 +761,7 @@ public class CareTeam extends DomainResource {
          * Identifies all people and organizations who are expected to be involved in the care team.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param participant
@@ -801,7 +801,7 @@ public class CareTeam extends DomainResource {
          * Describes why the care team exists.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -841,7 +841,7 @@ public class CareTeam extends DomainResource {
          * Condition(s) that this care team addresses.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -881,7 +881,7 @@ public class CareTeam extends DomainResource {
          * The organization responsible for the care team.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param managingOrganization
@@ -921,7 +921,7 @@ public class CareTeam extends DomainResource {
          * A central contact detail for the care team (that applies to all members).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param telecom
@@ -961,7 +961,7 @@ public class CareTeam extends DomainResource {
          * Comments made about the CareTeam.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1208,7 +1208,7 @@ public class CareTeam extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1258,7 +1258,7 @@ public class CareTeam extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1306,7 +1306,7 @@ public class CareTeam extends DomainResource {
              * social worker counselor", "Caregiver", etc.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param role

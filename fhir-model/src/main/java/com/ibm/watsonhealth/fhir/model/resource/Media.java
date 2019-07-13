@@ -626,7 +626,7 @@ public class Media extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -668,7 +668,7 @@ public class Media extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -718,7 +718,7 @@ public class Media extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -766,7 +766,7 @@ public class Media extends DomainResource {
          * context of its collection (e.g. series ids) and context ids such as accession numbers or other workflow identifiers.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -807,7 +807,7 @@ public class Media extends DomainResource {
          * A procedure that is fulfilled in whole or in part by the creation of this media.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param basedOn
@@ -847,7 +847,7 @@ public class Media extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param partOf
@@ -1016,7 +1016,7 @@ public class Media extends DomainResource {
          * Describes why the event occurred in coded or textual form.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1170,7 +1170,7 @@ public class Media extends DomainResource {
          * Comments made about the media by the performer, subject or other participants.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note

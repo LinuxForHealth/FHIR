@@ -534,11 +534,7 @@ public class CodeGenerator {
         cb.constructor(mods(visibility), "Builder", params)._super();
         for (JsonObject elementDefinition : requiredElementDefinitions) {
             String fieldName = getFieldName(elementDefinition, path);
-            if (isRepeating(elementDefinition)) {
-                cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
-            } else {
-                cb.assign(_this(fieldName), fieldName);
-            }
+            cb.assign(_this(fieldName), fieldName);
         }
         cb.end().newLine();
         
@@ -719,7 +715,7 @@ public class CodeGenerator {
             break;
         case "varargs":
             cb.javadoc("<p>", false);
-            cb.javadoc("Adds new element(s) to existing list", false);
+            cb.javadoc("Adds new element(s) to the existing list", false);
             cb.javadoc("</p>", false);
             break;
         case "collection":
@@ -1361,12 +1357,9 @@ public class CodeGenerator {
             
             if (isRepeating(elementDefinition)) {
                 if (basePath.startsWith(name) && !basePath.equals(name)) {
-                    /*
                     if (!isRequired(elementDefinition)) {
                         imports.add("java.util.ArrayList");
                     }
-                    */
-                    imports.add("java.util.ArrayList");
                     imports.add("java.util.Collections");
                     if (!"List".equals(name)) {
                         imports.add("java.util.List");

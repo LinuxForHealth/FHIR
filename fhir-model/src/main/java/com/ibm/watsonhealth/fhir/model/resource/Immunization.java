@@ -746,7 +746,7 @@ public class Immunization extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -788,7 +788,7 @@ public class Immunization extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -838,7 +838,7 @@ public class Immunization extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -885,7 +885,7 @@ public class Immunization extends DomainResource {
          * A unique identifier assigned to this immunization record.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -1121,7 +1121,7 @@ public class Immunization extends DomainResource {
          * Indicates who performed the immunization event.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param performer
@@ -1161,7 +1161,7 @@ public class Immunization extends DomainResource {
          * Extra information about the immunization that is not conveyed by the other attributes.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1201,7 +1201,7 @@ public class Immunization extends DomainResource {
          * Reasons why the vaccine was administered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonCode
@@ -1241,7 +1241,7 @@ public class Immunization extends DomainResource {
          * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reasonReference
@@ -1297,7 +1297,7 @@ public class Immunization extends DomainResource {
          * Reason why a dose is considered to be subpotent.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param subpotentReason
@@ -1337,7 +1337,7 @@ public class Immunization extends DomainResource {
          * Educational material presented to the patient (or guardian) at the time of vaccine administration.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param education
@@ -1377,7 +1377,7 @@ public class Immunization extends DomainResource {
          * Indicates a patient's eligibility for a funding program.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param programEligibility
@@ -1435,7 +1435,7 @@ public class Immunization extends DomainResource {
          * Categorical data indicating that an adverse event is associated in time to an immunization.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param reaction
@@ -1475,7 +1475,7 @@ public class Immunization extends DomainResource {
          * The protocol (set of recommendations) being followed by the provider who administered the dose.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param protocolApplied
@@ -1701,7 +1701,7 @@ public class Immunization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1751,7 +1751,7 @@ public class Immunization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2004,7 +2004,7 @@ public class Immunization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2054,7 +2054,7 @@ public class Immunization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2339,7 +2339,7 @@ public class Immunization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2389,7 +2389,7 @@ public class Immunization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2702,7 +2702,7 @@ public class Immunization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2752,7 +2752,7 @@ public class Immunization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2831,7 +2831,7 @@ public class Immunization extends DomainResource {
              * The vaccine preventable disease the dose is being administered against.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param targetDisease

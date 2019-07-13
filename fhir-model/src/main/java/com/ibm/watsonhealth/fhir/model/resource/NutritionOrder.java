@@ -555,7 +555,7 @@ public class NutritionOrder extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param contained
@@ -597,7 +597,7 @@ public class NutritionOrder extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param extension
@@ -647,7 +647,7 @@ public class NutritionOrder extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param modifierExtension
@@ -694,7 +694,7 @@ public class NutritionOrder extends DomainResource {
          * Identifiers assigned to this order by the order sender or by the order receiver.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param identifier
@@ -735,7 +735,7 @@ public class NutritionOrder extends DomainResource {
          * part by this NutritionOrder.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -777,7 +777,7 @@ public class NutritionOrder extends DomainResource {
          * whole or in part by this NutritionOrder.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -819,7 +819,7 @@ public class NutritionOrder extends DomainResource {
          * NutritionOrder.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param instantiates
@@ -892,7 +892,7 @@ public class NutritionOrder extends DomainResource {
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param allergyIntolerance
@@ -934,7 +934,7 @@ public class NutritionOrder extends DomainResource {
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param foodPreferenceModifier
@@ -981,7 +981,7 @@ public class NutritionOrder extends DomainResource {
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param excludeFoodModifier
@@ -1042,7 +1042,7 @@ public class NutritionOrder extends DomainResource {
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param supplement
@@ -1099,7 +1099,7 @@ public class NutritionOrder extends DomainResource {
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
          * </p>
          * <p>
-         * Adds new element(s) to existing list
+         * Adds new element(s) to the existing list
          * </p>
          * 
          * @param note
@@ -1385,7 +1385,7 @@ public class NutritionOrder extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -1435,7 +1435,7 @@ public class NutritionOrder extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1482,7 +1482,7 @@ public class NutritionOrder extends DomainResource {
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param type
@@ -1523,7 +1523,7 @@ public class NutritionOrder extends DomainResource {
              * schedules if more than one schedule is present.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param schedule
@@ -1565,7 +1565,7 @@ public class NutritionOrder extends DomainResource {
              * required for the oral diet.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param nutrient
@@ -1606,7 +1606,7 @@ public class NutritionOrder extends DomainResource {
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param texture
@@ -1646,7 +1646,7 @@ public class NutritionOrder extends DomainResource {
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param fluidConsistencyType
@@ -1859,7 +1859,7 @@ public class NutritionOrder extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -1909,7 +1909,7 @@ public class NutritionOrder extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2141,7 +2141,7 @@ public class NutritionOrder extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -2191,7 +2191,7 @@ public class NutritionOrder extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2482,7 +2482,7 @@ public class NutritionOrder extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -2532,7 +2532,7 @@ public class NutritionOrder extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2612,7 +2612,7 @@ public class NutritionOrder extends DomainResource {
              * combination of all schedules if more than one schedule is present.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param schedule
@@ -2982,7 +2982,7 @@ public class NutritionOrder extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param extension
@@ -3032,7 +3032,7 @@ public class NutritionOrder extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3181,7 +3181,7 @@ public class NutritionOrder extends DomainResource {
              * instruction to increase the rate of continuous feeding every 2 hours.
              * </p>
              * <p>
-             * Adds new element(s) to existing list
+             * Adds new element(s) to the existing list
              * </p>
              * 
              * @param administration
@@ -3436,7 +3436,7 @@ public class NutritionOrder extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param extension
@@ -3486,7 +3486,7 @@ public class NutritionOrder extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to existing list
+                 * Adds new element(s) to the existing list
                  * </p>
                  * 
                  * @param modifierExtension
