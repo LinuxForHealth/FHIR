@@ -6,18 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.operation.healthcheck;
 
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.IssueSeverity;
-import com.ibm.watsonhealth.fhir.model.OperationDefinition;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.Parameters;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
@@ -31,7 +31,7 @@ public class HealthcheckOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("healthcheck.json")) {
+        try (InputStreamReader in = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("healthcheck.json"))) {
             return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new Error(e);
@@ -55,19 +55,12 @@ public class HealthcheckOperation extends AbstractOperation {
     }
     
     private void checkOperationOutcome(OperationOutcome oo) throws FHIROperationException {
-        List<OperationOutcomeIssue> issues = oo.getIssue();
-        for (OperationOutcomeIssue issue : issues) {
+        List<Issue> issues = oo.getIssue();
+        for (Issue issue : issues) {
             IssueSeverity severity = issue.getSeverity();
             if (severity != null) {
-                switch (severity.getValue()) {
-                case ERROR:
-                case FATAL:
+            	if(severity.getValue()==IssueSeverity.ERROR.getValue() || severity.getValue()==IssueSeverity.FATAL.getValue())
                     throw new FHIROperationException("The persistence layer reported one or more issues").withIssue(issues);
-                case INFORMATION:
-                case WARNING:
-                default:
-                    continue;
-                }
             }
         }
     }
