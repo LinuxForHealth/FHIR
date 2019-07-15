@@ -79,7 +79,12 @@
             <dependency>
                 <groupId>com.ibm.watson.platform.health</groupId>
                 <artifactId>database-utils</artifactId>
-                <version>4.0.0-3-201907081045</version>
+                <version>4.0.0-4-201907120649</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.watson.platform.health</groupId>
+                <artifactId>fhir-r4-spec-examples</artifactId>
+                <version>4.0.0-5-201907150801</version>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
