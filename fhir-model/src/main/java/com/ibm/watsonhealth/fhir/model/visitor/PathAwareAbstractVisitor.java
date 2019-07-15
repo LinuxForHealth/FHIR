@@ -16,10 +16,11 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     public static boolean DEBUG = false;
     
-    protected final Stack<java.lang.String> nameStack = new Stack<>();
-    protected final Stack<String> pathStack = new Stack<>();
-    protected final Stack<Integer> indexStack = new Stack<>();
+    private final Stack<java.lang.String> nameStack = new Stack<>();
+    private final Stack<String> pathStack = new Stack<>();
+    private final Stack<Integer> indexStack = new Stack<>();
     
+    // template methods
     protected abstract void doVisitEnd(String elementName, Element element);
     protected abstract void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitEnd(String elementName, Resource resource);
@@ -27,11 +28,23 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     protected abstract void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitStart(String elementName, Resource resource);
 
+    protected String getCurrentElementName(String elementName) {
+        return (elementName == null) ? nameStack.peek() : elementName;
+    }
+    
+    protected int getCurrentIndex(String elementName) {
+        return (elementName == null) ? indexStack.peek() : -1;
+    }
+    
     protected String getPath() {
         return pathStack.stream().collect(Collectors.joining("."));
     }
-
-    protected void pathStackPush(String elementName, int index) {
+    
+    private void pathStackPop() {
+        pathStack.pop();
+    }
+    
+    private void pathStackPush(String elementName, int index) {
         if (index != -1) {
             pathStack.push(elementName + "[" + index + "]");
         } else {
@@ -41,11 +54,10 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
             System.out.println(getPath());
         }
     }
-    
     @Override
     public final void visitEnd(java.lang.String elementName, Element element) {
         doVisitEnd(elementName, element);
-        pathStack.pop();
+        pathStackPop();
     }
     
     @Override
@@ -58,19 +70,19 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     @Override
     public final void visitEnd(java.lang.String elementName, Resource resource) {
         doVisitEnd(elementName, resource);
-        pathStack.pop();
+        pathStackPop();
     }
     
     @Override
     public final void visitStart(java.lang.String elementName, Element element) {
-        int index = -1;
         if (elementName == null) {
-            elementName = nameStack.peek();
-            index = indexStack.peek();
+            pathStackPush(nameStack.peek(), indexStack.peek());
+        } else {
+            pathStackPush(elementName, -1);
         }
-        pathStackPush(elementName, index);
         doVisitStart(elementName, element);
-        if (index != -1) {
+        if (elementName == null) {
+            // increment index
             indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
         }
     }
@@ -84,14 +96,14 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     @Override
     public final void visitStart(java.lang.String elementName, Resource resource) {
-        int index = -1;
         if (elementName == null) {
-            elementName = nameStack.peek();
-            index = indexStack.peek();
+            pathStackPush(nameStack.peek(), indexStack.peek());
+        } else {
+            pathStackPush(elementName, -1);
         }
-        pathStackPush(elementName, index);
         doVisitStart(elementName, resource);
-        if (index != -1) {
+        if (elementName == null) {
+            // increment index
             indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
         }
     }
