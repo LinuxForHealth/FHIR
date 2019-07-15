@@ -28,11 +28,11 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     protected abstract void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitStart(String elementName, Resource resource);
 
-    protected String getCurrentElementName(String elementName) {
+    protected String getElementName(String elementName) {
         return (elementName == null) ? nameStack.peek() : elementName;
     }
     
-    protected int getCurrentIndex(String elementName) {
+    protected int getIndex(String elementName) {
         return (elementName == null) ? indexStack.peek() : -1;
     }
     
