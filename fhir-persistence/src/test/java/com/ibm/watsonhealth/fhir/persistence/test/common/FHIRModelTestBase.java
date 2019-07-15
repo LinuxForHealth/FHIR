@@ -110,7 +110,7 @@ public class FHIRModelTestBase {
         }
         
         // If we didn't find the file yet, then look on the classpath.
-        String resourceName = (fileName.startsWith("testdata-r4/") ? fileName : "testdata-r4/" + fileName);
+        String resourceName = (fileName.startsWith("json/spec/") ? fileName : "json/spec/" + fileName);
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName);
         if (is != null) {
             return is;

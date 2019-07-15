@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterClass;
 
+import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
@@ -31,7 +32,12 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     @Test
     public void perform() throws Exception {
     	
-    	R4JDBCExamplesDriver driver = new R4JDBCExamplesDriver(persistence, () -> createPersistenceContext());
+    	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, () -> createPersistenceContext());
+    	
+    	// The driver will iterate over all the JSON examples in the R4 specification, parse
+    	// the resource and call the processor.
+    	R4ExamplesDriver driver = new R4ExamplesDriver();
+    	driver.setProcessor(processor);
     	driver.processAllExamples();
     }
 

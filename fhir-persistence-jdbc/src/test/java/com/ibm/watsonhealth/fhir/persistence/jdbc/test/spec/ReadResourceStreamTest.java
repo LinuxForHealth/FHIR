@@ -19,7 +19,7 @@ public class ReadResourceStreamTest {
 
     @Test
     public void testRead() throws IOException {
-        final String filename = "testdata-r4/good.txt";
+        final String filename = "json/all.txt";
         
         try (InputStream is = getResourceAsStream(filename)) {
             System.out.println("Success! Stream opened for " + filename);
