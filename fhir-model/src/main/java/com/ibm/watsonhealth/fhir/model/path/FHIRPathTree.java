@@ -17,15 +17,13 @@ import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitorAdapter;
 
 public class FHIRPathTree {    
     private final FHIRPathNode root;
@@ -62,7 +60,7 @@ public class FHIRPathTree {
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
     
-    private static class BuildingVisitor extends PathAwareAbstractVisitor {
+    private static class BuildingVisitor extends PathAwareVisitorAdapter {
         private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
@@ -70,9 +68,45 @@ public class FHIRPathTree {
         private Map<String, FHIRPathNode> getPathNodeMap() {
             return pathNodeMap;
         }
-    
+
         private FHIRPathNode getRoot() {
             return root;
+        }
+
+        @Override
+        protected void doVisitEnd(String elementName, Element element) {
+            FHIRPathNode.Builder builder = builderStack.pop();
+            FHIRPathNode node = builder.build();
+            pathNodeMap.put(getPath(), node);
+            if (!builderStack.isEmpty()) {
+                builderStack.peek().children(node);
+            } else {
+                root = node;
+            }
+        }
+
+        @Override
+        protected void doVisitEnd(String elementName, Resource resource) {
+            FHIRPathNode.Builder builder = builderStack.pop();
+            FHIRPathNode node = builder.build();
+            pathNodeMap.put(getPath(), node);
+            if (!builderStack.isEmpty()) {
+                builderStack.peek().children(node);
+            } else {
+                root = node;
+            }            
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, Element element) {
+            FHIRPathNode.Builder builder = FHIRPathElementNode.builder(element).name(elementName);
+            builderStack.push(builder);
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, Resource resource) {
+            FHIRPathNode.Builder builder = FHIRPathResourceNode.builder(resource).name(elementName);
+            builderStack.push(builder);            
         }
 
         @Override
@@ -153,52 +187,6 @@ public class FHIRPathTree {
                 elementName = nameStack.peek();
             }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, Element element) {
-            FHIRPathNode.Builder builder = builderStack.pop();
-            FHIRPathNode node = builder.build();
-            pathNodeMap.put(getPath(), node);
-            if (!builderStack.isEmpty()) {
-                builderStack.peek().children(node);
-            } else {
-                root = node;
-            }
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, Resource resource) {
-            FHIRPathNode.Builder builder = builderStack.pop();
-            FHIRPathNode node = builder.build();
-            pathNodeMap.put(getPath(), node);
-            if (!builderStack.isEmpty()) {
-                builderStack.peek().children(node);
-            } else {
-                root = node;
-            }            
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, Element element) {
-            FHIRPathNode.Builder builder = FHIRPathElementNode.builder(element).name(elementName);
-            builderStack.push(builder);
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, Resource resource) {
-            FHIRPathNode.Builder builder = FHIRPathResourceNode.builder(resource).name(elementName);
-            builderStack.push(builder);            
         }
     }
 }

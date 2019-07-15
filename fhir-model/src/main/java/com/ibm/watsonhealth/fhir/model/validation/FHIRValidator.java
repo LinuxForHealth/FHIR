@@ -29,8 +29,7 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.validation.exception.FHIRValidationException;
-import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitorAdapter;
 
 public class FHIRValidator {
     public static boolean DEBUG = false;
@@ -70,7 +69,7 @@ public class FHIRValidator {
         return new FHIRValidator(FHIRPathTree.tree(resource));
     }
 
-    public static class ValidatingVisitor extends PathAwareAbstractVisitor {
+    public static class ValidatingVisitor extends PathAwareVisitorAdapter {
         private static final String WARNING_LEVEL = "Warning";
         private static final String BASE_LOCATION = "(base)";
         
@@ -82,6 +81,16 @@ public class FHIRValidator {
             this.tree = tree;
         }
         
+        @Override
+        protected void doVisitStart(String elementName, Element element) {
+            validate(element.getClass(), getPath());            
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, Resource resource) {
+            validate(resource.getClass(), getPath());            
+        }
+
         private List<Issue> getIssues() {
             return Collections.unmodifiableList(issues);
         }
@@ -149,36 +158,6 @@ public class FHIRValidator {
             } catch (Exception e) {
                 throw new Error(e);
             }
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, Element element) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitEnd(String elementName, Resource resource) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, Element element) {
-            validate(element.getClass(), getPath());            
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            // do nothing
-        }
-
-        @Override
-        protected void doVisitStart(String elementName, Resource resource) {
-            validate(resource.getClass(), getPath());            
         }
     }
 }
