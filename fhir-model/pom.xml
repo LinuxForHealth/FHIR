@@ -71,19 +71,7 @@
 
     <build>
         <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.ibm.watsonhealth.fhir</groupId>
-                    <artifactId>fhir-tools</artifactId>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.glassfish</groupId>
-                            <artifactId>jakarta.json</artifactId>
-                            <version>1.1.5</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
+            
         </pluginManagement>
     </build>
 
