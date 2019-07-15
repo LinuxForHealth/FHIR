@@ -8,6 +8,9 @@ package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 
+import java.io.FilterOutputStream;
+import java.io.FilterWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.math.BigDecimal;
@@ -53,7 +56,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = createPrettyPrintingGeneratorFactory();
     
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSXXX");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         
     private final boolean prettyPrinting;
 
@@ -67,7 +70,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
-        try (JsonGenerator generator = getGeneratorFactory().createGenerator(out)) {
+        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out)) {
             Visitor visitor = new GeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
@@ -78,7 +81,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
 
     @Override
     public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
-        try (JsonGenerator generator = getGeneratorFactory().createGenerator(writer)) {
+        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : writer)) {
             Visitor visitor = new GeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
@@ -95,6 +98,36 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     @Override
     public void reset() {
         // do nothing
+    }
+    
+    private OutputStream wrap(OutputStream out) {
+        return new FilterOutputStream(out) {
+            private boolean first = true;
+            
+            @Override
+            public void write(int b) throws IOException {
+                if (first && b == '\n') {
+                    first = false;
+                    return;
+                }
+                out.write(b);
+            }
+        };
+    }
+    
+    private Writer wrap(Writer writer) {
+        return new FilterWriter(writer) {
+            private boolean first = true;
+            
+            @Override
+            public void write(int c) throws IOException {
+                if (first && c == '\n') {
+                    first = false;
+                    return;
+                }
+                out.write(c);
+            }
+        };
     }
 
     private static class GeneratingVisitor extends AbstractVisitor {
