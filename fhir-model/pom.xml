@@ -57,6 +57,16 @@
             <artifactId>xmlunit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ibm.watson.platform.health</groupId>
+            <artifactId>fhir-r4-spec-examples</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
