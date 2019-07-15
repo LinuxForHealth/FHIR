@@ -100,6 +100,9 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         // do nothing
     }
     
+    /**
+     * Temporary workaround for: https://github.com/eclipse-ee4j/jsonp/issues/190
+     */
     private OutputStream wrap(OutputStream out) {
         return new FilterOutputStream(out) {
             private boolean first = true;
@@ -115,6 +118,9 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         };
     }
     
+    /**
+     * Temporary workaround for: https://github.com/eclipse-ee4j/jsonp/issues/190
+     */
     private Writer wrap(Writer writer) {
         return new FilterWriter(writer) {
             private boolean first = true;
