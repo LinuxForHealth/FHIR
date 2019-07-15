@@ -10,7 +10,6 @@
 
     <properties>
         <was.liberty.version>19.0.0.4</was.liberty.version>
-        <eclipselink.moxy.version>2.7.2</eclipselink.moxy.version>
         <java.sdk.version>8.0-5.35-linux-x86_64</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
         <db2.version>4.25.1301</db2.version>
@@ -79,12 +78,7 @@
             <dependency>
                 <groupId>com.ibm.watson.platform.health</groupId>
                 <artifactId>database-utils</artifactId>
-                <version>4.0.0-4-201907120649</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ibm.watson.platform.health</groupId>
-                <artifactId>fhir-r4-spec-examples</artifactId>
-                <version>4.0.0-5-201907150801</version>
+                <version>4.0.0-3-201907081045</version>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
@@ -118,11 +112,6 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
                 <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.moxy</artifactId>
-                <version>${eclipselink.moxy.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.websocket</groupId>
