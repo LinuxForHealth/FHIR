@@ -83,12 +83,12 @@ public class FHIRValidator {
         
         @Override
         protected void doVisitStart(String elementName, Element element) {
-            validate(element.getClass(), getPath());            
+            validate(element.getClass(), getCurrentPath());            
         }
 
         @Override
         protected void doVisitStart(String elementName, Resource resource) {
-            validate(resource.getClass(), getPath());            
+            validate(resource.getClass(), getCurrentPath());            
         }
 
         private List<Issue> getIssues() {
