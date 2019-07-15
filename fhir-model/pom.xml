@@ -31,17 +31,17 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.glassfish</groupId>
-                    <artifactId>javax.json</artifactId>
+                    <artifactId>jakarta.json</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
+            <artifactId>jakarta.json</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
@@ -67,16 +67,6 @@
             <artifactId>xmlunit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.ibm.watson.platform.health</groupId>
-            <artifactId>fhir-r4-spec-examples</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -88,8 +78,8 @@
                     <dependencies>
                         <dependency>
                             <groupId>org.glassfish</groupId>
-                            <artifactId>javax.json</artifactId>
-                            <version>1.1.4</version>
+                            <artifactId>jakarta.json</artifactId>
+                            <version>1.1.5</version>
                         </dependency>
                     </dependencies>
                 </plugin>
