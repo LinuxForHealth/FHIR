@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public class FHIRPathTreeTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -75,7 +76,7 @@ public class FHIRPathTreeTest {
         FHIRGenerator.generator(Format.JSON, true).generate(patient, out);
         
         System.out.println("");
-        FHIRPathTree.DEBUG = true;
+        PathAwareAbstractVisitor.DEBUG = true;
         
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         tree.getRoot().stream().forEach(FHIRPathTreeTest::print);

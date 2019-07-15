@@ -28,6 +28,7 @@ import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public class FHIRPathEvaluatorTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -80,7 +81,7 @@ public class FHIRPathEvaluatorTest {
         
         System.out.println("");
         
-        FHIRPathTree.DEBUG = true;
+        PathAwareAbstractVisitor.DEBUG = true;
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         
         FHIRPathEvaluator.DEBUG = true;

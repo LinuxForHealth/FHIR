@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -26,6 +25,7 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public class FHIRValidatorTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -78,7 +78,7 @@ public class FHIRValidatorTest {
         
         System.out.println("");
         
-        FHIRPathTree.DEBUG = true;
+        PathAwareAbstractVisitor.DEBUG = true;
         FHIRValidator.DEBUG = true;
         List<Issue> issues = FHIRValidator.validator(patient).validate();
         

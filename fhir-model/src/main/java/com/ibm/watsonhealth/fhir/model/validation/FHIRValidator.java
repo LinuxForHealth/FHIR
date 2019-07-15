@@ -18,8 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Stack;
-import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -31,7 +29,7 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.validation.exception.FHIRValidationException;
-import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRValidator {
@@ -72,13 +70,10 @@ public class FHIRValidator {
         return new FHIRValidator(FHIRPathTree.tree(resource));
     }
 
-    public static class ValidatingVisitor extends AbstractVisitor {
+    public static class ValidatingVisitor extends PathAwareAbstractVisitor {
         private static final String WARNING_LEVEL = "Warning";
         private static final String BASE_LOCATION = "(base)";
         
-        private final Stack<java.lang.String> nameStack = new Stack<>();
-        private final Stack<java.lang.String> pathStack = new Stack<>();
-        private final Stack<java.lang.Integer> indexStack = new Stack<>();
         private final FHIRPathTree tree;
         
         private List<Issue> issues = new ArrayList<>(); 
@@ -105,25 +100,6 @@ public class FHIRValidator {
                 }
             }
             return constraints;
-        }
-
-        private java.lang.String getPath() {
-            return pathStack.stream().collect(Collectors.joining("."));
-        }
-        
-        private void pathStackPop() {
-            pathStack.pop();
-        }
-
-        private void pathStackPush(java.lang.String elementName, int index) {
-            if (index != -1) {
-                pathStack.push(elementName + "[" + index + "]");
-            } else {
-                pathStack.push(elementName);
-            }
-            if (DEBUG) {
-                System.out.println(getPath());
-            }
         }
 
         private void validate(Class<?> type, java.lang.String path) {
@@ -176,53 +152,33 @@ public class FHIRValidator {
         }
 
         @Override
-        public void visitEnd(java.lang.String elementName, Element element) {
-            pathStackPop();
-        }
-        
-        @Override
-        public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {            
-            nameStack.pop();
-            indexStack.pop();
-        }
-        
-        @Override
-        public void visitEnd(java.lang.String elementName, Resource resource) {
-            pathStackPop();
-        }
-        
-        @Override
-        public void visitStart(java.lang.String elementName, Element element) {
-            int index = -1;
-            if (elementName == null) {
-                elementName = nameStack.peek();
-                index = indexStack.peek();
-            }
-            pathStackPush(elementName, index);
-            validate(element.getClass(), getPath());
-            if (index != -1) {
-                indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-            }
+        protected void doVisitEnd(String elementName, Element element) {
+            // do nothing
         }
 
         @Override
-        public void visitStart(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            nameStack.push(elementName);
-            indexStack.push(0);
+        protected void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+            // do nothing
         }
-        
+
         @Override
-        public void visitStart(java.lang.String elementName, Resource resource) {
-            int index = -1;
-            if (elementName == null) {
-                elementName = nameStack.peek();
-                index = indexStack.peek();
-            }
-            pathStackPush(elementName, index);
-            validate(resource.getClass(), getPath());
-            if (index != -1) {
-                indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-            }
+        protected void doVisitEnd(String elementName, Resource resource) {
+            // do nothing
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, Element element) {
+            validate(element.getClass(), getPath());            
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+            // do nothing
+        }
+
+        @Override
+        protected void doVisitStart(String elementName, Resource resource) {
+            validate(resource.getClass(), getPath());            
         }
     }
 }

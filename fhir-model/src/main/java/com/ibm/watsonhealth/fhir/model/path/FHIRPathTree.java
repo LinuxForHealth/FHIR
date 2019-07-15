@@ -21,16 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
-public class FHIRPathTree {
-    public static boolean DEBUG = false;
-    
+public class FHIRPathTree {    
     private final FHIRPathNode root;
     private final Map<String, FHIRPathNode> pathNodeMap;
     
@@ -65,40 +62,17 @@ public class FHIRPathTree {
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
     
-    private static class BuildingVisitor extends AbstractVisitor {
-        private final Stack<java.lang.String> nameStack = new Stack<>();
-        private final Stack<String> pathStack = new Stack<>();
-        private final Stack<Integer> indexStack = new Stack<>();
-        private final Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
-        
+    private static class BuildingVisitor extends PathAwareAbstractVisitor {
+        private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
 
         private Map<String, FHIRPathNode> getPathNodeMap() {
             return pathNodeMap;
         }
-        
-        private String getPath() {
-            return pathStack.stream().collect(Collectors.joining("."));
-        }
     
         private FHIRPathNode getRoot() {
             return root;
-        }
-
-        private void pathStackPop() {
-            pathStack.pop();
-        }
-
-        private void pathStackPush(String elementName, int index) {
-            if (index != -1) {
-                pathStack.push(elementName + "[" + index + "]");
-            } else {
-                pathStack.push(elementName);
-            }
-            if (DEBUG) {
-                System.out.println(getPath());
-            }
         }
 
         @Override
@@ -180,9 +154,9 @@ public class FHIRPathTree {
             }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
-        
+
         @Override
-        public void visitEnd(java.lang.String elementName, Element element) {
+        protected void doVisitEnd(String elementName, Element element) {
             FHIRPathNode.Builder builder = builderStack.pop();
             FHIRPathNode node = builder.build();
             pathNodeMap.put(getPath(), node);
@@ -191,17 +165,15 @@ public class FHIRPathTree {
             } else {
                 root = node;
             }
-            pathStackPop();
         }
-        
+
         @Override
-        public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {            
-            nameStack.pop();
-            indexStack.pop();
+        protected void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+            // do nothing
         }
-        
+
         @Override
-        public void visitEnd(java.lang.String elementName, Resource resource) {
+        protected void doVisitEnd(String elementName, Resource resource) {
             FHIRPathNode.Builder builder = builderStack.pop();
             FHIRPathNode node = builder.build();
             pathNodeMap.put(getPath(), node);
@@ -209,44 +181,24 @@ public class FHIRPathTree {
                 builderStack.peek().children(node);
             } else {
                 root = node;
-            }
-            pathStackPop();
+            }            
         }
-        
+
         @Override
-        public void visitStart(java.lang.String elementName, Element element) {
-            int index = -1;
-            if (elementName == null) {
-                elementName = nameStack.peek();
-                index = indexStack.peek();
-            }
-            pathStackPush(elementName, index);
+        protected void doVisitStart(String elementName, Element element) {
             FHIRPathNode.Builder builder = FHIRPathElementNode.builder(element).name(elementName);
             builderStack.push(builder);
-            if (index != -1) {
-                indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-            }
         }
-        
+
         @Override
-        public void visitStart(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            nameStack.push(elementName);
-            indexStack.push(0);
+        protected void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+            // do nothing
         }
-        
+
         @Override
-        public void visitStart(java.lang.String elementName, Resource resource) {
-            int index = -1;
-            if (elementName == null) {
-                elementName = nameStack.peek();
-                index = indexStack.peek();
-            }
-            pathStackPush(elementName, index);
+        protected void doVisitStart(String elementName, Resource resource) {
             FHIRPathNode.Builder builder = FHIRPathResourceNode.builder(resource).name(elementName);
-            builderStack.push(builder);
-            if (index != -1) {
-                indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-            }
+            builderStack.push(builder);            
         }
     }
 }

@@ -6,9 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.spec.test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
