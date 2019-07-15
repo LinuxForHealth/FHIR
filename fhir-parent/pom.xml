@@ -556,6 +556,15 @@ CODE_REMOVED
         </repository>
     </repositories>
 
+    <pluginRepositories>
+    	<pluginRepository>
+    		<id>na-artifactory-releases</id>
+CODE_REMOVED
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <scm>
         <connection>scm:git:git@github.ibm.com:watson-health-fhir-server/fhir.git</connection>
     </scm>
