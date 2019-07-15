@@ -588,7 +588,7 @@ public class AdverseEvent extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -630,7 +630,7 @@ public class AdverseEvent extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -680,7 +680,7 @@ public class AdverseEvent extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -744,7 +744,7 @@ public class AdverseEvent extends DomainResource {
          * The overall type of event, intended for search and filtering purposes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -869,7 +869,7 @@ public class AdverseEvent extends DomainResource {
          * chemical).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param resultingCondition
@@ -994,7 +994,7 @@ public class AdverseEvent extends DomainResource {
          * clinical history), or information about what activity was performed (e.g. informant witness).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contributor
@@ -1037,7 +1037,7 @@ public class AdverseEvent extends DomainResource {
          * Describes the entity that is suspected to have caused the adverse event.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param suspectEntity
@@ -1077,7 +1077,7 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.subjectMedicalHistory.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param subjectMedicalHistory
@@ -1117,7 +1117,7 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.referenceDocument.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param referenceDocument
@@ -1157,7 +1157,7 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.study.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param study
@@ -1378,7 +1378,7 @@ public class AdverseEvent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1428,7 +1428,7 @@ public class AdverseEvent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1475,7 +1475,7 @@ public class AdverseEvent extends DomainResource {
              * Information on the possible cause of the event.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param causality
@@ -1704,7 +1704,7 @@ public class AdverseEvent extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -1754,7 +1754,7 @@ public class AdverseEvent extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

@@ -336,7 +336,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -378,7 +378,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -428,7 +428,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -475,7 +475,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * The medication for which this is an indication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param subject
@@ -547,7 +547,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * A comorbidity (concurrent condition) or coinfection.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param comorbidity
@@ -587,7 +587,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * Information about the use of the medicinal product in relation to other therapies as part of the indication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param therapeuticIndication
@@ -627,7 +627,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param otherTherapy
@@ -667,7 +667,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * The population group to which this applies.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param population
@@ -876,7 +876,7 @@ public class MedicinalProductContraindication extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -926,7 +926,7 @@ public class MedicinalProductContraindication extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

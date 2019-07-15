@@ -234,7 +234,7 @@ public class MarketingStatus extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -284,7 +284,7 @@ public class MarketingStatus extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension

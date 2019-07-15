@@ -302,7 +302,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -344,7 +344,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -394,7 +394,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -457,7 +457,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param gene
@@ -497,7 +497,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param geneElement
@@ -537,7 +537,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param classification
@@ -577,7 +577,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param target
@@ -796,7 +796,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -846,7 +846,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -925,7 +925,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param source
@@ -1138,7 +1138,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1188,7 +1188,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1267,7 +1267,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param source
@@ -1499,7 +1499,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1549,7 +1549,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1628,7 +1628,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param subtype
@@ -1668,7 +1668,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param source
@@ -1977,7 +1977,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2027,7 +2027,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2186,7 +2186,7 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param source

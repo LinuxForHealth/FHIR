@@ -551,7 +551,7 @@ public class MedicationStatement extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -593,7 +593,7 @@ public class MedicationStatement extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -643,7 +643,7 @@ public class MedicationStatement extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -693,7 +693,7 @@ public class MedicationStatement extends DomainResource {
          * server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -736,7 +736,7 @@ public class MedicationStatement extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this event.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -776,7 +776,7 @@ public class MedicationStatement extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -816,7 +816,7 @@ public class MedicationStatement extends DomainResource {
          * Captures the reason for the current state of the MedicationStatement.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param statusReason
@@ -939,7 +939,7 @@ public class MedicationStatement extends DomainResource {
          * is used to derive the MedicationStatement.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param derivedFrom
@@ -980,7 +980,7 @@ public class MedicationStatement extends DomainResource {
          * A reason for why the medication is being/was taken.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1020,7 +1020,7 @@ public class MedicationStatement extends DomainResource {
          * Condition or observation that supports why the medication is being/was taken.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1060,7 +1060,7 @@ public class MedicationStatement extends DomainResource {
          * Provides extra information about the medication statement that is not conveyed by the other attributes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1100,7 +1100,7 @@ public class MedicationStatement extends DomainResource {
          * Indicates how the medication is/was or should be taken by the patient.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dosage

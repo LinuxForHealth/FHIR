@@ -820,7 +820,7 @@ public class Library extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -862,7 +862,7 @@ public class Library extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -912,7 +912,7 @@ public class Library extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -980,7 +980,7 @@ public class Library extends DomainResource {
          * one identifier is required for non-experimental active artifacts.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1160,7 +1160,7 @@ public class Library extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1218,7 +1218,7 @@ public class Library extends DomainResource {
          * may be used to assist with indexing and searching for appropriate library instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1260,7 +1260,7 @@ public class Library extends DomainResource {
          * A legal or geographic region in which the library is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1400,7 +1400,7 @@ public class Library extends DomainResource {
          * that can be useful for filtering and searching.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param topic
@@ -1441,7 +1441,7 @@ public class Library extends DomainResource {
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param author
@@ -1481,7 +1481,7 @@ public class Library extends DomainResource {
          * An individual or organization primarily responsible for internal coherence of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param editor
@@ -1521,7 +1521,7 @@ public class Library extends DomainResource {
          * An individual or organization primarily responsible for review of some aspect of the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reviewer
@@ -1561,7 +1561,7 @@ public class Library extends DomainResource {
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endorser
@@ -1601,7 +1601,7 @@ public class Library extends DomainResource {
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relatedArtifact
@@ -1641,7 +1641,7 @@ public class Library extends DomainResource {
          * The parameter element defines parameters used by the library.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param parameter
@@ -1682,7 +1682,7 @@ public class Library extends DomainResource {
          * the library.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dataRequirement
@@ -1724,7 +1724,7 @@ public class Library extends DomainResource {
          * base-64 string. Either way, the contentType of the attachment determines how to interpret the content.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param content

@@ -462,7 +462,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -504,7 +504,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -554,7 +554,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -684,7 +684,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Ginkgo biloba L. (Whole plant).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param parentSubstanceId
@@ -727,7 +727,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The parent substance of the Herbal Drug, or Herbal preparation.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param parentSubstanceName
@@ -769,7 +769,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param countryOfOrigin
@@ -815,7 +815,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param geographicalLocation
@@ -878,7 +878,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Group 1 levels.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param fractionDescription
@@ -953,7 +953,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * To do.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partDescription
@@ -1167,7 +1167,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1217,7 +1217,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1570,7 +1570,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1620,7 +1620,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1753,7 +1753,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * 4.9.13.6.1 Author type (Conditional).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param author
@@ -1987,7 +1987,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2037,7 +2037,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2337,7 +2337,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2387,7 +2387,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2716,7 +2716,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2766,7 +2766,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3034,7 +3034,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3084,7 +3084,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

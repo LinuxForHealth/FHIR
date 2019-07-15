@@ -527,7 +527,7 @@ public class Goal extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -569,7 +569,7 @@ public class Goal extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -619,7 +619,7 @@ public class Goal extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -667,7 +667,7 @@ public class Goal extends DomainResource {
          * updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -724,7 +724,7 @@ public class Goal extends DomainResource {
          * Indicates a category the goal falls within.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -796,7 +796,7 @@ public class Goal extends DomainResource {
          * Indicates what should be done by when.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param target
@@ -884,7 +884,7 @@ public class Goal extends DomainResource {
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param addresses
@@ -924,7 +924,7 @@ public class Goal extends DomainResource {
          * Any comments related to the goal.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -964,7 +964,7 @@ public class Goal extends DomainResource {
          * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param outcomeCode
@@ -1004,7 +1004,7 @@ public class Goal extends DomainResource {
          * Details of what's changed (or not changed).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param outcomeReference
@@ -1234,7 +1234,7 @@ public class Goal extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1284,7 +1284,7 @@ public class Goal extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

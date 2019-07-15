@@ -438,7 +438,7 @@ public class QuestionnaireResponse extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -480,7 +480,7 @@ public class QuestionnaireResponse extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -530,7 +530,7 @@ public class QuestionnaireResponse extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -594,7 +594,7 @@ public class QuestionnaireResponse extends DomainResource {
          * ServiceRequest seeking an intake assessment or a decision support recommendation to assess for post-partum depression.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -636,7 +636,7 @@ public class QuestionnaireResponse extends DomainResource {
          * a checklist was executed as part of.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -775,7 +775,7 @@ public class QuestionnaireResponse extends DomainResource {
          * A group or question item from the original questionnaire for which answers are provided.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param item
@@ -1044,7 +1044,7 @@ public class QuestionnaireResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1094,7 +1094,7 @@ public class QuestionnaireResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1173,7 +1173,7 @@ public class QuestionnaireResponse extends DomainResource {
              * The respondent's answer(s) to the question.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param answer
@@ -1213,7 +1213,7 @@ public class QuestionnaireResponse extends DomainResource {
              * Questions or sub-groups nested beneath a question or group.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param item
@@ -1407,7 +1407,7 @@ public class QuestionnaireResponse extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -1457,7 +1457,7 @@ public class QuestionnaireResponse extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1520,7 +1520,7 @@ public class QuestionnaireResponse extends DomainResource {
                  * Nested groups and/or questions found within this particular answer.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param item

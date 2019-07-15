@@ -730,7 +730,7 @@ public class ClaimResponse extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -772,7 +772,7 @@ public class ClaimResponse extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -822,7 +822,7 @@ public class ClaimResponse extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -869,7 +869,7 @@ public class ClaimResponse extends DomainResource {
          * A unique identifier assigned to this claim response.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1023,7 +1023,7 @@ public class ClaimResponse extends DomainResource {
          * groups of sub-details.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param item
@@ -1064,7 +1064,7 @@ public class ClaimResponse extends DomainResource {
          * The first-tier service adjudications for payor added product or service lines.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param addItem
@@ -1104,7 +1104,7 @@ public class ClaimResponse extends DomainResource {
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param adjudication
@@ -1144,7 +1144,7 @@ public class ClaimResponse extends DomainResource {
          * Categorized monetary totals for the adjudication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param total
@@ -1249,7 +1249,7 @@ public class ClaimResponse extends DomainResource {
          * A note that describes or explains adjudication results in a human readable form.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param processNote
@@ -1289,7 +1289,7 @@ public class ClaimResponse extends DomainResource {
          * Request for additional supporting or authorizing information.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param communicationRequest
@@ -1329,7 +1329,7 @@ public class ClaimResponse extends DomainResource {
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param insurance
@@ -1369,7 +1369,7 @@ public class ClaimResponse extends DomainResource {
          * Errors encountered during the processing of the adjudication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param error
@@ -1604,7 +1604,7 @@ public class ClaimResponse extends DomainResource {
             private Builder(PositiveInt itemSequence, List<Adjudication> adjudication) {
                 super();
                 this.itemSequence = itemSequence;
-                this.adjudication = adjudication;
+                this.adjudication = new ArrayList<>(adjudication);
             }
 
             /**
@@ -1632,7 +1632,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1682,7 +1682,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1729,7 +1729,7 @@ public class ClaimResponse extends DomainResource {
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param noteNumber
@@ -1769,7 +1769,7 @@ public class ClaimResponse extends DomainResource {
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param detail
@@ -2009,7 +2009,7 @@ public class ClaimResponse extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2059,7 +2059,7 @@ public class ClaimResponse extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2326,7 +2326,7 @@ public class ClaimResponse extends DomainResource {
                 private Builder(PositiveInt detailSequence, List<ClaimResponse.Item.Adjudication> adjudication) {
                     super();
                     this.detailSequence = detailSequence;
-                    this.adjudication = adjudication;
+                    this.adjudication = new ArrayList<>(adjudication);
                 }
 
                 /**
@@ -2354,7 +2354,7 @@ public class ClaimResponse extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2404,7 +2404,7 @@ public class ClaimResponse extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2451,7 +2451,7 @@ public class ClaimResponse extends DomainResource {
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param noteNumber
@@ -2491,7 +2491,7 @@ public class ClaimResponse extends DomainResource {
                  * A sub-detail adjudication of a simple product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param subDetail
@@ -2709,7 +2709,7 @@ public class ClaimResponse extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -2759,7 +2759,7 @@ public class ClaimResponse extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2806,7 +2806,7 @@ public class ClaimResponse extends DomainResource {
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param noteNumber
@@ -2846,7 +2846,7 @@ public class ClaimResponse extends DomainResource {
                      * The adjudication results.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param adjudication
@@ -3328,7 +3328,7 @@ public class ClaimResponse extends DomainResource {
             private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
                 super();
                 this.productOrService = productOrService;
-                this.adjudication = adjudication;
+                this.adjudication = new ArrayList<>(adjudication);
             }
 
             /**
@@ -3356,7 +3356,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3406,7 +3406,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3453,7 +3453,7 @@ public class ClaimResponse extends DomainResource {
              * Claim items which this service line is intended to replace.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param itemSequence
@@ -3493,7 +3493,7 @@ public class ClaimResponse extends DomainResource {
              * The sequence number of the details within the claim item which this line is intended to replace.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param detailSequence
@@ -3533,7 +3533,7 @@ public class ClaimResponse extends DomainResource {
              * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param subdetailSequence
@@ -3573,7 +3573,7 @@ public class ClaimResponse extends DomainResource {
              * The providers who are authorized for the services rendered to the patient.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param provider
@@ -3613,7 +3613,7 @@ public class ClaimResponse extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifier
@@ -3653,7 +3653,7 @@ public class ClaimResponse extends DomainResource {
              * Identifies the program under which this may be recovered.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param programCode
@@ -3807,7 +3807,7 @@ public class ClaimResponse extends DomainResource {
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param subSite
@@ -3847,7 +3847,7 @@ public class ClaimResponse extends DomainResource {
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param noteNumber
@@ -3887,7 +3887,7 @@ public class ClaimResponse extends DomainResource {
              * The second-tier service adjudications for payor added services.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param detail
@@ -4209,7 +4209,7 @@ public class ClaimResponse extends DomainResource {
                 private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
                     super();
                     this.productOrService = productOrService;
-                    this.adjudication = adjudication;
+                    this.adjudication = new ArrayList<>(adjudication);
                 }
 
                 /**
@@ -4237,7 +4237,7 @@ public class ClaimResponse extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4287,7 +4287,7 @@ public class ClaimResponse extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4334,7 +4334,7 @@ public class ClaimResponse extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifier
@@ -4440,7 +4440,7 @@ public class ClaimResponse extends DomainResource {
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param noteNumber
@@ -4480,7 +4480,7 @@ public class ClaimResponse extends DomainResource {
                  * The third-tier service adjudications for payor added services.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param subDetail
@@ -4774,7 +4774,7 @@ public class ClaimResponse extends DomainResource {
                     private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
                         super();
                         this.productOrService = productOrService;
-                        this.adjudication = adjudication;
+                        this.adjudication = new ArrayList<>(adjudication);
                     }
 
                     /**
@@ -4802,7 +4802,7 @@ public class ClaimResponse extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -4852,7 +4852,7 @@ public class ClaimResponse extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -4899,7 +4899,7 @@ public class ClaimResponse extends DomainResource {
                      * Item typification or modifiers codes to convey additional context for the product or service.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifier
@@ -5005,7 +5005,7 @@ public class ClaimResponse extends DomainResource {
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param noteNumber
@@ -5212,7 +5212,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -5262,7 +5262,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5545,7 +5545,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -5595,7 +5595,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -5907,7 +5907,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -5957,7 +5957,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -6274,7 +6274,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -6324,7 +6324,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -6604,7 +6604,7 @@ public class ClaimResponse extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -6654,7 +6654,7 @@ public class ClaimResponse extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

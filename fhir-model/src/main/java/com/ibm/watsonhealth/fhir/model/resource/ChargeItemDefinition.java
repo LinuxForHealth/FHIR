@@ -675,7 +675,7 @@ public class ChargeItemDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -717,7 +717,7 @@ public class ChargeItemDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -767,7 +767,7 @@ public class ChargeItemDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -815,7 +815,7 @@ public class ChargeItemDefinition extends DomainResource {
          * referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -895,7 +895,7 @@ public class ChargeItemDefinition extends DomainResource {
          * definition.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param derivedFromUri
@@ -936,7 +936,7 @@ public class ChargeItemDefinition extends DomainResource {
          * A larger definition of which this particular definition is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -977,7 +977,7 @@ public class ChargeItemDefinition extends DomainResource {
          * instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param replaces
@@ -1069,7 +1069,7 @@ public class ChargeItemDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1127,7 +1127,7 @@ public class ChargeItemDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate charge item definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1169,7 +1169,7 @@ public class ChargeItemDefinition extends DomainResource {
          * A legal or geographic region in which the charge item definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1292,7 +1292,7 @@ public class ChargeItemDefinition extends DomainResource {
          * The defined billing details in this resource pertain to the given product instance(s).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instance
@@ -1332,7 +1332,7 @@ public class ChargeItemDefinition extends DomainResource {
          * Expressions that describe applicability criteria for the billing code.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param applicability
@@ -1373,7 +1373,7 @@ public class ChargeItemDefinition extends DomainResource {
          * group, then all properties always apply.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param propertyGroup
@@ -1612,7 +1612,7 @@ public class ChargeItemDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1662,7 +1662,7 @@ public class ChargeItemDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1918,7 +1918,7 @@ public class ChargeItemDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1968,7 +1968,7 @@ public class ChargeItemDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2015,7 +2015,7 @@ public class ChargeItemDefinition extends DomainResource {
              * Expressions that describe applicability criteria for the priceComponent.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param applicability
@@ -2058,7 +2058,7 @@ public class ChargeItemDefinition extends DomainResource {
              * the Invoice of how the prices have been calculated.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param priceComponent
@@ -2302,7 +2302,7 @@ public class ChargeItemDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2352,7 +2352,7 @@ public class ChargeItemDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

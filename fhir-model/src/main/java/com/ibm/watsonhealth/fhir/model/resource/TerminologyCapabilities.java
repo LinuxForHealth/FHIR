@@ -722,7 +722,7 @@ public class TerminologyCapabilities extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -764,7 +764,7 @@ public class TerminologyCapabilities extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -814,7 +814,7 @@ public class TerminologyCapabilities extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -966,7 +966,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1026,7 +1026,7 @@ public class TerminologyCapabilities extends DomainResource {
          * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1068,7 +1068,7 @@ public class TerminologyCapabilities extends DomainResource {
          * A legal or geographic region in which the terminology capabilities is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1192,7 +1192,7 @@ public class TerminologyCapabilities extends DomainResource {
          * general assumptions a client can make about support for any CodeSystem resource.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param codeSystem
@@ -1497,7 +1497,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1547,7 +1547,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1770,7 +1770,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1820,7 +1820,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2055,7 +2055,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2105,7 +2105,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2168,7 +2168,7 @@ public class TerminologyCapabilities extends DomainResource {
              * For the code system, a list of versions that are supported by the server.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param version
@@ -2453,7 +2453,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2503,7 +2503,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2598,7 +2598,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * Language Displays supported.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param language
@@ -2638,7 +2638,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * Filter Properties supported.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param filter
@@ -2678,7 +2678,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * Properties supported for $lookup.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param property
@@ -2852,7 +2852,7 @@ public class TerminologyCapabilities extends DomainResource {
                     private Builder(Code code, List<Code> op) {
                         super();
                         this.code = code;
-                        this.op = op;
+                        this.op = new ArrayList<>(op);
                     }
 
                     /**
@@ -2880,7 +2880,7 @@ public class TerminologyCapabilities extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -2930,7 +2930,7 @@ public class TerminologyCapabilities extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -3187,7 +3187,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3237,7 +3237,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3332,7 +3332,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Supported expansion parameter.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param parameter
@@ -3550,7 +3550,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3600,7 +3600,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3802,7 +3802,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3852,7 +3852,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4036,7 +4036,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4086,7 +4086,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4265,7 +4265,7 @@ public class TerminologyCapabilities extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4315,7 +4315,7 @@ public class TerminologyCapabilities extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

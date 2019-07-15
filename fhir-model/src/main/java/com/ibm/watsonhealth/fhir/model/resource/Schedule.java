@@ -269,7 +269,7 @@ public class Schedule extends DomainResource {
 
         private Builder(List<Reference> actor) {
             super();
-            this.actor = actor;
+            this.actor = new ArrayList<>(actor);
         }
 
         /**
@@ -364,7 +364,7 @@ public class Schedule extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -406,7 +406,7 @@ public class Schedule extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -456,7 +456,7 @@ public class Schedule extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -503,7 +503,7 @@ public class Schedule extends DomainResource {
          * External Ids for this item.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -559,7 +559,7 @@ public class Schedule extends DomainResource {
          * A broad categorization of the service that is to be performed during this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param serviceCategory
@@ -599,7 +599,7 @@ public class Schedule extends DomainResource {
          * The specific service that is to be performed during this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param serviceType
@@ -639,7 +639,7 @@ public class Schedule extends DomainResource {
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param specialty

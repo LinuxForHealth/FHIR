@@ -978,7 +978,7 @@ public class ElementDefinition extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -1028,7 +1028,7 @@ public class ElementDefinition extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1075,7 +1075,7 @@ public class ElementDefinition extends BackboneElement {
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param representation
@@ -1168,7 +1168,7 @@ public class ElementDefinition extends BackboneElement {
          * A code that has the same meaning as the element in a particular terminology.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param code
@@ -1297,7 +1297,7 @@ public class ElementDefinition extends BackboneElement {
          * Identifies additional names by which this element might also be known.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param alias
@@ -1407,7 +1407,7 @@ public class ElementDefinition extends BackboneElement {
          * The data type or resource that the value of this element is permitted to be.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param type
@@ -1550,7 +1550,7 @@ public class ElementDefinition extends BackboneElement {
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param example
@@ -1641,7 +1641,7 @@ public class ElementDefinition extends BackboneElement {
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param condition
@@ -1682,7 +1682,7 @@ public class ElementDefinition extends BackboneElement {
          * context of the instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param constraint
@@ -1809,7 +1809,7 @@ public class ElementDefinition extends BackboneElement {
          * Identifies a concept from an external specification that roughly corresponds to this element.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param mapping
@@ -2085,7 +2085,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2133,7 +2133,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2180,7 +2180,7 @@ public class ElementDefinition extends BackboneElement {
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param discriminator
@@ -2417,7 +2417,7 @@ public class ElementDefinition extends BackboneElement {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2465,7 +2465,7 @@ public class ElementDefinition extends BackboneElement {
                  * modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2694,7 +2694,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2742,7 +2742,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3013,7 +3013,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3061,7 +3061,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3110,7 +3110,7 @@ public class ElementDefinition extends BackboneElement {
              * implementation guide.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param profile
@@ -3158,7 +3158,7 @@ public class ElementDefinition extends BackboneElement {
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param targetProfile
@@ -3203,7 +3203,7 @@ public class ElementDefinition extends BackboneElement {
              * or a reference, and if the context is a bundle, is it included in the bundle.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param aggregation
@@ -3421,7 +3421,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3469,7 +3469,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -3771,7 +3771,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -3819,7 +3819,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4111,7 +4111,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4159,7 +4159,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4435,7 +4435,7 @@ public class ElementDefinition extends BackboneElement {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4483,7 +4483,7 @@ public class ElementDefinition extends BackboneElement {
              * modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

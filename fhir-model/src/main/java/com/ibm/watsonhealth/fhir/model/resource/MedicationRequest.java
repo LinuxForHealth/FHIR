@@ -830,7 +830,7 @@ public class MedicationRequest extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -872,7 +872,7 @@ public class MedicationRequest extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -922,7 +922,7 @@ public class MedicationRequest extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -972,7 +972,7 @@ public class MedicationRequest extends DomainResource {
          * to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1032,7 +1032,7 @@ public class MedicationRequest extends DomainResource {
          * (i.e. inpatient or outpatient)).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -1138,7 +1138,7 @@ public class MedicationRequest extends DomainResource {
          * Include additional information (for example, patient height and weight) that supports the ordering of the medication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supportingInformation
@@ -1259,7 +1259,7 @@ public class MedicationRequest extends DomainResource {
          * The reason or the indication for ordering or not ordering the medication.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1299,7 +1299,7 @@ public class MedicationRequest extends DomainResource {
          * Condition or observation that supports why the medication was ordered.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1340,7 +1340,7 @@ public class MedicationRequest extends DomainResource {
          * this MedicationRequest.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -1382,7 +1382,7 @@ public class MedicationRequest extends DomainResource {
          * whole or in part by this MedicationRequest.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -1423,7 +1423,7 @@ public class MedicationRequest extends DomainResource {
          * A plan or request that is fulfilled in whole or in part by this medication request.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -1497,7 +1497,7 @@ public class MedicationRequest extends DomainResource {
          * the requested service.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param insurance
@@ -1538,7 +1538,7 @@ public class MedicationRequest extends DomainResource {
          * Extra information about the prescription that could not be conveyed by the other attributes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1578,7 +1578,7 @@ public class MedicationRequest extends DomainResource {
          * Indicates how the medication is to be used by the patient.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dosageInstruction
@@ -1672,7 +1672,7 @@ public class MedicationRequest extends DomainResource {
          * patient; e.g. Drug-drug interaction, duplicate therapy, dosage alert etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param detectedIssue
@@ -1715,7 +1715,7 @@ public class MedicationRequest extends DomainResource {
          * resource.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param eventHistory
@@ -2043,7 +2043,7 @@ public class MedicationRequest extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2093,7 +2093,7 @@ public class MedicationRequest extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2414,7 +2414,7 @@ public class MedicationRequest extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2464,7 +2464,7 @@ public class MedicationRequest extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2706,7 +2706,7 @@ public class MedicationRequest extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2756,7 +2756,7 @@ public class MedicationRequest extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

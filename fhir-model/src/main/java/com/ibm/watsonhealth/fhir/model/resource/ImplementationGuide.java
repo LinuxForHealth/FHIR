@@ -541,7 +541,7 @@ public class ImplementationGuide extends DomainResource {
             this.name = name;
             this.status = status;
             this.packageId = packageId;
-            this.fhirVersion = fhirVersion;
+            this.fhirVersion = new ArrayList<>(fhirVersion);
         }
 
         /**
@@ -636,7 +636,7 @@ public class ImplementationGuide extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -678,7 +678,7 @@ public class ImplementationGuide extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -728,7 +728,7 @@ public class ImplementationGuide extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -861,7 +861,7 @@ public class ImplementationGuide extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -919,7 +919,7 @@ public class ImplementationGuide extends DomainResource {
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -961,7 +961,7 @@ public class ImplementationGuide extends DomainResource {
          * A legal or geographic region in which the implementation guide is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1035,7 +1035,7 @@ public class ImplementationGuide extends DomainResource {
          * profiles etc.defined in other implementation guides.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dependsOn
@@ -1076,7 +1076,7 @@ public class ImplementationGuide extends DomainResource {
          * A set of profiles that all resources covered by this implementation guide must conform to.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param global
@@ -1345,7 +1345,7 @@ public class ImplementationGuide extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1395,7 +1395,7 @@ public class ImplementationGuide extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1633,7 +1633,7 @@ public class ImplementationGuide extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1683,7 +1683,7 @@ public class ImplementationGuide extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1919,7 +1919,7 @@ public class ImplementationGuide extends DomainResource {
 
             private Builder(List<Resource> resource) {
                 super();
-                this.resource = resource;
+                this.resource = new ArrayList<>(resource);
             }
 
             /**
@@ -1947,7 +1947,7 @@ public class ImplementationGuide extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1997,7 +1997,7 @@ public class ImplementationGuide extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2044,7 +2044,7 @@ public class ImplementationGuide extends DomainResource {
              * A logical group of resources. Logical groups can be used when building pages.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param grouping
@@ -2100,7 +2100,7 @@ public class ImplementationGuide extends DomainResource {
              * Defines how IG is built by tools.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param parameter
@@ -2140,7 +2140,7 @@ public class ImplementationGuide extends DomainResource {
              * A template for building resources.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param template
@@ -2341,7 +2341,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2391,7 +2391,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2694,7 +2694,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2744,7 +2744,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2792,7 +2792,7 @@ public class ImplementationGuide extends DomainResource {
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param fhirVersion
@@ -3102,7 +3102,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3152,7 +3152,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3199,7 +3199,7 @@ public class ImplementationGuide extends DomainResource {
                  * Nested Pages/Sections under this page.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param page
@@ -3398,7 +3398,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3448,7 +3448,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3673,7 +3673,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3723,7 +3723,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3978,7 +3978,7 @@ public class ImplementationGuide extends DomainResource {
 
             private Builder(List<Resource> resource) {
                 super();
-                this.resource = resource;
+                this.resource = new ArrayList<>(resource);
             }
 
             /**
@@ -4006,7 +4006,7 @@ public class ImplementationGuide extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -4056,7 +4056,7 @@ public class ImplementationGuide extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -4119,7 +4119,7 @@ public class ImplementationGuide extends DomainResource {
              * Information about a page within the IG.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param page
@@ -4159,7 +4159,7 @@ public class ImplementationGuide extends DomainResource {
              * Indicates a relative path to an image that exists within the IG.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param image
@@ -4200,7 +4200,7 @@ public class ImplementationGuide extends DomainResource {
              * similar files that could be the target of a hyperlink in a derived IG.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param other
@@ -4424,7 +4424,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4474,7 +4474,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4733,7 +4733,7 @@ public class ImplementationGuide extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -4783,7 +4783,7 @@ public class ImplementationGuide extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -4846,7 +4846,7 @@ public class ImplementationGuide extends DomainResource {
                  * The name of an anchor available on the page.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param anchor

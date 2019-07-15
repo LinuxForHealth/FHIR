@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -236,7 +237,7 @@ public class Signature extends Element {
 
         private Builder(List<Coding> type, Instant when, Reference who) {
             super();
-            this.type = type;
+            this.type = new ArrayList<>(type);
             this.when = when;
             this.who = who;
         }
@@ -266,7 +267,7 @@ public class Signature extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension

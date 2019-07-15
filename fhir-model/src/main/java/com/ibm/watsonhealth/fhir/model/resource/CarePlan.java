@@ -660,7 +660,7 @@ public class CarePlan extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -702,7 +702,7 @@ public class CarePlan extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -752,7 +752,7 @@ public class CarePlan extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -800,7 +800,7 @@ public class CarePlan extends DomainResource {
          * resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -842,7 +842,7 @@ public class CarePlan extends DomainResource {
          * or in part by this CarePlan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -884,7 +884,7 @@ public class CarePlan extends DomainResource {
          * in whole or in part by this CarePlan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -925,7 +925,7 @@ public class CarePlan extends DomainResource {
          * A care plan that is fulfilled in whole or in part by this care plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -965,7 +965,7 @@ public class CarePlan extends DomainResource {
          * Completed or terminated care plan whose function is taken by this new care plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param replaces
@@ -1005,7 +1005,7 @@ public class CarePlan extends DomainResource {
          * A larger care plan of which this particular care plan is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -1046,7 +1046,7 @@ public class CarePlan extends DomainResource {
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -1183,7 +1183,7 @@ public class CarePlan extends DomainResource {
          * Identifies the individual(s) or organization who provided the contents of the care plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contributor
@@ -1223,7 +1223,7 @@ public class CarePlan extends DomainResource {
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param careTeam
@@ -1263,7 +1263,7 @@ public class CarePlan extends DomainResource {
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param addresses
@@ -1304,7 +1304,7 @@ public class CarePlan extends DomainResource {
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supportingInfo
@@ -1345,7 +1345,7 @@ public class CarePlan extends DomainResource {
          * Describes the intended objective(s) of carrying out the care plan.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param goal
@@ -1386,7 +1386,7 @@ public class CarePlan extends DomainResource {
          * self-monitoring, education, etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param activity
@@ -1427,7 +1427,7 @@ public class CarePlan extends DomainResource {
          * General notes about the care plan not covered elsewhere.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1704,7 +1704,7 @@ public class CarePlan extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1754,7 +1754,7 @@ public class CarePlan extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1802,7 +1802,7 @@ public class CarePlan extends DomainResource {
              * education activity could be patient understands (or not).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param outcomeCodeableConcept
@@ -1845,7 +1845,7 @@ public class CarePlan extends DomainResource {
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param outcomeReference
@@ -1887,7 +1887,7 @@ public class CarePlan extends DomainResource {
              * Notes about the adherence/status/progress of the activity.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param progress
@@ -2417,7 +2417,7 @@ public class CarePlan extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2467,7 +2467,7 @@ public class CarePlan extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2533,7 +2533,7 @@ public class CarePlan extends DomainResource {
                  * or in part by this CarePlan activity.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param instantiatesCanonical
@@ -2575,7 +2575,7 @@ public class CarePlan extends DomainResource {
                  * in whole or in part by this CarePlan activity.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param instantiatesUri
@@ -2633,7 +2633,7 @@ public class CarePlan extends DomainResource {
                  * activity was prohibited.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param reasonCode
@@ -2675,7 +2675,7 @@ public class CarePlan extends DomainResource {
                  * inclusion of this particular activity as part of the plan.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param reasonReference
@@ -2716,7 +2716,7 @@ public class CarePlan extends DomainResource {
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param goal
@@ -2821,7 +2821,7 @@ public class CarePlan extends DomainResource {
                  * Identifies who's expected to be involved in the activity.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param performer

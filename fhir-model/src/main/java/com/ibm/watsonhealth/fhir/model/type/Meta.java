@@ -241,7 +241,7 @@ public class Meta extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -335,7 +335,7 @@ public class Meta extends Element {
          * html#StructureDefinition.url).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param profile
@@ -378,7 +378,7 @@ public class Meta extends Element {
          * infrastructure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param security
@@ -420,7 +420,7 @@ public class Meta extends Element {
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param tag

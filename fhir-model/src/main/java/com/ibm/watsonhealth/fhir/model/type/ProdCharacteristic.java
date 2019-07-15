@@ -348,7 +348,7 @@ public class ProdCharacteristic extends BackboneElement {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -398,7 +398,7 @@ public class ProdCharacteristic extends BackboneElement {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -584,7 +584,7 @@ public class ProdCharacteristic extends BackboneElement {
          * identifier shall be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param color
@@ -627,7 +627,7 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the imprint can be specified as text.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param imprint
@@ -668,7 +668,7 @@ public class ProdCharacteristic extends BackboneElement {
          * implementations.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param image

@@ -500,7 +500,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -542,7 +542,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -592,7 +592,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -639,7 +639,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Business identifier for the marketing authorization, as assigned by a regulator.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -695,7 +695,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * The country in which the marketing authorization has been granted.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param country
@@ -735,7 +735,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Jurisdiction within a country.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -905,7 +905,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Authorization in areas within a country.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdictionalAuthorization
@@ -1221,7 +1221,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1271,7 +1271,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1318,7 +1318,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * The assigned number for the marketing authorization.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param identifier
@@ -1374,7 +1374,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Jurisdiction within a country.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param jurisdiction
@@ -1647,7 +1647,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1697,7 +1697,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1776,7 +1776,7 @@ public class MedicinalProductAuthorization extends DomainResource {
              * Applcations submitted to obtain a marketing authorization.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param application

@@ -595,7 +595,7 @@ public class ConceptMap extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -637,7 +637,7 @@ public class ConceptMap extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -687,7 +687,7 @@ public class ConceptMap extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -873,7 +873,7 @@ public class ConceptMap extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -931,7 +931,7 @@ public class ConceptMap extends DomainResource {
          * may be used to assist with indexing and searching for appropriate concept map instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -973,7 +973,7 @@ public class ConceptMap extends DomainResource {
          * A legal or geographic region in which the concept map is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1080,7 +1080,7 @@ public class ConceptMap extends DomainResource {
          * A group of mappings that all have the same source and target system.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param group
@@ -1348,7 +1348,7 @@ public class ConceptMap extends DomainResource {
 
             private Builder(List<Element> element) {
                 super();
-                this.element = element;
+                this.element = new ArrayList<>(element);
             }
 
             /**
@@ -1376,7 +1376,7 @@ public class ConceptMap extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1426,7 +1426,7 @@ public class ConceptMap extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1728,7 +1728,7 @@ public class ConceptMap extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -1778,7 +1778,7 @@ public class ConceptMap extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -1857,7 +1857,7 @@ public class ConceptMap extends DomainResource {
                  * A concept from the target value set that this concept maps to.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param target
@@ -2137,7 +2137,7 @@ public class ConceptMap extends DomainResource {
                      * of the definition of the extension.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param extension
@@ -2187,7 +2187,7 @@ public class ConceptMap extends DomainResource {
                      * change the meaning of modifierExtension itself).
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param modifierExtension
@@ -2283,7 +2283,7 @@ public class ConceptMap extends DomainResource {
                      * can be resolved, and it has the specified value.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param dependsOn
@@ -2326,7 +2326,7 @@ public class ConceptMap extends DomainResource {
                      * place for the additional data elements, but the equivalence cannot be relied on.
                      * </p>
                      * <p>
-                     * Adds new element(s) to the existing list
+                     * Adds new element(s) to existing list
                      * </p>
                      * 
                      * @param product
@@ -2572,7 +2572,7 @@ public class ConceptMap extends DomainResource {
                          * of the definition of the extension.
                          * </p>
                          * <p>
-                         * Adds new element(s) to the existing list
+                         * Adds new element(s) to existing list
                          * </p>
                          * 
                          * @param extension
@@ -2622,7 +2622,7 @@ public class ConceptMap extends DomainResource {
                          * change the meaning of modifierExtension itself).
                          * </p>
                          * <p>
-                         * Adds new element(s) to the existing list
+                         * Adds new element(s) to existing list
                          * </p>
                          * 
                          * @param modifierExtension
@@ -2907,7 +2907,7 @@ public class ConceptMap extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2957,7 +2957,7 @@ public class ConceptMap extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

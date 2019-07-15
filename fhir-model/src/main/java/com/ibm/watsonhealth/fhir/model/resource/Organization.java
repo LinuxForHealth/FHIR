@@ -417,7 +417,7 @@ public class Organization extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -459,7 +459,7 @@ public class Organization extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -509,7 +509,7 @@ public class Organization extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -556,7 +556,7 @@ public class Organization extends DomainResource {
          * Identifier for the organization that is used to identify the organization across multiple disparate systems.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -612,7 +612,7 @@ public class Organization extends DomainResource {
          * The kind(s) of organization that this is.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param type
@@ -668,7 +668,7 @@ public class Organization extends DomainResource {
          * A list of alternate names that the organization is known as, or was known as in the past.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param alias
@@ -708,7 +708,7 @@ public class Organization extends DomainResource {
          * A contact detail for the organization.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param telecom
@@ -748,7 +748,7 @@ public class Organization extends DomainResource {
          * An address for the organization.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param address
@@ -804,7 +804,7 @@ public class Organization extends DomainResource {
          * Contact for the organization for a certain purpose.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -844,7 +844,7 @@ public class Organization extends DomainResource {
          * Technical endpoints providing access to services operated for the organization.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param endpoint
@@ -1087,7 +1087,7 @@ public class Organization extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1137,7 +1137,7 @@ public class Organization extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1216,7 +1216,7 @@ public class Organization extends DomainResource {
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param telecom

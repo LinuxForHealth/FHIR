@@ -742,7 +742,7 @@ public class Procedure extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -784,7 +784,7 @@ public class Procedure extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -834,7 +834,7 @@ public class Procedure extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -882,7 +882,7 @@ public class Procedure extends DomainResource {
          * resource is updated and is propagated from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -924,7 +924,7 @@ public class Procedure extends DomainResource {
          * in part by this Procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesCanonical
@@ -966,7 +966,7 @@ public class Procedure extends DomainResource {
          * whole or in part by this Procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param instantiatesUri
@@ -1007,7 +1007,7 @@ public class Procedure extends DomainResource {
          * A reference to a resource that contains details of the request for this procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -1047,7 +1047,7 @@ public class Procedure extends DomainResource {
          * A larger event of which this particular procedure is a component or step.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -1202,7 +1202,7 @@ public class Procedure extends DomainResource {
          * Limited to "real" people rather than equipment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -1259,7 +1259,7 @@ public class Procedure extends DomainResource {
          * text.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonCode
@@ -1300,7 +1300,7 @@ public class Procedure extends DomainResource {
          * The justification of why the procedure was performed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reasonReference
@@ -1341,7 +1341,7 @@ public class Procedure extends DomainResource {
          * of a lesion.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param bodySite
@@ -1398,7 +1398,7 @@ public class Procedure extends DomainResource {
          * This could be a histology result, pathology report, surgical report, etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param report
@@ -1440,7 +1440,7 @@ public class Procedure extends DomainResource {
          * issues.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param complication
@@ -1482,7 +1482,7 @@ public class Procedure extends DomainResource {
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param complicationDetail
@@ -1523,7 +1523,7 @@ public class Procedure extends DomainResource {
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param followUp
@@ -1564,7 +1564,7 @@ public class Procedure extends DomainResource {
          * Any other notes and comments about the procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1605,7 +1605,7 @@ public class Procedure extends DomainResource {
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param focalDevice
@@ -1646,7 +1646,7 @@ public class Procedure extends DomainResource {
          * Identifies medications, devices and any other substance used as part of the procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param usedReference
@@ -1686,7 +1686,7 @@ public class Procedure extends DomainResource {
          * Identifies coded items that were used as part of the procedure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param usedCode
@@ -1934,7 +1934,7 @@ public class Procedure extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1984,7 +1984,7 @@ public class Procedure extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2225,7 +2225,7 @@ public class Procedure extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2275,7 +2275,7 @@ public class Procedure extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

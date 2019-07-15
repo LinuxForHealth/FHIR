@@ -839,7 +839,7 @@ public class Task extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -881,7 +881,7 @@ public class Task extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -931,7 +931,7 @@ public class Task extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -978,7 +978,7 @@ public class Task extends DomainResource {
          * The business identifier for this task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1056,7 +1056,7 @@ public class Task extends DomainResource {
          * from a patient.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param basedOn
@@ -1116,7 +1116,7 @@ public class Task extends DomainResource {
          * Task that this particular task is part of.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -1349,7 +1349,7 @@ public class Task extends DomainResource {
          * The kind of participant that should perform the task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performerType
@@ -1453,7 +1453,7 @@ public class Task extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param insurance
@@ -1493,7 +1493,7 @@ public class Task extends DomainResource {
          * Free-text information captured about the task as it progresses.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1534,7 +1534,7 @@ public class Task extends DomainResource {
          * likely to be relevant to a user looking at the current version of the task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param relevantHistory
@@ -1592,7 +1592,7 @@ public class Task extends DomainResource {
          * Additional information that may be needed in the execution of the task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param input
@@ -1632,7 +1632,7 @@ public class Task extends DomainResource {
          * Outputs produced by the Task.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param output
@@ -1876,7 +1876,7 @@ public class Task extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1926,7 +1926,7 @@ public class Task extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2005,7 +2005,7 @@ public class Task extends DomainResource {
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param recipient
@@ -2205,7 +2205,7 @@ public class Task extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2255,7 +2255,7 @@ public class Task extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2459,7 +2459,7 @@ public class Task extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2509,7 +2509,7 @@ public class Task extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

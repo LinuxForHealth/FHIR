@@ -157,7 +157,7 @@ public class ContactDetail extends Element {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -214,7 +214,7 @@ public class ContactDetail extends Element {
          * The contact details for the individual (if a name was provided) or the organization.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param telecom

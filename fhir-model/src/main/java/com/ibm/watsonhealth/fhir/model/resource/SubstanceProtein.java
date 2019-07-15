@@ -295,7 +295,7 @@ public class SubstanceProtein extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -337,7 +337,7 @@ public class SubstanceProtein extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -387,7 +387,7 @@ public class SubstanceProtein extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -473,7 +473,7 @@ public class SubstanceProtein extends DomainResource {
          * positions shall actually contain the amino acid Cysteine at the respective positions.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param disulfideLinkage
@@ -526,7 +526,7 @@ public class SubstanceProtein extends DomainResource {
          * decreasing molecular weight; subunits that have identical sequences will be repeated multiple times.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param subunit
@@ -865,7 +865,7 @@ public class SubstanceProtein extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -915,7 +915,7 @@ public class SubstanceProtein extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

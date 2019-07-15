@@ -751,7 +751,7 @@ public class OperationDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -793,7 +793,7 @@ public class OperationDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -843,7 +843,7 @@ public class OperationDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -996,7 +996,7 @@ public class OperationDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1054,7 +1054,7 @@ public class OperationDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate operation definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1096,7 +1096,7 @@ public class OperationDefinition extends DomainResource {
          * A legal or geographic region in which the operation definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1201,7 +1201,7 @@ public class OperationDefinition extends DomainResource {
          * The types on which this operation can be executed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param resource
@@ -1275,7 +1275,7 @@ public class OperationDefinition extends DomainResource {
          * The parameters for the operation/query.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param parameter
@@ -1316,7 +1316,7 @@ public class OperationDefinition extends DomainResource {
          * generating overloaded parameter sets for this operation.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param overload
@@ -1716,7 +1716,7 @@ public class OperationDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1766,7 +1766,7 @@ public class OperationDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1849,7 +1849,7 @@ public class OperationDefinition extends DomainResource {
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param targetProfile
@@ -1925,7 +1925,7 @@ public class OperationDefinition extends DomainResource {
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param referencedFrom
@@ -1965,7 +1965,7 @@ public class OperationDefinition extends DomainResource {
              * The parts of a nested Parameter.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param part
@@ -2169,7 +2169,7 @@ public class OperationDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2219,7 +2219,7 @@ public class OperationDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2425,7 +2425,7 @@ public class OperationDefinition extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2475,7 +2475,7 @@ public class OperationDefinition extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2692,7 +2692,7 @@ public class OperationDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2742,7 +2742,7 @@ public class OperationDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2789,7 +2789,7 @@ public class OperationDefinition extends DomainResource {
              * Name of parameter to include in overload.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param parameterName

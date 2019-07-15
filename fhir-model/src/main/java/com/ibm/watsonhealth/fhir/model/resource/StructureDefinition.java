@@ -913,7 +913,7 @@ public class StructureDefinition extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -955,7 +955,7 @@ public class StructureDefinition extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -1005,7 +1005,7 @@ public class StructureDefinition extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -1053,7 +1053,7 @@ public class StructureDefinition extends DomainResource {
          * referenced in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1180,7 +1180,7 @@ public class StructureDefinition extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1238,7 +1238,7 @@ public class StructureDefinition extends DomainResource {
          * may be used to assist with indexing and searching for appropriate structure definition instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1280,7 +1280,7 @@ public class StructureDefinition extends DomainResource {
          * A legal or geographic region in which the structure definition is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1354,7 +1354,7 @@ public class StructureDefinition extends DomainResource {
          * templates nby describing the use of this structure definition, or the content it describes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param keyword
@@ -1412,7 +1412,7 @@ public class StructureDefinition extends DomainResource {
          * An external specification that the content is mapped to.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param mapping
@@ -1452,7 +1452,7 @@ public class StructureDefinition extends DomainResource {
          * Identifies the types of resource or data type elements to which the extension can be applied.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param context
@@ -1493,7 +1493,7 @@ public class StructureDefinition extends DomainResource {
          * extension). All the rules must be true.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contextInvariant
@@ -1820,7 +1820,7 @@ public class StructureDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1870,7 +1870,7 @@ public class StructureDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2125,7 +2125,7 @@ public class StructureDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2175,7 +2175,7 @@ public class StructureDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2332,7 +2332,7 @@ public class StructureDefinition extends DomainResource {
 
             private Builder(List<ElementDefinition> element) {
                 super();
-                this.element = element;
+                this.element = new ArrayList<>(element);
             }
 
             /**
@@ -2360,7 +2360,7 @@ public class StructureDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2410,7 +2410,7 @@ public class StructureDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2566,7 +2566,7 @@ public class StructureDefinition extends DomainResource {
 
             private Builder(List<ElementDefinition> element) {
                 super();
-                this.element = element;
+                this.element = new ArrayList<>(element);
             }
 
             /**
@@ -2594,7 +2594,7 @@ public class StructureDefinition extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2644,7 +2644,7 @@ public class StructureDefinition extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension

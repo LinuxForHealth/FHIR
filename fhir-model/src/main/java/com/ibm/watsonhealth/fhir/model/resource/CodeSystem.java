@@ -736,7 +736,7 @@ public class CodeSystem extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -778,7 +778,7 @@ public class CodeSystem extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -828,7 +828,7 @@ public class CodeSystem extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -896,7 +896,7 @@ public class CodeSystem extends DomainResource {
          * in a specification, model, design or an instance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -1041,7 +1041,7 @@ public class CodeSystem extends DomainResource {
          * Contact details to assist a user in finding and communicating with the publisher.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contact
@@ -1099,7 +1099,7 @@ public class CodeSystem extends DomainResource {
          * may be used to assist with indexing and searching for appropriate code system instances.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param useContext
@@ -1141,7 +1141,7 @@ public class CodeSystem extends DomainResource {
          * A legal or geographic region in which the code system is intended to be used.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param jurisdiction
@@ -1328,7 +1328,7 @@ public class CodeSystem extends DomainResource {
          * A filter that can be used in a value set compose statement when selecting concepts using a filter.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param filter
@@ -1368,7 +1368,7 @@ public class CodeSystem extends DomainResource {
          * A property defines an additional slot through which additional information can be provided about a concept.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param property
@@ -1409,7 +1409,7 @@ public class CodeSystem extends DomainResource {
          * consulted to determine what the meanings of the hierarchical relationships are.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param concept
@@ -1647,7 +1647,7 @@ public class CodeSystem extends DomainResource {
             private Builder(Code code, List<FilterOperator> operator, String value) {
                 super();
                 this.code = code;
-                this.operator = operator;
+                this.operator = new ArrayList<>(operator);
                 this.value = value;
             }
 
@@ -1676,7 +1676,7 @@ public class CodeSystem extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1726,7 +1726,7 @@ public class CodeSystem extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1990,7 +1990,7 @@ public class CodeSystem extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2040,7 +2040,7 @@ public class CodeSystem extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2361,7 +2361,7 @@ public class CodeSystem extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -2411,7 +2411,7 @@ public class CodeSystem extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2493,7 +2493,7 @@ public class CodeSystem extends DomainResource {
              * purposes, etc.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param designation
@@ -2534,7 +2534,7 @@ public class CodeSystem extends DomainResource {
              * A property value for this concept.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param property
@@ -2575,7 +2575,7 @@ public class CodeSystem extends DomainResource {
              * a/contains/categorizes) - see hierarchyMeaning.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param concept
@@ -2798,7 +2798,7 @@ public class CodeSystem extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2848,7 +2848,7 @@ public class CodeSystem extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -3086,7 +3086,7 @@ public class CodeSystem extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -3136,7 +3136,7 @@ public class CodeSystem extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension

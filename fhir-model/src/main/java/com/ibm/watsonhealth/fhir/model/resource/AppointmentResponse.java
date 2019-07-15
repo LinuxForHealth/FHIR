@@ -374,7 +374,7 @@ public class AppointmentResponse extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -416,7 +416,7 @@ public class AppointmentResponse extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -466,7 +466,7 @@ public class AppointmentResponse extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -514,7 +514,7 @@ public class AppointmentResponse extends DomainResource {
          * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -588,7 +588,7 @@ public class AppointmentResponse extends DomainResource {
          * Role of participant in the appointment.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param participantType

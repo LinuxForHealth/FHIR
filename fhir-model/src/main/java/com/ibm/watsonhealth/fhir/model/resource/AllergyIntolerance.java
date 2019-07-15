@@ -542,7 +542,7 @@ public class AllergyIntolerance extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -584,7 +584,7 @@ public class AllergyIntolerance extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -634,7 +634,7 @@ public class AllergyIntolerance extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -682,7 +682,7 @@ public class AllergyIntolerance extends DomainResource {
          * the resource is updated and propagates from server to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -772,7 +772,7 @@ public class AllergyIntolerance extends DomainResource {
          * Category of the identified substance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param category
@@ -950,7 +950,7 @@ public class AllergyIntolerance extends DomainResource {
          * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -990,7 +990,7 @@ public class AllergyIntolerance extends DomainResource {
          * Details about each adverse reaction event linked to exposure to the identified substance.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param reaction
@@ -1281,7 +1281,7 @@ public class AllergyIntolerance extends DomainResource {
 
             private Builder(List<CodeableConcept> manifestation) {
                 super();
-                this.manifestation = manifestation;
+                this.manifestation = new ArrayList<>(manifestation);
             }
 
             /**
@@ -1309,7 +1309,7 @@ public class AllergyIntolerance extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1359,7 +1359,7 @@ public class AllergyIntolerance extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1493,7 +1493,7 @@ public class AllergyIntolerance extends DomainResource {
              * Additional text about the adverse reaction event not captured in other fields.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param note

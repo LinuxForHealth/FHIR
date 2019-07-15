@@ -364,7 +364,7 @@ public class BodyStructure extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -406,7 +406,7 @@ public class BodyStructure extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -456,7 +456,7 @@ public class BodyStructure extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -503,7 +503,7 @@ public class BodyStructure extends DomainResource {
          * Identifier for this instance of the anatomical structure.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -593,7 +593,7 @@ public class BodyStructure extends DomainResource {
          * directionality, number, and plane.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param locationQualifier
@@ -650,7 +650,7 @@ public class BodyStructure extends DomainResource {
          * Image or images used to identify a location.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param image

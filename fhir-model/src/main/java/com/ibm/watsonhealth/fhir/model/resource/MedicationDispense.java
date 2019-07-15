@@ -675,7 +675,7 @@ public class MedicationDispense extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -717,7 +717,7 @@ public class MedicationDispense extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -767,7 +767,7 @@ public class MedicationDispense extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -817,7 +817,7 @@ public class MedicationDispense extends DomainResource {
          * to server.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -860,7 +860,7 @@ public class MedicationDispense extends DomainResource {
          * The procedure that trigger the dispense.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param partOf
@@ -965,7 +965,7 @@ public class MedicationDispense extends DomainResource {
          * Additional information that supports the medication being dispensed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param supportingInformation
@@ -1005,7 +1005,7 @@ public class MedicationDispense extends DomainResource {
          * Indicates who or what performed the event.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -1061,7 +1061,7 @@ public class MedicationDispense extends DomainResource {
          * Indicates the medication order that is being dispensed against.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param authorizingPrescription
@@ -1199,7 +1199,7 @@ public class MedicationDispense extends DomainResource {
          * exist where it can be a healthcare professional.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param receiver
@@ -1240,7 +1240,7 @@ public class MedicationDispense extends DomainResource {
          * Extra information about the dispense that could not be conveyed in the other attributes.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param note
@@ -1280,7 +1280,7 @@ public class MedicationDispense extends DomainResource {
          * Indicates how the medication is to be used by the patient.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param dosageInstruction
@@ -1339,7 +1339,7 @@ public class MedicationDispense extends DomainResource {
          * patient; e.g. drug-drug interaction, duplicate therapy, dosage alert etc.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param detectedIssue
@@ -1380,7 +1380,7 @@ public class MedicationDispense extends DomainResource {
          * A summary of the events of interest that have occurred, such as when the dispense was verified.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param eventHistory
@@ -1605,7 +1605,7 @@ public class MedicationDispense extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1655,7 +1655,7 @@ public class MedicationDispense extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1917,7 +1917,7 @@ public class MedicationDispense extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1967,7 +1967,7 @@ public class MedicationDispense extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2030,7 +2030,7 @@ public class MedicationDispense extends DomainResource {
              * Indicates the reason for the substitution (or lack of substitution) from what was prescribed.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param reason
@@ -2070,7 +2070,7 @@ public class MedicationDispense extends DomainResource {
              * The person or organization that has primary responsibility for the substitution.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param responsibleParty

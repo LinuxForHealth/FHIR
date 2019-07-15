@@ -409,7 +409,7 @@ public class Consent extends DomainResource {
             super();
             this.status = status;
             this.scope = scope;
-            this.category = category;
+            this.category = new ArrayList<>(category);
         }
 
         /**
@@ -504,7 +504,7 @@ public class Consent extends DomainResource {
          * identified independently, and nor can they have their own independent transaction scope.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param contained
@@ -546,7 +546,7 @@ public class Consent extends DomainResource {
          * of the definition of the extension.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param extension
@@ -596,7 +596,7 @@ public class Consent extends DomainResource {
          * change the meaning of modifierExtension itself).
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param modifierExtension
@@ -643,7 +643,7 @@ public class Consent extends DomainResource {
          * Unique identifier for this copy of the Consent Statement.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param identifier
@@ -717,7 +717,7 @@ public class Consent extends DomainResource {
          * limitations on authorizations and enforcement of prohibitions.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param performer
@@ -759,7 +759,7 @@ public class Consent extends DomainResource {
          * The organization that manages the consent, and the framework within which it is executed.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param organization
@@ -818,7 +818,7 @@ public class Consent extends DomainResource {
          * defined jurisdictionally, or in law.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param policy
@@ -876,7 +876,7 @@ public class Consent extends DomainResource {
          * or another authorized person.
          * </p>
          * <p>
-         * Adds new element(s) to the existing list
+         * Adds new element(s) to existing list
          * </p>
          * 
          * @param verification
@@ -1101,7 +1101,7 @@ public class Consent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1151,7 +1151,7 @@ public class Consent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1412,7 +1412,7 @@ public class Consent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1462,7 +1462,7 @@ public class Consent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -1869,7 +1869,7 @@ public class Consent extends DomainResource {
              * of the definition of the extension.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param extension
@@ -1919,7 +1919,7 @@ public class Consent extends DomainResource {
              * change the meaning of modifierExtension itself).
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param modifierExtension
@@ -2000,7 +2000,7 @@ public class Consent extends DomainResource {
              * 'admitting officers').
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param actor
@@ -2041,7 +2041,7 @@ public class Consent extends DomainResource {
              * Actions controlled by this Rule.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param action
@@ -2082,7 +2082,7 @@ public class Consent extends DomainResource {
              * by this exception.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param securityLabel
@@ -2123,7 +2123,7 @@ public class Consent extends DomainResource {
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param purpose
@@ -2164,7 +2164,7 @@ public class Consent extends DomainResource {
              * document, or some other type that indicates what sort of information the consent relates to.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param clazz
@@ -2205,7 +2205,7 @@ public class Consent extends DomainResource {
              * If this code is found in an instance, then the rule applies.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param code
@@ -2261,7 +2261,7 @@ public class Consent extends DomainResource {
              * The resources controlled by this rule if specific resources are referenced.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param data
@@ -2301,7 +2301,7 @@ public class Consent extends DomainResource {
              * Rules which provide exceptions to the base rule or subrules.
              * </p>
              * <p>
-             * Adds new element(s) to the existing list
+             * Adds new element(s) to existing list
              * </p>
              * 
              * @param provision
@@ -2510,7 +2510,7 @@ public class Consent extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2560,7 +2560,7 @@ public class Consent extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
@@ -2764,7 +2764,7 @@ public class Consent extends DomainResource {
                  * of the definition of the extension.
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param extension
@@ -2814,7 +2814,7 @@ public class Consent extends DomainResource {
                  * change the meaning of modifierExtension itself).
                  * </p>
                  * <p>
-                 * Adds new element(s) to the existing list
+                 * Adds new element(s) to existing list
                  * </p>
                  * 
                  * @param modifierExtension
