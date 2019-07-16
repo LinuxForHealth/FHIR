@@ -8,8 +8,7 @@
             </run>
         </groups>
         <classes>
-        
-<!--             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryChainedParmTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryContractTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryDeviceTest" />
@@ -30,7 +29,7 @@
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
- -->            <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
+            <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
         </classes>
     </test>
 
@@ -41,9 +40,7 @@
             </run>
         </groups>
         <classes>
-            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest" />
-        
-<!--             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
@@ -75,7 +72,7 @@
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
- -->        </classes>
+        </classes>
     </test>
 
 </suite>

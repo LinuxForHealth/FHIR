@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.spec.test.IExampleProcessor;
+import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.watsonhealth.fhir.persistence.util.ResourceFingerprintVisitor;
 
 /**
  * Reads R4 example resources and performs a sequence of persistance 
@@ -61,13 +61,6 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 	    // one will update the context which will then be used by the next operation
     	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier);
     	context.setResource(resource);
-    	
-    	// Compute a reference fingerprint of the resource before we perform
-    	// any operations. We can use this fingerprint to check that operations
-    	// don't distort the resource in any way
-    	ResourceFingerprintVisitor v = new ResourceFingerprintVisitor();
-    	resource.accept(resource.getClass().getSimpleName(), v);
-    	context.setOriginalFingerprint(v.getSaltAndHash());
 
     	// ITestResourceOperation#process throws Exception, which precludes the
     	// use of forEach here...so going old-school keeps it simpler

@@ -29,7 +29,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     	this.properties = readTestProperties("test.normalized.properties");
     }
 	
-    @Test(groups = { "jdbc-normalized" })
+    @Test
     public void perform() throws Exception {
     	
     	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, () -> createPersistenceContext());
