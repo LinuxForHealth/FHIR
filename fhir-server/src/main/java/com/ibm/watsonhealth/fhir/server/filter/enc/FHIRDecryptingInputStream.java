@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.server.filter.enc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.crypto.CipherInputStream;
 import javax.servlet.ReadListener;
