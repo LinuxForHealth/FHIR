@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -127,7 +128,8 @@ public final class ValidationSupport {
     }
     
     public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        if (elements == null || elements.isEmpty()) {
+        requireNonNull(elements, elementName);
+        if (elements.isEmpty()) {
             throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
         }
         return elements;
@@ -140,6 +142,13 @@ public final class ValidationSupport {
         return element;
     }
     
+    public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
+        if (elements.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+        }
+        return elements;
+    }
+
     public static void requireValueOrChildren(Element element) {
         if (!element.hasValue() && !element.hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");

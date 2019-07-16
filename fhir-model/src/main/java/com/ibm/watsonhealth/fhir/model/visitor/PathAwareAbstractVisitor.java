@@ -22,12 +22,12 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     // called by template methods
     protected abstract void doVisitEnd(String elementName, Element element);
-    protected abstract void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitEnd(String elementName, Resource resource);
+    protected abstract void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitStart(String elementName, Element element);
-    protected abstract void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitStart(String elementName, Resource resource);
-
+    protected abstract void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type);
+    
     protected String getName(String elementName) {
         if (elementName == null) {
             return nameStack.peek();
@@ -66,6 +66,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
             System.out.println(getPath());
         }
     }
+    
     @Override
     public final void visitEnd(java.lang.String elementName, Element element) {
         doVisitEnd(elementName, element);

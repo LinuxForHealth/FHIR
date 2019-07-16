@@ -885,7 +885,7 @@ public class CodeGenerator {
                         }
                     } else {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(builder." + fieldName + ")");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
