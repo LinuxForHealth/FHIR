@@ -21,13 +21,13 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
-import com.ibm.watsonhealth.fhir.search.SortParameter;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.SortDirection;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.SortDirection;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -35,7 +35,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  * This JUNIT test class contains methods that test the parsing of sort parameters in the SearchUtil class.
  * 
  * @author markd
- * @author pbastide@us.ibm.com
+ * @author pbastide
  *
  */
 public class SortParameterParseTest extends BaseSearchTest {

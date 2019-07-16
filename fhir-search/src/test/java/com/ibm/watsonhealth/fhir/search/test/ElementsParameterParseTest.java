@@ -29,7 +29,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  * SearchUtil class.
  * 
  * @author markd
- * @author pbastide@us.ibm.com
+ * @author pbastide
  *
  */
 public class ElementsParameterParseTest extends BaseSearchTest {

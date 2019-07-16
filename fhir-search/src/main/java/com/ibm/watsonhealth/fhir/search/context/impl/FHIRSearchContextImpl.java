@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.core.context.impl.FHIRPagingContextImpl;
-import com.ibm.watsonhealth.fhir.search.InclusionParameter;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.SortParameter;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.parameters.InclusionParameter;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
     
@@ -95,5 +95,11 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public boolean hasElementsParameters() {
         return this.getElementsParameters() != null;
+    }
+
+    @Override
+    public String toString() {
+        return "FHIRSearchContextImpl [searchParameters=" + searchParameters + ", sortParameters=" + sortParameters + ", includeParameters=" + includeParameters
+                + ", revIncludeParameters=" + revIncludeParameters + ", elementsParameters=" + elementsParameters + "]";
     }
 }

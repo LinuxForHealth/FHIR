@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 

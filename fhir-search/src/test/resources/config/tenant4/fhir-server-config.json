@@ -1,0 +1,23 @@
+{
+	"__comment": "FHIR Server configuration",
+	"fhirServer": {
+		"searchParameterFilter": {
+			"Device": [
+				"patient",
+				"organization"
+			],
+			"Observation": [
+				"code"
+			],
+			"Patient": [
+				"active",
+				"address",
+				"birthdate",
+				"name"
+			],
+			"*": [
+				"*"
+			]
+		}
+	}
+}

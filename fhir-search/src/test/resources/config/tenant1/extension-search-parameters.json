@@ -1,67 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Bundle xmlns="http://hl7.org/fhir">
-    <id value="searchParams" />
-    <type value="collection" />
-    <entry>
-        <fullUrl value="http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-measurement-type" />
-        <resource>
-            <SearchParameter>
-                <id value="Basic-measurement-type" />
-                <url value="http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-measurement-type" />
-                <name value="measurement-type" />
-                <code value="measurement-type" />
-                <base value="Basic" />
-                <type value="string" />
-                <description value="the type of measurement" />
-                <xpath value="f:Basic/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/measurements']/f:extension[@url='_item']/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/type']/f:valueString" />
-                <xpathUsage value="normal" />
-            </SearchParameter>
-        </resource>
-    </entry>
-    <entry>
-        <fullUrl value="http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value" />
-        <resource>
-            <SearchParameter>
-                <id value="WeatherDetail-measurement-value" />
-                <url value="http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value" />
-                <name value="measurement-value" />
-                <code value="measurement-value" />
-                <base value="WeatherDetail" />
-                <type value="number" />
-                <description value="the measurement value" />
-                <xpath value="f:WeatherDetail/f:measurements/f:value" />
-                <xpathUsage value="normal" />
-            </SearchParameter>
-        </resource>
-    </entry>
-    <entry>
-        <fullUrl value="http://hl7.org/fhir/SearchParameter/Observation-value-range" />
-        <resource>
-            <SearchParameter>
-                <id value="Observation-value-range" />
-                <url value="http://hl7.org/fhir/SearchParameter/Observation-value-range" />
-                <name value="value-range" />
-                <publisher value="Health Level Seven International (Orders and Observations)" />
-                <contact>
-                    <telecom>
-                        <system value="other" />
-                        <value value="http://hl7.org/fhir" />
-                    </telecom>
-                </contact>
-                <contact>
-                    <telecom>
-                        <system value="other" />
-                        <value value="http://www.hl7.org/Special/committees/orders/index.cfm" />
-                    </telecom>
-                </contact>
-                <date value="2015-10-24T07:41:03+11:00" />
-                <code value="value-range" />
-                <base value="Observation" />
-                <type value="quantity" />
-                <description value="The value of the component observation, if the value is a Quantity, or a SampledData (just search on the bounds of the values in sampled data)" />
-                <xpath value="f:Observation/f:valueRange" />
-                <xpathUsage value="normal" />
-            </SearchParameter>
-        </resource>
-    </entry>
-</Bundle>
+{
+	"resourceType": "Bundle",
+	"id": "searchParams",
+	"meta": {
+		"lastUpdated": "2019-07-12T22:37:54.724+11:00"
+	},
+	"type": "collection",
+	"entry": [{
+		"fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-measurement-type",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Basic-measurement-type",
+			"url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-measurement-type",
+			"version": "4.0.0",
+			"name": "measurement-type",
+			"status": "draft",
+			"experimental": false,
+			"date": "2018-12-27T22:37:54+11:00",
+			"publisher": "IBM Watson Health FHIR Test",
+			"contact": [{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/watsonhealth/fhir"
+				}]
+			},
+			{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/watsonhealth/fhir"
+				}]
+			}],
+			"description": "the type of measurement",
+			"code": "measurement-type",
+			"base": ["Basic"],
+			"type": "string",
+			"xpathUsage": "normal",
+			"xpath": "f:Basic/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/measurements']/f:extension[@url='_item']/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/type']/f:valueString",
+			"expression" : "Basic.extension[@url='http://ibm.com/watsonhealth/fhir/extension/measurements'].extension[@url='_item'].extension[@url='http://ibm.com/watsonhealth/fhir/extension/type'].valueString",
+			"multipleOr": true,
+			"multipleAnd": true,
+			"modifier": []
+		}
+	},
+	{
+		"fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Observation-measurement-value",
+			"url": "http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value",
+			"version": "4.0.0",
+			"name": "measurement-value",
+			"status": "draft",
+			"experimental": false,
+			"date": "2018-12-27T22:37:54+11:00",
+			"publisher": "IBM Watson Health FHIR Test",
+			"contact": [{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/watsonhealth/fhir"
+				}]
+			},
+			{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/watsonhealth/fhir"
+				}]
+			}],
+			"description": "the measurement value",
+			"code": "measurement-value",
+			"base": ["Immunization"],
+			"type": "number",
+			"xpathUsage": "normal",
+			"xpath": "f:Observation/f:measurements/f:value",
+			"expression" : "Observation.measurements.value",
+			"multipleOr": true,
+			"multipleAnd": true,
+			"modifier": []
+		}
+	},
+	{
+		"fullUrl": "http://hl7.org/fhir/SearchParameter/Observation-value-range",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Observation-value-range",
+			"url": "http://hl7.org/fhir/SearchParameter/Observation-value-range",
+			"version": "4.0.0",
+			"name": "value-range",
+			"status": "draft",
+			"experimental": false,
+			"date": "2015-10-24T07:41:03+11:00",
+			"publisher": "Health Level Seven International (Orders and Observations)",
+			"contact": [{
+				"telecom": [{
+					"system": "url",
+					"value": "http://hl7.org/fhir"
+				}]
+			},
+			{
+				"telecom": [{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/orders/index.cfm"
+				}]
+			}],
+			"description": "The value of the component observation, if the value is a Quantity, or a SampledData (just search on the bounds of the values in sampled data)",
+			"code": "value-range",
+			"base": ["Observation"],
+			"type": "quantity",
+			"xpathUsage": "normal",
+			"xpath": "f:Observation/f:valueRange",
+			"expression" : "Observation.valueRange",
+			"multipleOr": true,
+			"multipleAnd": true,
+			"modifier": []
+		}
+	}]
+}
