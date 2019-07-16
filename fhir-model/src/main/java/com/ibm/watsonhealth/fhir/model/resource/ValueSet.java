@@ -1324,11 +1324,11 @@ public class ValueSet extends DomainResource {
             return new Builder(include).from(this);
         }
 
-        public Builder toBuilder(List<Include> include) {
+        public Builder toBuilder(Collection<Include> include) {
             return new Builder(include).from(this);
         }
 
-        public static Builder builder(List<Include> include) {
+        public static Builder builder(Collection<Include> include) {
             return new Builder(include);
         }
 
@@ -1341,7 +1341,7 @@ public class ValueSet extends DomainResource {
             private Boolean inactive;
             private List<ValueSet.Compose.Include> exclude = new ArrayList<>();
 
-            private Builder(List<Include> include) {
+            private Builder(Collection<Include> include) {
                 super();
                 this.include = new ArrayList<>(include);
             }

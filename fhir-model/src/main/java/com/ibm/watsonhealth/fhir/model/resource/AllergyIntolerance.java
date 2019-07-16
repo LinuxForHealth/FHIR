@@ -1259,11 +1259,11 @@ public class AllergyIntolerance extends DomainResource {
             return new Builder(manifestation).from(this);
         }
 
-        public Builder toBuilder(List<CodeableConcept> manifestation) {
+        public Builder toBuilder(Collection<CodeableConcept> manifestation) {
             return new Builder(manifestation).from(this);
         }
 
-        public static Builder builder(List<CodeableConcept> manifestation) {
+        public static Builder builder(Collection<CodeableConcept> manifestation) {
             return new Builder(manifestation);
         }
 
@@ -1279,7 +1279,7 @@ public class AllergyIntolerance extends DomainResource {
             private CodeableConcept exposureRoute;
             private List<Annotation> note = new ArrayList<>();
 
-            private Builder(List<CodeableConcept> manifestation) {
+            private Builder(Collection<CodeableConcept> manifestation) {
                 super();
                 this.manifestation = new ArrayList<>(manifestation);
             }

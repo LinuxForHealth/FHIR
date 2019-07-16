@@ -123,11 +123,11 @@ public class OperationOutcome extends DomainResource {
         return new Builder(issue).from(this);
     }
 
-    public Builder toBuilder(List<Issue> issue) {
+    public Builder toBuilder(Collection<Issue> issue) {
         return new Builder(issue).from(this);
     }
 
-    public static Builder builder(List<Issue> issue) {
+    public static Builder builder(Collection<Issue> issue) {
         return new Builder(issue);
     }
 
@@ -135,7 +135,7 @@ public class OperationOutcome extends DomainResource {
         // required
         private final List<Issue> issue;
 
-        private Builder(List<Issue> issue) {
+        private Builder(Collection<Issue> issue) {
             super();
             this.issue = new ArrayList<>(issue);
         }

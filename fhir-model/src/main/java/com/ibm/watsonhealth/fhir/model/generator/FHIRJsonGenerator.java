@@ -126,12 +126,13 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             private boolean first = true;
             
             @Override
-            public void write(int c) throws IOException {
-                if (first && c == '\n') {
+            public void write(char[] cbuf, int off, int len) throws IOException {
+                if (first && cbuf.length > 1 && off == 0 && cbuf[0] == '\n') {
                     first = false;
+                    out.write(cbuf, off + 1, len);
                     return;
                 }
-                out.write(c);
+                out.write(cbuf, off, len);
             }
         };
     }
@@ -185,13 +186,15 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             return false;
         }
         
+        @Override
         public void postVisit(Element element) {
             Class<?> elementType = element.getClass();
             if (!isPrimitiveType(elementType)) {
                 typeStack.pop();
             }
         }
-    
+        
+        @Override
         public void postVisit(Resource resource) {
             typeStack.pop();
         }
@@ -205,6 +208,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             return true;
         }
         
+        @Override
         public boolean preVisit(Resource resource) {
             Class<?> resourceType = resource.getClass();
             typeStack.push(resourceType);

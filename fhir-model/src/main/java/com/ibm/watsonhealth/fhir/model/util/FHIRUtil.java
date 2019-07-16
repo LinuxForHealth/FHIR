@@ -257,7 +257,7 @@ public class FHIRUtil {
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType.ValueSet code) {
-        return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, null);
+        return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, "<empty>");
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String diagnostics, String location) {

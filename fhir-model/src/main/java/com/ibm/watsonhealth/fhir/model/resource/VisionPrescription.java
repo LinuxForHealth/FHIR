@@ -252,11 +252,11 @@ public class VisionPrescription extends DomainResource {
         return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
     }
 
-    public Builder toBuilder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, List<LensSpecification> lensSpecification) {
+    public Builder toBuilder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
         return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
     }
 
-    public static Builder builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, List<LensSpecification> lensSpecification) {
+    public static Builder builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
         return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification);
     }
 
@@ -273,7 +273,7 @@ public class VisionPrescription extends DomainResource {
         private List<Identifier> identifier = new ArrayList<>();
         private Reference encounter;
 
-        private Builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, List<LensSpecification> lensSpecification) {
+        private Builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
             super();
             this.status = status;
             this.created = created;

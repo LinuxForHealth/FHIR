@@ -215,11 +215,11 @@ public class Signature extends Element {
         return new Builder(type, when, who).from(this);
     }
 
-    public Builder toBuilder(List<Coding> type, Instant when, Reference who) {
+    public Builder toBuilder(Collection<Coding> type, Instant when, Reference who) {
         return new Builder(type, when, who).from(this);
     }
 
-    public static Builder builder(List<Coding> type, Instant when, Reference who) {
+    public static Builder builder(Collection<Coding> type, Instant when, Reference who) {
         return new Builder(type, when, who);
     }
 
@@ -235,7 +235,7 @@ public class Signature extends Element {
         private Code sigFormat;
         private Base64Binary data;
 
-        private Builder(List<Coding> type, Instant when, Reference who) {
+        private Builder(Collection<Coding> type, Instant when, Reference who) {
             super();
             this.type = new ArrayList<>(type);
             this.when = when;

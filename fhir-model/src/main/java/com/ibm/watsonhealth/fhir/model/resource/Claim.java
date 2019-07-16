@@ -587,11 +587,11 @@ public class Claim extends DomainResource {
         return new Builder(status, type, use, patient, created, provider, priority, insurance).from(this);
     }
 
-    public Builder toBuilder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, List<Insurance> insurance) {
+    public Builder toBuilder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, Collection<Insurance> insurance) {
         return new Builder(status, type, use, patient, created, provider, priority, insurance).from(this);
     }
 
-    public static Builder builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, List<Insurance> insurance) {
+    public static Builder builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, Collection<Insurance> insurance) {
         return new Builder(status, type, use, patient, created, provider, priority, insurance);
     }
 
@@ -627,7 +627,7 @@ public class Claim extends DomainResource {
         private List<Item> item = new ArrayList<>();
         private Money total;
 
-        private Builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, List<Insurance> insurance) {
+        private Builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, Collection<Insurance> insurance) {
             super();
             this.status = status;
             this.type = type;

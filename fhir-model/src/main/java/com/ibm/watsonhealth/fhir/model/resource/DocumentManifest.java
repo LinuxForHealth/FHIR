@@ -318,11 +318,11 @@ public class DocumentManifest extends DomainResource {
         return new Builder(status, content).from(this);
     }
 
-    public Builder toBuilder(DocumentReferenceStatus status, List<Reference> content) {
+    public Builder toBuilder(DocumentReferenceStatus status, Collection<Reference> content) {
         return new Builder(status, content).from(this);
     }
 
-    public static Builder builder(DocumentReferenceStatus status, List<Reference> content) {
+    public static Builder builder(DocumentReferenceStatus status, Collection<Reference> content) {
         return new Builder(status, content);
     }
 
@@ -343,7 +343,7 @@ public class DocumentManifest extends DomainResource {
         private String description;
         private List<Related> related = new ArrayList<>();
 
-        private Builder(DocumentReferenceStatus status, List<Reference> content) {
+        private Builder(DocumentReferenceStatus status, Collection<Reference> content) {
             super();
             this.status = status;
             this.content = new ArrayList<>(content);

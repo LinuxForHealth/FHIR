@@ -1630,11 +1630,11 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder(type, reference).from(this);
         }
 
-        public Builder toBuilder(CodeableConcept type, List<Reference> reference) {
+        public Builder toBuilder(CodeableConcept type, Collection<Reference> reference) {
             return new Builder(type, reference).from(this);
         }
 
-        public static Builder builder(CodeableConcept type, List<Reference> reference) {
+        public static Builder builder(CodeableConcept type, Collection<Reference> reference) {
             return new Builder(type, reference);
         }
 
@@ -1643,7 +1643,7 @@ public class MedicationKnowledge extends DomainResource {
             private final CodeableConcept type;
             private final List<Reference> reference;
 
-            private Builder(CodeableConcept type, List<Reference> reference) {
+            private Builder(CodeableConcept type, Collection<Reference> reference) {
                 super();
                 this.type = type;
                 this.reference = new ArrayList<>(reference);
@@ -3419,11 +3419,11 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder(type, dosage).from(this);
             }
 
-            public Builder toBuilder(CodeableConcept type, List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
+            public Builder toBuilder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
                 return new Builder(type, dosage).from(this);
             }
 
-            public static Builder builder(CodeableConcept type, List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
+            public static Builder builder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
                 return new Builder(type, dosage);
             }
 
@@ -3432,7 +3432,7 @@ public class MedicationKnowledge extends DomainResource {
                 private final CodeableConcept type;
                 private final List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage;
 
-                private Builder(CodeableConcept type, List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
+                private Builder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
                     super();
                     this.type = type;
                     this.dosage = new ArrayList<>(dosage);

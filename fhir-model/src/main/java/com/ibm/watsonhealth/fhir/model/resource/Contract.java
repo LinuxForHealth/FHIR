@@ -4320,11 +4320,11 @@ public class Contract extends DomainResource {
                     return new Builder(reference, role).from(this);
                 }
 
-                public Builder toBuilder(List<Reference> reference, CodeableConcept role) {
+                public Builder toBuilder(Collection<Reference> reference, CodeableConcept role) {
                     return new Builder(reference, role).from(this);
                 }
 
-                public static Builder builder(List<Reference> reference, CodeableConcept role) {
+                public static Builder builder(Collection<Reference> reference, CodeableConcept role) {
                     return new Builder(reference, role);
                 }
 
@@ -4333,7 +4333,7 @@ public class Contract extends DomainResource {
                     private final List<Reference> reference;
                     private final CodeableConcept role;
 
-                    private Builder(List<Reference> reference, CodeableConcept role) {
+                    private Builder(Collection<Reference> reference, CodeableConcept role) {
                         super();
                         this.reference = new ArrayList<>(reference);
                         this.role = role;
@@ -8202,11 +8202,11 @@ public class Contract extends DomainResource {
                     return new Builder(reference).from(this);
                 }
 
-                public Builder toBuilder(List<Reference> reference) {
+                public Builder toBuilder(Collection<Reference> reference) {
                     return new Builder(reference).from(this);
                 }
 
-                public static Builder builder(List<Reference> reference) {
+                public static Builder builder(Collection<Reference> reference) {
                     return new Builder(reference);
                 }
 
@@ -8217,7 +8217,7 @@ public class Contract extends DomainResource {
                     // optional
                     private CodeableConcept role;
 
-                    private Builder(List<Reference> reference) {
+                    private Builder(Collection<Reference> reference) {
                         super();
                         this.reference = new ArrayList<>(reference);
                     }
@@ -8496,11 +8496,11 @@ public class Contract extends DomainResource {
             return new Builder(type, party, signature).from(this);
         }
 
-        public Builder toBuilder(Coding type, Reference party, List<Signature> signature) {
+        public Builder toBuilder(Coding type, Reference party, Collection<Signature> signature) {
             return new Builder(type, party, signature).from(this);
         }
 
-        public static Builder builder(Coding type, Reference party, List<Signature> signature) {
+        public static Builder builder(Coding type, Reference party, Collection<Signature> signature) {
             return new Builder(type, party, signature);
         }
 
@@ -8510,7 +8510,7 @@ public class Contract extends DomainResource {
             private final Reference party;
             private final List<Signature> signature;
 
-            private Builder(Coding type, Reference party, List<Signature> signature) {
+            private Builder(Coding type, Reference party, Collection<Signature> signature) {
                 super();
                 this.type = type;
                 this.party = party;

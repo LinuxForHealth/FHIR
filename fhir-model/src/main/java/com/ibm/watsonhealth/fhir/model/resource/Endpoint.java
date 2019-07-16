@@ -302,11 +302,11 @@ public class Endpoint extends DomainResource {
         return new Builder(status, connectionType, payloadType, address).from(this);
     }
 
-    public Builder toBuilder(EndpointStatus status, Coding connectionType, List<CodeableConcept> payloadType, Url address) {
+    public Builder toBuilder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
         return new Builder(status, connectionType, payloadType, address).from(this);
     }
 
-    public static Builder builder(EndpointStatus status, Coding connectionType, List<CodeableConcept> payloadType, Url address) {
+    public static Builder builder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
         return new Builder(status, connectionType, payloadType, address);
     }
 
@@ -326,7 +326,7 @@ public class Endpoint extends DomainResource {
         private List<Code> payloadMimeType = new ArrayList<>();
         private List<String> header = new ArrayList<>();
 
-        private Builder(EndpointStatus status, Coding connectionType, List<CodeableConcept> payloadType, Url address) {
+        private Builder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
             super();
             this.status = status;
             this.connectionType = connectionType;

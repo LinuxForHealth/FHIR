@@ -500,11 +500,11 @@ public class StructureMap extends DomainResource {
         return new Builder(url, name, status, group).from(this);
     }
 
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, List<Group> group) {
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
         return new Builder(url, name, status, group).from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, List<Group> group) {
+    public static Builder builder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
         return new Builder(url, name, status, group);
     }
 
@@ -531,7 +531,7 @@ public class StructureMap extends DomainResource {
         private List<Structure> structure = new ArrayList<>();
         private List<Canonical> _import = new ArrayList<>();
 
-        private Builder(Uri url, String name, PublicationStatus status, List<Group> group) {
+        private Builder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
             super();
             this.url = url;
             this.name = name;
@@ -1685,11 +1685,11 @@ public class StructureMap extends DomainResource {
             return new Builder(name, typeMode, input, rule).from(this);
         }
 
-        public Builder toBuilder(Id name, StructureMapGroupTypeMode typeMode, List<Input> input, List<Rule> rule) {
+        public Builder toBuilder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
             return new Builder(name, typeMode, input, rule).from(this);
         }
 
-        public static Builder builder(Id name, StructureMapGroupTypeMode typeMode, List<Input> input, List<Rule> rule) {
+        public static Builder builder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
             return new Builder(name, typeMode, input, rule);
         }
 
@@ -1704,7 +1704,7 @@ public class StructureMap extends DomainResource {
             private Id _extends;
             private String documentation;
 
-            private Builder(Id name, StructureMapGroupTypeMode typeMode, List<Input> input, List<Rule> rule) {
+            private Builder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
                 super();
                 this.name = name;
                 this.typeMode = typeMode;
@@ -2380,11 +2380,11 @@ public class StructureMap extends DomainResource {
                 return new Builder(name, source).from(this);
             }
 
-            public Builder toBuilder(Id name, List<Source> source) {
+            public Builder toBuilder(Id name, Collection<Source> source) {
                 return new Builder(name, source).from(this);
             }
 
-            public static Builder builder(Id name, List<Source> source) {
+            public static Builder builder(Id name, Collection<Source> source) {
                 return new Builder(name, source);
             }
 
@@ -2399,7 +2399,7 @@ public class StructureMap extends DomainResource {
                 private List<Dependent> dependent = new ArrayList<>();
                 private String documentation;
 
-                private Builder(Id name, List<Source> source) {
+                private Builder(Id name, Collection<Source> source) {
                     super();
                     this.name = name;
                     this.source = new ArrayList<>(source);
@@ -4161,11 +4161,11 @@ public class StructureMap extends DomainResource {
                     return new Builder(name, variable).from(this);
                 }
 
-                public Builder toBuilder(Id name, List<String> variable) {
+                public Builder toBuilder(Id name, Collection<String> variable) {
                     return new Builder(name, variable).from(this);
                 }
 
-                public static Builder builder(Id name, List<String> variable) {
+                public static Builder builder(Id name, Collection<String> variable) {
                     return new Builder(name, variable);
                 }
 
@@ -4174,7 +4174,7 @@ public class StructureMap extends DomainResource {
                     private final Id name;
                     private final List<String> variable;
 
-                    private Builder(Id name, List<String> variable) {
+                    private Builder(Id name, Collection<String> variable) {
                         super();
                         this.name = name;
                         this.variable = new ArrayList<>(variable);

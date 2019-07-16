@@ -1189,11 +1189,11 @@ public class TestReport extends DomainResource {
             return new Builder(action).from(this);
         }
 
-        public Builder toBuilder(List<Action> action) {
+        public Builder toBuilder(Collection<Action> action) {
             return new Builder(action).from(this);
         }
 
-        public static Builder builder(List<Action> action) {
+        public static Builder builder(Collection<Action> action) {
             return new Builder(action);
         }
 
@@ -1201,7 +1201,7 @@ public class TestReport extends DomainResource {
             // required
             private final List<Action> action;
 
-            private Builder(List<Action> action) {
+            private Builder(Collection<Action> action) {
                 super();
                 this.action = new ArrayList<>(action);
             }
@@ -2357,11 +2357,11 @@ public class TestReport extends DomainResource {
             return new Builder(action).from(this);
         }
 
-        public Builder toBuilder(List<Action> action) {
+        public Builder toBuilder(Collection<Action> action) {
             return new Builder(action).from(this);
         }
 
-        public static Builder builder(List<Action> action) {
+        public static Builder builder(Collection<Action> action) {
             return new Builder(action);
         }
 
@@ -2373,7 +2373,7 @@ public class TestReport extends DomainResource {
             private String name;
             private String description;
 
-            private Builder(List<Action> action) {
+            private Builder(Collection<Action> action) {
                 super();
                 this.action = new ArrayList<>(action);
             }
@@ -2912,11 +2912,11 @@ public class TestReport extends DomainResource {
             return new Builder(action).from(this);
         }
 
-        public Builder toBuilder(List<Action> action) {
+        public Builder toBuilder(Collection<Action> action) {
             return new Builder(action).from(this);
         }
 
-        public static Builder builder(List<Action> action) {
+        public static Builder builder(Collection<Action> action) {
             return new Builder(action);
         }
 
@@ -2924,7 +2924,7 @@ public class TestReport extends DomainResource {
             // required
             private final List<Action> action;
 
-            private Builder(List<Action> action) {
+            private Builder(Collection<Action> action) {
                 super();
                 this.action = new ArrayList<>(action);
             }

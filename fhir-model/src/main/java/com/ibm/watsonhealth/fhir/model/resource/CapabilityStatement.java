@@ -667,11 +667,11 @@ public class CapabilityStatement extends DomainResource {
         return new Builder(status, date, kind, fhirVersion, format).from(this);
     }
 
-    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, List<Code> format) {
+    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
         return new Builder(status, date, kind, fhirVersion, format).from(this);
     }
 
-    public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, List<Code> format) {
+    public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
         return new Builder(status, date, kind, fhirVersion, format);
     }
 
@@ -706,7 +706,7 @@ public class CapabilityStatement extends DomainResource {
         private List<Messaging> messaging = new ArrayList<>();
         private List<Document> document = new ArrayList<>();
 
-        private Builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, List<Code> format) {
+        private Builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
             super();
             this.status = status;
             this.date = date;

@@ -83,12 +83,12 @@ public class FHIRValidator {
         
         @Override
         protected void doVisitStart(String elementName, Element element) {
-            validate(element.getClass(), getCurrentPath());            
+            validate(element.getClass());            
         }
 
         @Override
         protected void doVisitStart(String elementName, Resource resource) {
-            validate(resource.getClass(), getCurrentPath());            
+            validate(resource.getClass());            
         }
 
         private List<Issue> getIssues() {
@@ -111,8 +111,9 @@ public class FHIRValidator {
             return constraints;
         }
 
-        private void validate(Class<?> type, java.lang.String path) {
+        private void validate(Class<?> type) {
             List<Constraint> constraints = getConstraints(type);
+            String path = getCurrentPath();
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
                     if (DEBUG) {

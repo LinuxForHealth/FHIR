@@ -394,11 +394,11 @@ public class DocumentReference extends DomainResource {
         return new Builder(status, content).from(this);
     }
 
-    public Builder toBuilder(DocumentReferenceStatus status, List<Content> content) {
+    public Builder toBuilder(DocumentReferenceStatus status, Collection<Content> content) {
         return new Builder(status, content).from(this);
     }
 
-    public static Builder builder(DocumentReferenceStatus status, List<Content> content) {
+    public static Builder builder(DocumentReferenceStatus status, Collection<Content> content) {
         return new Builder(status, content);
     }
 
@@ -423,7 +423,7 @@ public class DocumentReference extends DomainResource {
         private List<CodeableConcept> securityLabel = new ArrayList<>();
         private Context context;
 
-        private Builder(DocumentReferenceStatus status, List<Content> content) {
+        private Builder(DocumentReferenceStatus status, Collection<Content> content) {
             super();
             this.status = status;
             this.content = new ArrayList<>(content);

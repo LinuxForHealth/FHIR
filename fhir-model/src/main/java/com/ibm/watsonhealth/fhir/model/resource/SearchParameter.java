@@ -599,11 +599,11 @@ public class SearchParameter extends DomainResource {
         return new Builder(url, name, status, description, code, base, type).from(this);
     }
 
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, Markdown description, Code code, List<ResourceType> base, SearchParamType type) {
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, Markdown description, Code code, Collection<ResourceType> base, SearchParamType type) {
         return new Builder(url, name, status, description, code, base, type).from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, List<ResourceType> base, SearchParamType type) {
+    public static Builder builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, Collection<ResourceType> base, SearchParamType type) {
         return new Builder(url, name, status, description, code, base, type);
     }
 
@@ -638,7 +638,7 @@ public class SearchParameter extends DomainResource {
         private List<String> chain = new ArrayList<>();
         private List<Component> component = new ArrayList<>();
 
-        private Builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, List<ResourceType> base, SearchParamType type) {
+        private Builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, Collection<ResourceType> base, SearchParamType type) {
             super();
             this.url = url;
             this.name = name;

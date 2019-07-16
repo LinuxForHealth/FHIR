@@ -291,11 +291,11 @@ public class Provenance extends DomainResource {
         return new Builder(target, recorded, agent).from(this);
     }
 
-    public Builder toBuilder(List<Reference> target, Instant recorded, List<Agent> agent) {
+    public Builder toBuilder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
         return new Builder(target, recorded, agent).from(this);
     }
 
-    public static Builder builder(List<Reference> target, Instant recorded, List<Agent> agent) {
+    public static Builder builder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
         return new Builder(target, recorded, agent);
     }
 
@@ -314,7 +314,7 @@ public class Provenance extends DomainResource {
         private List<Entity> entity = new ArrayList<>();
         private List<Signature> signature = new ArrayList<>();
 
-        private Builder(List<Reference> target, Instant recorded, List<Agent> agent) {
+        private Builder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
             super();
             this.target = new ArrayList<>(target);
             this.recorded = recorded;

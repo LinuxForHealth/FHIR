@@ -379,11 +379,11 @@ public class Consent extends DomainResource {
         return new Builder(status, scope, category).from(this);
     }
 
-    public Builder toBuilder(ConsentState status, CodeableConcept scope, List<CodeableConcept> category) {
+    public Builder toBuilder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
         return new Builder(status, scope, category).from(this);
     }
 
-    public static Builder builder(ConsentState status, CodeableConcept scope, List<CodeableConcept> category) {
+    public static Builder builder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
         return new Builder(status, scope, category);
     }
 
@@ -405,7 +405,7 @@ public class Consent extends DomainResource {
         private List<Verification> verification = new ArrayList<>();
         private Provision provision;
 
-        private Builder(ConsentState status, CodeableConcept scope, List<CodeableConcept> category) {
+        private Builder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
             super();
             this.status = status;
             this.scope = scope;

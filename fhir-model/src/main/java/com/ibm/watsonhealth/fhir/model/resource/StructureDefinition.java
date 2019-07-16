@@ -2318,11 +2318,11 @@ public class StructureDefinition extends DomainResource {
             return new Builder(element).from(this);
         }
 
-        public Builder toBuilder(List<ElementDefinition> element) {
+        public Builder toBuilder(Collection<ElementDefinition> element) {
             return new Builder(element).from(this);
         }
 
-        public static Builder builder(List<ElementDefinition> element) {
+        public static Builder builder(Collection<ElementDefinition> element) {
             return new Builder(element);
         }
 
@@ -2330,7 +2330,7 @@ public class StructureDefinition extends DomainResource {
             // required
             private final List<ElementDefinition> element;
 
-            private Builder(List<ElementDefinition> element) {
+            private Builder(Collection<ElementDefinition> element) {
                 super();
                 this.element = new ArrayList<>(element);
             }
@@ -2552,11 +2552,11 @@ public class StructureDefinition extends DomainResource {
             return new Builder(element).from(this);
         }
 
-        public Builder toBuilder(List<ElementDefinition> element) {
+        public Builder toBuilder(Collection<ElementDefinition> element) {
             return new Builder(element).from(this);
         }
 
-        public static Builder builder(List<ElementDefinition> element) {
+        public static Builder builder(Collection<ElementDefinition> element) {
             return new Builder(element);
         }
 
@@ -2564,7 +2564,7 @@ public class StructureDefinition extends DomainResource {
             // required
             private final List<ElementDefinition> element;
 
-            private Builder(List<ElementDefinition> element) {
+            private Builder(Collection<ElementDefinition> element) {
                 super();
                 this.element = new ArrayList<>(element);
             }

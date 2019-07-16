@@ -166,11 +166,11 @@ public class Linkage extends DomainResource {
         return new Builder(item).from(this);
     }
 
-    public Builder toBuilder(List<Item> item) {
+    public Builder toBuilder(Collection<Item> item) {
         return new Builder(item).from(this);
     }
 
-    public static Builder builder(List<Item> item) {
+    public static Builder builder(Collection<Item> item) {
         return new Builder(item);
     }
 
@@ -182,7 +182,7 @@ public class Linkage extends DomainResource {
         private Boolean active;
         private Reference author;
 
-        private Builder(List<Item> item) {
+        private Builder(Collection<Item> item) {
             super();
             this.item = new ArrayList<>(item);
         }

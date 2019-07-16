@@ -412,11 +412,11 @@ public class Coverage extends DomainResource {
         return new Builder(status, beneficiary, payor).from(this);
     }
 
-    public Builder toBuilder(CoverageStatus status, Reference beneficiary, List<Reference> payor) {
+    public Builder toBuilder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
         return new Builder(status, beneficiary, payor).from(this);
     }
 
-    public static Builder builder(CoverageStatus status, Reference beneficiary, List<Reference> payor) {
+    public static Builder builder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
         return new Builder(status, beneficiary, payor);
     }
 
@@ -442,7 +442,7 @@ public class Coverage extends DomainResource {
         private Boolean subrogation;
         private List<Reference> contract = new ArrayList<>();
 
-        private Builder(CoverageStatus status, Reference beneficiary, List<Reference> payor) {
+        private Builder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
             super();
             this.status = status;
             this.beneficiary = beneficiary;

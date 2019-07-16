@@ -502,11 +502,11 @@ public class ImplementationGuide extends DomainResource {
         return new Builder(url, name, status, packageId, fhirVersion).from(this);
     }
 
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, Id packageId, List<FHIRVersion> fhirVersion) {
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
         return new Builder(url, name, status, packageId, fhirVersion).from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, Id packageId, List<FHIRVersion> fhirVersion) {
+    public static Builder builder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
         return new Builder(url, name, status, packageId, fhirVersion);
     }
 
@@ -535,7 +535,7 @@ public class ImplementationGuide extends DomainResource {
         private Definition definition;
         private Manifest manifest;
 
-        private Builder(Uri url, String name, PublicationStatus status, Id packageId, List<FHIRVersion> fhirVersion) {
+        private Builder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
             super();
             this.url = url;
             this.name = name;
@@ -1899,11 +1899,11 @@ public class ImplementationGuide extends DomainResource {
             return new Builder(resource).from(this);
         }
 
-        public Builder toBuilder(List<Resource> resource) {
+        public Builder toBuilder(Collection<Resource> resource) {
             return new Builder(resource).from(this);
         }
 
-        public static Builder builder(List<Resource> resource) {
+        public static Builder builder(Collection<Resource> resource) {
             return new Builder(resource);
         }
 
@@ -1917,7 +1917,7 @@ public class ImplementationGuide extends DomainResource {
             private List<Parameter> parameter = new ArrayList<>();
             private List<Template> template = new ArrayList<>();
 
-            private Builder(List<Resource> resource) {
+            private Builder(Collection<Resource> resource) {
                 super();
                 this.resource = new ArrayList<>(resource);
             }
@@ -3958,11 +3958,11 @@ public class ImplementationGuide extends DomainResource {
             return new Builder(resource).from(this);
         }
 
-        public Builder toBuilder(List<Resource> resource) {
+        public Builder toBuilder(Collection<Resource> resource) {
             return new Builder(resource).from(this);
         }
 
-        public static Builder builder(List<Resource> resource) {
+        public static Builder builder(Collection<Resource> resource) {
             return new Builder(resource);
         }
 
@@ -3976,7 +3976,7 @@ public class ImplementationGuide extends DomainResource {
             private List<String> image = new ArrayList<>();
             private List<String> other = new ArrayList<>();
 
-            private Builder(List<Resource> resource) {
+            private Builder(Collection<Resource> resource) {
                 super();
                 this.resource = new ArrayList<>(resource);
             }

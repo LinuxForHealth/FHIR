@@ -395,11 +395,11 @@ public class Composition extends DomainResource {
         return new Builder(status, type, date, author, title).from(this);
     }
 
-    public Builder toBuilder(CompositionStatus status, CodeableConcept type, DateTime date, List<Reference> author, String title) {
+    public Builder toBuilder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
         return new Builder(status, type, date, author, title).from(this);
     }
 
-    public static Builder builder(CompositionStatus status, CodeableConcept type, DateTime date, List<Reference> author, String title) {
+    public static Builder builder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
         return new Builder(status, type, date, author, title);
     }
 
@@ -423,7 +423,7 @@ public class Composition extends DomainResource {
         private List<Event> event = new ArrayList<>();
         private List<Section> section = new ArrayList<>();
 
-        private Builder(CompositionStatus status, CodeableConcept type, DateTime date, List<Reference> author, String title) {
+        private Builder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
             super();
             this.status = status;
             this.type = type;

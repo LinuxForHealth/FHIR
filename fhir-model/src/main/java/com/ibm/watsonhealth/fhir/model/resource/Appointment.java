@@ -537,11 +537,11 @@ public class Appointment extends DomainResource {
         return new Builder(status, participant).from(this);
     }
 
-    public Builder toBuilder(AppointmentStatus status, List<Participant> participant) {
+    public Builder toBuilder(AppointmentStatus status, Collection<Participant> participant) {
         return new Builder(status, participant).from(this);
     }
 
-    public static Builder builder(AppointmentStatus status, List<Participant> participant) {
+    public static Builder builder(AppointmentStatus status, Collection<Participant> participant) {
         return new Builder(status, participant);
     }
 
@@ -572,7 +572,7 @@ public class Appointment extends DomainResource {
         private List<Reference> basedOn = new ArrayList<>();
         private List<Period> requestedPeriod = new ArrayList<>();
 
-        private Builder(AppointmentStatus status, List<Participant> participant) {
+        private Builder(AppointmentStatus status, Collection<Participant> participant) {
             super();
             this.status = status;
             this.participant = new ArrayList<>(participant);

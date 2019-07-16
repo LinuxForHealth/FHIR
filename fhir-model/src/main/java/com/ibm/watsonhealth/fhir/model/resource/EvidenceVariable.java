@@ -614,11 +614,11 @@ public class EvidenceVariable extends DomainResource {
         return new Builder(status, characteristic).from(this);
     }
 
-    public Builder toBuilder(PublicationStatus status, List<Characteristic> characteristic) {
+    public Builder toBuilder(PublicationStatus status, Collection<Characteristic> characteristic) {
         return new Builder(status, characteristic).from(this);
     }
 
-    public static Builder builder(PublicationStatus status, List<Characteristic> characteristic) {
+    public static Builder builder(PublicationStatus status, Collection<Characteristic> characteristic) {
         return new Builder(status, characteristic);
     }
 
@@ -654,7 +654,7 @@ public class EvidenceVariable extends DomainResource {
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private EvidenceVariableType type;
 
-        private Builder(PublicationStatus status, List<Characteristic> characteristic) {
+        private Builder(PublicationStatus status, Collection<Characteristic> characteristic) {
             super();
             this.status = status;
             this.characteristic = new ArrayList<>(characteristic);

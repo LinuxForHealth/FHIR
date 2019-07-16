@@ -20,7 +20,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     private final Stack<String> pathStack = new Stack<>();
     private final Stack<Integer> indexStack = new Stack<>();
     
-    // template methods
+    // called by template methods
     protected abstract void doVisitEnd(String elementName, Element element);
     protected abstract void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitEnd(String elementName, Resource resource);
@@ -29,15 +29,27 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     protected abstract void doVisitStart(String elementName, Resource resource);
 
     protected String getCurrentElementName(String elementName) {
-        return (elementName == null) ? nameStack.peek() : elementName;
+        if (elementName == null) {
+            return nameStack.peek();
+        }
+        return elementName;
     }
     
     protected int getCurrentIndex(String elementName) {
-        return (elementName == null) ? indexStack.peek() : -1;
+        if (elementName == null) {
+            return indexStack.peek();
+        }
+        return -1;
     }
     
     protected String getCurrentPath() {
         return pathStack.stream().collect(Collectors.joining("."));
+    }
+    
+    private void incrementCurrentIndex(String elementName) {
+        if (elementName == null) {
+            indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
+        }
     }
     
     private void pathStackPop() {
@@ -75,16 +87,9 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     @Override
     public final void visitStart(java.lang.String elementName, Element element) {
-        if (elementName == null) {
-            pathStackPush(nameStack.peek(), indexStack.peek());
-        } else {
-            pathStackPush(elementName, -1);
-        }
+        pathStackPush(getCurrentElementName(elementName), getCurrentIndex(elementName));
         doVisitStart(elementName, element);
-        if (elementName == null) {
-            // increment index
-            indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-        }
+        incrementCurrentIndex(elementName);
     }
     
     @Override
@@ -96,15 +101,8 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     @Override
     public final void visitStart(java.lang.String elementName, Resource resource) {
-        if (elementName == null) {
-            pathStackPush(nameStack.peek(), indexStack.peek());
-        } else {
-            pathStackPush(elementName, -1);
-        }
+        pathStackPush(getCurrentElementName(elementName), getCurrentIndex(elementName));
         doVisitStart(elementName, resource);
-        if (elementName == null) {
-            // increment index
-            indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
-        }
+        incrementCurrentIndex(elementName);
     }
 }

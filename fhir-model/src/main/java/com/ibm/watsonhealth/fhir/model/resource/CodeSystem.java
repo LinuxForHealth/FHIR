@@ -1627,11 +1627,11 @@ public class CodeSystem extends DomainResource {
             return new Builder(code, operator, value).from(this);
         }
 
-        public Builder toBuilder(Code code, List<FilterOperator> operator, String value) {
+        public Builder toBuilder(Code code, Collection<FilterOperator> operator, String value) {
             return new Builder(code, operator, value).from(this);
         }
 
-        public static Builder builder(Code code, List<FilterOperator> operator, String value) {
+        public static Builder builder(Code code, Collection<FilterOperator> operator, String value) {
             return new Builder(code, operator, value);
         }
 
@@ -1644,7 +1644,7 @@ public class CodeSystem extends DomainResource {
             // optional
             private String description;
 
-            private Builder(Code code, List<FilterOperator> operator, String value) {
+            private Builder(Code code, Collection<FilterOperator> operator, String value) {
                 super();
                 this.code = code;
                 this.operator = new ArrayList<>(operator);

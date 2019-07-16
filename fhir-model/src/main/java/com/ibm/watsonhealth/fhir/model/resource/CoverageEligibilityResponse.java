@@ -382,11 +382,11 @@ public class CoverageEligibilityResponse extends DomainResource {
         return new Builder(status, purpose, patient, created, request, outcome, insurer).from(this);
     }
 
-    public Builder toBuilder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
+    public Builder toBuilder(EligibilityResponseStatus status, Collection<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
         return new Builder(status, purpose, patient, created, request, outcome, insurer).from(this);
     }
 
-    public static Builder builder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
+    public static Builder builder(EligibilityResponseStatus status, Collection<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
         return new Builder(status, purpose, patient, created, request, outcome, insurer);
     }
 
@@ -410,7 +410,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         private CodeableConcept form;
         private List<Error> error = new ArrayList<>();
 
-        private Builder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
+        private Builder(EligibilityResponseStatus status, Collection<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
             super();
             this.status = status;
             this.purpose = new ArrayList<>(purpose);

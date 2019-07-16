@@ -527,7 +527,11 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : requiredElementDefinitions) {
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
-            params.add(fieldType + " " + fieldName);
+            String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
+            if (containsBackboneElement(structureDefinition, "collection")) {
+                paramType = "java.util." + paramType;
+            }
+            params.add(paramType + " " + fieldName);
             args.add(fieldName);
         }
                 
@@ -971,7 +975,11 @@ public class CodeGenerator {
             for (JsonObject elementDefinition : requiredElementDefinitions) {
                 String fieldName = getFieldName(elementDefinition, path);
                 String fieldType = getFieldType(structureDefinition, elementDefinition);
-                params.add(fieldType + " " + fieldName);
+                String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
+                if (containsBackboneElement(structureDefinition, "collection")) {
+                    paramType = "java.util." + paramType;
+                }
+                params.add(paramType + " " + fieldName);
                 args.add(fieldName);
             }
             
@@ -3168,5 +3176,4 @@ public class CodeGenerator {
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");
     }
-
 }

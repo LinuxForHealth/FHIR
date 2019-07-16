@@ -360,11 +360,11 @@ public class CoverageEligibilityRequest extends DomainResource {
         return new Builder(status, purpose, patient, created, insurer).from(this);
     }
 
-    public Builder toBuilder(EligibilityRequestStatus status, List<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
+    public Builder toBuilder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
         return new Builder(status, purpose, patient, created, insurer).from(this);
     }
 
-    public static Builder builder(EligibilityRequestStatus status, List<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
+    public static Builder builder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
         return new Builder(status, purpose, patient, created, insurer);
     }
 
@@ -387,7 +387,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         private List<Insurance> insurance = new ArrayList<>();
         private List<Item> item = new ArrayList<>();
 
-        private Builder(EligibilityRequestStatus status, List<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
+        private Builder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
             super();
             this.status = status;
             this.purpose = new ArrayList<>(purpose);

@@ -1327,11 +1327,11 @@ public class ConceptMap extends DomainResource {
             return new Builder(element).from(this);
         }
 
-        public Builder toBuilder(List<Element> element) {
+        public Builder toBuilder(Collection<Element> element) {
             return new Builder(element).from(this);
         }
 
-        public static Builder builder(List<Element> element) {
+        public static Builder builder(Collection<Element> element) {
             return new Builder(element);
         }
 
@@ -1346,7 +1346,7 @@ public class ConceptMap extends DomainResource {
             private String targetVersion;
             private Unmapped unmapped;
 
-            private Builder(List<Element> element) {
+            private Builder(Collection<Element> element) {
                 super();
                 this.element = new ArrayList<>(element);
             }

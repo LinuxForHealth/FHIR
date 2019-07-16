@@ -203,11 +203,11 @@ public class ImmunizationRecommendation extends DomainResource {
         return new Builder(patient, date, recommendation).from(this);
     }
 
-    public Builder toBuilder(Reference patient, DateTime date, List<Recommendation> recommendation) {
+    public Builder toBuilder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
         return new Builder(patient, date, recommendation).from(this);
     }
 
-    public static Builder builder(Reference patient, DateTime date, List<Recommendation> recommendation) {
+    public static Builder builder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
         return new Builder(patient, date, recommendation);
     }
 
@@ -221,7 +221,7 @@ public class ImmunizationRecommendation extends DomainResource {
         private List<Identifier> identifier = new ArrayList<>();
         private Reference authority;
 
-        private Builder(Reference patient, DateTime date, List<Recommendation> recommendation) {
+        private Builder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
             super();
             this.patient = patient;
             this.date = date;

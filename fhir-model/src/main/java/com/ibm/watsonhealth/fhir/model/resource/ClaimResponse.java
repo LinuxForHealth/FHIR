@@ -1584,11 +1584,11 @@ public class ClaimResponse extends DomainResource {
             return new Builder(itemSequence, adjudication).from(this);
         }
 
-        public Builder toBuilder(PositiveInt itemSequence, List<Adjudication> adjudication) {
+        public Builder toBuilder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
             return new Builder(itemSequence, adjudication).from(this);
         }
 
-        public static Builder builder(PositiveInt itemSequence, List<Adjudication> adjudication) {
+        public static Builder builder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
             return new Builder(itemSequence, adjudication);
         }
 
@@ -1601,7 +1601,7 @@ public class ClaimResponse extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
 
-            private Builder(PositiveInt itemSequence, List<Adjudication> adjudication) {
+            private Builder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
                 super();
                 this.itemSequence = itemSequence;
                 this.adjudication = new ArrayList<>(adjudication);
@@ -2306,11 +2306,11 @@ public class ClaimResponse extends DomainResource {
                 return new Builder(detailSequence, adjudication).from(this);
             }
 
-            public Builder toBuilder(PositiveInt detailSequence, List<ClaimResponse.Item.Adjudication> adjudication) {
+            public Builder toBuilder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                 return new Builder(detailSequence, adjudication).from(this);
             }
 
-            public static Builder builder(PositiveInt detailSequence, List<ClaimResponse.Item.Adjudication> adjudication) {
+            public static Builder builder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                 return new Builder(detailSequence, adjudication);
             }
 
@@ -2323,7 +2323,7 @@ public class ClaimResponse extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
 
-                private Builder(PositiveInt detailSequence, List<ClaimResponse.Item.Adjudication> adjudication) {
+                private Builder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                     super();
                     this.detailSequence = detailSequence;
                     this.adjudication = new ArrayList<>(adjudication);
@@ -3294,11 +3294,11 @@ public class ClaimResponse extends DomainResource {
             return new Builder(productOrService, adjudication).from(this);
         }
 
-        public Builder toBuilder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+        public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
             return new Builder(productOrService, adjudication).from(this);
         }
 
-        public static Builder builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+        public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
             return new Builder(productOrService, adjudication);
         }
 
@@ -3325,7 +3325,7 @@ public class ClaimResponse extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
 
-            private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+            private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                 super();
                 this.productOrService = productOrService;
                 this.adjudication = new ArrayList<>(adjudication);
@@ -4184,11 +4184,11 @@ public class ClaimResponse extends DomainResource {
                 return new Builder(productOrService, adjudication).from(this);
             }
 
-            public Builder toBuilder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+            public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                 return new Builder(productOrService, adjudication).from(this);
             }
 
-            public static Builder builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+            public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                 return new Builder(productOrService, adjudication);
             }
 
@@ -4206,7 +4206,7 @@ public class ClaimResponse extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
 
-                private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+                private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                     super();
                     this.productOrService = productOrService;
                     this.adjudication = new ArrayList<>(adjudication);
@@ -4750,11 +4750,11 @@ public class ClaimResponse extends DomainResource {
                     return new Builder(productOrService, adjudication).from(this);
                 }
 
-                public Builder toBuilder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+                public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                     return new Builder(productOrService, adjudication).from(this);
                 }
 
-                public static Builder builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+                public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                     return new Builder(productOrService, adjudication);
                 }
 
@@ -4771,7 +4771,7 @@ public class ClaimResponse extends DomainResource {
                     private Money net;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
 
-                    private Builder(CodeableConcept productOrService, List<ClaimResponse.Item.Adjudication> adjudication) {
+                    private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
                         super();
                         this.productOrService = productOrService;
                         this.adjudication = new ArrayList<>(adjudication);

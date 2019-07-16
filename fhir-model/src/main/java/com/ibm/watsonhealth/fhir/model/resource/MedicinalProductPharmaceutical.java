@@ -228,11 +228,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         return new Builder(administrableDoseForm, routeOfAdministration).from(this);
     }
 
-    public Builder toBuilder(CodeableConcept administrableDoseForm, List<RouteOfAdministration> routeOfAdministration) {
+    public Builder toBuilder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
         return new Builder(administrableDoseForm, routeOfAdministration).from(this);
     }
 
-    public static Builder builder(CodeableConcept administrableDoseForm, List<RouteOfAdministration> routeOfAdministration) {
+    public static Builder builder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
         return new Builder(administrableDoseForm, routeOfAdministration);
     }
 
@@ -248,7 +248,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         private List<Reference> device = new ArrayList<>();
         private List<Characteristics> characteristics = new ArrayList<>();
 
-        private Builder(CodeableConcept administrableDoseForm, List<RouteOfAdministration> routeOfAdministration) {
+        private Builder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
             super();
             this.administrableDoseForm = administrableDoseForm;
             this.routeOfAdministration = new ArrayList<>(routeOfAdministration);

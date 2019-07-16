@@ -99,14 +99,12 @@ public class FHIRPathTree {
 
         @Override
         protected void doVisitStart(String elementName, Element element) {
-            FHIRPathNode.Builder builder = FHIRPathElementNode.builder(element).name(getCurrentElementName(elementName));
-            builderStack.push(builder);
+            builderStack.push(FHIRPathElementNode.builder(element).name(getCurrentElementName(elementName)));
         }
 
         @Override
         protected void doVisitStart(String elementName, Resource resource) {
-            FHIRPathNode.Builder builder = FHIRPathResourceNode.builder(resource).name(getCurrentElementName(elementName));
-            builderStack.push(builder);            
+            builderStack.push(FHIRPathResourceNode.builder(resource).name(getCurrentElementName(elementName)));            
         }
 
         @Override

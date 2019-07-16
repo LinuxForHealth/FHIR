@@ -618,11 +618,11 @@ public class EventDefinition extends DomainResource {
         return new Builder(status, trigger).from(this);
     }
 
-    public Builder toBuilder(PublicationStatus status, List<TriggerDefinition> trigger) {
+    public Builder toBuilder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
         return new Builder(status, trigger).from(this);
     }
 
-    public static Builder builder(PublicationStatus status, List<TriggerDefinition> trigger) {
+    public static Builder builder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
         return new Builder(status, trigger);
     }
 
@@ -659,7 +659,7 @@ public class EventDefinition extends DomainResource {
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
 
-        private Builder(PublicationStatus status, List<TriggerDefinition> trigger) {
+        private Builder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
             super();
             this.status = status;
             this.trigger = new ArrayList<>(trigger);

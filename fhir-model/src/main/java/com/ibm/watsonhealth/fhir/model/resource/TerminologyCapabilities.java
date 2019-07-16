@@ -2836,11 +2836,11 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Builder(code, op).from(this);
                 }
 
-                public Builder toBuilder(Code code, List<Code> op) {
+                public Builder toBuilder(Code code, Collection<Code> op) {
                     return new Builder(code, op).from(this);
                 }
 
-                public static Builder builder(Code code, List<Code> op) {
+                public static Builder builder(Code code, Collection<Code> op) {
                     return new Builder(code, op);
                 }
 
@@ -2849,7 +2849,7 @@ public class TerminologyCapabilities extends DomainResource {
                     private final Code code;
                     private final List<Code> op;
 
-                    private Builder(Code code, List<Code> op) {
+                    private Builder(Code code, Collection<Code> op) {
                         super();
                         this.code = code;
                         this.op = new ArrayList<>(op);

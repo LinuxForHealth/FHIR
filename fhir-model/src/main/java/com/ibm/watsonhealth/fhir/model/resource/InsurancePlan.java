@@ -1591,11 +1591,11 @@ public class InsurancePlan extends DomainResource {
             return new Builder(type, benefit).from(this);
         }
 
-        public Builder toBuilder(CodeableConcept type, List<Benefit> benefit) {
+        public Builder toBuilder(CodeableConcept type, Collection<Benefit> benefit) {
             return new Builder(type, benefit).from(this);
         }
 
-        public static Builder builder(CodeableConcept type, List<Benefit> benefit) {
+        public static Builder builder(CodeableConcept type, Collection<Benefit> benefit) {
             return new Builder(type, benefit);
         }
 
@@ -1607,7 +1607,7 @@ public class InsurancePlan extends DomainResource {
             // optional
             private List<Reference> network = new ArrayList<>();
 
-            private Builder(CodeableConcept type, List<Benefit> benefit) {
+            private Builder(CodeableConcept type, Collection<Benefit> benefit) {
                 super();
                 this.type = type;
                 this.benefit = new ArrayList<>(benefit);

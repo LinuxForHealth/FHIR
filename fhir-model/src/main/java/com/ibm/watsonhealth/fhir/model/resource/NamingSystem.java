@@ -365,11 +365,11 @@ public class NamingSystem extends DomainResource {
         return new Builder(name, status, kind, date, uniqueId).from(this);
     }
 
-    public Builder toBuilder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, List<UniqueId> uniqueId) {
+    public Builder toBuilder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
         return new Builder(name, status, kind, date, uniqueId).from(this);
     }
 
-    public static Builder builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, List<UniqueId> uniqueId) {
+    public static Builder builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
         return new Builder(name, status, kind, date, uniqueId);
     }
 
@@ -391,7 +391,7 @@ public class NamingSystem extends DomainResource {
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private String usage;
 
-        private Builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, List<UniqueId> uniqueId) {
+        private Builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
             super();
             this.name = name;
             this.status = status;

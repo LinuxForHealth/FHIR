@@ -866,11 +866,11 @@ public class ExplanationOfBenefit extends DomainResource {
         return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
     }
 
-    public Builder toBuilder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, List<Insurance> insurance) {
+    public Builder toBuilder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
         return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
     }
 
-    public static Builder builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, List<Insurance> insurance) {
+    public static Builder builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
         return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance);
     }
 
@@ -922,7 +922,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private Period benefitPeriod;
         private List<BenefitBalance> benefitBalance = new ArrayList<>();
 
-        private Builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, List<Insurance> insurance) {
+        private Builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
             super();
             this.status = status;
             this.type = type;

@@ -450,11 +450,11 @@ public class MedicinalProduct extends DomainResource {
         return new Builder(name).from(this);
     }
 
-    public Builder toBuilder(List<Name> name) {
+    public Builder toBuilder(Collection<Name> name) {
         return new Builder(name).from(this);
     }
 
-    public static Builder builder(List<Name> name) {
+    public static Builder builder(Collection<Name> name) {
         return new Builder(name);
     }
 
@@ -483,7 +483,7 @@ public class MedicinalProduct extends DomainResource {
         private List<ManufacturingBusinessOperation> manufacturingBusinessOperation = new ArrayList<>();
         private List<SpecialDesignation> specialDesignation = new ArrayList<>();
 
-        private Builder(List<Name> name) {
+        private Builder(Collection<Name> name) {
             super();
             this.name = new ArrayList<>(name);
         }

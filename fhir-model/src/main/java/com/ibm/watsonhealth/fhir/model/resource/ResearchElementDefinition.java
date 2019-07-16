@@ -718,11 +718,11 @@ public class ResearchElementDefinition extends DomainResource {
         return new Builder(status, type, characteristic).from(this);
     }
 
-    public Builder toBuilder(PublicationStatus status, ResearchElementType type, List<Characteristic> characteristic) {
+    public Builder toBuilder(PublicationStatus status, ResearchElementType type, Collection<Characteristic> characteristic) {
         return new Builder(status, type, characteristic).from(this);
     }
 
-    public static Builder builder(PublicationStatus status, ResearchElementType type, List<Characteristic> characteristic) {
+    public static Builder builder(PublicationStatus status, ResearchElementType type, Collection<Characteristic> characteristic) {
         return new Builder(status, type, characteristic);
     }
 
@@ -764,7 +764,7 @@ public class ResearchElementDefinition extends DomainResource {
         private List<Canonical> library = new ArrayList<>();
         private VariableType variableType;
 
-        private Builder(PublicationStatus status, ResearchElementType type, List<Characteristic> characteristic) {
+        private Builder(PublicationStatus status, ResearchElementType type, Collection<Characteristic> characteristic) {
             super();
             this.status = status;
             this.type = type;

@@ -311,11 +311,11 @@ public class AuditEvent extends DomainResource {
         return new Builder(type, recorded, agent, source).from(this);
     }
 
-    public Builder toBuilder(Coding type, Instant recorded, List<Agent> agent, Source source) {
+    public Builder toBuilder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
         return new Builder(type, recorded, agent, source).from(this);
     }
 
-    public static Builder builder(Coding type, Instant recorded, List<Agent> agent, Source source) {
+    public static Builder builder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
         return new Builder(type, recorded, agent, source);
     }
 
@@ -335,7 +335,7 @@ public class AuditEvent extends DomainResource {
         private List<CodeableConcept> purposeOfEvent = new ArrayList<>();
         private List<Entity> entity = new ArrayList<>();
 
-        private Builder(Coding type, Instant recorded, List<Agent> agent, Source source) {
+        private Builder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
             super();
             this.type = type;
             this.recorded = recorded;

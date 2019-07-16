@@ -263,11 +263,11 @@ public class MedicinalProductPackaged extends DomainResource {
         return new Builder(packageItem).from(this);
     }
 
-    public Builder toBuilder(List<PackageItem> packageItem) {
+    public Builder toBuilder(Collection<PackageItem> packageItem) {
         return new Builder(packageItem).from(this);
     }
 
-    public static Builder builder(List<PackageItem> packageItem) {
+    public static Builder builder(Collection<PackageItem> packageItem) {
         return new Builder(packageItem);
     }
 
@@ -285,7 +285,7 @@ public class MedicinalProductPackaged extends DomainResource {
         private List<Reference> manufacturer = new ArrayList<>();
         private List<BatchIdentifier> batchIdentifier = new ArrayList<>();
 
-        private Builder(List<PackageItem> packageItem) {
+        private Builder(Collection<PackageItem> packageItem) {
             super();
             this.packageItem = new ArrayList<>(packageItem);
         }
