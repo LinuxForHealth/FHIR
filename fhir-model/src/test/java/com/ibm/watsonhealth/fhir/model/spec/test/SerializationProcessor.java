@@ -35,7 +35,14 @@ public class SerializationProcessor implements IExampleProcessor {
                 Resource newResource = FHIRUtil.read(resource.getClass(), Format.JSON, rdr);
                 
                 if (!newResource.equals(resource)) {
-                    throw new IllegalStateException("Resource mismatch after JSON write/read");
+                    
+                    // Run the comparator so we can actually see what is different
+                    ResourceComparatorVisitor rcv = new ResourceComparatorVisitor();
+                    resource.accept(resource.getClass().getSimpleName(), rcv);
+                    rcv.setCompare(); // flip the flag
+                    newResource.accept(resource.getClass().getSimpleName(), rcv);
+                    
+                    throw new AssertionError("Resource mismatch after JSON write/read");
                 }
             }
         }

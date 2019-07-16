@@ -19,8 +19,7 @@ import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
-
-import org.apache.commons.codec.binary.Base64;
+import java.util.Base64;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
@@ -108,7 +107,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
 
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
-        System.out.println("element:" + getPath() + ", value=" + Base64.encodeBase64String(value));
+        System.out.println("element:" + getPath() + ", value=" + Base64.getEncoder().encodeToString(value));
         digest.update(getPath().getBytes(StandardCharsets.UTF_8));
         digest.update(value);
     }
