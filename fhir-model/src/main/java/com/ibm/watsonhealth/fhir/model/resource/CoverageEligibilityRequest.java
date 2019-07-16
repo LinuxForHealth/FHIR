@@ -66,7 +66,7 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         priority = builder.priority;
         purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
@@ -77,9 +77,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         provider = builder.provider;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
         facility = builder.facility;
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        insurance = Collections.unmodifiableList(builder.insurance);
-        item = Collections.unmodifiableList(builder.item);
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
     }
 
     /**
@@ -1518,16 +1518,16 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            supportingInfoSequence = Collections.unmodifiableList(builder.supportingInfoSequence);
+            supportingInfoSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfoSequence, "supportingInfoSequence"));
             category = builder.category;
             productOrService = builder.productOrService;
-            modifier = Collections.unmodifiableList(builder.modifier);
+            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
             provider = builder.provider;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             facility = builder.facility;
-            diagnosis = Collections.unmodifiableList(builder.diagnosis);
-            detail = Collections.unmodifiableList(builder.detail);
+            diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -56,17 +56,17 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         period = builder.period;
         payloadType = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType"));
-        payloadMimeType = Collections.unmodifiableList(builder.payloadMimeType);
+        payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
         address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = Collections.unmodifiableList(builder.header);
+        header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
     }
 
     /**

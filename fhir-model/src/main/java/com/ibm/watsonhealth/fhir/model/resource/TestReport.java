@@ -81,9 +81,9 @@ public class TestReport extends DomainResource {
         score = builder.score;
         tester = builder.tester;
         issued = builder.issued;
-        participant = Collections.unmodifiableList(builder.participant);
+        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
         setup = builder.setup;
-        test = Collections.unmodifiableList(builder.test);
+        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
         teardown = builder.teardown;
     }
 

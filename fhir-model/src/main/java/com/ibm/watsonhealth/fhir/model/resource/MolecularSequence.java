@@ -87,7 +87,7 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         type = builder.type;
         coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
         patient = builder.patient;
@@ -96,13 +96,13 @@ public class MolecularSequence extends DomainResource {
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = Collections.unmodifiableList(builder.variant);
+        variant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variant, "variant"));
         observedSeq = builder.observedSeq;
-        quality = Collections.unmodifiableList(builder.quality);
+        quality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.quality, "quality"));
         readCoverage = builder.readCoverage;
-        repository = Collections.unmodifiableList(builder.repository);
-        pointer = Collections.unmodifiableList(builder.pointer);
-        structureVariant = Collections.unmodifiableList(builder.structureVariant);
+        repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
+        pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
+        structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
     }
 
     /**
@@ -2893,13 +2893,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                score = Collections.unmodifiableList(builder.score);
-                numTP = Collections.unmodifiableList(builder.numTP);
-                numFP = Collections.unmodifiableList(builder.numFP);
-                numFN = Collections.unmodifiableList(builder.numFN);
-                precision = Collections.unmodifiableList(builder.precision);
-                sensitivity = Collections.unmodifiableList(builder.sensitivity);
-                fMeasure = Collections.unmodifiableList(builder.fMeasure);
+                score = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.score, "score"));
+                numTP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numTP, "numTP"));
+                numFP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFP, "numFP"));
+                numFN = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFN, "numFN"));
+                precision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precision, "precision"));
+                sensitivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sensitivity, "sensitivity"));
+                fMeasure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fMeasure, "fMeasure"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

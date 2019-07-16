@@ -183,27 +183,27 @@ public class Questionnaire extends DomainResource {
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
-        subjectType = Collections.unmodifiableList(builder.subjectType);
+        subjectType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectType, "subjectType"));
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        code = Collections.unmodifiableList(builder.code);
-        item = Collections.unmodifiableList(builder.item);
+        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
     }
 
     /**
@@ -1497,20 +1497,20 @@ public class Questionnaire extends DomainResource {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
-            code = Collections.unmodifiableList(builder.code);
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
             prefix = builder.prefix;
             text = builder.text;
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            enableWhen = Collections.unmodifiableList(builder.enableWhen);
+            enableWhen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enableWhen, "enableWhen"));
             enableBehavior = builder.enableBehavior;
             required = builder.required;
             repeats = builder.repeats;
             readOnly = builder.readOnly;
             maxLength = builder.maxLength;
             answerValueSet = builder.answerValueSet;
-            answerOption = Collections.unmodifiableList(builder.answerOption);
-            initial = Collections.unmodifiableList(builder.initial);
-            item = Collections.unmodifiableList(builder.item);
+            answerOption = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answerOption, "answerOption"));
+            initial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.initial, "initial"));
+            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

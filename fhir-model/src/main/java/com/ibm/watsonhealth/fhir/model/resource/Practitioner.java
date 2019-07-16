@@ -57,16 +57,16 @@ public class Practitioner extends DomainResource {
 
     private Practitioner(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
-        name = Collections.unmodifiableList(builder.name);
-        telecom = Collections.unmodifiableList(builder.telecom);
-        address = Collections.unmodifiableList(builder.address);
+        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
         gender = builder.gender;
         birthDate = builder.birthDate;
-        photo = Collections.unmodifiableList(builder.photo);
-        qualification = Collections.unmodifiableList(builder.qualification);
-        communication = Collections.unmodifiableList(builder.communication);
+        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
+        qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
+        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
     }
 
     /**
@@ -917,7 +917,7 @@ Work addresses are not typically
 
         private Qualification(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(builder.identifier);
+            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
             code = ValidationSupport.requireNonNull(builder.code, "code");
             period = builder.period;
             issuer = builder.issuer;

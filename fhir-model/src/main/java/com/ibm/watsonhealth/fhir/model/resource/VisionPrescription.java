@@ -56,7 +56,7 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         created = ValidationSupport.requireNonNull(builder.created, "created");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -617,7 +617,7 @@ public class VisionPrescription extends DomainResource {
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = Collections.unmodifiableList(builder.prism);
+            prism = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prism, "prism"));
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -625,7 +625,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = Collections.unmodifiableList(builder.note);
+            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

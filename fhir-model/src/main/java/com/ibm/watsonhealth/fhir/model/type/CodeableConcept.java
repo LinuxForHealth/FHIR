@@ -31,7 +31,7 @@ public class CodeableConcept extends Element {
 
     private CodeableConcept(Builder builder) {
         super(builder);
-        coding = Collections.unmodifiableList(builder.coding);
+        coding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coding, "coding"));
         text = builder.text;
         ValidationSupport.requireValueOrChildren(this);
     }

@@ -129,7 +129,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             public void write(char[] cbuf, int off, int len) throws IOException {
                 if (first && cbuf.length > 1 && off == 0 && cbuf[0] == '\n') {
                     first = false;
-                    out.write(cbuf, off + 1, len);
+                    out.write(cbuf, off + 1, len - 1);
                     return;
                 }
                 out.write(cbuf, off, len);

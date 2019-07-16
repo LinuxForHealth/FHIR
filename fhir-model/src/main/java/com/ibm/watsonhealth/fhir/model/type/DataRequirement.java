@@ -57,13 +57,13 @@ public class DataRequirement extends Element {
     private DataRequirement(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        profile = Collections.unmodifiableList(builder.profile);
+        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        mustSupport = Collections.unmodifiableList(builder.mustSupport);
-        codeFilter = Collections.unmodifiableList(builder.codeFilter);
-        dateFilter = Collections.unmodifiableList(builder.dateFilter);
+        mustSupport = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mustSupport, "mustSupport"));
+        codeFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeFilter, "codeFilter"));
+        dateFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateFilter, "dateFilter"));
         limit = builder.limit;
-        sort = Collections.unmodifiableList(builder.sort);
+        sort = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sort, "sort"));
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -631,7 +631,7 @@ public class DataRequirement extends Element {
             path = builder.path;
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
-            code = Collections.unmodifiableList(builder.code);
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

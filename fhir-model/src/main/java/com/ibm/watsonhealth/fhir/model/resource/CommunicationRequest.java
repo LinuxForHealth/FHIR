@@ -71,28 +71,28 @@ public class CommunicationRequest extends DomainResource {
 
     private CommunicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        replaces = Collections.unmodifiableList(builder.replaces);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
         groupIdentifier = builder.groupIdentifier;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        medium = Collections.unmodifiableList(builder.medium);
+        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
         subject = builder.subject;
-        about = Collections.unmodifiableList(builder.about);
+        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
         encounter = builder.encounter;
-        payload = Collections.unmodifiableList(builder.payload);
+        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        recipient = Collections.unmodifiableList(builder.recipient);
+        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**

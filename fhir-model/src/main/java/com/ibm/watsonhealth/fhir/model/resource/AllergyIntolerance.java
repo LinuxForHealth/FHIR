@@ -82,11 +82,11 @@ public class AllergyIntolerance extends DomainResource {
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         criticality = builder.criticality;
         code = builder.code;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -96,8 +96,8 @@ public class AllergyIntolerance extends DomainResource {
         recorder = builder.recorder;
         asserter = builder.asserter;
         lastOccurrence = builder.lastOccurrence;
-        note = Collections.unmodifiableList(builder.note);
-        reaction = Collections.unmodifiableList(builder.reaction);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
     }
 
     /**
@@ -1082,7 +1082,7 @@ public class AllergyIntolerance extends DomainResource {
             onset = builder.onset;
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
-            note = Collections.unmodifiableList(builder.note);
+            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

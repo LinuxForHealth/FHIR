@@ -86,28 +86,28 @@ public class ChargeItemDefinition extends DomainResource {
     private ChargeItemDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         title = builder.title;
-        derivedFromUri = Collections.unmodifiableList(builder.derivedFromUri);
-        partOf = Collections.unmodifiableList(builder.partOf);
-        replaces = Collections.unmodifiableList(builder.replaces);
+        derivedFromUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFromUri, "derivedFromUri"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
         code = builder.code;
-        instance = Collections.unmodifiableList(builder.instance);
-        applicability = Collections.unmodifiableList(builder.applicability);
-        propertyGroup = Collections.unmodifiableList(builder.propertyGroup);
+        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+        applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
+        propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
     }
 
     /**
@@ -1786,8 +1786,8 @@ public class ChargeItemDefinition extends DomainResource {
 
         private PropertyGroup(Builder builder) {
             super(builder);
-            applicability = Collections.unmodifiableList(builder.applicability);
-            priceComponent = Collections.unmodifiableList(builder.priceComponent);
+            applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
+            priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -100,13 +100,13 @@ public class Condition extends DomainResource {
 
     private Condition(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         severity = builder.severity;
         code = builder.code;
-        bodySite = Collections.unmodifiableList(builder.bodySite);
+        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
@@ -114,9 +114,9 @@ public class Condition extends DomainResource {
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
-        stage = Collections.unmodifiableList(builder.stage);
-        evidence = Collections.unmodifiableList(builder.evidence);
-        note = Collections.unmodifiableList(builder.note);
+        stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
+        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1163,7 +1163,7 @@ public class Condition extends DomainResource {
         private Stage(Builder builder) {
             super(builder);
             summary = builder.summary;
-            assessment = Collections.unmodifiableList(builder.assessment);
+            assessment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.assessment, "assessment"));
             type = builder.type;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1504,8 +1504,8 @@ public class Condition extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(builder.code);
-            detail = Collections.unmodifiableList(builder.detail);
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

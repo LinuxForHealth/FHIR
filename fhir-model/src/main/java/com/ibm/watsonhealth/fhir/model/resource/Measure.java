@@ -109,7 +109,7 @@ public class Measure extends DomainResource {
     private Measure(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -119,36 +119,36 @@ public class Measure extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(builder.topic);
-        author = Collections.unmodifiableList(builder.author);
-        editor = Collections.unmodifiableList(builder.editor);
-        reviewer = Collections.unmodifiableList(builder.reviewer);
-        endorser = Collections.unmodifiableList(builder.endorser);
-        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
-        library = Collections.unmodifiableList(builder.library);
+        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
+        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
+        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
         disclaimer = builder.disclaimer;
         scoring = builder.scoring;
         compositeScoring = builder.compositeScoring;
-        type = Collections.unmodifiableList(builder.type);
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
         riskAdjustment = builder.riskAdjustment;
         rateAggregation = builder.rateAggregation;
         rationale = builder.rationale;
         clinicalRecommendationStatement = builder.clinicalRecommendationStatement;
         improvementNotation = builder.improvementNotation;
-        definition = Collections.unmodifiableList(builder.definition);
+        definition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definition, "definition"));
         guidance = builder.guidance;
-        group = Collections.unmodifiableList(builder.group);
-        supplementalData = Collections.unmodifiableList(builder.supplementalData);
+        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
+        supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
     }
 
     /**
@@ -2256,8 +2256,8 @@ public class Measure extends DomainResource {
             super(builder);
             code = builder.code;
             description = builder.description;
-            population = Collections.unmodifiableList(builder.population);
-            stratifier = Collections.unmodifiableList(builder.stratifier);
+            population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+            stratifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratifier, "stratifier"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2973,7 +2973,7 @@ public class Measure extends DomainResource {
                 code = builder.code;
                 description = builder.description;
                 criteria = builder.criteria;
-                component = Collections.unmodifiableList(builder.component);
+                component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3670,7 +3670,7 @@ public class Measure extends DomainResource {
         private SupplementalData(Builder builder) {
             super(builder);
             code = builder.code;
-            usage = Collections.unmodifiableList(builder.usage);
+            usage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usage, "usage"));
             description = builder.description;
             criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
             ValidationSupport.requireValueOrChildren(this);

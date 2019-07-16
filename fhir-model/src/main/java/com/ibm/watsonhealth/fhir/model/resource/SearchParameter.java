@@ -106,10 +106,10 @@ public class SearchParameter extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = ValidationSupport.requireNonNull(builder.description, "description");
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         base = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.base, "base"));
@@ -117,13 +117,13 @@ public class SearchParameter extends DomainResource {
         expression = builder.expression;
         xpath = builder.xpath;
         xpathUsage = builder.xpathUsage;
-        target = Collections.unmodifiableList(builder.target);
+        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
         multipleOr = builder.multipleOr;
         multipleAnd = builder.multipleAnd;
-        comparator = Collections.unmodifiableList(builder.comparator);
-        modifier = Collections.unmodifiableList(builder.modifier);
-        chain = Collections.unmodifiableList(builder.chain);
-        component = Collections.unmodifiableList(builder.component);
+        comparator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comparator, "comparator"));
+        modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+        chain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.chain, "chain"));
+        component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
     }
 
     /**

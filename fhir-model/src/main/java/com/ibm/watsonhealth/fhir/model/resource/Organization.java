@@ -78,16 +78,16 @@ public class Organization extends DomainResource {
 
     private Organization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
-        type = Collections.unmodifiableList(builder.type);
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
         name = builder.name;
-        alias = Collections.unmodifiableList(builder.alias);
-        telecom = Collections.unmodifiableList(builder.telecom);
-        address = Collections.unmodifiableList(builder.address);
+        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
         partOf = builder.partOf;
-        contact = Collections.unmodifiableList(builder.contact);
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
     }
 
     /**
@@ -924,7 +924,7 @@ public class Organization extends DomainResource {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = Collections.unmodifiableList(builder.telecom);
+            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
             address = builder.address;
             ValidationSupport.requireValueOrChildren(this);
         }

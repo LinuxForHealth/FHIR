@@ -54,13 +54,13 @@ public class Medication extends DomainResource {
 
     private Medication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         code = builder.code;
         status = builder.status;
         manufacturer = builder.manufacturer;
         form = builder.form;
         amount = builder.amount;
-        ingredient = Collections.unmodifiableList(builder.ingredient);
+        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         batch = builder.batch;
     }
 

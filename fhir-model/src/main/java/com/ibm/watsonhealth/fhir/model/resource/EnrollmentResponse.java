@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.RemittanceOutcome;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -48,7 +49,7 @@ public class EnrollmentResponse extends DomainResource {
 
     private EnrollmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
         request = builder.request;
         outcome = builder.outcome;

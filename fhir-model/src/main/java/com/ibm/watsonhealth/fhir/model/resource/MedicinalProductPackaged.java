@@ -53,14 +53,14 @@ public class MedicinalProductPackaged extends DomainResource {
 
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        subject = Collections.unmodifiableList(builder.subject);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         description = builder.description;
         legalStatusOfSupply = builder.legalStatusOfSupply;
-        marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
+        marketingStatus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.marketingStatus, "marketingStatus"));
         marketingAuthorization = builder.marketingAuthorization;
-        manufacturer = Collections.unmodifiableList(builder.manufacturer);
-        batchIdentifier = Collections.unmodifiableList(builder.batchIdentifier);
+        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+        batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
         packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
     }
 
@@ -1085,18 +1085,18 @@ public class MedicinalProductPackaged extends DomainResource {
 
         private PackageItem(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(builder.identifier);
+            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
             type = ValidationSupport.requireNonNull(builder.type, "type");
             quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-            material = Collections.unmodifiableList(builder.material);
-            alternateMaterial = Collections.unmodifiableList(builder.alternateMaterial);
-            device = Collections.unmodifiableList(builder.device);
-            manufacturedItem = Collections.unmodifiableList(builder.manufacturedItem);
-            packageItem = Collections.unmodifiableList(builder.packageItem);
+            material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
+            alternateMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alternateMaterial, "alternateMaterial"));
+            device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
+            manufacturedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturedItem, "manufacturedItem"));
+            packageItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.packageItem, "packageItem"));
             physicalCharacteristics = builder.physicalCharacteristics;
-            otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
-            shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
-            manufacturer = Collections.unmodifiableList(builder.manufacturer);
+            otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
+            shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
+            manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

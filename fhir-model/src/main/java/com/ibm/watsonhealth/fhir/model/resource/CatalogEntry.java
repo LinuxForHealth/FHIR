@@ -57,19 +57,19 @@ public class CatalogEntry extends DomainResource {
 
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         type = builder.type;
         orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
         referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(builder.additionalIdentifier);
-        classification = Collections.unmodifiableList(builder.classification);
+        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalIdentifier, "additionalIdentifier"));
+        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(builder.additionalCharacteristic);
-        additionalClassification = Collections.unmodifiableList(builder.additionalClassification);
-        relatedEntry = Collections.unmodifiableList(builder.relatedEntry);
+        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
+        additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
+        relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
     }
 
     /**

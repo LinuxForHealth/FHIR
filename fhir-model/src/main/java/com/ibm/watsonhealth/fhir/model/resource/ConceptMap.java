@@ -106,15 +106,15 @@ public class ConceptMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
         source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
         target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
-        group = Collections.unmodifiableList(builder.group);
+        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
     }
 
     /**
@@ -1583,7 +1583,7 @@ public class ConceptMap extends DomainResource {
                 super(builder);
                 code = builder.code;
                 display = builder.display;
-                target = Collections.unmodifiableList(builder.target);
+                target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1929,8 +1929,8 @@ public class ConceptMap extends DomainResource {
                     display = builder.display;
                     equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
                     comment = builder.comment;
-                    dependsOn = Collections.unmodifiableList(builder.dependsOn);
-                    product = Collections.unmodifiableList(builder.product);
+                    dependsOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependsOn, "dependsOn"));
+                    product = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.product, "product"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

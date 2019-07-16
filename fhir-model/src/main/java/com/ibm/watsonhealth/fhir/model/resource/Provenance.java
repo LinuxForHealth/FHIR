@@ -63,13 +63,13 @@ public class Provenance extends DomainResource {
         target = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.target, "target"));
         occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        policy = Collections.unmodifiableList(builder.policy);
+        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
         location = builder.location;
-        reason = Collections.unmodifiableList(builder.reason);
+        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
         activity = builder.activity;
         agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
-        entity = Collections.unmodifiableList(builder.entity);
-        signature = Collections.unmodifiableList(builder.signature);
+        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
+        signature = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signature, "signature"));
     }
 
     /**
@@ -802,7 +802,7 @@ public class Provenance extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(builder.role);
+            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
             who = ValidationSupport.requireNonNull(builder.who, "who");
             onBehalfOf = builder.onBehalfOf;
             ValidationSupport.requireValueOrChildren(this);
@@ -1173,7 +1173,7 @@ public class Provenance extends DomainResource {
             super(builder);
             role = ValidationSupport.requireNonNull(builder.role, "role");
             what = ValidationSupport.requireNonNull(builder.what, "what");
-            agent = Collections.unmodifiableList(builder.agent);
+            agent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.agent, "agent"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

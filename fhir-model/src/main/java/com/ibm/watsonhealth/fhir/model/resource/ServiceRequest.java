@@ -93,19 +93,19 @@ public class ServiceRequest extends DomainResource {
 
     private ServiceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        replaces = Collections.unmodifiableList(builder.replaces);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
         requisition = builder.requisition;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         code = builder.code;
-        orderDetail = Collections.unmodifiableList(builder.orderDetail);
+        orderDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.orderDetail, "orderDetail"));
         quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
@@ -114,18 +114,18 @@ public class ServiceRequest extends DomainResource {
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performerType = builder.performerType;
-        performer = Collections.unmodifiableList(builder.performer);
-        locationCode = Collections.unmodifiableList(builder.locationCode);
-        locationReference = Collections.unmodifiableList(builder.locationReference);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        insurance = Collections.unmodifiableList(builder.insurance);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        specimen = Collections.unmodifiableList(builder.specimen);
-        bodySite = Collections.unmodifiableList(builder.bodySite);
-        note = Collections.unmodifiableList(builder.note);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        locationCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationCode, "locationCode"));
+        locationReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationReference, "locationReference"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
+        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         patientInstruction = builder.patientInstruction;
-        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
     }
 
     /**

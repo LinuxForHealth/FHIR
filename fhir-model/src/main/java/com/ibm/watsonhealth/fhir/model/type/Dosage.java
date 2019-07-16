@@ -45,14 +45,14 @@ public class Dosage extends BackboneElement {
         super(builder);
         sequence = builder.sequence;
         text = builder.text;
-        additionalInstruction = Collections.unmodifiableList(builder.additionalInstruction);
+        additionalInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalInstruction, "additionalInstruction"));
         patientInstruction = builder.patientInstruction;
         timing = builder.timing;
         asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
         site = builder.site;
         route = builder.route;
         method = builder.method;
-        doseAndRate = Collections.unmodifiableList(builder.doseAndRate);
+        doseAndRate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseAndRate, "doseAndRate"));
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;

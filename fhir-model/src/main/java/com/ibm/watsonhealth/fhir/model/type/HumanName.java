@@ -40,9 +40,9 @@ public class HumanName extends Element {
         use = builder.use;
         text = builder.text;
         family = builder.family;
-        given = Collections.unmodifiableList(builder.given);
-        prefix = Collections.unmodifiableList(builder.prefix);
-        suffix = Collections.unmodifiableList(builder.suffix);
+        given = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.given, "given"));
+        prefix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prefix, "prefix"));
+        suffix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suffix, "suffix"));
         period = builder.period;
         ValidationSupport.requireValueOrChildren(this);
     }

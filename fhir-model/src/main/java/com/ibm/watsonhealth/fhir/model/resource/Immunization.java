@@ -85,7 +85,7 @@ public class Immunization extends DomainResource {
 
     private Immunization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
@@ -102,17 +102,17 @@ public class Immunization extends DomainResource {
         site = builder.site;
         route = builder.route;
         doseQuantity = builder.doseQuantity;
-        performer = Collections.unmodifiableList(builder.performer);
-        note = Collections.unmodifiableList(builder.note);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         isSubpotent = builder.isSubpotent;
-        subpotentReason = Collections.unmodifiableList(builder.subpotentReason);
-        education = Collections.unmodifiableList(builder.education);
-        programEligibility = Collections.unmodifiableList(builder.programEligibility);
+        subpotentReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subpotentReason, "subpotentReason"));
+        education = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.education, "education"));
+        programEligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programEligibility, "programEligibility"));
         fundingSource = builder.fundingSource;
-        reaction = Collections.unmodifiableList(builder.reaction);
-        protocolApplied = Collections.unmodifiableList(builder.protocolApplied);
+        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
+        protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
     }
 
     /**
@@ -2514,7 +2514,7 @@ public class Immunization extends DomainResource {
             super(builder);
             series = builder.series;
             authority = builder.authority;
-            targetDisease = Collections.unmodifiableList(builder.targetDisease);
+            targetDisease = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease"));
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             ValidationSupport.requireValueOrChildren(this);

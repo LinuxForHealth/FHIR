@@ -405,8 +405,8 @@ public class OperationOutcome extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
             diagnostics = builder.diagnostics;
-            location = Collections.unmodifiableList(builder.location);
-            expression = Collections.unmodifiableList(builder.expression);
+            location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+            expression = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.expression, "expression"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

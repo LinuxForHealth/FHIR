@@ -74,13 +74,13 @@ public class CompartmentDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
         purpose = builder.purpose;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         search = ValidationSupport.requireNonNull(builder.search, "search");
-        resource = Collections.unmodifiableList(builder.resource);
+        resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
     }
 
     /**
@@ -900,7 +900,7 @@ public class CompartmentDefinition extends DomainResource {
         private Resource(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            param = Collections.unmodifiableList(builder.param);
+            param = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.param, "param"));
             documentation = builder.documentation;
             ValidationSupport.requireValueOrChildren(this);
         }

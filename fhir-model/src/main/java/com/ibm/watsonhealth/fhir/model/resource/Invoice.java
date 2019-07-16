@@ -66,22 +66,22 @@ public class Invoice extends DomainResource {
 
     private Invoice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         cancelledReason = builder.cancelledReason;
         type = builder.type;
         subject = builder.subject;
         recipient = builder.recipient;
         date = builder.date;
-        participant = Collections.unmodifiableList(builder.participant);
+        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
         issuer = builder.issuer;
         account = builder.account;
-        lineItem = Collections.unmodifiableList(builder.lineItem);
-        totalPriceComponent = Collections.unmodifiableList(builder.totalPriceComponent);
+        lineItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.lineItem, "lineItem"));
+        totalPriceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.totalPriceComponent, "totalPriceComponent"));
         totalNet = builder.totalNet;
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
-        note = Collections.unmodifiableList(builder.note);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1341,7 +1341,7 @@ public class Invoice extends DomainResource {
             super(builder);
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
-            priceComponent = Collections.unmodifiableList(builder.priceComponent);
+            priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -65,14 +65,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         sourceMaterialState = builder.sourceMaterialState;
         organismId = builder.organismId;
         organismName = builder.organismName;
-        parentSubstanceId = Collections.unmodifiableList(builder.parentSubstanceId);
-        parentSubstanceName = Collections.unmodifiableList(builder.parentSubstanceName);
-        countryOfOrigin = Collections.unmodifiableList(builder.countryOfOrigin);
-        geographicalLocation = Collections.unmodifiableList(builder.geographicalLocation);
+        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceId, "parentSubstanceId"));
+        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceName, "parentSubstanceName"));
+        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.countryOfOrigin, "countryOfOrigin"));
+        geographicalLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geographicalLocation, "geographicalLocation"));
         developmentStage = builder.developmentStage;
-        fractionDescription = Collections.unmodifiableList(builder.fractionDescription);
+        fractionDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fractionDescription, "fractionDescription"));
         organism = builder.organism;
-        partDescription = Collections.unmodifiableList(builder.partDescription);
+        partDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partDescription, "partDescription"));
     }
 
     /**
@@ -1335,7 +1335,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             species = builder.species;
             intraspecificType = builder.intraspecificType;
             intraspecificDescription = builder.intraspecificDescription;
-            author = Collections.unmodifiableList(builder.author);
+            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
             ValidationSupport.requireValueOrChildren(this);

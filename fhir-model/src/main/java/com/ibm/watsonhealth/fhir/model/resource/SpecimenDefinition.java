@@ -54,10 +54,10 @@ public class SpecimenDefinition extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         typeCollected = builder.typeCollected;
-        patientPreparation = Collections.unmodifiableList(builder.patientPreparation);
+        patientPreparation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientPreparation, "patientPreparation"));
         timeAspect = builder.timeAspect;
-        collection = Collections.unmodifiableList(builder.collection);
-        typeTested = Collections.unmodifiableList(builder.typeTested);
+        collection = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.collection, "collection"));
+        typeTested = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeTested, "typeTested"));
     }
 
     /**
@@ -674,8 +674,8 @@ public class SpecimenDefinition extends DomainResource {
             container = builder.container;
             requirement = builder.requirement;
             retentionTime = builder.retentionTime;
-            rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
-            handling = Collections.unmodifiableList(builder.handling);
+            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rejectionCriterion, "rejectionCriterion"));
+            handling = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.handling, "handling"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1214,7 +1214,7 @@ public class SpecimenDefinition extends DomainResource {
                 description = builder.description;
                 capacity = builder.capacity;
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
-                additive = Collections.unmodifiableList(builder.additive);
+                additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
                 preparation = builder.preparation;
                 ValidationSupport.requireValueOrChildren(this);
             }

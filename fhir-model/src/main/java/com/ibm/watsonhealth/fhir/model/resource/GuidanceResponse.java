@@ -61,20 +61,20 @@ public class GuidanceResponse extends DomainResource {
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        note = Collections.unmodifiableList(builder.note);
-        evaluationMessage = Collections.unmodifiableList(builder.evaluationMessage);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        evaluationMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluationMessage, "evaluationMessage"));
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
+        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
     }
 
     /**

@@ -67,24 +67,24 @@ public class DiagnosticReport extends DomainResource {
 
     private DiagnosticReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
         issued = builder.issued;
-        performer = Collections.unmodifiableList(builder.performer);
-        resultsInterpreter = Collections.unmodifiableList(builder.resultsInterpreter);
-        specimen = Collections.unmodifiableList(builder.specimen);
-        result = Collections.unmodifiableList(builder.result);
-        imagingStudy = Collections.unmodifiableList(builder.imagingStudy);
-        media = Collections.unmodifiableList(builder.media);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsInterpreter, "resultsInterpreter"));
+        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
+        result = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.result, "result"));
+        imagingStudy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imagingStudy, "imagingStudy"));
+        media = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.media, "media"));
         conclusion = builder.conclusion;
-        conclusionCode = Collections.unmodifiableList(builder.conclusionCode);
-        presentedForm = Collections.unmodifiableList(builder.presentedForm);
+        conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
+        presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
     }
 
     /**

@@ -71,9 +71,9 @@ public class Media extends DomainResource {
 
     private Media(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         modality = builder.modality;
@@ -83,7 +83,7 @@ public class Media extends DomainResource {
         created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
         issued = builder.issued;
         operator = builder.operator;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
         bodySite = builder.bodySite;
         deviceName = builder.deviceName;
         device = builder.device;
@@ -92,7 +92,7 @@ public class Media extends DomainResource {
         frames = builder.frames;
         duration = builder.duration;
         content = ValidationSupport.requireNonNull(builder.content, "content");
-        note = Collections.unmodifiableList(builder.note);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**

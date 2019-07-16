@@ -58,20 +58,20 @@ public class VerificationResult extends DomainResource {
 
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(builder.target);
-        targetLocation = Collections.unmodifiableList(builder.targetLocation);
+        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        targetLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetLocation, "targetLocation"));
         need = builder.need;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(builder.validationProcess);
+        validationProcess = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validationProcess, "validationProcess"));
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(builder.primarySource);
+        primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(builder.validator);
+        validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
     }
 
     /**
@@ -990,12 +990,12 @@ public class VerificationResult extends DomainResource {
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(builder.type);
-            communicationMethod = Collections.unmodifiableList(builder.communicationMethod);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            communicationMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationMethod, "communicationMethod"));
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
+            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

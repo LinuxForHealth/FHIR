@@ -60,18 +60,18 @@ public class RelatedPerson extends DomainResource {
 
     private RelatedPerson(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        relationship = Collections.unmodifiableList(builder.relationship);
-        name = Collections.unmodifiableList(builder.name);
-        telecom = Collections.unmodifiableList(builder.telecom);
+        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(builder.address);
-        photo = Collections.unmodifiableList(builder.photo);
+        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         period = builder.period;
-        communication = Collections.unmodifiableList(builder.communication);
+        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
     }
 
     /**

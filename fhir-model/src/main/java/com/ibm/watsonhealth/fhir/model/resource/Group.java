@@ -67,7 +67,7 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         actual = ValidationSupport.requireNonNull(builder.actual, "actual");
@@ -75,8 +75,8 @@ public class Group extends DomainResource {
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = Collections.unmodifiableList(builder.characteristic);
-        member = Collections.unmodifiableList(builder.member);
+        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
+        member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
     }
 
     /**

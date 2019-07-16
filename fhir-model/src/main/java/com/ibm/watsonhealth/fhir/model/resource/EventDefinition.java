@@ -87,7 +87,7 @@ public class EventDefinition extends DomainResource {
     private EventDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -97,22 +97,22 @@ public class EventDefinition extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(builder.topic);
-        author = Collections.unmodifiableList(builder.author);
-        editor = Collections.unmodifiableList(builder.editor);
-        reviewer = Collections.unmodifiableList(builder.reviewer);
-        endorser = Collections.unmodifiableList(builder.endorser);
-        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
+        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
+        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
         trigger = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.trigger, "trigger"));
     }
 

@@ -56,16 +56,16 @@ public class Account extends DomainResource {
 
     private Account(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         name = builder.name;
-        subject = Collections.unmodifiableList(builder.subject);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         servicePeriod = builder.servicePeriod;
-        coverage = Collections.unmodifiableList(builder.coverage);
+        coverage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverage, "coverage"));
         owner = builder.owner;
         description = builder.description;
-        guarantor = Collections.unmodifiableList(builder.guarantor);
+        guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
         partOf = builder.partOf;
     }
 

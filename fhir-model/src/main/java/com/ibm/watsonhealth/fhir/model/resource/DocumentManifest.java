@@ -55,17 +55,17 @@ public class DocumentManifest extends DomainResource {
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         subject = builder.subject;
         created = builder.created;
-        author = Collections.unmodifiableList(builder.author);
-        recipient = Collections.unmodifiableList(builder.recipient);
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
         source = builder.source;
         description = builder.description;
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
-        related = Collections.unmodifiableList(builder.related);
+        related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
     }
 
     /**

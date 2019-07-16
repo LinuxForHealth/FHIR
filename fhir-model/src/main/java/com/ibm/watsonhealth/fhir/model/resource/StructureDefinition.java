@@ -250,7 +250,7 @@ public class StructureDefinition extends DomainResource {
     private StructureDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -258,19 +258,19 @@ public class StructureDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        keyword = Collections.unmodifiableList(builder.keyword);
+        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
         fhirVersion = builder.fhirVersion;
-        mapping = Collections.unmodifiableList(builder.mapping);
+        mapping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mapping, "mapping"));
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        context = Collections.unmodifiableList(builder.context);
-        contextInvariant = Collections.unmodifiableList(builder.contextInvariant);
+        context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
+        contextInvariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextInvariant, "contextInvariant"));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         baseDefinition = builder.baseDefinition;
         derivation = builder.derivation;

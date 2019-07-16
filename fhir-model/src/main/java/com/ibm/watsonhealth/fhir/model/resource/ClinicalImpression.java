@@ -69,7 +69,7 @@ public class ClinicalImpression extends DomainResource {
 
     private ClinicalImpression(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         code = builder.code;
@@ -80,15 +80,15 @@ public class ClinicalImpression extends DomainResource {
         date = builder.date;
         assessor = builder.assessor;
         previous = builder.previous;
-        problem = Collections.unmodifiableList(builder.problem);
-        investigation = Collections.unmodifiableList(builder.investigation);
-        protocol = Collections.unmodifiableList(builder.protocol);
+        problem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.problem, "problem"));
+        investigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.investigation, "investigation"));
+        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
         summary = builder.summary;
-        finding = Collections.unmodifiableList(builder.finding);
-        prognosisCodeableConcept = Collections.unmodifiableList(builder.prognosisCodeableConcept);
-        prognosisReference = Collections.unmodifiableList(builder.prognosisReference);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        note = Collections.unmodifiableList(builder.note);
+        finding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.finding, "finding"));
+        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisCodeableConcept, "prognosisCodeableConcept"));
+        prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1299,7 +1299,7 @@ public class ClinicalImpression extends DomainResource {
         private Investigation(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            item = Collections.unmodifiableList(builder.item);
+            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -69,27 +69,27 @@ public class Encounter extends DomainResource {
 
     private Encounter(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
         clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        classHistory = Collections.unmodifiableList(builder.classHistory);
-        type = Collections.unmodifiableList(builder.type);
+        classHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classHistory, "classHistory"));
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
         serviceType = builder.serviceType;
         priority = builder.priority;
         subject = builder.subject;
-        episodeOfCare = Collections.unmodifiableList(builder.episodeOfCare);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        participant = Collections.unmodifiableList(builder.participant);
-        appointment = Collections.unmodifiableList(builder.appointment);
+        episodeOfCare = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.episodeOfCare, "episodeOfCare"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        appointment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appointment, "appointment"));
         period = builder.period;
         length = builder.length;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        diagnosis = Collections.unmodifiableList(builder.diagnosis);
-        account = Collections.unmodifiableList(builder.account);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         hospitalization = builder.hospitalization;
-        location = Collections.unmodifiableList(builder.location);
+        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
     }
@@ -2025,7 +2025,7 @@ public class Encounter extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(builder.type);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             period = builder.period;
             individual = builder.individual;
             ValidationSupport.requireValueOrChildren(this);
@@ -2689,9 +2689,9 @@ public class Encounter extends DomainResource {
             origin = builder.origin;
             admitSource = builder.admitSource;
             reAdmission = builder.reAdmission;
-            dietPreference = Collections.unmodifiableList(builder.dietPreference);
-            specialCourtesy = Collections.unmodifiableList(builder.specialCourtesy);
-            specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
+            dietPreference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dietPreference, "dietPreference"));
+            specialCourtesy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialCourtesy, "specialCourtesy"));
+            specialArrangement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialArrangement, "specialArrangement"));
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
             ValidationSupport.requireValueOrChildren(this);

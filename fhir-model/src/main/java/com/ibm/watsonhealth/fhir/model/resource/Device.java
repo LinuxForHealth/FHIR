@@ -75,31 +75,31 @@ public class Device extends DomainResource {
 
     private Device(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         definition = builder.definition;
-        udiCarrier = Collections.unmodifiableList(builder.udiCarrier);
+        udiCarrier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udiCarrier, "udiCarrier"));
         status = builder.status;
-        statusReason = Collections.unmodifiableList(builder.statusReason);
+        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
         distinctIdentifier = builder.distinctIdentifier;
         manufacturer = builder.manufacturer;
         manufactureDate = builder.manufactureDate;
         expirationDate = builder.expirationDate;
         lotNumber = builder.lotNumber;
         serialNumber = builder.serialNumber;
-        deviceName = Collections.unmodifiableList(builder.deviceName);
+        deviceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.deviceName, "deviceName"));
         modelNumber = builder.modelNumber;
         partNumber = builder.partNumber;
         type = builder.type;
-        specialization = Collections.unmodifiableList(builder.specialization);
-        version = Collections.unmodifiableList(builder.version);
-        property = Collections.unmodifiableList(builder.property);
+        specialization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialization, "specialization"));
+        version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
+        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
         patient = builder.patient;
         owner = builder.owner;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         location = builder.location;
         url = builder.url;
-        note = Collections.unmodifiableList(builder.note);
-        safety = Collections.unmodifiableList(builder.safety);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
         parent = builder.parent;
     }
 
@@ -2848,8 +2848,8 @@ public class Device extends DomainResource {
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
-            valueCode = Collections.unmodifiableList(builder.valueCode);
+            valueQuantity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueQuantity, "valueQuantity"));
+            valueCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueCode, "valueCode"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

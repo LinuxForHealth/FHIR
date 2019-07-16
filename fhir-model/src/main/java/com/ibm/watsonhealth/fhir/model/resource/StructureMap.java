@@ -132,7 +132,7 @@ public class StructureMap extends DomainResource {
     private StructureMap(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -140,14 +140,14 @@ public class StructureMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        structure = Collections.unmodifiableList(builder.structure);
-        _import = Collections.unmodifiableList(builder._import);
+        structure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structure, "structure"));
+        _import = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder._import, "import"));
         group = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.group, "group"));
     }
 
@@ -2223,9 +2223,9 @@ public class StructureMap extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 source = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.source, "source"));
-                target = Collections.unmodifiableList(builder.target);
-                rule = Collections.unmodifiableList(builder.rule);
-                dependent = Collections.unmodifiableList(builder.dependent);
+                target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+                rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
+                dependent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependent, "dependent"));
                 documentation = builder.documentation;
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3300,10 +3300,10 @@ public class StructureMap extends DomainResource {
                     contextType = builder.contextType;
                     element = builder.element;
                     variable = builder.variable;
-                    listMode = Collections.unmodifiableList(builder.listMode);
+                    listMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.listMode, "listMode"));
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
-                    parameter = Collections.unmodifiableList(builder.parameter);
+                    parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

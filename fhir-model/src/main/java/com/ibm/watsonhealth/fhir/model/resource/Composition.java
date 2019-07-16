@@ -86,18 +86,18 @@ public class Composition extends DomainResource {
         identifier = builder.identifier;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         subject = builder.subject;
         encounter = builder.encounter;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         author = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.author, "author"));
         title = ValidationSupport.requireNonNull(builder.title, "title");
         confidentiality = builder.confidentiality;
-        attester = Collections.unmodifiableList(builder.attester);
+        attester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.attester, "attester"));
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(builder.relatesTo);
-        event = Collections.unmodifiableList(builder.event);
-        section = Collections.unmodifiableList(builder.section);
+        relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
+        event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
+        section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
     }
 
     /**
@@ -1548,9 +1548,9 @@ public class Composition extends DomainResource {
 
         private Event(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(builder.code);
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
             period = builder.period;
-            detail = Collections.unmodifiableList(builder.detail);
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1934,14 +1934,14 @@ public class Composition extends DomainResource {
             super(builder);
             title = builder.title;
             code = builder.code;
-            author = Collections.unmodifiableList(builder.author);
+            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
             focus = builder.focus;
             text = builder.text;
             mode = builder.mode;
             orderedBy = builder.orderedBy;
-            entry = Collections.unmodifiableList(builder.entry);
+            entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
             emptyReason = builder.emptyReason;
-            section = Collections.unmodifiableList(builder.section);
+            section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

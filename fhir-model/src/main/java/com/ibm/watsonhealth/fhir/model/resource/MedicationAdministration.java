@@ -76,25 +76,25 @@ public class MedicationAdministration extends DomainResource {
 
     private MedicationAdministration(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiates = Collections.unmodifiableList(builder.instantiates);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = Collections.unmodifiableList(builder.statusReason);
+        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
         category = builder.category;
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
         effective = ValidationSupport.requireChoiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        performer = Collections.unmodifiableList(builder.performer);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         request = builder.request;
-        device = Collections.unmodifiableList(builder.device);
-        note = Collections.unmodifiableList(builder.note);
+        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = builder.dosage;
-        eventHistory = Collections.unmodifiableList(builder.eventHistory);
+        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
     }
 
     /**

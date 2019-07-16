@@ -60,20 +60,20 @@ public class PractitionerRole extends DomainResource {
 
     private PractitionerRole(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         period = builder.period;
         practitioner = builder.practitioner;
         organization = builder.organization;
-        code = Collections.unmodifiableList(builder.code);
-        specialty = Collections.unmodifiableList(builder.specialty);
-        location = Collections.unmodifiableList(builder.location);
-        healthcareService = Collections.unmodifiableList(builder.healthcareService);
-        telecom = Collections.unmodifiableList(builder.telecom);
-        availableTime = Collections.unmodifiableList(builder.availableTime);
-        notAvailable = Collections.unmodifiableList(builder.notAvailable);
+        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        availableTime = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.availableTime, "availableTime"));
+        notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
     }
 
     /**
@@ -1090,7 +1090,7 @@ public class PractitionerRole extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;

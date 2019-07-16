@@ -68,26 +68,26 @@ public class ImagingStudy extends DomainResource {
 
     private ImagingStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        modality = Collections.unmodifiableList(builder.modality);
+        modality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modality, "modality"));
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         started = builder.started;
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         referrer = builder.referrer;
-        interpreter = Collections.unmodifiableList(builder.interpreter);
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        interpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpreter, "interpreter"));
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         numberOfSeries = builder.numberOfSeries;
         numberOfInstances = builder.numberOfInstances;
         procedureReference = builder.procedureReference;
-        procedureCode = Collections.unmodifiableList(builder.procedureCode);
+        procedureCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureCode, "procedureCode"));
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         description = builder.description;
-        series = Collections.unmodifiableList(builder.series);
+        series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
     }
 
     /**
@@ -1336,13 +1336,13 @@ public class ImagingStudy extends DomainResource {
             modality = ValidationSupport.requireNonNull(builder.modality, "modality");
             description = builder.description;
             numberOfInstances = builder.numberOfInstances;
-            endpoint = Collections.unmodifiableList(builder.endpoint);
+            endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
             bodySite = builder.bodySite;
             laterality = builder.laterality;
-            specimen = Collections.unmodifiableList(builder.specimen);
+            specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
             started = builder.started;
-            performer = Collections.unmodifiableList(builder.performer);
-            instance = Collections.unmodifiableList(builder.instance);
+            performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+            instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

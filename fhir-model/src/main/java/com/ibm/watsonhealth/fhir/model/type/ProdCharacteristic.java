@@ -48,9 +48,9 @@ public class ProdCharacteristic extends BackboneElement {
         nominalVolume = builder.nominalVolume;
         externalDiameter = builder.externalDiameter;
         shape = builder.shape;
-        color = Collections.unmodifiableList(builder.color);
-        imprint = Collections.unmodifiableList(builder.imprint);
-        image = Collections.unmodifiableList(builder.image);
+        color = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.color, "color"));
+        imprint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imprint, "imprint"));
+        image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
         scoring = builder.scoring;
         ValidationSupport.requireValueOrChildren(this);
     }

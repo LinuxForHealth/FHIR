@@ -55,7 +55,7 @@ public class PaymentNotice extends DomainResource {
 
     private PaymentNotice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         request = builder.request;
         response = builder.response;

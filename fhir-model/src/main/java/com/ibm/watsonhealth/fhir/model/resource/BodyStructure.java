@@ -50,13 +50,13 @@ public class BodyStructure extends DomainResource {
 
     private BodyStructure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         morphology = builder.morphology;
         location = builder.location;
-        locationQualifier = Collections.unmodifiableList(builder.locationQualifier);
+        locationQualifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationQualifier, "locationQualifier"));
         description = builder.description;
-        image = Collections.unmodifiableList(builder.image);
+        image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
     }
 

@@ -58,10 +58,10 @@ public class MedicinalProductAuthorization extends DomainResource {
 
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         subject = builder.subject;
-        country = Collections.unmodifiableList(builder.country);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         status = builder.status;
         statusDate = builder.statusDate;
         restoreDate = builder.restoreDate;
@@ -70,7 +70,7 @@ public class MedicinalProductAuthorization extends DomainResource {
         dateOfFirstAuthorization = builder.dateOfFirstAuthorization;
         internationalBirthDate = builder.internationalBirthDate;
         legalBasis = builder.legalBasis;
-        jurisdictionalAuthorization = Collections.unmodifiableList(builder.jurisdictionalAuthorization);
+        jurisdictionalAuthorization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdictionalAuthorization, "jurisdictionalAuthorization"));
         holder = builder.holder;
         regulator = builder.regulator;
         procedure = builder.procedure;
@@ -1038,9 +1038,9 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(builder.identifier);
+            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
             country = builder.country;
-            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
             legalStatusOfSupply = builder.legalStatusOfSupply;
             validityPeriod = builder.validityPeriod;
             ValidationSupport.requireValueOrChildren(this);
@@ -1478,7 +1478,7 @@ public class MedicinalProductAuthorization extends DomainResource {
             identifier = builder.identifier;
             type = ValidationSupport.requireNonNull(builder.type, "type");
             date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
-            application = Collections.unmodifiableList(builder.application);
+            application = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.application, "application"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

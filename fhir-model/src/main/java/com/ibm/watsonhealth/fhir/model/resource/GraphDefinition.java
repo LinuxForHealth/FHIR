@@ -81,14 +81,14 @@ public class GraphDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         start = ValidationSupport.requireNonNull(builder.start, "start");
         profile = builder.profile;
-        link = Collections.unmodifiableList(builder.link);
+        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
     }
 
     /**
@@ -1006,7 +1006,7 @@ public class GraphDefinition extends DomainResource {
             min = builder.min;
             max = builder.max;
             description = builder.description;
-            target = Collections.unmodifiableList(builder.target);
+            target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1452,8 +1452,8 @@ public class GraphDefinition extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 params = builder.params;
                 profile = builder.profile;
-                compartment = Collections.unmodifiableList(builder.compartment);
-                link = Collections.unmodifiableList(builder.link);
+                compartment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.compartment, "compartment"));
+                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

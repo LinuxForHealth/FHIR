@@ -48,7 +48,7 @@ public class ResearchSubject extends DomainResource {
 
     private ResearchSubject(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         period = builder.period;
         study = ValidationSupport.requireNonNull(builder.study, "study");

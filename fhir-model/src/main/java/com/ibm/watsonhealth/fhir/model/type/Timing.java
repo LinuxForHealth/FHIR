@@ -103,7 +103,7 @@ public class Timing extends BackboneElement {
 
     private Timing(Builder builder) {
         super(builder);
-        event = Collections.unmodifiableList(builder.event);
+        event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
         repeat = builder.repeat;
         code = builder.code;
         ValidationSupport.requireValueOrChildren(this);
@@ -475,9 +475,9 @@ public class Timing extends BackboneElement {
             period = builder.period;
             periodMax = builder.periodMax;
             periodUnit = builder.periodUnit;
-            dayOfWeek = Collections.unmodifiableList(builder.dayOfWeek);
-            timeOfDay = Collections.unmodifiableList(builder.timeOfDay);
-            when = Collections.unmodifiableList(builder.when);
+            dayOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dayOfWeek, "dayOfWeek"));
+            timeOfDay = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.timeOfDay, "timeOfDay"));
+            when = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.when, "when"));
             offset = builder.offset;
             ValidationSupport.requireValueOrChildren(this);
         }

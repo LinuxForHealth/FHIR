@@ -50,15 +50,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(builder.subject);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(builder.comorbidity);
+        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
-        undesirableEffect = Collections.unmodifiableList(builder.undesirableEffect);
-        population = Collections.unmodifiableList(builder.population);
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
+        undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
+        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
     }
 
     /**

@@ -57,7 +57,7 @@ public class ImmunizationEvaluation extends DomainResource {
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = builder.date;
@@ -65,7 +65,7 @@ public class ImmunizationEvaluation extends DomainResource {
         targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
         immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
         doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = Collections.unmodifiableList(builder.doseStatusReason);
+        doseStatusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseStatusReason, "doseStatusReason"));
         description = builder.description;
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);

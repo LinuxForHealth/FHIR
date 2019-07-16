@@ -59,19 +59,19 @@ public class Specimen extends DomainResource {
 
     private Specimen(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         accessionIdentifier = builder.accessionIdentifier;
         status = builder.status;
         type = builder.type;
         subject = builder.subject;
         receivedTime = builder.receivedTime;
-        parent = Collections.unmodifiableList(builder.parent);
-        request = Collections.unmodifiableList(builder.request);
+        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
         collection = builder.collection;
-        processing = Collections.unmodifiableList(builder.processing);
-        container = Collections.unmodifiableList(builder.container);
-        condition = Collections.unmodifiableList(builder.condition);
-        note = Collections.unmodifiableList(builder.note);
+        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
+        container = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.container, "container"));
+        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1487,7 +1487,7 @@ public class Specimen extends DomainResource {
             super(builder);
             description = builder.description;
             procedure = builder.procedure;
-            additive = Collections.unmodifiableList(builder.additive);
+            additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1868,7 +1868,7 @@ public class Specimen extends DomainResource {
 
         private Container(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(builder.identifier);
+            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
             description = builder.description;
             type = builder.type;
             capacity = builder.capacity;

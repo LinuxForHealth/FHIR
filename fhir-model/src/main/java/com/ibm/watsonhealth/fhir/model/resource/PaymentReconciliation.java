@@ -62,7 +62,7 @@ public class PaymentReconciliation extends DomainResource {
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         period = builder.period;
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -74,9 +74,9 @@ public class PaymentReconciliation extends DomainResource {
         paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
         paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
         paymentIdentifier = builder.paymentIdentifier;
-        detail = Collections.unmodifiableList(builder.detail);
+        detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
         formCode = builder.formCode;
-        processNote = Collections.unmodifiableList(builder.processNote);
+        processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
     }
 
     /**

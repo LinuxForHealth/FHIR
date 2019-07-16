@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -53,18 +54,18 @@ public class OrganizationAffiliation extends DomainResource {
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         period = builder.period;
         organization = builder.organization;
         participatingOrganization = builder.participatingOrganization;
-        network = Collections.unmodifiableList(builder.network);
-        code = Collections.unmodifiableList(builder.code);
-        specialty = Collections.unmodifiableList(builder.specialty);
-        location = Collections.unmodifiableList(builder.location);
-        healthcareService = Collections.unmodifiableList(builder.healthcareService);
-        telecom = Collections.unmodifiableList(builder.telecom);
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
+        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
     }
 
     /**

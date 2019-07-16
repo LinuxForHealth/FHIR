@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.builder.AbstractBuilder;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
 /**
@@ -37,7 +38,7 @@ public abstract class Element extends AbstractVisitable {
 
     protected Element(Builder builder) {
         id = builder.id;
-        extension = Collections.unmodifiableList(builder.extension);
+        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
     }
 
     /**

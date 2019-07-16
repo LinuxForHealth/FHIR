@@ -75,22 +75,22 @@ public class Goal extends DomainResource {
 
     private Goal(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
         achievementStatus = builder.achievementStatus;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         priority = builder.priority;
         description = ValidationSupport.requireNonNull(builder.description, "description");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        target = Collections.unmodifiableList(builder.target);
+        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
         statusDate = builder.statusDate;
         statusReason = builder.statusReason;
         expressedBy = builder.expressedBy;
-        addresses = Collections.unmodifiableList(builder.addresses);
-        note = Collections.unmodifiableList(builder.note);
-        outcomeCode = Collections.unmodifiableList(builder.outcomeCode);
-        outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
+        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        outcomeCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCode, "outcomeCode"));
+        outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
     }
 
     /**

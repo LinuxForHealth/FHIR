@@ -83,9 +83,9 @@ public class FamilyMemberHistory extends DomainResource {
 
     private FamilyMemberHistory(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         dataAbsentReason = builder.dataAbsentReason;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -97,10 +97,10 @@ public class FamilyMemberHistory extends DomainResource {
         age = ValidationSupport.choiceElement(builder.age, "age", Age.class, Range.class, String.class);
         estimatedAge = builder.estimatedAge;
         deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        note = Collections.unmodifiableList(builder.note);
-        condition = Collections.unmodifiableList(builder.condition);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
     }
 
     /**
@@ -1187,7 +1187,7 @@ public class FamilyMemberHistory extends DomainResource {
             outcome = builder.outcome;
             contributedToDeath = builder.contributedToDeath;
             onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
-            note = Collections.unmodifiableList(builder.note);
+            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

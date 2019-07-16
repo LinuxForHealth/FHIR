@@ -87,38 +87,38 @@ public class MedicationRequest extends DomainResource {
 
     private MedicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         reported = ValidationSupport.choiceElement(builder.reported, "reported", Boolean.class, Reference.class);
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
-        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performer = builder.performer;
         performerType = builder.performerType;
         recorder = builder.recorder;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         groupIdentifier = builder.groupIdentifier;
         courseOfTherapyType = builder.courseOfTherapyType;
-        insurance = Collections.unmodifiableList(builder.insurance);
-        note = Collections.unmodifiableList(builder.note);
-        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        dosageInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosageInstruction, "dosageInstruction"));
         dispenseRequest = builder.dispenseRequest;
         substitution = builder.substitution;
         priorPrescription = builder.priorPrescription;
-        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
-        eventHistory = Collections.unmodifiableList(builder.eventHistory);
+        detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
+        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
     }
 
     /**

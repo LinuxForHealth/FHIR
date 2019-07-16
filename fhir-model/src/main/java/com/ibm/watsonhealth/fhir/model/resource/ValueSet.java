@@ -123,7 +123,7 @@ public class ValueSet extends DomainResource {
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -131,10 +131,10 @@ public class ValueSet extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         immutable = builder.immutable;
         purpose = builder.purpose;
         copyright = builder.copyright;
@@ -1198,7 +1198,7 @@ public class ValueSet extends DomainResource {
             lockedDate = builder.lockedDate;
             inactive = builder.inactive;
             include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
-            exclude = Collections.unmodifiableList(builder.exclude);
+            exclude = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exclude, "exclude"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1573,9 +1573,9 @@ public class ValueSet extends DomainResource {
                 super(builder);
                 system = builder.system;
                 version = builder.version;
-                concept = Collections.unmodifiableList(builder.concept);
-                filter = Collections.unmodifiableList(builder.filter);
-                valueSet = Collections.unmodifiableList(builder.valueSet);
+                concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
+                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
+                valueSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueSet, "valueSet"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2041,7 +2041,7 @@ public class ValueSet extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     display = builder.display;
-                    designation = Collections.unmodifiableList(builder.designation);
+                    designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2973,8 +2973,8 @@ public class ValueSet extends DomainResource {
             timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
             total = builder.total;
             offset = builder.offset;
-            parameter = Collections.unmodifiableList(builder.parameter);
-            contains = Collections.unmodifiableList(builder.contains);
+            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+            contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3727,8 +3727,8 @@ public class ValueSet extends DomainResource {
                 version = builder.version;
                 code = builder.code;
                 display = builder.display;
-                designation = Collections.unmodifiableList(builder.designation);
-                contains = Collections.unmodifiableList(builder.contains);
+                designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
+                contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

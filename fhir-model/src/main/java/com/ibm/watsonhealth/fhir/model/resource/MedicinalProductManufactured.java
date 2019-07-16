@@ -49,10 +49,10 @@ public class MedicinalProductManufactured extends DomainResource {
         manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        manufacturer = Collections.unmodifiableList(builder.manufacturer);
-        ingredient = Collections.unmodifiableList(builder.ingredient);
+        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         physicalCharacteristics = builder.physicalCharacteristics;
-        otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
+        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
     }
 
     /**

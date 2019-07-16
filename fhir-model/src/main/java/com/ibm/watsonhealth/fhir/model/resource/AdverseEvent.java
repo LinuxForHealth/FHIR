@@ -66,24 +66,24 @@ public class AdverseEvent extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         event = builder.event;
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         date = builder.date;
         detected = builder.detected;
         recordedDate = builder.recordedDate;
-        resultingCondition = Collections.unmodifiableList(builder.resultingCondition);
+        resultingCondition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultingCondition, "resultingCondition"));
         location = builder.location;
         seriousness = builder.seriousness;
         severity = builder.severity;
         outcome = builder.outcome;
         recorder = builder.recorder;
-        contributor = Collections.unmodifiableList(builder.contributor);
-        suspectEntity = Collections.unmodifiableList(builder.suspectEntity);
-        subjectMedicalHistory = Collections.unmodifiableList(builder.subjectMedicalHistory);
-        referenceDocument = Collections.unmodifiableList(builder.referenceDocument);
-        study = Collections.unmodifiableList(builder.study);
+        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
+        suspectEntity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suspectEntity, "suspectEntity"));
+        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
+        referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
+        study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
     }
 
     /**
@@ -1242,7 +1242,7 @@ public class AdverseEvent extends DomainResource {
         private SuspectEntity(Builder builder) {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            causality = Collections.unmodifiableList(builder.causality);
+            causality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.causality, "causality"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

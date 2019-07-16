@@ -51,8 +51,8 @@ public class MedicinalProductIngredient extends DomainResource {
         identifier = builder.identifier;
         role = ValidationSupport.requireNonNull(builder.role, "role");
         allergenicIndicator = builder.allergenicIndicator;
-        manufacturer = Collections.unmodifiableList(builder.manufacturer);
-        specifiedSubstance = Collections.unmodifiableList(builder.specifiedSubstance);
+        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+        specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
         substance = builder.substance;
     }
 
@@ -631,7 +631,7 @@ public class MedicinalProductIngredient extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             group = ValidationSupport.requireNonNull(builder.group, "group");
             confidentiality = builder.confidentiality;
-            strength = Collections.unmodifiableList(builder.strength);
+            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -987,8 +987,8 @@ public class MedicinalProductIngredient extends DomainResource {
                 concentration = builder.concentration;
                 concentrationLowLimit = builder.concentrationLowLimit;
                 measurementPoint = builder.measurementPoint;
-                country = Collections.unmodifiableList(builder.country);
-                referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
+                country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
+                referenceStrength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceStrength, "referenceStrength"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1490,7 +1490,7 @@ public class MedicinalProductIngredient extends DomainResource {
                     strength = ValidationSupport.requireNonNull(builder.strength, "strength");
                     strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
-                    country = Collections.unmodifiableList(builder.country);
+                    country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -1890,7 +1890,7 @@ public class MedicinalProductIngredient extends DomainResource {
         private Substance(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            strength = Collections.unmodifiableList(builder.strength);
+            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

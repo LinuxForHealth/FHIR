@@ -79,7 +79,7 @@ public class List extends DomainResource {
 
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         mode = ValidationSupport.requireNonNull(builder.mode, "mode");
         title = builder.title;
@@ -89,8 +89,8 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(builder.note);
-        entry = Collections.unmodifiableList(builder.entry);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
         emptyReason = builder.emptyReason;
     }
 

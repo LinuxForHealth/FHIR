@@ -20,6 +20,7 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 
 /**
  * <p>
@@ -71,9 +72,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(builder.contained);
-        extension = Collections.unmodifiableList(builder.extension);
-        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
+        contained = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contained, "contained"));
+        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
+        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
     }
 
     /**

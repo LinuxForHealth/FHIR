@@ -53,7 +53,7 @@ public class Subscription extends DomainResource {
     private Subscription(Builder builder) {
         super(builder);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         end = builder.end;
         reason = ValidationSupport.requireNonNull(builder.reason, "reason");
         criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
@@ -598,7 +598,7 @@ public class Subscription extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             endpoint = builder.endpoint;
             payload = builder.payload;
-            header = Collections.unmodifiableList(builder.header);
+            header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

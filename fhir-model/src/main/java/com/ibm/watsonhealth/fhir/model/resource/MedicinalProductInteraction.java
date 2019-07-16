@@ -47,9 +47,9 @@ public class MedicinalProductInteraction extends DomainResource {
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(builder.subject);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         description = builder.description;
-        interactant = Collections.unmodifiableList(builder.interactant);
+        interactant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interactant, "interactant"));
         type = builder.type;
         effect = builder.effect;
         incidence = builder.incidence;

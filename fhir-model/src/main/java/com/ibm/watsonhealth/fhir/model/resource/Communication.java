@@ -71,29 +71,29 @@ public class Communication extends DomainResource {
 
     private Communication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
-        inResponseTo = Collections.unmodifiableList(builder.inResponseTo);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        inResponseTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.inResponseTo, "inResponseTo"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         priority = builder.priority;
-        medium = Collections.unmodifiableList(builder.medium);
+        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
         subject = builder.subject;
         topic = builder.topic;
-        about = Collections.unmodifiableList(builder.about);
+        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
         encounter = builder.encounter;
         sent = builder.sent;
         received = builder.received;
-        recipient = Collections.unmodifiableList(builder.recipient);
+        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        payload = Collections.unmodifiableList(builder.payload);
-        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**

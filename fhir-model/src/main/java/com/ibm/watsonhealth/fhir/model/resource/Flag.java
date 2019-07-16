@@ -48,9 +48,9 @@ public class Flag extends DomainResource {
 
     private Flag(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         period = builder.period;

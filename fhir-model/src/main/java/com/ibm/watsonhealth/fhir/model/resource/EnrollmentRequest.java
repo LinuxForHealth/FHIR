@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -45,7 +46,7 @@ public class EnrollmentRequest extends DomainResource {
 
     private EnrollmentRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
         created = builder.created;
         insurer = builder.insurer;

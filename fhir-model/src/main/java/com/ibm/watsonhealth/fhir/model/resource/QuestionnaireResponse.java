@@ -72,8 +72,8 @@ public class QuestionnaireResponse extends DomainResource {
     private QuestionnaireResponse(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         questionnaire = builder.questionnaire;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
@@ -81,7 +81,7 @@ public class QuestionnaireResponse extends DomainResource {
         authored = builder.authored;
         author = builder.author;
         source = builder.source;
-        item = Collections.unmodifiableList(builder.item);
+        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
     }
 
     /**
@@ -857,8 +857,8 @@ public class QuestionnaireResponse extends DomainResource {
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
             text = builder.text;
-            answer = Collections.unmodifiableList(builder.answer);
-            item = Collections.unmodifiableList(builder.item);
+            answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
+            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1279,7 +1279,7 @@ public class QuestionnaireResponse extends DomainResource {
             private Answer(Builder builder) {
                 super(builder);
                 value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                item = Collections.unmodifiableList(builder.item);
+                item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

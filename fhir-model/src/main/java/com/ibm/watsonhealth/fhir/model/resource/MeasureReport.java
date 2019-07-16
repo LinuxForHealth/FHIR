@@ -73,7 +73,7 @@ public class MeasureReport extends DomainResource {
 
     private MeasureReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         measure = ValidationSupport.requireNonNull(builder.measure, "measure");
@@ -82,8 +82,8 @@ public class MeasureReport extends DomainResource {
         reporter = builder.reporter;
         period = ValidationSupport.requireNonNull(builder.period, "period");
         improvementNotation = builder.improvementNotation;
-        group = Collections.unmodifiableList(builder.group);
-        evaluatedResource = Collections.unmodifiableList(builder.evaluatedResource);
+        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
+        evaluatedResource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluatedResource, "evaluatedResource"));
     }
 
     /**
@@ -805,9 +805,9 @@ public class MeasureReport extends DomainResource {
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
-            population = Collections.unmodifiableList(builder.population);
+            population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
             measureScore = builder.measureScore;
-            stratifier = Collections.unmodifiableList(builder.stratifier);
+            stratifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratifier, "stratifier"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1528,8 +1528,8 @@ public class MeasureReport extends DomainResource {
 
             private Stratifier(Builder builder) {
                 super(builder);
-                code = Collections.unmodifiableList(builder.code);
-                stratum = Collections.unmodifiableList(builder.stratum);
+                code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+                stratum = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratum, "stratum"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1864,8 +1864,8 @@ public class MeasureReport extends DomainResource {
                 private Stratum(Builder builder) {
                     super(builder);
                     value = builder.value;
-                    component = Collections.unmodifiableList(builder.component);
-                    population = Collections.unmodifiableList(builder.population);
+                    component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+                    population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
                     measureScore = builder.measureScore;
                     ValidationSupport.requireValueOrChildren(this);
                 }

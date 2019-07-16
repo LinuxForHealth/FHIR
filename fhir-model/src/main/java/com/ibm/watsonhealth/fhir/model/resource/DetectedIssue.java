@@ -58,18 +58,18 @@ public class DetectedIssue extends DomainResource {
 
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
         identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
         author = builder.author;
-        implicated = Collections.unmodifiableList(builder.implicated);
-        evidence = Collections.unmodifiableList(builder.evidence);
+        implicated = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.implicated, "implicated"));
+        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = Collections.unmodifiableList(builder.mitigation);
+        mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
     }
 
     /**
@@ -898,8 +898,8 @@ public class DetectedIssue extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(builder.code);
-            detail = Collections.unmodifiableList(builder.detail);
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

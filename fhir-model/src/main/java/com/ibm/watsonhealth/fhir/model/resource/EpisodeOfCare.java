@@ -55,18 +55,18 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(builder.statusHistory);
-        type = Collections.unmodifiableList(builder.type);
-        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(builder.referralRequest);
+        referralRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralRequest, "referralRequest"));
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(builder.team);
-        account = Collections.unmodifiableList(builder.account);
+        team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
+        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
     }
 
     /**

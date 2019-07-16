@@ -48,13 +48,13 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(builder.subject);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         disease = builder.disease;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(builder.comorbidity);
-        therapeuticIndication = Collections.unmodifiableList(builder.therapeuticIndication);
-        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
-        population = Collections.unmodifiableList(builder.population);
+        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
+        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
+        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
     }
 
     /**

@@ -76,17 +76,17 @@ public class DeviceRequest extends DomainResource {
 
     private DeviceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        priorRequest = Collections.unmodifiableList(builder.priorRequest);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        priorRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priorRequest, "priorRequest"));
         groupIdentifier = builder.groupIdentifier;
         status = builder.status;
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
         priority = builder.priority;
         code = ValidationSupport.requireChoiceElement(builder.code, "code", Reference.class, CodeableConcept.class);
-        parameter = Collections.unmodifiableList(builder.parameter);
+        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
@@ -94,12 +94,12 @@ public class DeviceRequest extends DomainResource {
         requester = builder.requester;
         performerType = builder.performerType;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        insurance = Collections.unmodifiableList(builder.insurance);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        note = Collections.unmodifiableList(builder.note);
-        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
     }
 
     /**

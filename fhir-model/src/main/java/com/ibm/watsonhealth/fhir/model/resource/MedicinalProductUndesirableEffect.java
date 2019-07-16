@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Population;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -42,11 +43,11 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
 
     private MedicinalProductUndesirableEffect(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(builder.subject);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
         symptomConditionEffect = builder.symptomConditionEffect;
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
-        population = Collections.unmodifiableList(builder.population);
+        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
     }
 
     /**

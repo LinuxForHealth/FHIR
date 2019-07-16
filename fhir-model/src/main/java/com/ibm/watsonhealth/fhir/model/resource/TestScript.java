@@ -187,20 +187,20 @@ public class TestScript extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        origin = Collections.unmodifiableList(builder.origin);
-        destination = Collections.unmodifiableList(builder.destination);
+        origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
+        destination = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.destination, "destination"));
         metadata = builder.metadata;
-        fixture = Collections.unmodifiableList(builder.fixture);
-        profile = Collections.unmodifiableList(builder.profile);
-        variable = Collections.unmodifiableList(builder.variable);
+        fixture = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fixture, "fixture"));
+        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
+        variable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variable, "variable"));
         setup = builder.setup;
-        test = Collections.unmodifiableList(builder.test);
+        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
         teardown = builder.teardown;
     }
 
@@ -2036,7 +2036,7 @@ public class TestScript extends DomainResource {
 
         private Metadata(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(builder.link);
+            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
             capability = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.capability, "capability"));
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2611,9 +2611,9 @@ public class TestScript extends DomainResource {
                 required = ValidationSupport.requireNonNull(builder.required, "required");
                 validated = ValidationSupport.requireNonNull(builder.validated, "validated");
                 description = builder.description;
-                origin = Collections.unmodifiableList(builder.origin);
+                origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
                 destination = builder.destination;
-                link = Collections.unmodifiableList(builder.link);
+                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
                 capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -4403,7 +4403,7 @@ public class TestScript extends DomainResource {
                     method = builder.method;
                     origin = builder.origin;
                     params = builder.params;
-                    requestHeader = Collections.unmodifiableList(builder.requestHeader);
+                    requestHeader = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestHeader, "requestHeader"));
                     requestId = builder.requestId;
                     responseId = builder.responseId;
                     sourceId = builder.sourceId;

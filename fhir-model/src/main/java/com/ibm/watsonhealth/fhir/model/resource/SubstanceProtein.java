@@ -51,8 +51,8 @@ public class SubstanceProtein extends DomainResource {
         super(builder);
         sequenceType = builder.sequenceType;
         numberOfSubunits = builder.numberOfSubunits;
-        disulfideLinkage = Collections.unmodifiableList(builder.disulfideLinkage);
-        subunit = Collections.unmodifiableList(builder.subunit);
+        disulfideLinkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.disulfideLinkage, "disulfideLinkage"));
+        subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
     }
 
     /**

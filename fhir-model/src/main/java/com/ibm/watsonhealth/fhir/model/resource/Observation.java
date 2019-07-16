@@ -100,30 +100,30 @@ public class Observation extends DomainResource {
 
     private Observation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
-        focus = Collections.unmodifiableList(builder.focus);
+        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
         issued = builder.issued;
-        performer = Collections.unmodifiableList(builder.performer);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
         value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
         dataAbsentReason = builder.dataAbsentReason;
-        interpretation = Collections.unmodifiableList(builder.interpretation);
-        note = Collections.unmodifiableList(builder.note);
+        interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         bodySite = builder.bodySite;
         method = builder.method;
         specimen = builder.specimen;
         device = builder.device;
-        referenceRange = Collections.unmodifiableList(builder.referenceRange);
-        hasMember = Collections.unmodifiableList(builder.hasMember);
-        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
-        component = Collections.unmodifiableList(builder.component);
+        referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
+        hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
+        component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
     }
 
     /**
@@ -1570,7 +1570,7 @@ public class Observation extends DomainResource {
             low = builder.low;
             high = builder.high;
             type = builder.type;
-            appliesTo = Collections.unmodifiableList(builder.appliesTo);
+            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
             age = builder.age;
             text = builder.text;
             ValidationSupport.requireValueOrChildren(this);
@@ -2044,8 +2044,8 @@ public class Observation extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
             dataAbsentReason = builder.dataAbsentReason;
-            interpretation = Collections.unmodifiableList(builder.interpretation);
-            referenceRange = Collections.unmodifiableList(builder.referenceRange);
+            interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
+            referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

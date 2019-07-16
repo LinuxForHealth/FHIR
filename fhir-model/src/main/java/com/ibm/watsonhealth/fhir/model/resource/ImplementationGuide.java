@@ -105,16 +105,16 @@ public class ImplementationGuide extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         copyright = builder.copyright;
         packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
         license = builder.license;
         fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.fhirVersion, "fhirVersion"));
-        dependsOn = Collections.unmodifiableList(builder.dependsOn);
-        global = Collections.unmodifiableList(builder.global);
+        dependsOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependsOn, "dependsOn"));
+        global = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.global, "global"));
         definition = builder.definition;
         manifest = builder.manifest;
     }
@@ -1755,11 +1755,11 @@ public class ImplementationGuide extends DomainResource {
 
         private Definition(Builder builder) {
             super(builder);
-            grouping = Collections.unmodifiableList(builder.grouping);
+            grouping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.grouping, "grouping"));
             resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
             page = builder.page;
-            parameter = Collections.unmodifiableList(builder.parameter);
-            template = Collections.unmodifiableList(builder.template);
+            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+            template = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.template, "template"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2484,7 +2484,7 @@ public class ImplementationGuide extends DomainResource {
             private Resource(Builder builder) {
                 super(builder);
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
+                fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion"));
                 name = builder.name;
                 description = builder.description;
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
@@ -2931,7 +2931,7 @@ public class ImplementationGuide extends DomainResource {
                 name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
-                page = Collections.unmodifiableList(builder.page);
+                page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3815,9 +3815,9 @@ public class ImplementationGuide extends DomainResource {
             super(builder);
             rendering = builder.rendering;
             resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
-            page = Collections.unmodifiableList(builder.page);
-            image = Collections.unmodifiableList(builder.image);
-            other = Collections.unmodifiableList(builder.other);
+            page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
+            image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
+            other = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.other, "other"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4581,7 +4581,7 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 title = builder.title;
-                anchor = Collections.unmodifiableList(builder.anchor);
+                anchor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.anchor, "anchor"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

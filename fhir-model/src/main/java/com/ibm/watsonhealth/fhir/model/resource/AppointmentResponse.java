@@ -57,11 +57,11 @@ public class AppointmentResponse extends DomainResource {
 
     private AppointmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
         start = builder.start;
         end = builder.end;
-        participantType = Collections.unmodifiableList(builder.participantType);
+        participantType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participantType, "participantType"));
         actor = builder.actor;
         participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
         comment = builder.comment;

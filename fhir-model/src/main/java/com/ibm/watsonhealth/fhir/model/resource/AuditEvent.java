@@ -69,16 +69,16 @@ public class AuditEvent extends DomainResource {
     private AuditEvent(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        subtype = Collections.unmodifiableList(builder.subtype);
+        subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
         action = builder.action;
         period = builder.period;
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
         outcome = builder.outcome;
         outcomeDesc = builder.outcomeDesc;
-        purposeOfEvent = Collections.unmodifiableList(builder.purposeOfEvent);
+        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfEvent, "purposeOfEvent"));
         agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
         source = ValidationSupport.requireNonNull(builder.source, "source");
-        entity = Collections.unmodifiableList(builder.entity);
+        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
     }
 
     /**
@@ -801,16 +801,16 @@ public class AuditEvent extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(builder.role);
+            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
             who = builder.who;
             altId = builder.altId;
             name = builder.name;
             requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
             location = builder.location;
-            policy = Collections.unmodifiableList(builder.policy);
+            policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
             media = builder.media;
             network = builder.network;
-            purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
+            purposeOfUse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfUse, "purposeOfUse"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1755,7 +1755,7 @@ public class AuditEvent extends DomainResource {
             super(builder);
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            type = Collections.unmodifiableList(builder.type);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2097,11 +2097,11 @@ public class AuditEvent extends DomainResource {
             type = builder.type;
             role = builder.role;
             lifecycle = builder.lifecycle;
-            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
             name = builder.name;
             description = builder.description;
             query = builder.query;
-            detail = Collections.unmodifiableList(builder.detail);
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

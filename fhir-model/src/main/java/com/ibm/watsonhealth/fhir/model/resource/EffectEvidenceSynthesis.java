@@ -95,28 +95,28 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        note = Collections.unmodifiableList(builder.note);
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(builder.topic);
-        author = Collections.unmodifiableList(builder.author);
-        editor = Collections.unmodifiableList(builder.editor);
-        reviewer = Collections.unmodifiableList(builder.reviewer);
-        endorser = Collections.unmodifiableList(builder.endorser);
-        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
+        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
+        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
         population = ValidationSupport.requireNonNull(builder.population, "population");
@@ -124,9 +124,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
         exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         sampleSize = builder.sampleSize;
-        resultsByExposure = Collections.unmodifiableList(builder.resultsByExposure);
-        effectEstimate = Collections.unmodifiableList(builder.effectEstimate);
-        certainty = Collections.unmodifiableList(builder.certainty);
+        resultsByExposure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsByExposure, "resultsByExposure"));
+        effectEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.effectEstimate, "effectEstimate"));
+        certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
     }
 
     /**
@@ -2521,7 +2521,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             variantState = builder.variantState;
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
-            precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
+            precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3317,9 +3317,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            rating = Collections.unmodifiableList(builder.rating);
-            note = Collections.unmodifiableList(builder.note);
-            certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
+            rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
+            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certaintySubcomponent, "certaintySubcomponent"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3707,8 +3707,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = Collections.unmodifiableList(builder.rating);
-                note = Collections.unmodifiableList(builder.note);
+                rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
+                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

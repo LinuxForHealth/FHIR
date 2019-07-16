@@ -56,7 +56,7 @@ public class DeviceMetric extends DomainResource {
 
     private DeviceMetric(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         unit = builder.unit;
         source = builder.source;
@@ -65,7 +65,7 @@ public class DeviceMetric extends DomainResource {
         color = builder.color;
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
-        calibration = Collections.unmodifiableList(builder.calibration);
+        calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
     }
 
     /**

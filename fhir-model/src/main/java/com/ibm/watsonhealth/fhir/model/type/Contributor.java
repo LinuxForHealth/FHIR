@@ -35,7 +35,7 @@ public class Contributor extends Element {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
         name = ValidationSupport.requireNonNull(builder.name, "name");
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         ValidationSupport.requireValueOrChildren(this);
     }
 

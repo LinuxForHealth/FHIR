@@ -84,15 +84,15 @@ public class CarePlan extends DomainResource {
 
     private CarePlan(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        replaces = Collections.unmodifiableList(builder.replaces);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         title = builder.title;
         description = builder.description;
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
@@ -100,13 +100,13 @@ public class CarePlan extends DomainResource {
         period = builder.period;
         created = builder.created;
         author = builder.author;
-        contributor = Collections.unmodifiableList(builder.contributor);
-        careTeam = Collections.unmodifiableList(builder.careTeam);
-        addresses = Collections.unmodifiableList(builder.addresses);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        goal = Collections.unmodifiableList(builder.goal);
-        activity = Collections.unmodifiableList(builder.activity);
-        note = Collections.unmodifiableList(builder.note);
+        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
+        careTeam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeam, "careTeam"));
+        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
+        activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1517,9 +1517,9 @@ public class CarePlan extends DomainResource {
 
         private Activity(Builder builder) {
             super(builder);
-            outcomeCodeableConcept = Collections.unmodifiableList(builder.outcomeCodeableConcept);
-            outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
-            progress = Collections.unmodifiableList(builder.progress);
+            outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCodeableConcept, "outcomeCodeableConcept"));
+            outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
+            progress = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.progress, "progress"));
             reference = builder.reference;
             detail = builder.detail;
             ValidationSupport.requireValueOrChildren(this);
@@ -2003,18 +2003,18 @@ public class CarePlan extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 kind = builder.kind;
-                instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-                instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+                instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+                instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
                 code = builder.code;
-                reasonCode = Collections.unmodifiableList(builder.reasonCode);
-                reasonReference = Collections.unmodifiableList(builder.reasonReference);
-                goal = Collections.unmodifiableList(builder.goal);
+                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+                goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
                 status = ValidationSupport.requireNonNull(builder.status, "status");
                 statusReason = builder.statusReason;
                 doNotPerform = builder.doNotPerform;
                 scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
                 location = builder.location;
-                performer = Collections.unmodifiableList(builder.performer);
+                performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
                 product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;

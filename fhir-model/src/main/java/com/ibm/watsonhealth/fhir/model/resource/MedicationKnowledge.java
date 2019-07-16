@@ -75,23 +75,23 @@ public class MedicationKnowledge extends DomainResource {
         manufacturer = builder.manufacturer;
         doseForm = builder.doseForm;
         amount = builder.amount;
-        synonym = Collections.unmodifiableList(builder.synonym);
-        relatedMedicationKnowledge = Collections.unmodifiableList(builder.relatedMedicationKnowledge);
-        associatedMedication = Collections.unmodifiableList(builder.associatedMedication);
-        productType = Collections.unmodifiableList(builder.productType);
-        monograph = Collections.unmodifiableList(builder.monograph);
-        ingredient = Collections.unmodifiableList(builder.ingredient);
+        synonym = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.synonym, "synonym"));
+        relatedMedicationKnowledge = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedMedicationKnowledge, "relatedMedicationKnowledge"));
+        associatedMedication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.associatedMedication, "associatedMedication"));
+        productType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.productType, "productType"));
+        monograph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monograph, "monograph"));
+        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         preparationInstruction = builder.preparationInstruction;
-        intendedRoute = Collections.unmodifiableList(builder.intendedRoute);
-        cost = Collections.unmodifiableList(builder.cost);
-        monitoringProgram = Collections.unmodifiableList(builder.monitoringProgram);
-        administrationGuidelines = Collections.unmodifiableList(builder.administrationGuidelines);
-        medicineClassification = Collections.unmodifiableList(builder.medicineClassification);
+        intendedRoute = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.intendedRoute, "intendedRoute"));
+        cost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.cost, "cost"));
+        monitoringProgram = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monitoringProgram, "monitoringProgram"));
+        administrationGuidelines = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.administrationGuidelines, "administrationGuidelines"));
+        medicineClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medicineClassification, "medicineClassification"));
         packaging = builder.packaging;
-        drugCharacteristic = Collections.unmodifiableList(builder.drugCharacteristic);
-        contraindication = Collections.unmodifiableList(builder.contraindication);
-        regulatory = Collections.unmodifiableList(builder.regulatory);
-        kinetics = Collections.unmodifiableList(builder.kinetics);
+        drugCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.drugCharacteristic, "drugCharacteristic"));
+        contraindication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindication, "contraindication"));
+        regulatory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.regulatory, "regulatory"));
+        kinetics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.kinetics, "kinetics"));
     }
 
     /**
@@ -2961,9 +2961,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private AdministrationGuidelines(Builder builder) {
             super(builder);
-            dosage = Collections.unmodifiableList(builder.dosage);
+            dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
-            patientCharacteristics = Collections.unmodifiableList(builder.patientCharacteristics);
+            patientCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientCharacteristics, "patientCharacteristics"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3584,7 +3584,7 @@ public class MedicationKnowledge extends DomainResource {
             private PatientCharacteristics(Builder builder) {
                 super(builder);
                 characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
-                value = Collections.unmodifiableList(builder.value);
+                value = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.value, "value"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3881,7 +3881,7 @@ public class MedicationKnowledge extends DomainResource {
         private MedicineClassification(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            classification = Collections.unmodifiableList(builder.classification);
+            classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4745,8 +4745,8 @@ public class MedicationKnowledge extends DomainResource {
         private Regulatory(Builder builder) {
             super(builder);
             regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
-            substitution = Collections.unmodifiableList(builder.substitution);
-            schedule = Collections.unmodifiableList(builder.schedule);
+            substitution = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.substitution, "substitution"));
+            schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
             maxDispense = builder.maxDispense;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -5895,8 +5895,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private Kinetics(Builder builder) {
             super(builder);
-            areaUnderCurve = Collections.unmodifiableList(builder.areaUnderCurve);
-            lethalDose50 = Collections.unmodifiableList(builder.lethalDose50);
+            areaUnderCurve = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.areaUnderCurve, "areaUnderCurve"));
+            lethalDose50 = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.lethalDose50, "lethalDose50"));
             halfLifePeriod = builder.halfLifePeriod;
             ValidationSupport.requireValueOrChildren(this);
         }

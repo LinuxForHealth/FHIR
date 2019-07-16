@@ -49,11 +49,11 @@ public class Schedule extends DomainResource {
 
     private Schedule(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
-        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
-        serviceType = Collections.unmodifiableList(builder.serviceType);
-        specialty = Collections.unmodifiableList(builder.specialty);
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
+        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
         actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;

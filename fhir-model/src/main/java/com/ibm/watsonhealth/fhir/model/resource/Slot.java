@@ -53,10 +53,10 @@ public class Slot extends DomainResource {
 
     private Slot(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
-        serviceType = Collections.unmodifiableList(builder.serviceType);
-        specialty = Collections.unmodifiableList(builder.specialty);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
+        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
         appointmentType = builder.appointmentType;
         schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
         status = ValidationSupport.requireNonNull(builder.status, "status");

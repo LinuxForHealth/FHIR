@@ -74,22 +74,22 @@ public class ExampleScenario extends DomainResource {
     private ExampleScenario(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         copyright = builder.copyright;
         purpose = builder.purpose;
-        actor = Collections.unmodifiableList(builder.actor);
-        instance = Collections.unmodifiableList(builder.instance);
-        process = Collections.unmodifiableList(builder.process);
-        workflow = Collections.unmodifiableList(builder.workflow);
+        actor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.actor, "actor"));
+        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+        process = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.process, "process"));
+        workflow = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.workflow, "workflow"));
     }
 
     /**
@@ -1536,8 +1536,8 @@ public class ExampleScenario extends DomainResource {
             resourceType = ValidationSupport.requireNonNull(builder.resourceType, "resourceType");
             name = builder.name;
             description = builder.description;
-            version = Collections.unmodifiableList(builder.version);
-            containedInstance = Collections.unmodifiableList(builder.containedInstance);
+            version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
+            containedInstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.containedInstance, "containedInstance"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2509,7 +2509,7 @@ public class ExampleScenario extends DomainResource {
             description = builder.description;
             preConditions = builder.preConditions;
             postConditions = builder.postConditions;
-            step = Collections.unmodifiableList(builder.step);
+            step = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.step, "step"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2907,10 +2907,10 @@ public class ExampleScenario extends DomainResource {
 
             private Step(Builder builder) {
                 super(builder);
-                process = Collections.unmodifiableList(builder.process);
+                process = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.process, "process"));
                 pause = builder.pause;
                 operation = builder.operation;
-                alternative = Collections.unmodifiableList(builder.alternative);
+                alternative = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alternative, "alternative"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3873,7 +3873,7 @@ public class ExampleScenario extends DomainResource {
                     super(builder);
                     title = ValidationSupport.requireNonNull(builder.title, "title");
                     description = builder.description;
-                    step = Collections.unmodifiableList(builder.step);
+                    step = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.step, "step"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

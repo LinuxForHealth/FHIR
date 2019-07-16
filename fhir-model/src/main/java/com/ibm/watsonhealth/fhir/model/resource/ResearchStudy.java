@@ -73,30 +73,30 @@ public class ResearchStudy extends DomainResource {
 
     private ResearchStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         title = builder.title;
-        protocol = Collections.unmodifiableList(builder.protocol);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         primaryPurposeType = builder.primaryPurposeType;
         phase = builder.phase;
-        category = Collections.unmodifiableList(builder.category);
-        focus = Collections.unmodifiableList(builder.focus);
-        condition = Collections.unmodifiableList(builder.condition);
-        contact = Collections.unmodifiableList(builder.contact);
-        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
-        keyword = Collections.unmodifiableList(builder.keyword);
-        location = Collections.unmodifiableList(builder.location);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
+        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
         description = builder.description;
-        enrollment = Collections.unmodifiableList(builder.enrollment);
+        enrollment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enrollment, "enrollment"));
         period = builder.period;
         sponsor = builder.sponsor;
         principalInvestigator = builder.principalInvestigator;
-        site = Collections.unmodifiableList(builder.site);
+        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
         reasonStopped = builder.reasonStopped;
-        note = Collections.unmodifiableList(builder.note);
-        arm = Collections.unmodifiableList(builder.arm);
-        objective = Collections.unmodifiableList(builder.objective);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
+        objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
     }
 
     /**

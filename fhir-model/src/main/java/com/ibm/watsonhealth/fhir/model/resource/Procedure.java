@@ -77,11 +77,11 @@ public class Procedure extends DomainResource {
 
     private Procedure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
-        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         category = builder.category;
@@ -91,20 +91,20 @@ public class Procedure extends DomainResource {
         performed = ValidationSupport.choiceElement(builder.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
         recorder = builder.recorder;
         asserter = builder.asserter;
-        performer = Collections.unmodifiableList(builder.performer);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        bodySite = Collections.unmodifiableList(builder.bodySite);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
         outcome = builder.outcome;
-        report = Collections.unmodifiableList(builder.report);
-        complication = Collections.unmodifiableList(builder.complication);
-        complicationDetail = Collections.unmodifiableList(builder.complicationDetail);
-        followUp = Collections.unmodifiableList(builder.followUp);
-        note = Collections.unmodifiableList(builder.note);
-        focalDevice = Collections.unmodifiableList(builder.focalDevice);
-        usedReference = Collections.unmodifiableList(builder.usedReference);
-        usedCode = Collections.unmodifiableList(builder.usedCode);
+        report = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.report, "report"));
+        complication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.complication, "complication"));
+        complicationDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.complicationDetail, "complicationDetail"));
+        followUp = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.followUp, "followUp"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
+        usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
+        usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
     }
 
     /**

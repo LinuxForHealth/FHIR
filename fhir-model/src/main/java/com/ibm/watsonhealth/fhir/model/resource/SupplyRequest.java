@@ -63,19 +63,19 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
         item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = Collections.unmodifiableList(builder.parameter);
+        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = Collections.unmodifiableList(builder.supplier);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        supplier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplier, "supplier"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
     }

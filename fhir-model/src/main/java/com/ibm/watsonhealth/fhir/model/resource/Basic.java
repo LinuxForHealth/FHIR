@@ -45,7 +45,7 @@ public class Basic extends DomainResource {
 
     private Basic(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
         created = builder.created;

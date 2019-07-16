@@ -93,29 +93,29 @@ public class MessageDefinition extends DomainResource {
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(builder.replaces);
+        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(builder.parent);
+        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
         category = builder.category;
-        focus = Collections.unmodifiableList(builder.focus);
+        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(builder.allowedResponse);
-        graph = Collections.unmodifiableList(builder.graph);
+        allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
+        graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
     }
 
     /**

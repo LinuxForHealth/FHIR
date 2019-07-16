@@ -101,7 +101,7 @@ public class ResearchElementDefinition extends DomainResource {
     private ResearchElementDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -112,24 +112,24 @@ public class ResearchElementDefinition extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        comment = Collections.unmodifiableList(builder.comment);
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        comment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comment, "comment"));
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(builder.topic);
-        author = Collections.unmodifiableList(builder.author);
-        editor = Collections.unmodifiableList(builder.editor);
-        reviewer = Collections.unmodifiableList(builder.reviewer);
-        endorser = Collections.unmodifiableList(builder.endorser);
-        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
-        library = Collections.unmodifiableList(builder.library);
+        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
+        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
+        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         variableType = builder.variableType;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
@@ -1865,7 +1865,7 @@ public class ResearchElementDefinition extends DomainResource {
         private Characteristic(Builder builder) {
             super(builder);
             definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
-            usageContext = Collections.unmodifiableList(builder.usageContext);
+            usageContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usageContext, "usageContext"));
             exclude = builder.exclude;
             unitOfMeasure = builder.unitOfMeasure;
             studyEffectiveDescription = builder.studyEffectiveDescription;

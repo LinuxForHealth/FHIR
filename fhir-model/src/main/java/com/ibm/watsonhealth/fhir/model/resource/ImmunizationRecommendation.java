@@ -57,7 +57,7 @@ public class ImmunizationRecommendation extends DomainResource {
 
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = ValidationSupport.requireNonNull(builder.date, "date");
         authority = builder.authority;
@@ -553,18 +553,18 @@ public class ImmunizationRecommendation extends DomainResource {
 
         private Recommendation(Builder builder) {
             super(builder);
-            vaccineCode = Collections.unmodifiableList(builder.vaccineCode);
+            vaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode"));
             targetDisease = builder.targetDisease;
-            contraindicatedVaccineCode = Collections.unmodifiableList(builder.contraindicatedVaccineCode);
+            contraindicatedVaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindicatedVaccineCode, "contraindicatedVaccineCode"));
             forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
-            forecastReason = Collections.unmodifiableList(builder.forecastReason);
-            dateCriterion = Collections.unmodifiableList(builder.dateCriterion);
+            forecastReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.forecastReason, "forecastReason"));
+            dateCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateCriterion, "dateCriterion"));
             description = builder.description;
             series = builder.series;
             doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
-            supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
+            supportingImmunization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingImmunization, "supportingImmunization"));
+            supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingPatientInformation, "supportingPatientInformation"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

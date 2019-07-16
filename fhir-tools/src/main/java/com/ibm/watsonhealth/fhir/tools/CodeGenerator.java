@@ -1374,6 +1374,7 @@ public class CodeGenerator {
                         imports.add("java.util.ArrayList");
                     }
                     */
+                    imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
                     imports.add("java.util.ArrayList");
                     imports.add("java.util.Collections");
                     if (!"List".equals(name)) {

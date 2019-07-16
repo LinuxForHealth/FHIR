@@ -66,19 +66,19 @@ public class DocumentReference extends DomainResource {
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         docStatus = builder.docStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         subject = builder.subject;
         date = builder.date;
-        author = Collections.unmodifiableList(builder.author);
+        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
         authenticator = builder.authenticator;
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(builder.relatesTo);
+        relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
         description = builder.description;
-        securityLabel = Collections.unmodifiableList(builder.securityLabel);
+        securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         context = builder.context;
     }
@@ -1587,13 +1587,13 @@ public class DocumentReference extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            encounter = Collections.unmodifiableList(builder.encounter);
-            event = Collections.unmodifiableList(builder.event);
+            encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
+            event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
             period = builder.period;
             facilityType = builder.facilityType;
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
-            related = Collections.unmodifiableList(builder.related);
+            related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

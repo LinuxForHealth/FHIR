@@ -73,7 +73,7 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -84,10 +84,10 @@ public class CoverageEligibilityResponse extends DomainResource {
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         disposition = builder.disposition;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        insurance = Collections.unmodifiableList(builder.insurance);
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
         preAuthRef = builder.preAuthRef;
         form = builder.form;
-        error = Collections.unmodifiableList(builder.error);
+        error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
     }
 
     /**
@@ -892,7 +892,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
-            item = Collections.unmodifiableList(builder.item);
+            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1271,7 +1271,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 super(builder);
                 category = builder.category;
                 productOrService = builder.productOrService;
-                modifier = Collections.unmodifiableList(builder.modifier);
+                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
                 provider = builder.provider;
                 excluded = builder.excluded;
                 name = builder.name;
@@ -1279,9 +1279,9 @@ public class CoverageEligibilityResponse extends DomainResource {
                 network = builder.network;
                 unit = builder.unit;
                 term = builder.term;
-                benefit = Collections.unmodifiableList(builder.benefit);
+                benefit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.benefit, "benefit"));
                 authorizationRequired = builder.authorizationRequired;
-                authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
+                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizationSupporting, "authorizationSupporting"));
                 authorizationUrl = builder.authorizationUrl;
                 ValidationSupport.requireValueOrChildren(this);
             }

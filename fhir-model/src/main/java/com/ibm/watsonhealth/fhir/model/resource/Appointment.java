@@ -100,28 +100,28 @@ public class Appointment extends DomainResource {
 
     private Appointment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         cancelationReason = builder.cancelationReason;
-        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
-        serviceType = Collections.unmodifiableList(builder.serviceType);
-        specialty = Collections.unmodifiableList(builder.specialty);
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
+        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
         appointmentType = builder.appointmentType;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         priority = builder.priority;
         description = builder.description;
-        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
         start = builder.start;
         end = builder.end;
         minutesDuration = builder.minutesDuration;
-        slot = Collections.unmodifiableList(builder.slot);
+        slot = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.slot, "slot"));
         created = builder.created;
         comment = builder.comment;
         patientInstruction = builder.patientInstruction;
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
-        requestedPeriod = Collections.unmodifiableList(builder.requestedPeriod);
+        requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
     }
 
     /**
@@ -1445,7 +1445,7 @@ public class Appointment extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(builder.type);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             actor = builder.actor;
             required = builder.required;
             status = ValidationSupport.requireNonNull(builder.status, "status");

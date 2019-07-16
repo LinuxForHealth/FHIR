@@ -81,7 +81,7 @@ public class Claim extends DomainResource {
 
     private Claim(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         subType = builder.subType;
@@ -94,19 +94,19 @@ public class Claim extends DomainResource {
         provider = ValidationSupport.requireNonNull(builder.provider, "provider");
         priority = ValidationSupport.requireNonNull(builder.priority, "priority");
         fundsReserve = builder.fundsReserve;
-        related = Collections.unmodifiableList(builder.related);
+        related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
         prescription = builder.prescription;
         originalPrescription = builder.originalPrescription;
         payee = builder.payee;
         referral = builder.referral;
         facility = builder.facility;
-        careTeam = Collections.unmodifiableList(builder.careTeam);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        diagnosis = Collections.unmodifiableList(builder.diagnosis);
-        procedure = Collections.unmodifiableList(builder.procedure);
+        careTeam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeam, "careTeam"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+        procedure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedure, "procedure"));
         insurance = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.insurance, "insurance"));
         accident = builder.accident;
-        item = Collections.unmodifiableList(builder.item);
+        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
         total = builder.total;
     }
 
@@ -2760,7 +2760,7 @@ public class Claim extends DomainResource {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
             diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            type = Collections.unmodifiableList(builder.type);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
             ValidationSupport.requireValueOrChildren(this);
@@ -3149,10 +3149,10 @@ public class Claim extends DomainResource {
         private Procedure(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            type = Collections.unmodifiableList(builder.type);
+            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            udi = Collections.unmodifiableList(builder.udi);
+            udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3567,7 +3567,7 @@ public class Claim extends DomainResource {
             identifier = builder.identifier;
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             businessArrangement = builder.businessArrangement;
-            preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
+            preAuthRef = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.preAuthRef, "preAuthRef"));
             claimResponse = builder.claimResponse;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -4337,26 +4337,26 @@ public class Claim extends DomainResource {
         private Item(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            careTeamSequence = Collections.unmodifiableList(builder.careTeamSequence);
-            diagnosisSequence = Collections.unmodifiableList(builder.diagnosisSequence);
-            procedureSequence = Collections.unmodifiableList(builder.procedureSequence);
-            informationSequence = Collections.unmodifiableList(builder.informationSequence);
+            careTeamSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeamSequence, "careTeamSequence"));
+            diagnosisSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosisSequence, "diagnosisSequence"));
+            procedureSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureSequence, "procedureSequence"));
+            informationSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.informationSequence, "informationSequence"));
             revenue = builder.revenue;
             category = builder.category;
             productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(builder.modifier);
-            programCode = Collections.unmodifiableList(builder.programCode);
+            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+            programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
             serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
             location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
-            udi = Collections.unmodifiableList(builder.udi);
+            udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(builder.subSite);
-            encounter = Collections.unmodifiableList(builder.encounter);
-            detail = Collections.unmodifiableList(builder.detail);
+            subSite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subSite, "subSite"));
+            encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
+            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5515,14 +5515,14 @@ public class Claim extends DomainResource {
                 revenue = builder.revenue;
                 category = builder.category;
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(builder.modifier);
-                programCode = Collections.unmodifiableList(builder.programCode);
+                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                udi = Collections.unmodifiableList(builder.udi);
-                subDetail = Collections.unmodifiableList(builder.subDetail);
+                udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
+                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -6230,13 +6230,13 @@ public class Claim extends DomainResource {
                     revenue = builder.revenue;
                     category = builder.category;
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(builder.modifier);
-                    programCode = Collections.unmodifiableList(builder.programCode);
+                    modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                    programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    udi = Collections.unmodifiableList(builder.udi);
+                    udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

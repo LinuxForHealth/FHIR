@@ -51,7 +51,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         numberOfSubunits = builder.numberOfSubunits;
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
-        subunit = Collections.unmodifiableList(builder.subunit);
+        subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
     }
 
     /**
@@ -605,8 +605,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             sequenceAttachment = builder.sequenceAttachment;
             fivePrime = builder.fivePrime;
             threePrime = builder.threePrime;
-            linkage = Collections.unmodifiableList(builder.linkage);
-            sugar = Collections.unmodifiableList(builder.sugar);
+            linkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkage, "linkage"));
+            sugar = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sugar, "sugar"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

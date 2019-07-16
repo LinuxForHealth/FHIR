@@ -98,18 +98,18 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         scope = ValidationSupport.requireNonNull(builder.scope, "scope");
         category = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.category, "category"));
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = Collections.unmodifiableList(builder.performer);
-        organization = Collections.unmodifiableList(builder.organization);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        organization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.organization, "organization"));
         source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = Collections.unmodifiableList(builder.policy);
+        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
         policyRule = builder.policyRule;
-        verification = Collections.unmodifiableList(builder.verification);
+        verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
         provision = builder.provision;
     }
 
@@ -1576,15 +1576,15 @@ public class Consent extends DomainResource {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = Collections.unmodifiableList(builder.actor);
-            action = Collections.unmodifiableList(builder.action);
-            securityLabel = Collections.unmodifiableList(builder.securityLabel);
-            purpose = Collections.unmodifiableList(builder.purpose);
-            clazz = Collections.unmodifiableList(builder.clazz);
-            code = Collections.unmodifiableList(builder.code);
+            actor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.actor, "actor"));
+            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            purpose = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purpose, "purpose"));
+            clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
+            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
             dataPeriod = builder.dataPeriod;
-            data = Collections.unmodifiableList(builder.data);
-            provision = Collections.unmodifiableList(builder.provision);
+            data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
+            provision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provision, "provision"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

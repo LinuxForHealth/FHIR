@@ -61,15 +61,15 @@ public class ObservationDefinition extends DomainResource {
 
     private ObservationDefinition(Builder builder) {
         super(builder);
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
-        identifier = Collections.unmodifiableList(builder.identifier);
-        permittedDataType = Collections.unmodifiableList(builder.permittedDataType);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        permittedDataType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.permittedDataType, "permittedDataType"));
         multipleResultsAllowed = builder.multipleResultsAllowed;
         method = builder.method;
         preferredReportName = builder.preferredReportName;
         quantitativeDetails = builder.quantitativeDetails;
-        qualifiedInterval = Collections.unmodifiableList(builder.qualifiedInterval);
+        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiedInterval, "qualifiedInterval"));
         validCodedValueSet = builder.validCodedValueSet;
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
@@ -1290,7 +1290,7 @@ public class ObservationDefinition extends DomainResource {
             category = builder.category;
             range = builder.range;
             context = builder.context;
-            appliesTo = Collections.unmodifiableList(builder.appliesTo);
+            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
             gender = builder.gender;
             age = builder.age;
             gestationalAge = builder.gestationalAge;

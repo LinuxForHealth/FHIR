@@ -56,16 +56,16 @@ public class Person extends DomainResource {
 
     private Person(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        name = Collections.unmodifiableList(builder.name);
-        telecom = Collections.unmodifiableList(builder.telecom);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(builder.address);
+        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
         photo = builder.photo;
         managingOrganization = builder.managingOrganization;
         active = builder.active;
-        link = Collections.unmodifiableList(builder.link);
+        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
     }
 
     /**

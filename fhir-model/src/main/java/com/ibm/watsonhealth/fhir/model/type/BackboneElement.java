@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
+
 /**
  * <p>
  * Base definition for all elements that are defined inside a resource - but not those in a data type.
@@ -24,7 +26,7 @@ public abstract class BackboneElement extends Element {
 
     protected BackboneElement(Builder builder) {
         super(builder);
-        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
+        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
     }
 
     /**

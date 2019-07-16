@@ -58,19 +58,19 @@ public class DeviceUseStatement extends DomainResource {
 
     private DeviceUseStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
         recordedOn = builder.recordedOn;
         source = builder.source;
         device = ValidationSupport.requireNonNull(builder.device, "device");
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         bodySite = builder.bodySite;
-        note = Collections.unmodifiableList(builder.note);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**

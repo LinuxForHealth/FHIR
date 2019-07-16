@@ -133,8 +133,8 @@ public class Bundle extends Resource {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         timestamp = builder.timestamp;
         total = builder.total;
-        link = Collections.unmodifiableList(builder.link);
-        entry = Collections.unmodifiableList(builder.entry);
+        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
         signature = builder.signature;
     }
 
@@ -832,7 +832,7 @@ public class Bundle extends Resource {
 
         private Entry(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(builder.link);
+            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
             fullUrl = builder.fullUrl;
             resource = builder.resource;
             search = builder.search;

@@ -92,7 +92,7 @@ public class Contract extends DomainResource {
 
     private Contract(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         url = builder.url;
         version = builder.version;
         status = builder.status;
@@ -103,27 +103,27 @@ public class Contract extends DomainResource {
         issued = builder.issued;
         applies = builder.applies;
         expirationType = builder.expirationType;
-        subject = Collections.unmodifiableList(builder.subject);
-        authority = Collections.unmodifiableList(builder.authority);
-        domain = Collections.unmodifiableList(builder.domain);
-        site = Collections.unmodifiableList(builder.site);
+        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        authority = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authority, "authority"));
+        domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
+        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        alias = Collections.unmodifiableList(builder.alias);
+        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
         author = builder.author;
         scope = builder.scope;
         topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
         type = builder.type;
-        subType = Collections.unmodifiableList(builder.subType);
+        subType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subType, "subType"));
         contentDefinition = builder.contentDefinition;
-        term = Collections.unmodifiableList(builder.term);
-        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
-        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
-        signer = Collections.unmodifiableList(builder.signer);
-        friendly = Collections.unmodifiableList(builder.friendly);
-        legal = Collections.unmodifiableList(builder.legal);
-        rule = Collections.unmodifiableList(builder.rule);
+        term = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.term, "term"));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        signer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signer, "signer"));
+        friendly = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.friendly, "friendly"));
+        legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
+        rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
     }
 
@@ -2371,11 +2371,11 @@ public class Contract extends DomainResource {
             type = builder.type;
             subType = builder.subType;
             text = builder.text;
-            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
             offer = ValidationSupport.requireNonNull(builder.offer, "offer");
-            asset = Collections.unmodifiableList(builder.asset);
-            action = Collections.unmodifiableList(builder.action);
-            group = Collections.unmodifiableList(builder.group);
+            asset = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.asset, "asset"));
+            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+            group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3094,10 +3094,10 @@ public class Contract extends DomainResource {
 
             private SecurityLabel(Builder builder) {
                 super(builder);
-                number = Collections.unmodifiableList(builder.number);
+                number = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.number, "number"));
                 classification = ValidationSupport.requireNonNull(builder.classification, "classification");
-                category = Collections.unmodifiableList(builder.category);
-                control = Collections.unmodifiableList(builder.control);
+                category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+                control = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.control, "control"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3520,16 +3520,16 @@ public class Contract extends DomainResource {
 
             private Offer(Builder builder) {
                 super(builder);
-                identifier = Collections.unmodifiableList(builder.identifier);
-                party = Collections.unmodifiableList(builder.party);
+                identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+                party = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.party, "party"));
                 topic = builder.topic;
                 type = builder.type;
                 decision = builder.decision;
-                decisionMode = Collections.unmodifiableList(builder.decisionMode);
-                answer = Collections.unmodifiableList(builder.answer);
+                decisionMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.decisionMode, "decisionMode"));
+                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
                 text = builder.text;
-                linkId = Collections.unmodifiableList(builder.linkId);
-                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
+                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -4734,20 +4734,20 @@ public class Contract extends DomainResource {
             private Asset(Builder builder) {
                 super(builder);
                 scope = builder.scope;
-                type = Collections.unmodifiableList(builder.type);
-                typeReference = Collections.unmodifiableList(builder.typeReference);
-                subtype = Collections.unmodifiableList(builder.subtype);
+                type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+                typeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeReference, "typeReference"));
+                subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
                 relationship = builder.relationship;
-                context = Collections.unmodifiableList(builder.context);
+                context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
                 condition = builder.condition;
-                periodType = Collections.unmodifiableList(builder.periodType);
-                period = Collections.unmodifiableList(builder.period);
-                usePeriod = Collections.unmodifiableList(builder.usePeriod);
+                periodType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.periodType, "periodType"));
+                period = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.period, "period"));
+                usePeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usePeriod, "usePeriod"));
                 text = builder.text;
-                linkId = Collections.unmodifiableList(builder.linkId);
-                answer = Collections.unmodifiableList(builder.answer);
-                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
-                valuedItem = Collections.unmodifiableList(builder.valuedItem);
+                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
+                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                valuedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valuedItem, "valuedItem"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -5739,7 +5739,7 @@ public class Contract extends DomainResource {
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
-                    code = Collections.unmodifiableList(builder.code);
+                    code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
                     text = builder.text;
                     ValidationSupport.requireValueOrChildren(this);
                 }
@@ -6105,8 +6105,8 @@ public class Contract extends DomainResource {
                     paymentDate = builder.paymentDate;
                     responsible = builder.responsible;
                     recipient = builder.recipient;
-                    linkId = Collections.unmodifiableList(builder.linkId);
-                    securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
+                    linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
+                    securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -6881,25 +6881,25 @@ public class Contract extends DomainResource {
                 super(builder);
                 doNotPerform = builder.doNotPerform;
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                subject = Collections.unmodifiableList(builder.subject);
+                subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
                 intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-                linkId = Collections.unmodifiableList(builder.linkId);
+                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
                 status = ValidationSupport.requireNonNull(builder.status, "status");
                 context = builder.context;
-                contextLinkId = Collections.unmodifiableList(builder.contextLinkId);
+                contextLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextLinkId, "contextLinkId"));
                 occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-                requester = Collections.unmodifiableList(builder.requester);
-                requesterLinkId = Collections.unmodifiableList(builder.requesterLinkId);
-                performerType = Collections.unmodifiableList(builder.performerType);
+                requester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requester, "requester"));
+                requesterLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requesterLinkId, "requesterLinkId"));
+                performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
                 performerRole = builder.performerRole;
                 performer = builder.performer;
-                performerLinkId = Collections.unmodifiableList(builder.performerLinkId);
-                reasonCode = Collections.unmodifiableList(builder.reasonCode);
-                reasonReference = Collections.unmodifiableList(builder.reasonReference);
-                reason = Collections.unmodifiableList(builder.reason);
-                reasonLinkId = Collections.unmodifiableList(builder.reasonLinkId);
-                note = Collections.unmodifiableList(builder.note);
-                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
+                performerLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerLinkId, "performerLinkId"));
+                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+                reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
+                reasonLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonLinkId, "reasonLinkId"));
+                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

@@ -124,17 +124,17 @@ public class TerminologyCapabilities extends DomainResource {
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = Collections.unmodifiableList(builder.codeSystem);
+        codeSystem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeSystem, "codeSystem"));
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
@@ -1909,7 +1909,7 @@ public class TerminologyCapabilities extends DomainResource {
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = Collections.unmodifiableList(builder.version);
+            version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
             subsumption = builder.subsumption;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2255,9 +2255,9 @@ public class TerminologyCapabilities extends DomainResource {
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = Collections.unmodifiableList(builder.language);
-                filter = Collections.unmodifiableList(builder.filter);
-                property = Collections.unmodifiableList(builder.property);
+                language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
+                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
+                property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3007,7 +3007,7 @@ public class TerminologyCapabilities extends DomainResource {
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = Collections.unmodifiableList(builder.parameter);
+            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
             textFilter = builder.textFilter;
             ValidationSupport.requireValueOrChildren(this);
         }

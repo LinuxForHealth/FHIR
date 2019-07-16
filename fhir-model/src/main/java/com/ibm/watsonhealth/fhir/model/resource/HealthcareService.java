@@ -71,30 +71,30 @@ public class HealthcareService extends DomainResource {
 
     private HealthcareService(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
         providedBy = builder.providedBy;
-        category = Collections.unmodifiableList(builder.category);
-        type = Collections.unmodifiableList(builder.type);
-        specialty = Collections.unmodifiableList(builder.specialty);
-        location = Collections.unmodifiableList(builder.location);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
         name = builder.name;
         comment = builder.comment;
         extraDetails = builder.extraDetails;
         photo = builder.photo;
-        telecom = Collections.unmodifiableList(builder.telecom);
-        coverageArea = Collections.unmodifiableList(builder.coverageArea);
-        serviceProvisionCode = Collections.unmodifiableList(builder.serviceProvisionCode);
-        eligibility = Collections.unmodifiableList(builder.eligibility);
-        program = Collections.unmodifiableList(builder.program);
-        characteristic = Collections.unmodifiableList(builder.characteristic);
-        communication = Collections.unmodifiableList(builder.communication);
-        referralMethod = Collections.unmodifiableList(builder.referralMethod);
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        coverageArea = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverageArea, "coverageArea"));
+        serviceProvisionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceProvisionCode, "serviceProvisionCode"));
+        eligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eligibility, "eligibility"));
+        program = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.program, "program"));
+        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
+        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        referralMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralMethod, "referralMethod"));
         appointmentRequired = builder.appointmentRequired;
-        availableTime = Collections.unmodifiableList(builder.availableTime);
-        notAvailable = Collections.unmodifiableList(builder.notAvailable);
+        availableTime = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.availableTime, "availableTime"));
+        notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
     }
 
     /**
@@ -1908,7 +1908,7 @@ public class HealthcareService extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;

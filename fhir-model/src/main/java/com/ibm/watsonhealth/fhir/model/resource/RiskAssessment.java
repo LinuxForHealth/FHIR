@@ -79,7 +79,7 @@ public class RiskAssessment extends DomainResource {
 
     private RiskAssessment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         basedOn = builder.basedOn;
         parent = builder.parent;
         status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -90,12 +90,12 @@ public class RiskAssessment extends DomainResource {
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
         condition = builder.condition;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        basis = Collections.unmodifiableList(builder.basis);
-        prediction = Collections.unmodifiableList(builder.prediction);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        basis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basis, "basis"));
+        prediction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prediction, "prediction"));
         mitigation = builder.mitigation;
-        note = Collections.unmodifiableList(builder.note);
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**

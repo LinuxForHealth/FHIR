@@ -125,12 +125,12 @@ public class Task extends DomainResource {
 
     private Task(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         instantiatesCanonical = builder.instantiatesCanonical;
         instantiatesUri = builder.instantiatesUri;
-        basedOn = Collections.unmodifiableList(builder.basedOn);
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         groupIdentifier = builder.groupIdentifier;
-        partOf = Collections.unmodifiableList(builder.partOf);
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         businessStatus = builder.businessStatus;
@@ -145,17 +145,17 @@ public class Task extends DomainResource {
         authoredOn = builder.authoredOn;
         lastModified = builder.lastModified;
         requester = builder.requester;
-        performerType = Collections.unmodifiableList(builder.performerType);
+        performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
         owner = builder.owner;
         location = builder.location;
         reasonCode = builder.reasonCode;
         reasonReference = builder.reasonReference;
-        insurance = Collections.unmodifiableList(builder.insurance);
-        note = Collections.unmodifiableList(builder.note);
-        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
         restriction = builder.restriction;
-        input = Collections.unmodifiableList(builder.input);
-        output = Collections.unmodifiableList(builder.output);
+        input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
+        output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
     }
 
     /**
@@ -1731,7 +1731,7 @@ public class Task extends DomainResource {
             super(builder);
             repetitions = builder.repetitions;
             period = builder.period;
-            recipient = Collections.unmodifiableList(builder.recipient);
+            recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -46,7 +46,7 @@ public class Address extends Element {
         use = builder.use;
         type = builder.type;
         text = builder.text;
-        line = Collections.unmodifiableList(builder.line);
+        line = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.line, "line"));
         city = builder.city;
         district = builder.district;
         state = builder.state;

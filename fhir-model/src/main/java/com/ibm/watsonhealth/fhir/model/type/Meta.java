@@ -39,9 +39,9 @@ public class Meta extends Element {
         versionId = builder.versionId;
         lastUpdated = builder.lastUpdated;
         source = builder.source;
-        profile = Collections.unmodifiableList(builder.profile);
-        security = Collections.unmodifiableList(builder.security);
-        tag = Collections.unmodifiableList(builder.tag);
+        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
+        security = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.security, "security"));
+        tag = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.tag, "tag"));
         ValidationSupport.requireValueOrChildren(this);
     }
 

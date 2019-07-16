@@ -59,17 +59,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(builder.request);
+        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(builder.parent);
+        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
         collection = builder.collection;
-        processing = Collections.unmodifiableList(builder.processing);
+        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(builder.storage);
+        storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
     }
 
     /**

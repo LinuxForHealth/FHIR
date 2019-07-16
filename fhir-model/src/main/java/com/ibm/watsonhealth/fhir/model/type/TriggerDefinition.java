@@ -61,7 +61,7 @@ public class TriggerDefinition extends Element {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         name = builder.name;
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
-        data = Collections.unmodifiableList(builder.data);
+        data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
         condition = builder.condition;
         ValidationSupport.requireValueOrChildren(this);
     }

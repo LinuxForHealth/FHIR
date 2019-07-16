@@ -56,9 +56,9 @@ public class SupplyDelivery extends DomainResource {
 
     private SupplyDelivery(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        basedOn = Collections.unmodifiableList(builder.basedOn);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = builder.status;
         patient = builder.patient;
         type = builder.type;
@@ -66,7 +66,7 @@ public class SupplyDelivery extends DomainResource {
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         supplier = builder.supplier;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(builder.receiver);
+        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
     }
 
     /**

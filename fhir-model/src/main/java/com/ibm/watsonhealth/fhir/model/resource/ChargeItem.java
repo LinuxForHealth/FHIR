@@ -79,32 +79,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        definitionUri = Collections.unmodifiableList(builder.definitionUri);
-        definitionCanonical = Collections.unmodifiableList(builder.definitionCanonical);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        definitionUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionUri, "definitionUri"));
+        definitionCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionCanonical, "definitionCanonical"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        partOf = Collections.unmodifiableList(builder.partOf);
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        performer = Collections.unmodifiableList(builder.performer);
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
         performingOrganization = builder.performingOrganization;
         requestingOrganization = builder.requestingOrganization;
         costCenter = builder.costCenter;
         quantity = builder.quantity;
-        bodysite = Collections.unmodifiableList(builder.bodysite);
+        bodysite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodysite, "bodysite"));
         factorOverride = builder.factorOverride;
         priceOverride = builder.priceOverride;
         overrideReason = builder.overrideReason;
         enterer = builder.enterer;
         enteredDate = builder.enteredDate;
-        reason = Collections.unmodifiableList(builder.reason);
-        service = Collections.unmodifiableList(builder.service);
+        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
+        service = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.service, "service"));
         product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        account = Collections.unmodifiableList(builder.account);
-        note = Collections.unmodifiableList(builder.note);
-        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
     }
 
     /**

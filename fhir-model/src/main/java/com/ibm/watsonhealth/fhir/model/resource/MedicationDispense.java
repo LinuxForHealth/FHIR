@@ -80,30 +80,30 @@ public class MedicationDispense extends DomainResource {
 
     private MedicationDispense(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
-        partOf = Collections.unmodifiableList(builder.partOf);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
         category = builder.category;
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = builder.subject;
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
-        performer = Collections.unmodifiableList(builder.performer);
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
         location = builder.location;
-        authorizingPrescription = Collections.unmodifiableList(builder.authorizingPrescription);
+        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizingPrescription, "authorizingPrescription"));
         type = builder.type;
         quantity = builder.quantity;
         daysSupply = builder.daysSupply;
         whenPrepared = builder.whenPrepared;
         whenHandedOver = builder.whenHandedOver;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(builder.receiver);
-        note = Collections.unmodifiableList(builder.note);
-        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
+        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        dosageInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosageInstruction, "dosageInstruction"));
         substitution = builder.substitution;
-        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
-        eventHistory = Collections.unmodifiableList(builder.eventHistory);
+        detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
+        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
     }
 
     /**
@@ -1747,8 +1747,8 @@ public class MedicationDispense extends DomainResource {
             super(builder);
             wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
             type = builder.type;
-            reason = Collections.unmodifiableList(builder.reason);
-            responsibleParty = Collections.unmodifiableList(builder.responsibleParty);
+            reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
+            responsibleParty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.responsibleParty, "responsibleParty"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

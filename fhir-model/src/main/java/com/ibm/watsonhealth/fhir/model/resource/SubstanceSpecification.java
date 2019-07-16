@@ -70,16 +70,16 @@ public class SubstanceSpecification extends DomainResource {
         status = builder.status;
         domain = builder.domain;
         description = builder.description;
-        source = Collections.unmodifiableList(builder.source);
+        source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
         comment = builder.comment;
-        moiety = Collections.unmodifiableList(builder.moiety);
-        property = Collections.unmodifiableList(builder.property);
+        moiety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.moiety, "moiety"));
+        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
         referenceInformation = builder.referenceInformation;
         structure = builder.structure;
-        code = Collections.unmodifiableList(builder.code);
-        name = Collections.unmodifiableList(builder.name);
-        molecularWeight = Collections.unmodifiableList(builder.molecularWeight);
-        relationship = Collections.unmodifiableList(builder.relationship);
+        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
+        molecularWeight = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.molecularWeight, "molecularWeight"));
+        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
         nucleicAcid = builder.nucleicAcid;
         polymer = builder.polymer;
         protein = builder.protein;
@@ -2075,10 +2075,10 @@ public class SubstanceSpecification extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
-            isotope = Collections.unmodifiableList(builder.isotope);
+            isotope = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.isotope, "isotope"));
             molecularWeight = builder.molecularWeight;
-            source = Collections.unmodifiableList(builder.source);
-            representation = Collections.unmodifiableList(builder.representation);
+            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            representation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.representation, "representation"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3674,7 +3674,7 @@ public class SubstanceSpecification extends DomainResource {
             status = builder.status;
             statusDate = builder.statusDate;
             comment = builder.comment;
-            source = Collections.unmodifiableList(builder.source);
+            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4094,13 +4094,13 @@ public class SubstanceSpecification extends DomainResource {
             type = builder.type;
             status = builder.status;
             preferred = builder.preferred;
-            language = Collections.unmodifiableList(builder.language);
-            domain = Collections.unmodifiableList(builder.domain);
-            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
-            synonym = Collections.unmodifiableList(builder.synonym);
-            translation = Collections.unmodifiableList(builder.translation);
-            official = Collections.unmodifiableList(builder.official);
-            source = Collections.unmodifiableList(builder.source);
+            language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
+            domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
+            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+            synonym = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.synonym, "synonym"));
+            translation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.translation, "translation"));
+            official = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.official, "official"));
+            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5179,7 +5179,7 @@ public class SubstanceSpecification extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
-            source = Collections.unmodifiableList(builder.source);
+            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

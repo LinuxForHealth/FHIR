@@ -67,23 +67,23 @@ public class Location extends DomainResource {
 
     private Location(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
         operationalStatus = builder.operationalStatus;
         name = builder.name;
-        alias = Collections.unmodifiableList(builder.alias);
+        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
         description = builder.description;
         mode = builder.mode;
-        type = Collections.unmodifiableList(builder.type);
-        telecom = Collections.unmodifiableList(builder.telecom);
+        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         address = builder.address;
         physicalType = builder.physicalType;
         position = builder.position;
         managingOrganization = builder.managingOrganization;
         partOf = builder.partOf;
-        hoursOfOperation = Collections.unmodifiableList(builder.hoursOfOperation);
+        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hoursOfOperation, "hoursOfOperation"));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(builder.endpoint);
+        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
     }
 
     /**
@@ -1436,7 +1436,7 @@ public class Location extends DomainResource {
 
         private HoursOfOperation(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;

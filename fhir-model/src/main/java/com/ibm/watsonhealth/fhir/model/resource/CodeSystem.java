@@ -98,7 +98,7 @@ public class CodeSystem extends DomainResource {
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -106,10 +106,10 @@ public class CodeSystem extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(builder.contact);
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         description = builder.description;
-        useContext = Collections.unmodifiableList(builder.useContext);
-        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         purpose = builder.purpose;
         copyright = builder.copyright;
         caseSensitive = builder.caseSensitive;
@@ -120,9 +120,9 @@ public class CodeSystem extends DomainResource {
         content = ValidationSupport.requireNonNull(builder.content, "content");
         supplements = builder.supplements;
         count = builder.count;
-        filter = Collections.unmodifiableList(builder.filter);
-        property = Collections.unmodifiableList(builder.property);
-        concept = Collections.unmodifiableList(builder.concept);
+        filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
+        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
     }
 
     /**
@@ -2152,9 +2152,9 @@ public class CodeSystem extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             display = builder.display;
             definition = builder.definition;
-            designation = Collections.unmodifiableList(builder.designation);
-            property = Collections.unmodifiableList(builder.property);
-            concept = Collections.unmodifiableList(builder.concept);
+            designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
+            property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+            concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

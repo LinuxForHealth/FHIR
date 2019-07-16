@@ -50,10 +50,10 @@ public class SubstancePolymer extends DomainResource {
         super(builder);
         clazz = builder.clazz;
         geometry = builder.geometry;
-        copolymerConnectivity = Collections.unmodifiableList(builder.copolymerConnectivity);
-        modification = Collections.unmodifiableList(builder.modification);
-        monomerSet = Collections.unmodifiableList(builder.monomerSet);
-        repeat = Collections.unmodifiableList(builder.repeat);
+        copolymerConnectivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.copolymerConnectivity, "copolymerConnectivity"));
+        modification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modification, "modification"));
+        monomerSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monomerSet, "monomerSet"));
+        repeat = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeat, "repeat"));
     }
 
     /**
@@ -683,7 +683,7 @@ public class SubstancePolymer extends DomainResource {
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
-            startingMaterial = Collections.unmodifiableList(builder.startingMaterial);
+            startingMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.startingMaterial, "startingMaterial"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1347,7 +1347,7 @@ public class SubstancePolymer extends DomainResource {
             numberOfUnits = builder.numberOfUnits;
             averageMolecularFormula = builder.averageMolecularFormula;
             repeatUnitAmountType = builder.repeatUnitAmountType;
-            repeatUnit = Collections.unmodifiableList(builder.repeatUnit);
+            repeatUnit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeatUnit, "repeatUnit"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1725,8 +1725,8 @@ public class SubstancePolymer extends DomainResource {
                 orientationOfPolymerisation = builder.orientationOfPolymerisation;
                 repeatUnit = builder.repeatUnit;
                 amount = builder.amount;
-                degreeOfPolymerisation = Collections.unmodifiableList(builder.degreeOfPolymerisation);
-                structuralRepresentation = Collections.unmodifiableList(builder.structuralRepresentation);
+                degreeOfPolymerisation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.degreeOfPolymerisation, "degreeOfPolymerisation"));
+                structuralRepresentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structuralRepresentation, "structuralRepresentation"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

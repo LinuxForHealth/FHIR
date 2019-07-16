@@ -65,7 +65,7 @@ public class Coverage extends DomainResource {
 
     private Coverage(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         policyHolder = builder.policyHolder;
@@ -76,12 +76,12 @@ public class Coverage extends DomainResource {
         relationship = builder.relationship;
         period = builder.period;
         payor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payor, "payor"));
-        clazz = Collections.unmodifiableList(builder.clazz);
+        clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
         order = builder.order;
         network = builder.network;
-        costToBeneficiary = Collections.unmodifiableList(builder.costToBeneficiary);
+        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
         subrogation = builder.subrogation;
-        contract = Collections.unmodifiableList(builder.contract);
+        contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
     }
 
     /**
@@ -1346,7 +1346,7 @@ public class Coverage extends DomainResource {
             super(builder);
             type = builder.type;
             value = ValidationSupport.requireChoiceElement(builder.value, "value", Quantity.class, Money.class);
-            exception = Collections.unmodifiableList(builder.exception);
+            exception = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exception, "exception"));
             ValidationSupport.requireValueOrChildren(this);
         }
 

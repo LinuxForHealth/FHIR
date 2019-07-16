@@ -76,22 +76,22 @@ public class Patient extends DomainResource {
 
     private Patient(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         active = builder.active;
-        name = Collections.unmodifiableList(builder.name);
-        telecom = Collections.unmodifiableList(builder.telecom);
+        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         gender = builder.gender;
         birthDate = builder.birthDate;
         deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        address = Collections.unmodifiableList(builder.address);
+        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
         maritalStatus = builder.maritalStatus;
         multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        photo = Collections.unmodifiableList(builder.photo);
-        contact = Collections.unmodifiableList(builder.contact);
-        communication = Collections.unmodifiableList(builder.communication);
-        generalPractitioner = Collections.unmodifiableList(builder.generalPractitioner);
+        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
+        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
         managingOrganization = builder.managingOrganization;
-        link = Collections.unmodifiableList(builder.link);
+        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
     }
 
     /**
@@ -1193,9 +1193,9 @@ public class Patient extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            relationship = Collections.unmodifiableList(builder.relationship);
+            relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
             name = builder.name;
-            telecom = Collections.unmodifiableList(builder.telecom);
+            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
             address = builder.address;
             gender = builder.gender;
             organization = builder.organization;

@@ -50,12 +50,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
-        ingredient = Collections.unmodifiableList(builder.ingredient);
-        device = Collections.unmodifiableList(builder.device);
-        characteristics = Collections.unmodifiableList(builder.characteristics);
+        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
+        characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
         routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
     }
 
@@ -975,7 +975,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerDay = builder.maxDosePerDay;
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
-            targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
+            targetSpecies = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetSpecies, "targetSpecies"));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1455,7 +1455,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             private TargetSpecies(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
-                withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
+                withdrawalPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.withdrawalPeriod, "withdrawalPeriod"));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

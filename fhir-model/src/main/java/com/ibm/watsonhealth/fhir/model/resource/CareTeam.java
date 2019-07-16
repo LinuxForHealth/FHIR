@@ -66,19 +66,19 @@ public class CareTeam extends DomainResource {
 
     private CareTeam(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         name = builder.name;
         subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
-        participant = Collections.unmodifiableList(builder.participant);
-        reasonCode = Collections.unmodifiableList(builder.reasonCode);
-        reasonReference = Collections.unmodifiableList(builder.reasonReference);
-        managingOrganization = Collections.unmodifiableList(builder.managingOrganization);
-        telecom = Collections.unmodifiableList(builder.telecom);
-        note = Collections.unmodifiableList(builder.note);
+        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        managingOrganization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.managingOrganization, "managingOrganization"));
+        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
     }
 
     /**
@@ -1042,7 +1042,7 @@ public class CareTeam extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            role = Collections.unmodifiableList(builder.role);
+            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;

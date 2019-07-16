@@ -52,13 +52,13 @@ public class Substance extends DomainResource {
 
     private Substance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(builder.identifier);
+        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
         status = builder.status;
-        category = Collections.unmodifiableList(builder.category);
+        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         description = builder.description;
-        instance = Collections.unmodifiableList(builder.instance);
-        ingredient = Collections.unmodifiableList(builder.ingredient);
+        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
     }
 
     /**
