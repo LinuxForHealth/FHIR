@@ -13,7 +13,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 /**
  * SearchExceptionUtil encapsulates the logic for throwing a Search Exception 
  * 
- * @author pbastide@us.ibm.com
+ * @author pbastide
  *
  */
 public class SearchExceptionUtil {

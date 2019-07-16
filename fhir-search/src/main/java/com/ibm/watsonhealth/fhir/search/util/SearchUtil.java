@@ -766,8 +766,7 @@ public class SearchUtil {
     }
 
     /*
-     * TODO: someone explain why format should be overridden with startsWith. seems like upstream logic might be
-     * questionable.
+     * Conditionally excludes where it's format (e.g. a return type or it's a x-whc-lsf- parameter 
      */
     private static boolean queryParameterShouldBeExcluded(String name) {
         return SearchConstants.FORMAT.equals(name) || name.startsWith("x-whc-lsf-");
@@ -894,7 +893,6 @@ public class SearchUtil {
                         modifier = SearchConstants.Modifier.fromValue(mod);
                     }
                     
-                    System.out.println(modifier);
                     if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier) && currentIndex < lastIndex) {
                         String msg = "Modifier: '" + modifier + "' not allowed on chained parameter";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);

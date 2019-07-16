@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.search.parameters;
 
-import com.ibm.watsonhealth.fhir.search.SearchConstants;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.SortDirection;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 

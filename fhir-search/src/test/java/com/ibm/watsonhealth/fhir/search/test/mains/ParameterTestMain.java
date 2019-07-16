@@ -19,6 +19,9 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * from prior to r4
+ * 
+ * 
+ * @author others
  * @author pbastide@us.ibm.com 
  *
  */

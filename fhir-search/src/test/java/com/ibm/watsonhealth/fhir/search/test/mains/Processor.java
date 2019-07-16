@@ -18,6 +18,7 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 /**
  * from prior to R4
  * 
+ * @author others
  * @author paulbastide
  *
  */

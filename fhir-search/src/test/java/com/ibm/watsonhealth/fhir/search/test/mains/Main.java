@@ -24,7 +24,8 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * From release prior to R4
- * @author paulbastide
+ * @author markd
+ * @author pbastide
  *
  */
 public class Main extends BaseSearchTest {

@@ -19,7 +19,8 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 /**
  * Created prior to R4. 
  * 
- * @author paulbastide
+ * @author markd
+ * @author pbastide
  *
  */
 public class ExpressionTree extends BaseSearchTest {

@@ -25,7 +25,6 @@ public class ParameterValue {
     private String valueString = null;
     private DateTime valueDate = null;
 
-    // TODO: Review change from BigDecimal
     private BigDecimal valueNumber = null;
     private String valueSystem = null;
     private String valueCode = null;

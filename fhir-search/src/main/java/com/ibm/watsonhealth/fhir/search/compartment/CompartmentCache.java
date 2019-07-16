@@ -60,7 +60,7 @@ public class CompartmentCache {
      * @return
      */
     public List<String> getParametersByResourceTypeInCompartment(String resourceType){
-        List<String> results = new ArrayList<>();
+        List<String> results;
         if(resourceType != null && codeAndParams.containsKey(resourceType)) {
            results = Collections.unmodifiableList(codeAndParams.get(resourceType));
         } else {
