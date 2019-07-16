@@ -46,7 +46,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
         return pathStack.stream().collect(Collectors.joining("."));
     }
     
-    private void incrementCurrentIndex(String elementName) {
+    private void incrementIndex(String elementName) {
         if (elementName == null) {
             indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
         }
@@ -89,7 +89,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     public final void visitStart(java.lang.String elementName, Element element) {
         pathStackPush(getName(elementName), getIndex(elementName));
         doVisitStart(elementName, element);
-        incrementCurrentIndex(elementName);
+        incrementIndex(elementName);
     }
     
     @Override
@@ -103,6 +103,6 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     public final void visitStart(java.lang.String elementName, Resource resource) {
         pathStackPush(getName(elementName), getIndex(elementName));
         doVisitStart(elementName, resource);
-        incrementCurrentIndex(elementName);
+        incrementIndex(elementName);
     }
 }
