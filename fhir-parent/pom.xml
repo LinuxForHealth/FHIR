@@ -39,7 +39,6 @@
         <module>../fhir-operation-validate</module>
         <module>../fhir-operation-document</module>
         <module>../fhir-operation-healthcheck</module>
-        <module>../fhir-operation-tocda</module>
         <module>../fhir-validation</module>
         <module>../fhir-search</module>
         <module>../fhir-iam</module>
@@ -292,7 +291,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
@@ -300,6 +299,7 @@
                         <testTarget>1.8</testTarget>
                         <debug>true</debug>
                         <debuglevel>source,lines,vars</debuglevel>
+                        <parameters>true</parameters>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -555,15 +555,6 @@ CODE_REMOVED
 CODE_REMOVED
         </repository>
     </repositories>
-
-    <pluginRepositories>
-    	<pluginRepository>
-    		<id>na-artifactory-releases</id>
-CODE_REMOVED
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <scm>
         <connection>scm:git:git@github.ibm.com:watson-health-fhir-server/fhir.git</connection>
