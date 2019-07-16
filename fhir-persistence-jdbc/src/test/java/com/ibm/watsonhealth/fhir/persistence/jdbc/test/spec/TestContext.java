@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.util.SaltHash;
 
 /**
  * context maintained as each operation is applied
@@ -23,6 +24,12 @@ public class TestContext {
 
 	// The current persistence context used for controlling persistence API operations
 	private final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
+
+	// The fingerprint of the original resource
+	private SaltHash originalFingerprint;
+	
+	// Current resource value
+	private Resource resource;
 	
 	/**
 	 * Initialize the context with the persistence API
@@ -31,9 +38,6 @@ public class TestContext {
 		this.persistence = persistence;
 		this.persistenceContextSupplier = persistenceContextSupplier;
 	}
-	
-	// Current resource value
-	private Resource resource;
 	
 	public Resource getResource() {
 		return this.resource;
@@ -61,5 +65,13 @@ public class TestContext {
 	 */
 	public FHIRPersistenceContext createPersistenceContext() {
 		return this.persistenceContextSupplier.get();
+	}
+	
+	public SaltHash getOriginalFingerprint() {
+	    return this.originalFingerprint;
+	}
+	
+	public void setOriginalFingerprint(SaltHash fingerprint) {
+	    this.originalFingerprint = fingerprint;
 	}
 }
