@@ -2,6 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <groupId>com.ibm.watsonhealth.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
     <version>99-SNAPSHOT</version>
@@ -208,8 +209,8 @@
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>1.1.1</version>	
-            </dependency>	
+                <version>1.1.1</version>
+            </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -557,8 +558,8 @@ CODE_REMOVED
     </repositories>
 
     <pluginRepositories>
-    	<pluginRepository>
-    		<id>na-artifactory-releases</id>
+        <pluginRepository>
+            <id>na-artifactory-releases</id>
 CODE_REMOVED
             <releases><enabled>true</enabled></releases>
             <snapshots><enabled>true</enabled></snapshots>
