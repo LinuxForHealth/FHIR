@@ -94,42 +94,32 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     
     @Override
     protected void doVisitStart(String elementName, Resource resource) {
-//        System.out.println("resource:" + getPath() + ", value=" + resource.toString());
-//        digest.update(elementName.getBytes(StandardCharsets.UTF_8));
         this.currentResourceName = resource.getClass().getSimpleName();
     }
     
     @Override
     protected void doVisitStart(String elementName, Element element) {
-//        System.out.println("element:" + getPath() + ", value=" + element.toString());
-
+        // NOP
     }
 
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
-        System.out.println("element:" + getPath() + ", value=" + Base64.getEncoder().encodeToString(value));
         digest.update(getPath().getBytes(StandardCharsets.UTF_8));
         digest.update(value);
     }
     
     @Override
     public void visit(java.lang.String elementName, BigDecimal value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
         updateDigest(getPath(), value.toString());
     }
 
     @Override
     public void visit(java.lang.String elementName, java.lang.Boolean value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
         updateDigest(getPath(), value.toString());
-        
-        
     }
     
     @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());
-        
         ByteBuffer bb = ByteBuffer.allocate(4);
         bb.putInt(value);
         digest.update(bb);
@@ -137,20 +127,16 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
 
     @Override
     public void visit(java.lang.String elementName, LocalDate value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
         updateDigest(getPath(), value.toString());
         
     }
     @Override
     public void visit(java.lang.String elementName, LocalTime value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
         updateDigest(getPath(), value.toString());
         
     }
     @Override
     public void visit(java.lang.String elementName, java.lang.String value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
-        
         // exclude the meta.versionId value from the fingerprint because it
         // is injected by FHIR and therefore not part of the original
         // resource
@@ -163,20 +149,16 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     }
     @Override
     public void visit(java.lang.String elementName, Year value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
         updateDigest(getPath(), value.toString());
         
     }
     @Override
     public void visit(java.lang.String elementName, YearMonth value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());     
         updateDigest(getPath(), value.toString());
         
     }
     @Override
     public void visit(java.lang.String elementName, ZonedDateTime value) {
-        System.out.println("element:" + getPath() + ", value=" + value.toString());        
-
         // Exclude the lastUpdated value from the fingerprint because this value
         // is injected by the FHIR persistence layer
         String lastUpdatedName = currentResourceName + ".meta.lastUpdated";
@@ -187,6 +169,11 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
         
     }
     
+    /**
+     * Update the digest with the name/value pair
+     * @param name
+     * @param value
+     */
     protected void updateDigest(String name, String value) {
         digest.update(name.getBytes(StandardCharsets.UTF_8));
         digest.update(value.getBytes(StandardCharsets.UTF_8));
