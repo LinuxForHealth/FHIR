@@ -39,7 +39,6 @@
         <module>../fhir-operation-validate</module>
         <module>../fhir-operation-document</module>
         <module>../fhir-operation-healthcheck</module>
-        <module>../fhir-operation-tocda</module>
         <module>../fhir-validation</module>
         <module>../fhir-search</module>
         <module>../fhir-iam</module>
@@ -555,15 +554,6 @@ CODE_REMOVED
 CODE_REMOVED
         </repository>
     </repositories>
-
-    <pluginRepositories>
-    	<pluginRepository>
-    		<id>na-artifactory-releases</id>
-CODE_REMOVED
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <scm>
         <connection>scm:git:git@github.ibm.com:watson-health-fhir-server/fhir.git</connection>
