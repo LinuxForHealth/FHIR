@@ -144,7 +144,7 @@ public final class ValidationSupport {
     
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
         if (elements.stream().anyMatch(Objects::isNull)) {
-            throw new IllegalArgumentException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+            throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
         }
         return elements;
     }

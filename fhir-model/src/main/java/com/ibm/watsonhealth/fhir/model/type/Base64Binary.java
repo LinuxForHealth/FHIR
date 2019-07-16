@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.type;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Objects;
@@ -83,7 +84,7 @@ public class Base64Binary extends Element {
         Base64Binary other = (Base64Binary) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(extension, other.extension) && 
-            Objects.equals(value, other.value);
+            Arrays.equals(value, other.value);
     }
 
     @Override

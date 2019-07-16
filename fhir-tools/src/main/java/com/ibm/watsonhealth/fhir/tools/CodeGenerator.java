@@ -1043,11 +1043,16 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
             String fieldName = getFieldName(elementName);
+            String fieldType = getFieldType(structureDefinition, elementDefinition);
             String prefix = "";
             if ("other".equals(fieldName)) {
                 prefix = "this.";
             }
-            joiner.add("Objects.equals(" + prefix + fieldName + ", other." + fieldName +")");
+            if ("byte[]".equals(fieldType)) {
+                joiner.add("Arrays.equals(" + prefix + fieldName + ", other." + fieldName +")");
+            } else {
+                joiner.add("Objects.equals(" + prefix + fieldName + ", other." + fieldName +")");
+            }
         }
         cb._return(joiner.toString());
         cb.end().newLine();
@@ -1422,6 +1427,7 @@ public class CodeGenerator {
         
         if (isBase64Binary(structureDefinition)) {
             imports.add("java.util.Base64");
+            imports.add("java.util.Arrays");
         }
         
         if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
