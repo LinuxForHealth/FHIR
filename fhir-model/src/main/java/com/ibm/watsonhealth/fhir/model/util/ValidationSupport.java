@@ -90,7 +90,7 @@ public final class ValidationSupport {
         }
     }
     
-    public static <T> T choiceElement(T element, String elementName, Class<?>... types) {
+    public static <T extends Element> T choiceElement(T element, String elementName, Class<?>... types) {
         if (element != null) {
             List<Class<?>> typeList = Arrays.asList(types);
             Class<?> elementType = element.getClass();
@@ -121,7 +121,7 @@ public final class ValidationSupport {
         }
     }
     
-    public static <T> T requireChoiceElement(T element, String elementName, Class<?>... types) {
+    public static <T extends Element> T requireChoiceElement(T element, String elementName, Class<?>... types) {
         requireNonNull(element, elementName);
         return choiceElement(element, elementName, types);
     }

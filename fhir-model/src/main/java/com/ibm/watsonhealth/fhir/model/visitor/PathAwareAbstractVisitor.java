@@ -28,21 +28,21 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     protected abstract void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type);
     protected abstract void doVisitStart(String elementName, Resource resource);
 
-    protected String getCurrentElementName(String elementName) {
+    protected String getName(String elementName) {
         if (elementName == null) {
             return nameStack.peek();
         }
         return elementName;
     }
     
-    protected int getCurrentIndex(String elementName) {
+    protected int getIndex(String elementName) {
         if (elementName == null) {
             return indexStack.peek();
         }
         return -1;
     }
     
-    protected String getCurrentPath() {
+    protected String getPath() {
         return pathStack.stream().collect(Collectors.joining("."));
     }
     
@@ -63,7 +63,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
             pathStack.push(elementName);
         }
         if (DEBUG) {
-            System.out.println(getCurrentPath());
+            System.out.println(getPath());
         }
     }
     @Override
@@ -87,7 +87,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     @Override
     public final void visitStart(java.lang.String elementName, Element element) {
-        pathStackPush(getCurrentElementName(elementName), getCurrentIndex(elementName));
+        pathStackPush(getName(elementName), getIndex(elementName));
         doVisitStart(elementName, element);
         incrementCurrentIndex(elementName);
     }
@@ -101,7 +101,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor {
     
     @Override
     public final void visitStart(java.lang.String elementName, Resource resource) {
-        pathStackPush(getCurrentElementName(elementName), getCurrentIndex(elementName));
+        pathStackPush(getName(elementName), getIndex(elementName));
         doVisitStart(elementName, resource);
         incrementCurrentIndex(elementName);
     }

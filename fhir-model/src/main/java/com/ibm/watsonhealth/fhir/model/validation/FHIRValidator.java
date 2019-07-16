@@ -113,7 +113,7 @@ public class FHIRValidator {
 
         private void validate(Class<?> type) {
             List<Constraint> constraints = getConstraints(type);
-            String path = getCurrentPath();
+            String path = getPath();
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
                     if (DEBUG) {
