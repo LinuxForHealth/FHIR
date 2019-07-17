@@ -275,6 +275,7 @@ public class ResourceComparatorVisitor extends PathAwareVisitorAdapter {
             Comparer other = others.get(entry.getKey());
             if (other == null) {
                 System.out.println("other key '" + entry.getKey() + "' not found in originals");
+                result = false;
             }
         }
         
