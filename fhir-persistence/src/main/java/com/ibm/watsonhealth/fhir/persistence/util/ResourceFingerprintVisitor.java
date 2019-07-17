@@ -137,12 +137,12 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     }
     @Override
     public void visit(java.lang.String elementName, java.lang.String value) {
-        // exclude the meta.versionId value from the fingerprint because it
-        // is injected by FHIR and therefore not part of the original
-        // resource
-        String idName = currentResourceName + ".meta.versionId";
+        // exclude the id and meta.versionId values from the fingerprint 
+        // because they are injected by FHIR.
+        String idName = currentResourceName + ".id";
+        String versionIdName = currentResourceName + ".meta.versionId";
         String path = getPath();
-        if (!idName.equals(path)) {
+        if (!idName.equals(path) && !versionIdName.equals(path)) {
             updateDigest(path, value.toString());
         }
         

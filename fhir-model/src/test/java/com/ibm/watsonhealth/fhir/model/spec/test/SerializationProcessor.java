@@ -36,13 +36,17 @@ public class SerializationProcessor implements IExampleProcessor {
                 
                 if (!newResource.equals(resource)) {
                     
-                    // Run the comparator so we can actually see what is different
-                    ResourceComparatorVisitor rcv = new ResourceComparatorVisitor();
-                    resource.accept(resource.getClass().getSimpleName(), rcv);
-                    rcv.setCompare(); // flip the flag
-                    newResource.accept(resource.getClass().getSimpleName(), rcv);
+                    // Use the ResourceComparatorVisitor to provide some detail about what's different
+                    ResourceComparatorVisitor originals = new ResourceComparatorVisitor();
+                    resource.accept(resource.getClass().getSimpleName(), originals);
                     
-                    throw new AssertionError("Resource mismatch after JSON write/read");
+                    ResourceComparatorVisitor others = new ResourceComparatorVisitor();
+                    newResource.accept(newResource.getClass().getSimpleName(), others);
+                    
+                    // Perform a bi-directional comparison of values in the maps
+                    ResourceComparatorVisitor.compare(originals.getValues(), others.getValues());
+                    
+                    throw new IllegalStateException("Resource mismatch after JSON write/read");
                 }
             }
         }

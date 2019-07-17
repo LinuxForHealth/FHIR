@@ -143,27 +143,30 @@ public class R4ExamplesDriver {
      */
     protected void processExample(String jsonFile, Expectation expectation) throws Exception {
     	System.out.println("Processing: " + jsonFile);
+    	Expectation actual;
 
     	try {
     		Resource resource = readResource(jsonFile);
     		if (resource == null) {
-    		    throw new IllegalStateException("readResource(" + jsonFile + ") returned null");
+    		    // this is bad, because we'd expect a FHIRParserException
+    		    throw new AssertionError("readResource(" + jsonFile + ") returned null");
     		}
     		
     		if (expectation == Expectation.PARSE) {
     		    // If we parsed the resource successfully but expected it to fail, it's a failed
     		    // test, so we don't try and process it any further
-    		    logger.severe("readResource(" + jsonFile + ") should've failed but didn't");
+    		    actual = Expectation.OK;
     		    if (firstException == null) {
     		        firstException = new FHIRParserException("Parse succeeded but should've failed", jsonFile, null);
     		    }
     		}
     		else {
-    		    processExample(jsonFile, resource, expectation);
+    		    // validate and process the example
+    		    actual = processExample(jsonFile, resource, expectation);
     		}
          }
          catch (FHIRParserException fpx) {
-             // If our expectation is that the parse fails, then it's a success
+             actual = Expectation.PARSE;
              if (expectation == Expectation.PARSE) {
                  // successful test, even though we won't be able to validate/process
                  successCount++;
@@ -173,13 +176,15 @@ public class R4ExamplesDriver {
                  logger.severe("readResource(" + jsonFile + ") unexpected failure: " + fpx.getMessage()
                          + ", " + fpx.getPath());
                  
-                 // continue processing the other files
+                 // continue processing the other files, but capture the first exception so we can fail the test
+                 // if needed
                  if (firstException == null) {
                      firstException = fpx;
                  }
              }
          }
 
+        System.out.println(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), jsonFile));
 
     }
     
@@ -188,11 +193,12 @@ public class R4ExamplesDriver {
      * @param jsonFile so we know the name of the file if there's a problem
      * @param resource the parsed object
      */
-    protected void processExample(String jsonFile, Resource resource, Expectation expectation) throws Exception {
-        
+    protected Expectation processExample(String jsonFile, Resource resource, Expectation expectation) throws Exception {
+        Expectation actual = Expectation.OK;
         if (validator != null) {
             try {
                 validator.process(jsonFile, resource);
+                
                 if (expectation == Expectation.VALIDATION) {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
@@ -203,13 +209,16 @@ public class R4ExamplesDriver {
                 }
             }
             catch (Exception x) {
+                // validation failed
+                actual = Expectation.VALIDATION;
+                resource = null; // stop any further processing
+                
                 if (expectation == Expectation.VALIDATION) {
                     // we expected an error, and we got it...so that's a success
                     successCount++;
                 }
                 else {
                     // oops, hit an unexpected validation error
-                    resource = null;
                     logger.severe("validateResource(" + jsonFile + ") unexpected failure: " + x.getMessage());
                     
                     // continue processing the other files
@@ -238,7 +247,10 @@ public class R4ExamplesDriver {
                 }
             }
             catch (Exception x) {
-                if (expectation == Expectation.VALIDATION) {
+                // say in which phase we failed
+                actual = Expectation.PROCESS;
+
+                if (expectation == Expectation.PROCESS) {
                     // we expected an error, and we got it...so that's a success
                     successCount++;
                 }
@@ -254,6 +266,8 @@ public class R4ExamplesDriver {
                 
             }
         }
+        
+        return actual;
     }
     
     /**

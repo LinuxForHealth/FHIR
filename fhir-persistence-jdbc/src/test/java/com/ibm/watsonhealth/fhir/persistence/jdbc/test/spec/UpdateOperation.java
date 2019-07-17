@@ -6,15 +6,31 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import java.util.logging.Logger;
 
-public class UpdateOperation implements ITestResourceOperation {
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+
+public class UpdateOperation extends BaseOperation {
+    private static final Logger logger = Logger.getLogger(UpdateOperation.class.getName());
 
 
 	@Override
-	public void process(TestContext context) {
-		// TODO Auto-generated method stub
-		
+	public void process(TestContext tc) throws FHIRPersistenceException {
+	    
+        final Resource resource = tc.getResource();
+        final FHIRPersistenceContext context = tc.createPersistenceContext();
+
+        final String logicalId = resource.getId().getValue();
+        
+        logger.info("Updating: " + logicalId);
+
+        Resource newResource = tc.getPersistence().update(context, logicalId, resource);
+        check(tc, resource, newResource, this.getClass().getSimpleName());
+        
+        // Update the context with the modified resource
+        tc.setResource(newResource);
 	}
 
 }
