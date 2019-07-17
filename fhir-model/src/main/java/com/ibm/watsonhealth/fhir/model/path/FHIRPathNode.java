@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
+
 public interface FHIRPathNode {
     String name();
     FHIRPathType type();
@@ -17,6 +19,7 @@ public interface FHIRPathNode {
     Collection<FHIRPathNode> children();
     Stream<FHIRPathNode> stream();
     Collection<FHIRPathNode> descendants();
+    Visitable visitable();
     <T extends FHIRPathNode> boolean is(Class<T> nodeType);
     <T extends FHIRPathNode> T as(Class<T> nodeType);
     default boolean isElementNode() {

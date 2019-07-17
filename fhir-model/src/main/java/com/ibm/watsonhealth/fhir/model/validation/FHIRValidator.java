@@ -11,7 +11,6 @@ import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiv
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getTypeName;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,14 +42,7 @@ public class FHIRValidator {
     public List<Issue> validate() throws FHIRValidationException {
         try {
             ValidatingVisitor visitor = new ValidatingVisitor(tree);
-            FHIRPathNode root = tree.getRoot();
-            if (root.isResourceNode()) {
-                Resource resource = root.asResourceNode().resource();
-                resource.accept(getTypeName(resource.getClass()), visitor);
-            } else if (root.isElementNode()) {
-                Element element = root.asElementNode().element();
-                element.accept(getTypeName(element.getClass()), visitor);
-            }
+            tree.getRoot().visitable().accept(visitor);
             return visitor.getIssues();
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);

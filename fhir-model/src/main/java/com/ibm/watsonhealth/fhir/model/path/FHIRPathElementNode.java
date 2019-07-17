@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRPathElementNode extends FHIRPathAbstractNode {
     private final Element element;
@@ -20,6 +21,11 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     }
     
     public Element element() {
+        return element;
+    }
+    
+    @Override
+    public Visitable visitable() {
         return element;
     }
     
