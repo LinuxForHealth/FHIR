@@ -209,10 +209,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -234,7 +234,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 accept(manipulation, "manipulation", visitor);
                 accept(storage, "storage", visitor, Storage.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -951,10 +951,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -963,7 +963,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(source, "source", visitor);
                     accept(collected, "collected", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1286,10 +1286,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1299,7 +1299,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(additive, "additive", visitor);
                     accept(time, "time", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1611,10 +1611,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1622,7 +1622,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(description, "description", visitor);
                     accept(time, "time", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1923,10 +1923,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1936,7 +1936,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(scale, "scale", visitor);
                     accept(duration, "duration", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }

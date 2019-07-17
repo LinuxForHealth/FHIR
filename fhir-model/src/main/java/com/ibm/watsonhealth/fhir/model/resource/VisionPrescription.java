@@ -165,10 +165,10 @@ public class VisionPrescription extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -187,7 +187,7 @@ public class VisionPrescription extends DomainResource {
                 accept(prescriber, "prescriber", visitor);
                 accept(lensSpecification, "lensSpecification", visitor, LensSpecification.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -817,10 +817,10 @@ public class VisionPrescription extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -840,7 +840,7 @@ public class VisionPrescription extends DomainResource {
                     accept(brand, "brand", visitor);
                     accept(note, "note", visitor, Annotation.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1372,10 +1372,10 @@ public class VisionPrescription extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1383,7 +1383,7 @@ public class VisionPrescription extends DomainResource {
                         accept(amount, "amount", visitor);
                         accept(base, "base", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }

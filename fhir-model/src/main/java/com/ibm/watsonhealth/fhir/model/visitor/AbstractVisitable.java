@@ -17,19 +17,22 @@ import java.util.List;
 
 public abstract class AbstractVisitable implements Visitable {
     @Override
-    public abstract void accept(String elementName, Visitor visitor);
+    public abstract void accept(String elementName, int elementIndex, Visitor visitor);
 
     protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor) {
         if (visitable != null) {
-            visitable.accept(elementName, visitor);
+            visitable.accept(elementName, -1, visitor);
         }
     }
 
     protected void accept(List<? extends Visitable> visitables, java.lang.String elementName, Visitor visitor, Class<?> type) {
         if (!visitables.isEmpty()) {
             visitor.visitStart(elementName, visitables, type);
+            int elementIndex = 0;
             for (Visitable visitable : visitables) {
-                visitable.accept(visitor);
+//              visitable.accept(visitor);
+                visitable.accept(elementName, elementIndex, visitor);
+                elementIndex++;
             }
             visitor.visitEnd(elementName, visitables, type);
         }

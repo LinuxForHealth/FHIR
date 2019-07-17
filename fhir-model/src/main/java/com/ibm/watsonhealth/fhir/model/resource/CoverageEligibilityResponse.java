@@ -274,10 +274,10 @@ public class CoverageEligibilityResponse extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -303,7 +303,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 accept(form, "form", visitor);
                 accept(error, "error", visitor, Error.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -956,10 +956,10 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -969,7 +969,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                     accept(benefitPeriod, "benefitPeriod", visitor);
                     accept(item, "item", visitor, Item.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1475,10 +1475,10 @@ public class CoverageEligibilityResponse extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1498,7 +1498,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                         accept(authorizationSupporting, "authorizationSupporting", visitor, CodeableConcept.class);
                         accept(authorizationUrl, "authorizationUrl", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2096,10 +2096,10 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -2108,7 +2108,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                             accept(allowed, "allowed", visitor);
                             accept(used, "used", visitor);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -2376,17 +2376,17 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }

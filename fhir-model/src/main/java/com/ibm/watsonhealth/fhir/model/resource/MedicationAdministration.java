@@ -335,10 +335,10 @@ public class MedicationAdministration extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -368,7 +368,7 @@ public class MedicationAdministration extends DomainResource {
                 accept(dosage, "dosage", visitor);
                 accept(eventHistory, "eventHistory", visitor, Reference.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -1315,10 +1315,10 @@ public class MedicationAdministration extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1326,7 +1326,7 @@ public class MedicationAdministration extends DomainResource {
                     accept(function, "function", visitor);
                     accept(actor, "actor", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1657,10 +1657,10 @@ The dosage instructions should reflect the
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1672,7 +1672,7 @@ The dosage instructions should reflect the
                     accept(dose, "dose", visitor);
                     accept(rate, "rate", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }

@@ -312,10 +312,10 @@ public class ExampleScenario extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -343,7 +343,7 @@ public class ExampleScenario extends DomainResource {
                 accept(process, "process", visitor, Process.class);
                 accept(workflow, "workflow", visitor, Canonical.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -1267,10 +1267,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1280,7 +1280,7 @@ public class ExampleScenario extends DomainResource {
                     accept(name, "name", visitor);
                     accept(description, "description", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1625,10 +1625,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1640,7 +1640,7 @@ public class ExampleScenario extends DomainResource {
                     accept(version, "version", visitor, Version.class);
                     accept(containedInstance, "containedInstance", visitor, ContainedInstance.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -2012,10 +2012,10 @@ public class ExampleScenario extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -2023,7 +2023,7 @@ public class ExampleScenario extends DomainResource {
                         accept(versionId, "versionId", visitor);
                         accept(description, "description", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2266,10 +2266,10 @@ public class ExampleScenario extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -2277,7 +2277,7 @@ public class ExampleScenario extends DomainResource {
                         accept(resourceId, "resourceId", visitor);
                         accept(versionId, "versionId", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2584,10 +2584,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -2598,7 +2598,7 @@ public class ExampleScenario extends DomainResource {
                     accept(postConditions, "postConditions", visitor);
                     accept(step, "step", visitor, Step.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -2973,10 +2973,10 @@ public class ExampleScenario extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -2986,7 +2986,7 @@ public class ExampleScenario extends DomainResource {
                         accept(operation, "operation", visitor);
                         accept(alternative, "alternative", visitor, Alternative.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -3466,10 +3466,10 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -3485,7 +3485,7 @@ public class ExampleScenario extends DomainResource {
                             accept(request, "request", visitor);
                             accept(response, "response", visitor);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -3923,10 +3923,10 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -3935,7 +3935,7 @@ public class ExampleScenario extends DomainResource {
                             accept(description, "description", visitor);
                             accept(step, "step", visitor, ExampleScenario.Process.Step.class);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }

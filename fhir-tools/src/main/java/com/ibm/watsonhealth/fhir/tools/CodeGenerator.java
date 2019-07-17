@@ -344,19 +344,19 @@ public class CodeGenerator {
         cb.method(mods("public"), "void", "postVisit", params("Resource resource")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "Element element")).end().newLine();
+        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Element element")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "Resource resource")).end().newLine();
+        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Resource resource")).end().newLine();
 
         cb.override();
         cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "Element element")).end().newLine();
+        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Element element")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "Resource resource")).end().newLine();
+        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Resource resource")).end().newLine();
         
         cb.override();
         cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type")).end().newLine();
@@ -372,7 +372,7 @@ public class CodeGenerator {
                 paramName = "_" + paramName;
             }
             cb.override();
-            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", className + " " + paramName))._return("true").end().newLine();
+            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName))._return("true").end().newLine();
         }
 
         cb.override();
@@ -425,12 +425,12 @@ public class CodeGenerator {
         }
         
         cb.override();
-        cb.method(mods("public"), "void", "accept", params("java.lang.String elementName", "Visitor visitor"));
+        cb.method(mods("public"), "void", "accept", params("java.lang.String elementName", "int elementIndex", "Visitor visitor"));
         
         cb._if("visitor.preVisit(this)");
-        cb.invoke("visitor", "visitStart", args("elementName", "this"));
+        cb.invoke("visitor", "visitStart", args("elementName", "elementIndex", "this"));
         
-        cb._if("visitor.visit(elementName, this)");
+        cb._if("visitor.visit(elementName, elementIndex, this)");
         cb.comment("visit children");
         
         List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
@@ -455,7 +455,7 @@ public class CodeGenerator {
         
         cb._end();
         
-        cb.invoke("visitor", "visitEnd", args("elementName", "this"));
+        cb.invoke("visitor", "visitEnd", args("elementName", "elementIndex", "this"));
         cb.invoke("visitor", "postVisit", args("this"));
 
         cb._end();
@@ -2423,11 +2423,11 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Element element"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Resource resource"));
-        cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "Element element"));
-        cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "Resource resource"));
+        cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Element element"));
+        cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
-        cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "Element element"));
-        cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "Resource resource"));
+        cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Element element"));
+        cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
         
         Collections.sort(generatedClassNames);
@@ -2440,7 +2440,7 @@ public class CodeGenerator {
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
-            cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", className + " " + paramName));
+            cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
         }
 
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "byte[] value"));

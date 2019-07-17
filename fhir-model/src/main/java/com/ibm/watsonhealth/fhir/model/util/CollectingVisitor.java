@@ -39,12 +39,12 @@ public class CollectingVisitor<T> extends AbstractVisitor {
     }
 
     @Override
-    public void visitStart(java.lang.String elementName, Element element) {
+    public void visitStart(java.lang.String elementName, int elementIndex, Element element) {
         collect(element);
     }
 
     @Override
-    public void visitStart(java.lang.String elementName, Resource resource) {
+    public void visitStart(java.lang.String elementName, int elementIndex, Resource resource) {
         collect(resource);
     }
 

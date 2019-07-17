@@ -443,10 +443,10 @@ public class ClaimResponse extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -484,7 +484,7 @@ public class ClaimResponse extends DomainResource {
                 accept(insurance, "insurance", visitor, Insurance.class);
                 accept(error, "error", visitor, Error.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -1524,10 +1524,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1537,7 +1537,7 @@ public class ClaimResponse extends DomainResource {
                     accept(adjudication, "adjudication", visitor, Adjudication.class);
                     accept(detail, "detail", visitor, Detail.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1902,10 +1902,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1915,7 +1915,7 @@ public class ClaimResponse extends DomainResource {
                         accept(amount, "amount", visitor);
                         accept(value, "value", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2246,10 +2246,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -2259,7 +2259,7 @@ public class ClaimResponse extends DomainResource {
                         accept(adjudication, "adjudication", visitor, ClaimResponse.Item.Adjudication.class);
                         accept(subDetail, "subDetail", visitor, SubDetail.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2606,10 +2606,10 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -2618,7 +2618,7 @@ public class ClaimResponse extends DomainResource {
                             accept(noteNumber, "noteNumber", visitor, PositiveInt.class);
                             accept(adjudication, "adjudication", visitor, ClaimResponse.Item.Adjudication.class);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -3192,10 +3192,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -3219,7 +3219,7 @@ public class ClaimResponse extends DomainResource {
                     accept(adjudication, "adjudication", visitor, ClaimResponse.Item.Adjudication.class);
                     accept(detail, "detail", visitor, Detail.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -4109,10 +4109,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -4127,7 +4127,7 @@ public class ClaimResponse extends DomainResource {
                         accept(adjudication, "adjudication", visitor, ClaimResponse.Item.Adjudication.class);
                         accept(subDetail, "subDetail", visitor, SubDetail.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -4678,10 +4678,10 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -4695,7 +4695,7 @@ public class ClaimResponse extends DomainResource {
                             accept(noteNumber, "noteNumber", visitor, PositiveInt.class);
                             accept(adjudication, "adjudication", visitor, ClaimResponse.Item.Adjudication.class);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -5114,10 +5114,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -5125,7 +5125,7 @@ public class ClaimResponse extends DomainResource {
                     accept(category, "category", visitor);
                     accept(amount, "amount", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -5429,10 +5429,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -5444,7 +5444,7 @@ public class ClaimResponse extends DomainResource {
                     accept(amount, "amount", visitor);
                     accept(identifier, "identifier", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -5800,10 +5800,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -5813,7 +5813,7 @@ public class ClaimResponse extends DomainResource {
                     accept(text, "text", visitor);
                     accept(language, "language", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -6161,10 +6161,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -6175,7 +6175,7 @@ public class ClaimResponse extends DomainResource {
                     accept(businessArrangement, "businessArrangement", visitor);
                     accept(claimResponse, "claimResponse", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -6497,10 +6497,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -6510,7 +6510,7 @@ public class ClaimResponse extends DomainResource {
                     accept(subDetailSequence, "subDetailSequence", visitor);
                     accept(code, "code", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }

@@ -258,10 +258,10 @@ public class InsurancePlan extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -286,7 +286,7 @@ public class InsurancePlan extends DomainResource {
                 accept(coverage, "coverage", visitor, Coverage.class);
                 accept(plan, "plan", visitor, Plan.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -1170,10 +1170,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1183,7 +1183,7 @@ public class InsurancePlan extends DomainResource {
                     accept(telecom, "telecom", visitor, ContactPoint.class);
                     accept(address, "address", visitor);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1534,10 +1534,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -1546,7 +1546,7 @@ public class InsurancePlan extends DomainResource {
                     accept(network, "network", visitor, Reference.class);
                     accept(benefit, "benefit", visitor, Benefit.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1849,10 +1849,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1861,7 +1861,7 @@ public class InsurancePlan extends DomainResource {
                         accept(requirement, "requirement", visitor);
                         accept(limit, "limit", visitor, Limit.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -2166,10 +2166,10 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -2177,7 +2177,7 @@ public class InsurancePlan extends DomainResource {
                             accept(value, "value", visitor);
                             accept(code, "code", visitor);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -2512,10 +2512,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -2527,7 +2527,7 @@ public class InsurancePlan extends DomainResource {
                     accept(generalCost, "generalCost", visitor, GeneralCost.class);
                     accept(specificCost, "specificCost", visitor, SpecificCost.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -3029,10 +3029,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -3042,7 +3042,7 @@ public class InsurancePlan extends DomainResource {
                         accept(cost, "cost", visitor);
                         accept(comment, "comment", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -3353,10 +3353,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -3364,7 +3364,7 @@ public class InsurancePlan extends DomainResource {
                         accept(category, "category", visitor);
                         accept(benefit, "benefit", visitor, Benefit.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -3649,10 +3649,10 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -3660,7 +3660,7 @@ public class InsurancePlan extends DomainResource {
                             accept(type, "type", visitor);
                             accept(cost, "cost", visitor, Cost.class);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -3975,10 +3975,10 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     @Override
-                    public void accept(java.lang.String elementName, Visitor visitor) {
+                    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                         if (visitor.preVisit(this)) {
-                            visitor.visitStart(elementName, this);
-                            if (visitor.visit(elementName, this)) {
+                            visitor.visitStart(elementName, elementIndex, this);
+                            if (visitor.visit(elementName, elementIndex, this)) {
                                 // visit children
                                 accept(id, "id", visitor);
                                 accept(extension, "extension", visitor, Extension.class);
@@ -3988,7 +3988,7 @@ public class InsurancePlan extends DomainResource {
                                 accept(qualifiers, "qualifiers", visitor, CodeableConcept.class);
                                 accept(value, "value", visitor);
                             }
-                            visitor.visitEnd(elementName, this);
+                            visitor.visitEnd(elementName, elementIndex, this);
                             visitor.postVisit(this);
                         }
                     }

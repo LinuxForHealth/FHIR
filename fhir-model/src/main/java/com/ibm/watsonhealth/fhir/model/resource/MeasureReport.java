@@ -224,10 +224,10 @@ public class MeasureReport extends DomainResource {
     }
 
     @Override
-    public void accept(java.lang.String elementName, Visitor visitor) {
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, this);
-            if (visitor.visit(elementName, this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
                 // visit children
                 accept(id, "id", visitor);
                 accept(meta, "meta", visitor);
@@ -249,7 +249,7 @@ public class MeasureReport extends DomainResource {
                 accept(group, "group", visitor, Group.class);
                 accept(evaluatedResource, "evaluatedResource", visitor, Reference.class);
             }
-            visitor.visitEnd(elementName, this);
+            visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
         }
     }
@@ -871,10 +871,10 @@ public class MeasureReport extends DomainResource {
         }
 
         @Override
-        public void accept(java.lang.String elementName, Visitor visitor) {
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
             if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, this);
-                if (visitor.visit(elementName, this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
                     // visit children
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
@@ -884,7 +884,7 @@ public class MeasureReport extends DomainResource {
                     accept(measureScore, "measureScore", visitor);
                     accept(stratifier, "stratifier", visitor, Stratifier.class);
                 }
-                visitor.visitEnd(elementName, this);
+                visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
             }
         }
@@ -1260,10 +1260,10 @@ public class MeasureReport extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1272,7 +1272,7 @@ public class MeasureReport extends DomainResource {
                         accept(count, "count", visitor);
                         accept(subjectResults, "subjectResults", visitor);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -1566,10 +1566,10 @@ public class MeasureReport extends DomainResource {
             }
 
             @Override
-            public void accept(java.lang.String elementName, Visitor visitor) {
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                 if (visitor.preVisit(this)) {
-                    visitor.visitStart(elementName, this);
-                    if (visitor.visit(elementName, this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
                         // visit children
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
@@ -1577,7 +1577,7 @@ public class MeasureReport extends DomainResource {
                         accept(code, "code", visitor, CodeableConcept.class);
                         accept(stratum, "stratum", visitor, Stratum.class);
                     }
-                    visitor.visitEnd(elementName, this);
+                    visitor.visitEnd(elementName, elementIndex, this);
                     visitor.postVisit(this);
                 }
             }
@@ -1930,10 +1930,10 @@ public class MeasureReport extends DomainResource {
                 }
 
                 @Override
-                public void accept(java.lang.String elementName, Visitor visitor) {
+                public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                     if (visitor.preVisit(this)) {
-                        visitor.visitStart(elementName, this);
-                        if (visitor.visit(elementName, this)) {
+                        visitor.visitStart(elementName, elementIndex, this);
+                        if (visitor.visit(elementName, elementIndex, this)) {
                             // visit children
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
@@ -1943,7 +1943,7 @@ public class MeasureReport extends DomainResource {
                             accept(population, "population", visitor, Population.class);
                             accept(measureScore, "measureScore", visitor);
                         }
-                        visitor.visitEnd(elementName, this);
+                        visitor.visitEnd(elementName, elementIndex, this);
                         visitor.postVisit(this);
                     }
                 }
@@ -2303,10 +2303,10 @@ public class MeasureReport extends DomainResource {
                     }
 
                     @Override
-                    public void accept(java.lang.String elementName, Visitor visitor) {
+                    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                         if (visitor.preVisit(this)) {
-                            visitor.visitStart(elementName, this);
-                            if (visitor.visit(elementName, this)) {
+                            visitor.visitStart(elementName, elementIndex, this);
+                            if (visitor.visit(elementName, elementIndex, this)) {
                                 // visit children
                                 accept(id, "id", visitor);
                                 accept(extension, "extension", visitor, Extension.class);
@@ -2314,7 +2314,7 @@ public class MeasureReport extends DomainResource {
                                 accept(code, "code", visitor);
                                 accept(value, "value", visitor);
                             }
-                            visitor.visitEnd(elementName, this);
+                            visitor.visitEnd(elementName, elementIndex, this);
                             visitor.postVisit(this);
                         }
                     }
@@ -2573,10 +2573,10 @@ public class MeasureReport extends DomainResource {
                     }
 
                     @Override
-                    public void accept(java.lang.String elementName, Visitor visitor) {
+                    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
                         if (visitor.preVisit(this)) {
-                            visitor.visitStart(elementName, this);
-                            if (visitor.visit(elementName, this)) {
+                            visitor.visitStart(elementName, elementIndex, this);
+                            if (visitor.visit(elementName, elementIndex, this)) {
                                 // visit children
                                 accept(id, "id", visitor);
                                 accept(extension, "extension", visitor, Extension.class);
@@ -2585,7 +2585,7 @@ public class MeasureReport extends DomainResource {
                                 accept(count, "count", visitor);
                                 accept(subjectResults, "subjectResults", visitor);
                             }
-                            visitor.visitEnd(elementName, this);
+                            visitor.visitEnd(elementName, elementIndex, this);
                             visitor.postVisit(this);
                         }
                     }

@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getTypeName;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,7 +21,7 @@ import java.util.Stack;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public class FHIRPathTree {    
     private final FHIRPathNode root;
@@ -46,7 +44,7 @@ public class FHIRPathTree {
         Objects.requireNonNull(resource);
         
         BuildingVisitor visitor = new BuildingVisitor();
-        resource.accept(getTypeName(resource.getClass()), visitor);
+        resource.accept(visitor);
         
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
@@ -55,12 +53,12 @@ public class FHIRPathTree {
         Objects.requireNonNull(element);
         
         BuildingVisitor visitor = new BuildingVisitor();
-        element.accept(getTypeName(element.getClass()), visitor);
+        element.accept(visitor);
         
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
     
-    private static class BuildingVisitor extends PathAwareVisitorAdapter {
+    private static class BuildingVisitor extends PathAwareAbstractVisitor {
         private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
@@ -74,7 +72,7 @@ public class FHIRPathTree {
         }
 
         @Override
-        protected void doVisitEnd(String elementName, Element element) {
+        protected void doVisitEnd(String elementName, int elementIndex, Element element) {
             FHIRPathNode.Builder builder = builderStack.pop();
             FHIRPathNode node = builder.build();
             pathNodeMap.put(getPath(), node);
@@ -86,7 +84,7 @@ public class FHIRPathTree {
         }
 
         @Override
-        protected void doVisitEnd(String elementName, Resource resource) {
+        protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
             FHIRPathNode.Builder builder = builderStack.pop();
             FHIRPathNode node = builder.build();
             pathNodeMap.put(getPath(), node);
@@ -98,63 +96,63 @@ public class FHIRPathTree {
         }
 
         @Override
-        protected void doVisitStart(String elementName, Element element) {
-            builderStack.push(FHIRPathElementNode.builder(element).name(getName(elementName)));
+        protected void doVisitStart(String elementName, int elementIndex, Element element) {
+            builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
         }
 
         @Override
-        protected void doVisitStart(String elementName, Resource resource) {
-            builderStack.push(FHIRPathResourceNode.builder(resource).name(getName(elementName)));            
+        protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
+            builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName));            
         }
 
         @Override
         public void visit(java.lang.String elementName, BigDecimal value) {
-            builderStack.peek().value(FHIRPathDecimalValue.decimalValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathDecimalValue.decimalValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, byte[] value) {
-            builderStack.peek().value(FHIRPathStringValue.stringValue(getName(elementName), Base64.getEncoder().encodeToString(value)));
+            builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, Base64.getEncoder().encodeToString(value)));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.Boolean value) {
-            builderStack.peek().value(FHIRPathBooleanValue.booleanValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathBooleanValue.booleanValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.Integer value) {
-            builderStack.peek().value(FHIRPathIntegerValue.integerValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathIntegerValue.integerValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.String value) {
-            builderStack.peek().value(FHIRPathStringValue.stringValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, LocalDate value) {
-            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, LocalTime value) {
-            builderStack.peek().value(FHIRPathTimeValue.timeValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathTimeValue.timeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, Year value) {
-            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, YearMonth value) {
-            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, ZonedDateTime value) {
-            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getName(elementName), value));
+            builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     }
 }

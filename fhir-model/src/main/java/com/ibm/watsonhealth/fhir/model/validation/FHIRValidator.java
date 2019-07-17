@@ -82,12 +82,12 @@ public class FHIRValidator {
         }
         
         @Override
-        protected void doVisitStart(String elementName, Element element) {
+        protected void doVisitStart(String elementName, int elementIndex, Element element) {
             validate(element.getClass());            
         }
 
         @Override
-        protected void doVisitStart(String elementName, Resource resource) {
+        protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
             validate(resource.getClass());            
         }
 

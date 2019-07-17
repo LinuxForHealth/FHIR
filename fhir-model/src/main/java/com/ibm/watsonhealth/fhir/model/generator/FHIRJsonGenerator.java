@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isChoiceElementType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 
 import java.io.FilterOutputStream;
@@ -48,10 +47,9 @@ import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
-import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
-
 
 public class FHIRJsonGenerator implements FHIRGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
@@ -71,23 +69,33 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
+        PathAwareVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out)) {
-            Visitor visitor = new GeneratingVisitor(generator);
+            visitor = new GeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            throw new FHIRGeneratorException(e.getMessage(), null, e);
+            java.lang.String path = null;
+            if (visitor != null) {
+                path = visitor.getPath();
+            }
+            throw new FHIRGeneratorException(e.getMessage(), path, e);
         }
     }
 
     @Override
     public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
+        PathAwareVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : writer)) {
-            Visitor visitor = new GeneratingVisitor(generator);
+            visitor = new GeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            throw new FHIRGeneratorException(e.getMessage(), null, e);
+            java.lang.String path = null;
+            if (visitor != null) {
+                path = visitor.getPath();
+            }
+            throw new FHIRGeneratorException(e.getMessage(), path, e);
         }
     }
     
@@ -138,9 +146,11 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         };
     }
 
-    private static class GeneratingVisitor extends AbstractVisitor {
+    private static class GeneratingVisitor extends PathAwareAbstractVisitor {
         private final JsonGenerator generator;
         private final Stack<Class<?>> typeStack = new Stack<>();
+        
+        private boolean started = false;
         
         public GeneratingVisitor(JsonGenerator generator) {
             this.generator = generator;
@@ -148,14 +158,16 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         
         private void generate(Element element) {
             if (!element.getExtension().isEmpty()) {
-                writeStartArray("extension");
+                visitStart("extension", element.getExtension(), Extension.class);
+                int elementIndex = 0;
                 for (Extension extension : element.getExtension()) {
-                    extension.accept(this);
+                    extension.accept("extension", elementIndex, this);
+                    elementIndex++;
                 }
-                generator.writeEnd();
+                visitEnd("extension", element.getExtension(), Extension.class);
             }
             if (element.getId() != null) {
-                writeValue("id", element.getId());
+                writeValue("id", -1, element.getId());
             }
         }
         
@@ -177,22 +189,15 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
         
         private boolean isChoiceElement(java.lang.String name) {
-            Class<?> type = null;
-            if (!typeStack.isEmpty()) {
-                type = typeStack.peek();
-            }
-            if (type != null && name != null) {
-                return JsonSupport.isChoiceElement(type, name);
+            if (typeStack.size() > 1) {
+                return JsonSupport.isChoiceElement(typeStack.get(typeStack.size() - 2), name);
             }
             return false;
         }
         
         @Override
         public void postVisit(Element element) {
-            Class<?> elementType = element.getClass();
-            if (!isChoiceElementType(elementType)) {
-                typeStack.pop();
-            }
+            typeStack.pop();
         }
         
         @Override
@@ -202,111 +207,107 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     
         @Override
         public boolean preVisit(Element element) {
-            Class<?> elementType = element.getClass();
-            if (!isChoiceElementType(elementType)) {
-                typeStack.push(elementType);
-            }
+            typeStack.push(element.getClass());
             return true;
         }
         
         @Override
         public boolean preVisit(Resource resource) {
-            Class<?> resourceType = resource.getClass();
-            typeStack.push(resourceType);
+            typeStack.push(resource.getClass());
             return true;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Base64Binary base64Binary) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Base64Binary base64Binary) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Base64Binary.class);
             }
             if (base64Binary.getValue() != null) {
-                writeValue(elementName, Base64.getEncoder().encodeToString(base64Binary.getValue()));
+                writeValue(elementName, elementIndex, Base64.getEncoder().encodeToString(base64Binary.getValue()));
             } else {
-                writeNull(elementName, base64Binary);
+                writeNull(elementName, elementIndex, base64Binary);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Boolean _boolean) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Boolean _boolean) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Boolean.class);
             }
             if (_boolean.getValue() != null) {
-                writeValue(elementName, _boolean.getValue());
+                writeValue(elementName, elementIndex, _boolean.getValue());
             } else {
-                writeNull(elementName, _boolean);
+                writeNull(elementName, elementIndex, _boolean);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Date date) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Date date) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Date.class);
             }            
             if (date.getValue() != null) {
-                writeValue(elementName, date.getValue().toString());
+                writeValue(elementName, elementIndex, date.getValue().toString());
             } else {
-                writeNull(elementName, date);
+                writeNull(elementName, elementIndex, date);
             }
             return false;
         }
     
         @Override
-        public boolean visit(java.lang.String elementName, DateTime dateTime) {
+        public boolean visit(java.lang.String elementName, int elementIndex, DateTime dateTime) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, DateTime.class);
             }            
             if (dateTime.getValue() != null) {
                 if (!dateTime.isPartial()) {
-                    writeValue(elementName, DATE_TIME_FORMATTER.format(dateTime.getValue()));
+                    writeValue(elementName, elementIndex, DATE_TIME_FORMATTER.format(dateTime.getValue()));
                 } else {
-                    writeValue(elementName, dateTime.getValue().toString());
+                    writeValue(elementName, elementIndex, dateTime.getValue().toString());
                 }
             } else {
-                writeNull(elementName, dateTime);
+                writeNull(elementName, elementIndex, dateTime);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Decimal decimal) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Decimal decimal) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Decimal.class);
             }            
             if (decimal.getValue() != null) {
-                writeValue(elementName, decimal.getValue());
+                writeValue(elementName, elementIndex, decimal.getValue());
             } else {
-                writeNull(elementName, decimal);
+                writeNull(elementName, elementIndex, decimal);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Instant instant) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Instant instant) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Instant.class);
             }            
             if (instant.getValue() != null) {
-                writeValue(elementName, DATE_TIME_FORMATTER.format(instant.getValue()));
+                writeValue(elementName, elementIndex, DATE_TIME_FORMATTER.format(instant.getValue()));
             } else {
-                writeNull(elementName, instant);
+                writeNull(elementName, elementIndex, instant);
             }
             return false;
         }
     
         @Override
-        public boolean visit(java.lang.String elementName, Integer integer) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Integer integer) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, integer.getClass());
             }
             if (integer.getValue() != null) {
-                writeValue(elementName, integer.getValue());
+                writeValue(elementName, elementIndex, integer.getValue());
             } else {
-                writeNull(elementName, integer);
+                writeNull(elementName, elementIndex, integer);
             }
             return false;
         }
@@ -314,57 +315,57 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         @Override
         public void visit(java.lang.String elementName, java.lang.String value) {
             if (value != null) {
-                writeValue(elementName, value);
+                writeValue(elementName, -1, value);
             }
         }
     
         @Override
-        public boolean visit(java.lang.String elementName, String string) {
+        public boolean visit(java.lang.String elementName, int elementIndex, String string) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, string.getClass());
             }            
             if (string.getValue() != null) {
-                writeValue(elementName, string.getValue());
+                writeValue(elementName, elementIndex, string.getValue());
             } else {
-                writeNull(elementName, string);
+                writeNull(elementName, elementIndex, string);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Time time) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Time time) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, Time.class);
             }            
             if (time.getValue() != null) {
-                writeValue(elementName, time.getValue().toString());
+                writeValue(elementName, elementIndex, time.getValue().toString());
             } else {
-                writeNull(elementName, time);
+                writeNull(elementName, elementIndex, time);
             }
             return false;
         }
         
         @Override
-        public boolean visit(java.lang.String elementName, Uri uri) {
+        public boolean visit(java.lang.String elementName, int elementIndex, Uri uri) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, uri.getClass());
             }
             if (uri.getValue() != null) {
-                writeValue(elementName, uri.getValue());
+                writeValue(elementName, elementIndex, uri.getValue());
             } else {
-                writeNull(elementName, uri);
+                writeNull(elementName, elementIndex, uri);
             }
             return false;
         }
         
         @Override
-        public void visitEnd(java.lang.String elementName, Element element) {
+        public void doVisitEnd(java.lang.String elementName, int elementIndex, Element element) {
             Class<?> elementType = element.getClass();
             if (isPrimitiveType(elementType)) {
                 if (isChoiceElement(elementName)) {
                     elementName = getChoiceElementName(elementName, elementType);
                 }
-                if (elementName != null && hasExtensionOrId(element)) {
+                if (elementIndex == -1 && hasExtensionOrId(element)) {
                     generator.writeStartObject("_" + elementName);
                     generate(element);
                     generator.writeEnd();
@@ -396,18 +397,18 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
         
         @Override
-        public void visitEnd(java.lang.String elementName, Resource resource) {
+        public void doVisitEnd(java.lang.String elementName, int elementIndex, Resource resource) {
             generator.writeEnd();
         }
         
         @Override
-        public void visitStart(java.lang.String elementName, Element element) {
+        public void doVisitStart(java.lang.String elementName, int elementIndex, Element element) {
             Class<?> elementType = element.getClass();
             if (!isPrimitiveType(elementType)) {
                 if (isChoiceElement(elementName)) {
                     elementName = getChoiceElementName(elementName, element.getClass());
                 }
-                writeStartObject(elementName);
+                writeStartObject(elementName, elementIndex);
             }
         }
         
@@ -417,61 +418,58 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
     
         @Override
-        public void visitStart(java.lang.String elementName, Resource resource) {
-            writeStartObject(elementName);
+        public void doVisitStart(java.lang.String elementName, int elementIndex, Resource resource) {
+            writeStartObject(elementName, elementIndex);
             Class<?> resourceType = resource.getClass();
             java.lang.String resourceTypeName = resourceType.getSimpleName();
             generator.write("resourceType", resourceTypeName);
         }
     
-        private void writeNull(java.lang.String elementName, Element element) {
-            if (elementName == null && hasExtensionOrId(element)) {
+        private void writeNull(java.lang.String elementName, int elementIndex, Element element) {
+            if (elementIndex != -1 && hasExtensionOrId(element)) {
                 generator.writeNull();
             }
         }
     
         private void writeStartArray(java.lang.String elementName) {
-            if (elementName != null) {
-                generator.writeStartArray(elementName);
-            } else {
-                generator.writeStartArray();
-            }
+            generator.writeStartArray(elementName);
         }
     
-        private void writeStartObject(java.lang.String elementName) {
-            if (elementName != null) {
+        private void writeStartObject(java.lang.String elementName, int elementIndex) {
+            if (started && elementIndex == -1) {
                 generator.writeStartObject(elementName);
             } else {
                 generator.writeStartObject();
+                started = true;
             }
         }
     
-        private void writeValue(java.lang.String elementName, BigDecimal value) {
-            if (elementName != null) {
+        private void writeValue(java.lang.String elementName, int elementIndex, BigDecimal value) {
+            if (elementIndex == -1) {
                 generator.write(elementName, value);
             } else {
                 generator.write(value);
             }
         }
     
-        private void writeValue(java.lang.String elementName, java.lang.Boolean value) {
-            if (elementName != null) {
+        private void writeValue(java.lang.String elementName, int elementIndex, java.lang.Boolean value) {
+            if (elementIndex == -1) {
                 generator.write(elementName, value);
             } else {
                 generator.write(value);
             }
         }
     
-        private void writeValue(java.lang.String elementName, java.lang.Integer value) {
-            if (elementName != null) {
+        private void writeValue(java.lang.String elementName, int elementIndex, java.lang.Integer value) {
+            if (elementIndex == -1) {
                 generator.write(elementName, value);
             } else {
                 generator.write(value);
             }
         }
         
-        private void writeValue(java.lang.String elementName, java.lang.String value) {
-            if (elementName != null) {
+        private void writeValue(java.lang.String elementName, int elementIndex, java.lang.String value) {
+            if (elementIndex == -1) {
                 generator.write(elementName, value);
             } else {
                 generator.write(value);

@@ -6,39 +6,27 @@
 
 package com.ibm.watsonhealth.fhir.model.visitor;
 
-import java.util.List;
-
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 
 public class PathAwareVisitorAdapter extends PathAwareAbstractVisitor {
     @Override
-    protected void doVisitEnd(String elementName, Element element) {
+    protected void doVisitEnd(String elementName, int elementIndex, Element element) {
         // do nothing
     }
 
     @Override
-    protected void doVisitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+    protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
         // do nothing
     }
 
     @Override
-    protected void doVisitEnd(String elementName, Resource resource) {
+    protected void doVisitStart(String elementName, int elementIndex, Element element) {
         // do nothing
     }
 
     @Override
-    protected void doVisitStart(String elementName, Element element) {
-        // do nothing
-    }
-
-    @Override
-    protected void doVisitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        // do nothing
-    }
-
-    @Override
-    protected void doVisitStart(String elementName, Resource resource) {
+    protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
         // do nothing
     }
 }
