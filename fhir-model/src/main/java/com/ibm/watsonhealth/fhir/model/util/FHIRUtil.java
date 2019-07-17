@@ -17,10 +17,13 @@ import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -46,33 +49,116 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.resource.SubstanceSpecification.Code;
+import com.ibm.watsonhealth.fhir.model.type.Address;
+import com.ibm.watsonhealth.fhir.model.type.Age;
+import com.ibm.watsonhealth.fhir.model.type.Annotation;
+import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
+import com.ibm.watsonhealth.fhir.model.type.Canonical;
+import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.ContactDetail;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.type.Contributor;
+import com.ibm.watsonhealth.fhir.model.type.Count;
+import com.ibm.watsonhealth.fhir.model.type.DataRequirement;
 import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Decimal;
+import com.ibm.watsonhealth.fhir.model.type.Distance;
+import com.ibm.watsonhealth.fhir.model.type.Dosage;
+import com.ibm.watsonhealth.fhir.model.type.Duration;
 import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.type.Expression;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.type.Markdown;
+import com.ibm.watsonhealth.fhir.model.type.Money;
+import com.ibm.watsonhealth.fhir.model.type.Oid;
+import com.ibm.watsonhealth.fhir.model.type.ParameterDefinition;
+import com.ibm.watsonhealth.fhir.model.type.Period;
+import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.type.Range;
+import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.RelatedArtifact;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
+import com.ibm.watsonhealth.fhir.model.type.SampledData;
+import com.ibm.watsonhealth.fhir.model.type.Signature;
 import com.ibm.watsonhealth.fhir.model.type.Time;
+import com.ibm.watsonhealth.fhir.model.type.Timing;
+import com.ibm.watsonhealth.fhir.model.type.TriggerDefinition;
+import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.type.Url;
+import com.ibm.watsonhealth.fhir.model.type.UsageContext;
+import com.ibm.watsonhealth.fhir.model.type.Uuid;
 
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-        
     /**
      * https://www.hl7.org/fhir/dstu2/references.html#regex
      */
     public static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
 
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
+    private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
+        Base64Binary.class, 
+        com.ibm.watsonhealth.fhir.model.type.Boolean.class, 
+        Canonical.class, 
+        Code.class, 
+        Date.class, 
+        DateTime.class, 
+        Decimal.class, 
+        Id.class, 
+        Instant.class, 
+        com.ibm.watsonhealth.fhir.model.type.Integer.class, 
+        Markdown.class, 
+        Oid.class, 
+        PositiveInt.class, 
+        com.ibm.watsonhealth.fhir.model.type.String.class, 
+        Time.class, 
+        UnsignedInt.class, 
+        Uri.class, 
+        Url.class, 
+        Uuid.class, 
+        Address.class, 
+        Age.class, 
+        Annotation.class, 
+        Attachment.class, 
+        CodeableConcept.class, 
+        Coding.class, 
+        ContactPoint.class, 
+        Count.class, 
+        Distance.class, 
+        Duration.class, 
+        HumanName.class, 
+        Identifier.class, 
+        Money.class, 
+        Period.class, 
+        Quantity.class, 
+        Range.class, 
+        Ratio.class, 
+        Reference.class, 
+        SampledData.class, 
+        Signature.class, 
+        Timing.class, 
+        ContactDetail.class, 
+        Contributor.class, 
+        DataRequirement.class, 
+        Expression.class, 
+        ParameterDefinition.class, 
+        RelatedArtifact.class, 
+        TriggerDefinition.class, 
+        UsageContext.class, 
+        Dosage.class));
 
     private FHIRUtil() { }
 
@@ -123,6 +209,10 @@ public class FHIRUtil {
             Instant.class.equals(type) || 
             com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || 
             Decimal.class.equals(type);
+    }
+    
+    public static boolean isChoiceElementType(Class<?> type) {
+        return CHOICE_ELEMENT_TYPES.contains(type);
     }
 
     /**

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isChoiceElementType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 
 import java.io.FilterOutputStream;
@@ -189,7 +190,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         @Override
         public void postVisit(Element element) {
             Class<?> elementType = element.getClass();
-            if (!isPrimitiveType(elementType)) {
+            if (!isChoiceElementType(elementType)) {
                 typeStack.pop();
             }
         }
@@ -202,7 +203,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         @Override
         public boolean preVisit(Element element) {
             Class<?> elementType = element.getClass();
-            if (!isPrimitiveType(elementType)) {
+            if (!isChoiceElementType(elementType)) {
                 typeStack.push(elementType);
             }
             return true;
@@ -403,6 +404,9 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         public void visitStart(java.lang.String elementName, Element element) {
             Class<?> elementType = element.getClass();
             if (!isPrimitiveType(elementType)) {
+                if (isChoiceElement(elementName)) {
+                    elementName = getChoiceElementName(elementName, element.getClass());
+                }
                 writeStartObject(elementName);
             }
         }
