@@ -25,6 +25,9 @@
 
     <modules>
         <module>../fhir-core</module>
+        <module>../fhir-task-api</module>
+        <module>../fhir-task-core</module>
+        <module>../fhir-database-utils</module>
         <module>../fhir-config</module>
         <module>../fhir-audit</module>
         <module>../fhir-model</module>
@@ -74,11 +77,6 @@
                 <version>${was.liberty.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.ibm.watson.platform.health</groupId>
-                <artifactId>database-utils</artifactId>
-                <version>4.0.0-4-201907120649</version>
             </dependency>
             <dependency>
                 <groupId>com.ibm.watson.platform.health</groupId>

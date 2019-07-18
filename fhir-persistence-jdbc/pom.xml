@@ -29,17 +29,12 @@
         </dependency>
         <dependency>
             <groupId>com.ibm.watson.platform.health</groupId>
-            <artifactId>database-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.watson.platform.health</groupId>
             <artifactId>fhir-examples</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-schema</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
