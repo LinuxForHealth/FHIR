@@ -7,9 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.path.function;
 
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +33,7 @@ public class SingleFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (isSingleton(context)) {
-            return singleton(getSingleton(context));
+            return context;
         }
         return empty();
     }

@@ -6,6 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+
 public class UnionFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
@@ -20,5 +28,11 @@ public class UnionFunction extends FHIRPathAbstractFunction {
     @Override
     public int getMaxArity() {
         return 1;
+    }
+    
+    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        Set<FHIRPathNode> union = new HashSet<>(context);
+        union.addAll(arguments.get(0));
+        return new ArrayList<>(union);
     }
 }

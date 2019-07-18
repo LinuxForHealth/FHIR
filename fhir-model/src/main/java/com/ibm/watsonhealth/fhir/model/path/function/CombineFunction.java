@@ -6,6 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+
 public class CombineFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
@@ -20,5 +26,12 @@ public class CombineFunction extends FHIRPathAbstractFunction {
     @Override
     public int getMaxArity() {
         return 1;
+    }
+    
+    @Override
+    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        Collection<FHIRPathNode> combined = new ArrayList<>(context);
+        combined.addAll(arguments.get(0));
+        return combined;
     }
 }

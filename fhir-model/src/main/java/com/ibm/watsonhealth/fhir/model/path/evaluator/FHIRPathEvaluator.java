@@ -119,6 +119,7 @@ public class FHIRPathEvaluator {
     }
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {        
+        private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
         private static final String SYSTEM_NAMESPACE = "System";
 
         private final Collection<FHIRPathNode> initialContext;
@@ -136,8 +137,24 @@ public class FHIRPathEvaluator {
                     externalConstantMap.put("resource", this.initialContext);
                 }
             }
+            externalConstantMap.put("ucum", singleton(stringValue(UCUM_SYSTEM)));
         }
         
+        private Collection<FHIRPathNode> all(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "all");
+            }
+            ExpressionContext criteria = arguments.get(0);
+            for (FHIRPathNode node : getCurrentContext()) {
+                pushContext(singleton(node));
+                if (!getBoolean(visit(criteria))) {
+                    return SINGLETON_FALSE;
+                }
+                popContext();
+            }
+            return SINGLETON_TRUE;
+        }
+
         private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "as");
@@ -146,8 +163,8 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> result = empty();
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             if (isSingleton(currentContext)) {
-                String qualifiedIdentifier = typeName.getText();
-                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+                String identifier = typeName.getText();
+                FHIRPathType type = FHIRPathType.from(identifier);
                 if (type != null) {
                     FHIRPathNode node = getSingleton(currentContext);
                     if (SYSTEM_NAMESPACE.equals(type.namespace()) && 
@@ -191,6 +208,21 @@ public class FHIRPathEvaluator {
             return empty();
         }
         
+        private Collection<FHIRPathNode> iff(List<ExpressionContext> arguments) {
+            if (arguments.size() < 2 || arguments.size() > 3) {
+                throw unexpectedNumberOfArguments(arguments.size(), "iff");
+            }
+            // criterion
+            if (getBoolean(visit(arguments.get(0)))) {
+                // true-result
+                return visit(arguments.get(1));
+            } else if (arguments.size() == 3) {
+                // otherwise-result (optional)
+                return visit(arguments.get(2));
+            }
+            return empty();
+        }
+
         private Collection<FHIRPathNode> is(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "is");
@@ -198,8 +230,8 @@ public class FHIRPathEvaluator {
             ExpressionContext typeName = arguments.get(0);
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             if (isSingleton(currentContext)) {
-                String qualifiedIdentifier = typeName.getText();
-                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+                String identifier = typeName.getText();
+                FHIRPathType type = FHIRPathType.from(identifier);
                 if (type != null) {
                     FHIRPathNode node = getSingleton(currentContext);
                     if (type.isAssignableFrom(node.type())) {
@@ -208,6 +240,29 @@ public class FHIRPathEvaluator {
                 }
             }
             return SINGLETON_FALSE;
+        }
+
+        private Collection<FHIRPathNode> ofType(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "ofType");
+            }
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            ExpressionContext typeName = arguments.get(0);
+            String identifier = typeName.getText();
+            FHIRPathType type = FHIRPathType.from(identifier);
+            if (type != null) {
+                for (FHIRPathNode node : getCurrentContext()) {
+                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && 
+                            node.isElementNode() && 
+                            node.asElementNode().hasValue()) {
+                        node = node.asElementNode().getValue();
+                    }
+                    if (type.isAssignableFrom(node.type())) {
+                        result.add(node);
+                    }
+                }
+            }
+            return result;
         }
 
         private Collection<FHIRPathNode> popContext() {
@@ -977,14 +1032,23 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             
             switch (functionName) {
+            case "all":
+                result = all(arguments);
+                break;
             case "as":
                 result = as(arguments);
                 break;   
             case "exists":
                 result = exists(arguments);
                 break;
+            case "iff":
+                result = iff(arguments);
+                break;
             case "is":
                 result = is(arguments);
+                break;
+            case "ofType":
+                result = ofType(arguments);
                 break;
             case "select":
                 result = select(arguments);

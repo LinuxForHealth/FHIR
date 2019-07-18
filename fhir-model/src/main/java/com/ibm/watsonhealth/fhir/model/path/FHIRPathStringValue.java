@@ -28,8 +28,48 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         return string;
     }
     
-    public FHIRPathStringValue concat(FHIRPathStringValue node) {
-        return stringValue(string.concat(node.string()));
+    public FHIRPathStringValue concat(FHIRPathStringValue value) {
+        return stringValue(string.concat(value.string()));
+    }
+    
+    public boolean startsWith(FHIRPathStringValue prefix) {
+        return string.startsWith(prefix.string());
+    }
+    
+    public boolean endsWith(FHIRPathStringValue suffix) {
+        return string.endsWith(suffix.string());
+    }
+    
+    public FHIRPathStringValue replace(FHIRPathStringValue pattern, FHIRPathStringValue substitution) {
+        return stringValue(string.replace(pattern.string(), substitution.string()));
+    }
+    
+    public boolean matches(FHIRPathStringValue regex) {
+        return string.matches(regex.string());
+    }
+    
+    public FHIRPathStringValue replaceMatches(FHIRPathStringValue regex, FHIRPathStringValue substitution) {
+        return stringValue(string.replaceAll(regex.string(), substitution.string()));
+    }
+    
+    public FHIRPathStringValue substring(int start) {
+        return stringValue(string.substring(start));
+    }
+    
+    public FHIRPathStringValue substring(int start, int length) {
+        return stringValue(string.substring(start, length > string.length() ? string.length() : length));
+    }
+    
+    public int length() {
+        return string.length();
+    }
+    
+    public FHIRPathStringValue lower() {
+        return stringValue(string.toLowerCase());
+    }
+    
+    public FHIRPathStringValue upper() {
+        return stringValue(string.toUpperCase());
     }
     
     public static FHIRPathStringValue stringValue(String string) {

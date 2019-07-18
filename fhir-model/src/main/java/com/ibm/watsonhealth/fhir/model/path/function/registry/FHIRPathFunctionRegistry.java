@@ -48,7 +48,6 @@ import com.ibm.watsonhealth.fhir.model.path.function.MatchesFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.MemberOfFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.NotFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.NowFunction;
-import com.ibm.watsonhealth.fhir.model.path.function.OfTypeFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.ReplaceFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.ReplaceMatchesFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.ResolveFunction;
@@ -134,7 +133,6 @@ public class FHIRPathFunctionRegistry {
         register(new MemberOfFunction());
         register(new NotFunction());
         register(new NowFunction());
-        register(new OfTypeFunction());
         register(new ReplaceFunction());
         register(new ReplaceMatchesFunction());
         register(new ResolveFunction());

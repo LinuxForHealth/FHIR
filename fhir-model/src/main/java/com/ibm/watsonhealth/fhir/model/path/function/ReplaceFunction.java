@@ -6,6 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
+
+import java.util.Collection;
+import java.util.List;
+
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+
 public class ReplaceFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
@@ -20,5 +28,10 @@ public class ReplaceFunction extends FHIRPathAbstractFunction {
     @Override
     public int getMaxArity() {
         return 2;
+    }
+    
+    @Override
+    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        return singleton(getStringValue(context).replace(getStringValue(arguments.get(0)), getStringValue(arguments.get(1))));
     }
 }

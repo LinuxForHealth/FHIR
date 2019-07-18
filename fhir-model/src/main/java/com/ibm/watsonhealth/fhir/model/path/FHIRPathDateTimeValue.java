@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Objects;
@@ -21,6 +22,10 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     @Override
     public boolean isDateTimeValue() {
         return true;
+    }
+    
+    public boolean isPartial() {
+        return !(dateTime instanceof ZonedDateTime);
     }
     
     public TemporalAccessor dateTime() {

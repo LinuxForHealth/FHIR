@@ -75,11 +75,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            java.lang.String path = null;
-            if (visitor != null) {
-                path = visitor.getPath();
-            }
-            throw new FHIRGeneratorException(e.getMessage(), path, e);
+            throw new FHIRGeneratorException(e.getMessage(), visitor != null ? visitor.getPath() : null, e);
         }
     }
 
@@ -91,11 +87,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            java.lang.String path = null;
-            if (visitor != null) {
-                path = visitor.getPath();
-            }
-            throw new FHIRGeneratorException(e.getMessage(), path, e);
+            throw new FHIRGeneratorException(e.getMessage(), visitor != null ? visitor.getPath() : null, e);
         }
     }
     

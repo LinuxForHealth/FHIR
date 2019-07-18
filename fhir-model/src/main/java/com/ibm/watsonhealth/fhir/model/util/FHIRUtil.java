@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -103,11 +104,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uuid;
 
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-    /**
-     * https://www.hl7.org/fhir/dstu2/references.html#regex
-     */
-    public static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
-
+    public static final Pattern REST_PATTERN = buildRestPattern();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -161,11 +158,21 @@ public class FHIRUtil {
         Dosage.class));
 
     private FHIRUtil() { }
-
+    
     public static void init() {
         // allows us to initialize this class during startup
     }
-    
+
+    private static Pattern buildRestPattern() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
+        sb.append(Arrays.asList(ResourceType.ValueSet.values()).stream()
+            .map(v -> v.value())
+            .collect(Collectors.joining("|")));
+        sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
+        return Pattern.compile(sb.toString());
+    }
+
     public static boolean isStandardResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
     }

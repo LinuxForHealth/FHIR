@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.model.path.function;
 
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
-
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
 

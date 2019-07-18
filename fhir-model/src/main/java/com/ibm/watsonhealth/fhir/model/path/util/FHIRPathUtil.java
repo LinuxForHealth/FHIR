@@ -14,8 +14,11 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
@@ -30,8 +33,8 @@ public final class FHIRPathUtil {
         return eval(expr, singleton(node));
     }
 
-    public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> context) throws FHIRPathException {
-        return FHIRPathEvaluator.evaluator(expr).evaluate(context);
+    public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
+        return FHIRPathEvaluator.evaluator(expr).evaluate(initialContext);
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {
@@ -58,9 +61,9 @@ public final class FHIRPathUtil {
         return getPrimitiveValue(nodes).asTimeValue().time();
     }
     
-    public static boolean hasPrimitiveValue(Collection<FHIRPathNode> input) {
-        if (isSingleton(input)) {
-            FHIRPathNode node = getSingleton(input);
+    public static boolean hasPrimitiveValue(Collection<FHIRPathNode> nodes) {
+        if (isSingleton(nodes)) {
+            FHIRPathNode node = getSingleton(nodes);
             if (node.isPrimitiveValue()) {
                 return true;
             }
@@ -71,11 +74,11 @@ public final class FHIRPathUtil {
         return false;
     }
     
-    public static FHIRPathPrimitiveValue getPrimitiveValue(Collection<FHIRPathNode> input) {
-        if (!isSingleton(input)) {
+    public static FHIRPathPrimitiveValue getPrimitiveValue(Collection<FHIRPathNode> nodes) {
+        if (!isSingleton(nodes)) {
             throw new IllegalArgumentException();
         }
-        FHIRPathNode node = getSingleton(input);
+        FHIRPathNode node = getSingleton(nodes);
         if (node.isPrimitiveValue()) {
             return node.asPrimitiveValue();
         }
@@ -83,6 +86,30 @@ public final class FHIRPathUtil {
             return node.asElementNode().getValue();
         }
         throw new IllegalArgumentException();
+    }
+    
+    public static FHIRPathStringValue getStringValue(Collection<FHIRPathNode> nodes) {
+        return getPrimitiveValue(nodes).asStringValue();
+    }
+    
+    public static FHIRPathIntegerValue getIntegerValue(Collection<FHIRPathNode> nodes) {
+        return getPrimitiveValue(nodes).asNumberValue().asIntegerValue();
+    }
+    
+    public static FHIRPathBooleanValue getBooleanValue(Collection<FHIRPathNode> nodes) {
+        return getPrimitiveValue(nodes).asBooleanValue();
+    }
+    
+    public static boolean hasBooleanValue(Collection<FHIRPathNode> nodes) {
+        return hasPrimitiveValue(nodes) && getPrimitiveValue(nodes).isBooleanValue();
+    }
+    
+    public static boolean isTrue(Collection<FHIRPathNode> nodes) {
+        return getBooleanValue(nodes).isTrue();
+    }
+    
+    public static boolean isFalse(Collection<FHIRPathNode> nodes) {
+        return getBooleanValue(nodes).isFalse();
     }
 
     public static boolean isSingleton(Collection<FHIRPathNode> nodes) {
