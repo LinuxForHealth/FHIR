@@ -99,67 +99,76 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
-        digest.update(getPath().getBytes(StandardCharsets.UTF_8));
-        digest.update(value);
+        if (includePath()) {
+            digest.update(getPath().getBytes(StandardCharsets.UTF_8));
+            digest.update(value);
+        }
     }
     
     @Override
     public void visit(java.lang.String elementName, BigDecimal value) {
-        updateDigest(getPath(), value.toString());
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
 
     @Override
     public void visit(java.lang.String elementName, java.lang.Boolean value) {
-        updateDigest(getPath(), value.toString());
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
     
     @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        bb.putInt(value);
-        digest.update(bb);
+        if (includePath()) {
+            ByteBuffer bb = ByteBuffer.allocate(4);
+            bb.putInt(value);
+            digest.update(bb);
+        }
     }
 
     @Override
     public void visit(java.lang.String elementName, LocalDate value) {
-        updateDigest(getPath(), value.toString());
-        
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
     @Override
     public void visit(java.lang.String elementName, LocalTime value) {
-        updateDigest(getPath(), value.toString());
-        
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
     @Override
     public void visit(java.lang.String elementName, java.lang.String value) {
         // exclude the id and meta.versionId values from the fingerprint 
-        // because they are injected by FHIR.
-        String idName = currentResourceName + ".id";
-        String versionIdName = currentResourceName + ".meta.versionId";
-        String path = getPath();
-        if (!idName.equals(path) && !versionIdName.equals(path)) {
-            updateDigest(path, value.toString());
+        // because they are injected by FHIR. NOTE: startsWith is important
+        // because we need to ignore any extension fields which may be
+        // present
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
         }
         
     }
     @Override
     public void visit(java.lang.String elementName, Year value) {
-        updateDigest(getPath(), value.toString());
-        
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
     @Override
     public void visit(java.lang.String elementName, YearMonth value) {
-        updateDigest(getPath(), value.toString());
-        
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
+        }
     }
     @Override
     public void visit(java.lang.String elementName, ZonedDateTime value) {
         // Exclude the lastUpdated value from the fingerprint because this value
         // is injected by the FHIR persistence layer
-        String lastUpdatedName = currentResourceName + ".meta.lastUpdated";
-        String path = getPath();
-        if (!lastUpdatedName.equals(path)) {
-            updateDigest(path, value.toString());
+        if (includePath()) {
+            updateDigest(getPath(), value.toString());
         }
         
     }
@@ -172,5 +181,19 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     protected void updateDigest(String name, String value) {
         digest.update(name.getBytes(StandardCharsets.UTF_8));
         digest.update(value.getBytes(StandardCharsets.UTF_8));
+    }
+    
+    /**
+     * Test whether or not the current path value should be included in the fingerprint
+     * @param key
+     * @return
+     */
+    protected boolean includePath() {
+        String idName = currentResourceName + ".id";
+        String versionIdName = currentResourceName + ".meta.versionId";
+        String lastUpdatedName = currentResourceName + ".meta.lastUpdated";
+        String path = getPath();
+        return !path.startsWith(idName) && !path.startsWith(versionIdName) && !path.startsWith(lastUpdatedName);
+        
     }
 }
