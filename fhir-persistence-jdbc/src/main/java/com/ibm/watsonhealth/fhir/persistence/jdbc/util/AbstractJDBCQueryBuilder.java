@@ -12,9 +12,9 @@ import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 
 /**
  * This class extends AbstractQueryBuilder with methods shared by the 'basic' and 'normalized' schema implementations.

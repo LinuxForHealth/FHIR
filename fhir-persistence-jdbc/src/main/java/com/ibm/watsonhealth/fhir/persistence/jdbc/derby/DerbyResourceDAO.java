@@ -310,9 +310,12 @@ public class DerbyResourceDAO {
 
             // To keep things simple for the Derby use-case, we just use a visitor to
             // handle inserts of parameters directly in the resource parameter tables.
-            try (ParameterVisitorDAO pvd = new ParameterVisitorDAO(conn, tablePrefix, v_resource_id, parameterDAO)) {
-                for (Parameter p: parameters) {
-                    p.visit(pvd);
+            // Note we don't get any parameters for the resource soft-delete operation
+            if (parameters != null) {
+                try (ParameterVisitorDAO pvd = new ParameterVisitorDAO(conn, tablePrefix, v_resource_id, parameterDAO)) {
+                    for (Parameter p: parameters) {
+                        p.visit(pvd);
+                    }
                 }
             }
         }

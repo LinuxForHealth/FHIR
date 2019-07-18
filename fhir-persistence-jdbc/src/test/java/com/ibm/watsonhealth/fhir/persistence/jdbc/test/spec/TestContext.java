@@ -25,6 +25,9 @@ public class TestContext {
 	// The current persistence context used for controlling persistence API operations
 	private final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
 
+	// The current persistence context used for history operations
+	   private final Supplier<FHIRPersistenceContext> historyContextSupplier;
+
 	// The fingerprint of the original resource
 	private SaltHash originalFingerprint;
 	
@@ -34,9 +37,11 @@ public class TestContext {
 	/**
 	 * Initialize the context with the persistence API
 	 */
-	public TestContext(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier) {
+	public TestContext(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
+	    Supplier<FHIRPersistenceContext> historyContextSupplier) {
 		this.persistence = persistence;
 		this.persistenceContextSupplier = persistenceContextSupplier;
+		this.historyContextSupplier = historyContextSupplier;
 	}
 	
 	public Resource getResource() {
@@ -65,6 +70,15 @@ public class TestContext {
 	 */
 	public FHIRPersistenceContext createPersistenceContext() {
 		return this.persistenceContextSupplier.get();
+	}
+
+	/**
+	 * Getter for a new {@link FHIRPersistenceContext} configured for
+	 * history operations
+	 * @return
+	 */
+	public FHIRPersistenceContext createHistoryPersistenceContext() {
+	    return this.historyContextSupplier.get();
 	}
 	
 	public SaltHash getOriginalFingerprint() {

@@ -75,7 +75,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 

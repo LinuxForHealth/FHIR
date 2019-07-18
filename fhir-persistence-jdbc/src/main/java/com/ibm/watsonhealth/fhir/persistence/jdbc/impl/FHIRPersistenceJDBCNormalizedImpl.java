@@ -69,7 +69,7 @@ import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
 import com.ibm.watsonhealth.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**

@@ -6,14 +6,36 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import java.util.List;
 
-public class HistoryOperation implements ITestResourceOperation {
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+
+public class HistoryOperation extends BaseOperation {
+    
+    // the number of resource versions we expect to read from the database
+    final int expectedCount;
+    
+    public HistoryOperation(int expectedCount) {
+        this.expectedCount = expectedCount;
+    }
 
 
 	@Override
-	public void process(TestContext context) {
-		// TODO Auto-generated method stub
+	public void process(TestContext tc) throws FHIRPersistenceException {
+
+	    // history operations need a persistence context configured with a FHIRHistoryContext
+	    final FHIRPersistenceContext context = tc.createHistoryPersistenceContext();
+        final Resource resource = tc.getResource();
+        
+        final String logicalId = resource.getId().getValue();
+        
+        List<Resource> resources = tc.getPersistence().history(context, resource.getClass(), logicalId);
+        if (resources.size() != this.expectedCount) {
+            throw new AssertionError(resource.getClass().getSimpleName() + "/" + logicalId + " history returned "
+                + resources.size() + ", expected " + this.expectedCount);
+        }
 		
 	}
 

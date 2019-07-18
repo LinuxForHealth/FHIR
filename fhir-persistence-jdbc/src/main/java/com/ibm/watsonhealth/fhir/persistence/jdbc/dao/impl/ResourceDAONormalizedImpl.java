@@ -848,7 +848,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         }
         catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
-                throw new FHIRPersistenceVersionIdMismatchException("Encounterd version id mismatch while inserting Resource", e );
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource", e );
             }
             else {
                 throw new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.", e);

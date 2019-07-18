@@ -16,15 +16,17 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
  *
  */
 public class CreateOperation extends BaseOperation {
+
     @Override
     public void process(TestContext tc) throws FHIRPersistenceException {
         
-        final Resource resource = tc.getResource();
         final FHIRPersistenceContext context = tc.createPersistenceContext();
-        
+        final Resource resource = tc.getResource();
+
+        // This needs to be a new resource. If it's not, then the
+        // create will fail with a version id mismatch error
         Resource newResource = tc.getPersistence().create(context, resource);
         check(tc, resource, newResource, this.getClass().getSimpleName());
-
         
         // Update the context with the modified resource
         tc.setResource(newResource);

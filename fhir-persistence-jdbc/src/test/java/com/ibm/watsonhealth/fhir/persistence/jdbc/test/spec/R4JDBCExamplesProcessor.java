@@ -30,25 +30,35 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 	// The persistence API
 	final FHIRPersistence persistence;
 	
+	// supplier of FHIRPersistenceContext for normal create/update/delete ops
 	final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
+
+	// supplier of FHIRPersistenceContext for history operations
+    final Supplier<FHIRPersistenceContext> historyContextSupplier;
 	
 	
 	/**
 	 * Public constructor. Initializes the list of operations
 	 * @param persistence
 	 */
-	public R4JDBCExamplesProcessor(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier) {
+	public R4JDBCExamplesProcessor(FHIRPersistence persistence, 
+	    Supplier<FHIRPersistenceContext> persistenceContextSupplier,
+	    Supplier<FHIRPersistenceContext> historyContextSupplier) {
 		this.persistence = persistence;
 		this.persistenceContextSupplier = persistenceContextSupplier;
+		this.historyContextSupplier = historyContextSupplier;
 		
 		// The sequence of operations we want to apply to each resource
 		operations.add(new CreateOperation());
 		operations.add(new ReadOperation());
 		operations.add(new UpdateOperation());
+        operations.add(new UpdateOperation());
 		operations.add(new ReadOperation());
 		operations.add(new VReadOperation());
-		operations.add(new HistoryOperation());
+		operations.add(new HistoryOperation(3)); // create+update+update = 3 versions
 		operations.add(new DeleteOperation());
+        operations.add(new DeleteOperation());
+        operations.add(new HistoryOperation(4)); // create+update+update+delete = 4 versions
 	}
 	
 	/* (non-Javadoc)
@@ -59,7 +69,11 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
     	// Initialize the test context. As we run through the sequence of operations, each 
 	    // one will update the context which will then be used by the next operation
-    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier);
+    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier, this.historyContextSupplier);
+    	
+    	// Clear the id so that we can set it ourselves. The ids from the examples are reused
+    	// even though the resources are supposed to be different
+        resource = resource.toBuilder().id(null).build();
     	context.setResource(resource);
     	
     	// Compute a reference fingerprint of the resource before we perform

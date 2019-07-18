@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
@@ -99,10 +100,9 @@ public class R4ExamplesDriver {
             }
 
             // propagate the first exception so we fail the test
-            //	    	if (firstException != null) {
-            //	    	    throw firstException;
-            //	    	}
-
+	    	if (firstException != null) {
+	    	    throw firstException;
+	    	}
         }
         finally {
             if (testCount > 0) {
@@ -202,7 +202,7 @@ public class R4ExamplesDriver {
                 if (expectation == Expectation.VALIDATION) {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
-                    logger.severe("readResource(" + jsonFile + ") should've failed but didn't");
+                    logger.severe("validateResource(" + jsonFile + ") should've failed but didn't");
                     if (firstException == null) {
                         firstException = new FHIRParserException("Validation succeeded but should've failed", jsonFile, null);
                     }
@@ -256,7 +256,7 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // processing error, but didn't expect it
-                    logger.severe("processResource(" + jsonFile + ") unexpected failure: " + x.getMessage());
+                    logger.log(Level.SEVERE, "processResource(" + jsonFile + ") unexpected failure: ", x);
 
                     // continue processing the other files
                     if (firstException == null) {

@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.watsonhealth.fhir.search.SortParameter;
+import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.SortDirection;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.SortDirection;
 
 /**
  * This query builder class extends the base JDBCQueryBuilder, and provides support for sorting search results.

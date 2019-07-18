@@ -25,11 +25,12 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.ValueTypesUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Prefix;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Prefix;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -913,7 +914,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
             
             // If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
             // pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
-            if (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
+            if (ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
                 whereClauseSegment.append(tableAlias).append(VALUE_NUMBER_LOW)
                                   .append(JDBCOperator.LTE.value())
                                   .append(value.getValueNumber())

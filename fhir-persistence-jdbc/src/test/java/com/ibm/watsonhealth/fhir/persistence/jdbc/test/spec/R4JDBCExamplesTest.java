@@ -13,7 +13,9 @@ import org.testng.annotations.AfterClass;
 
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
@@ -32,7 +34,9 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     @Test(groups = { "jdbc-normalized" })
     public void perform() throws Exception {
     	
-    	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, () -> createPersistenceContext());
+    	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+    	    () -> createPersistenceContext(),
+    	    () -> createHistoryPersistenceContext());
     	
     	// The driver will iterate over all the JSON examples in the R4 specification, parse
     	// the resource and call the processor.
@@ -53,6 +57,21 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     		// because we're used as a lambda supplier, need to avoid a checked exception
     		throw new IllegalStateException(x);
     	}
+    }
+
+    /**
+     * Createa anew FHIRPersistenceContext configure with a FHIRHistoryContext
+     * @return
+     */
+    protected FHIRPersistenceContext createHistoryPersistenceContext() {
+        try {
+            FHIRHistoryContext fhc = FHIRPersistenceContextFactory.createHistoryContext();
+            return getPersistenceContextForHistory(fhc);
+        }
+        catch (Exception x) {
+            // because we're used as a lambda supplier, need to avoid a checked exception
+            throw new IllegalStateException(x);
+        }
     }
 
 	@Override

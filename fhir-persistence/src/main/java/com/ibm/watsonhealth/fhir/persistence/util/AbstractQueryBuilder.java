@@ -16,10 +16,10 @@ import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 
 /**
  * This class defines a reusable method structure and common functionality for a FHIR peristence query builder.

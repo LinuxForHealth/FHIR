@@ -11,11 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
-import com.ibm.watsonhealth.fhir.search.InclusionParameter;
+import com.ibm.watsonhealth.fhir.search.parameters.InclusionParameter;
 
 /**
  * This class assists the JDBCNormalizedQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query

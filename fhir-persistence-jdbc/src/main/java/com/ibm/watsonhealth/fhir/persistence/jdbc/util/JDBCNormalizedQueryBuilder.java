@@ -43,13 +43,14 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.ValueTypesUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Prefix;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Prefix;
 
 /**
  * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer.
@@ -111,7 +112,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
     public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
         try {
-            Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
+            Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(resourceType, queryParm.getName());
         
             return (valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Integer.class) ||
                     valueTypes.contains(UnsignedInt.class) ||
@@ -125,11 +126,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     
     public static final boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
         // TODO: handle decimal searches like a range search
-        return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
+        return (ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
     }
 
     public static final boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
-        Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(resourceType, queryParm.getName());
         // TODO: handle Date and partial DateTimes like a range search
         return valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) ||
                valueTypes.contains(DateTime.class) ||
@@ -137,7 +138,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     public static final boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception  {
-        return SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
+        return ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
     }
 
 

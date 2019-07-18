@@ -19,10 +19,8 @@ import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
-import java.util.Base64;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitorAdapter;
 
 /**
@@ -41,7 +39,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     // the salt we use for computing the hash
     private final byte[] salt;
     
-    // The current path as we traverse the model
+    // The name of the resource we first encounter
     private String currentResourceName;
     
     private final MessageDigest digest;
@@ -93,15 +91,12 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     }
     
     @Override
-    protected void doVisitStart(String elementName, Resource resource) {
-        this.currentResourceName = resource.getClass().getSimpleName();
+    protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
+        if (this.currentResourceName == null) {
+            this.currentResourceName = resource.getClass().getSimpleName();
+        }
     }
     
-    @Override
-    protected void doVisitStart(String elementName, Element element) {
-        // NOP
-    }
-
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
         digest.update(getPath().getBytes(StandardCharsets.UTF_8));

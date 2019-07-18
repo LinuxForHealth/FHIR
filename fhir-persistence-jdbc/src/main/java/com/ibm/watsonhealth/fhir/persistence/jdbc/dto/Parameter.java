@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Parameter table.
