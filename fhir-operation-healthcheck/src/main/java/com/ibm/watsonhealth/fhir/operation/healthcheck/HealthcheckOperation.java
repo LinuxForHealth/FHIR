@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.operation.healthcheck;
 
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
@@ -31,7 +31,7 @@ public class HealthcheckOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStreamReader in = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("healthcheck.json"))) {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("healthcheck.json")) {
             return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new Error(e);

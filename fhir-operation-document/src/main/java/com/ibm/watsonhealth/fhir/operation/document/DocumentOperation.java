@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.operation.document;
 
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +34,7 @@ import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
 public class DocumentOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try {
-            InputStreamReader in = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("document.json"));
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("document.json");){
             return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new Error(e);
