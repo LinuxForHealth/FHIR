@@ -26,8 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 
 public class KafkaNotificationTest extends FHIRServerTestBase {
 
@@ -51,7 +51,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
             }
         });
         thread.start();
-        
+
     }
 
     // method for setting up the kafka-consumer properties
@@ -81,7 +81,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
                     JSONObject myObject = new JSONObject(record.value());
                     String operationType = myObject.getString("operationType");
 
-                    if (operationType.equalsIgnoreCase("create")){
+                    if (operationType.equalsIgnoreCase("create")) {
                         createCounter = createCounter + 1;
                     }
                     if (operationType.equalsIgnoreCase("update")) {
@@ -138,7 +138,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
         // Create an updated Observation based on the original saved observation
         patientId = savedCreatedPatient.getId().getValue();
         observation = buildObservation(patientId, "Observation2.json");
-        observation.setId(savedCreatedObservation.getId());
+        observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
         obs = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
 
         // Call the 'update' API.
@@ -153,7 +153,5 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
         keepRunning = false;
 
     }
-    
-
 
 }

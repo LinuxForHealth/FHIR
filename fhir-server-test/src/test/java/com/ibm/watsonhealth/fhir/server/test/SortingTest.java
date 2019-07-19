@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -13,6 +14,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,14 +29,18 @@ import org.testng.annotations.Test;
 
 import com.google.common.collect.Ordering;
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.Coding;
-import com.ibm.watsonhealth.fhir.model.HumanName;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.ObservationComponent;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
+import com.ibm.watsonhealth.fhir.model.type.SortDirection;
 
 public class SortingTest extends FHIRServerTestBase {
     class Sorting{
@@ -57,7 +63,7 @@ public class SortingTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         
-        patient.setGender(objFactory.createCode().withValue("male"));
+        patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -79,7 +85,7 @@ public class SortingTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
         
-        patient.setGender(objFactory.createCode().withValue("male"));
+        patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -260,8 +266,8 @@ public class SortingTest extends FHIRServerTestBase {
         Patient patient;
                
         for(int i=0;i<bundle.getEntry().size();i++) {
-            if(bundle.getEntry().get(i).getResource().getPatient().getName() !=null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0) {
-                patient = bundle.getEntry().get(i).getResource().getPatient();
+            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0) {
+                patient = (Patient) bundle.getEntry().get(i).getResource();
                 // Since a patient can have multiple family names, we need to pick the right one to add to the list variable,
                 // whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
                 // the FIRST family name in the natural ordering to add to the list. 
@@ -285,15 +291,19 @@ public class SortingTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        Coding subsettedTag = FHIRUtil.coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED", "subsetted");
+        Coding subsettedTag = Coding.builder().system(Uri.of("http://hl7.org/fhir/v3/ObservationValue"))
+                .code(Code.of("SUBSETTED"))
+                .display(string("subsetted"))
+                .build();
+
         assertTrue(FHIRUtil.containsTag(bundle, subsettedTag)); 
         assertTrue(bundle.getEntry().size() > 1);
         List<String> list = new ArrayList<String>();
         Patient patient;
                
         for(int i=0;i<bundle.getEntry().size();i++) {
-            if(bundle.getEntry().get(i).getResource().getPatient().getName() !=null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0) {
-                patient = bundle.getEntry().get(i).getResource().getPatient();
+            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0) {
+                patient = (Patient) bundle.getEntry().get(i).getResource();
                 // Since a patient can have multiple family names, we need to pick the right one to add to the list variable,
                 // whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
                 // the FIRST family name in the natural ordering to add to the list. 
@@ -342,8 +352,8 @@ public class SortingTest extends FHIRServerTestBase {
         Patient patient;
                 
         for(int i=0;i<bundle.getEntry().size();i++){
-            if(bundle.getEntry().get(i).getResource().getPatient().getName() != null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0){
-                patient = bundle.getEntry().get(i).getResource().getPatient();
+            if(((Patient)bundle.getEntry().get(i).getResource()).getName() != null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0){
+                patient = (Patient)bundle.getEntry().get(i).getResource();
                 // Since a patient can have multiple family names, we need to pick the right one to add to the list variable,
                 // whose ordering will be checked later. Since we are sorting by family name descending, we need to pick
                 // the LAST family name in the natural ordering to add to the list. 
@@ -364,8 +374,8 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() > 1);
         List<String> list = new ArrayList<String>();
         for(int i=0;i<bundle.getEntry().size();i++){
-            if(bundle.getEntry().get(i).getResource().getPatient().getTelecom()!=null&&bundle.getEntry().get(i).getResource().getPatient().getTelecom().size()>0){
-                list.add(bundle.getEntry().get(i).getResource().getPatient().getTelecom().get(0).getValue().getValue());
+            if(((Patient) bundle.getEntry().get(i).getResource()).getTelecom()!=null&&((Patient)bundle.getEntry().get(i).getResource()).getTelecom().size()>0){
+                list.add(((Patient)bundle.getEntry().get(i).getResource()).getTelecom().get(0).getValue().getValue());
             }
         }
         assertTrue(Ordering.natural().isOrdered(list));
@@ -380,12 +390,14 @@ public class SortingTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
-        List<String> list = new ArrayList<String>();
+        List<java.time.Instant> list = new ArrayList<java.time.Instant>();
         for(int i=0;i<bundle.getEntry().size();i++){
-            if(bundle.getEntry().get(i).getResource().getPatient().getBirthDate()!=null){
-                list.add(bundle.getEntry().get(i).getResource().getPatient().getBirthDate().getValue());
+            if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate()!=null){
+                list.add(java.time.Instant.from(((Patient) bundle.getEntry()
+                        .get(i).getResource()).getBirthDate().getValue()));
             }
         }
+        
         assertTrue(Ordering.natural().reverse().isOrdered(list));
     }
     
@@ -399,21 +411,24 @@ public class SortingTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
         List<String> list = new ArrayList<String>();
-        String previousBirthDate=null, previousFamily=null;
+        String previousFamily=null;
+        Date previousBirthDate=null;
         
         //Check birthDate order first, and then check family name order.
         for(int i=0;i<bundle.getEntry().size();i++) {
-            if(bundle.getEntry().get(i).getResource().getPatient().getName() !=null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0) {
-                String currentFamily = this.getFamilyNames(bundle.getEntry().get(i).getResource().getPatient(), SortDirection.DESCENDING).get(0);
-                String currentBirthDate = null;
-                if(bundle.getEntry().get(i).getResource().getPatient().getBirthDate() != null) {
-                    currentBirthDate = bundle.getEntry().get(i).getResource().getPatient().getBirthDate().getValue();
+            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0) {
+                String currentFamily = this.getFamilyNames((Patient)bundle.getEntry().get(i).getResource(), SortDirection.DESCENDING).get(0);
+                Date currentBirthDate = null;
+                if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate() != null) {
+                    currentBirthDate = ((Patient)bundle.getEntry().get(i).getResource()).getBirthDate(); 
                 }
                 else{
                     currentBirthDate = null;
                 }
-                if(previousFamily != null && previousFamily.equals(currentFamily)){
-                    assertTrue(previousBirthDate == null || previousBirthDate.compareTo(currentBirthDate) <= 0);
+                if(previousFamily != null && previousFamily.equals(currentFamily)){  
+                   assertTrue(previousBirthDate == null || 
+                           (java.time.Instant.from(previousBirthDate.getValue())
+                                   .compareTo(java.time.Instant.from(currentBirthDate.getValue())) <= 0));
                 }
                 list.add(currentFamily);
                 
@@ -434,21 +449,24 @@ public class SortingTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
         List<String> list = new ArrayList<String>();
-        String previousBirthDate=null, previousFamily=null;
+        String previousFamily=null;
+        Date previousBirthDate=null;
         
         //Check birthDate order first, and then check family name order.
         for(int i=0;i<bundle.getEntry().size();i++){
-            if(bundle.getEntry().get(i).getResource().getPatient().getName() !=null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0){
-                String currentFamily = this.getFamilyNames(bundle.getEntry().get(i).getResource().getPatient(), SortDirection.DESCENDING).get(0);
-                String currentBirthDate = null;
-                if(bundle.getEntry().get(i).getResource().getPatient().getBirthDate() != null) {
-                    currentBirthDate = bundle.getEntry().get(i).getResource().getPatient().getBirthDate().getValue();
+            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0){
+                String currentFamily = this.getFamilyNames((Patient)bundle.getEntry().get(i).getResource(), SortDirection.DESCENDING).get(0);
+                Date currentBirthDate = null;
+                if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate() != null) {
+                    currentBirthDate = ((Patient)bundle.getEntry().get(i).getResource()).getBirthDate();
                 }
                 else{
                     currentBirthDate = null;
                 }
                 if(previousFamily != null && previousFamily.equals(currentFamily)) {
-                    assertTrue(previousBirthDate == null || previousBirthDate.compareTo(currentBirthDate) >= 0);
+                    assertTrue(previousBirthDate == null || 
+                            (java.time.Instant.from(previousBirthDate.getValue())
+                                    .compareTo(java.time.Instant.from(currentBirthDate.getValue())) >= 0));
                 }
                 list.add(currentFamily);
                 
@@ -472,9 +490,9 @@ public class SortingTest extends FHIRServerTestBase {
         List<BigDecimal> list = new ArrayList<BigDecimal>();
         
         for(int i=0;i<bundle.getEntry().size();i++) {
-                if(bundle.getEntry().get(i).getResource().getObservation().getComponent().size()>1) {
-                    ObservationComponent observationComponent = bundle.getEntry().get(i).getResource().getObservation().getComponent().get(1);
-                    list.add(observationComponent.getValueQuantity().getValue().getValue());
+                if(((Observation)bundle.getEntry().get(i).getResource()).getComponent().size()>1) {
+                    Observation.Component observationComponent = ((Observation)bundle.getEntry().get(i).getResource()).getComponent().get(1);
+                    list.add(((Quantity)observationComponent.getValue()).getValue().getValue());
                 }
         }
         assertTrue(Ordering.natural().isOrdered(list));
@@ -484,9 +502,7 @@ public class SortingTest extends FHIRServerTestBase {
         List<String> patientFamilyNameList = new ArrayList<>();
         
         for (HumanName patientName : patient.getName()) {
-            for (com.ibm.watsonhealth.fhir.model.String familyName : patientName.getFamily()) {
-                patientFamilyNameList.add(familyName.getValue());
-            }
+                patientFamilyNameList.add(patientName.getFamily().getValue());
         }
         Collections.sort(patientFamilyNameList);
         if (sortDirection.equals(SortDirection.DESCENDING)) {

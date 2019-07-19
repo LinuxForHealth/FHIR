@@ -11,8 +11,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.codeableConcept;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -28,12 +28,19 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleTypeList;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.Id;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,
@@ -75,7 +82,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         // Set an id on the patient.
-        patient.setId(getObjectFactory().createId().withValue("1"));
+        patient = patient.toBuilder().id(Id.of("1")).build();
         
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -87,7 +94,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreatePatientErrorInvalidResource() throws JAXBException {
         WebTarget target = getWebTarget();
-        Patient patient = getObjectFactory().createPatient();
+        Patient patient = Patient.builder().build();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -106,7 +113,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(patient);
         
         // Modify the patient.
-        patient.withGender(getObjectFactory().createCode().withValue("male"));
+        patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         
         // Next, update the patient and verify the response.
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
@@ -130,11 +137,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(patient);
         
         // Modify the patient.
-        patient
-            .withName(getObjectFactory().createHumanName()
-                .withGiven(getObjectFactory().createString().withValue("Jane"))
-                .withFamily(getObjectFactory().createString().withValue("Doe")))
-            .withGender(getObjectFactory().createCode().withValue("female"));
+        patient = patient.toBuilder()
+                .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
+                .gender(AdministrativeGender.FEMALE)
+                .build();
         
         // Next, update the patient and verify the response.
         String ifMatchValue = "W/\"" + patient.getMeta().getVersionId().getValue() + "\"";
@@ -162,11 +168,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(patient);
         
         // Modify the patient.
-        patient
-            .withName(getObjectFactory().createHumanName()
-                .withGiven(getObjectFactory().createString().withValue("Jane"))
-                .withFamily(getObjectFactory().createString().withValue("Doe")))
-            .withGender(getObjectFactory().createCode().withValue("female"));
+        patient = patient.toBuilder()
+                .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
+                .gender(AdministrativeGender.FEMALE)
+                .build();
         
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (no W/" and " surrounding version id).
@@ -192,11 +197,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(patient);
         
         // Modify the patient.
-        patient
-            .withName(getObjectFactory().createHumanName()
-                .withGiven(getObjectFactory().createString().withValue("Jane"))
-                .withFamily(getObjectFactory().createString().withValue("Doe")))
-            .withGender(getObjectFactory().createCode().withValue("female"));
+        patient = patient.toBuilder()
+                .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
+                .gender(AdministrativeGender.FEMALE)
+                .build();
         
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (no " around version id).
@@ -222,11 +226,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(patient);
         
         // Modify the patient.
-        patient
-            .withName(getObjectFactory().createHumanName()
-                .withGiven(getObjectFactory().createString().withValue("Jane"))
-                .withFamily(getObjectFactory().createString().withValue("Doe")))
-            .withGender(getObjectFactory().createCode().withValue("female"));
+        patient = patient.toBuilder()
+                .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
+                .gender(AdministrativeGender.FEMALE)
+                .build();
         
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (incorrect version #).
@@ -262,7 +265,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreateObservationErrorInvalidResource() throws JAXBException {
         WebTarget target = getWebTarget();
-        Observation observation = getObjectFactory().createObservation();
+        Observation observation = Observation.builder(null, null).build();
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -275,9 +278,12 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.
-        Observation observation = getObjectFactory().createObservation()
-                .withStatus(getObjectFactory().createObservationStatus().withValue(ObservationStatusList.FINAL))
-                .withCode(codeableConcept("http://ibm.com/system", "someCode"));
+        Observation observation = Observation.builder(ObservationStatus.FINAL, 
+                CodeableConcept.builder().coding(Coding.builder()
+                        .system(uri("http://ibm.com/system"))
+                        .code(Code.of("someCode")).build()).build())
+                .build();
+
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -290,7 +296,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.
-        Patient patient = getObjectFactory().createPatient();
+        Patient patient = Patient.builder().build();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -390,7 +396,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
         assertNotNull(bundle.getType());
         assertNotNull(bundle.getType().getValue());
-        assertEquals(BundleTypeList.HISTORY, bundle.getType().getValue());
+        assertEquals(BundleType.HISTORY.getValue(), bundle.getType().getValue());
 
         assertNotNull(bundle.getEntry());
         assertEquals(0, bundle.getEntry().size());
@@ -410,7 +416,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientByFamilyName() {
         WebTarget target = getWebTarget();
-        String familyName = savedPatient.getName().get(0).getFamily().get(0).getValue();
+        String familyName = savedPatient.getName().get(0).getFamily().getValue();
         Response response = target.path("Patient").queryParam("family", familyName).request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -418,7 +424,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         
         assertNotNull(bundle.getType());
         assertNotNull(bundle.getType().getValue());
-        assertEquals(BundleTypeList.SEARCHSET, bundle.getType().getValue());
+        assertEquals(BundleType.SEARCHSET.getValue(), bundle.getType().getValue());
         
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 1);
@@ -475,7 +481,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testConditionalCreateObservation() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         Observation obs = readResource(Observation.class, "Observation1.json");
-        obs.withSubject(objFactory.createReference().withReference(objFactory.createString().withValue(fakePatientRef)));
+        obs = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .build();
         
         // First conditional create should find no matches, so we should get back a 201.
         FHIRParameters ifNoneExistQuery = new FHIRParameters().searchParam("subject", fakePatientRef);
@@ -511,8 +519,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
         Observation obs = readResource(Observation.class, "Observation1.json");
-        obs.withSubject(objFactory.createReference().withReference(objFactory.createString().withValue(fakePatientRef)));
-        obs.withId(objFactory.createId().withValue(obsId));
+        obs = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .id(Id.of(obsId))
+                .build();
         
         // First conditional update should find no matches, so we should get back a 201.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);

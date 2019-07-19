@@ -6,11 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.client.test;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.contactPoint;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
 import static com.ibm.watsonhealth.fhir.client.FHIRRequestHeader.header;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.util.Properties;
 
@@ -28,18 +29,20 @@ import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
 import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.BundleRequest;
-import com.ibm.watsonhealth.fhir.model.BundleTypeList;
-import com.ibm.watsonhealth.fhir.model.Conformance;
-import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
-import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
-import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.ResourceContainer;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
+import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+//import com.ibm.watsonhealth.fhir.model.resource.Organization.Contact;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Patient.Contact;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
@@ -90,7 +93,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Response response = fhirEndpoint.path("metadata").request().get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
-        Conformance conf = response.readEntity(Conformance.class);
+        CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
         assertEquals(4, conf.getFormat().size());
@@ -107,7 +110,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         assertEquals(200, response.getStatus());
 
-        Conformance conf = response.getResource(Conformance.class);
+        CapabilityStatement conf = response.getResource(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
         assertEquals(4, conf.getFormat().size());
@@ -168,10 +171,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Patient patient = response.getResource(Patient.class);
         assertNotNull(patient);
 
-        // Next, add an additional contact phone number
-        patient = patient.withTelecom(
-            contactPoint(ContactPointSystemList.PHONE, "800-328-7448", ContactPointUseList.MOBILE));
-        
+        // Next, add an additional contact phone number       
+        patient = patient.toBuilder().contact(Contact.builder()
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
+                        .use(ContactPointUse.MOBILE)
+                        .value(string("800-328-7448")).build()).build()).build();      
+               
         String ifMatchValue = "W/\"" + patient.getMeta().getVersionId().getValue() + "\"";
 
         // Update the patient and then validate the response.
@@ -205,8 +210,10 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(patient);
 
         // Next, add an additional contact phone number
-        patient = patient.withTelecom(
-            contactPoint(ContactPointSystemList.PHONE, "408-400-7448", ContactPointUseList.WORK));
+        patient = patient.toBuilder().contact(Contact.builder()
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
+                        .use(ContactPointUse.WORK)
+                        .value(string("408-400-7448")).build()).build()).build();     
         
         JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
 
@@ -287,7 +294,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testHistoryPatientNoParams" })
     public void testHistoryPatientWithSince() throws Exception {
-        String since = updatedPatient.getMeta().getLastUpdated().getValue().toXMLFormat();
+        String since = updatedPatient.getMeta().getLastUpdated().getValue().toString();
         FHIRParameters parameters = new FHIRParameters().since(since);
         FHIRResponse response = client.history("Patient", updatedPatient.getId().getValue(), parameters);
         assertNotNull(response);
@@ -397,7 +404,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
         assertTrue(responseBundle.getEntry().size() > 0);
-        assertNotNull(responseBundle.getEntry().get(0).getResource().getPatient());
+        assertNotNull(responseBundle.getEntry().get(0).getResource());
     }
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientWithParamsBadRequest_preferStrict() throws Exception {
@@ -442,15 +449,16 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testBatch() throws Exception {
-        Bundle requestBundle = buildBundle(BundleTypeList.BATCH);
+        Bundle requestBundle = Bundle.builder(BundleType.BATCH).build();
+        
         // read
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
         // vread
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
         // search
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient?family=Doe&_count=3", null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         
         FHIRResponse response = client.batch(requestBundle);
         assertNotNull(response);
@@ -461,21 +469,21 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(responseBundle);
         assertNotNull(responseBundle.getEntry());
         assertEquals(4, responseBundle.getEntry().size());
-        assertEquals(BundleTypeList.BATCH_RESPONSE, responseBundle.getType().getValue());
+        assertEquals(BundleType.BATCH_RESPONSE.getValue(), responseBundle.getType().getValue());
     }
 
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testTransaction() throws Exception {
-        Bundle requestBundle = buildBundle(BundleTypeList.BATCH);
+        Bundle requestBundle = Bundle.builder(BundleType.BATCH).build();
         // read
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
         // vread
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
         // search
-        addRequestToBundle(requestBundle, HTTPVerbList.GET, "Patient?family=Doe&_count=3", null);
+        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         
         FHIRResponse response = client.transaction(requestBundle);
         assertNotNull(response);
@@ -486,35 +494,19 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(responseBundle);
         assertNotNull(responseBundle.getEntry());
         assertEquals(4, responseBundle.getEntry().size());
-        assertEquals(BundleTypeList.TRANSACTION_RESPONSE, responseBundle.getType().getValue());
-    }
-    private Bundle buildBundle(BundleTypeList bundleType) {
-        Bundle bundle = getObjectFactory().createBundle().withType(getObjectFactory().createBundleType().withValue(bundleType));
-        return bundle;
+        assertEquals(BundleType.TRANSACTION_RESPONSE.getValue(), responseBundle.getType().getValue());
     }
 
-    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, Resource resource) throws Exception {
-        BundleEntry entry = addRequestEntryToBundle(bundle);
-        BundleRequest request = entry.getRequest();
-        if (method != null) {
-            request.setMethod(getObjectFactory().createHTTPVerb().withValue(method));
-        }
-        if (url != null) {
-            request.setUrl(getObjectFactory().createUri().withValue(url));
-        }
+    private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
+          
+        Bundle.Entry.Request request = Bundle.Entry.Request.builder(method, Uri.of(url)).build();   
+        Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
+             
         if (resource != null) {
-            ResourceContainer container = getObjectFactory().createResourceContainer();
-            FHIRUtil.setResourceContainerResource(container, resource);
-            entry.setResource(container);
+            entryBuilder.resource(resource);
         }
 
-        return entry;
+        return bundle.toBuilder().entry(entryBuilder.build()).build();
     }
 
-    private BundleEntry addRequestEntryToBundle(Bundle bundle) {
-        BundleRequest request = getObjectFactory().createBundleRequest();
-        BundleEntry requestEntry = getObjectFactory().createBundleEntry().withRequest(request);
-        bundle.getEntry().add(requestEntry);
-        return requestEntry;
-    }
 }

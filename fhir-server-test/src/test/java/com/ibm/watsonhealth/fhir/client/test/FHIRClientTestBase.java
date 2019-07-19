@@ -20,28 +20,22 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
-import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * Base class for fhir-client TestNG tests.
  */
 public abstract class FHIRClientTestBase extends FHIRModelTestBase {
-    protected ObjectFactory objFactory = null;
     protected Properties testProperties = null;
     protected FHIRClient client = null;
     
     public FHIRClientTestBase() {
-        objFactory = new ObjectFactory();
     }
     
-    public ObjectFactory getObjectFactory() {
-        return objFactory;
-    }
 
     /**
      * Do one-time setup to enable tests to run.
@@ -83,15 +77,15 @@ public abstract class FHIRClientTestBase extends FHIRModelTestBase {
         // Make sure the OperationOutcomeIssue has a message containing 'msgPart'.
         assertNotNull(oo.getIssue());
         assertEquals(1, oo.getIssue().size());
-        OperationOutcomeIssue ooi = oo.getIssue().get(0);
+        Issue ooi = oo.getIssue().get(0);
         assertNotNull(ooi);
         assertNotNull(ooi.getCode());
         assertNotNull(ooi.getCode().getValue());
-        assertEquals(IssueTypeList.EXCEPTION, ooi.getCode().getValue());
+        assertEquals(IssueType.EXCEPTION.getValue(), ooi.getCode().getValue());
         
         assertNotNull(ooi.getSeverity());
         assertNotNull(ooi.getSeverity().getValue());
-        assertEquals(IssueSeverityList.FATAL, ooi.getSeverity().getValue());
+        assertEquals(IssueSeverity.FATAL.getValue(), ooi.getSeverity().getValue());
         
         assertNotNull(ooi.getDiagnostics());
         String msg = ooi.getDiagnostics().getValue();
@@ -112,14 +106,14 @@ public abstract class FHIRClientTestBase extends FHIRModelTestBase {
         boolean foundIt = false;
         assertNotNull(oo.getIssue());
         assertFalse(oo.getIssue().isEmpty());
-        for (OperationOutcomeIssue ooi : oo.getIssue()) {
+        for (Issue ooi : oo.getIssue()) {
             assertNotNull(ooi.getCode());
             assertNotNull(ooi.getCode().getValue());
-            assertEquals(IssueTypeList.INVALID, ooi.getCode().getValue());
-            
+            assertEquals(IssueType.INVALID.getValue(), ooi.getCode().getValue());
+                        
             assertNotNull(ooi.getSeverity());
             assertNotNull(ooi.getSeverity().getValue());
-            assertEquals(IssueSeverityList.ERROR, ooi.getSeverity().getValue());
+            assertEquals(IssueSeverity.ERROR.getValue(), ooi.getSeverity().getValue());
             
             assertNotNull(ooi.getDiagnostics());
             String msg = ooi.getDiagnostics().getValue();

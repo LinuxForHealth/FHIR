@@ -24,25 +24,27 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Id;
 
 /**
- * Tests specifically the concurrent creation and updating of a single patient, with the updateCreate feature enabled.
- * The idea is to ensure that no patients with duplicate logical ids are created.
- * This test class was created in response to Defect 259645.
+ * Tests specifically the concurrent creation and updating of a single patient,
+ * with the updateCreate feature enabled. The idea is to ensure that no patients
+ * with duplicate logical ids are created. This test class was created in
+ * response to Defect 259645.
  * 
- * NOTE: This test is NOT included in the fhir-server testng suite because of an internal problem with Derby that surfaces after the first
- * execution of this test against a clean Derby DB. Subsequent test runs of this class will fail with an XAException that has an unknown error code.
- * It should only be run against a DB2 database.
+ * NOTE: This test is NOT included in the fhir-server testng suite because of an
+ * internal problem with Derby that surfaces after the first execution of this
+ * test against a clean Derby DB. Subsequent test runs of this class will fail
+ * with an XAException that has an unknown error code. It should only be run
+ * against a DB2 database.
+ * 
  * @author markd
  *
  */
 public class ConcurrentUpdateTest extends FHIRServerTestBase {
-    private ObjectFactory objectFactory = new ObjectFactory();
-    
+
     @Test
     public void testConcurrentUpdateCreate() throws Exception {
         List<Callable<Patient>> concurrentUpdates = new ArrayList<>();
@@ -50,36 +52,38 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
         int maxThreads = 12;
         FHIRParameters parameters;
         FHIRResponse response;
-        
+
         if (this.isUpdateCreateSupported()) {
-        
+
             // Read a JSON Patient and set the id.
-               String patientLogicalId = UUID.randomUUID().toString(); 
-               Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
-               patient.setId(objectFactory.createId().withValue(patientLogicalId));
-            
-               // Initialize multi-thread Executor Service.
+            String patientLogicalId = UUID.randomUUID().toString();
+            Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
+            patient = patient.toBuilder().id(Id.of(patientLogicalId)).build();
+
+            // Initialize multi-thread Executor Service.
             ExecutorService executor = Executors.newFixedThreadPool(maxThreads);
-            
+
             // Prepare PatientUpdater instances for running each on its own thread.
             for (int i = 0; i < maxThreads; i++) {
                 concurrentUpdates.add(new PatientUpdater(patient));
             }
-            
+
             // Run each PatientUpdater on its own thread.
             futureResults = executor.invokeAll(concurrentUpdates);
             assertNotNull(futureResults);
-                    
-            // Search on the patient id, and see how many results we get. There should only be one.
+
+            // Search on the patient id, and see how many results we get. There should only
+            // be one.
             parameters = new FHIRParameters().searchParam("_id", patientLogicalId);
             response = client.search("Patient", parameters);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             Bundle searchResults = response.getResource(Bundle.class);
             assertEquals(1, searchResults.getEntry().size());
-            assertNotNull(searchResults.getEntry().get(0).getResource().getPatient());
-            assertEquals(patientLogicalId, searchResults.getEntry().get(0).getResource().getPatient().getId().getValue());
-            
-            // Pull the history on the patient id. There should be the same number of versions as the value of maxThreads.
+            assertNotNull(searchResults.getEntry().get(0).getResource());
+            assertEquals(patientLogicalId, searchResults.getEntry().get(0).getResource().getId().getValue());
+
+            // Pull the history on the patient id. There should be the same number of
+            // versions as the value of maxThreads.
             parameters = new FHIRParameters().count(maxThreads);
             response = client.history("Patient", patientLogicalId, parameters);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -87,12 +91,13 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
             assertNotNull(bundle);
             assertNotNull(bundle.getEntry());
             assertEquals(maxThreads, bundle.getEntry().size());
-            
-            // Make sure that the versions are in descending order, and that none are duplicates.
+
+            // Make sure that the versions are in descending order, and that none are
+            // duplicates.
             Integer previousVersionId = null;
             Integer versionId;
-            for (BundleEntry entry : bundle.getEntry()) {
-                Patient bundlePatient = entry.getResource().getPatient();
+            for (Bundle.Entry entry : bundle.getEntry()) {
+                Patient bundlePatient = (Patient) entry.getResource();
                 versionId = Integer.valueOf(bundlePatient.getMeta().getVersionId().getValue());
                 if (previousVersionId != null) {
                     assertTrue(previousVersionId > versionId);
@@ -101,16 +106,18 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
             }
         }
     }
-    
+
     /**
-     * This inner class invokes the FHIRClient update API for the Patient instance it encapsulates.
+     * This inner class invokes the FHIRClient update API for the Patient instance
+     * it encapsulates.
+     * 
      * @author markd
      *
      */
     private class PatientUpdater implements Callable<Patient> {
-        
+
         private Patient patient;
-        
+
         PatientUpdater(Patient newPatient) {
             this.patient = newPatient;
         }
@@ -118,11 +125,11 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
         @Override
         public Patient call() throws Exception {
             FHIRResponse response = client.update(this.patient);
-            boolean goodResponse = (response.getStatus() == Response.Status.OK.getStatusCode() ||
-                                    response.getStatus() == Response.Status.CREATED.getStatusCode());
+            boolean goodResponse = (response.getStatus() == Response.Status.OK.getStatusCode()
+                    || response.getStatus() == Response.Status.CREATED.getStatusCode());
             assertTrue(goodResponse);
             return this.patient;
         }
-    
+
     }
 }

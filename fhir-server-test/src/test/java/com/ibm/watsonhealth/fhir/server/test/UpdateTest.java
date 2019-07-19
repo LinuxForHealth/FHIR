@@ -17,8 +17,9 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.Id;
 
 /**
  * Tests the update operation.
@@ -26,7 +27,6 @@ import com.ibm.watsonhealth.fhir.model.Patient;
 public class UpdateTest extends FHIRServerTestBase {
     
     private Boolean updateCreateEnabled = null;
-    private ObjectFactory of = new ObjectFactory();
     
     private Patient savedUCPatient = null;
     
@@ -54,7 +54,7 @@ public class UpdateTest extends FHIRServerTestBase {
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
             Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-            patient.withId(of.createId().withValue(newId));
+            patient = patient.toBuilder().id(Id.of(newId)).build();
             
             // Create the new resource via the update operation.
             FHIRClient client = getFHIRClient();
@@ -82,8 +82,7 @@ public class UpdateTest extends FHIRServerTestBase {
         if (updateCreateEnabled.booleanValue()) {
             
             Patient patient = savedUCPatient;
-            
-            patient.setBirthDate(of.createDate().withValue("1986-06-20"));
+            patient = patient.toBuilder().birthDate(Date.of("1986-06-20")).build();
             
             // Update the resource that was previously created.
             FHIRClient client = getFHIRClient();
@@ -118,7 +117,7 @@ public class UpdateTest extends FHIRServerTestBase {
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
             Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-            patient.withId(of.createId().withValue(newId));
+            patient = patient.toBuilder().id(Id.of(newId)).build();
             
             // Call update for this new resource and make sure we get back an error.
             FHIRClient client = getFHIRClient();
@@ -159,7 +158,7 @@ public class UpdateTest extends FHIRServerTestBase {
             assertNotNull(createdPatient);
             
             // Update the patient.
-            createdPatient.setBirthDate(of.createDate().withValue("1987-10-09"));
+            createdPatient = createdPatient.toBuilder().birthDate(Date.of("1987-10-09")).build();
             
             response = client.update(createdPatient);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());

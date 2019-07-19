@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.junit.Assert.assertNull;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
@@ -28,37 +28,37 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.BundleRequest;
-import com.ibm.watsonhealth.fhir.model.BundleResponse;
-import com.ibm.watsonhealth.fhir.model.BundleTypeList;
-import com.ibm.watsonhealth.fhir.model.Extension;
-import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
-import com.ibm.watsonhealth.fhir.model.HumanName;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Organization;
-import com.ibm.watsonhealth.fhir.model.Parameters;
-import com.ibm.watsonhealth.fhir.model.ParametersParameter;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Practitioner;
-import com.ibm.watsonhealth.fhir.model.Reference;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.ResourceContainer;
-import com.ibm.watsonhealth.fhir.model.Uri;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Organization;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters.Parameter;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Practitioner;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 
 /**
  * This class tests 'batch' and 'transaction' interactions.
  */
 public class BundleTest extends FHIRServerTestBase {
-    // Set this to true to have the request and response bundles displayed on the console.
+    // Set this to true to have the request and response bundles displayed on the
+    // console.
     private boolean debug = false;
-    
-    // Set this to true to have the request and response bundles pretty printed on the console when debug = true
+
+    // Set this to true to have the request and response bundles pretty printed on
+    // the console when debug = true
     private boolean prettyPrint = true;
 
     // Variables used by the batch tests.
@@ -101,7 +101,8 @@ public class BundleTest extends FHIRServerTestBase {
     private static final String HEADER_EXTENSION_URL = "http://www.ibm.com/watsonhealth/fhir/extensions/http-request-header";
 
     /**
-     * Retrieve the server's conformance statement to determine the status of certain runtime options.
+     * Retrieve the server's conformance statement to determine the status of
+     * certain runtime options.
      * 
      * @throws Exception
      */
@@ -125,44 +126,40 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // We're specifically using an invalid bundle type because we want to
-        // verify that the server reports on the empty bundle condition before checking the bundle type.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH_RESPONSE);
+        // verify that the server reports on the empty bundle condition before checking
+        // the bundle type.
+        Bundle bundle = buildBundle(BundleType.BATCH_RESPONSE);
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
-            "Bundle parameter is missing or empty");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "Bundle parameter is missing or empty");
     }
 
     @Test(groups = { "batch" })
     public void testMissingBundleType() throws Exception {
         WebTarget target = getWebTarget();
 
-        Bundle bundle = getObjectFactory().createBundle();
-        BundleEntry entry = getObjectFactory().createBundleEntry();
-        bundle.getEntry().add(entry);
+        Bundle bundle = Bundle.builder(null).entry(Entry.builder().build()).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
-            "Missing required field: 'type'");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required field: 'type'");
     }
 
     @Test(groups = { "batch" })
     public void testIncorrectBundleType() throws Exception {
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH_RESPONSE);
-        BundleEntry entry = getObjectFactory().createBundleEntry();
-        bundle.getEntry().add(entry);
+        Bundle bundle = Bundle.builder(BundleType.BATCH_RESPONSE).entry(Entry.builder().build()).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
-            "Bundle.type must be either 'batch' or 'transaction'");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "Bundle.type must be either 'batch' or 'transaction'");
     }
 
     @Test(groups = { "batch" })
@@ -170,8 +167,7 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingRequestField";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        bundle.getEntry().add(getObjectFactory().createBundleEntry());
+        Bundle bundle = Bundle.builder(BundleType.BATCH).entry(Entry.builder().build()).build();
 
         printBundle(method, "request", bundle);
 
@@ -179,9 +175,10 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry is missing the 'request' field");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry is missing the 'request' field");
     }
 
     @Test(groups = { "batch" })
@@ -189,30 +186,32 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingMethod";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, null, null, null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, null, null, null, null);
 
         printBundle(method, "request", bundle);
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required field: 'method'");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "Missing required field: 'method'");
     }
 
     @Test(groups = { "batch" })
     public void testIncorrectMethod() throws Exception {
-        // If the "delete" operation is supported by the server, then we can't use DELETE 
+        // If the "delete" operation is supported by the server, then we can't use
+        // DELETE
         // to test out an incorrect method in a bundle request entry :)
         if (deleteSupported) {
             return;
         }
-        
+
         String method = "testIncorrectMethod";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, "placeholder", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, "placeholder", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -220,9 +219,10 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.request contains unsupported HTTP method");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry.request contains unsupported HTTP method");
     }
 
     @Test(groups = { "batch" })
@@ -230,8 +230,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingResource";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -239,9 +239,10 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource is required");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry.resource is required");
     }
 
     @Test(groups = { "batch" })
@@ -250,8 +251,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/123", null, patient);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/123", null, patient);
 
         printBundle(method, "request", bundle);
 
@@ -259,9 +260,10 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource not allowed");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry.resource not allowed");
     }
 
     @Test(groups = { "batch" })
@@ -269,8 +271,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingRequestURL";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, null, null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, null, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -285,8 +287,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingRequestURL";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/1/blah/2", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/1/blah/2", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -295,8 +297,9 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "Unrecognized path in request URL");
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Unrecognized path in request URL");
     }
 
     @Test(groups = { "batch" })
@@ -305,8 +308,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Patient patient = readResource(Patient.class, "InvalidPatient.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient);
 
         printBundle(method, "request", bundle);
 
@@ -315,10 +318,10 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "cvc-minLength-valid");
     }
-    
+
     @Test(groups = { "batch" })
     public void testInvalidBundle() throws Exception {
         WebTarget target = getWebTarget();
@@ -327,8 +330,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
-            "A 'Bundle' resource type is required but a 'Patient' resource type was sent.");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "A 'Bundle' resource type is required but a 'Patient' resource type was sent.");
     }
 
     @Test(groups = { "batch" })
@@ -337,8 +340,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, patient);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, patient);
 
         printBundle(method, "request", bundle);
 
@@ -347,8 +350,9 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "does not match type specified in request URI");
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "does not match type specified in request URI");
     }
 
     @Test(groups = { "batch" })
@@ -356,10 +360,13 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testInvalidSecondResource";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "InvalidPatient.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "InvalidPatient.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -368,7 +375,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 3);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), "cvc-minLength-valid");
         assertGoodPostPutResponse(responseBundle.getEntry().get(2), Status.CREATED.getStatusCode());
@@ -379,11 +386,13 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchCreates";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtizEncoding.json"));
-        
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtizEncoding.json"));
 
         printBundle(method, "request", bundle);
 
@@ -392,16 +401,15 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 3);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(2), Status.CREATED.getStatusCode());
-        
 
         // Save off the two patients for the update test.
-        patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientB2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
-        patientB3 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(2).getResource());
+        patientB1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientB2 = (Patient) responseBundle.getEntry().get(1).getResource();
+        patientB3 = (Patient) responseBundle.getEntry().get(2).getResource();
     }
 
     @Test(groups = { "batch" })
@@ -409,9 +417,11 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchCreatesForVersionAwareUpdates";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -420,13 +430,13 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
         // Save off the two patients for the update test.
-        patientBVA1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientBVA2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientBVA1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientBVA2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates" })
@@ -435,12 +445,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Make a small change to each patient.
-        patientB2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientB1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientB2 = patientB2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientB1 = patientB1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientB2.getId().getValue(), null, patientB2);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientB1.getId().getValue(), null, patientB1);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB2.getId().getValue(), null,
+                patientB2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId().getValue(), null,
+                patientB1);
 
         printBundle(method, "request", bundle);
 
@@ -449,15 +461,15 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
         locationB1 = responseBundle.getEntry().get(1).getResponse().getLocation().getValue();
-        
-        patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
-        patientB2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        
+
+        patientB1 = (Patient) responseBundle.getEntry().get(1).getResource();
+        patientB2 = (Patient) responseBundle.getEntry().get(0).getResource();
+
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreatesForVersionAwareUpdates" })
@@ -466,12 +478,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Make a small change to each patient.
-        patientBVA2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientBVA1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientBVA2 = patientBVA2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientBVA1 = patientBVA1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientBVA2.getId().getValue(), "W/\"1\"", patientBVA2);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientBVA1.getId().getValue(), "W/\"1\"", patientBVA1);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA2.getId().getValue(), "W/\"1\"",
+                patientBVA2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA1.getId().getValue(), "W/\"1\"",
+                patientBVA1);
 
         printBundle(method, "request", bundle);
 
@@ -480,7 +494,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
     }
@@ -492,24 +506,28 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
 
         // Make a small change to each patient.
-        patientVA2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientVA1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientVA2 = patientVA2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientVA1 = patientVA1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"", patientVA2);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"", patientVA1);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+                patientVA2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"",
+                patientVA1);
 
         printBundle(method, "request", bundle);
 
@@ -518,36 +536,42 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
+        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+                "If-Match version '1' does not match current latest version of resource: 2");
     }
 
-    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdatesVersionAware", "testBatchUpdatesVersionAwareError1" })
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdatesVersionAware",
+            "testBatchUpdatesVersionAwareError1" })
     public void testBatchUpdatesVersionAwareError2() throws Exception {
         String method = "testBatchUpdatesVersionAwareError2";
         WebTarget target = getWebTarget();
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
 
         // Make a small change to each patient.
-        patientVA2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientVA1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientVA2 = patientVA2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientVA1 = patientVA1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"1\"", patientVA2);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"", patientVA1);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"1\"",
+                patientVA2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"",
+                patientVA1);
 
         printBundle(method, "request", bundle);
 
@@ -556,37 +580,42 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 3");
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+                "If-Match version '1' does not match current latest version of resource: 3");
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
     }
 
-    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdatesVersionAware", "testBatchUpdatesVersionAwareError1",
-            "testBatchUpdatesVersionAwareError2" })
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdatesVersionAware",
+            "testBatchUpdatesVersionAwareError1", "testBatchUpdatesVersionAwareError2" })
     public void testBatchUpdatesVersionAwareError3() throws Exception {
         String method = "testBatchUpdatesVersionAwareError3";
         WebTarget target = getWebTarget();
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
 
         // Make a small change to each patient.
-        patientVA2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientVA1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientVA2 = patientVA2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientVA1 = patientVA1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"", patientVA2);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"", patientVA1);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+                patientVA2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"",
+                patientVA1);
 
         printBundle(method, "request", bundle);
 
@@ -595,9 +624,11 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '2' does not match current latest version of resource: 3");
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '2' does not match current latest version of resource: 3");
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+                "If-Match version '2' does not match current latest version of resource: 3");
+        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+                "If-Match version '2' does not match current latest version of resource: 3");
     }
 
     @Test(groups = { "batch" })
@@ -614,9 +645,9 @@ public class BundleTest extends FHIRServerTestBase {
         Patient p2 = readResource(Patient.class, "Patient_JohnDoe.json");
         setNewResourceId(p2);
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + p1.getId().getValue(), null, p1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + p2.getId().getValue(), null, p2);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId().getValue(), null, p1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId().getValue(), null, p2);
 
         printBundle(method, "request", bundle);
 
@@ -627,16 +658,17 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(responseBundle);
 
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
     }
 
     /**
-     * Generates a new ID for the specified resource and sets it within the resource.
+     * Generates a new ID for the specified resource and sets it within the
+     * resource.
      */
-    private void setNewResourceId(Resource resource) {
-        resource.withId(getObjectFactory().createId().withValue(UUID.randomUUID().toString()));
+    private Resource setNewResourceId(Resource resource) {
+        return resource.toBuilder().id(Id.of(UUID.randomUUID().toString())).build();
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -647,9 +679,9 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(locationB1);
 
         // Perform a 'read' and a 'vread'.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientB2.getId().getValue(), null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, locationB1, null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -658,7 +690,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
     }
@@ -669,8 +701,9 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Perform a 'read' and a 'vread'.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientB1.getId().getValue() + "/_history", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId().getValue() + "/_history",
+                null, null);
 
         printBundle(method, "request", bundle);
 
@@ -679,11 +712,11 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
     }
@@ -693,8 +726,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchSearch";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family=Ortiz&_count=100", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -703,11 +736,11 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
     }
@@ -717,12 +750,13 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchSearch";
         WebTarget target = getWebTarget();
 
-        //input should encode actual values, not encode the separators
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family:exact=Ortiz%26Jeter&_count=1000", null, null); //issue 266
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family:exact=Ortiz&Jeter&_count=1000", null, null);
+        // input should encode actual values, not encode the separators
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family:exact=Ortiz%26Jeter&_count=1000", null,
+                null); // issue 266
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family:exact=Ortiz&Jeter&_count=1000", null,
+                null);
 
-        
         printBundle(method, "request", bundle);
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
@@ -730,46 +764,45 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
-        
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
         Bundle resultSet;
-        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());      
+        resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() >= 1);
-        
-        List<Resource> lstRes = new ArrayList<Resource>();   
-        for (BundleEntry entry : resultSet.getEntry()) {
-			lstRes.add(FHIRUtil.getResourceContainerResource(entry.getResource()));
-		}
-        //B1 is Ortiz, B3 is Ortiz&Jeter
+
+        List<Resource> lstRes = new ArrayList<Resource>();
+        for (Bundle.Entry entry : resultSet.getEntry()) {
+            lstRes.add(entry.getResource());
+        }
+        // B1 is Ortiz, B3 is Ortiz&Jeter
         assertNotNull(findResourceInResponse(patientB3, lstRes));
         assertNull(findResourceInResponse(patientB1, lstRes));
-                
-        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());      
+
+        resultSet = (Bundle) responseBundle.getEntry().get(1).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() >= 1);
-        
-        lstRes = new ArrayList<Resource>();   
-        for (BundleEntry entry : resultSet.getEntry()) {
-			lstRes.add(FHIRUtil.getResourceContainerResource(entry.getResource()));
-		}
+
+        lstRes = new ArrayList<Resource>();
+        for (Bundle.Entry entry : resultSet.getEntry()) {
+            lstRes.add(entry.getResource());
+        }
         assertNotNull(findResourceInResponse(patientB1, lstRes));
         assertNull(findResourceInResponse(patientB3, lstRes));
-        
+
     }
-    
-    
+
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchPostSearch() throws Exception {
         String method = "testBatchPostSearch";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/_search?family=Ortiz&_count=100", null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient/_search?family=Ortiz&_count=100", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -778,23 +811,24 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
-        assertNotNull(resultSet.getEntry().get(0).getResource().getPatient());
+        assertNotNull(resultSet.getEntry().get(0).getResource());
     }
-    
+
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchSearchAll() throws Exception {
         String method = "testBatchSearchAll";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "_search?_id=" + patientB1.getId().getValue(), null, null);
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "_search?_id=" + patientB1.getId().getValue(), null,
+                null);
 
         printBundle(method, "request", bundle);
 
@@ -803,16 +837,16 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() == 1);
-        assertNotNull(resultSet.getEntry().get(0).getResource().getPatient());
+        assertNotNull(resultSet.getEntry().get(0).getResource());
     }
-    
+
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchCompartmentSearch() throws Exception {
         String method = "testBatchCompartmentSearch";
@@ -824,10 +858,12 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Perform a compartment type search.
-        // When JPA is configured for persistence, the request completes normally and no results are returned.
-        // When Cloudant is configured for persistence, a 400 http status code is returned.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/-999/Observation", null, null);
+        // When JPA is configured for persistence, the request completes normally and no
+        // results are returned.
+        // When Cloudant is configured for persistence, a 400 http status code is
+        // returned.
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/-999/Observation", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -836,11 +872,11 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() == 0);
     }
@@ -851,19 +887,22 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Perform a mixture of request types.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
         // create
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
         // update
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientB1.getId().getValue(), null, patientB1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId().getValue(), null,
+                patientB1);
         // read
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientB2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId().getValue(), null, null);
         // vread
-        addRequestToBundle(bundle, HTTPVerbList.GET, locationB1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
         // history
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientB1.getId().getValue() + "/_history", null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId().getValue() + "/_history",
+                null, null);
         // search
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family=Ortiz&_count=100", null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -872,7 +911,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 6);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
@@ -883,16 +922,16 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle resultSet;
 
         // Verify the history results.
-        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(4).getResource());
+        resultSet = (Bundle) responseBundle.getEntry().get(4).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 2);
 
         // Verify the search results.
-        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(5).getResource());
+        resultSet = (Bundle) responseBundle.getEntry().get(5).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() >= 1);
-        
-        patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+
+        patientB1 = (Patient) responseBundle.getEntry().get(1).getResource();
 
     }
 
@@ -909,15 +948,18 @@ public class BundleTest extends FHIRServerTestBase {
         // Create a patient with a UUID for the family name.
         // We do this so that we can verify whether or not the patient exists
         // in the datastore without worrying about overlaps with other patient names.
-        // We'll load in an existing patient mock data file, then just change the family name to be unique.
+        // We'll load in an existing patient mock data file, then just change the family
+        // name to be unique.
         Patient patient1 = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        String uniqueFamily1 = setUniqueFamilyName(patient1);
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
         Patient patient2 = readResource(Patient.class, "Patient_JohnDoe.json");
-        String uniqueFamily2 = setUniqueFamilyName(patient2);
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient1);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient2);
 
         printBundle(method, "request", bundle);
 
@@ -926,7 +968,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
@@ -934,8 +976,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, uniqueFamily2, 1);
 
         // Save off the two patients for the update test.
-        patientT1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientT2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientT1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientT2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
     @Test(groups = { "transaction" })
@@ -951,15 +993,18 @@ public class BundleTest extends FHIRServerTestBase {
         // Create a patient with a UUID for the family name.
         // We do this so that we can verify whether or not the patient exists
         // in the datastore without worrying about overlaps with other patient names.
-        // We'll load in an existing patient mock data file, then just change the family name to be unique.
+        // We'll load in an existing patient mock data file, then just change the family
+        // name to be unique.
         Patient patient1 = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        String uniqueFamily1 = setUniqueFamilyName(patient1);
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
         Patient patient2 = readResource(Patient.class, "Patient_JohnDoe.json");
-        String uniqueFamily2 = setUniqueFamilyName(patient2);
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient1);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient2);
 
         printBundle(method, "request", bundle);
 
@@ -968,7 +1013,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
@@ -976,8 +1021,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, uniqueFamily2, 1);
 
         // Save off the two patients for the update test.
-        patientTVA1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientTVA2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientTVA1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientTVA2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates" })
@@ -991,12 +1036,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientT1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientT2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientT1.getName().get(0).getFamily().getValue();
+        String family2 = patientT2.getName().get(0).getFamily().getValue();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientT1.getId().getValue(), null, patientT1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientT2.getId().getValue(), null, patientT2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+                patientT1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId().getValue(), null,
+                patientT2);
 
         printBundle(method, "request", bundle);
 
@@ -1005,7 +1052,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
@@ -1029,12 +1076,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientTVA1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientTVA2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientTVA1.getName().get(0).getFamily().getValue();
+        String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"", patientTVA1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"", patientTVA2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"",
+                patientTVA1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+                patientTVA2);
 
         printBundle(method, "request", bundle);
 
@@ -1043,7 +1092,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
@@ -1066,28 +1115,32 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientTVA2);
-        Response res1 = target.path("Patient/" + patientTVA2.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res1 = target.path("Patient/" + patientTVA2.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientTVA1);
-        Response res2 = target.path("Patient/" + patientTVA1.getId().getValue()).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response res2 = target.path("Patient/" + patientTVA1.getId().getValue())
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientVA1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientVA2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientVA1.getName().get(0).getFamily().getValue();
+        String family2 = patientVA2.getName().get(0).getFamily().getValue();
 
         // Make a small change to each patient.
-        patientVA2.setActive(getObjectFactory().createBoolean().withValue(Boolean.TRUE));
-        patientVA1.setActive(getObjectFactory().createBoolean().withValue(Boolean.FALSE));
+        patientVA2 = patientVA2.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build();
+        patientVA1 = patientVA1.toBuilder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"", patientVA1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"", patientVA2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"",
+                patientVA1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+                patientVA2);
 
         printBundle(method, "request", bundle);
 
@@ -1096,9 +1149,10 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+                "If-Match version '1' does not match current latest version of resource: 2");
+
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
@@ -1106,7 +1160,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
     }
 
-    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware", "testTransactionUpdatesVersionAwareError1" })
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware",
+            "testTransactionUpdatesVersionAwareError1" })
     public void testTransactionUpdatesVersionAwareError2() throws Exception {
         String method = "testTransactionUpdatesVersionAwareError2";
         assertNotNull(transactionSupported);
@@ -1117,12 +1172,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientTVA1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientTVA2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientTVA1.getName().get(0).getFamily().getValue();
+        String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"2\"", patientTVA1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"", patientTVA2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"2\"",
+                patientTVA1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+                patientTVA2);
 
         printBundle(method, "request", bundle);
 
@@ -1131,9 +1188,10 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+                "If-Match version '1' does not match current latest version of resource: 2");
+
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
@@ -1141,7 +1199,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
     }
 
-    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware", "testTransactionUpdatesVersionAwareError2" })
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware",
+            "testTransactionUpdatesVersionAwareError2" })
     public void testTransactionUpdatesVersionAwareError3() throws Exception {
         String method = "testTransactionUpdatesVersionAwareError3";
         assertNotNull(transactionSupported);
@@ -1152,12 +1211,14 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientTVA1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientTVA2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientTVA1.getName().get(0).getFamily().getValue();
+        String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"", patientTVA1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"", patientTVA2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"",
+                patientTVA1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+                patientTVA2);
 
         printBundle(method, "request", bundle);
 
@@ -1166,11 +1227,15 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
-        boolean foundError = assertOptionalBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        foundError = foundError || assertOptionalBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
+        boolean foundError = assertOptionalBadResponse(responseBundle.getEntry().get(0),
+                Status.CONFLICT.getStatusCode(),
+                "If-Match version '1' does not match current latest version of resource: 2");
+        foundError = foundError
+                || assertOptionalBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+                        "If-Match version '1' does not match current latest version of resource: 2");
         assertTrue(foundError);
-        
+
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
@@ -1197,9 +1262,9 @@ public class BundleTest extends FHIRServerTestBase {
         Patient p2 = readResource(Patient.class, "Patient_JohnDoe.json");
         setNewResourceId(p2);
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + p1.getId().getValue(), null, p1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + p2.getId().getValue(), null, p2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId().getValue(), null, p1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId().getValue(), null, p2);
 
         printBundle(method, "request", bundle);
 
@@ -1210,7 +1275,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(responseBundle);
 
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
     }
@@ -1228,18 +1293,22 @@ public class BundleTest extends FHIRServerTestBase {
         // Create a patient with a UUID for the family name.
         // We do this so that we can verify whether or not the patient exists
         // in the datastore without worrying about overlaps with other patient names.
-        // We'll load in an existing patient mock data file, then just change the family name to be unique.
+        // We'll load in an existing patient mock data file, then just change the family
+        // name to be unique.
         Patient patient1 = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        String uniqueFamily1 = setUniqueFamilyName(patient1);
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
         Patient patient2 = readResource(Patient.class, "Patient_JohnDoe.json");
-        String uniqueFamily2 = setUniqueFamilyName(patient2);
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
         // Perform a bundled request that should fail.
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient1);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient1);
         // mismatch of URL and resource type
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, readResource(Patient.class, "Patient_JohnDoe.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient2);
 
         printBundle(method, "request", bundle);
 
@@ -1248,7 +1317,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
 
         assertSearchResults(target, uniqueFamily1, 0);
         assertSearchResults(target, uniqueFamily2, 0);
@@ -1265,14 +1334,17 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientT1.getName().get(0).getFamily().get(0).getValue();
-        String family2 = patientT2.getName().get(0).getFamily().get(0).getValue();
+        String family1 = patientT1.getName().get(0).getFamily().getValue();
+        String family2 = patientT2.getName().get(0).getFamily().getValue();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientT1.getId().getValue(), null, patientT1);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientT2.getId().getValue(), null, patientT2);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+                patientT1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId().getValue(), null,
+                patientT2);
         // This will cause a failure - url mismatch with resource type.
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Observation", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
 
         printBundle(method, "request", bundle);
 
@@ -1281,8 +1353,9 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
-        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource must contain an id field for a PUT operation");
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
+        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry.resource must contain an id field for a PUT operation");
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1302,19 +1375,21 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Perform a mixture of request types.
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // create
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
         // update
-        addRequestToBundle(bundle, HTTPVerbList.PUT, "Patient/" + patientT1.getId().getValue(), null, patientT1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+                patientT1);
         // read
-        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientT2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT2.getId().getValue(), null, null);
         // vread
-        addRequestToBundle(bundle, HTTPVerbList.GET, locationT1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationT1, null, null);
         // history
-//      addRequestToBundle(bundle, HTTPVerbList.GET, "Patient/" + patientT1.getId().getValue() + "/_history", null, null);
+//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT1.getId().getValue() + "/_history", null, null);
         // search
-//      addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family=Ortiz&_count=100", null, null);
+//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
         printBundle(method, "request", bundle);
 
@@ -1323,7 +1398,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
@@ -1350,19 +1425,20 @@ public class BundleTest extends FHIRServerTestBase {
         // 3 Observations each referencing its own Patient
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
 
         // Add 3 POST entries to create the Patient resources.
         for (int i = 1; i <= 3; i++) {
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
 
             Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-            HumanName newName = getObjectFactory().createHumanName().withFamily(getObjectFactory().createString().withValue("Doe_"
-                    + Integer.toString(i))).withGiven(getObjectFactory().createString().withValue("John"));
-            patient.getName().clear();
-            patient.withName(newName);
 
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+            HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
+                    .build();
+            List<HumanName> emptyList = new ArrayList<HumanName>();
+            patient = patient.toBuilder().name(emptyList).name(newName).build();
+
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
         }
 
         // Next, add 3 POST entries to create the Observation resources
@@ -1371,8 +1447,9 @@ public class BundleTest extends FHIRServerTestBase {
 
             // Create an Observation that will reference the Patient via a local reference.
             Observation obs = readResource(Observation.class, "Observation1.json");
-            obs.setSubject(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, obs);
+            obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
+
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
         }
 
         printBundle(method, "request", bundle);
@@ -1385,22 +1462,22 @@ public class BundleTest extends FHIRServerTestBase {
         printBundle(method, "response", responseBundle);
 
         // Verify that each resource was created as expected.
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 6);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
         for (int i = 0; i < 6; i++) {
             assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
         }
-        
+
         // Verify that each Observation correctly references its corresponding Patient.
         for (int i = 0; i < 3; i++) {
-            BundleEntry patientEntry = responseBundle.getEntry().get(i);
-            BundleEntry obsEntry = responseBundle.getEntry().get(i+3);
-            
+            Bundle.Entry patientEntry = responseBundle.getEntry().get(i);
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i + 3);
+
             // Retrieve the Patient's id from its response entry.
             String patientId = patientEntry.getResponse().getId();
             String expectedReference = "Patient/" + patientId;
 
             // Retrieve the resource from the request entry.
-            Resource resource = FHIRUtil.getResourceContainerResource(obsEntry.getResource());
+            Resource resource = obsEntry.getResource();
             assertTrue(resource instanceof Observation);
             Observation obs = (Observation) resource;
             assertNotNull(obs.getSubject());
@@ -1417,19 +1494,20 @@ public class BundleTest extends FHIRServerTestBase {
         // 3 Observations referencing the same patient
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
 
         String patientLocalRef = "urn:Patient_1";
 
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         // Next, add 3 POST entries to create the Observation resources
         for (int i = 1; i <= 3; i++) {
             // Create an Observation that will reference the Patient via a local reference.
             Observation obs = readResource(Observation.class, "Observation1.json");
-            obs.setSubject(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, obs);
+
+            obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
         }
 
         printBundle(method, "request", bundle);
@@ -1438,26 +1516,26 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        
+
         printBundle(method, "response", responseBundle);
-        
+
         // Verify that each resource was created as expected.
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         for (int i = 0; i < 4; i++) {
             assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
         }
-        
+
         // Verify that each Observation correctly references the Patient.
         for (int i = 1; i < 4; i++) {
-            BundleEntry patientEntry = responseBundle.getEntry().get(0);
-            BundleEntry obsEntry = responseBundle.getEntry().get(i);
-            
+            Bundle.Entry patientEntry = responseBundle.getEntry().get(0);
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i);
+
             // Retrieve the Patient's id from its response entry.
             String patientId = patientEntry.getResponse().getId();
             String expectedReference = "Patient/" + patientId;
 
             // Retrieve the resource from the request entry.
-            Resource resource = FHIRUtil.getResourceContainerResource(obsEntry.getResource());
+            Resource resource = obsEntry.getResource();
             assertTrue(resource instanceof Observation);
             Observation obs = (Observation) resource;
             assertNotNull(obs.getSubject());
@@ -1474,26 +1552,25 @@ public class BundleTest extends FHIRServerTestBase {
         // 3 PUTs (Observations) before 3 POSTs (Patients)
         String method = "testBatchLocalRefs3";
         WebTarget target = getWebTarget();
-        
+
         // Create 3 Observations via a bundled request.
         Observation[] newObservations = createObservations("Observation1.json", 3);
 
         // Create the request bundle.
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
 
         // Next, add 3 PUT entries to update the Observation resources.
         for (int i = 1; i <= 3; i++) {
-            Observation obs = newObservations[i-1];
-            
+            Observation obs = newObservations[i - 1];
+
             // Update the previously-created Observation to add a subject and extension.
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
-            obs.setSubject(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-            Extension ext = getObjectFactory().createExtension();
-            ext.setUrl(PATIENT_EXTENSION_URL);
-            ext.setValueReference(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-            obs.getExtension().add(ext);
+            obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build())
+                    .extension(Extension.builder(PATIENT_EXTENSION_URL)
+                            .value(Reference.builder().reference(string(patientLocalRef)).build()).build())
+                    .build();
 
-            addRequestToBundle(bundle, HTTPVerbList.PUT, "Observation/" + obs.getId().getValue(), null, obs);
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation/" + obs.getId().getValue(), null, obs);
         }
 
         // Add 3 POST entries to create the Patient resources.
@@ -1501,12 +1578,13 @@ public class BundleTest extends FHIRServerTestBase {
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
 
             Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-            HumanName newName = getObjectFactory().createHumanName().withFamily(getObjectFactory().createString().withValue("Doe_"
-                    + Integer.toString(i))).withGiven(getObjectFactory().createString().withValue("John"));
-            patient.getName().clear();
-            patient.withName(newName);
 
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+            HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
+                    .build();
+            List<HumanName> emptyList = new ArrayList<HumanName>();
+            patient = patient.toBuilder().name(emptyList).name(newName).build();
+
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
         }
 
         printBundle(method, "request", bundle);
@@ -1520,39 +1598,39 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Verify that each of the Observations was updated,
         // and that each of the Patients was created.
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 6);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
         for (int i = 0; i < 3; i++) {
             assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.OK.getStatusCode());
         }
         for (int i = 3; i < 6; i++) {
             assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
         }
-        
+
         // Verify that each Observation correctly references its corresponding Patient.
         for (int i = 0; i < 3; i++) {
-            BundleEntry obsEntry = responseBundle.getEntry().get(i);
-            BundleEntry patientEntry = responseBundle.getEntry().get(i+3);
-            
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i);
+            Bundle.Entry patientEntry = responseBundle.getEntry().get(i + 3);
+
             // Retrieve the Patient's id from its response entry.
             String patientId = patientEntry.getResponse().getId();
             String expectedReference = "Patient/" + patientId;
 
             // Retrieve the resource from the response entry.
-            Resource resource = FHIRUtil.getResourceContainerResource(obsEntry.getResource());
+            Resource resource = obsEntry.getResource();
             assertTrue(resource instanceof Observation);
             Observation obs = (Observation) resource;
-            
+
             // Verify the subject field.
             assertNotNull(obs.getSubject());
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
             assertEquals(expectedReference, actualReference);
-            
+
             // Verify the "related-patient" reference in the extension attribute.
             assertNotNull(obs.getExtension().get(0));
-            assertNotNull(obs.getExtension().get(0).getValueReference());
-            Reference extRef = obs.getExtension().get(0).getValueReference();
+            assertNotNull(obs.getExtension().get(0).getValue());
+            Reference extRef = (Reference) obs.getExtension().get(0).getValue();
             String actualExtReference = extRef.getReference().getValue();
             assertEquals(expectedReference, actualExtReference);
         }
@@ -1564,18 +1642,20 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchLocalRefsError1";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
 
-        // Add 2 POST entries to create the Patient resources but use duplicate fullUrl values.
+        // Add 2 POST entries to create the Patient resources but use duplicate fullUrl
+        // values.
         String patientLocalRef = "urn:Patient_X";
         for (int i = 1; i <= 2; i++) {
             Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-            HumanName newName = getObjectFactory().createHumanName().withFamily(getObjectFactory().createString().withValue("Doe_"
-                    + Integer.toString(i))).withGiven(getObjectFactory().createString().withValue("John"));
-            patient.getName().clear();
-            patient.withName(newName);
 
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+            HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
+                    .build();
+            List<HumanName> emptyList = new ArrayList<HumanName>();
+            patient = patient.toBuilder().name(emptyList).name(newName).build();
+
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
         }
 
         printBundle(method, "request", bundle);
@@ -1584,12 +1664,13 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        
+
         printBundle(method, "response", responseBundle);
-        
+
         // Verify that the first patient was created, and the second was not.
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), "Duplicate local identifier encountered in bundled request entry:");
+        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(),
+                "Duplicate local identifier encountered in bundled request entry:");
     }
 
     @Test(groups = { "batch" })
@@ -1598,18 +1679,19 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchLocalRefsError2";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
 
         String patientLocalRef = "urn:Patient_1";
 
-        // Add a POST entry to create an Observation that will reference the Patient via a local reference.
+        // Add a POST entry to create an Observation that will reference the Patient via
+        // a local reference.
         Observation obs = readResource(Observation.class, "Observation1.json");
-        obs.setSubject(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, obs);
+        obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
 
         // Add a POST entry to create the Patient.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         printBundle(method, "request", bundle);
 
@@ -1619,9 +1701,10 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = response.readEntity(Bundle.class);
 
         printBundle(method, "response", responseBundle);
-        
+
         // Verify that the observation request failed, and the patient request succeeded
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "is undefined in the request bundle");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "is undefined in the request bundle");
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
     }
 
@@ -1632,25 +1715,27 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionLocalRefs1";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
 
         // Add a POST entry to create the Organization.
         String orgLocalRef = "urn:Org_1";
         Organization org = readResource(Organization.class, "AcmeOrg.json");
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Organization", null, org, orgLocalRef);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Organization", null, org, orgLocalRef);
 
-        // Add a POST entry to create the Practitioner and make it reference the Organization.
+        // Add a POST entry to create the Practitioner.
         String practitionerLocalRef = "urn:Doctor_1";
         Practitioner doctor = readResource(Practitioner.class, "DrStrangelove.json");
-        doctor.getPractitionerRole().get(0).getManagingOrganization().setReference(getObjectFactory().createString().withValue(orgLocalRef));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Practitioner", null, doctor, practitionerLocalRef);
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Practitioner", null, doctor, practitionerLocalRef);
 
         // Next, add a POST entry to create the Patient.
         String patientLocalRef = "urn:uuid:" + UUID.randomUUID().toString();
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        patient.withCareProvider(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(practitionerLocalRef)));
-        patient.withManagingOrganization(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(orgLocalRef)));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+
+        patient = patient.toBuilder().managingOrganization(Reference.builder().reference(string(orgLocalRef)).build())
+                .generalPractitioner(Reference.builder().reference(string(practitionerLocalRef)).build()).build();
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         // Next, add 2 POST entries to create the Observation resources
         for (int i = 1; i <= 2; i++) {
@@ -1658,15 +1743,13 @@ public class BundleTest extends FHIRServerTestBase {
             Observation obs = readResource(Observation.class, "Observation1.json");
 
             // Set its "subject" field to reference the Patient.
-            obs.setSubject(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(patientLocalRef)));
-
             // Add an extension element that references the Organization
-            Extension ext = getObjectFactory().createExtension();
-            ext.setUrl(ORG_EXTENSION_URL);
-            ext.setValueReference(getObjectFactory().createReference().withReference(getObjectFactory().createString().withValue(orgLocalRef)));
-            obs.getExtension().add(ext);
+            obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build())
+                    .extension(Extension.builder(ORG_EXTENSION_URL)
+                            .value(Reference.builder().reference(string(orgLocalRef)).build()).build())
+                    .build();
 
-            addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, obs);
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
         }
 
         printBundle(method, "request", bundle);
@@ -1675,45 +1758,46 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        
+
         printBundle(method, "response", responseBundle);
-        
+
         // Verify that each resource was created as expected.
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 5);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 5);
         for (int i = 0; i < 5; i++) {
             assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
         }
-        
-        // Next, check each observation to make sure their local references were processed correctly.
+
+        // Next, check each observation to make sure their local references were
+        // processed correctly.
         for (int i = 3; i < 5; i++) {
-            BundleEntry orgEntry = responseBundle.getEntry().get(0);
-            BundleEntry patientEntry = responseBundle.getEntry().get(2);
-            BundleEntry obsEntry = responseBundle.getEntry().get(i);
-          
+            Bundle.Entry orgEntry = responseBundle.getEntry().get(0);
+            Bundle.Entry patientEntry = responseBundle.getEntry().get(2);
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i);
+
             // Retrieve the Organization's id from its response entry.
             String orgId = orgEntry.getResponse().getId();
             String expectedOrgReference = "Organization/" + orgId;
-            
+
             // Retrieve the Patient's id from its response entry.
             String patientId = patientEntry.getResponse().getId();
             String expectedPatientReference = "Patient/" + patientId;
 
             // Retrieve the resource from the request entry.
-            Resource resource = FHIRUtil.getResourceContainerResource(obsEntry.getResource());
+            Resource resource = obsEntry.getResource();
             assertTrue(resource instanceof Observation);
             Observation obs = (Observation) resource;
-            
+
             // Verify the Organization.subject field.
             assertNotNull(obs.getSubject());
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
             assertEquals(expectedPatientReference, actualReference);
-            
+
             // Verify the "org" reference in the extension attribute.
             assertNotNull(obs.getExtension().get(0));
-            assertNotNull(obs.getExtension().get(0).getValueReference());
-            Reference orgRef = obs.getExtension().get(0).getValueReference();
+            assertNotNull(obs.getExtension().get(0).getValue());
+            Reference orgRef = (Reference) obs.getExtension().get(0).getValue();
             String actualOrgReference = orgRef.getReference().getValue();
             assertEquals(expectedOrgReference, actualOrgReference);
         }
@@ -1725,20 +1809,19 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionLocalRefsError1";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
 
         // Add a POST entry to create a Patient
         String patientLocalRef = "urn:uuid:" + UUID.randomUUID().toString();
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient, patientLocalRef);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         // Add a POST entry to create an Observation resource
         // Create an Observation that will reference the Patient via a local reference.
         Observation obs = readResource(Observation.class, "Observation1.json");
-        obs.setSubject(
-            getObjectFactory().createReference()
-                .withReference(getObjectFactory().createString().withValue("urn:BAD_REFERENCE")));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Observation", null, obs);
+        obs = obs.toBuilder().subject(Reference.builder().reference(string("urn:BAD_REFERENCE")).build()).build();
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
 
         printBundle(method, "request", bundle);
 
@@ -1746,17 +1829,18 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
-        
+
         printBundle(method, "response", responseBundle);
-        
+
         // Verify that response bundle.
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
 
         // Verify that the observation request failed.
-        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), "is undefined in the request bundle");
+        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(),
+                "is undefined in the request bundle");
 
         // Verify that we cannot do a 'read' on the Patient.
-        BundleEntry patientEntry = responseBundle.getEntry().get(0);
+        Bundle.Entry patientEntry = responseBundle.getEntry().get(0);
         assertNotNull(patientEntry);
         String patientId = patientEntry.getResponse().getId();
         FHIRResponse apiResponse = client.read("Patient", patientId);
@@ -1769,9 +1853,11 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchCreatesForDelete";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -1780,16 +1866,16 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
         // Save off the two patients for the update test.
-        patientBD1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientBD2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientBD1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientBD2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
-    @Test(groups = { "batch" }, dependsOnMethods = {"testBatchCreatesForDelete"})
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreatesForDelete" })
     public void testBatchDeletes() throws Exception {
         if (!deleteSupported) {
             return;
@@ -1797,12 +1883,12 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchDeletes";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
         String url1 = "Patient/" + patientBD1.getId().getValue();
         String url2 = "Patient/" + patientBD2.getId().getValue();
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url1, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url2, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url2, null, patientBD2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, patientBD2);
 
         printBundle(method, "request", bundle);
 
@@ -1811,13 +1897,14 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 3);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource not allowed for BundleEntry with DELETE method.");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
+                "Bundle.Entry.resource not allowed for Bundle.Entry with DELETE method.");
     }
 
-    @Test(groups = { "batch" }, dependsOnMethods = {"testBatchDeletes"})
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchDeletes" })
     public void testBatchReadDeletedResources() throws Exception {
         if (!deleteSupported) {
             return;
@@ -1825,15 +1912,15 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchReadDeletedResources";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        Bundle bundle = buildBundle(BundleType.BATCH);
         String url1 = "Patient/" + patientBD1.getId().getValue();
         String url2 = "Patient/" + patientBD1.getId().getValue() + "/_history/1";
         String url3 = "Patient/" + patientBD1.getId().getValue() + "/_history/2";
         String url4 = "Patient/" + patientBD1.getId().getValue() + "/_history";
-        addRequestToBundle(bundle, HTTPVerbList.GET, url1, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url2, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url3, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url4, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url2, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url3, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url4, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -1842,7 +1929,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(2), Status.GONE.getStatusCode());
@@ -1854,9 +1941,11 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionCreatesForDelete";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -1865,16 +1954,16 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
         // Save off the two patients for the update test.
-        patientTD1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientTD2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientTD1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientTD2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
-    @Test(groups = { "transaction" }, dependsOnMethods = {"testTransactionCreatesForDelete"})
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreatesForDelete" })
     public void testTransactionDeletes() throws Exception {
         if (!deleteSupported) {
             return;
@@ -1882,11 +1971,11 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionDeletes";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         String url1 = "Patient/" + patientTD1.getId().getValue();
         String url2 = "Patient/" + patientTD2.getId().getValue();
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url1, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url2, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -1895,12 +1984,12 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
     }
 
-    @Test(groups = { "transaction" }, dependsOnMethods = {"testTransactionDeletes"})
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionDeletes" })
     public void testTransactionReadDeletedResources() throws Exception {
         if (!deleteSupported) {
             return;
@@ -1908,15 +1997,15 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionReadDeletedResources";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         String url1 = "Patient/" + patientTD1.getId().getValue();
         String url2 = "Patient/" + patientTD1.getId().getValue() + "/_history/1";
         String url3 = "Patient/" + patientTD1.getId().getValue() + "/_history/2";
         String url4 = "Patient/" + patientTD1.getId().getValue() + "/_history";
-        addRequestToBundle(bundle, HTTPVerbList.GET, url1, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url2, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url3, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.GET, url4, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url2, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url3, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url4, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -1925,73 +2014,64 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.GONE.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
     public void testBatchConditionalCreates() throws Exception {
         String method = "testBatchConditionalCreates";
-        
+
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        
+        Bundle bundle = buildBundle(BundleType.BATCH);
         // Set first request to yield no matches.
-        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("_id=NOMATCHES"));
-        
+        bundle = addRequestToBundle("_id=NOMATCHES", bundle, HTTPVerb.POST, "Patient", null, patient);
         // Set second request to yield 1 match.
-        bundle.getEntry().get(1).getRequest().setIfNoneExist(objFactory.createString().withValue("_id=" + patientB1.getId().getValue()));
-        
+        bundle = addRequestToBundle("_id=" + patientB1.getId().getValue(), bundle, HTTPVerb.POST, "Patient", null,
+                patient);
         // Set third request to yield multiple matches.
-        bundle.getEntry().get(2).getRequest().setIfNoneExist(objFactory.createString().withValue("name=Doe"));
-        
+        bundle = addRequestToBundle("name=Doe", bundle, HTTPVerb.POST, "Patient", null, patient);
         // Set fourth request to yield invalid search.
-        bundle.getEntry().get(3).getRequest().setIfNoneExist(objFactory.createString().withValue("BAD:PARAM=1"));
-        
+        bundle = addRequestToBundle("BAD:PARAM=1", bundle, HTTPVerb.POST, "Patient", null, patient);
+
         printBundle(method, "request", bundle);
-        
+
         FHIRResponse response = client.batch(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
-        
+
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
+                "returned multiple matches");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
+                "Undefined Modifier: PARAM");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
     public void testTransactionConditionalCreates() throws Exception {
         String method = "testTransactionConditionalCreates";
-        
+
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set first request to yield no matches.
-        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("_id=NOMATCHES"));
-        
+        bundle = addRequestToBundle("_id=NOMATCHES", bundle, HTTPVerb.POST, "Patient", null, patient);
         // Set second request to yield 1 match.
-        bundle.getEntry().get(1).getRequest().setIfNoneExist(objFactory.createString().withValue("_id=" + patientB1.getId().getValue()));
-        
+        bundle = addRequestToBundle("_id=NOMATCHES", bundle, HTTPVerb.POST, "Patient", null, patient);
+
         printBundle(method, "request", bundle);
-        
+
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
     }
@@ -1999,15 +2079,13 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "batch" }, dependsOnMethods = { "testTransactionConditionalCreates" })
     public void testTransactionConditionalCreatesError1() throws Exception {
         String method = "testTransactionConditionalCreatesError1";
-        
+
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set request to yield multiple matches.
-        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("name=Doe"));
-        
+        bundle = addRequestToBundle("name=Doe", bundle, HTTPVerb.POST, "Patient", null, patient);
+
         printBundle(method, "request", bundle);
 
         FHIRResponse response = client.transaction(bundle);
@@ -2015,22 +2093,21 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
+                "returned multiple matches");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testTransactionConditionalCreates" })
     public void testTransactionConditionalCreatesError2() throws Exception {
         String method = "testTransactionConditionalCreatesError2";
-        
+
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
-        
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set request to yield invalid search.
-        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("BAD:PARAM=1"));
-        
+        bundle = addRequestToBundle("BAD:PARAM=1", bundle, HTTPVerb.POST, "Patient", null, patient);
+
         printBundle(method, "request", bundle);
 
         FHIRResponse response = client.transaction(bundle);
@@ -2038,28 +2115,29 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+                "Undefined Modifier: PARAM");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchConditionalUpdates() throws Exception {
         String method = "testBatchConditionalUpdates";
-        
+
         String patientId = UUID.randomUUID().toString();
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        patient.withId(objFactory.createId().withValue(patientId));
-        
+        patient = patient.toBuilder().id(Id.of(patientId)).build();
+
         String urlString = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
         String badSearch = "Patient?NOTASEARCH:PARAM=foo";
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, urlString, null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, urlString, null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, multipleMatches, null, patient);
-        addRequestToBundle(bundle, HTTPVerbList.PUT, badSearch, null, patient);
-        
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, multipleMatches, null, patient);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, badSearch, null, patient);
+
         printBundle(method, "request", bundle);
 
         FHIRResponse response = client.batch(bundle);
@@ -2067,11 +2145,13 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
+                "returned multiple matches");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
+                "Undefined Modifier: PARAM");
 
         // Next, verify that we have two versions of the Patient resource.
         response = client.history("Patient", patientId, null);
@@ -2086,8 +2166,9 @@ public class BundleTest extends FHIRServerTestBase {
     public void testBatchCreatesForConditionalDelete() throws Exception {
         String method = "testBatchCreatesForConditionalDelete";
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2096,32 +2177,33 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
 
         // Save off the patient for the delete test.
-        patientBCD1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        patientBCD1 = (Patient) responseBundle.getEntry().get(0).getResource();
     }
+
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreatesForConditionalDelete" })
     public void testBatchConditionalDeletes() throws Exception {
         if (!deleteSupported) {
             return;
         }
-        
+
         String method = "testBatchConditionalDeletes";
-        
+
         String patientId = patientBCD1.getId().getValue();
         String noMatches = "Patient?_id=NOMATCHES";
         String oneMatch = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
         String badSearch = "Patient?NOTASEARCH:PARAM=foo";
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, noMatches, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, oneMatch, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, multipleMatches, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, badSearch, null, null);
-        
+        Bundle bundle = buildBundle(BundleType.BATCH);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, noMatches, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, oneMatch, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, multipleMatches, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, badSearch, null, null);
+
         printBundle(method, "request", bundle);
 
         FHIRResponse response = client.batch(bundle);
@@ -2129,49 +2211,51 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.NOT_FOUND.getStatusCode(), "Search criteria for a conditional delete operation yielded no matches");
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.NOT_FOUND.getStatusCode(),
+                "Search criteria for a conditional delete operation yielded no matches");
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
+                "returned multiple matches");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
+                "Undefined Modifier: PARAM");
 
         // Next, verify that we can't read the Patient resource.
         response = client.read("Patient", patientId);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.GONE.getStatusCode());
     }
-    
+
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchCustomOperations() throws Exception {
         String method = "testBatchSearchAll";
         WebTarget target = getWebTarget();
-        
+
         String message = "Hello, World!";
-        
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        
+
+        Bundle bundle = buildBundle(BundleType.BATCH);
+
         // 1. GET request at global level
-        addRequestToBundle(bundle, HTTPVerbList.GET, "$hello?input=" + message, null, null);
-        
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "$hello?input=" + message, null, null);
+
         // 2. POST request at global level
-        Parameters hellowWorldParameters = objFactory.createParameters();
-        ParametersParameter parameter2 = objFactory.createParametersParameter();
-        parameter2.setName(string("input"));
-        parameter2.setValueString(string(message));
-        hellowWorldParameters.getParameter().add(parameter2);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "$hello", null, hellowWorldParameters);
-        
+        Parameters hellowWorldParameters = Parameters.builder()
+                .parameter(Parameter.builder(string("input")).value(string(message)).build()).build();
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
+
         // 3. POST request with resource at resource level
-        Parameters validateOperationParameters = objFactory.createParameters();
-        ParametersParameter parameter3 = objFactory.createParametersParameter();
-        parameter3.setName(string("resource"));
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        parameter3.setResource(objFactory.createResourceContainer().withPatient(patient));
-        validateOperationParameters.getParameter().add(parameter3);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/$validate", null, validateOperationParameters);
-        
+
+        Parameters validateOperationParameters = Parameters.builder()
+                .parameter(Parameter.builder(string("resource")).resource(patient).build()).build();
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient/$validate", null,
+                validateOperationParameters);
+
         // 4. POST request with resource at resource instance level
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/" + patientB1.getId().getValue() + "/$validate", null, validateOperationParameters);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST,
+                "Patient/" + patientB1.getId().getValue() + "/$validate", null, validateOperationParameters);
 
         printBundle(method, "request", bundle);
 
@@ -2180,7 +2264,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         // Commented out because $hello operation isn't installed by default
 //        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 //        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -2190,17 +2274,19 @@ public class BundleTest extends FHIRServerTestBase {
         // Commented out because $hello operation isn't installed by default
 //        assertNotNull(responseBundle.getEntry().get(0).getResource().getParameters());
 //        assertNotNull(responseBundle.getEntry().get(1).getResource().getParameters());
-        assertNotNull(responseBundle.getEntry().get(2).getResource().getOperationOutcome());
-        assertNotNull(responseBundle.getEntry().get(3).getResource().getOperationOutcome());
+        assertNotNull(responseBundle.getEntry().get(2).getResponse().getOutcome());
+        assertNotNull(responseBundle.getEntry().get(3).getResponse().getOutcome());
     }
-    
+
     @Test(groups = { "transaction" })
     public void testTransactionCreatesForConditionalDelete() throws Exception {
         String method = "testTransactionCreatesForConditionalDelete";
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
-        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_DavidOrtiz.json"));
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                readResource(Patient.class, "Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2209,27 +2295,27 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
 
         // Save off the two patients for the update test.
-        patientTCD1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-        patientTCD2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientTCD1 = (Patient) responseBundle.getEntry().get(0).getResource();
+        patientTCD2 = (Patient) responseBundle.getEntry().get(1).getResource();
     }
 
-    @Test(groups = { "transaction" }, dependsOnMethods = {"testTransactionCreatesForConditionalDelete"})
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreatesForConditionalDelete" })
     public void testTransactionConditionalDeletes() throws Exception {
         if (!deleteSupported) {
             return;
         }
         String method = "testTransactionDeletes";
 
-        Bundle bundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
         String url1 = "Patient?_id=" + patientTCD1.getId().getValue();
         String url2 = "Patient?_id=" + patientTCD2.getId().getValue();
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url1, null, null);
-        addRequestToBundle(bundle, HTTPVerbList.DELETE, url2, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
 
         printBundle(method, "request", bundle);
 
@@ -2238,61 +2324,62 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
     }
-    
+
     @Test(groups = { "batch" })
     public void testRequestProperties() throws Exception {
         String method = "testRequestProperties1";
-        
+
         String patientId = UUID.randomUUID().toString();
         String urlString = "Patient?_id=" + patientId;
 
-        Bundle bundle = buildBundle(BundleTypeList.BATCH);
-        
-        ObjectFactory of = getObjectFactory();
+        Bundle bundle = buildBundle(BundleType.BATCH);
+
         List<Extension> extensions;
         Extension extension;
-        
+
         // 1) Add a request with some valid request header extensions.
         extensions = new ArrayList<>();
-        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
-                .withValueString(of.createString().withValue("X-WHC-LSF-resourcename: Participant"));
-        extensions.add(extension);
-        extension = of.createExtension().withUrl("urn:some-url")
-                .withValueString(of.createString().withValue("Some string value..."));
-        extensions.add(extension);
-        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
-                .withValueString(of.createString().withValue("X-WHC-LSF-studyid: study001"));
+
+        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("X-WHC-LSF-resourcename: Participant"))
+                .build();
         extensions.add(extension);
 
-        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
-        
+        extension = Extension.builder("urn:some-url").value(string("Some string value...")).build();
+        extensions.add(extension);
+
+        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("X-WHC-LSF-studyid: study001")).build();
+        extensions.add(extension);
+
+        bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
+
         // 2) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
-        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
-                .withValueString(of.createString().withValue("FOO"));
+
+        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("FOO")).build();
         extensions.add(extension);
 
-        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+        bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
 
         // 3) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
-        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
-                .withValueString(of.createString().withValue("Header1:"));
+
+        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("Header1:")).build();
         extensions.add(extension);
 
-        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
-       
+        bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
+
         // 4) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
-        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
-                .withValueBoolean(of.createBoolean().withValue(Boolean.TRUE));
+
+        extension = Extension.builder(HEADER_EXTENSION_URL).value(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE)
+                .build();
         extensions.add(extension);
 
-        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+        bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
 
         printBundle(method, "request", bundle);
 
@@ -2301,51 +2388,57 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), "The proper syntax for");
-        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(), "The proper syntax for");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "The valueString field is required");
+        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(),
+                "The proper syntax for");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
+                "The proper syntax for");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
+                "The valueString field is required");
     }
-    
+
     /**
-     * Helper function to create a set of Observations, and return them in a response bundle.
+     * Helper function to create a set of Observations, and return them in a
+     * response bundle.
      */
     private Observation[] createObservations(String filename, int numObservations) throws Exception {
         String method = "createObservations";
         Observation[] result = new Observation[numObservations];
-        
+
         // Build the request bundle.
-        Bundle requestBundle = buildBundle(BundleTypeList.TRANSACTION);
+        Bundle requestBundle = buildBundle(BundleType.TRANSACTION);
 
         // Add the POST entries to create the Observation resources.
         for (int i = 0; i < numObservations; i++) {
             Observation obs = readResource(Observation.class, filename);
-            addRequestToBundle(requestBundle, HTTPVerbList.POST, "Observation", null, obs);
+            requestBundle = addRequestToBundle(null, requestBundle, HTTPVerb.POST, "Observation", null, obs);
         }
 
-        printBundle(method, "request",requestBundle);
+        printBundle(method, "request", requestBundle);
 
         // Invoke the REST API and then return the response bundle.
         FHIRResponse response = client.transaction(requestBundle);
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
 
-        printBundle(method, "response",responseBundle);
-        
-        // Extract each of the Observations from the response bundle and return via the array.
+        printBundle(method, "response", responseBundle);
+
+        // Extract each of the Observations from the response bundle and return via the
+        // array.
         for (int i = 0; i < numObservations; i++) {
-            BundleEntry entry = responseBundle.getEntry().get(i);
-            Resource resource = FHIRUtil.getResourceContainerResource(entry.getResource());
+            Bundle.Entry entry = responseBundle.getEntry().get(i);
+            Resource resource = entry.getResource();
             assertTrue(resource instanceof Observation);
             result[i] = (Observation) resource;
         }
-        
+
         return result;
     }
 
     private void assertSearchResults(WebTarget target, String uniqueFamily, int expectedResults) {
-        Response response = target.path("Patient").queryParam("family", uniqueFamily).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Patient").queryParam("family", uniqueFamily)
+                .request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -2360,31 +2453,21 @@ public class BundleTest extends FHIRServerTestBase {
         assertEquals(expectedResults, bundle.getEntry().size());
     }
 
-    private String setUniqueFamilyName(Patient patient) {
-        String uniqueName = UUID.randomUUID().toString();
-        List<com.ibm.watsonhealth.fhir.model.String> familyList = patient.getName().get(0).getFamily();
-        familyList.clear();
-        familyList.add(getObjectFactory().createString().withValue(uniqueName));
-        return uniqueName;
-    }
-
-    private void assertGoodGetResponse(BundleEntry entry, int expectedStatusCode) throws Exception {
+    private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode) throws Exception {
         assertNotNull(entry);
-        BundleResponse response = entry.getResponse();
+        Bundle.Entry.Response response = entry.getResponse();
         assertNotNull(response);
 
         assertNotNull(response.getStatus());
         assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
 
-        ResourceContainer rc = entry.getResource();
+        Resource rc = entry.getResource();
         assertNotNull(rc);
-        Resource resource = FHIRUtil.getResourceContainerResource(rc);
-        assertNotNull(resource);
     }
 
-    private void assertGoodPostPutResponse(BundleEntry entry, int expectedStatusCode) throws Exception {
+    private void assertGoodPostPutResponse(Bundle.Entry entry, int expectedStatusCode) throws Exception {
         assertGoodGetResponse(entry, expectedStatusCode);
-        BundleResponse response = entry.getResponse();
+        Bundle.Entry.Response response = entry.getResponse();
 
         assertNotNull(response.getLocation());
         assertNotNull(response.getLocation().getValue());
@@ -2396,15 +2479,14 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(response.getLastModified().getValue());
     }
 
-    private void assertBadResponse(BundleEntry entry, int expectedStatusCode, String expectedMsg) {
+    private void assertBadResponse(Bundle.Entry entry, int expectedStatusCode, String expectedMsg) {
         assertNotNull(entry);
-        BundleResponse response = entry.getResponse();
+        Bundle.Entry.Response response = entry.getResponse();
         assertNotNull(response);
         assertNotNull(response.getStatus());
         assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
-        ResourceContainer rc = entry.getResource();
-        assertNotNull(rc);
-        OperationOutcome oo = rc.getOperationOutcome();
+
+        OperationOutcome oo = (OperationOutcome) response.getOutcome();
         assertNotNull(oo);
         assertNotNull(oo.getIssue());
         assertTrue(oo.getIssue().size() > 0);
@@ -2415,16 +2497,16 @@ public class BundleTest extends FHIRServerTestBase {
         }
     }
 
-    private boolean assertOptionalBadResponse(BundleEntry entry, int expectedStatusCode, String expectedMsg) {
+    private boolean assertOptionalBadResponse(Bundle.Entry entry, int expectedStatusCode, String expectedMsg) {
         assertNotNull(entry);
-        BundleResponse response = entry.getResponse();
+        Bundle.Entry.Response response = entry.getResponse();
         assertNotNull(response);
 
         if (response.getStatus() != null && response.getStatus().getExtension().isEmpty()) {
             assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
-            ResourceContainer rc = entry.getResource();
+            Resource rc = entry.getResource();
             assertNotNull(rc);
-            OperationOutcome oo = rc.getOperationOutcome();
+            OperationOutcome oo = (OperationOutcome) response.getOutcome();
             assertNotNull(oo);
             assertNotNull(oo.getIssue());
             assertTrue(oo.getIssue().size() > 0);
@@ -2434,17 +2516,18 @@ public class BundleTest extends FHIRServerTestBase {
                 assertTrue("'" + msg + "' doesn't contain '" + expectedMsg + "'", msg.contains(expectedMsg));
             }
         }
-        
+
         return response.getStatus() != null;
     }
 
-    private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException {
+    private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException, FHIRException {
         if (debug) {
-            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON, prettyPrint));
+            System.out.println(method + " " + bundleType + " bundle contents:\n"
+                    + writeResource(bundle, Format.JSON, prettyPrint));
         }
     }
 
-    private void assertResponseBundle(Bundle bundle, BundleTypeList expectedType, int expectedEntryCount) {
+    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
         assertNotNull(bundle);
         assertNotNull(bundle.getType());
         assertNotNull(bundle.getType().getValue());
@@ -2455,56 +2538,52 @@ public class BundleTest extends FHIRServerTestBase {
         }
     }
 
-    private BundleEntry addRequestEntryToBundle(Bundle bundle) {
-        BundleRequest request = getObjectFactory().createBundleRequest();
-        BundleEntry requestEntry = getObjectFactory().createBundleEntry().withRequest(request);
-        bundle.getEntry().add(requestEntry);
-        return requestEntry;
-    }
-    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource) throws Exception {
-        return addRequestToBundle(bundle, method, url, ifMatch, resource, null, null);
+    private Bundle addRequestToBundle(String ifNoexisting, Bundle bundle, HTTPVerb method, String url, String ifMatch,
+            Resource resource) throws Exception {
+        return addRequestToBundle2(ifNoexisting, bundle, method, url, ifMatch, resource, null, null);
     }
 
-    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, List<Extension> requestExtensions) throws Exception {
-        BundleEntry entry = addRequestEntryToBundle(bundle);
-        BundleRequest request = entry.getRequest();
-        if (method != null) {
-            request.setMethod(getObjectFactory().createHTTPVerb().withValue(method));
-        }
-        if (url != null) {
-            request.setUrl(getObjectFactory().createUri().withValue(url));
-        }
+    private Bundle addRequestToBundle(String ifNoexisting, String fullUrl, Bundle bundle, HTTPVerb method, String url,
+            String ifMatch, Resource resource, List<Extension> requestExtensions) throws Exception {
+        Bundle.Entry.Builder entryBuilder = Entry.builder();
+        Bundle.Entry.Request.Builder requestBuilder = Bundle.Entry.Request.builder(method, Uri.of(url));
+
         if (ifMatch != null) {
-            request.setIfMatch(getObjectFactory().createString().withValue(ifMatch));
+            requestBuilder.ifMatch(string(ifMatch));
+        }
+        if (ifNoexisting != null) {
+            requestBuilder.ifNoneExist(string(ifNoexisting));
         }
         if (resource != null) {
-            ResourceContainer container = getObjectFactory().createResourceContainer();
-            FHIRUtil.setResourceContainerResource(container, resource);
-            entry.setResource(container);
+            entryBuilder.resource(resource);
         }
         if (requestExtensions != null) {
-            request.withExtension(requestExtensions);
+            requestBuilder.extension(requestExtensions);
         }
 
-        return entry;
-    }
-
-    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, String fullUrl) throws Exception {
-        return addRequestToBundle(bundle, method, url, ifMatch, resource, fullUrl, null);
-    }
-
-    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, String fullUrl,
-        List<Extension> requestExtensions) throws Exception {
-        BundleEntry entry = addRequestToBundle(bundle, method, url, ifMatch, resource, requestExtensions);
-        if (entry != null && fullUrl != null) {
-            entry.setFullUrl(getObjectFactory().createUri().withValue(fullUrl));
+        if (fullUrl != null) {
+            entryBuilder.fullUrl(Uri.of(fullUrl));
         }
 
-        return entry;
+        bundle = bundle.toBuilder().entry(entryBuilder.request(requestBuilder.build()).build()).build();
+
+        return bundle;
     }
 
-    private Bundle buildBundle(BundleTypeList bundleType) {
-        Bundle bundle = getObjectFactory().createBundle().withType(getObjectFactory().createBundleType().withValue(bundleType));
+    private Bundle addRequestToBundle(String ifNoexisting, Bundle bundle, HTTPVerb method, String url, String ifMatch,
+            Resource resource, String fullUrl) throws Exception {
+        return addRequestToBundle2(ifNoexisting, bundle, method, url, ifMatch, resource, fullUrl, null);
+    }
+
+    private Bundle addRequestToBundle2(String ifNoexisting, Bundle bundle, HTTPVerb method, String url, String ifMatch,
+            Resource resource, String fullUrl, List<Extension> requestExtensions) throws Exception {
+        bundle = addRequestToBundle(ifNoexisting, fullUrl, bundle, method, url, ifMatch, resource, requestExtensions);
+
+        return bundle;
+    }
+
+    private Bundle buildBundle(BundleType bundleType) {
+        Bundle bundle = Bundle.builder(bundleType).build();
         return bundle;
     }
 
@@ -2512,7 +2591,7 @@ public class BundleTest extends FHIRServerTestBase {
     private void printOOMessage(OperationOutcome oo) {
         System.out.println("Message: " + oo.getIssue().get(0).getDiagnostics().getValue());
     }
-    
+
 //    /**
 //     * Executes the query test and returns whether the expected resource was in the result set
 //     * @throws Exception
@@ -2530,19 +2609,20 @@ public class BundleTest extends FHIRServerTestBase {
 //    }
 
     /**
-     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
-     * Otherwise it returns null.
+     * If the {@code resourceToFind} is contained in the list of resources this
+     * method returns the resource. Otherwise it returns null.
+     * 
      * @param resources
      */
     protected Resource findResourceInResponse(Resource resourceToFind, List<Resource> resources) {
         Resource returnedResource = null;
         boolean alreadyFound = false;
         int count = 0;
-        
+
         String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
         String idToFind = resourceToFind.getId().getValue();
         String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
-        
+
         for (Resource r : resources) {
             String resourceType = FHIRUtil.getResourceTypeName(r);
             String id = r.getId().getValue();

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -38,28 +39,27 @@ import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Conformance;
-import com.ibm.watsonhealth.fhir.model.ConformanceInteraction;
-import com.ibm.watsonhealth.fhir.model.ConformanceResource;
-import com.ibm.watsonhealth.fhir.model.ConformanceRest;
-import com.ibm.watsonhealth.fhir.model.Extension;
-import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
-import com.ibm.watsonhealth.fhir.model.TransactionModeList;
-import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
+
+import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.RestfulCapabilityMode;
+import com.ibm.watsonhealth.fhir.model.type.SystemRestfulInteraction;
+import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.server.test.FHIRNotificationServiceClientEndpoint;
 
 /**
  * Base class for fhir-server unit tests.
  */
 public abstract class FHIRServerTestBase extends FHIRModelTestBase {
-
-    protected ObjectFactory objFactory = null;
 
     protected FHIRClient client = null;
 
@@ -89,7 +89,6 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String kafkaConnectionInfo = null;
     private String kafkaTopicName = null;
 
-
     // These are values of FHIRClient properties that we need here also.
     private String fhirUser = null;
     private String fhirPassword = null;
@@ -103,14 +102,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     protected static final String MEDIATYPE_XML = "application/xml";
     protected static final String MEDIATYPE_XML_FHIR = "application/xml+fhir";
 
-    private Conformance conformanceStmt = null;
+    private CapabilityStatement conformanceStmt = null;
 
     public FHIRServerTestBase() {
-        objFactory = new ObjectFactory();
-    }
-
-    public ObjectFactory getObjectFactory() {
-        return objFactory;
     }
 
     protected String getWebSocketURL() {
@@ -136,6 +130,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String getTsLocation() {
         return tsLocation;
     }
+
     private String getTsPassword() {
         return tsPassword;
     }
@@ -149,8 +144,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * We'll resolve all the supported test properties. We have two ways of setting properties: 1) store them in a file
-     * called "test.properties" which is in the classpath. 2) set each individual property as a JVM system property.
+     * We'll resolve all the supported test properties. We have two ways of setting
+     * properties: 1) store them in a file called "test.properties" which is in the
+     * classpath. 2) set each individual property as a JVM system property.
      *
      * Supported property names: test.host test.port test.urlprefix
      */
@@ -178,23 +174,25 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         kafkaTopicName = getProperty(properties, PROPNAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
 
         fhirUser = getProperty(properties, FHIRClient.PROPNAME_CLIENT_USERNAME, DEFAULT_USERNAME);
-        fhirPassword = FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_CLIENT_PASSWORD, DEFAULT_PASSWORD));
+        fhirPassword = FHIRUtilities
+                .decode(getProperty(properties, FHIRClient.PROPNAME_CLIENT_PASSWORD, DEFAULT_PASSWORD));
         tsLocation = getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_LOCATION, DEFAULT_TRUSTSTORE_LOCATION);
-        tsPassword = FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
+        tsPassword = FHIRUtilities
+                .decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
         ksLocation = getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
-        ksPassword = FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
+        ksPassword = FHIRUtilities
+                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
     }
 
     /**
-     * Tries to find the property named <propertyName> first as a System property, then as a property within the
-     * <properties> object. If neither are found, then the <defaultValue> is returned.
+     * Tries to find the property named <propertyName> first as a System property,
+     * then as a property within the <properties> object. If neither are found, then
+     * the <defaultValue> is returned.
      *
-     * @param properties
-     *            Properties object containing the properties loaded from our properties file.
-     * @param propertyName
-     *            the name of the property to retrieve
-     * @param defaultValue
-     *            the default value to use if the property can't be found
+     * @param properties   Properties object containing the properties loaded from
+     *                     our properties file.
+     * @param propertyName the name of the property to retrieve
+     * @param defaultValue the default value to use if the property can't be found
      */
     protected String getProperty(Properties properties, String propertyName, String defaultValue) {
         return System.getProperty(propertyName, properties.getProperty(propertyName, defaultValue));
@@ -213,7 +211,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         } catch (Throwable t) {
             fail("Unexpected exception while retrieving WebTarget: " + t);
 
-            // This is here to appease the java compiler so we don't need to declare a throws clause.
+            // This is here to appease the java compiler so we don't need to declare a
+            // throws clause.
             throw new RuntimeException("Shouldn't get here as the fail() will throw an exception...");
         }
     }
@@ -226,7 +225,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Creates and returns an "endpoint" to be used to receive notifications via a websocket.
+     * Creates and returns an "endpoint" to be used to receive notifications via a
+     * websocket.
      */
     protected FHIRNotificationServiceClientEndpoint getWebsocketClientEndpoint() {
         try {
@@ -260,7 +260,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
                 final SslContextConfigurator defaultConfig = new SslContextConfigurator();
                 defaultConfig.retrieve(System.getProperties());
-                SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(defaultConfig, true, false, false);
+                SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(defaultConfig, true, false,
+                        false);
                 sslEngineConfigurator.setHostVerificationEnabled(false);
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
             }
@@ -274,16 +275,17 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Common function to invoke the 'metadata' operation and return the Conformance object.
+     * Common function to invoke the 'metadata' operation and return the
+     * CapabilityStatement object.
      */
-    protected Conformance retrieveConformanceStatement() throws Exception {
+    protected CapabilityStatement retrieveConformanceStatement() throws Exception {
         if (conformanceStmt == null) {
             FHIRClient client = getFHIRClient();
             FHIRResponse response = client.metadata();
             assertNotNull(response);
             assertEquals(200, response.getStatus());
 
-            conformanceStmt = response.getResource(Conformance.class);
+            conformanceStmt = response.getResource(CapabilityStatement.class);
             assertNotNull(conformanceStmt);
         }
 
@@ -291,23 +293,23 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Determines whether or not the server supports the "update/create" feature
-     * by examining the conformance statement.
+     * Determines whether or not the server supports the "update/create" feature by
+     * examining the conformance statement.
      */
     protected boolean isUpdateCreateSupported() throws Exception {
         Boolean updateCreateSupported = Boolean.FALSE;
-        Conformance conf = retrieveConformanceStatement();
+        CapabilityStatement conf = retrieveConformanceStatement();
 
-        List<ConformanceRest> restList = conf.getRest();
+        List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
-            ConformanceRest rest = restList.get(0);
+            CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulConformanceModeList.SERVER, rest.getMode().getValue());
-                List<ConformanceResource> resources = rest.getResource();
+                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                List<Rest.Resource> resources = rest.getResource();
                 if (resources != null) {
-                    ConformanceResource resource = resources.get(0);
+                    Rest.Resource resource = resources.get(0);
                     if (resource != null) {
-                        updateCreateSupported = resource.getUpdateCreate().isValue();
+                        updateCreateSupported = resource.getUpdateCreate().getValue();
                     }
                 }
             }
@@ -317,24 +319,24 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Determines whether or not the server supports the "delete" operation
-     * by examining the conformance statement.
+     * Determines whether or not the server supports the "delete" operation by
+     * examining the conformance statement.
      */
     protected boolean isDeleteSupported() throws Exception {
-        Conformance conf = retrieveConformanceStatement();
+        CapabilityStatement conf = retrieveConformanceStatement();
 
-        List<ConformanceRest> restList = conf.getRest();
+        List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
-            ConformanceRest rest = restList.get(0);
+            CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulConformanceModeList.SERVER, rest.getMode().getValue());
-                List<ConformanceResource> resources = rest.getResource();
+                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                List<Rest.Resource> resources = rest.getResource();
                 if (resources != null) {
-                    ConformanceResource resource = resources.get(0);
+                    Rest.Resource resource = resources.get(0);
                     if (resource != null) {
-                        List<ConformanceInteraction> interactions = resource.getInteraction();
-                        for (ConformanceInteraction interaction : interactions) {
-                            if (interaction.getCode().getValue() == TypeRestfulInteractionList.DELETE) {
+                        List<Interaction> interactions = resource.getInteraction();
+                        for (Interaction interaction : interactions) {
+                            if (interaction.getCode().getValue() == TypeRestfulInteraction.DELETE.getValue()) {
                                 return true;
                             }
                         }
@@ -348,12 +350,13 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     protected boolean isComparmentSearchSupported() throws Exception {
         boolean compartmentSearchSupported = false;
-        Conformance conf = retrieveConformanceStatement();
+        CapabilityStatement conf = retrieveConformanceStatement();
 
-        for(Extension e : conf.getExtension()) {
-            if (e.getUrl().contains("persistenceType") &&
-                (e.getValueString().getValue().contains("FHIRPersistenceJDBCImpl") ||
-                 e.getValueString().getValue().contains("FHIRPersistenceJDBCNormalizedImpl"))) {
+        for (Extension e : conf.getExtension()) {
+            if (e.getUrl().contains("persistenceType") && (((com.ibm.watsonhealth.fhir.model.type.String) e.getValue())
+                    .getValue().contains("FHIRPersistenceJDBCImpl")
+                    || ((com.ibm.watsonhealth.fhir.model.type.String) e.getValue()).getValue()
+                            .contains("FHIRPersistenceJDBCNormalizedImpl"))) {
                 compartmentSearchSupported = true;
                 break;
             }
@@ -362,63 +365,55 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     protected boolean isSearchAllSupported() throws Exception {
-       return isComparmentSearchSupported();
+        return isComparmentSearchSupported();
     }
 
     protected boolean isSortingSupported() throws Exception {
         return isComparmentSearchSupported();
-     }
-
+    }
 
     /**
-     * Determines whether or not the server supports the "update/create" feature
-     * by examining the conformance statement.
+     * Determines whether or not the server supports the "update/create" feature by
+     * examining the conformance statement.
      */
     protected boolean isTransactionSupported() throws Exception {
-        TransactionModeList transactionMode = null;
-        Conformance conf = retrieveConformanceStatement();
+        SystemRestfulInteraction transactionMode = null;
+        CapabilityStatement conf = retrieveConformanceStatement();
 
-        List<ConformanceRest> restList = conf.getRest();
+        List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
-            ConformanceRest rest = restList.get(0);
+            CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulConformanceModeList.SERVER, rest.getMode().getValue());
-                transactionMode = rest.getTransactionMode().getValue();
+                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                if (rest.getInteraction() != null) {
+                    transactionMode = rest.getInteraction().get(0).getCode();
+                }
             }
         }
 
         if (transactionMode == null) {
-            transactionMode = TransactionModeList.NOT_SUPPORTED;
+            transactionMode = SystemRestfulInteraction.BATCH;
         }
 
         boolean txnSupported = false;
-        switch (transactionMode) {
-        case BOTH:
-        case TRANSACTION:
-            txnSupported = true;
-            break;
-        default:
-            txnSupported = false;
-            break;
-        }
 
+        if (transactionMode.getValue().contentEquals(SystemRestfulInteraction.TRANSACTION.getValue())) {
+            txnSupported = true;
+        }
 
         return txnSupported;
     }
-
-
 
     //
     // Some homegrown assert-type common functions.
     //
 
     /**
-     * Verify that the status code in the Response is equal to the expected status code.
+     * Verify that the status code in the Response is equal to the expected status
+     * code.
      *
-     * @param response
-     *            the Response to verify
-     * @param expectedStatusCode
-     *            the expected status code value
+     * @param response           the Response to verify
+     * @param expectedStatusCode the expected status code value
      */
     protected void assertResponse(Response response, int expectedStatusCode) {
         assertNotNull(response);
@@ -428,10 +423,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * Verify that a FHIRClient response has the expected status code.
      *
-     * @param response
-     *            the FHIRResponse that contains the response for a FHIRClient API invocation
-     * @param expectedStatusCode
-     *            the status code that we expect in the response
+     * @param response           the FHIRResponse that contains the response for a
+     *                           FHIRClient API invocation
+     * @param expectedStatusCode the status code that we expect in the response
      */
     protected void assertResponse(FHIRResponse response, int expectedStatusCode) {
         assertNotNull(response);
@@ -439,10 +433,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Validate the specified OperationOutcome object to make sure it contains an exception.
+     * Validate the specified OperationOutcome object to make sure it contains an
+     * exception.
      *
-     * @param msgPart
-     *            a string which should be found in the exception message.
+     * @param msgPart a string which should be found in the exception message.
      */
     protected void assertExceptionOperationOutcome(OperationOutcome oo, String msgPart) {
         assertNotNull(oo);
@@ -450,7 +444,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         // Make sure the OperationOutcomeIssue has a message containing 'msgPart'.
         assertNotNull(oo.getIssue());
         assertEquals(1, oo.getIssue().size());
-        OperationOutcomeIssue ooi = oo.getIssue().get(0);
+        OperationOutcome.Issue ooi = oo.getIssue().get(0);
         assertNotNull(ooi);
         assertNotNull(ooi.getCode());
         assertNotNull(ooi.getCode().getValue());
@@ -467,18 +461,19 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     protected void assertValidationOperationOutcome(OperationOutcome oo, String msgPart) {
         assertNotNull(oo);
 
-        // Make sure that we can find the 'msgPart' in one of the OperationOutcomeIssue objects.
+        // Make sure that we can find the 'msgPart' in one of the OperationOutcomeIssue
+        // objects.
         boolean foundIt = false;
         assertNotNull(oo.getIssue());
         assertFalse(oo.getIssue().isEmpty());
-        for (OperationOutcomeIssue ooi : oo.getIssue()) {
+        for (OperationOutcome.Issue ooi : oo.getIssue()) {
             assertNotNull(ooi.getCode());
             assertNotNull(ooi.getCode().getValue());
-            assertEquals(IssueTypeList.INVALID, ooi.getCode().getValue());
+            assertEquals(IssueType.INVALID.getValue(), ooi.getCode().getValue());
 
             assertNotNull(ooi.getSeverity());
             assertNotNull(ooi.getSeverity().getValue());
-            assertEquals(IssueSeverityList.ERROR, ooi.getSeverity().getValue());
+            assertEquals(IssueSeverity.ERROR.getValue(), ooi.getSeverity().getValue());
 
             assertNotNull(ooi.getDiagnostics());
             String msg = ooi.getDiagnostics().getValue();
@@ -496,11 +491,11 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     //
 
     /**
-     * For the specified response, this function will extract the logical id value from the response's Location header.
-     * The format of a location header value should be: "[base]/<resource-type>/<id>/_history/<version>"
+     * For the specified response, this function will extract the logical id value
+     * from the response's Location header. The format of a location header value
+     * should be: "[base]/<resource-type>/<id>/_history/<version>"
      *
-     * @param response
-     *            the response object for a REST API invocation
+     * @param response the response object for a REST API invocation
      * @return the logical id value
      */
     protected String getLocationLogicalId(Response response) {
@@ -550,5 +545,18 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             tokens = temp;
         }
         return tokens;
+    }
+    
+    protected Patient setUniqueFamilyName(Patient patient, String uniqueName) {
+        List<com.ibm.watsonhealth.fhir.model.type.String> familyList = new ArrayList<com.ibm.watsonhealth.fhir.model.type.String>();
+        familyList.add(string(uniqueName));
+        List <HumanName> nameList = new ArrayList<HumanName>();
+        for(HumanName humanName: patient.getName()) {
+            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());           
+        }
+        
+        
+        patient = patient.toBuilder().name(nameList).build();
+        return patient;
     }
 }

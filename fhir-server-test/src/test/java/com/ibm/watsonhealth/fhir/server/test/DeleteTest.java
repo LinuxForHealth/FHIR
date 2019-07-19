@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -20,16 +21,14 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.BundleRequest;
-import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
-import com.ibm.watsonhealth.fhir.model.MedicationAdministration;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.ResourceContainer;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.MedicationAdministration;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 
 /**
  * This class tests delete interactions.
@@ -161,25 +160,23 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(2, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "2", HTTPVerbList.DELETE);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType, "1", HTTPVerbList.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType, "1", HTTPVerb.ValueSet.POST);
     }
 
-    private void assertBundleEntry(BundleEntry entry, String expectedURL, String expectedVersionId, HTTPVerbList expectedMethod) throws Exception {
+    private void assertBundleEntry(Bundle.Entry entry, String expectedURL, String expectedVersionId, HTTPVerb.ValueSet expectedMethod) throws Exception {
         if (!deleteSupported) {
             return;
         }
 
         assertNotNull(entry);
-        BundleRequest request = entry.getRequest();
+        Bundle.Entry.Request request = entry.getRequest();
         assertNotNull(request);
         assertEquals(expectedURL, request.getUrl().getValue());
         assertEquals(expectedMethod, request.getMethod().getValue());
-        ResourceContainer rc = entry.getResource();
+        Resource rc = entry.getResource();
         assertNotNull(rc);
-        Resource resource = FHIRUtil.getResourceContainerResource(rc);
-        assertNotNull(resource);
-        MedicationAdministration ma = (MedicationAdministration) resource;
+        MedicationAdministration ma = (MedicationAdministration) rc;
         String actualVersionId = ma.getMeta().getVersionId().getValue();
         assertEquals(expectedVersionId, actualVersionId);
     }
@@ -249,9 +246,9 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(3, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "3", HTTPVerbList.PUT);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "2", HTTPVerbList.DELETE);
-        assertBundleEntry(bundle.getEntry().get(2), deletedType, "1", HTTPVerbList.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "3", HTTPVerb.ValueSet.PUT);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
+        assertBundleEntry(bundle.getEntry().get(2), deletedType, "1", HTTPVerb.ValueSet.POST);
     }
 
     @Test(dependsOnMethods = {
@@ -287,10 +284,10 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(4, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "4", HTTPVerbList.DELETE);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "3", HTTPVerbList.PUT);
-        assertBundleEntry(bundle.getEntry().get(2), deletedType + "/" + deletedId, "2", HTTPVerbList.DELETE);
-        assertBundleEntry(bundle.getEntry().get(3), deletedType, "1", HTTPVerbList.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "4", HTTPVerb.ValueSet.DELETE);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "3", HTTPVerb.ValueSet.PUT);
+        assertBundleEntry(bundle.getEntry().get(2), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
+        assertBundleEntry(bundle.getEntry().get(3), deletedType, "1", HTTPVerb.ValueSet.POST);
     }
 
     @Test
@@ -308,8 +305,9 @@ public class DeleteTest extends FHIRServerTestBase {
             // Read in the resource template.
             Patient patient = readResource(Patient.class, "Patient_MookieBetts.json");
 
-            // Add the uniqueFamily name
-            patient.getName().get(0).getFamily().add(getObjectFactory().createString().withValue(uniqueFamilyName));
+            // Add the uniqueFamily name         
+            patient = setUniqueFamilyName(patient, uniqueFamilyName);
+
             response = client.create(patient);
             assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
             String[] tokens = response.parseLocation(response.getLocation());
@@ -387,8 +385,9 @@ public class DeleteTest extends FHIRServerTestBase {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
         Observation obs = readResource(Observation.class, "Observation1.json");
-        obs.withSubject(objFactory.createReference().withReference(objFactory.createString().withValue(fakePatientRef)));
-        obs.withId(objFactory.createId().withValue(obsId));
+        
+        obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
+
         
         // First conditional delete should find no matches, so we should get back a 404.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
