@@ -21,6 +21,7 @@ import java.util.Stack;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public class FHIRPathTree {    
@@ -97,7 +98,11 @@ public class FHIRPathTree {
 
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
-            builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
+            if (element instanceof Quantity) {
+                builderStack.push(FHIRPathQuantityNode.builder((Quantity) element).name(elementName));
+            } else {
+                builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
+            }
         }
 
         @Override

@@ -130,6 +130,19 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     
     @Override
     public String toString() {
-        return _boolean.toString();
+        return _boolean ? "'true'" : "'false'";
+    }
+    
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        return other instanceof FHIRPathBooleanValue;
+    }
+    
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        return _boolean.compareTo(((FHIRPathBooleanValue) other)._boolean());
     }
 }

@@ -12,15 +12,22 @@ import java.util.Objects;
 
 public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPathNumberValue {
     private final Integer integer;
+    private final BigDecimal decimal;
     
     protected FHIRPathIntegerValue(Builder builder) {
         super(builder);
         integer = builder.integer;
+        // promote this integer to BigDecimal
+        decimal = new BigDecimal(integer.toString());
     }
     
     @Override
     public boolean isIntegerValue() {
         return true;
+    }
+    
+    public BigDecimal decimal() {
+        return decimal;
     }
     
     public Integer integer() {
@@ -81,7 +88,7 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue add(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).add(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.add(node.asDecimalValue().decimal()));
         }
         return integerValue(integer + node.asIntegerValue().integer());
     }
@@ -89,7 +96,7 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue subtract(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).subtract(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.subtract(node.asDecimalValue().decimal()));
         }
         return integerValue(integer - node.asIntegerValue().integer());
     }
@@ -97,7 +104,7 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue multiply(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).multiply(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.multiply(node.asDecimalValue().decimal()));
         }
         return integerValue(integer * node.asIntegerValue().integer());
     }
@@ -105,7 +112,7 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue divide(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).divide(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.divide(node.asDecimalValue().decimal()));
         }
         return integerValue(integer / node.asIntegerValue().integer());
     }
@@ -113,7 +120,7 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue div(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).divideToIntegralValue(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.divideToIntegralValue(node.asDecimalValue().decimal()));
         }
         return integerValue(integer / node.asIntegerValue().integer());
     }
@@ -121,17 +128,24 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue mod(FHIRPathNumberValue node) {
         if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(new BigDecimal(integer.toString()).remainder(node.asDecimalValue().decimal()));
+            return FHIRPathDecimalValue.decimalValue(decimal.remainder(node.asDecimalValue().decimal()));
         }
         return integerValue(integer % node.asIntegerValue().integer());
     }
 
     @Override
-    public int compareTo(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return new BigDecimal(integer.toString()).compareTo(node.asDecimalValue().decimal());
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
         }
-        return integer - node.asIntegerValue().integer();
+        if (other instanceof FHIRPathQuantityNode) {
+            return decimal.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        }
+        FHIRPathNumberValue value = (FHIRPathNumberValue) other;
+        if (value.isDecimalValue()) {
+            return decimal.compareTo(value.asDecimalValue().decimal());
+        }
+        return integer.compareTo(value.asIntegerValue().integer());
     }
     
     @Override

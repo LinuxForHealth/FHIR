@@ -9,11 +9,14 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("'T'HH:mm:ss.SSS[XXX]");
+    
     private final TemporalAccessor time;
     
     protected FHIRPathTimeValue(Builder builder) {
@@ -118,5 +121,32 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     @Override
     public int hashCode() {
         return Objects.hashCode(time);
+    }
+
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        if (other instanceof FHIRPathTimeValue) {
+            FHIRPathTimeValue timeValue = (FHIRPathTimeValue) other;
+            return (time instanceof LocalTime && timeValue.time instanceof LocalTime) || 
+                    (time instanceof OffsetTime && timeValue.time instanceof OffsetTime);
+        }
+        return false;
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        FHIRPathTimeValue timeValue = (FHIRPathTimeValue) other;
+        if (time instanceof LocalTime) {
+            return LocalTime.from(time).compareTo(LocalTime.from(timeValue.time));
+        }
+        return OffsetTime.from(time).compareTo(OffsetTime.from(timeValue.time));
+    }
+    
+    @Override
+    public String toString() {
+        return TIME_FORMATTER.format(time);
     }
 }

@@ -147,4 +147,17 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public String toString() {
         return string;
     }
+    
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        return other instanceof FHIRPathStringValue;
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        return string.compareTo(((FHIRPathStringValue) other).string());
+    }
 }

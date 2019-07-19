@@ -6,12 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    
     private final TemporalAccessor dateTime;
     
     protected FHIRPathDateTimeValue(Builder builder) {
@@ -101,5 +107,51 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     @Override
     public int hashCode() {
         return Objects.hashCode(dateTime);
+    }
+    
+    public boolean isComparableTo(FHIRPathNode other) {
+        return other.isPrimitiveValue() && other.asPrimitiveValue().isDateTimeValue();
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        FHIRPathDateTimeValue value = other.asPrimitiveValue().asDateTimeValue();
+        if (dateTime instanceof Year || value.dateTime instanceof Year) {
+            return Year.from(dateTime).compareTo(Year.from(value.dateTime));
+        }
+        if (dateTime instanceof YearMonth || value.dateTime instanceof YearMonth) {
+            return YearMonth.from(dateTime).compareTo(YearMonth.from(value.dateTime));
+        }
+        if (dateTime instanceof LocalDate || value.dateTime instanceof LocalDate) {
+            return LocalDate.from(dateTime).compareTo(LocalDate.from(value.dateTime));
+        }
+        return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
+    }
+    
+    public boolean greaterThan(FHIRPathDateTimeValue value) {
+        return compareTo(value) > 0;
+    }
+    
+    public boolean greaterThanOrEqual(FHIRPathDateTimeValue value) {
+        return compareTo(value) >= 0;
+    }
+    
+    public boolean lessThan(FHIRPathDateTimeValue value) {
+        return compareTo(value) < 0;
+    }
+    
+    public boolean lessThanOrEqual(FHIRPathDateTimeValue value) {
+        return compareTo(value) <= 0;
+    }
+    
+    @Override
+    public String toString() {
+        if (isPartial()) {
+            return dateTime.toString();
+        }
+        return DATE_TIME_FORMATTER.format(dateTime);
     }
 }

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
-public interface FHIRPathNode {
+public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     String name();
     FHIRPathType type();
     boolean hasValue();
@@ -20,6 +20,9 @@ public interface FHIRPathNode {
     Stream<FHIRPathNode> stream();
     Collection<FHIRPathNode> descendants();
     Visitable visitable();
+    default boolean isComparableTo(FHIRPathNode other) {
+        return false;
+    }
     <T extends FHIRPathNode> boolean is(Class<T> nodeType);
     <T extends FHIRPathNode> T as(Class<T> nodeType);
     default boolean isElementNode() {

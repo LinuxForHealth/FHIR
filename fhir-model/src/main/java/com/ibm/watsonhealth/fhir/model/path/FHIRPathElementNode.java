@@ -13,9 +13,9 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRPathElementNode extends FHIRPathAbstractNode {
-    private final Element element;
+    protected final Element element;
     
-    private FHIRPathElementNode(Builder builder) {
+    protected FHIRPathElementNode(Builder builder) {
         super(builder);
         this.element = builder.element;
     }
@@ -32,6 +32,14 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     @Override
     public boolean isElementNode() {
         return true;
+    }
+    
+    public boolean isQuantityNode() {
+        return false;
+    }
+    
+    public FHIRPathQuantityNode asQuantityNode() {
+        return as(FHIRPathQuantityNode.class);
     }
     
     public static FHIRPathElementNode elementNode(Element element) {
@@ -56,7 +64,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     }
     
     public static class Builder extends FHIRPathAbstractNode.Builder {
-        private final Element element;
+        protected final Element element;
 
         protected Builder(FHIRPathType type, Element element) {
             super(type);

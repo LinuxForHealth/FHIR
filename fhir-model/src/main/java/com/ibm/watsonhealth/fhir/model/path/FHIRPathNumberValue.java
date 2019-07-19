@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
-public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue, Comparable<FHIRPathNumberValue> {
+import java.math.BigDecimal;
+
+public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
     @Override
     default boolean isNumberValue() {
         return true;
@@ -18,6 +20,18 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue, Comparable<
     
     default boolean isIntegerValue() {
         return false;
+    }
+    
+    BigDecimal decimal();
+    Integer integer();
+    
+    @Override
+    default boolean isComparableTo(FHIRPathNode other) {
+        if (other instanceof FHIRPathQuantityNode) {
+            FHIRPathQuantityNode quantityNode = (FHIRPathQuantityNode) other;
+            return quantityNode.isComparableTo(this);
+        }
+        return other instanceof FHIRPathNumberValue;
     }
     
     default FHIRPathDecimalValue asDecimalValue() {
@@ -44,16 +58,4 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue, Comparable<
     FHIRPathNumberValue mod(FHIRPathNumberValue value);
     FHIRPathNumberValue negate();
     FHIRPathNumberValue plus();
-    default boolean greaterThan(FHIRPathNumberValue value) {
-        return compareTo(value) > 0;
-    }
-    default boolean greaterThanOrEqual(FHIRPathNumberValue value) {
-        return compareTo(value) >= 0;
-    }
-    default boolean lessThan(FHIRPathNumberValue value) {
-        return compareTo(value) < 0;
-    }
-    default boolean lessThanOrEqual(FHIRPathNumberValue value) {
-        return compareTo(value) <= 0;
-    }
 }

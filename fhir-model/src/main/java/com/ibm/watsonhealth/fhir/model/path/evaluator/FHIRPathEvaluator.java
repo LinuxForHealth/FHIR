@@ -616,37 +616,37 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+            if (!isSingleton(left) || !isSingleton(right)) {
                 indentLevel--;
                 return SINGLETON_FALSE;
             }
             
             Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+            FHIRPathNode leftNode = getSingleton(left);
+            FHIRPathNode rightNode = getSingleton(right);
             
             String operator = ctx.getChild(1).getText();
-
-            if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
+            
+            if (leftNode.isComparableTo(rightNode)) {
                 switch (operator) {
                 case "<=":
-                    if (leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue())) {
+                    if (leftNode.compareTo(rightNode) <= 0) {
                         result = SINGLETON_TRUE;
                     }
                     break;
                 case "<":
-                    if (leftValue.asNumberValue().lessThan(rightValue.asNumberValue())) {
+                    if (leftNode.compareTo(rightNode) < 0) {
                         result = SINGLETON_TRUE;
                     }
                     break;
                 case ">":
-                    if (leftValue.asNumberValue().greaterThan(rightValue.asNumberValue())) {
+                    if (leftNode.compareTo(rightNode) > 0) {
                         result = SINGLETON_TRUE;
                     }
                     break;
                 case ">=":
-                    if (leftValue.asNumberValue().greaterThanOrEqual(rightValue.asNumberValue())) {
+                    if (leftNode.compareTo(rightNode) >= 0) {
                         result = SINGLETON_TRUE;
                     }
                     break;
