@@ -7,14 +7,13 @@
 package com.ibm.watsonhealth.fhir.operation.test;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
@@ -33,7 +32,7 @@ public class BadOperation extends AbstractOperation {
     protected OperationDefinition buildOperationDefinition() {
         try {
             InputStream in = getClass().getClassLoader().getResourceAsStream("operationdefinition-bad.json");
-            return FHIRUtil.read(OperationDefinition.class, Format.JSON, new InputStreamReader(in));            
+            return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new RuntimeException("Unable to read operationdefinition-bad.json", e);
         }

@@ -9,33 +9,31 @@ package com.ibm.watsonhealth.fhir.operation.validate;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
-
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
-import com.ibm.watsonhealth.fhir.model.type.IssueType;
-import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.type.Narrative;
+import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
-import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
-import com.ibm.watsonhealth.fhir.model.type.Id;
 
 public class ValidateOperation extends AbstractOperation {
     
@@ -47,7 +45,7 @@ public class ValidateOperation extends AbstractOperation {
     protected OperationDefinition buildOperationDefinition() {
         try {
             InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");
-            return FHIRUtil.read(OperationDefinition.class, Format.JSON, new InputStreamReader(in));            
+            return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new Error(e);
         }
