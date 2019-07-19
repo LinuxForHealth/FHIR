@@ -25,7 +25,7 @@ import com.ibm.watsonhealth.fhir.schema.control.FhirSchemaGenerator;
  */
 public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final Logger logger = Logger.getLogger(DerbyFhirDatabase.class.getName());
-    private static final String DATABASE_NAME = "fhirDB";
+    private static final String DATABASE_NAME = "derby/fhirDB";
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
 

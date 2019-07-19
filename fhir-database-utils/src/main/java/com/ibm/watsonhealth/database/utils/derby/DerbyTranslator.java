@@ -188,7 +188,12 @@ public class DerbyTranslator implements IDatabaseTranslator {
     @Override
     public String getUrl(Properties connectionProperties) {
         DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(connectionProperties);
-        return "jdbc:derby:memory:" + adapter.getDatabase();
+        if (adapter.isMemory()) {
+            return "jdbc:derby:memory:" + adapter.getDatabase();
+        }
+        else {
+            return "jdbc:derby:" + adapter.getDatabase();            
+        }
     }
     
     /* (non-Javadoc)

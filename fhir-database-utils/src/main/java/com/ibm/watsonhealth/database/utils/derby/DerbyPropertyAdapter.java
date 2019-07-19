@@ -16,11 +16,21 @@ import com.ibm.watsonhealth.database.utils.common.JdbcPropertyAdapter;
  */
 public class DerbyPropertyAdapter extends JdbcPropertyAdapter {
 
+    public static final String DERBY_MEMORY_KEY = "db.derby.memory";
+
     /**
      * @param properties
      */
     public DerbyPropertyAdapter(Properties properties) {
         super(properties);
+    }
+
+    /**
+     * Getter for the Derby in-memory database flag
+     * @return
+     */
+    public boolean isMemory() {
+        return "Y".equals(this.properties.getProperty(DERBY_MEMORY_KEY));
     }
 
 }

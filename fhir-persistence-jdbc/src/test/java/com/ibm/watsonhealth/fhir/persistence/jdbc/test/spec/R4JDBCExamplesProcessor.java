@@ -25,16 +25,20 @@ import com.ibm.watsonhealth.fhir.persistence.util.ResourceFingerprintVisitor;
 public class R4JDBCExamplesProcessor implements IExampleProcessor {
 	
 	// the list of operations we apply to reach resource
-	final List<ITestResourceOperation> operations = new ArrayList<>();
+	private final List<ITestResourceOperation> operations = new ArrayList<>();
 	
 	// The persistence API
-	final FHIRPersistence persistence;
+	private final FHIRPersistence persistence;
 	
 	// supplier of FHIRPersistenceContext for normal create/update/delete ops
-	final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
+	private final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
 
 	// supplier of FHIRPersistenceContext for history operations
-    final Supplier<FHIRPersistenceContext> historyContextSupplier;
+	private final Supplier<FHIRPersistenceContext> historyContextSupplier;
+
+    // Tenant credentials needed to access our multi-tenant schema
+    private String tenantName;
+    private String tenantKey;
 	
 	
 	/**
@@ -60,6 +64,22 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         operations.add(new DeleteOperation());
         operations.add(new HistoryOperation(4)); // create+update+update+delete = 4 versions
 	}
+
+	/**
+	 * Setter the tenant name
+	 * @param tenantName
+	 */
+	public void setTenantName(String tenantName) {
+	    this.tenantName = tenantName;
+	}
+
+	/**
+	 * Setter for the tenant key
+	 * @param tenantKey
+	 */
+	public void setTenantKey(String tenantKey) {
+	    this.tenantKey = tenantKey;
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.watsonhealth.fhir.model.resource.Resource)
@@ -69,7 +89,8 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
     	// Initialize the test context. As we run through the sequence of operations, each 
 	    // one will update the context which will then be used by the next operation
-    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier, this.historyContextSupplier);
+    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier, this.historyContextSupplier,
+    	    this.tenantName, this.tenantKey);
     	
     	// Clear the id so that we can set it ourselves. The ids from the examples are reused
     	// even though the resources are supposed to be different

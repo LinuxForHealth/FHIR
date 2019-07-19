@@ -14,7 +14,7 @@ import java.util.Properties;
  *
  */
 public class JdbcPropertyAdapter {
-    private final Properties properties;
+    protected final Properties properties;
 
     // Property keys for stuff making up the URL
     public static final String DATABASE_KEY = "db.database";

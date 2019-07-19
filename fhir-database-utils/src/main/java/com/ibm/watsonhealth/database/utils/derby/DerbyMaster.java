@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.database.utils.derby;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,17 +25,19 @@ import com.ibm.watsonhealth.database.utils.model.PhysicalDataModel;
 
 
 /**
- * Set up an in-memory instance of Derby for use
- * with unit tests
+ * Set up an instance of Derby for use with unit tests
  * @author rarnold
  */
 public class DerbyMaster implements AutoCloseable {
     private static final Logger logger = Logger.getLogger(DerbyMaster.class.getName());
+    
+    // The directory holding our derby databases
+    private static final String DERBY_DIR = "derby/";
 
     // The translator to help us out with Derby syntax
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
     
-    // The name of the in-memory database we manage
+    // The name of the database we manage
     private final String database;    
 
     /**
@@ -43,13 +47,67 @@ public class DerbyMaster implements AutoCloseable {
      */
     public DerbyMaster(String database) {
         this.database = database;
+        
+        // Keep all of our tests properly organized
+        if (!database.startsWith(DERBY_DIR)) {
+            throw new IllegalArgumentException("Derby databases must start with: " + DERBY_DIR);
+        }
+        
         try {
             Class.forName(DERBY_TRANSLATOR.getDriverClassName());
         }
         catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
+        
+        try {
+            File dir = new File(database);
+            if (dir.exists()) {
+                delete(dir);
+            }
+        } 
+        catch (IOException e) {
+            throw new IllegalStateException("Failed to delete derby DB: " + database, e);
+        }
     }
+
+    /**
+     * Delete the derby database directory so that we can start with a clean instance
+     * for testing
+     * @param file
+     * @throws IOException
+     */
+    private void delete(File file) throws IOException {
+        if (file.isDirectory()) {
+
+            //directory is empty, then delete it
+            if (file.list().length == 0) {
+                file.delete();
+            } 
+            else {
+                // list all the directory contents
+                String files[] = file.list();
+
+                for (String temp : files) {
+                    //construct the file structure
+                    File fileDelete = new File(file, temp);
+
+                    //recursive delete
+                    delete(fileDelete);
+                }
+
+                // check the directory again, if empty then delete it
+                if (file.list().length==0) {
+                    file.delete();
+                }
+            }
+        } 
+        else {
+            // if file exists, then delete it
+            file.delete();
+        }
+    }
+
     
     /**
      * Create a connection to the in-memory Derby database, creating the
