@@ -30,8 +30,7 @@ import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 public class BadOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("operationdefinition-bad.json");
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("operationdefinition-bad.json");){
             return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new RuntimeException("Unable to read operationdefinition-bad.json", e);

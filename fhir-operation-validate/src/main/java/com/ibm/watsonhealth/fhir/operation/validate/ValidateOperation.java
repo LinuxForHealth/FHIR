@@ -43,8 +43,7 @@ public class ValidateOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");){
             return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
         } catch (Exception e) {
             throw new Error(e);
