@@ -254,6 +254,18 @@ public class FHIRUtil {
             return readAndFilterJson(resourceType, reader, null);
         }
     }
+    
+    /**
+     * Read a FHIR resource from {@code in} in the requested {@code format}.
+     */
+    public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRException {
+        if (Format.XML.equals(format)) {
+            throw new UnsupportedOperationException();
+        } else {
+            // Format.JSON.equals(format)
+            return readAndFilterJson(resourceType, in, null);
+        }
+    }
 
     /**
      * Read JSON from {@code reader} and parse it into a FHIR resource.
