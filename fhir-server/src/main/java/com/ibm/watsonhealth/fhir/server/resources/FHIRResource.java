@@ -116,8 +116,8 @@ import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInt
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
-import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
@@ -3376,7 +3376,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     private Parameter createBasicCodeSearchParameter(String type) {
-        Parameter basicCodeSearchParameter = new Parameter(com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type.TOKEN, "code", null, null);
+        Parameter basicCodeSearchParameter = new Parameter(com.ibm.watsonhealth.fhir.search.SearchConstants.Type.TOKEN, "code", null, null);
         ParameterValue value = new ParameterValue();
         value.setValueCode(type);
         value.setValueSystem(BASIC_RESOURCE_TYPE_URL);

@@ -88,8 +88,8 @@ public class DocumentOperation extends AbstractOperation {
         //Bundle document = factory.createBundle();
         //document.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
         
-    	Bundle.Builder documentBuilder = Bundle.builder(BundleType.DOCUMENT);
-    	
+        Bundle.Builder documentBuilder = Bundle.builder(BundleType.DOCUMENT);
+        
         // the composition is the first bundle entry in the document
         Bundle.Entry.Builder entryBuilder = Entry.builder(); //createBundleEntry();
         //ResourceContainer container = factory.createResourceContainer();
@@ -206,7 +206,7 @@ public class DocumentOperation extends AbstractOperation {
     private void setFullUrl(FHIROperationContext operationContext, Bundle.Entry.Builder entryBuilder, String referenceValue) {
         String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
         if (requestBaseURI != null) {
-        	entryBuilder.fullUrl(uri(requestBaseURI + "/" + referenceValue));
+            entryBuilder.fullUrl(uri(requestBaseURI + "/" + referenceValue));
         }
     }
     

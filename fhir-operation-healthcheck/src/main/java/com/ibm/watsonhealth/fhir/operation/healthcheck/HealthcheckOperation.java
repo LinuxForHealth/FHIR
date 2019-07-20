@@ -59,7 +59,7 @@ public class HealthcheckOperation extends AbstractOperation {
         for (Issue issue : issues) {
             IssueSeverity severity = issue.getSeverity();
             if (severity != null) {
-            	if(severity.getValue()==IssueSeverity.ERROR.getValue() || severity.getValue()==IssueSeverity.FATAL.getValue())
+                if(severity.getValue()==IssueSeverity.ERROR.getValue() || severity.getValue()==IssueSeverity.FATAL.getValue())
                     throw new FHIROperationException("The persistence layer reported one or more issues").withIssue(issues);
             }
         }
