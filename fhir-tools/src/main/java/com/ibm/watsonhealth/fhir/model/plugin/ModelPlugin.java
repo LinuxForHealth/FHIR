@@ -7,10 +7,9 @@
 package com.ibm.watsonhealth.fhir.model.plugin;
 
 import java.io.File;
-import java.util.Map;
+import java.util.Properties;
 
-import javax.json.JsonObject;
-
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -21,7 +20,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
+import com.ibm.watsonhealth.fhir.model.plugin.generator.ModelFactory;
+import com.ibm.watsonhealth.fhir.model.plugin.generator.ModelGenerator;
 
 /**
  * This class coordinates the calls to the fhir-tool plugin
@@ -34,7 +34,7 @@ import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
  * </code>
  * 
  * Run the following to setup the classes in the fhir-model: <code> 
- * mvn com.ibm.watsonhealth.fhir:fhir-tools:generate-model -f ./fhir-parent/pom.xml
+ * mvn com.ibm.watsonhealth.fhir:fhir-tools:generate-model -f ./fhir-model/pom.xml
  * </code>
  * 
  * @author PBastide
@@ -47,8 +47,19 @@ import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
 @Execute(phase = LifecyclePhase.GENERATE_SOURCES)
 public class ModelPlugin extends AbstractMojo {
 
+    // used with overrides -Dgen.version=r4.1
+    private static final String VERSION = "gen.version";
+    private static final String DEFAULT_VERSION = "r4";
+
+    // used to limit to fhir-model. -Dlimit=false
+    private static final String LIMIT = "limit";
+    private static final String DEFAULT_LIMIT = "true";
+
     @Parameter(defaultValue = "${project}", required = true, readonly = true) //$NON-NLS-1$
     protected MavenProject mavenProject;
+
+    @Parameter(defaultValue = "${session}")
+    private MavenSession session;
 
     @Parameter(defaultValue = "${project.basedir}", required = true, readonly = true) //$NON-NLS-1$
     private File baseDir;
@@ -58,38 +69,28 @@ public class ModelPlugin extends AbstractMojo {
         if (baseDir == null || !baseDir.exists()) {
             throw new MojoFailureException("The Base Directory is not found.  Throwing failure. ");
         }
-        String targetDir = baseDir + "/src/main/java";
-        String definitionsDir = baseDir + "/definitions";
-
-        // Only runs for the fhir-model, short-circuits otherwise.
-        if (mavenProject.getArtifactId().contains("fhir-model")) {
-
-            // Check the base directory
-            if ((new File(definitionsDir)).exists()) {
-
-                // injecting for the purposes of setting the header
-                getLog().info("Setting the base dir -> " + baseDir);
-                System.setProperty("BaseDir", baseDir.getAbsolutePath());
-
-                Map<String, JsonObject> structureDefinitionMap =
-                        CodeGenerator.buildResourceMap(definitionsDir + "/profiles-resources.json", "StructureDefinition");
-                structureDefinitionMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/profiles-types.json", "StructureDefinition"));
-
-                Map<String, JsonObject> codeSystemMap = CodeGenerator.buildResourceMap(definitionsDir + "/valuesets.json", "CodeSystem");
-                codeSystemMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/v3-codesystems.json", "CodeSystem"));
-
-                Map<String, JsonObject> valueSetMap = CodeGenerator.buildResourceMap(definitionsDir + "/valuesets.json", "ValueSet");
-                valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/v3-codesystems.json", "ValueSet"));
-
-                getLog().info("[Started] generating the code for fhir-model");
-                CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
-                generator.generate(targetDir);
-
-                getLog().info("[Finished] generating the code for fhir-model");
-            } else {
-                getLog().info("Skipping as the Definitions don't exist in this project " + baseDir);
-            }
-        } else {
-            getLog().info("Skipping project as the artifact is not a model project -> " + mavenProject.getArtifactId());
+        
+        // Grab the Properties (the correct way) 
+        // https://maven.apache.org/plugin-developers/common-bugs.html#Using_System_Properties
+        Properties userProps = session.getUserProperties();
+        String generatorVersion = userProps.getProperty(VERSION,DEFAULT_VERSION);
+        String limit = userProps.getProperty(LIMIT, DEFAULT_LIMIT);
+        
+        // Converts Limit value to boolean value. 
+        boolean limitVal = Boolean.parseBoolean(limit);
+        
+        // Grab the right generator and set it up. 
+        ModelGenerator generator = ModelFactory.getModelGenerator(generatorVersion,getLog());
+        
+        // Get the base directory . 
+        if (generator.useTargetProjectBaseDirectory()) {
+            generator.setTargetProjectBaseDirectory(baseDir.getAbsolutePath());
         }
-    }}
+        
+        // Set the limit value 
+        generator.setLimit(limitVal);
+        
+        // Processes the Model Code. 
+        generator.process(mavenProject, getLog());
+    }
+}
