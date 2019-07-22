@@ -31,18 +31,17 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ibm.watsonhealth.fhir.model.BackboneElement;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.DomainResource;
-import com.ibm.watsonhealth.fhir.model.ElementDefinition;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Quantity;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.StructureDefinition;
+import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.type.ElementDefinition;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 public class FHIROpenApiGenerator {
@@ -163,8 +162,8 @@ public class FHIROpenApiGenerator {
     private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap, String structureDefinitionFile) throws Exception {
         InputStream stream = FHIROpenApiGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
-        for (BundleEntry entry : bundle.getEntry()) {
-            StructureDefinition structureDefinition = entry.getResource().getStructureDefinition();
+        for (Entry entry : bundle.getEntry()) {
+            StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
             if (structureDefinition != null) {
                 String className = structureDefinition.getName().getValue();
                 className = className.substring(0, 1).toUpperCase() + className.substring(1);
