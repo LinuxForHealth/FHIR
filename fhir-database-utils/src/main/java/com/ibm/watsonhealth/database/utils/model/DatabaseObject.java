@@ -96,6 +96,15 @@ public abstract class DatabaseObject implements IDatabaseObject {
     public void addTags(Map<String,String> tags) {
         this.tags.putAll(tags);
     }
+
+    /**
+     * Add the tagGroup/tagValue pair to the tags for this object
+     * @param tagGroup
+     * @param tagValue
+     */
+    public void addTag(String tagGroup, String tagValue) {
+        this.tags.put(tagGroup, tagValue);
+    }
         
     @Override
     public boolean equals(Object other) {

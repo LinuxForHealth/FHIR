@@ -15,7 +15,6 @@ import com.ibm.watsonhealth.database.utils.api.IDatabaseTranslator;
 import com.ibm.watsonhealth.database.utils.derby.DerbyMaster;
 import com.ibm.watsonhealth.database.utils.model.PhysicalDataModel;
 import com.ibm.watsonhealth.database.utils.version.CreateVersionHistory;
-import com.ibm.watsonhealth.fhir.schema.control.AdminSchemaGenerator;
 import com.ibm.watsonhealth.fhir.schema.control.FhirSchemaGenerator;
 
 /**
@@ -43,18 +42,12 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
 
         // Database objects for the admin schema (shared across multiple tenants in the same DB)
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        // Now set up the schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(), admin.getSessionVariable());
-        PhysicalDataModel pdm = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
         gen.buildProcedures(pdm);
 
-        // apply the models we've defined to the new Derby database
-        derby.createSchema(adminModel);
+        // apply the model we've defined to the new Derby database
         derby.createSchema(pdm);
     }
 

@@ -229,6 +229,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @throws SQLException
      */
     private void runStatement(Connection c, final String ddl) throws SQLException {
+        System.out.println(ddl);
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl);
         }

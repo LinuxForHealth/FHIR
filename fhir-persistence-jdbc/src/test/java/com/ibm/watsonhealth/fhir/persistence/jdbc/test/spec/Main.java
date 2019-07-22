@@ -6,10 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.database.utils.common.JdbcConnectionProvider;
+import com.ibm.watsonhealth.database.utils.common.JdbcPropertyAdapter;
+import com.ibm.watsonhealth.database.utils.db2.Db2PropertyAdapter;
+import com.ibm.watsonhealth.database.utils.db2.Db2Translator;
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -34,7 +41,7 @@ public class Main {
 
     // The persistence API
     protected FHIRPersistence persistence = null;
-
+    
     // FHIR datasource configuration properties
     protected Properties configProps = new Properties();
     
@@ -54,6 +61,14 @@ public class Main {
         for (int i=0; i<args.length; i++) {
             String arg = args[i];
             switch (arg) {
+            case "--prop-file":
+                if (++i < args.length) {
+                    loadPropertyFile(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case "--tenant-key":
                 if (++i < args.length) {
                     this.tenantKey = args[i];
@@ -79,11 +94,31 @@ public class Main {
     }
     
     /**
+     * Read the properties from the given file
+     * @param filename
+     */
+    public void loadPropertyFile(String filename) {
+        try (InputStream is = new FileInputStream(filename)) {
+            configProps.load(is);
+        }
+        catch (IOException x) {
+            throw new IllegalArgumentException(x);
+        }
+    }
+    
+    /**
      * Process the examples
      * @throws Exception
      */
     protected void process() throws Exception {
-        persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps);
+        
+        // Set up a connection provider pointing to the DB2 instance described
+        // by the configProps
+        JdbcPropertyAdapter adapter = new Db2PropertyAdapter(configProps);
+        Db2Translator translator = new Db2Translator();
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
+        
+        persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, cp);
         R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
             () -> createPersistenceContext(),
             () -> createHistoryPersistenceContext());

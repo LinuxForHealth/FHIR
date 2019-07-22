@@ -89,6 +89,7 @@ public class Main {
 
     // Arguments requesting we drop the objects from the schema
     private boolean dropSchema = false;
+    private boolean dropAdmin = false;
     private boolean confirmDrop = false;
     private boolean updateSchema = false;
     private boolean updateProc = false;
@@ -165,6 +166,9 @@ public class Main {
                 break;
             case "--update-proc":
                 this.updateProc = true;
+                break;
+            case "--drop-admin":
+                this.dropAdmin = true;
                 break;
             case "--test-tenant":
                 if (++i < args.length) {
@@ -321,13 +325,8 @@ public class Main {
 
     protected void dropSchema() {
 
-        // The admin model needs to be added before any schema (fhir data) model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -336,7 +335,16 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     Db2Adapter adapter = new Db2Adapter(target);
-                    pdm.drop(adapter);
+                    
+                    if (this.dropSchema) {
+                        // Just drop the objects associated with the FHIRDATA schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                    }
+                    
+                    if (dropAdmin) {
+                        // Just drop the objects associated with the ADMIN schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+                    }
                 }
                 catch (Exception x) {
                     c.rollback();
@@ -354,13 +362,9 @@ public class Main {
      * Update the schema
      */
     protected void updateSchema() {
-        // The admin model needs to be added before any schema (fhir data) model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
 
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
         gen.buildProcedures(pdm);
@@ -373,8 +377,6 @@ public class Main {
         ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         Db2Adapter adapter = new Db2Adapter(this.connectionPool);
-
-        applyAdminModel(adminModel, adapter, collector);
         applyDataModel(pdm, adapter, collector);
     }
 
@@ -383,11 +385,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -398,7 +396,6 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     Db2Adapter adapter = new Db2Adapter(target);
-                    adminModel.applyProcedures(adapter);
                     pdm.applyProcedures(adapter);
                 }
                 catch (Exception x) {
@@ -548,6 +545,15 @@ public class Main {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
         }
+        else if (this.dropAdmin) {
+            // only try to drop the admin schema
+            if (this.confirmDrop) {
+                dropSchema();
+            }
+            else {
+                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
+            }
+        }
         else if (updateSchema) {
             updateSchema();
         }
@@ -578,13 +584,8 @@ public class Main {
      * only user the FHIR server itself is configured with.
      */
     protected void grantPrivileges(String groupName) {
-        // The admin model needs to be added before any schema (fhir data) model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -637,14 +638,8 @@ public class Main {
             }
         }
 
-        // Now make sure we have a partition assigned to every (partitioned) table
-        // The admin model needs to be added before any schema (fhir data) model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -727,12 +722,7 @@ public class Main {
         // We don't need to build the physical data model. We just need some info
         // from the generator in order to populate the static tables
         // The admin model needs to be added before any schema (fhir data) model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         populateStaticTables(gen, this.tenantKey);
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -795,14 +785,8 @@ public class Main {
             }
         }
 
-
-        // The admin schema model is required because it has objects referenced by the data schema model
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(adminSchemaName);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, admin.getFhirTablespace(), admin.getSessionVariable());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 

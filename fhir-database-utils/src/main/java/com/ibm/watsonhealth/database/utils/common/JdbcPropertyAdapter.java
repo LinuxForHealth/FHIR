@@ -22,6 +22,7 @@ public class JdbcPropertyAdapter {
     public static final String PASSWORD_KEY = "db.password";
     public static final String HOST_KEY = "db.host";
     public static final String PORT_KEY = "db.port";
+    public static final String DEFAULT_SCHEMA_KEY = "db.default.schema";
     
     
     public JdbcPropertyAdapter(Properties properties) {
@@ -72,6 +73,15 @@ public class JdbcPropertyAdapter {
     public void setPassword(String pw) {
         properties.setProperty(PASSWORD_KEY, pw);
     }
+    
+    public void setDefaultSchema(String schema) {
+        properties.setProperty(DEFAULT_SCHEMA_KEY, schema);
+    }
+    
+    public String getDefaultSchema() {
+        return properties.getProperty(DEFAULT_SCHEMA_KEY);        
+    }
+
     
     protected Properties getProperties() {
         return this.properties;

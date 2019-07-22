@@ -84,6 +84,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         cols.addAll(columns);
 
         String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, tablespaceName);
+        System.out.println(ddl);
 
         // Our multi-tenant tables are range-partitioned as part of our data isolation strategy
         // We reserve partition 0. Real tenant partitions start at 1...

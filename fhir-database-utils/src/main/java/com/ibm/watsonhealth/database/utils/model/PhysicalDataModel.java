@@ -151,7 +151,7 @@ public class PhysicalDataModel implements IDataModel {
      * in reverse order
      * @param target
      */
-    public void drop(IDatabaseAdapter target) {
+    public void drop(IDatabaseAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
         // which we then simply traverse end to start
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
@@ -161,12 +161,26 @@ public class PhysicalDataModel implements IDataModel {
         int count = 1;
         for (int i=total-1; i>=0; i--) {
             IDatabaseObject obj = copy.get(i);            
-            logger.info(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
-            obj.drop(target);
+            
+            if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                logger.info(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
+                obj.drop(target);
+            }
+            else {
+                logger.info(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));                
+            }
         }
         
     }
 
+    /**
+     * Drop the lot
+     * @param target
+     */
+    public void drop(IDatabaseAdapter target) {
+        drop(target, null, null);
+    }
+    
     /**
      * Return all the tables partitioned by the given column name
      * @return

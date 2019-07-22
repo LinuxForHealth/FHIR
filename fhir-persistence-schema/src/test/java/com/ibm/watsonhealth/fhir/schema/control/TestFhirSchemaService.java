@@ -38,15 +38,10 @@ public class TestFhirSchemaService {
 
         logger.info("Testing DB2 schema creation");
 
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(),
-                admin.getSessionVariable());
-        PhysicalDataModel model = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database
@@ -54,7 +49,6 @@ public class TestFhirSchemaService {
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
-        adminModel.apply(adapter);
         model.apply(adapter);
     }
 
@@ -62,16 +56,10 @@ public class TestFhirSchemaService {
     public void testParallelTableCreation() {
         logger.info("Testing DB2 parallel schema build");
 
-        // Build a model of the admin schema components
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(),
-                admin.getSessionVariable());
-        PhysicalDataModel model = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
         TestVersionHistoryService vhs = new TestVersionHistoryService();
@@ -95,16 +83,8 @@ public class TestFhirSchemaService {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        // Build a model of the admin schema components
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(),
-                admin.getSessionVariable());
-        PhysicalDataModel model = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database
@@ -120,16 +100,8 @@ public class TestFhirSchemaService {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        // Build a model of the admin schema components
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(),
-                admin.getSessionVariable());
-        PhysicalDataModel model = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
         // Pretend that our target is a DB2 database. Need to use a connection provider
@@ -151,16 +123,8 @@ public class TestFhirSchemaService {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        // Build a model of the admin schema components
-        AdminSchemaGenerator admin = new AdminSchemaGenerator(ADMIN_SCHEMA_NAME);
-        PhysicalDataModel adminModel = new PhysicalDataModel();
-        admin.buildSchema(adminModel);
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, admin.getFhirTablespace(),
-                admin.getSessionVariable());
-        PhysicalDataModel model = new PhysicalDataModel(adminModel);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database

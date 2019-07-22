@@ -65,6 +65,7 @@ public class Table extends BaseObject {
         this.tablespace = tablespace;
         
         addDependencies(dependencies);
+        
         addTags(tags);
         privileges.forEach(p -> p.addToObject(this));
     }
@@ -111,7 +112,7 @@ public class Table extends BaseObject {
             // tables with this access control enabled
             final String variableName = accessControlVar.getQualifiedName();
             final String tenantPermission = getObjectName() + "_TENANT";
-            final String predicate = getQualifiedName() + ".TENANT_ID = " + variableName;
+            final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
             target.createPermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
             target.activateRowAccessControl(getSchemaName(), getObjectName());
         }

@@ -47,6 +47,12 @@ public class JdbcConnectionProvider implements IConnectionProvider {
         try {
             connection = DriverManager.getConnection(url, connectionProperties);
             connection.setAutoCommit(false);
+
+            // Configure the default schema to use on the connection
+            String schema = properties.getDefaultSchema();
+            if (schema != null && schema.length() > 0) {
+                connection.setSchema(schema);
+            }
         } catch (SQLException x) {
             throw translator.translate(x);
         }

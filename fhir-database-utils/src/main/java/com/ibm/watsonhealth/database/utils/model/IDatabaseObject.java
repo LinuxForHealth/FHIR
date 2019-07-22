@@ -92,6 +92,14 @@ public interface IDatabaseObject {
      * @return
      */
     public Map<String,String> getTags();
+    
+    /**
+     * Add the tag name/value to the tag map for this object
+     * @param tagName
+     * @param tagValue
+     */
+    public void addTag(String tagName, String tagValue);
+
 
     /**
      * The type enum of this object

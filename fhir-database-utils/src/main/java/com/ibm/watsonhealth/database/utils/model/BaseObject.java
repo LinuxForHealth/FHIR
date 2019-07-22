@@ -108,6 +108,7 @@ public abstract class BaseObject implements IDatabaseObject {
         this.tags.putAll(tags);
     }
     
+    @Override
     public void addTag(String tagName, String tagValue) {
         this.tags.put(tagName, tagValue);
     }
