@@ -18,6 +18,8 @@ import com.ibm.watsonhealth.fhir.model.plugin.generator.ModelGenerator;
 import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
 
 /**
+ * Runs in the fhir-tools project 
+ * 
  * @author pbastide@us.ibm.com
  *
  */
@@ -51,6 +53,8 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
     public void process(MavenProject mavenProject, Log log) {
         // Only runs for the fhir-model, short-circuits otherwise.
         String targetDir = baseDirectory + "/src/main/java";
+        baseDirectory = baseDirectory.replace("fhir-model", "fhir-tools");
+        
         String definitionsDir = baseDirectory + "/definitions";
         
         if (mavenProject.getArtifactId().contains("fhir-model") || !limit) {
@@ -59,7 +63,8 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
             if ((new File(definitionsDir)).exists()) {
 
                 // injecting for the purposes of setting the header
-                log.info("Setting the base dir -> " + baseDirectory);
+                log.info("Setting the base dir for definitions -> " + baseDirectory);
+                log.info("Setting the Target Directory -> " + targetDir);
                 System.setProperty("BaseDir", baseDirectory);
 
                 Map<String, JsonObject> structureDefinitionMap =

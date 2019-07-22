@@ -52,7 +52,6 @@ public class R4TargetModelGeneratorImpl implements ModelGenerator {
     @Override
     public void process(MavenProject mavenProject, Log log) {
         // Only runs for the fhir-model, short-circuits otherwise.
-        baseDirectory = baseDirectory.replace("fhir-model", "fhir-tools");
         String targetDir = baseDirectory + "/src/main/java";
         String definitionsDir = baseDirectory + "/definitions";
         

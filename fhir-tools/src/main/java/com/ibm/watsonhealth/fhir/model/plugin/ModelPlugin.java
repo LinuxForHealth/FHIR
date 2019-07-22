@@ -69,28 +69,26 @@ public class ModelPlugin extends AbstractMojo {
         if (baseDir == null || !baseDir.exists()) {
             throw new MojoFailureException("The Base Directory is not found.  Throwing failure. ");
         }
-        
-        // Grab the Properties (the correct way) 
+
+        // Grab the Properties (the correct way)
         // https://maven.apache.org/plugin-developers/common-bugs.html#Using_System_Properties
         Properties userProps = session.getUserProperties();
-        String generatorVersion = userProps.getProperty(VERSION,DEFAULT_VERSION);
+        String generatorVersion = userProps.getProperty(VERSION, DEFAULT_VERSION);
         String limit = userProps.getProperty(LIMIT, DEFAULT_LIMIT);
-        
-        // Converts Limit value to boolean value. 
+
+        // Converts Limit value to boolean value.
         boolean limitVal = Boolean.parseBoolean(limit);
-        
-        // Grab the right generator and set it up. 
-        ModelGenerator generator = ModelFactory.getModelGenerator(generatorVersion,getLog());
-        
-        // Get the base directory . 
-        if (generator.useTargetProjectBaseDirectory()) {
-            generator.setTargetProjectBaseDirectory(baseDir.getAbsolutePath());
-        }
-        
-        // Set the limit value 
+
+        // Grab the right generator and set it up.
+        ModelGenerator generator = ModelFactory.getModelGenerator(generatorVersion, getLog());
+
+        // Get the base directory .
+        generator.setTargetProjectBaseDirectory(baseDir.getAbsolutePath());
+
+        // Set the limit value
         generator.setLimit(limitVal);
-        
-        // Processes the Model Code. 
+
+        // Processes the Model Code.
         generator.process(mavenProject, getLog());
     }
 }
