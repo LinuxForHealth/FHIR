@@ -11,13 +11,14 @@ import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue.decimalV
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.stringValue;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.*;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getBoolean;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getString;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasValueAndUnit;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
@@ -458,7 +459,7 @@ public class FHIRPathEvaluator {
                         }
                     }
                 } else if ((leftNode instanceof FHIRPathDateTimeValue && rightNode instanceof FHIRPathQuantityNode) || 
-                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathDateTimeValue)){
+                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathDateTimeValue)) {
                     
                     FHIRPathDateTimeValue dateTimeValue;
                     if (leftNode instanceof FHIRPathDateTimeValue) {
@@ -943,6 +944,7 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
             debug(ctx);
+            // TODO: needs alternative to using exception for control flow
             BigDecimal decimal = new BigDecimal(ctx.getText());
             try {
                 Integer integer = decimal.intValueExact();

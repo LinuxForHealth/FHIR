@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporal;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
 
 import java.time.LocalTime;
@@ -14,6 +15,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
 import java.util.Collection;
@@ -61,19 +63,11 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         return FHIRPathTimeValue.builder(TIME_PARSER_FORMATTER.parseBest(time, OffsetTime::from, LocalTime::from)).build();
     }
     
-    public static FHIRPathTimeValue timeValue(LocalTime time) {
+    private static FHIRPathTimeValue timeValue(TemporalAccessor time) {
         return FHIRPathTimeValue.builder(time).build();
     }
     
-    public static FHIRPathTimeValue timeValue(OffsetTime time) {
-        return FHIRPathTimeValue.builder(time).build();
-    }
-    
-    public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
-        return FHIRPathTimeValue.builder(time).name(name).build();
-    }
-    
-    public static FHIRPathTimeValue timeValue(String name, OffsetTime time) {
+    public static FHIRPathTimeValue timeValue(String name, TemporalAccessor time) {
         return FHIRPathTimeValue.builder(time).name(name).build();
     }
 
@@ -163,25 +157,15 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     }
     
     public FHIRPathTimeValue add(FHIRPathQuantityNode quantityNode) {
+        Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
-        if (time instanceof LocalTime) {
-            LocalTime localTime = (LocalTime) time;
-            return timeValue(localTime.plus(temporalAmount));
-        } else {
-            OffsetTime offsetTime = (OffsetTime) time;
-            return timeValue(offsetTime.plus(temporalAmount));
-        }
+        return timeValue(temporal.plus(temporalAmount));
     }
     
     public FHIRPathTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+        Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
-        if (time instanceof LocalTime) {
-            LocalTime localTime = (LocalTime) time;
-            return timeValue(localTime.minus(temporalAmount));
-        } else {
-            OffsetTime offsetTime = (OffsetTime) time;
-            return timeValue(offsetTime.minus(temporalAmount));
-        }
+        return timeValue(temporal.minus(temporalAmount));
     }
     
     @Override

@@ -12,6 +12,8 @@ import static java.util.Collections.singletonList;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
@@ -188,6 +190,10 @@ public final class FHIRPathUtil {
             return (LocalDate) temporalAccessor;
         } else if (temporalAccessor instanceof ZonedDateTime) {
             return (ZonedDateTime) temporalAccessor;
+        } else if (temporalAccessor instanceof LocalTime) {
+            return (LocalTime) temporalAccessor;
+        } else if (temporalAccessor instanceof OffsetTime) {
+            return (OffsetTime) temporalAccessor;
         }
         throw new IllegalArgumentException();
     }

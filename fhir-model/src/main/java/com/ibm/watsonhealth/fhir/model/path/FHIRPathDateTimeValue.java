@@ -160,14 +160,14 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     }
     
     public FHIRPathDateTimeValue add(FHIRPathQuantityNode quantityNode) {
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
         Temporal temporal = getTemporal(dateTime);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
         return dateTimeValue(getTemporalAccessor(temporal.plus(temporalAmount), dateTime.getClass()));
     }
     
     public FHIRPathDateTimeValue subtract(FHIRPathQuantityNode quantityNode) {
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
         Temporal temporal = getTemporal(dateTime);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
         return dateTimeValue(getTemporalAccessor(temporal.minus(temporalAmount), dateTime.getClass()));
     }
     
