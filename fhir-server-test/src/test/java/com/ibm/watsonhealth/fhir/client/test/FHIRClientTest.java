@@ -44,13 +44,14 @@ import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Patient.Contact;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * Basic tests related to the FHIR Client API.
  */
 public class FHIRClientTest extends FHIRClientTestBase {
-    private static final String MIMETYPE_JSON = "application/json+fhir";
-    private static final String MIMETYPE_XML = "application/xml+fhir";
+    private static final String MIMETYPE_JSON = MediaType.APPLICATION_JSON_FHIR;
+    private static final String MIMETYPE_XML = MediaType.APPLICATION_XML_FHIR;
     
     private Patient createdPatient = null;
     private Patient updatedPatient = null;

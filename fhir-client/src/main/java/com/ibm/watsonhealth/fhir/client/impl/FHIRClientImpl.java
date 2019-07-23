@@ -47,6 +47,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * Provides an implementation of the FHIRClient interface, which can be used as a high-level API for invoking FHIR REST
@@ -61,7 +62,7 @@ public class FHIRClientImpl implements FHIRClient {
     private Client client = null;
     private Properties clientProperties = null;
     private String baseEndpointURL = null;
-    private String defaultMimeType = "application/json+fhir";
+    private String defaultMimeType = MediaType.APPLICATION_JSON_FHIR;
 
     private boolean basicAuthEnabled = false;
     private String basicAuthUsername = null;

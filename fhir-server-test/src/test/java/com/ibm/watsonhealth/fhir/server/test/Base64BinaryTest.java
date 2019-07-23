@@ -60,6 +60,7 @@ import com.ibm.watsonhealth.fhir.model.type.Markdown;
 import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * This class contains tests for deserializing Base64 encoded binary data. This
@@ -201,7 +202,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail
         // with a base64 encoded value.
         List<Code> listFormats = new ArrayList<Code>();
-        listFormats.add(Code.of("application/json+fhir"));
+        listFormats.add(Code.of(MediaType.APPLICATION_JSON_FHIR));
         CapabilityStatement conformance = CapabilityStatement
                 .builder(PublicationStatus.ACTIVE, DateTime.of("2016-09-22T02:57:46.941Z"),
                         CapabilityStatementKind.CAPABILITY, FHIRVersion.VERSION_4_0_0, listFormats)
@@ -243,7 +244,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Create a Parameters resource containing a Base64 encoded value and signature.
         List<Coding> listCoding = new ArrayList<Coding>();
-        listCoding.add(Coding.builder().code(Code.of("application/json+fhir")).build());
+        listCoding.add(Coding.builder().code(Code.of(MediaType.APPLICATION_JSON_FHIR)).build());
         Parameters parameters = Parameters.builder()
                 .parameter(Parameters.Parameter.builder(string("base64BinaryParameterTest"))
                         .value(Base64Binary.builder().value(valueParameter).build()).build())

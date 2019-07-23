@@ -24,7 +24,7 @@ public interface FHIRClient {
 
     /**
      * Specifies the default mimetype to be used by the FHIRClient instance when invoking
-     * FHIR REST APIs.   If not specified a value of "application/json+fhir" will be used.
+     * FHIR REST APIs.   If not specified a value of "application/fhir+json" will be used.
      */
     public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
     
@@ -162,7 +162,7 @@ public interface FHIRClient {
     
     /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
-     * @param mimeType a string containing the mime-type (e.g. "application/json+fhir")
+     * @param mimeType a string containing the mime-type (e.g. "application/fhir+json")
      * @throws Exception
      */
     void setDefaultMimeType(String mimeType) throws Exception;

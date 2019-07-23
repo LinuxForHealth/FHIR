@@ -55,6 +55,7 @@ import com.ibm.watsonhealth.fhir.model.type.SystemRestfulInteraction;
 import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
 import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.server.test.FHIRNotificationServiceClientEndpoint;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * Base class for fhir-server unit tests.
@@ -97,10 +98,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String ksLocation = null;
     private String ksPassword = null;
 
-    protected static final String MEDIATYPE_JSON = "application/json";
-    protected static final String MEDIATYPE_JSON_FHIR = "application/json+fhir";
-    protected static final String MEDIATYPE_XML = "application/xml";
-    protected static final String MEDIATYPE_XML_FHIR = "application/xml+fhir";
+    protected static final String MEDIATYPE_JSON = MediaType.APPLICATION_JSON;
+    protected static final String MEDIATYPE_JSON_FHIR = MediaType.APPLICATION_JSON_FHIR;
+    protected static final String MEDIATYPE_XML = MediaType.APPLICATION_XML;
+    protected static final String MEDIATYPE_XML_FHIR = MediaType.APPLICATION_XML_FHIR;
 
     private CapabilityStatement conformanceStmt = null;
 

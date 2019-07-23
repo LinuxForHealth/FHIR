@@ -48,6 +48,7 @@ import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * This class provides a command-line interface (CLI) to the FHIR Client API, allowing
@@ -76,7 +77,7 @@ public class FHIRCLI {
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
-    private static final String DEFAULT_MIMETYPE = "application/json+fhir";
+    private static final String DEFAULT_MIMETYPE = MediaType.APPLICATION_JSON_FHIR;
     
     private static PrintStream console = System.err;
     
@@ -362,7 +363,7 @@ public class FHIRCLI {
     private String getMimetype(CommandLine cmdline) {
         String mimeType = DEFAULT_MIMETYPE;
 //        if (cmdline.hasOption(OptionNames.XML.getShortName())) {
-//            mimeType = "application/xml+fhir";
+//            mimeType = "application/fhir+xml";
 //        }
         return mimeType;
     }
