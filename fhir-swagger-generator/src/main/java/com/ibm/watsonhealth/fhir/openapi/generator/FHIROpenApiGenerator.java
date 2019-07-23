@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,17 +30,18 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
+import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
-import com.ibm.watsonhealth.fhir.model.type.ElementDefinition;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition;
+import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
+import com.ibm.watsonhealth.fhir.model.type.ElementDefinition;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 public class FHIROpenApiGenerator {
@@ -99,7 +99,7 @@ public class FHIROpenApiGenerator {
         
         List<String> classNames = getClassNames();
         for (String className : classNames) {
-            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
             if (DomainResource.class.isAssignableFrom(modelClass) && filter.acceptResourceType(modelClass)) {
                 generatePaths(modelClass, paths, filter);
                 JsonObjectBuilder tag = factory.createObjectBuilder();
@@ -167,7 +167,7 @@ public class FHIROpenApiGenerator {
             if (structureDefinition != null) {
                 String className = structureDefinition.getName().getValue();
                 className = className.substring(0, 1).toUpperCase() + className.substring(1);
-                Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+                Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
                 structureDefinitionMap.put(modelClass, structureDefinition);
             }
         }
@@ -325,7 +325,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -337,7 +337,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -374,7 +374,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -386,7 +386,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -489,7 +489,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -501,7 +501,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -562,7 +562,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -574,7 +574,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -600,7 +600,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -612,7 +612,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Conformance");
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -638,7 +638,7 @@ public class FHIROpenApiGenerator {
         
         /**
          * "content": {
-         *                   "application/json+fhir": {
+         *                   "application/fhir+json": {
          *                       "schema": {
          *                           "$ref": "#/components/schemas/Bundle"
          *                       }
@@ -650,7 +650,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         response.add("content", content);
         responses.add("200", response);
@@ -659,7 +659,7 @@ public class FHIROpenApiGenerator {
         /**
         "requestBody": {
             "content": {
-                "application/json+fhir": {
+                "application/fhir+json": {
                     "schema": {
                         "$ref": "#/components/schemas/Bundle"
                     }
@@ -674,7 +674,7 @@ public class FHIROpenApiGenerator {
         schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add("application/json+fhir", contentType);
+        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
         
         requestBody.add("content", content.build());
         requestBody.add("required", true);
@@ -687,7 +687,7 @@ public class FHIROpenApiGenerator {
         if (FHIRUtil.isStandardResourceType(modelClass.getSimpleName())) {
 //        "Coverage": {
 //            "content": {
-//                "application/json+fhir": {
+//                "application/fhir+json": {
 //                    "schema": {
 //                        "$ref": "#/components/schemas/Coverage"
 //                    }
@@ -702,7 +702,7 @@ public class FHIROpenApiGenerator {
             JsonObjectBuilder schema = factory.createObjectBuilder();
             schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
             contentType.add("schema", schema);
-            content.add("application/json+fhir", contentType);
+            content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
             
             requestBody.add("content", content);
             requestBody.add("required", true);
@@ -816,7 +816,7 @@ public class FHIROpenApiGenerator {
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + "List");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -898,21 +898,12 @@ public class FHIROpenApiGenerator {
     }
 
     private static List<String> getClassNames() {
-        List<String> classNames = new ArrayList<String>();
-        for (Method method : ObjectFactory.class.getDeclaredMethods()) {
-            String methodName = method.getName();
-            if (methodName.startsWith("create") && method.getParameterCount() == 0) {
-                String className = methodName.substring("create".length());
-                classNames.add(className);
-            }
-        }
-        Collections.sort(classNames);
-        return classNames;
+        return FHIRUtil.getResourceTypeNames();
     }
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + "List");
+            Class.forName(type.getName() + ".ValueSet");
             return true;
         } catch (Exception e) {
         }
@@ -921,7 +912,7 @@ public class FHIROpenApiGenerator {
 
     private static Class<?> getAdapterClass(Class<?> modelClass) {
         try {
-            if (modelClass.getPackage().getName().startsWith("com.ibm.watsonhealth.fhir.model")) {
+            if (modelClass.getPackage().getName().startsWith("com.ibm.watsonhealth.fhir.model.resource")) {
                 Class<?> adapterClass = Class.forName("com.ibm.watsonhealth.fhir.model.adapters." + modelClass.getSimpleName() + "Adapter");
                 return adapterClass;                
             }
@@ -992,7 +983,7 @@ public class FHIROpenApiGenerator {
     private static Map<String, List<String>> buildAcceptAllFilterMap() throws Exception {
         Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
         for (String className : getClassNames()) {
-            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search", "history", "batch", "transaction");

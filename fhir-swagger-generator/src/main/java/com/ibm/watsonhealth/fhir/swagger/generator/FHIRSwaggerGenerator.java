@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,18 +30,18 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ibm.watsonhealth.fhir.model.BackboneElement;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.DomainResource;
-import com.ibm.watsonhealth.fhir.model.ElementDefinition;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Quantity;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.StructureDefinition;
+import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition;
+import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
+import com.ibm.watsonhealth.fhir.model.type.ElementDefinition;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 public class FHIRSwaggerGenerator {
@@ -84,7 +83,7 @@ public class FHIRSwaggerGenerator {
         
         List<String> classNames = getClassNames();
         for (String className : classNames) {
-            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
             if (DomainResource.class.isAssignableFrom(modelClass) && filter.acceptResourceType(modelClass)) {
                 generatePaths(modelClass, paths, filter);
                 JsonObjectBuilder tag = factory.createObjectBuilder();
@@ -142,12 +141,12 @@ public class FHIRSwaggerGenerator {
     private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap, String structureDefinitionFile) throws Exception {
         InputStream stream = FHIRSwaggerGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
-        for (BundleEntry entry : bundle.getEntry()) {
-            StructureDefinition structureDefinition = entry.getResource().getStructureDefinition();
+        for (Entry entry : bundle.getEntry()) {
+            StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
             if (structureDefinition != null) {
                 String className = structureDefinition.getName().getValue();
                 className = className.substring(0, 1).toUpperCase() + className.substring(1);
-                Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+                Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
                 structureDefinitionMap.put(modelClass, structureDefinition);
             }
         }
@@ -251,7 +250,7 @@ public class FHIRSwaggerGenerator {
         post.add("operationId", "create" + modelClass.getSimpleName());
         
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add("application/json+fhir");
+        consumes.add(MediaType.APPLICATION_FHIR_JSON);
         post.add("consumes", consumes);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -289,7 +288,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "read" + modelClass.getSimpleName());
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -325,7 +324,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "vread" + modelClass.getSimpleName());
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -365,7 +364,7 @@ public class FHIRSwaggerGenerator {
         put.add("operationId", "update" + modelClass.getSimpleName());
         
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add("application/json+fhir");
+        consumes.add(MediaType.APPLICATION_FHIR_JSON);
         put.add("consumes", consumes);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -441,7 +440,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "search" + modelClass.getSimpleName());
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -496,7 +495,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "history" + modelClass.getSimpleName());
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -532,7 +531,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "metadata");
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
         
         JsonObjectBuilder responses = factory.createObjectBuilder();
@@ -561,7 +560,7 @@ public class FHIRSwaggerGenerator {
         post.add("operationId", "batch");
         
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add("application/json+fhir");
+        consumes.add(MediaType.APPLICATION_FHIR_JSON);
         post.add("consumes", consumes);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -579,7 +578,7 @@ public class FHIRSwaggerGenerator {
         post.add("parameters", parameters);
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add("application/json+fhir");
+        produces.add(MediaType.APPLICATION_FHIR_JSON);
         post.add("produces", produces);
         
         JsonObjectBuilder responses = factory.createObjectBuilder();
@@ -625,7 +624,7 @@ public class FHIRSwaggerGenerator {
             }
             
             Class<?> superClass = modelClass.getSuperclass();
-            if (superClass != null && "com.ibm.watsonhealth.fhir.model".equals(superClass.getPackage().getName())) {
+            if (superClass != null && "com.ibm.watsonhealth.fhir.model.resource".equals(superClass.getPackage().getName())) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
                 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -703,7 +702,7 @@ public class FHIRSwaggerGenerator {
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + "List");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -785,21 +784,12 @@ public class FHIRSwaggerGenerator {
     }
 
     private static List<String> getClassNames() {
-        List<String> classNames = new ArrayList<String>();
-        for (Method method : ObjectFactory.class.getDeclaredMethods()) {
-            String methodName = method.getName();
-            if (methodName.startsWith("create") && method.getParameterCount() == 0) {
-                String className = methodName.substring("create".length());
-                classNames.add(className);
-            }
-        }
-        Collections.sort(classNames);
-        return classNames;
+        return FHIRUtil.getResourceTypeNames();
     }
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + "List");
+            Class.forName(type.getName() + ".ValueSet");
             return true;
         } catch (Exception e) {
         }
@@ -808,7 +798,7 @@ public class FHIRSwaggerGenerator {
 
     private static Class<?> getAdapterClass(Class<?> modelClass) {
         try {
-            if (modelClass.getPackage().getName().startsWith("com.ibm.watsonhealth.fhir.model")) {
+            if (modelClass.getPackage().getName().startsWith("com.ibm.watsonhealth.fhir.model.resource")) {
                 Class<?> adapterClass = Class.forName("com.ibm.watsonhealth.fhir.model.adapters." + modelClass.getSimpleName() + "Adapter");
                 return adapterClass;                
             }
@@ -879,7 +869,7 @@ public class FHIRSwaggerGenerator {
     private static Map<String, List<String>> buildAcceptAllFilterMap() throws Exception {
         Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
         for (String className : getClassNames()) {
-            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
+            Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search", "history", "batch", "transaction");

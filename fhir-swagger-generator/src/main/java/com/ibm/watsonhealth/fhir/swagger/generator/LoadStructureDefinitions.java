@@ -8,13 +8,13 @@ package com.ibm.watsonhealth.fhir.swagger.generator;
 
 import java.io.InputStream;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.Id;
-import com.ibm.watsonhealth.fhir.model.OperationDefinition;
-import com.ibm.watsonhealth.fhir.model.StructureDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 
 public class LoadStructureDefinitions {
     public static void main(String[] args) throws Exception {
@@ -22,15 +22,15 @@ public class LoadStructureDefinitions {
         InputStream stream = LoadStructureDefinitions.class.getClassLoader().getResourceAsStream("profiles-resources.xml");
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
         int entryCount = 0;
-        for (BundleEntry entry : bundle.getEntry()) {
-            StructureDefinition structureDefinition = entry.getResource().getStructureDefinition();
+        for (Entry entry : bundle.getEntry()) {
+            StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
             if (structureDefinition != null) {
                 Id id = structureDefinition.getId();
                 if (id != null) {
                     System.out.println("StructureDefinition.id: " + id.getValue());
                 }
             }
-            OperationDefinition operationDefinition = entry.getResource().getOperationDefinition();
+            OperationDefinition operationDefinition = (OperationDefinition)entry.getResource();
             if (operationDefinition != null) {
                 Id id = operationDefinition.getId();
                 if (id != null) {
