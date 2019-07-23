@@ -151,7 +151,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-        this.setBaseDao(new FHIRDbDAOBasicImpl(cp));
+        this.setBaseDao(new FHIRDbDAOBasicImpl(cp, configProps.getProperty("adminSchemaName")));
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAOBasicImpl(this.getManagedConnection());
         this.parameterDao = new ParameterDAOBasicImpl(this.getManagedConnection());

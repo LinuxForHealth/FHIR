@@ -17,12 +17,15 @@ import com.ibm.watsonhealth.database.utils.common.JdbcConnectionProvider;
 import com.ibm.watsonhealth.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2Translator;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
+import com.ibm.watsonhealth.fhir.model.spec.test.SerializationProcessor;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
@@ -45,9 +48,16 @@ public class Main {
     // FHIR datasource configuration properties
     protected Properties configProps = new Properties();
     
+    private String schemaName = "FHIRDATA"; // default
     private String tenantName;
-    private boolean testTenant;
     private String tenantKey;
+
+    // mode of operation
+    private static enum Operation {
+        DB2, DERBY, PARSE
+    }
+    
+    private Operation mode = Operation.DB2;
 
     
     /**
@@ -77,6 +87,14 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }                
                 break;
+            case "--schema-name":
+                if (++i < args.length) {
+                    this.schemaName = args[i];
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case "--tenant-name":
                 if (++i < args.length) {
                     this.tenantName = args[i];
@@ -85,12 +103,19 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-
+            case "--derby":
+                this.mode = Operation.DERBY;
+                break;
+            case "--parse":
+                this.mode = Operation.PARSE;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
         }
         
+        // Inject the data schema name into the configuration properties
+        configProps.setProperty("db.default.schema", schemaName);
     }
     
     /**
@@ -105,12 +130,30 @@ public class Main {
             throw new IllegalArgumentException(x);
         }
     }
+
+    /**
+     * Run the test with Derby or DB2, depending on the chosen option
+     * @throws Exception
+     */
+    protected void process() throws Exception {
+        switch (this.mode) {
+        case DB2:
+            processDB2();
+            break;
+        case DERBY:
+            processDerby();
+            break;
+        case PARSE:
+            processParse();
+            break;
+        }
+    }
     
     /**
      * Process the examples
      * @throws Exception
      */
-    protected void process() throws Exception {
+    protected void processDB2() throws Exception {
         
         // Set up a connection provider pointing to the DB2 instance described
         // by the configProps
@@ -118,24 +161,66 @@ public class Main {
         Db2Translator translator = new Db2Translator();
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         
+        // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
+        // Must set this BEFORE we create our persistence object
+        if (this.tenantName != null) {
+            if (tenantKey == null) {
+                throw new IllegalArgumentException("No tenant-key provided");
+            }
+            
+            // Set up the FHIRRequestContext on this thread so that the persistence layer
+            // can configure itself for this tenant
+            FHIRRequestContext rc = FHIRRequestContext.get();
+            rc.setTenantId(this.tenantName);
+            rc.setTenantKey(this.tenantKey);
+        }
+
+        
         persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, cp);
         R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
             () -> createPersistenceContext(),
             () -> createHistoryPersistenceContext());
-
-        // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
-        if (this.tenantName != null) {
-            processor.setTenantName(this.tenantName);
-            processor.setTenantKey(this.tenantKey);
-        }
-        
+                
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
         driver.processAllExamples();        
     }
+
+    /**
+     * Use a derby target to process the examples
+     * @throws Exception
+     */
+    protected void processDerby() throws Exception {
+        
+        // Set up a connection provider pointing to the DB2 instance described
+        // by the configProps
+        try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
+        
+            persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, database);
+            R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+                () -> createPersistenceContext(),
+                () -> createHistoryPersistenceContext());
+                    
+            // The driver will iterate over all the JSON examples in the R4 specification, parse
+            // the resource and call the processor.
+            R4ExamplesDriver driver = new R4ExamplesDriver();
+            driver.setProcessor(processor);
+            driver.processAllExamples();        
+        }
+    }
     
+    /**
+     * Do a parse-only run through the examples, useful for profiling
+     */
+    protected void processParse() throws Exception {
+        R4ExamplesDriver driver = new R4ExamplesDriver();
+        SerializationProcessor processor = new SerializationProcessor();
+        driver.setProcessor(processor);
+        driver.processAllExamples();        
+    }
+
 
     /**
      * Create a new {@link FHIRPersistenceContext} for the test

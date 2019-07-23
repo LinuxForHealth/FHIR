@@ -17,7 +17,7 @@ public class AllVersionHistoryService implements IVersionHistoryService {
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#addVersion(java.lang.String, java.lang.String, int)
      */
     @Override
-    public void addVersion(String objectType, String objectName, int version) {
+    public void addVersion(String objectSchema, String objectType, String objectName, int version) {
         // NOP...this implementation doesn't do any version tracking
     }
 
@@ -25,7 +25,7 @@ public class AllVersionHistoryService implements IVersionHistoryService {
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#applies(java.lang.String, java.lang.String, int)
      */
     @Override
-    public boolean applies(String objectType, String objectName, int version) {
+    public boolean applies(String objectSchema, String objectType, String objectName, int version) {
         // we always say yes
         return true;
     }

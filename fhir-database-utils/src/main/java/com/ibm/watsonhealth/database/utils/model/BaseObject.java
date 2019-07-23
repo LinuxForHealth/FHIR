@@ -241,7 +241,7 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param vhs the service used to manage the version history table
      */
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
-        if (vhs.applies(getObjectType().name(), getObjectName(), version)) {
+        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
             logger.info("Applying change [v" + version + "]: " + this.getTypeAndName());
             
             // Apply this change to the target database
@@ -249,7 +249,7 @@ public abstract class BaseObject implements IDatabaseObject {
             
             // call back to the version history service to add the new version to the table
             // being used to track the change history
-            vhs.addVersion(getObjectType().name(), getObjectName(), getVersion());
+            vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
         }
     }
 

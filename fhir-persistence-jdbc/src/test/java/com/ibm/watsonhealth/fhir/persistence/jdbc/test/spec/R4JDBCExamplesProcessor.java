@@ -35,10 +35,6 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
 	// supplier of FHIRPersistenceContext for history operations
 	private final Supplier<FHIRPersistenceContext> historyContextSupplier;
-
-    // Tenant credentials needed to access our multi-tenant schema
-    private String tenantName;
-    private String tenantKey;
 	
 	
 	/**
@@ -65,22 +61,6 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         operations.add(new HistoryOperation(4)); // create+update+update+delete = 4 versions
 	}
 
-	/**
-	 * Setter the tenant name
-	 * @param tenantName
-	 */
-	public void setTenantName(String tenantName) {
-	    this.tenantName = tenantName;
-	}
-
-	/**
-	 * Setter for the tenant key
-	 * @param tenantKey
-	 */
-	public void setTenantKey(String tenantKey) {
-	    this.tenantKey = tenantKey;
-	}
-	
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.watsonhealth.fhir.model.resource.Resource)
 	 */
@@ -89,8 +69,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
     	// Initialize the test context. As we run through the sequence of operations, each 
 	    // one will update the context which will then be used by the next operation
-    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier, this.historyContextSupplier,
-    	    this.tenantName, this.tenantKey);
+    	TestContext context = new TestContext(this.persistence, this.persistenceContextSupplier, this.historyContextSupplier);
     	
     	// Clear the id so that we can set it ourselves. The ids from the examples are reused
     	// even though the resources are supposed to be different

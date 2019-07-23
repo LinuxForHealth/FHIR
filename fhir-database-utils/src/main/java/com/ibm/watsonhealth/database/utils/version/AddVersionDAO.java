@@ -21,12 +21,17 @@ import com.ibm.watsonhealth.database.utils.model.InsertStatement;
  *
  */
 public class AddVersionDAO implements IDatabaseStatement {
+    // The admin schema holding the history table
+    private final String adminSchemaName;
+    
+    // The schema, type and name of the object we want to manage
     private final String schemaName;
     private final String type;
     private final String name;
     private final int version;
     
-    public AddVersionDAO(String schemaName, String type, String name, int version) {
+    public AddVersionDAO(String adminSchemaName, String schemaName, String type, String name, int version) {
+        this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
         this.type = type;
         this.name = name;
@@ -39,7 +44,8 @@ public class AddVersionDAO implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         
-        final InsertStatement ins = InsertStatement.builder(schemaName, SchemaConstants.VERSION_HISTORY)
+        final InsertStatement ins = InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
+                .addColumn(SchemaConstants.SCHEMA_NAME)
                 .addColumn(SchemaConstants.OBJECT_TYPE)
                 .addColumn(SchemaConstants.OBJECT_NAME)
                 .addColumn(SchemaConstants.VERSION)
@@ -47,9 +53,10 @@ public class AddVersionDAO implements IDatabaseStatement {
                 .build();
         
         try (PreparedStatement ps = c.prepareStatement(ins.toString())) {
-            ps.setString(1, type);
-            ps.setString(2, name);
-            ps.setInt(3, version);
+            ps.setString(1, schemaName);
+            ps.setString(2, type);
+            ps.setString(3, name);
+            ps.setInt(4, version);
             ps.executeUpdate();
         }
         catch (SQLException x) {

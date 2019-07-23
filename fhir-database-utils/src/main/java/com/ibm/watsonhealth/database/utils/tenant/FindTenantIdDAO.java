@@ -45,7 +45,7 @@ public class FindTenantIdDAO implements IDatabaseSupplier<Integer> {
     public Integer run(IDatabaseTranslator translator, Connection c) {
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = ""
-                + " SELECT tenant_id "
+                + " SELECT mt_id "
                 + "   FROM " + tableName
                 + "    WHERE tenant_name = ? "
                 ;

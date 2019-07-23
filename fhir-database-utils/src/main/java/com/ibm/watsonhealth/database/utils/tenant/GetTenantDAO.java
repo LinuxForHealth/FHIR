@@ -48,7 +48,7 @@ public class GetTenantDAO implements IDatabaseSupplier<Tenant> {
     public Tenant run(IDatabaseTranslator translator, Connection c) {
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = ""
-                + "   SELECT tenant_id, tenant_status "
+                + "   SELECT mt_id, tenant_status "
                 + "     FROM " + tableName
                 + "    WHERE tenant_name = ?";
 

@@ -143,7 +143,7 @@ public interface IDatabaseAdapter {
 
     /**
      * CREATE PERMISSION ROW_ACCESS ON ptng.patients
-         FOR ROWS WHERE patients.tenant_id = ptng.session_tenant
+         FOR ROWS WHERE patients.mt_id = ptng.session_tenant
          ENFORCED FOR ALL ACCESS
            ENABLE;
      * @param tableName

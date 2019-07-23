@@ -33,21 +33,15 @@ public class TestContext {
 	
 	// Current resource value
 	private Resource resource;
-
-	// Credentials for accessing the multi-tenant schema
-	private final String tenantName;
-	private final String tenantKey;
 	
 	/**
 	 * Initialize the context with the persistence API
 	 */
 	public TestContext(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
-	    Supplier<FHIRPersistenceContext> historyContextSupplier, String tenantName, String tenantKey) {
+	    Supplier<FHIRPersistenceContext> historyContextSupplier) {
 		this.persistence = persistence;
 		this.persistenceContextSupplier = persistenceContextSupplier;
 		this.historyContextSupplier = historyContextSupplier;
-		this.tenantName = tenantName;
-		this.tenantKey = tenantKey;
 	}
 	
 	public Resource getResource() {

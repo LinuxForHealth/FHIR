@@ -53,7 +53,7 @@ public class AddTenantKeyDAO implements IDatabaseStatement {
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANT_KEYS");
         final String idSeq = DataDefinitionUtil.getQualifiedName(schemaName, idSequenceName);
         final String SQL = ""
-                + "   INSERT INTO " + tableName + "(tenant_key_id, tenant_id, tenant_salt, tenant_hash)"
+                + "   INSERT INTO " + tableName + "(tenant_key_id, mt_id, tenant_salt, tenant_hash)"
                 + "        VALUES (next value for " + idSeq + ", ?, ?, SYSIBM.HASH(? || ?, 2))"
                 ;
 

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
+import java.util.Base64;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class FHIRRequestContext {
     private static final Logger log = Logger.getLogger(FHIRRequestContext.class.getName());
 
     private String tenantId;
+    private String tenantKey;
     private String dataStoreId;
     private String requestUniqueId;
     
@@ -61,12 +63,32 @@ public class FHIRRequestContext {
         return tenantId;
     }
     
+    public String getTenantKey() {
+        return this.tenantKey;
+    }
+    
     public void setTenantId(String tenantId) throws FHIRException {
         Matcher matcher = validChars.matcher(tenantId);
         if (matcher.matches()) {
             this.tenantId = tenantId;
         } else {
             throw new FHIRException("Invalid tenantId. " + errorMsg);
+        }
+    }
+
+    /**
+     * Setter for the tenant key
+     * @param b64
+     * @throws FHIRException if the given value is not a valid Base64 string
+     */
+    public void setTenantKey(String b64) throws FHIRException {
+        try {
+            Base64.getDecoder().decode(b64);
+            this.tenantKey = b64;
+        }
+        catch (IllegalArgumentException x) {
+            // Tenant key is a secret, so don't include it in any error message
+            throw new FHIRException("Invalid tenantKey.");
         }
     }
     

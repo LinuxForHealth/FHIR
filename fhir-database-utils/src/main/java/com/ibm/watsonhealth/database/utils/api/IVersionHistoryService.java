@@ -16,19 +16,21 @@ public interface IVersionHistoryService {
 
     /**
      * Add this version (idempotent)
+     * @param objectSchema
      * @param objectType
      * @param objectName
      * @param version
      */
-    public void addVersion(String objectType, String objectName, int version);
+    public void addVersion(String objectSchema, String objectType, String objectName, int version);
     
     /**
      * Check to see if we described object is newer than we have currently in the
      * database
+     * @param objectSchema
      * @param objectType
      * @param objectName
      * @param version
      * @return
      */
-    public boolean applies(String objectType, String objectName, int version);
+    public boolean applies(String objectSchema, String objectType, String objectName, int version);
 }

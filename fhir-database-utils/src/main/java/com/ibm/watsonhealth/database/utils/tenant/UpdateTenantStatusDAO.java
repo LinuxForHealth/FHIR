@@ -50,7 +50,7 @@ public class UpdateTenantStatusDAO implements IDatabaseStatement {
         final String DML = ""
                 + "   UPDATE " + tableName
                 + "      SET tenant_status = ? "
-                + "    WHERE tenant_id = ? "
+                + "    WHERE mt_id = ? "
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {

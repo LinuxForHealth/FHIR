@@ -49,7 +49,7 @@ public class AddTenantDAO implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = ""
-                + "   INSERT INTO " + tableName + "(tenant_id, tenant_status, tenant_name)"
+                + "   INSERT INTO " + tableName + "(mt_id, tenant_status, tenant_name)"
                 + "        VALUES (?, ?, ?)"
                 ;
 

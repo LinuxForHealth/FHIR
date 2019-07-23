@@ -69,7 +69,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     
     private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.%s_add_resource2(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -679,56 +679,58 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                 log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
-                        
+
+            // TODO avoid the round-trip and use the configured data schema name
             currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, currentSchema,resource.getResourceType());
+            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, currentSchema);
             stmt = connection.prepareCall(stmtString);
-            stmt.setString(1, resource.getLogicalId());
-            stmt.setBytes(2, resource.getData());
+            stmt.setString(1, resource.getResourceType());
+            stmt.setString(2, resource.getLogicalId());
+            stmt.setBytes(3, resource.getData());
             // If there is a lastUpdated attribute in the ReplicationContext, use it.
             replicationLastUpdated = this.getReplicationLastUpdated();
             lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
-            stmt.setTimestamp(3, lastUpdated);
-            stmt.setString(4, resource.isDeleted() ? "Y": "N");
-            stmt.setString(5, UUID.randomUUID().toString());
-            stmt.setString(6, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
-            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
-            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
-            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getTenantId());
-            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getReason());
-            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getEvent());
-            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getSiteId());
-            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getStudyId());
-            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getServiceId());
-            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getPatientId());
-            stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
-            stmt.setInt(17, resource.getVersionId());
+            stmt.setTimestamp(4, lastUpdated);
+            stmt.setString(5, resource.isDeleted() ? "Y": "N");
+            stmt.setString(6, UUID.randomUUID().toString());
+            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
+            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
+            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
+            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getTenantId());
+            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getReason());
+            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getEvent());
+            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getSiteId());
+            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getStudyId());
+            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getServiceId());
+            stmt.setString(16, this.getReplicationInfo(resource.isDeleted()).getPatientId());
+            stmt.setObject(17, this.getReplicationVersionId(), Types.INTEGER);
+            stmt.setInt(18, resource.getVersionId());
             
             // Transform the passed search parameters into SQL parameter array structures.
             if (parameterDao != null && parameters != null) {
-                stmt.setArray(18, parameterDao.transformStringParameters(connection, currentSchema, parameters));
-                stmt.setArray(19, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
-                stmt.setArray(20, parameterDao.transformDateParameters(connection, currentSchema, parameters));
-                stmt.setArray(21, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
-                stmt.setArray(22, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
-                stmt.setArray(23, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
+                stmt.setArray(19, parameterDao.transformStringParameters(connection, currentSchema, parameters));
+                stmt.setArray(20, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
+                stmt.setArray(21, parameterDao.transformDateParameters(connection, currentSchema, parameters));
+                stmt.setArray(22, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
+                stmt.setArray(23, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
+                stmt.setArray(24, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
             }
             else {
-                stmt.setArray(18, null);
                 stmt.setArray(19, null);
                 stmt.setArray(20, null);
                 stmt.setArray(21, null);
                 stmt.setArray(22, null);
                 stmt.setArray(23, null);
+                stmt.setArray(24, null);
             }
-            stmt.setString(24, this.isRepInfoRequired() ? "Y": "N");
-            stmt.registerOutParameter(25, Types.BIGINT);
+            stmt.setString(25, this.isRepInfoRequired() ? "Y": "N");
+            stmt.registerOutParameter(26, Types.BIGINT);
             
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             
-            resource.setId(stmt.getLong(25));
+            resource.setId(stmt.getLong(26));
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }

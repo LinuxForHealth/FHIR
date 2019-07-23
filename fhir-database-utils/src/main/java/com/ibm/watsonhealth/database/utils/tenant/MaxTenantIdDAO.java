@@ -42,7 +42,7 @@ public class MaxTenantIdDAO implements IDatabaseSupplier<Integer> {
     public Integer run(IDatabaseTranslator translator, Connection c) {
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = ""
-                + "   SELECT MAX(tenant_id) FROM " + tableName;
+                + "   SELECT MAX(mt_id) FROM " + tableName;
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();

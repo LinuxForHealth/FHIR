@@ -61,7 +61,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             String tablespaceName) {
         
-        // With DB2 we can implement support for multitenancy, which we do by injecting a TENANT_ID column
+        // With DB2 we can implement support for multitenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column
         List<ColumnBase> cols = new ArrayList<>(columns.size()+1);
         if (tenantColumnName != null) {
@@ -84,11 +84,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         cols.addAll(columns);
 
         String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, tablespaceName);
-        System.out.println(ddl);
 
         // Our multi-tenant tables are range-partitioned as part of our data isolation strategy
         // We reserve partition 0. Real tenant partitions start at 1...
-        // PARTITION BY RANGE (tenant_id) (STARTING 0 INCLUSIVE ENDING 0 INCLUSIVE)
+        // PARTITION BY RANGE (mt_id) (STARTING 0 INCLUSIVE ENDING 0 INCLUSIVE)
         if (tenantColumnName != null) {
             ddl = ddl + " PARTITION BY RANGE (" + tenantColumnName + ") "
                     + "(STARTING 0 INCLUSIVE "

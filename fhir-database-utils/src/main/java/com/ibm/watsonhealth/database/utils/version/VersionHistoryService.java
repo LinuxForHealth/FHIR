@@ -23,7 +23,11 @@ import com.ibm.watsonhealth.database.utils.api.IVersionHistoryService;
  *
  */
 public class VersionHistoryService implements IVersionHistoryService {
+
+    // The name of the admin schema we are working with
+    private final String adminSchemaName;
     
+    // The name of the data schema we are working with
     private final String schemaName;
     
     // Allows us to start a transaction
@@ -35,7 +39,8 @@ public class VersionHistoryService implements IVersionHistoryService {
     // The map of version history information loaded from the database
     private Map<String,Integer> versionHistoryMap;
     
-    public VersionHistoryService(String schemaName) {
+    public VersionHistoryService(String adminSchemaName, String schemaName) {
+        this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
     }
     
@@ -81,7 +86,7 @@ public class VersionHistoryService implements IVersionHistoryService {
             try {
                 // Note how we don't care about connections here...that is all
                 // hidden inside the target adapter implementation
-                GetLatestVersionDAO dao = new GetLatestVersionDAO(schemaName);
+                GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
                 this.versionHistoryMap = target.runStatement(dao);
             }
             catch (DataAccessException x) {
@@ -101,7 +106,7 @@ public class VersionHistoryService implements IVersionHistoryService {
      */
     public void insertVersionHistoriesInTx(Collection<TypeNameVersion> versionHistories) {
         for (TypeNameVersion tuple: versionHistories) {
-            insertVersionHistoryInTx(tuple.getType(), tuple.getName(), tuple.getVersion());
+            insertVersionHistoryInTx(tuple.getSchema(), tuple.getType(), tuple.getName(), tuple.getVersion());
         }
     }
     
@@ -111,8 +116,8 @@ public class VersionHistoryService implements IVersionHistoryService {
      * @param objectName
      * @param version
      */
-    public void insertVersionHistoryInTx(String objectType, String objectName, int version) {
-        AddVersionDAO dao = new AddVersionDAO(schemaName, objectType, objectName, version);
+    public void insertVersionHistoryInTx(String objectSchema, String objectType, String objectName, int version) {
+        AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema, objectType, objectName, version);
         target.runStatement(dao);
     }
     
@@ -142,19 +147,25 @@ public class VersionHistoryService implements IVersionHistoryService {
      * @param version
      * @return
      */
-    public static TypeNameVersion createTypeNameVersion(String type, String name, int version) {
-        return new TypeNameVersion(type, name, version);
+    public static TypeNameVersion createTypeNameVersion(String objectSchema, String type, String name, int version) {
+        return new TypeNameVersion(objectSchema, type, name, version);
     }
     
     public static class TypeNameVersion {
+        private final String schema;
         private final String type;
         private final String name;
         private final int version;
         
-        private TypeNameVersion(String type, String name, int version) {
+        private TypeNameVersion(String schema, String type, String name, int version) {
+            this.schema = schema;
             this.type = type;
             this.name = name;
             this.version = version;
+        }
+        
+        private String getSchema() {
+            return this.schema;
         }
         
         private String getType() {
@@ -174,16 +185,16 @@ public class VersionHistoryService implements IVersionHistoryService {
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#addVersion(java.lang.String, java.lang.String, int)
      */
     @Override
-    public void addVersion(String objectType, String objectName, int version) {
-        insertVersionHistoryInTx(objectType, objectName, version);
+    public void addVersion(String objectSchema, String objectType, String objectName, int version) {
+        insertVersionHistoryInTx(objectSchema, objectType, objectName, version);
     }
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#applies(java.lang.String, java.lang.String, int)
      */
     @Override
-    public boolean applies(String objectType, String objectName, int changeVersion) {
-        String key = objectType + ":" + objectName;
+    public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
+        String key = objectSchema + ":" + objectType + ":" + objectName;
         Integer currentVersion = this.versionHistoryMap.get(key);
         return currentVersion == null || currentVersion < changeVersion;
     }

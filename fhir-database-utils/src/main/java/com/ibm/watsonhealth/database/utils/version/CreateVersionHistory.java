@@ -27,24 +27,19 @@ public class CreateVersionHistory {
      * As this is the version table itself, it is assigned a version id
      * of 0 which is used to indicate that versioning doesn't apply.
      * 
-     * The versioning of the admin schema is tracked separately, and each
-     * data (fhiruser) schema also has its own version level, so we need
-     * a version history table created in the admin (e.g. FHIRADMIN) schema
-     * as well as the managed data schemas. This is up to the layer above
-     * to organize. This method simply does what it's told and creates a
-     * table in the given schema.
      * @param schemaName
      * @param target
      */
-    public static void createTableIfNeeded(String schemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
-        Table t = Table.builder(schemaName, SchemaConstants.VERSION_HISTORY)
+        Table t = Table.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
                 .setVersion(0)
+                .addVarcharColumn(SchemaConstants.SCHEMA_NAME, 64, false)
                 .addVarcharColumn(SchemaConstants.OBJECT_TYPE, 16, false)
                 .addVarcharColumn(SchemaConstants.OBJECT_NAME, 64, false)
                 .addIntColumn(SchemaConstants.VERSION, false)
                 .addTimestampColumn(SchemaConstants.APPLIED, false)
-                .addPrimaryKey("PK_" + SchemaConstants.VERSION_HISTORY, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME, SchemaConstants.VERSION)
+                .addPrimaryKey("PK_" + SchemaConstants.VERSION_HISTORY, SchemaConstants.SCHEMA_NAME, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME, SchemaConstants.VERSION)
                 .build(dataModel);
         dataModel.addTable(t);
         dataModel.addObject(t);

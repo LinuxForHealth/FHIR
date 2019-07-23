@@ -147,7 +147,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
         
-        this.setBaseDao(new FHIRDbDAOBasicImpl(cp));
+        this.setBaseDao(new FHIRDbDAOBasicImpl(cp, configProps.getProperty("adminSchemaName")));
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
         this.resourceDao.setRepInfoRequired(false);

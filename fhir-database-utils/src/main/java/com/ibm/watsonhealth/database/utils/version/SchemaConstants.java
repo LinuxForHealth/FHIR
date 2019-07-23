@@ -16,4 +16,5 @@ public class SchemaConstants {
     public static final String APPLIED = "APPLIED";
     public static final String OBJECT_TYPE = "OBJECT_TYPE";
     public static final String OBJECT_NAME = "OBJECT_NAME";
+    public static final String SCHEMA_NAME = "SCHEMA_NAME";
 }

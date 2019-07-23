@@ -411,18 +411,13 @@ public class Main {
 
     }
 
-    protected void applyAdminModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
-        // Current version history for the admin schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-
-        applyModel(pdm, adapter, collector, vhs);
-    }
-
+    /**
+     * Start the schema object creation tasks and wait for everything to complete
+     * @param pdm
+     * @param adapter
+     * @param collector
+     * @param vhs
+     */
     protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
         logger.info("Collecting model update tasks");
         pdm.collect(collector, adapter, this.transactionProvider, vhs);
@@ -447,12 +442,13 @@ public class Main {
     protected void applyDataModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
 
         // Before we start anything, we need to make sure our schema history
-        // tables are in place
-        CreateVersionHistory.createTableIfNeeded(schemaName, adapter);
-
+        // tables are in place. There's only a single history table, which
+        // resides in the admin schema and handles the history of all objects
+        // in any schema being managed.
+        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(schemaName);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();

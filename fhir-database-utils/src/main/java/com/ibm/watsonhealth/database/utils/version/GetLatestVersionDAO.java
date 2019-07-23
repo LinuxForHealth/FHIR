@@ -7,9 +7,9 @@
 package com.ibm.watsonhealth.database.utils.version;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,13 +29,15 @@ import com.ibm.watsonhealth.database.utils.common.DataDefinitionUtil;
  *
  */
 public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer>> {
+    private final String adminSchemaName;
     private final String schemaName;
 
     /**
      * Public constructor
      * @param schemaName
      */
-    public GetLatestVersionDAO(String schemaName) {
+    public GetLatestVersionDAO(String adminSchemaName, String schemaName) {
+        this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
     }
 
@@ -45,21 +47,25 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
     @Override
     public Map<String,Integer> run(IDatabaseTranslator translator, Connection c) {
         Map<String,Integer> result = new HashMap<>();
-        final String tbl = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.VERSION_HISTORY);
-        final String sql = "SELECT " + SchemaConstants.OBJECT_TYPE 
-                + ", " + SchemaConstants.OBJECT_NAME 
+        final String tbl = DataDefinitionUtil.getQualifiedName(adminSchemaName, SchemaConstants.VERSION_HISTORY);
+        final String cols = DataDefinitionUtil.join(SchemaConstants.SCHEMA_NAME, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME);
+        final String sql = "SELECT " + cols
                 + ", max(" + SchemaConstants.VERSION + ") FROM " + tbl
-                + " GROUP BY " + SchemaConstants.OBJECT_TYPE 
-                + ", " + SchemaConstants.OBJECT_NAME;
+                + " WHERE " + SchemaConstants.SCHEMA_NAME + " IN (?, ?) "
+                + " GROUP BY " + cols;
         
-        try (Statement s = c.createStatement()) {
-            ResultSet rs = s.executeQuery(sql);
+        // Fetch the current version history information for both the admin and specified data schemas
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, adminSchemaName);
+            ps.setString(2, schemaName);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String type = rs.getString(1);
-                String name = rs.getString(2);
-                String typeName = type + ":" + name; 
+                String schema = rs.getString(1);
+                String type = rs.getString(2);
+                String name = rs.getString(3);
+                String schemaTypeName = schema + ":" + type + ":" + name; 
                 int version = rs.getInt(3);
-                result.put(typeName, version);
+                result.put(schemaTypeName, version);
             }
         }
         catch (SQLException x) {

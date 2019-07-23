@@ -29,8 +29,8 @@ public class TestVersionHistoryService implements IVersionHistoryService {
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#addVersion(java.lang.String, java.lang.String, int)
      */
     @Override
-    public void addVersion(String objectType, String objectName, int version) {
-        final String key = objectType + ":" + objectName;
+    public void addVersion(String objectSchema, String objectType, String objectName, int version) {
+        final String key = makeKey(objectSchema, objectType, objectName);
         newHistory.put(key, version);
     }
 
@@ -38,8 +38,8 @@ public class TestVersionHistoryService implements IVersionHistoryService {
      * @see com.ibm.watsonhealth.database.utils.api.IVersionHistoryService#applies(java.lang.String, java.lang.String, int)
      */
     @Override
-    public boolean applies(String objectType, String objectName, int changeVersion) {
-        final String key = makeKey(objectType, objectName);
+    public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
+        final String key = makeKey(objectSchema, objectType, objectName);
         Integer currentVersion = this.versionHistoryMap.get(key);
         return currentVersion == null || currentVersion < changeVersion;
 
@@ -52,8 +52,8 @@ public class TestVersionHistoryService implements IVersionHistoryService {
      * @param objectName
      * @param version
      */
-    public void addTestHistory(String objectType, String objectName, int version) {
-        final String key = makeKey(objectType, objectName);
+    public void addTestHistory(String objectSchema, String objectType, String objectName, int version) {
+        final String key = makeKey(objectSchema, objectType, objectName);
         versionHistoryMap.put(key, version);        
     }
 
@@ -63,7 +63,7 @@ public class TestVersionHistoryService implements IVersionHistoryService {
      * @param objectName
      * @return a concatenated string containing objectType and objectName
      */
-    public static String makeKey(String objectType, String objectName) {
-        return objectType + ":" + objectName;
+    public static String makeKey(String objectSchema, String objectType, String objectName) {
+        return objectSchema + ":" + objectType + ":" + objectName;
     }
 }

@@ -22,6 +22,9 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.ibm.watsonhealth.database.utils.api.IConnectionProvider;
+import com.ibm.watsonhealth.database.utils.common.JdbcTarget;
+import com.ibm.watsonhealth.database.utils.db2.Db2Adapter;
+import com.ibm.watsonhealth.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
@@ -54,6 +57,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     
     // Abstract source of configured connections
     private final IConnectionProvider connectionProvider;
+    private final String adminSchemaName;
 
     /**
      * Constructs a DAO instance suitable for acquiring DB connections via JNDI from the app server.
@@ -61,6 +65,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     public FHIRDbDAOBasicImpl() {
         super();
         this.connectionProvider = null;
+        this.adminSchemaName = null;
     }
     
     /**
@@ -70,14 +75,16 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     public FHIRDbDAOBasicImpl(Properties dbProperties) {
         this.setDbProps(dbProperties);
         this.connectionProvider = null;
+        this.adminSchemaName = null;
     }
 
     /**
      * Constructor taking an {@link IConnectionProvider} (useful for new R4 unit tests)
      * @param cp
      */
-    public FHIRDbDAOBasicImpl(IConnectionProvider cp) {
+    public FHIRDbDAOBasicImpl(IConnectionProvider cp, String adminSchemaName) {
         this.connectionProvider = cp;
+        this.adminSchemaName = adminSchemaName;
     }
 
     /**
@@ -112,6 +119,17 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             else if (this.connectionProvider != null) {
                 try {
                     connection = connectionProvider.getConnection();
+                    
+                    // Configure the connection for the tenant
+                    String tenantName = FHIRRequestContext.get().getTenantId();
+                    String tenantKey = FHIRRequestContext.get().getTenantKey();
+                    
+                    if (tenantName != null && tenantKey != null) {
+                        Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
+                        JdbcTarget target = new JdbcTarget(connection);
+                        Db2Adapter adapter = new Db2Adapter(target);
+                        adapter.runStatement(cmd);
+                    }
                 }
                 catch (SQLException x) {
                     throw new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider", x);

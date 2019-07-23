@@ -270,11 +270,13 @@ public class FhirSchemaGenerator {
 
         // The set_tenant procedure can be created after all the admin tables are done
         ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, SET_TENANT, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null), Arrays.asList(allAdminTablesComplete), procedurePrivileges);
+        setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
+        
+        // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
         this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
         this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
         this.adminSchemaComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(adminSchemaComplete);
-        
     }
     
     /**
@@ -310,7 +312,7 @@ public class FhirSchemaGenerator {
                 ;
 
         this.tenantsTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        this.procedureDependencies.add(tenantsTable);
+        this.adminProcedureDependencies.add(tenantsTable);
         model.addTable(tenantsTable);
         model.addObject(tenantsTable);
     }
@@ -337,7 +339,7 @@ public class FhirSchemaGenerator {
                 ;
 
         this.tenantKeysTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        this.procedureDependencies.add(tenantKeysTable);
+        this.adminProcedureDependencies.add(tenantKeysTable);
         model.addTable(tenantKeysTable);
         model.addObject(tenantKeysTable);
     }
@@ -354,7 +356,7 @@ CREATE SEQUENCE fhir_sequence
     protected void addTenantSequence(PhysicalDataModel pdm) {
         this.tenantSequence = new Sequence(adminSchemaName, TENANT_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
         this.tenantSequence.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        procedureDependencies.add(tenantSequence);
+        adminProcedureDependencies.add(tenantSequence);
         sequencePrivileges.forEach(p -> p.addToObject(tenantSequence));
 
         pdm.addObject(tenantSequence);
@@ -385,6 +387,7 @@ CREATE SEQUENCE fhir_sequence
         // procedures won't start until all the create table/type etc statements
         // are done...hopefully reducing the number of deadlocks we see.
         this.allTablesComplete = new NopObject(schemaName, "allTablesComplete");
+        this.allTablesComplete.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.allTablesComplete.addDependencies(procedureDependencies);
         model.addObject(allTablesComplete);
 
