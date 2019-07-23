@@ -11,7 +11,7 @@ import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue.decimalV
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.stringValue;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.*;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getBoolean;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
@@ -20,6 +20,7 @@ import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getString;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,18 +42,23 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBaseVisitor;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathLexer;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watsonhealth.fhir.model.path.function.FHIRPathFunction;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
 
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
@@ -416,7 +422,7 @@ public class FHIRPathEvaluator {
                     // concatenation
                     result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
                 }
-            } else if ("&".equals(operator)) {
+            } else if ((hasPrimitiveValue(left) && right.isEmpty()) || (left.isEmpty() && hasPrimitiveValue(right)) && "&".equals(operator)) {
                 // concatenation where an empty collection is treated as an empty string
                 if (hasPrimitiveValue(left) && right.isEmpty()) {
                     FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
@@ -430,6 +436,81 @@ public class FHIRPathEvaluator {
                     }
                 } else if (left.isEmpty() && right.isEmpty()) {
                     result = singleton(EMPTY_STRING);
+                }
+            } else if (isSingleton(left) && isSingleton(right)) {
+                FHIRPathNode leftNode = getSingleton(left);
+                FHIRPathNode rightNode = getSingleton(right);
+                
+                if (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathQuantityNode) {
+                    FHIRPathQuantityNode leftQuantity = (FHIRPathQuantityNode) leftNode;
+                    FHIRPathQuantityNode rightQuantity = (FHIRPathQuantityNode) rightNode;
+                    
+                    if (hasValueAndUnit(leftQuantity) && hasValueAndUnit(rightQuantity) && 
+                            // units are the same
+                            leftQuantity.getQuantityUnit().equals(rightQuantity.getQuantityUnit())) {
+                        switch (operator) {
+                        case "+":
+                            result = singleton(leftQuantity.add(rightQuantity));
+                            break;
+                        case "-":
+                            result = singleton(leftQuantity.subtract(rightQuantity));
+                            break;
+                        }
+                    }
+                } else if ((leftNode instanceof FHIRPathDateTimeValue && rightNode instanceof FHIRPathQuantityNode) || 
+                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathDateTimeValue)){
+                    
+                    FHIRPathDateTimeValue dateTimeValue;
+                    if (leftNode instanceof FHIRPathDateTimeValue) {
+                        dateTimeValue = (FHIRPathDateTimeValue) leftNode;
+                    } else {
+                        dateTimeValue = (FHIRPathDateTimeValue) rightNode;
+                    }
+                    
+                    FHIRPathQuantityNode quantityNode;
+                    if (leftNode instanceof FHIRPathQuantityNode) {
+                        quantityNode = (FHIRPathQuantityNode) leftNode;
+                    } else {
+                        quantityNode = (FHIRPathQuantityNode) rightNode;
+                    }
+                    
+                    if (hasValueAndUnit(quantityNode)) {
+                        switch (operator) {
+                        case "+":
+                            result = singleton(dateTimeValue.add(quantityNode));
+                            break;
+                        case "-":
+                            result = singleton(dateTimeValue.subtract(quantityNode));
+                            break;
+                        }
+                    }
+                } else if ((leftNode instanceof FHIRPathTimeValue && rightNode instanceof FHIRPathQuantityNode) || 
+                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathTimeValue)) {
+                    
+                    FHIRPathTimeValue timeValue;
+                    if (leftNode instanceof FHIRPathTimeValue) {
+                        timeValue = (FHIRPathTimeValue) leftNode;
+                    } else {
+                        timeValue = (FHIRPathTimeValue) rightNode;
+                    }
+                    
+                    FHIRPathQuantityNode quantityNode;
+                    if (leftNode instanceof FHIRPathQuantityNode) {
+                        quantityNode = (FHIRPathQuantityNode) leftNode;
+                    } else {
+                        quantityNode = (FHIRPathQuantityNode) rightNode;
+                    }
+                    
+                    if (hasValueAndUnit(quantityNode)) {
+                        switch (operator) {
+                        case "+":
+                            result = singleton(timeValue.add(quantityNode));
+                            break;
+                        case "-":
+                            result = singleton(timeValue.subtract(quantityNode));
+                            break;
+                        }
+                    }
                 }
             }
                                     
@@ -888,10 +969,7 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitDateTimeLiteral(FHIRPathParser.DateTimeLiteralContext ctx) {
             debug(ctx);
-            indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return singleton(FHIRPathDateTimeValue.dateTimeValue(ctx.getText().substring(1)));
         }
     
         /**
@@ -901,10 +979,7 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
             debug(ctx);
-            indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return singleton(FHIRPathTimeValue.timeValue(ctx.getText().substring(1)));
         }
     
         /**
@@ -1090,9 +1165,17 @@ public class FHIRPathEvaluator {
         public Collection<FHIRPathNode> visitQuantity(FHIRPathParser.QuantityContext ctx) {
             debug(ctx);
             indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
+            String number = ctx.NUMBER().getText();
+            String text = ctx.unit().getText();
+            String unit = text.substring(1, text.length() - 1);
+            
+            Quantity quantity = Quantity.builder()
+                    .value(Decimal.of(number))
+                    .unit(string(unit))
+                    .build();
+            
             indentLevel--;
-            return result;
+            return singleton(FHIRPathQuantityNode.builder(quantity).build());
         }
     
         @Override
@@ -1160,7 +1243,7 @@ public class FHIRPathEvaluator {
     
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator("(1 + 2) > 3").evaluate();
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator("@T10:24:00 + 5 'minutes'").evaluate();
         System.out.println(result);        
     }
 }

@@ -6,18 +6,41 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAccessor;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporal;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    
+    private static final DateTimeFormatter DATE_TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy")
+            .optionalStart()
+                .appendPattern("-MM")
+                .optionalStart()
+                    .appendPattern("-dd")
+                    .optionalStart()
+                        .appendPattern("'T'HH:mm:ss")
+                        .optionalStart()
+                            .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                        .optionalEnd()
+                        .appendPattern("XXX")
+                    .optionalEnd()
+                .optionalEnd()
+            .optionalEnd()
+            .toFormatter();
+
     private final TemporalAccessor dateTime;
     
     protected FHIRPathDateTimeValue(Builder builder) {
@@ -36,6 +59,10 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     
     public TemporalAccessor dateTime() {
         return dateTime;
+    }
+    
+    public static FHIRPathDateTimeValue dateTimeValue(String dateTime) {
+        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(dateTime, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from)).build();
     }
     
     public static FHIRPathDateTimeValue dateTimeValue(TemporalAccessor dateTime) {
@@ -101,7 +128,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
             return false;
         }
         FHIRPathDateTimeValue other = (FHIRPathDateTimeValue) obj;
-        return Objects.equals(dateTime, other.dateTime());
+        return Objects.equals(dateTime, other.dateTime);
     }
     
     @Override
@@ -109,8 +136,9 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         return Objects.hashCode(dateTime);
     }
     
+    @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        return other.isPrimitiveValue() && other.asPrimitiveValue().isDateTimeValue();
+        return other instanceof FHIRPathDateTimeValue;
     }
 
     @Override
@@ -118,7 +146,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        FHIRPathDateTimeValue value = other.asPrimitiveValue().asDateTimeValue();
+        FHIRPathDateTimeValue value = (FHIRPathDateTimeValue) other;
         if (dateTime instanceof Year || value.dateTime instanceof Year) {
             return Year.from(dateTime).compareTo(Year.from(value.dateTime));
         }
@@ -131,27 +159,24 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
     }
     
-    public boolean greaterThan(FHIRPathDateTimeValue value) {
-        return compareTo(value) > 0;
+    public FHIRPathDateTimeValue add(FHIRPathQuantityNode quantityNode) {
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        Temporal temporal = getTemporal(dateTime);
+        return dateTimeValue(getTemporalAccessor(temporal.plus(temporalAmount), dateTime.getClass()));
     }
     
-    public boolean greaterThanOrEqual(FHIRPathDateTimeValue value) {
-        return compareTo(value) >= 0;
-    }
-    
-    public boolean lessThan(FHIRPathDateTimeValue value) {
-        return compareTo(value) < 0;
-    }
-    
-    public boolean lessThanOrEqual(FHIRPathDateTimeValue value) {
-        return compareTo(value) <= 0;
+    public FHIRPathDateTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        Temporal temporal = getTemporal(dateTime);
+        return dateTimeValue(getTemporalAccessor(temporal.minus(temporalAmount), dateTime.getClass()));
     }
     
     @Override
     public String toString() {
-        if (isPartial()) {
-            return dateTime.toString();
-        }
-        return DATE_TIME_FORMATTER.format(dateTime);
+        return DATE_TIME_PARSER_FORMATTER.format(dateTime);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(LocalDate.from(Year.now()));
     }
 }

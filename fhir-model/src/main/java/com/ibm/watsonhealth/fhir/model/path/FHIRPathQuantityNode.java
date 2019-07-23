@@ -6,9 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 
 public class FHIRPathQuantityNode extends FHIRPathElementNode {    
@@ -31,6 +34,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     }
     
     public String getQuantityUnit() {
+        // prefer code over unit
         if (quantity.getCode() != null && quantity.getCode().getValue() != null) {
             return quantity.getCode().getValue();
         }
@@ -109,5 +113,34 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
             return value.compareTo(((FHIRPathNumberValue) other).decimal());
         }
         return value.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+    }
+    
+    public FHIRPathQuantityNode add(FHIRPathQuantityNode node) {
+        Quantity quantity = Quantity.builder()
+                .value(Decimal.of(getQuantityValue().add(node.getQuantityValue())))
+                .unit(string(getQuantityUnit()))
+                .build();
+        return FHIRPathQuantityNode.builder(quantity).build();
+    }
+    
+    public FHIRPathQuantityNode subtract(FHIRPathQuantityNode node) {
+        Quantity quantity = Quantity.builder()
+                .value(Decimal.of(getQuantityValue().subtract(node.getQuantityValue())))
+                .unit(string(getQuantityUnit()))
+                .build();
+        return FHIRPathQuantityNode.builder(quantity).build();
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        BigDecimal quantityValue = getQuantityValue();
+        String quantityUnit = getQuantityUnit();
+        sb.append(quantityValue != null ? quantityValue.toPlainString() : "<no value>");
+        sb.append(" ");
+        sb.append("'");
+        sb.append(quantityUnit != null ? quantityUnit : "<no unit>");
+        sb.append("'");
+        return sb.toString();
     }
 }

@@ -6,16 +6,29 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
+
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("'T'HH:mm:ss.SSS[XXX]");
+    private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern("'T'HH:mm:ss")
+            .optionalStart()
+                .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+            .optionalEnd()
+            .optionalStart()
+                .appendPattern("XXX")
+            .optionalEnd()
+            .toFormatter();
     
     private final TemporalAccessor time;
     
@@ -42,6 +55,10 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     
     public TemporalAccessor time() {
         return time;
+    }
+    
+    public static FHIRPathTimeValue timeValue(String time) {
+        return FHIRPathTimeValue.builder(TIME_PARSER_FORMATTER.parseBest(time, OffsetTime::from, LocalTime::from)).build();
     }
     
     public static FHIRPathTimeValue timeValue(LocalTime time) {
@@ -145,8 +162,30 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         return OffsetTime.from(time).compareTo(OffsetTime.from(timeValue.time));
     }
     
+    public FHIRPathTimeValue add(FHIRPathQuantityNode quantityNode) {
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        if (time instanceof LocalTime) {
+            LocalTime localTime = (LocalTime) time;
+            return timeValue(localTime.plus(temporalAmount));
+        } else {
+            OffsetTime offsetTime = (OffsetTime) time;
+            return timeValue(offsetTime.plus(temporalAmount));
+        }
+    }
+    
+    public FHIRPathTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        if (time instanceof LocalTime) {
+            LocalTime localTime = (LocalTime) time;
+            return timeValue(localTime.minus(temporalAmount));
+        } else {
+            OffsetTime offsetTime = (OffsetTime) time;
+            return timeValue(offsetTime.minus(temporalAmount));
+        }
+    }
+    
     @Override
     public String toString() {
-        return TIME_FORMATTER.format(time);
+        return TIME_PARSER_FORMATTER.format(time);
     }
 }
