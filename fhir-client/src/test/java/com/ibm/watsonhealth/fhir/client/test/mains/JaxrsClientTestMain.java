@@ -51,7 +51,7 @@ public class JaxrsClientTestMain {
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v1");
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_XML_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_XML);
         Response response = target.path("Patient").request().post(entity, Response.class);
         
         if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
@@ -62,7 +62,7 @@ public class JaxrsClientTestMain {
             System.out.println("location: " + location);
             
             String id = location.substring(location.lastIndexOf("/") + 1);
-            response = target.path("Patient/" + id).request(MediaType.APPLICATION_JSON_FHIR).get();
+            response = target.path("Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
             patient = response.readEntity(Patient.class);
             System.out.println("\nJSON:");
             FHIRUtil.write(patient, Format.JSON, System.out);
@@ -75,7 +75,7 @@ public class JaxrsClientTestMain {
             System.out.println("\nXML:");
             FHIRUtil.write(observation, Format.XML, System.out);
             
-            Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+            Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
             response = target.path("Observation").request().post(observationEntity, Response.class);
             
             if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
@@ -85,7 +85,7 @@ public class JaxrsClientTestMain {
                 location = response.getLocation().toString();
                 System.out.println("location: " + location);
                 
-                response = target.path("Observation").queryParam("subject", "Patient/" + id).request(MediaType.APPLICATION_JSON_FHIR).get();
+                response = target.path("Observation").queryParam("subject", "Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
                 Bundle bundle = response.readEntity(Bundle.class);
                 System.out.println("\nJSON:");
                 FHIRUtil.write(bundle, Format.JSON, System.out);

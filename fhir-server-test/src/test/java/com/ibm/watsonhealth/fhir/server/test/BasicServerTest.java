@@ -69,7 +69,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -77,7 +77,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
@@ -95,7 +95,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -103,7 +103,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
 
@@ -126,7 +126,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         String patientResourceStringWithFakeElement = patientResourceString.substring(0, 1) + "\"fake\":\"value\","
                 + patientResourceString.substring(1);
 
-        Entity<String> entity = Entity.entity(patientResourceStringWithFakeElement, MediaType.APPLICATION_JSON_FHIR);
+        Entity<String> entity = Entity.entity(patientResourceStringWithFakeElement, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -145,14 +145,14 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
         Observation observation = buildObservation(patientId, "Observation1.json");
-        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         String observationId = getLocationLogicalId(response);
 
         // Next, retrieve the new Observation with a read operation and verify it.
-        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
@@ -176,7 +176,7 @@ public class BasicServerTest extends FHIRServerTestBase {
                 .system(ContactPointSystem.PHONE).use(ContactPointUse.WORK).value(string("999-111-1111")).build())
                 .build();
 
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
 
         // Now call the 'update' API.
         String targetPath = "Patient/" + patient.getId().getValue();
@@ -187,7 +187,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the updated patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
 
@@ -207,7 +207,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
 
-        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
 
         // Call the 'update' API.
         String targetPath = "Observation/" + observation.getId().getValue();
@@ -216,7 +216,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         String observationId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the updated observation and verify it.
-        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Observation responseObservation = response.readEntity(Observation.class);
         assertNotNull(responseObservation);
@@ -234,7 +234,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Call the 'history' API to retrieve both the original and updated versions of
         // the patient.
         String targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history";
-        Response response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Bundle resources = response.readEntity(Bundle.class);
@@ -263,7 +263,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Call the 'history' API to retrieve both the original and updated versions of
         // the observation.
         String targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history";
-        Response response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Bundle resources = response.readEntity(Bundle.class);
@@ -291,7 +291,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // patient.
         String targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history/"
                 + savedCreatedPatient.getMeta().getVersionId().getValue();
-        Response response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient originalPatient = response.readEntity(Patient.class);
         assertNotNull(originalPatient);
@@ -299,7 +299,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Now try reading a Patient, passing a bogus version.
         targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history/" + "-44";
-        response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -314,7 +314,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // observation.
         String targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history/"
                 + savedCreatedObservation.getMeta().getVersionId().getValue();
-        Response response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Observation originalObservation = response.readEntity(Observation.class);
         assertNotNull(originalObservation);
@@ -322,7 +322,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Now try reading an Observation, passing a bogus version.
         targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history/" + "-44";
-        response = target.path(targetPath).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path(targetPath).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -335,7 +335,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         String familyName = savedCreatedPatient.getName().get(0).getFamily().getValue();
         Response response = target.path("Patient").queryParam("family", familyName)
-                .request(MediaType.APPLICATION_JSON_FHIR).get();
+                .request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -347,7 +347,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Double(bundle.getTotal().getValue().doubleValue()));
 
         String homePhone = savedCreatedPatient.getTelecom().get(0).getValue().getValue();
-        response = target.path("Patient").queryParam("telecom", homePhone).request(MediaType.APPLICATION_JSON_FHIR)
+        response = target.path("Patient").queryParam("telecom", homePhone).request(MediaType.APPLICATION_FHIR_JSON)
                 .get();
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -363,7 +363,7 @@ public class BasicServerTest extends FHIRServerTestBase {
     public void testSearchAllPatients() {
         WebTarget target = getWebTarget();
 
-        Response response = target.path("Patient").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Patient").request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -394,7 +394,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Next, retrieve the Observation via a search.
         String patientId = savedCreatedPatient.getId().getValue();
         Response response = target.path("Observation").queryParam("subject", "Patient/" + patientId)
-                .request(MediaType.APPLICATION_JSON_FHIR).get();
+                .request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);

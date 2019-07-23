@@ -50,8 +50,8 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
  * Basic tests related to the FHIR Client API.
  */
 public class FHIRClientTest extends FHIRClientTestBase {
-    private static final String MIMETYPE_JSON = MediaType.APPLICATION_JSON_FHIR;
-    private static final String MIMETYPE_XML = MediaType.APPLICATION_XML_FHIR;
+    private static final String MIMETYPE_JSON = MediaType.APPLICATION_FHIR_JSON;
+    private static final String MIMETYPE_XML = MediaType.APPLICATION_FHIR_XML;
     
     private Patient createdPatient = null;
     private Patient updatedPatient = null;

@@ -131,8 +131,8 @@ import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 @Path("/")
-@Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
-@Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRResource implements FHIRResourceHelpers {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     
@@ -3124,9 +3124,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      
         List<Code> format = new ArrayList<Code>();
         format.add(Code.of(MediaType.APPLICATION_JSON));
-        format.add(Code.of(MediaType.APPLICATION_JSON_FHIR));
+        format.add(Code.of(MediaType.APPLICATION_FHIR_JSON));
         format.add(Code.of(MediaType.APPLICATION_XML));
-        format.add(Code.of(MediaType.APPLICATION_XML_FHIR));
+        format.add(Code.of(MediaType.APPLICATION_FHIR_XML));
         
         // Finally, create the Conformance resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder(PublicationStatus.ACTIVE, DateTime.of(java.time.Instant.now()), 

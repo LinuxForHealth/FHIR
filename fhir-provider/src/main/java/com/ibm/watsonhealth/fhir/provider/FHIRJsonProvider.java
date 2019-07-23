@@ -26,8 +26,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
 @ConstrainedTo(RuntimeType.CLIENT)
-@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON })
-@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON })
+@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageBodyWriter<JsonObject> {
     private static final Logger log = Logger.getLogger(FHIRJsonProvider.class.getName());
 

@@ -43,7 +43,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     public final static String UTF8 = "utf-8";
     public final static String UTF16 = "utf-16";
-    public final static String DEFAULT_ACCEPT_HEADER_VALUE = MediaType.APPLICATION_JSON_FHIR;
+    public final static String DEFAULT_ACCEPT_HEADER_VALUE = MediaType.APPLICATION_FHIR_JSON;
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
 
     // The real HttpServletRequest instance that we'll delegate to.
@@ -102,11 +102,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     private static void initFormatShortcuts() {
         _formatShortcuts = new HashMap<>();
-        _formatShortcuts.put("xml", MediaType.APPLICATION_XML_FHIR);
-        _formatShortcuts.put("application/xml", MediaType.APPLICATION_XML_FHIR);
-        _formatShortcuts.put("text/xml", MediaType.APPLICATION_XML_FHIR);
-        _formatShortcuts.put("json", MediaType.APPLICATION_JSON_FHIR);
-        _formatShortcuts.put("application/json", MediaType.APPLICATION_JSON_FHIR);
+        _formatShortcuts.put("xml", MediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("application/xml", MediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("text/xml", MediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("json", MediaType.APPLICATION_FHIR_JSON);
+        _formatShortcuts.put("application/json", MediaType.APPLICATION_FHIR_JSON);
     }
 
     /**

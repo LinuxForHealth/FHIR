@@ -39,7 +39,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -47,7 +47,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Patient responsePatient = response.readEntity(Patient.class);
@@ -74,14 +74,14 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
         Observation observation = buildObservation(patientId, "Observation1.json");
-        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         String observationId = getLocationLogicalId(response);
 
         // Next, retrieve the new Observation with a read operation and verify it.
-        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Observation responseObs = response.readEntity(Observation.class);
@@ -109,7 +109,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         String patientId = savedCreatedPatient.getId().getValue();
         Observation observation = buildObservation(patientId, "Observation2.json");
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
-        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
 
         // Call the 'update' API.
         String targetPath = "Observation/" + observation.getId().getValue();
@@ -118,7 +118,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         String observationId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the updated observation and verify it.
-        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Observation responseObservation = response.readEntity(Observation.class);

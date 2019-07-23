@@ -65,7 +65,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
 
         FHIRUtil.write(document, Format.XML, System.out);
 
-        Entity<Bundle> entity = Entity.entity(document, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Bundle> entity = Entity.entity(document, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Bundle").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -73,7 +73,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         String bundleId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new composition and verify it.
-        response = target.path("Bundle/" + bundleId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Bundle/" + bundleId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         savedCreatedBundle = responseBundle;
@@ -86,7 +86,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Response response = target.path("Bundle/" + savedCreatedBundle.getId().getValue() + "/$tocda")
-                .request(MediaType.APPLICATION_JSON_FHIR).get();
+                .request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Base64Binary valueBase64Binary = extractResponseDocument(response);
@@ -419,7 +419,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
     private Response sendRequest(Parameters parameters) throws JAXBException, FHIRException {
         FHIRUtil.write(parameters, Format.XML, System.out);
         System.out.println();
-        Entity<Parameters> entity = Entity.entity(parameters, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Parameters> entity = Entity.entity(parameters, MediaType.APPLICATION_FHIR_JSON);
 
         WebTarget target = getWebTarget();
         return target.path("Bundle/$tocda").request().post(entity, Response.class);

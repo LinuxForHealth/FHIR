@@ -77,7 +77,7 @@ public class FHIRCLI {
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
-    private static final String DEFAULT_MIMETYPE = MediaType.APPLICATION_JSON_FHIR;
+    private static final String DEFAULT_MIMETYPE = MediaType.APPLICATION_FHIR_JSON;
     
     private static PrintStream console = System.err;
     

@@ -44,7 +44,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         patient = patient.toBuilder().meta(Meta.builder().tag(tag)
                 .profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile")).build()).build();
 
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -52,7 +52,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         assertResourceEquals(patient, responsePatient);

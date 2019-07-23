@@ -23,7 +23,7 @@ public class ReadClaimTestMain {
                 .register(new FHIRProvider())
                 .build();
         WebTarget target = client.target("http://fhirtest.uhn.ca/baseDstu2");
-        Response response = target.path("Claim/14105").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Claim/14105").request(MediaType.APPLICATION_FHIR_JSON).get();
         Claim claim = response.readEntity(Claim.class);
         FHIRUtil.write(claim, Format.JSON, System.out);
         System.out.println("");

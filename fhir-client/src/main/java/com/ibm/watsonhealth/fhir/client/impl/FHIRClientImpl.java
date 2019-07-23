@@ -62,7 +62,7 @@ public class FHIRClientImpl implements FHIRClient {
     private Client client = null;
     private Properties clientProperties = null;
     private String baseEndpointURL = null;
-    private String defaultMimeType = MediaType.APPLICATION_JSON_FHIR;
+    private String defaultMimeType = MediaType.APPLICATION_FHIR_JSON;
 
     private boolean basicAuthEnabled = false;
     private String basicAuthUsername = null;

@@ -34,7 +34,7 @@ public class UpdateTestMain {
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v1");
-        Response response = target.path("Observation/14").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Observation/14").request(MediaType.APPLICATION_FHIR_JSON).get();
         
         Observation observation = response.readEntity(Observation.class);
         FHIRUtil.write(observation, Format.JSON, System.out);
@@ -54,7 +54,7 @@ public class UpdateTestMain {
         
         observation = observation.toBuilder().component(newCompList).build();
         
-        Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
         response = target.path("Observation/14").request().put(observationEntity);
         System.out.println(response.getStatusInfo().getReasonPhrase());
         System.out.println("location: " + response.getLocation());

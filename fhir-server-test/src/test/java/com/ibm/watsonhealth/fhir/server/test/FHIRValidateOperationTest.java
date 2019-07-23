@@ -33,7 +33,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     public void testValidatePatient() {
         Patient patient = buildPatient();
         WebTarget target = getWebTarget();
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
@@ -46,7 +46,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         Patient invalidPatient = buildInvalidPatient();
 
         WebTarget target = getWebTarget();
-        Entity<Patient> entity = Entity.entity(invalidPatient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(invalidPatient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
@@ -72,7 +72,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
                 .build();
 
         WebTarget target = getWebTarget();
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Resource/$validate").request().header("X-FHIR-TENANT-ID", "tenant1")
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -93,7 +93,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         // Perform validation using tenant1's user-defined rules (should fail
         // validation).
         WebTarget target = getWebTarget();
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Resource/$validate").request().header("X-FHIR-TENANT-ID", "tenant1")
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -104,7 +104,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         // Perform validation using default tenant's user-defined rules (should pass
         // validation).
         target = getWebTarget();
-        entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         response = target.path("Resource/$validate").request().header("X-FHIR-TENANT-ID", "default").post(entity,
                 Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());

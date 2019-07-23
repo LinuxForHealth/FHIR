@@ -40,10 +40,10 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
-@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON,
-        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
-@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON,
-        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
+@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
+        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
+        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
     private static final Logger log = Logger.getLogger(FHIRProvider.class.getName());
 
@@ -167,7 +167,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR_TYPE)
                     || mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
                 return Format.JSON;
-            } else if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR_TYPE)
+            } else if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML_TYPE)
                     || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
                 return Format.XML;
             }
@@ -177,7 +177,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     
     private Response buildResponse(OperationOutcome operationOutcome) {
         Response response = Response.status(Response.Status.BAD_REQUEST)
-                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
+                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON)
                 .entity(operationOutcome)
                 .build();
         return response;

@@ -99,9 +99,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String ksPassword = null;
 
     protected static final String MEDIATYPE_JSON = MediaType.APPLICATION_JSON;
-    protected static final String MEDIATYPE_JSON_FHIR = MediaType.APPLICATION_JSON_FHIR;
+    protected static final String MEDIATYPE_JSON_FHIR = MediaType.APPLICATION_FHIR_JSON;
     protected static final String MEDIATYPE_XML = MediaType.APPLICATION_XML;
-    protected static final String MEDIATYPE_XML_FHIR = MediaType.APPLICATION_XML_FHIR;
+    protected static final String MEDIATYPE_XML_FHIR = MediaType.APPLICATION_FHIR_XML;
 
     private CapabilityStatement conformanceStmt = null;
 
