@@ -803,7 +803,7 @@ public class CodeGenerator {
             cb._class(mods, className, _super);
                         
             if (isDateTime(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
+                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 1, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
             }
             
             if (isDate(structureDefinition)) {
@@ -811,7 +811,7 @@ public class CodeGenerator {
             }
             
             if (isInstant(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
+                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 1, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
             }
             
             if (isBoolean(structureDefinition)) {
@@ -1884,8 +1884,8 @@ public class CodeGenerator {
         
         // Work around the pseudo hardcoding
         String baseDir = ".";
-        if (System.getProperty("BaseDir") != null) {
-            baseDir = System.getProperty("BaseDir");
+        if (System.getProperty("JsonBaseDir") != null) {
+            baseDir = System.getProperty("JsonBaseDir");
         }
         
         try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File(baseDir + "/src/main/resources/json-support.json")))) {

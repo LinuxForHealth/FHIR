@@ -53,6 +53,7 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
     public void process(MavenProject mavenProject, Log log) {
         // Only runs for the fhir-model, short-circuits otherwise.
         String targetDir = baseDirectory + "/src/main/java";
+        String baseDirectoryJson = baseDirectory;
         baseDirectory = baseDirectory.replace("fhir-model", "fhir-tools");
         
         String definitionsDir = baseDirectory + "/definitions";
@@ -66,6 +67,7 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
                 log.info("Setting the base dir for definitions -> " + baseDirectory);
                 log.info("Setting the Target Directory -> " + targetDir);
                 System.setProperty("BaseDir", baseDirectory);
+                System.setProperty("JsonBaseDir", baseDirectoryJson);
 
                 Map<String, JsonObject> structureDefinitionMap =
                         CodeGenerator.buildResourceMap(definitionsDir + "/profiles-resources.json", "StructureDefinition");
