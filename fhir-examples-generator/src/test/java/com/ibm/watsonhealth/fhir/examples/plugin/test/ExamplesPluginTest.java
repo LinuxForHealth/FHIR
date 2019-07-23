@@ -35,9 +35,9 @@ public class ExamplesPluginTest extends AbstractMojoTestCase {
         File pom = getTestFile("src/test/resources/examplesplugin/pom.xml");
         assertNotNull(pom);
         assertTrue(pom.exists());
-        ExamplesPlugin samplesPlugin = (ExamplesPlugin) lookupMojo("generate-examples", pom);
-        assertNotNull(samplesPlugin);
+        ExamplesPlugin examplesPlugin = (ExamplesPlugin) lookupMojo("generate-examples", pom);
+        assertNotNull(examplesPlugin);
 
-        // Ideally, the test executes -> <code>samplesPlugin.execute();</code>
+        // Ideally, the test executes -> <code>examplesPlugin.execute();</code>
     }
 }

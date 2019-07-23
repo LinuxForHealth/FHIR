@@ -10,7 +10,7 @@
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
-    <artifactId>fhir-samples</artifactId>
+    <artifactId>fhir-examples-generator-test</artifactId>
 
     <packaging>maven-plugin</packaging>
 
@@ -21,7 +21,7 @@
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                    <goalPrefix>fhir-samples</goalPrefix>
+                    <goalPrefix>fhir-examples-generator</goalPrefix>
                     <encoding>UTF-8</encoding>
                 </configuration>
                 <executions>
@@ -36,7 +36,7 @@
             </plugin>
             <plugin>
                 <groupId>com.ibm.watsonhealth.fhir</groupId>
-                <artifactId>fhir-sample-generator</artifactId>
+                <artifactId>fhir-examples-generator</artifactId>
                 <version>99-SNAPSHOT</version>
                 <configuration>
                 </configuration>
