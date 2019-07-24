@@ -163,12 +163,14 @@ public class FHIROpenApiGenerator {
         InputStream stream = FHIROpenApiGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
         for (Entry entry : bundle.getEntry()) {
-            StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
-            if (structureDefinition != null) {
-                String className = structureDefinition.getName().getValue();
-                className = className.substring(0, 1).toUpperCase() + className.substring(1);
-                Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
-                structureDefinitionMap.put(modelClass, structureDefinition);
+            if (entry.getResource() instanceof StructureDefinition) {
+                StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
+                if (structureDefinition != null) {
+                    String className = structureDefinition.getName().getValue();
+                    className = className.substring(0, 1).toUpperCase() + className.substring(1);
+                    Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + className);
+                    structureDefinitionMap.put(modelClass, structureDefinition);
+                }
             }
         }
     }

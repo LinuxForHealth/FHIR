@@ -23,18 +23,22 @@ public class LoadStructureDefinitions {
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
         int entryCount = 0;
         for (Entry entry : bundle.getEntry()) {
-            StructureDefinition structureDefinition = (StructureDefinition)entry.getResource();
-            if (structureDefinition != null) {
-                Id id = structureDefinition.getId();
-                if (id != null) {
-                    System.out.println("StructureDefinition.id: " + id.getValue());
+            if (entry.getResource() instanceof StructureDefinition) {
+                StructureDefinition structureDefinition = (StructureDefinition) entry.getResource();
+                if (structureDefinition != null) {
+                    Id id = structureDefinition.getId();
+                    if (id != null) {
+                        System.out.println("StructureDefinition.id: " + id.getValue());
+                    }
                 }
             }
-            OperationDefinition operationDefinition = (OperationDefinition)entry.getResource();
-            if (operationDefinition != null) {
-                Id id = operationDefinition.getId();
-                if (id != null) {
-                    System.out.println("OperationDefinition.id: " + id.getValue());
+            if (entry.getResource() instanceof OperationDefinition) {
+                OperationDefinition operationDefinition = (OperationDefinition) entry.getResource();
+                if (operationDefinition != null) {
+                    Id id = operationDefinition.getId();
+                    if (id != null) {
+                        System.out.println("OperationDefinition.id: " + id.getValue());
+                    }
                 }
             }
             entryCount++;
