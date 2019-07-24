@@ -129,7 +129,7 @@ public class ResourceComparatorVisitor extends PathAwareVisitorAdapter {
 
         @Override
         public boolean compare(Comparer other) {
-            if (other instanceof BigDecimalComparer) {
+            if (other instanceof BooleanComparer) {
                 return Objects.equals(value, ((BooleanComparer)other).value);
             }
             else {
