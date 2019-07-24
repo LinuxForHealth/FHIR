@@ -31,6 +31,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
+import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource.DataSourceCacheEntry;
 
 /**
  * This class is used during XA recovery operations to represent an XAConnection and its associated XAResource, but in
@@ -44,7 +45,7 @@ import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
 public class RMXAConnectionResource implements XAConnection, XAResource {
     private static final Logger log = Logger.getLogger(RMXAConnectionResource.class.getName());
 
-    private Map<String, XADataSource> proxiedXADataSources;
+    private Map<String, DataSourceCacheEntry> proxiedXADataSources;
     private List<XAConnection> proxiedXAConnections;
     private List<XAResource> proxiedXAResources;
     private Map<XidKey, List<XAResource>> proxiedXids;
@@ -89,11 +90,11 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     // Getter/setter methods
     //
 
-    public Map<String, XADataSource> getProxiedXADataSources() {
+    public Map<String, DataSourceCacheEntry> getProxiedXADataSources() {
         return proxiedXADataSources;
     }
 
-    public void setProxiedXADataSources(Map<String, XADataSource> proxiedXADataSources) {
+    public void setProxiedXADataSources(Map<String, DataSourceCacheEntry> proxiedXADataSources) {
         this.proxiedXADataSources = proxiedXADataSources;
     }
 
@@ -652,7 +653,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         // Save off the current request context.
         FHIRRequestContext context = FHIRRequestContext.get();
         
-        Map<String, XADataSource> dsMap = new HashMap<>();
+        Map<String, FHIRProxyXADataSource.DataSourceCacheEntry> dsMap = new HashMap<>();
         
         try {
             List<String> tenantIds = FHIRConfiguration.getInstance().getConfiguredTenants();
@@ -685,6 +686,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                             
                             // Retrieve the "type" property.
                             String type = dsPG.getStringProperty("type");
+                            String tenantKey = dsPG.getStringProperty("tenantKey", null);
                             
                             // Skip this entry if the type is not recognized.
                             String datasourceClassname = FHIRProxyXADataSource.getDataSourceImplClassnameForType(type);
@@ -717,13 +719,13 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                             // Compute the key and check to see if this datasource is already in our map.
                             String datasourceKey = getDatasourceKey(type, serverName, databaseName, currentSchema);
                             log.fine("Datasource key: " + datasourceKey);
-                            XADataSource ds = dsMap.get(datasourceKey);
+                            DataSourceCacheEntry dsCacheEntry = dsMap.get(datasourceKey);
                             
                             // If not found in the map, let's create this datasource and add to the map.
-                            if (ds == null) {
+                            if (dsCacheEntry == null) {
                                 try {
-                                    ds = FHIRProxyXADataSource.createDataSource(datasourceId);
-                                    dsMap.put(datasourceKey, ds);
+                                    dsCacheEntry = FHIRProxyXADataSource.createDataSourceCacheEntry(datasourceId);
+                                    dsMap.put(datasourceKey, dsCacheEntry);
                                 } catch (Throwable t) {
                                     // Ignore any exceptions here.
                                 }
@@ -765,10 +767,10 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         try {
             List<XAConnection> connections = new ArrayList<>();
             if (getProxiedXADataSources() != null) {
-                for (Map.Entry<String, XADataSource> entry : getProxiedXADataSources().entrySet()) {
-                    XADataSource ds = entry.getValue();
+                for (Map.Entry<String, DataSourceCacheEntry> entry : getProxiedXADataSources().entrySet()) {
+                    DataSourceCacheEntry ds = entry.getValue();
                     log.fine("Building XAConnection for XADataSource: " + ds.toString());
-                    XAConnection connection = ds.getXAConnection();
+                    XAConnection connection = ds.getDataSource().getXAConnection();
                     connections.add(connection);
                 }
             }
