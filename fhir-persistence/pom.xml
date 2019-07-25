@@ -38,11 +38,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-validation</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>net.wasdev.maven.tools.targets</groupId>
             <artifactId>liberty-target</artifactId>
             <type>pom</type>

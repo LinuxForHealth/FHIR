@@ -128,7 +128,7 @@ import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
 import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
-import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
 @Path("/")
 @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
@@ -886,7 +886,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Validate the input resource and return any validation errors.
-            List<OperationOutcome.Issue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+            List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
             if (!issues.isEmpty()) {
                 throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
             }
@@ -1049,7 +1049,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcome.Issue> issues = FHIRValidator.getInstance().validate(newResource, isUserDefinedSchematronEnabled());
+            List<OperationOutcome.Issue> issues = FHIRValidator.validator(newResource).validate();
             if (!issues.isEmpty()) {
                 throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
             }
@@ -2083,7 +2083,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             }
                         }
                         
-                        List<OperationOutcome.Issue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+                        List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource) .validate();
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                             response = Bundle.Entry.Response.builder(string(Integer.toString(SC_BAD_REQUEST))).build();

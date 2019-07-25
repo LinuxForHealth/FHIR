@@ -33,7 +33,7 @@ import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
-import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
 public class ValidateOperation extends AbstractOperation {
     
@@ -59,7 +59,7 @@ public class ValidateOperation extends AbstractOperation {
                 throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.ValueSet.INVALID);
             }
             Resource resource = parameter.getResource() ;
-            List<Issue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+            List<Issue> issues = FHIRValidator.validator(resource).validate();
             if (!issues.isEmpty()) {
                 throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
             }
