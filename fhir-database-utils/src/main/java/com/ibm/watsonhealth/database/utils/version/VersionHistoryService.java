@@ -74,26 +74,29 @@ public class VersionHistoryService implements IVersionHistoryService {
      */
     public void init() {
         // defend
-        if (this.transactionProvider == null) {
-            throw new IllegalStateException("Programming error - must setTransactionProvider before calling init");
-        }
-        
         if (this.target == null) {
             throw new IllegalStateException("Programming error - must setTarget before calling init");
         }
         
-        try (ITransaction tx = transactionProvider.getTransaction()) {
-            try {
-                // Note how we don't care about connections here...that is all
-                // hidden inside the target adapter implementation
-                GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
-                this.versionHistoryMap = target.runStatement(dao);
+        if (transactionProvider != null) {
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try {
+                    // Note how we don't care about connections here...that is all
+                    // hidden inside the target adapter implementation
+                    GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
+                    this.versionHistoryMap = target.runStatement(dao);
+                }
+                catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
             }
-            catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
+        }
+        else {
+            // Assume the parent is responsible for handling the transaction
+            GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
+            this.versionHistoryMap = target.runStatement(dao);
         }
     }
 

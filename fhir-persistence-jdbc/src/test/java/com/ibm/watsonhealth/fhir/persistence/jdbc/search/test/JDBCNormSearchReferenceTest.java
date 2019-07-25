@@ -38,7 +38,7 @@ public class JDBCNormSearchReferenceTest extends AbstractSearchReferenceTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            derbyInit.bootstrapDb();
         }
     }
     

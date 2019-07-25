@@ -34,7 +34,8 @@ public class R4ExamplesDriver {
     private static final String SPEC_DIR = "json";
 
     // All the examples which should pass validation
-    private static final String FILE_INDEX = SPEC_DIR + "/all.txt";
+    private static final String ALL_FILE_INDEX = SPEC_DIR + "/all.txt";
+    private static final String MINIMAL_FILE_INDEX = SPEC_DIR + "/minimal.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -46,6 +47,10 @@ public class R4ExamplesDriver {
     private int testCount;
     private int successCount;
     Exception firstException = null;
+    
+    public static enum TestType {
+        ALL, MINIMAL
+    }
 
     /**
      * Setter for the processor
@@ -64,10 +69,22 @@ public class R4ExamplesDriver {
     }
 
     /**
-     * Process each of the examples we find in the SPEC_EXAMPLES path
+     * Use the minimal file set by default for our tests. This avoids issues with memory 
+     * constraints on the build containers.
      * @throws Exception
      */
     public void processAllExamples() throws Exception {
+        processAllExamples(TestType.MINIMAL);
+    }
+    
+    /**
+     * Process each of the examples we find in the SPEC_EXAMPLES path
+     * @param testType select between all or minimal file sets for the test
+     * @throws Exception
+     */
+    public void processAllExamples(TestType testType) throws Exception {
+        final String filename = testType == TestType.ALL ? ALL_FILE_INDEX : MINIMAL_FILE_INDEX;
+        
         // reset the state just in case we are called more than once
         this.firstException = null;
         this.testCount = 0;
@@ -78,7 +95,7 @@ public class R4ExamplesDriver {
         try {
 
             // Each line of this directory should be an example resource in json format
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(getResourceAsStream(FILE_INDEX), StandardCharsets.UTF_8))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(getResourceAsStream(filename), StandardCharsets.UTF_8))) {
                 String line;
 
                 while ((line = br.readLine()) != null) {

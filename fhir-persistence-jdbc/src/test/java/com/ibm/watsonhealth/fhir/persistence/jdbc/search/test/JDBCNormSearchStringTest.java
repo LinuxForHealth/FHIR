@@ -37,7 +37,7 @@ public class JDBCNormSearchStringTest extends AbstractSearchStringTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            derbyInit.bootstrapDb();
         }
     }
     

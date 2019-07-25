@@ -174,7 +174,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             String type = pg.getStringProperty("type");
             if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
                 log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbyJar);
+                DerbyBootstrapper.bootstrapDb(ds, schemaType);
                 log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
             }
         }

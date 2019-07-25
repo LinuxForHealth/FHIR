@@ -47,17 +47,26 @@ public class DerbyMaster implements AutoCloseable {
      */
     public DerbyMaster(String database) {
         this.database = database;
-        
-        // Keep all of our tests properly organized
-        if (!database.startsWith(DERBY_DIR)) {
-            throw new IllegalArgumentException("Derby databases must start with: " + DERBY_DIR);
-        }
-        
+                
         try {
             Class.forName(DERBY_TRANSLATOR.getDriverClassName());
         }
         catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
+        }
+        
+        dropDatabase(database);
+        
+    }
+    
+    /**
+     * Drop the contents of the database on disk. Must reside in the derby/ directory
+     * as a simple check against accidentally wiping the wrong files
+     * @param database
+     */
+    public static void dropDatabase(String database) {
+        if (!database.startsWith(DERBY_DIR)) {
+            throw new IllegalArgumentException("Derby databases must start with: " + DERBY_DIR);
         }
         
         try {
@@ -77,7 +86,7 @@ public class DerbyMaster implements AutoCloseable {
      * @param file
      * @throws IOException
      */
-    private void delete(File file) throws IOException {
+    private static void delete(File file) throws IOException {
         if (file.isDirectory()) {
 
             //directory is empty, then delete it

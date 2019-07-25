@@ -35,7 +35,7 @@
             <artifactId>fhir-server</artifactId>
             <version>${project.version}</version>
             <exclusions>
-                <exclusion>
+                 <exclusion>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-config</artifactId>
                 </exclusion>
@@ -85,6 +85,10 @@
             <artifactId>liberty-target</artifactId>
             <type>pom</type>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

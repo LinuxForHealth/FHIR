@@ -32,7 +32,6 @@
         <module>../fhir-audit</module>
         <module>../fhir-model</module>
         <module>../fhir-derby-sproc</module>
-        <module>../fhir-schemaddl</module>
         <module>../fhir-persistence</module>
         <module>../fhir-replication-api</module>
         <module>../fhir-persistence-proxy</module>
@@ -43,6 +42,7 @@
         <module>../fhir-operation-validate</module>
         <module>../fhir-operation-document</module>
         <module>../fhir-operation-healthcheck</module>
+        <module>../fhir-validation</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
         <module>../fhir-cli</module>
@@ -55,7 +55,6 @@
         <module>../fhir-swagger-generator</module>
         <module>../fhir-openapi</module>
         <module>../fhir-audit-trail</module>
-        <module>../fhir-schemaddl-dist</module>
         <module>../fhir-install</module>
         <module>../fhir-coverage-reports</module>
     </modules>
@@ -79,7 +78,7 @@
             <dependency>
                 <groupId>com.ibm.watson.platform.health</groupId>
                 <artifactId>fhir-examples</artifactId>
-                <version>4.0.0-10-201907182003</version>
+                <version>4.0.0-12-201907241506</version>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
