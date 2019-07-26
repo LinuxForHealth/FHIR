@@ -126,6 +126,9 @@ public class FHIRValidator {
                 Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
                 if (!BASE_LOCATION.equals(constraint.location())) {
                     initialContext = eval(constraint.location(), initialContext);
+                    if (initialContext.isEmpty()) {
+                        return;
+                    }
                 }
                 
                 java.lang.String expr = constraint.expression();
