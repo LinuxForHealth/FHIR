@@ -28,7 +28,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ibm.watson.platform.health</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
         </dependency>
         <dependency>
