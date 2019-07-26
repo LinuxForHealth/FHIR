@@ -75,9 +75,9 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>com.ibm.watson.platform.health</groupId>
+                <groupId>com.ibm.watsonhealth.fhir</groupId>
                 <artifactId>fhir-examples</artifactId>
-                <version>4.0.0-12-201907241506</version>
+                <version>[4.0.0,4.1.0)</version>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
