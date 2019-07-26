@@ -13,9 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import com.ibm.watsonhealth.fhir.model.builder.AbstractBuilder;
+import javax.lang.model.SourceVersion;
+
+import com.ibm.watsonhealth.fhir.model.builder.Builder;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
 
 /**
  * Copy the value of each element within a Resource/Element to a new element with the same values.
@@ -26,11 +31,11 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
 public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
-    private final Stack<AbstractBuilder<?>> builderStack = new Stack<>();
+    private final Stack<Builder<?>> builderStack = new Stack<>();
     private Stack<List<Object>> listStack = new Stack<>();
     private Object result;
     
-    protected AbstractBuilder<?> builder;
+    protected Builder<?> builder;
     
     // subclasses may implement these to customize visit behavior without messing up our stacks
     protected void doVisitEnd(String elementName, int elementIndex, Element element) {}
@@ -84,35 +89,7 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
     @Override
     public final void visitEnd(java.lang.String elementName, int index, Element element) {
         doVisitEnd(elementName, index, element);
-        Object obj = builderStack.pop().build();
-        if (index != -1) {
-            listStack.peek().add(obj);
-        } else {
-            if (builderStack.isEmpty()) {
-                // We should have an object of the right type because of the "first" check in preVisit 
-                result = obj;
-            } else {
-                AbstractBuilder<?> parentBuilder = builderStack.peek();
-                
-                MethodHandle methodHandle;
-                try {
-                    MethodType mt = MethodType.methodType(parentBuilder.getClass(), obj.getClass());
-                    methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), elementName, mt);
-                    methodHandle.invoke(parentBuilder, obj);
-                } catch (NoSuchMethodException e1) {
-                    try {
-                        MethodType mt = MethodType.methodType(parentBuilder.getClass(), Element.class);
-                        methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), elementName, mt);
-                        methodHandle.invoke(parentBuilder, obj);
-                    } catch (Throwable e2) {
-                        e1.printStackTrace();
-                    }
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-                builder = parentBuilder;
-            }
-        }
+        _visitEnd(elementName, index, Element.class);
     }
     
     /**
@@ -121,36 +98,50 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
     @Override
     public final void visitEnd(java.lang.String elementName, int index, Resource resource) {
         doVisitEnd(elementName, index, resource);
+        _visitEnd(elementName, index, Resource.class);
+    }
+    
+    private void _visitEnd(java.lang.String elementName, int index, Class<? extends Visitable> visitableClass) {
         Object obj = builderStack.pop().build();
         if (index != -1) {
             listStack.peek().add(obj);
         } else {
             if (builderStack.isEmpty()) {
-                // We should have an object of the right type if the caller is visiting a resource of the right type
+                // We should have an object of the right type because of the "first" check in preVisit 
                 result = obj;
             } else {
-                AbstractBuilder<?> parentBuilder = builderStack.peek();
-                
+                Builder<?> parentBuilder = builderStack.peek();
                 
                 MethodHandle methodHandle;
                 try {
-                    MethodType mt = MethodType.methodType(parentBuilder.getClass(), obj.getClass());
-                    methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), elementName, mt);
-                    methodHandle.invoke(parentBuilder, obj);
-                } catch (NoSuchMethodException e1) {
-                    try {
-                        MethodType mt = MethodType.methodType(parentBuilder.getClass(), Resource.class);
-                        methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), elementName, mt);
-                        methodHandle.invoke(parentBuilder, obj);
-                    } catch (Throwable e2) {
-                        e1.printStackTrace();
+                    MethodType mt;
+                    if (JsonSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName) ||
+                            isResourceContainer(parentBuilder, elementName)) {
+                        // visitableClass is Element if its a choice element or Resource if "ResourceContainer"
+                        mt = MethodType.methodType(parentBuilder.getClass(), visitableClass);
+                    } else {
+                        mt = MethodType.methodType(parentBuilder.getClass(), obj.getClass());
                     }
+                    methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), setterName(elementName), mt);
+                    methodHandle.invoke(parentBuilder, obj);
                 } catch (Throwable t) {
-                    t.printStackTrace();
+                    throw new RuntimeException("Unexpected error while visiting " + parentBuilder.getClass() + "." + elementName, t);
                 }
                 builder = parentBuilder;
             }
         }
+    }
+
+    private boolean isResourceContainer(Builder<?> parentBuilder, String elementName) {
+        return (parentBuilder instanceof Bundle.Entry.Builder && "resource".contentEquals(elementName)) ||
+                (parentBuilder instanceof Parameters.Parameter.Builder && "resource".contentEquals(elementName));
+        
+        // List values
+//               (parentBuilder instanceof DomainResource.Builder && "contained".contentEquals(elementName)) ||      
+//               (parentBuilder instanceof CapabilityStatement.Rest.Builder && "resource".contentEquals(elementName)) ||      
+//               (parentBuilder instanceof CompartmentDefinition.Builder && "resource".contentEquals(elementName)) ||
+//               (parentBuilder instanceof ImplementationGuide.Definition.Builder && "resource".contentEquals(elementName)) ||
+//               (parentBuilder instanceof ImplementationGuide.Manifest.Builder && "resource".contentEquals(elementName));
     }
     
     @Override
@@ -160,16 +151,26 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
     
     @Override
     public void visitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        AbstractBuilder<?> parentBuilder = builderStack.peek();
+        Builder<?> parentBuilder = builderStack.peek();
         MethodHandles.Lookup lookup = MethodHandles.publicLookup();
         MethodType mt = MethodType.methodType(parentBuilder.getClass(), java.util.Collection.class);
         MethodHandle methodHandle;
         try {
-            methodHandle = lookup.findVirtual(parentBuilder.getClass(), elementName, mt);
+            methodHandle = lookup.findVirtual(parentBuilder.getClass(), setterName(elementName), mt);
             methodHandle.invoke(parentBuilder, listStack.pop());
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            throw new RuntimeException("Unexpected error while visiting " + parentBuilder.getClass() + "." + elementName, t);
         }
+    }
+    
+    private String setterName(String elementName) {
+        if ("class".equals(elementName)) {
+            return "clazz";
+        }
+        if (SourceVersion.isKeyword(elementName)) {
+            return "_" + elementName;
+        }
+        return elementName;
     }
     
     @Override

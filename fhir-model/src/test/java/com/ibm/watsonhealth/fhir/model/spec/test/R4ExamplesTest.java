@@ -6,7 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.model.spec.test;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
 
 /**
  * Exercise the examples driver, which will process each entry in the test
@@ -15,10 +19,15 @@ import org.testng.annotations.Test;
  *
  */
 public class R4ExamplesTest {
+    private R4ExamplesDriver driver;
+    
+    @BeforeClass
+    public void setup() {
+        driver = new R4ExamplesDriver();
+    }
 
     @Test
-	public void perform() throws Exception {
-		R4ExamplesDriver driver = new R4ExamplesDriver();	
+	public void serializationTest() throws Exception {
 		driver.setProcessor(new SerializationProcessor());
 		
 		if ("true".equalsIgnoreCase(System.getProperty(this.getClass().getName() + ".withValidation"))) {
@@ -27,4 +36,21 @@ public class R4ExamplesTest {
 		
 		driver.processAllExamples();
 	}
+    
+    @Test
+    public void deepCopyTest() throws Exception {
+        driver.setProcessor(new DeepCopyProcessor(new DeepCopyingVisitor<Resource>()));
+        driver.processAllExamples();
+    }
+    
+    /**
+     * Main method only used for driving ad-hoc testing
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        R4ExamplesTest self = new R4ExamplesTest();
+        self.setup();
+        self.driver.setProcessor(new DeepCopyProcessor(new DeepCopyingVisitor<Resource>()));
+        self.driver.processExample("json/spec/measure-cms146-example.json", Expectation.OK);
+    }
 }
