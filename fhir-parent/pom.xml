@@ -638,5 +638,11 @@ CODE_REMOVED
                 <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
             </properties>
         </profile>
+        <profile>
+            <id>all-tests</id>
+            <properties>
+                <com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.testType>
+            </properties>
+        </profile>
     </profiles>
 </project>
