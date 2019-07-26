@@ -1225,7 +1225,11 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitIdentifier(FHIRPathParser.IdentifierContext ctx) {
             debug(ctx);
-            return singleton(stringValue(ctx.getChild(0).getText()));
+            String identifier = ctx.getChild(0).getText();
+            if (identifier.startsWith("`")) {
+                identifier = identifier.substring(1, identifier.length() - 1);
+            }
+            return singleton(stringValue(identifier));
         }
     
         private String indent() {

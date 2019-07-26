@@ -152,7 +152,7 @@ public class FHIRValidator {
                     System.out.println("    Evaluation result: " + result);
                 }
             } catch (Exception e) {
-                throw new Error(e);
+                throw new Error(constraint.expression(), e);
             }
         }
     }

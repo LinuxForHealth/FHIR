@@ -1140,7 +1140,7 @@ public class CodeGenerator {
             Map<String, String> valueMap = new LinkedHashMap<>();
             valueMap.put("id", quote(key));
             valueMap.put("level", "error".equals(severity) ? quote("Rule") : quote("Warning"));
-            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path));
+            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace("div", "`div`")));
             valueMap.put("description", quote(human.replace("\"", "\\\"")));
             valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`")));
             if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
@@ -2273,7 +2273,7 @@ public class CodeGenerator {
                 cb.assign("hashCode", "result");
                 cb._end();
                 cb._return("result");
-                cb.end();
+                cb.end().newLine();
                 
                 cb.method(mods("public"), "Builder", "toBuilder")
                     .assign("Builder builder", "new Builder()")

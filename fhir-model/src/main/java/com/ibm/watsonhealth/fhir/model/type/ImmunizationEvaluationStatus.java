@@ -60,6 +60,7 @@ public class ImmunizationEvaluationStatus extends Code {
         }
         return result;
     }
+
     public Builder toBuilder() {
         Builder builder = new Builder();
         builder.id = id;
