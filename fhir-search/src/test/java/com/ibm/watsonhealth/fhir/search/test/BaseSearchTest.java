@@ -39,7 +39,8 @@ public abstract class BaseSearchTest {
      * used in test to make the compiled code accessible. 
      */
     static {
-        System.setProperty("javax.xml.accessExternalSchema","file");
+        // If issues, you should uncomment the following : 
+        // System.setProperty("javax.xml.accessExternalSchema","file");
     }
     
     @BeforeMethod

@@ -26,6 +26,8 @@ public final class ValidationSupport {
     private static final int MIN_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
+    private static final String FHIR_XML_XSD = "xml.xsd";
+    private static final String FHIR_XMLDSIG_CORE_SCHEMA_XSD = "xmldsig-core-schema.xsd";
     private static final SchemaFactory SCHEMA_FACTORY = createSchemaFactory();
     private static final Schema SCHEMA = createSchema();
     private static final ThreadLocal<Validator> THREAD_LOCAL_VALIDATOR = new ThreadLocal<Validator>() {
@@ -105,8 +107,11 @@ public final class ValidationSupport {
     
     private static Schema createSchema() {
         try {
-            URL url = ValidationSupport.class.getClassLoader().getResource(FHIR_XHTML_XSD);
-            return SCHEMA_FACTORY.newSchema(new StreamSource(url.toExternalForm()));
+            StreamSource[] sources = new StreamSource[3];
+            sources[0] = new StreamSource(ValidationSupport.class.getClassLoader().getResourceAsStream(FHIR_XML_XSD));
+            sources[1] = new StreamSource(ValidationSupport.class.getClassLoader().getResourceAsStream(FHIR_XMLDSIG_CORE_SCHEMA_XSD));
+            sources[2] = new StreamSource(ValidationSupport.class.getClassLoader().getResourceAsStream(FHIR_XHTML_XSD));
+            return SCHEMA_FACTORY.newSchema(sources);
         } catch (Exception e) {
             throw new Error(e);
         }
