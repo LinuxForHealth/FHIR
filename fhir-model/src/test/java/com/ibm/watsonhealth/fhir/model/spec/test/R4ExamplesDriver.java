@@ -74,7 +74,10 @@ public class R4ExamplesDriver {
      * @throws Exception
      */
     public void processAllExamples() throws Exception {
-        processAllExamples(TestType.MINIMAL);
+        // Allow the build to override the default so we can really test everything
+        String ttValue = System.getProperty(this.getClass().getName() + ".testType", TestType.MINIMAL.name());
+        TestType tt = TestType.valueOf(ttValue);
+        processExamples(tt);
     }
     
     /**
@@ -82,7 +85,7 @@ public class R4ExamplesDriver {
      * @param testType select between all or minimal file sets for the test
      * @throws Exception
      */
-    public void processAllExamples(TestType testType) throws Exception {
+    public void processExamples(TestType testType) throws Exception {
         final String filename = testType == TestType.ALL ? ALL_FILE_INDEX : MINIMAL_FILE_INDEX;
         
         // reset the state just in case we are called more than once

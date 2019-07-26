@@ -86,11 +86,11 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                 }
             }));
         } catch (Exception e) {
+            log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             Response response = buildResponse(
                     FHIRUtil.buildOperationOutcome(Arrays.asList(
                             FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), null)
             )));
-            log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");

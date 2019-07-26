@@ -35,7 +35,7 @@
             <artifactId>fhir-server</artifactId>
             <version>${project.version}</version>
             <exclusions>
-                 <exclusion>
+                <exclusion>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-config</artifactId>
                 </exclusion>
