@@ -658,7 +658,9 @@ public class CodeGenerator {
         
         cb.newLine();
         cb.method(mods("protected"), "Builder", "from", params(param(className, paramName)));
-        if (!isAbstract(structureDefinition) || "DomainResource".equals(className)) {
+        // Call super.from unless we are at the topMost resources in the model hierarchy
+        if (!(isAbstract(structureDefinition) && 
+                ("Resource".equals(className) || "Element".equals(className)))) {
             cb.invoke("super.from", args(paramName));
         }
         for (JsonObject elementDefinition : declaredElementDefinitions) {                

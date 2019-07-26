@@ -189,6 +189,7 @@ public abstract class BackboneElement extends Element {
         public abstract BackboneElement build();
 
         protected Builder from(BackboneElement backboneElement) {
+            super.from(backboneElement);
             modifierExtension.addAll(backboneElement.modifierExtension);
             return this;
         }
