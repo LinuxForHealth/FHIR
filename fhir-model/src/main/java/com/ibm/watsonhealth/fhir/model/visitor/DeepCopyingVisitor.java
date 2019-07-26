@@ -107,7 +107,6 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
             listStack.peek().add(obj);
         } else {
             if (builderStack.isEmpty()) {
-                // We should have an object of the right type because of the "first" check in preVisit 
                 result = obj;
             } else {
                 Builder<?> parentBuilder = builderStack.peek();
@@ -134,14 +133,8 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
 
     private boolean isResourceContainer(Builder<?> parentBuilder, String elementName) {
         return (parentBuilder instanceof Bundle.Entry.Builder && "resource".contentEquals(elementName)) ||
+                (parentBuilder instanceof Bundle.Entry.Response.Builder && "outcome".contentEquals(elementName)) ||
                 (parentBuilder instanceof Parameters.Parameter.Builder && "resource".contentEquals(elementName));
-        
-        // List values
-//               (parentBuilder instanceof DomainResource.Builder && "contained".contentEquals(elementName)) ||      
-//               (parentBuilder instanceof CapabilityStatement.Rest.Builder && "resource".contentEquals(elementName)) ||      
-//               (parentBuilder instanceof CompartmentDefinition.Builder && "resource".contentEquals(elementName)) ||
-//               (parentBuilder instanceof ImplementationGuide.Definition.Builder && "resource".contentEquals(elementName)) ||
-//               (parentBuilder instanceof ImplementationGuide.Manifest.Builder && "resource".contentEquals(elementName));
     }
     
     @Override
