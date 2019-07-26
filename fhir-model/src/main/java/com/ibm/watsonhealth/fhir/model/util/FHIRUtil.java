@@ -693,4 +693,20 @@ public class FHIRUtil {
         typeNameList.addAll(RESOURCE_TYPE_MAP.keySet());
         return typeNameList;
     }
+    
+    /**
+     * Determine if the given severity should be treated as a failure
+     * @param severity
+     * @return
+     */
+    public static boolean isFailure(IssueSeverity severity) {
+
+        switch (IssueSeverity.ValueSet.from(severity.getValue())) {
+        case INFORMATION:
+        case WARNING:
+            return false;
+        default:
+            return true;
+        }
+    }
 }

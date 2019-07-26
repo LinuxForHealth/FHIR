@@ -20,6 +20,11 @@ public class R4ExamplesTest {
 	public void perform() throws Exception {
 		R4ExamplesDriver driver = new R4ExamplesDriver();	
 		driver.setProcessor(new SerializationProcessor());
+		
+		if ("true".equalsIgnoreCase(System.getProperty(this.getClass().getName() + ".withValidation"))) {
+		    driver.setValidator(new ValidationProcessor());
+		}
+		
 		driver.processAllExamples();
 	}
 }

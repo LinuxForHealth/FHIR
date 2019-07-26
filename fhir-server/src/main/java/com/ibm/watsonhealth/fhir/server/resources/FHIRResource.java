@@ -2174,7 +2174,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     private FHIRHttpException buildRestException(String msg, Status status, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity) throws FHIRHttpException {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(severity, issueType, msg, null);
+        final String location = "<empty>";
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(severity, issueType, msg, location);
         return new FHIRHttpException(msg, status).withIssue(ooi);
     }
 

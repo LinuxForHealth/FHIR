@@ -33,7 +33,9 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
@@ -85,14 +87,18 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                     // do nothing
                 }
             }));
-        } catch (Exception e) {
+        } 
+        catch (FHIRException e) {
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
+            // TODO get actual location/path from exception
+            final String location = e.getMessage();
             Response response = buildResponse(
                     FHIRUtil.buildOperationOutcome(Arrays.asList(
-                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), null)
+                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), location)
             )));
             throw new WebApplicationException(response);
-        } finally {
+        } 
+        finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
     }
