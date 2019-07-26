@@ -172,20 +172,16 @@ public class MoneyQuantity extends Quantity {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Quantity.Builder {
-        // optional
         private Decimal value;
         private QuantityComparator comparator;
         private String unit;
         private Uri system;
         private Code code;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -334,9 +330,8 @@ public class MoneyQuantity extends Quantity {
             return new MoneyQuantity(this);
         }
 
-        private Builder from(MoneyQuantity moneyQuantity) {
-            id = moneyQuantity.id;
-            extension.addAll(moneyQuantity.extension);
+        protected Builder from(MoneyQuantity moneyQuantity) {
+            super.from(moneyQuantity);
             value = moneyQuantity.value;
             comparator = moneyQuantity.comparator;
             unit = moneyQuantity.unit;

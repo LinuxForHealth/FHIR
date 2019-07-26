@@ -675,30 +675,26 @@ public class Library extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, type).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, CodeableConcept type) {
-        return new Builder(status, type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, CodeableConcept type) {
-        return new Builder(status, type);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final CodeableConcept type;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private String subtitle;
+        private PublicationStatus status;
         private Boolean experimental;
+        private CodeableConcept type;
         private Element subject;
         private DateTime date;
         private String publisher;
@@ -721,12 +717,6 @@ public class Library extends DomainResource {
         private List<ParameterDefinition> parameter = new ArrayList<>();
         private List<DataRequirement> dataRequirement = new ArrayList<>();
         private List<Attachment> content = new ArrayList<>();
-
-        private Builder(PublicationStatus status, CodeableConcept type) {
-            super();
-            this.status = status;
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -1090,6 +1080,22 @@ public class Library extends DomainResource {
 
         /**
          * <p>
+         * The status of this library. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this library is authored for testing purposes (or education/evaluation/marketing) and 
          * is not intended to be used for genuine usage.
          * </p>
@@ -1102,6 +1108,22 @@ public class Library extends DomainResource {
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the type of library such as a Logic Library, Model Definition, Asset Collection, or Module Definition.
+         * </p>
+         * 
+         * @param type
+         *     logic-library | model-definition | asset-collection | module-definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
             return this;
         }
 
@@ -1765,22 +1787,17 @@ public class Library extends DomainResource {
             return new Library(this);
         }
 
-        private Builder from(Library library) {
-            id = library.id;
-            meta = library.meta;
-            implicitRules = library.implicitRules;
-            language = library.language;
-            text = library.text;
-            contained.addAll(library.contained);
-            extension.addAll(library.extension);
-            modifierExtension.addAll(library.modifierExtension);
+        protected Builder from(Library library) {
+            super.from(library);
             url = library.url;
             identifier.addAll(library.identifier);
             version = library.version;
             name = library.name;
             title = library.title;
             subtitle = library.subtitle;
+            status = library.status;
             experimental = library.experimental;
+            type = library.type;
             subject = library.subject;
             date = library.date;
             publisher = library.publisher;

@@ -333,23 +333,18 @@ public class ObservationDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(code).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept code) {
-        return new Builder(code).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
-        return new Builder(code);
+        Builder builder = new Builder();
+        builder.code(code);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept code;
-
-        // optional
         private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
         private List<Identifier> identifier = new ArrayList<>();
         private List<ObservationDataType> permittedDataType = new ArrayList<>();
         private Boolean multipleResultsAllowed;
@@ -361,11 +356,6 @@ public class ObservationDefinition extends DomainResource {
         private Reference normalCodedValueSet;
         private Reference abnormalCodedValueSet;
         private Reference criticalCodedValueSet;
-
-        private Builder(CodeableConcept code) {
-            super();
-            this.code = code;
-        }
 
         /**
          * <p>
@@ -635,6 +625,22 @@ public class ObservationDefinition extends DomainResource {
 
         /**
          * <p>
+         * Describes what will be observed. Sometimes this is called the observation "name".
+         * </p>
+         * 
+         * @param code
+         *     Type of observation (code / type)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
          * A unique identifier assigned to this ObservationDefinition artifact.
          * </p>
          * <p>
@@ -888,16 +894,10 @@ public class ObservationDefinition extends DomainResource {
             return new ObservationDefinition(this);
         }
 
-        private Builder from(ObservationDefinition observationDefinition) {
-            id = observationDefinition.id;
-            meta = observationDefinition.meta;
-            implicitRules = observationDefinition.implicitRules;
-            language = observationDefinition.language;
-            text = observationDefinition.text;
-            contained.addAll(observationDefinition.contained);
-            extension.addAll(observationDefinition.extension);
-            modifierExtension.addAll(observationDefinition.modifierExtension);
+        protected Builder from(ObservationDefinition observationDefinition) {
+            super.from(observationDefinition);
             category.addAll(observationDefinition.category);
+            code = observationDefinition.code;
             identifier.addAll(observationDefinition.identifier);
             permittedDataType.addAll(observationDefinition.permittedDataType);
             multipleResultsAllowed = observationDefinition.multipleResultsAllowed;
@@ -1054,19 +1054,15 @@ public class ObservationDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept customaryUnit;
             private CodeableConcept unit;
             private Decimal conversionFactor;
             private Integer decimalPrecision;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1254,10 +1250,8 @@ public class ObservationDefinition extends DomainResource {
                 return new QuantitativeDetails(this);
             }
 
-            private Builder from(QuantitativeDetails quantitativeDetails) {
-                id = quantitativeDetails.id;
-                extension.addAll(quantitativeDetails.extension);
-                modifierExtension.addAll(quantitativeDetails.modifierExtension);
+            protected Builder from(QuantitativeDetails quantitativeDetails) {
+                super.from(quantitativeDetails);
                 customaryUnit = quantitativeDetails.customaryUnit;
                 unit = quantitativeDetails.unit;
                 conversionFactor = quantitativeDetails.conversionFactor;
@@ -1482,11 +1476,11 @@ public class ObservationDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private ObservationRangeCategory category;
             private Range range;
             private CodeableConcept context;
@@ -1495,10 +1489,6 @@ public class ObservationDefinition extends DomainResource {
             private Range age;
             private Range gestationalAge;
             private String condition;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1775,10 +1765,8 @@ public class ObservationDefinition extends DomainResource {
                 return new QualifiedInterval(this);
             }
 
-            private Builder from(QualifiedInterval qualifiedInterval) {
-                id = qualifiedInterval.id;
-                extension.addAll(qualifiedInterval.extension);
-                modifierExtension.addAll(qualifiedInterval.modifierExtension);
+            protected Builder from(QualifiedInterval qualifiedInterval) {
+                super.from(qualifiedInterval);
                 category = qualifiedInterval.category;
                 range = qualifiedInterval.range;
                 context = qualifiedInterval.context;

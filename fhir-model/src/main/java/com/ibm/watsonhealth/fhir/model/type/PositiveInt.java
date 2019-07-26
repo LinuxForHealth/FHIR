@@ -87,14 +87,11 @@ public class PositiveInt extends Integer {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Integer.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -180,10 +177,8 @@ public class PositiveInt extends Integer {
             return new PositiveInt(this);
         }
 
-        private Builder from(PositiveInt positiveInt) {
-            id = positiveInt.id;
-            extension.addAll(positiveInt.extension);
-            value = positiveInt.value;
+        protected Builder from(PositiveInt positiveInt) {
+            super.from(positiveInt);
             return this;
         }
     }

@@ -215,21 +215,17 @@ public class SpecimenDefinition extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private Identifier identifier;
         private CodeableConcept typeCollected;
         private List<CodeableConcept> patientPreparation = new ArrayList<>();
         private String timeAspect;
         private List<CodeableConcept> collection = new ArrayList<>();
         private List<TypeTested> typeTested = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -630,15 +626,8 @@ public class SpecimenDefinition extends DomainResource {
             return new SpecimenDefinition(this);
         }
 
-        private Builder from(SpecimenDefinition specimenDefinition) {
-            id = specimenDefinition.id;
-            meta = specimenDefinition.meta;
-            implicitRules = specimenDefinition.implicitRules;
-            language = specimenDefinition.language;
-            text = specimenDefinition.text;
-            contained.addAll(specimenDefinition.contained);
-            extension.addAll(specimenDefinition.extension);
-            modifierExtension.addAll(specimenDefinition.modifierExtension);
+        protected Builder from(SpecimenDefinition specimenDefinition) {
+            super.from(specimenDefinition);
             identifier = specimenDefinition.identifier;
             typeCollected = specimenDefinition.typeCollected;
             patientPreparation.addAll(specimenDefinition.patientPreparation);
@@ -860,34 +849,24 @@ public class SpecimenDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(preference).from(this);
-        }
-
-        public Builder toBuilder(SpecimenContainedPreference preference) {
-            return new Builder(preference).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(SpecimenContainedPreference preference) {
-            return new Builder(preference);
+            Builder builder = new Builder();
+            builder.preference(preference);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final SpecimenContainedPreference preference;
-
-            // optional
             private Boolean isDerived;
             private CodeableConcept type;
+            private SpecimenContainedPreference preference;
             private Container container;
             private String requirement;
             private Duration retentionTime;
             private List<CodeableConcept> rejectionCriterion = new ArrayList<>();
             private List<Handling> handling = new ArrayList<>();
-
-            private Builder(SpecimenContainedPreference preference) {
-                super();
-                this.preference = preference;
-            }
 
             /**
              * <p>
@@ -1040,6 +1019,22 @@ public class SpecimenDefinition extends DomainResource {
 
             /**
              * <p>
+             * The preference for this type of conditioned specimen.
+             * </p>
+             * 
+             * @param preference
+             *     preferred | alternate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preference(SpecimenContainedPreference preference) {
+                this.preference = preference;
+                return this;
+            }
+
+            /**
+             * <p>
              * The specimen's container.
              * </p>
              * 
@@ -1174,12 +1169,11 @@ public class SpecimenDefinition extends DomainResource {
                 return new TypeTested(this);
             }
 
-            private Builder from(TypeTested typeTested) {
-                id = typeTested.id;
-                extension.addAll(typeTested.extension);
-                modifierExtension.addAll(typeTested.modifierExtension);
+            protected Builder from(TypeTested typeTested) {
+                super.from(typeTested);
                 isDerived = typeTested.isDerived;
                 type = typeTested.type;
+                preference = typeTested.preference;
                 container = typeTested.container;
                 requirement = typeTested.requirement;
                 retentionTime = typeTested.retentionTime;
@@ -1403,11 +1397,11 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept material;
                 private CodeableConcept type;
                 private CodeableConcept cap;
@@ -1416,10 +1410,6 @@ public class SpecimenDefinition extends DomainResource {
                 private Element minimumVolume;
                 private List<Additive> additive = new ArrayList<>();
                 private String preparation;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1697,10 +1687,8 @@ public class SpecimenDefinition extends DomainResource {
                     return new Container(this);
                 }
 
-                private Builder from(Container container) {
-                    id = container.id;
-                    extension.addAll(container.extension);
-                    modifierExtension.addAll(container.modifierExtension);
+                protected Builder from(Container container) {
+                    super.from(container);
                     material = container.material;
                     type = container.type;
                     cap = container.cap;
@@ -1798,25 +1786,17 @@ public class SpecimenDefinition extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(additive).from(this);
-                }
-
-                public Builder toBuilder(Element additive) {
-                    return new Builder(additive).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Element additive) {
-                    return new Builder(additive);
+                    Builder builder = new Builder();
+                    builder.additive(additive);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Element additive;
-
-                    private Builder(Element additive) {
-                        super();
-                        this.additive = additive;
-                    }
+                    private Element additive;
 
                     /**
                      * <p>
@@ -1935,15 +1915,31 @@ public class SpecimenDefinition extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Substance introduced in the kind of container to preserve, maintain or enhance the specimen. Examples: Formalin, 
+                     * Citrate, EDTA.
+                     * </p>
+                     * 
+                     * @param additive
+                     *     Additive associated with container
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder additive(Element additive) {
+                        this.additive = additive;
+                        return this;
+                    }
+
                     @Override
                     public Additive build() {
                         return new Additive(this);
                     }
 
-                    private Builder from(Additive additive) {
-                        id = additive.id;
-                        extension.addAll(additive.extension);
-                        modifierExtension.addAll(additive.modifierExtension);
+                    protected Builder from(Additive additive) {
+                        super.from(additive);
+                        this.additive = additive.additive;
                         return this;
                     }
                 }
@@ -2094,19 +2090,15 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept temperatureQualifier;
                 private Range temperatureRange;
                 private Duration maxDuration;
                 private String instruction;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2296,10 +2288,8 @@ public class SpecimenDefinition extends DomainResource {
                     return new Handling(this);
                 }
 
-                private Builder from(Handling handling) {
-                    id = handling.id;
-                    extension.addAll(handling.extension);
-                    modifierExtension.addAll(handling.modifierExtension);
+                protected Builder from(Handling handling) {
+                    super.from(handling);
                     temperatureQualifier = handling.temperatureQualifier;
                     temperatureRange = handling.temperatureRange;
                     maxDuration = handling.maxDuration;

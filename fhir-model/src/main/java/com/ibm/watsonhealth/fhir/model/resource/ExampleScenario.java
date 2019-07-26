@@ -423,26 +423,21 @@ public class ExampleScenario extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -455,11 +450,6 @@ public class ExampleScenario extends DomainResource {
         private List<Instance> instance = new ArrayList<>();
         private List<Process> process = new ArrayList<>();
         private List<Canonical> workflow = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -781,6 +771,22 @@ public class ExampleScenario extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this example scenario. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1158,19 +1164,13 @@ public class ExampleScenario extends DomainResource {
             return new ExampleScenario(this);
         }
 
-        private Builder from(ExampleScenario exampleScenario) {
-            id = exampleScenario.id;
-            meta = exampleScenario.meta;
-            implicitRules = exampleScenario.implicitRules;
-            language = exampleScenario.language;
-            text = exampleScenario.text;
-            contained.addAll(exampleScenario.contained);
-            extension.addAll(exampleScenario.extension);
-            modifierExtension.addAll(exampleScenario.modifierExtension);
+        protected Builder from(ExampleScenario exampleScenario) {
+            super.from(exampleScenario);
             url = exampleScenario.url;
             identifier.addAll(exampleScenario.identifier);
             version = exampleScenario.version;
             name = exampleScenario.name;
+            status = exampleScenario.status;
             experimental = exampleScenario.experimental;
             date = exampleScenario.date;
             publisher = exampleScenario.publisher;
@@ -1324,31 +1324,21 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actorId, type).from(this);
-        }
-
-        public Builder toBuilder(String actorId, ExampleScenarioActorType type) {
-            return new Builder(actorId, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String actorId, ExampleScenarioActorType type) {
-            return new Builder(actorId, type);
+            Builder builder = new Builder();
+            builder.actorId(actorId);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String actorId;
-            private final ExampleScenarioActorType type;
-
-            // optional
+            private String actorId;
+            private ExampleScenarioActorType type;
             private String name;
             private Markdown description;
-
-            private Builder(String actorId, ExampleScenarioActorType type) {
-                super();
-                this.actorId = actorId;
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -1469,6 +1459,38 @@ public class ExampleScenario extends DomainResource {
 
             /**
              * <p>
+             * ID or acronym of actor.
+             * </p>
+             * 
+             * @param actorId
+             *     ID or acronym of the actor
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actorId(String actorId) {
+                this.actorId = actorId;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of actor - person or system.
+             * </p>
+             * 
+             * @param type
+             *     person | entity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(ExampleScenarioActorType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * The name of the actor as shown in the page.
              * </p>
              * 
@@ -1504,10 +1526,10 @@ public class ExampleScenario extends DomainResource {
                 return new Actor(this);
             }
 
-            private Builder from(Actor actor) {
-                id = actor.id;
-                extension.addAll(actor.extension);
-                modifierExtension.addAll(actor.modifierExtension);
+            protected Builder from(Actor actor) {
+                super.from(actor);
+                actorId = actor.actorId;
+                type = actor.type;
                 name = actor.name;
                 description = actor.description;
                 return this;
@@ -1688,33 +1710,23 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(resourceId, resourceType).from(this);
-        }
-
-        public Builder toBuilder(String resourceId, FHIRResourceType resourceType) {
-            return new Builder(resourceId, resourceType).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String resourceId, FHIRResourceType resourceType) {
-            return new Builder(resourceId, resourceType);
+            Builder builder = new Builder();
+            builder.resourceId(resourceId);
+            builder.resourceType(resourceType);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String resourceId;
-            private final FHIRResourceType resourceType;
-
-            // optional
+            private String resourceId;
+            private FHIRResourceType resourceType;
             private String name;
             private Markdown description;
             private List<Version> version = new ArrayList<>();
             private List<ContainedInstance> containedInstance = new ArrayList<>();
-
-            private Builder(String resourceId, FHIRResourceType resourceType) {
-                super();
-                this.resourceId = resourceId;
-                this.resourceType = resourceType;
-            }
 
             /**
              * <p>
@@ -1835,6 +1847,38 @@ public class ExampleScenario extends DomainResource {
 
             /**
              * <p>
+             * The id of the resource for referencing.
+             * </p>
+             * 
+             * @param resourceId
+             *     The id of the resource for referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resourceId(String resourceId) {
+                this.resourceId = resourceId;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of the resource.
+             * </p>
+             * 
+             * @param resourceType
+             *     The type of the resource
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resourceType(FHIRResourceType resourceType) {
+                this.resourceType = resourceType;
+                return this;
+            }
+
+            /**
+             * <p>
              * A short name for the resource instance.
              * </p>
              * 
@@ -1950,10 +1994,10 @@ public class ExampleScenario extends DomainResource {
                 return new Instance(this);
             }
 
-            private Builder from(Instance instance) {
-                id = instance.id;
-                extension.addAll(instance.extension);
-                modifierExtension.addAll(instance.modifierExtension);
+            protected Builder from(Instance instance) {
+                super.from(instance);
+                resourceId = instance.resourceId;
+                resourceType = instance.resourceType;
                 name = instance.name;
                 description = instance.description;
                 version.addAll(instance.version);
@@ -2063,27 +2107,19 @@ public class ExampleScenario extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(versionId, description).from(this);
-            }
-
-            public Builder toBuilder(String versionId, Markdown description) {
-                return new Builder(versionId, description).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String versionId, Markdown description) {
-                return new Builder(versionId, description);
+                Builder builder = new Builder();
+                builder.versionId(versionId);
+                builder.description(description);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String versionId;
-                private final Markdown description;
-
-                private Builder(String versionId, Markdown description) {
-                    super();
-                    this.versionId = versionId;
-                    this.description = description;
-                }
+                private String versionId;
+                private Markdown description;
 
                 /**
                  * <p>
@@ -2202,15 +2238,47 @@ public class ExampleScenario extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The identifier of a specific version of a resource.
+                 * </p>
+                 * 
+                 * @param versionId
+                 *     The identifier of a specific version of a resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder versionId(String versionId) {
+                    this.versionId = versionId;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The description of the resource version.
+                 * </p>
+                 * 
+                 * @param description
+                 *     The description of the resource version
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(Markdown description) {
+                    this.description = description;
+                    return this;
+                }
+
                 @Override
                 public Version build() {
                     return new Version(this);
                 }
 
-                private Builder from(Version version) {
-                    id = version.id;
-                    extension.addAll(version.extension);
-                    modifierExtension.addAll(version.modifierExtension);
+                protected Builder from(Version version) {
+                    super.from(version);
+                    versionId = version.versionId;
+                    description = version.description;
                     return this;
                 }
             }
@@ -2317,28 +2385,18 @@ public class ExampleScenario extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(resourceId).from(this);
-            }
-
-            public Builder toBuilder(String resourceId) {
-                return new Builder(resourceId).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String resourceId) {
-                return new Builder(resourceId);
+                Builder builder = new Builder();
+                builder.resourceId(resourceId);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String resourceId;
-
-                // optional
+                private String resourceId;
                 private String versionId;
-
-                private Builder(String resourceId) {
-                    super();
-                    this.resourceId = resourceId;
-                }
 
                 /**
                  * <p>
@@ -2459,6 +2517,22 @@ public class ExampleScenario extends DomainResource {
 
                 /**
                  * <p>
+                 * Each resource contained in the instance.
+                 * </p>
+                 * 
+                 * @param resourceId
+                 *     Each resource contained in the instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder resourceId(String resourceId) {
+                    this.resourceId = resourceId;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A specific version of a resource contained in the instance.
                  * </p>
                  * 
@@ -2478,10 +2552,9 @@ public class ExampleScenario extends DomainResource {
                     return new ContainedInstance(this);
                 }
 
-                private Builder from(ContainedInstance containedInstance) {
-                    id = containedInstance.id;
-                    extension.addAll(containedInstance.extension);
-                    modifierExtension.addAll(containedInstance.modifierExtension);
+                protected Builder from(ContainedInstance containedInstance) {
+                    super.from(containedInstance);
+                    resourceId = containedInstance.resourceId;
                     versionId = containedInstance.versionId;
                     return this;
                 }
@@ -2644,31 +2717,21 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(title).from(this);
-        }
-
-        public Builder toBuilder(String title) {
-            return new Builder(title).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String title) {
-            return new Builder(title);
+            Builder builder = new Builder();
+            builder.title(title);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String title;
-
-            // optional
+            private String title;
             private Markdown description;
             private Markdown preConditions;
             private Markdown postConditions;
             private List<Step> step = new ArrayList<>();
-
-            private Builder(String title) {
-                super();
-                this.title = title;
-            }
 
             /**
              * <p>
@@ -2789,6 +2852,22 @@ public class ExampleScenario extends DomainResource {
 
             /**
              * <p>
+             * The diagram title of the group of operations.
+             * </p>
+             * 
+             * @param title
+             *     The diagram title of the group of operations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder title(String title) {
+                this.title = title;
+                return this;
+            }
+
+            /**
+             * <p>
              * A longer description of the group of operations.
              * </p>
              * 
@@ -2880,10 +2959,9 @@ public class ExampleScenario extends DomainResource {
                 return new Process(this);
             }
 
-            private Builder from(Process process) {
-                id = process.id;
-                extension.addAll(process.extension);
-                modifierExtension.addAll(process.modifierExtension);
+            protected Builder from(Process process) {
+                super.from(process);
+                title = process.title;
                 description = process.description;
                 preConditions = process.preConditions;
                 postConditions = process.postConditions;
@@ -3034,19 +3112,15 @@ public class ExampleScenario extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private List<ExampleScenario.Process> process = new ArrayList<>();
                 private Boolean pause;
                 private Operation operation;
                 private List<Alternative> alternative = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3284,10 +3358,8 @@ public class ExampleScenario extends DomainResource {
                     return new Step(this);
                 }
 
-                private Builder from(Step step) {
-                    id = step.id;
-                    extension.addAll(step.extension);
-                    modifierExtension.addAll(step.modifierExtension);
+                protected Builder from(Step step) {
+                    super.from(step);
                     process.addAll(step.process);
                     pause = step.pause;
                     operation = step.operation;
@@ -3541,22 +3613,17 @@ public class ExampleScenario extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(number).from(this);
-                }
-
-                public Builder toBuilder(String number) {
-                    return new Builder(number).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(String number) {
-                    return new Builder(number);
+                    Builder builder = new Builder();
+                    builder.number(number);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final String number;
-
-                    // optional
+                    private String number;
                     private String type;
                     private String name;
                     private String initiator;
@@ -3566,11 +3633,6 @@ public class ExampleScenario extends DomainResource {
                     private Boolean receiverActive;
                     private ExampleScenario.Instance.ContainedInstance request;
                     private ExampleScenario.Instance.ContainedInstance response;
-
-                    private Builder(String number) {
-                        super();
-                        this.number = number;
-                    }
 
                     /**
                      * <p>
@@ -3687,6 +3749,22 @@ public class ExampleScenario extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * <p>
+                     * The sequential number of the interaction, e.g. 1.2.5.
+                     * </p>
+                     * 
+                     * @param number
+                     *     The sequential number of the interaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder number(String number) {
+                        this.number = number;
+                        return this;
                     }
 
                     /**
@@ -3838,10 +3916,9 @@ public class ExampleScenario extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private Builder from(Operation operation) {
-                        id = operation.id;
-                        extension.addAll(operation.extension);
-                        modifierExtension.addAll(operation.modifierExtension);
+                    protected Builder from(Operation operation) {
+                        super.from(operation);
+                        number = operation.number;
                         type = operation.type;
                         name = operation.name;
                         initiator = operation.initiator;
@@ -3977,29 +4054,19 @@ public class ExampleScenario extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(title).from(this);
-                }
-
-                public Builder toBuilder(String title) {
-                    return new Builder(title).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(String title) {
-                    return new Builder(title);
+                    Builder builder = new Builder();
+                    builder.title(title);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final String title;
-
-                    // optional
+                    private String title;
                     private Markdown description;
                     private List<ExampleScenario.Process.Step> step = new ArrayList<>();
-
-                    private Builder(String title) {
-                        super();
-                        this.title = title;
-                    }
 
                     /**
                      * <p>
@@ -4120,6 +4187,23 @@ public class ExampleScenario extends DomainResource {
 
                     /**
                      * <p>
+                     * The label to display for the alternative that gives a sense of the circumstance in which the alternative should be 
+                     * invoked.
+                     * </p>
+                     * 
+                     * @param title
+                     *     Label for alternative
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder title(String title) {
+                        this.title = title;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * A human-readable description of the alternative explaining when the alternative should occur rather than the base step.
                      * </p>
                      * 
@@ -4179,10 +4263,9 @@ public class ExampleScenario extends DomainResource {
                         return new Alternative(this);
                     }
 
-                    private Builder from(Alternative alternative) {
-                        id = alternative.id;
-                        extension.addAll(alternative.extension);
-                        modifierExtension.addAll(alternative.modifierExtension);
+                    protected Builder from(Alternative alternative) {
+                        super.from(alternative);
+                        title = alternative.title;
                         description = alternative.description;
                         step.addAll(alternative.step);
                         return this;

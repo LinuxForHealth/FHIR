@@ -200,33 +200,23 @@ public class ImmunizationRecommendation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(patient, date, recommendation).from(this);
-    }
-
-    public Builder toBuilder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
-        return new Builder(patient, date, recommendation).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
-        return new Builder(patient, date, recommendation);
+        Builder builder = new Builder();
+        builder.patient(patient);
+        builder.date(date);
+        builder.recommendation(recommendation);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference patient;
-        private final DateTime date;
-        private final List<Recommendation> recommendation;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private Reference patient;
+        private DateTime date;
         private Reference authority;
-
-        private Builder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
-            super();
-            this.patient = patient;
-            this.date = date;
-            this.recommendation = new ArrayList<>(recommendation);
-        }
+        private List<Recommendation> recommendation = new ArrayList<>();
 
         /**
          * <p>
@@ -496,6 +486,38 @@ public class ImmunizationRecommendation extends DomainResource {
 
         /**
          * <p>
+         * The patient the recommendation(s) are for.
+         * </p>
+         * 
+         * @param patient
+         *     Who this profile is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date the immunization recommendation(s) were created.
+         * </p>
+         * 
+         * @param date
+         *     Date recommendation(s) created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
+            return this;
+        }
+
+        /**
+         * <p>
          * Indicates the authority who published the protocol (e.g. ACIP).
          * </p>
          * 
@@ -510,22 +532,58 @@ public class ImmunizationRecommendation extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Vaccine administration recommendations.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param recommendation
+         *     Vaccine administration recommendations
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recommendation(Recommendation... recommendation) {
+            for (Recommendation value : recommendation) {
+                this.recommendation.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Vaccine administration recommendations.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param recommendation
+         *     Vaccine administration recommendations
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recommendation(Collection<Recommendation> recommendation) {
+            this.recommendation = new ArrayList<>(recommendation);
+            return this;
+        }
+
         @Override
         public ImmunizationRecommendation build() {
             return new ImmunizationRecommendation(this);
         }
 
-        private Builder from(ImmunizationRecommendation immunizationRecommendation) {
-            id = immunizationRecommendation.id;
-            meta = immunizationRecommendation.meta;
-            implicitRules = immunizationRecommendation.implicitRules;
-            language = immunizationRecommendation.language;
-            text = immunizationRecommendation.text;
-            contained.addAll(immunizationRecommendation.contained);
-            extension.addAll(immunizationRecommendation.extension);
-            modifierExtension.addAll(immunizationRecommendation.modifierExtension);
+        protected Builder from(ImmunizationRecommendation immunizationRecommendation) {
+            super.from(immunizationRecommendation);
             identifier.addAll(immunizationRecommendation.identifier);
+            patient = immunizationRecommendation.patient;
+            date = immunizationRecommendation.date;
             authority = immunizationRecommendation.authority;
+            recommendation.addAll(immunizationRecommendation.recommendation);
             return this;
         }
     }
@@ -812,25 +870,20 @@ public class ImmunizationRecommendation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(forecastStatus).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept forecastStatus) {
-            return new Builder(forecastStatus).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept forecastStatus) {
-            return new Builder(forecastStatus);
+            Builder builder = new Builder();
+            builder.forecastStatus(forecastStatus);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept forecastStatus;
-
-            // optional
             private List<CodeableConcept> vaccineCode = new ArrayList<>();
             private CodeableConcept targetDisease;
             private List<CodeableConcept> contraindicatedVaccineCode = new ArrayList<>();
+            private CodeableConcept forecastStatus;
             private List<CodeableConcept> forecastReason = new ArrayList<>();
             private List<DateCriterion> dateCriterion = new ArrayList<>();
             private String description;
@@ -839,11 +892,6 @@ public class ImmunizationRecommendation extends DomainResource {
             private Element seriesDoses;
             private List<Reference> supportingImmunization = new ArrayList<>();
             private List<Reference> supportingPatientInformation = new ArrayList<>();
-
-            private Builder(CodeableConcept forecastStatus) {
-                super();
-                this.forecastStatus = forecastStatus;
-            }
 
             /**
              * <p>
@@ -1055,6 +1103,22 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             public Builder contraindicatedVaccineCode(Collection<CodeableConcept> contraindicatedVaccineCode) {
                 this.contraindicatedVaccineCode = new ArrayList<>(contraindicatedVaccineCode);
+                return this;
+            }
+
+            /**
+             * <p>
+             * Indicates the patient status with respect to the path to immunity for the target disease.
+             * </p>
+             * 
+             * @param forecastStatus
+             *     Vaccine recommendation status
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder forecastStatus(CodeableConcept forecastStatus) {
+                this.forecastStatus = forecastStatus;
                 return this;
             }
 
@@ -1289,13 +1353,12 @@ public class ImmunizationRecommendation extends DomainResource {
                 return new Recommendation(this);
             }
 
-            private Builder from(Recommendation recommendation) {
-                id = recommendation.id;
-                extension.addAll(recommendation.extension);
-                modifierExtension.addAll(recommendation.modifierExtension);
+            protected Builder from(Recommendation recommendation) {
+                super.from(recommendation);
                 vaccineCode.addAll(recommendation.vaccineCode);
                 targetDisease = recommendation.targetDisease;
                 contraindicatedVaccineCode.addAll(recommendation.contraindicatedVaccineCode);
+                forecastStatus = recommendation.forecastStatus;
                 forecastReason.addAll(recommendation.forecastReason);
                 dateCriterion.addAll(recommendation.dateCriterion);
                 description = recommendation.description;
@@ -1409,27 +1472,19 @@ public class ImmunizationRecommendation extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code, value).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept code, DateTime value) {
-                return new Builder(code, value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept code, DateTime value) {
-                return new Builder(code, value);
+                Builder builder = new Builder();
+                builder.code(code);
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept code;
-                private final DateTime value;
-
-                private Builder(CodeableConcept code, DateTime value) {
-                    super();
-                    this.code = code;
-                    this.value = value;
-                }
+                private CodeableConcept code;
+                private DateTime value;
 
                 /**
                  * <p>
@@ -1548,15 +1603,47 @@ public class ImmunizationRecommendation extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * Date classification of recommendation. For example, earliest date to give, latest date to give, etc.
+                 * </p>
+                 * 
+                 * @param code
+                 *     Type of date
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(CodeableConcept code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The date whose meaning is specified by dateCriterion.code.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Recommended date
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(DateTime value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public DateCriterion build() {
                     return new DateCriterion(this);
                 }
 
-                private Builder from(DateCriterion dateCriterion) {
-                    id = dateCriterion.id;
-                    extension.addAll(dateCriterion.extension);
-                    modifierExtension.addAll(dateCriterion.modifierExtension);
+                protected Builder from(DateCriterion dateCriterion) {
+                    super.from(dateCriterion);
+                    code = dateCriterion.code;
+                    value = dateCriterion.value;
                     return this;
                 }
             }

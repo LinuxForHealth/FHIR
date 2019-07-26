@@ -161,31 +161,21 @@ public class ProductShelfLife extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, period).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept type, Quantity period) {
-        return new Builder(type, period).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept type, Quantity period) {
-        return new Builder(type, period);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.period(period);
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // required
-        private final CodeableConcept type;
-        private final Quantity period;
-
-        // optional
         private Identifier identifier;
+        private CodeableConcept type;
+        private Quantity period;
         private List<CodeableConcept> specialPrecautionsForStorage = new ArrayList<>();
-
-        private Builder(CodeableConcept type, Quantity period) {
-            super();
-            this.type = type;
-            this.period = period;
-        }
 
         /**
          * <p>
@@ -322,6 +312,48 @@ public class ProductShelfLife extends BackboneElement {
 
         /**
          * <p>
+         * This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
+         * Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
+         * etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
+         * controlled term identifier shall be specified.
+         * </p>
+         * 
+         * @param type
+         *     This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
+         *     Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
+         *     etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
+         *     controlled term identifier shall be specified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+         * measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+         * symbol and the symbol identifier shall be used.
+         * </p>
+         * 
+         * @param period
+         *     The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+         *     measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+         *     symbol and the symbol identifier shall be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder period(Quantity period) {
+            this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
          * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
          * term and the controlled term identifier shall be specified.
          * </p>
@@ -369,11 +401,11 @@ public class ProductShelfLife extends BackboneElement {
             return new ProductShelfLife(this);
         }
 
-        private Builder from(ProductShelfLife productShelfLife) {
-            id = productShelfLife.id;
-            extension.addAll(productShelfLife.extension);
-            modifierExtension.addAll(productShelfLife.modifierExtension);
+        protected Builder from(ProductShelfLife productShelfLife) {
+            super.from(productShelfLife);
             identifier = productShelfLife.identifier;
+            type = productShelfLife.type;
+            period = productShelfLife.period;
             specialPrecautionsForStorage.addAll(productShelfLife.specialPrecautionsForStorage);
             return this;
         }

@@ -315,25 +315,20 @@ public class DocumentManifest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, content).from(this);
-    }
-
-    public Builder toBuilder(DocumentReferenceStatus status, Collection<Reference> content) {
-        return new Builder(status, content).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(DocumentReferenceStatus status, Collection<Reference> content) {
-        return new Builder(status, content);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.content(content);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final DocumentReferenceStatus status;
-        private final List<Reference> content;
-
-        // optional
         private Identifier masterIdentifier;
         private List<Identifier> identifier = new ArrayList<>();
+        private DocumentReferenceStatus status;
         private CodeableConcept type;
         private Reference subject;
         private DateTime created;
@@ -341,13 +336,8 @@ public class DocumentManifest extends DomainResource {
         private List<Reference> recipient = new ArrayList<>();
         private Uri source;
         private String description;
+        private List<Reference> content = new ArrayList<>();
         private List<Related> related = new ArrayList<>();
-
-        private Builder(DocumentReferenceStatus status, Collection<Reference> content) {
-            super();
-            this.status = status;
-            this.content = new ArrayList<>(content);
-        }
 
         /**
          * <p>
@@ -634,6 +624,22 @@ public class DocumentManifest extends DomainResource {
 
         /**
          * <p>
+         * The status of this document manifest.
+         * </p>
+         * 
+         * @param status
+         *     current | superseded | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(DocumentReferenceStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The code specifying the type of clinical activity that resulted in placing the associated content into the 
          * DocumentManifest.
          * </p>
@@ -799,6 +805,46 @@ public class DocumentManifest extends DomainResource {
 
         /**
          * <p>
+         * The list of Resources that consist of the parts of this manifest.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param content
+         *     Items in manifest
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(Reference... content) {
+            for (Reference value : content) {
+                this.content.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The list of Resources that consist of the parts of this manifest.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param content
+         *     Items in manifest
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(Collection<Reference> content) {
+            this.content = new ArrayList<>(content);
+            return this;
+        }
+
+        /**
+         * <p>
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
          * <p>
@@ -842,17 +888,11 @@ public class DocumentManifest extends DomainResource {
             return new DocumentManifest(this);
         }
 
-        private Builder from(DocumentManifest documentManifest) {
-            id = documentManifest.id;
-            meta = documentManifest.meta;
-            implicitRules = documentManifest.implicitRules;
-            language = documentManifest.language;
-            text = documentManifest.text;
-            contained.addAll(documentManifest.contained);
-            extension.addAll(documentManifest.extension);
-            modifierExtension.addAll(documentManifest.modifierExtension);
+        protected Builder from(DocumentManifest documentManifest) {
+            super.from(documentManifest);
             masterIdentifier = documentManifest.masterIdentifier;
             identifier.addAll(documentManifest.identifier);
+            status = documentManifest.status;
             type = documentManifest.type;
             subject = documentManifest.subject;
             created = documentManifest.created;
@@ -860,6 +900,7 @@ public class DocumentManifest extends DomainResource {
             recipient.addAll(documentManifest.recipient);
             source = documentManifest.source;
             description = documentManifest.description;
+            content.addAll(documentManifest.content);
             related.addAll(documentManifest.related);
             return this;
         }
@@ -970,17 +1011,13 @@ public class DocumentManifest extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Identifier identifier;
             private Reference ref;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1136,10 +1173,8 @@ public class DocumentManifest extends DomainResource {
                 return new Related(this);
             }
 
-            private Builder from(Related related) {
-                id = related.id;
-                extension.addAll(related.extension);
-                modifierExtension.addAll(related.modifierExtension);
+            protected Builder from(Related related) {
+                super.from(related);
                 identifier = related.identifier;
                 ref = related.ref;
                 return this;

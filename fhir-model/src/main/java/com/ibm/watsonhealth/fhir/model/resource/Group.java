@@ -291,37 +291,27 @@ public class Group extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, actual).from(this);
-    }
-
-    public Builder toBuilder(GroupType type, Boolean actual) {
-        return new Builder(type, actual).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(GroupType type, Boolean actual) {
-        return new Builder(type, actual);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.actual(actual);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final GroupType type;
-        private final Boolean actual;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
+        private GroupType type;
+        private Boolean actual;
         private CodeableConcept code;
         private String name;
         private UnsignedInt quantity;
         private Reference managingEntity;
         private List<Characteristic> characteristic = new ArrayList<>();
         private List<Member> member = new ArrayList<>();
-
-        private Builder(GroupType type, Boolean actual) {
-            super();
-            this.type = type;
-            this.actual = actual;
-        }
 
         /**
          * <p>
@@ -607,6 +597,39 @@ public class Group extends DomainResource {
 
         /**
          * <p>
+         * Identifies the broad classification of the kind of resources the group includes.
+         * </p>
+         * 
+         * @param type
+         *     person | animal | practitioner | device | medication | substance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(GroupType type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * If true, indicates that the resource refers to a specific group of real individuals. If false, the group defines a set 
+         * of intended individuals.
+         * </p>
+         * 
+         * @param actual
+         *     Descriptive or actual
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actual(Boolean actual) {
+            this.actual = actual;
+            return this;
+        }
+
+        /**
+         * <p>
          * Provides a specific type of resource the group includes; e.g. "cow", "syringe", etc.
          * </p>
          * 
@@ -754,17 +777,12 @@ public class Group extends DomainResource {
             return new Group(this);
         }
 
-        private Builder from(Group group) {
-            id = group.id;
-            meta = group.meta;
-            implicitRules = group.implicitRules;
-            language = group.language;
-            text = group.text;
-            contained.addAll(group.contained);
-            extension.addAll(group.extension);
-            modifierExtension.addAll(group.modifierExtension);
+        protected Builder from(Group group) {
+            super.from(group);
             identifier.addAll(group.identifier);
             active = group.active;
+            type = group.type;
+            actual = group.actual;
             code = group.code;
             name = group.name;
             quantity = group.quantity;
@@ -912,32 +930,22 @@ public class Group extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, value, exclude).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code, Element value, Boolean exclude) {
-            return new Builder(code, value, exclude).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code, Element value, Boolean exclude) {
-            return new Builder(code, value, exclude);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.value(value);
+            builder.exclude(exclude);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-            private final Element value;
-            private final Boolean exclude;
-
-            // optional
+            private CodeableConcept code;
+            private Element value;
+            private Boolean exclude;
             private Period period;
-
-            private Builder(CodeableConcept code, Element value, Boolean exclude) {
-                super();
-                this.code = code;
-                this.value = value;
-                this.exclude = exclude;
-            }
 
             /**
              * <p>
@@ -1058,6 +1066,54 @@ public class Group extends DomainResource {
 
             /**
              * <p>
+             * A code that identifies the kind of trait being asserted.
+             * </p>
+             * 
+             * @param code
+             *     Kind of characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The value of the trait that holds (or does not hold - see 'exclude') for members of the group.
+             * </p>
+             * 
+             * @param value
+             *     Value held by characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
+            /**
+             * <p>
+             * If true, indicates the characteristic is one that is NOT held by members of the group.
+             * </p>
+             * 
+             * @param exclude
+             *     Group includes or excludes
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder exclude(Boolean exclude) {
+                this.exclude = exclude;
+                return this;
+            }
+
+            /**
+             * <p>
              * The period over which the characteristic is tested; e.g. the patient had an operation during the month of June.
              * </p>
              * 
@@ -1077,10 +1133,11 @@ public class Group extends DomainResource {
                 return new Characteristic(this);
             }
 
-            private Builder from(Characteristic characteristic) {
-                id = characteristic.id;
-                extension.addAll(characteristic.extension);
-                modifierExtension.addAll(characteristic.modifierExtension);
+            protected Builder from(Characteristic characteristic) {
+                super.from(characteristic);
+                code = characteristic.code;
+                value = characteristic.value;
+                exclude = characteristic.exclude;
                 period = characteristic.period;
                 return this;
             }
@@ -1207,29 +1264,19 @@ public class Group extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(entity).from(this);
-        }
-
-        public Builder toBuilder(Reference entity) {
-            return new Builder(entity).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference entity) {
-            return new Builder(entity);
+            Builder builder = new Builder();
+            builder.entity(entity);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference entity;
-
-            // optional
+            private Reference entity;
             private Period period;
             private Boolean inactive;
-
-            private Builder(Reference entity) {
-                super();
-                this.entity = entity;
-            }
 
             /**
              * <p>
@@ -1350,6 +1397,23 @@ public class Group extends DomainResource {
 
             /**
              * <p>
+             * A reference to the entity that is a member of the group. Must be consistent with Group.type. If the entity is another 
+             * group, then the type must be the same.
+             * </p>
+             * 
+             * @param entity
+             *     Reference to the group member
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder entity(Reference entity) {
+                this.entity = entity;
+                return this;
+            }
+
+            /**
+             * <p>
              * The period that the member was in the group, if known.
              * </p>
              * 
@@ -1385,10 +1449,9 @@ public class Group extends DomainResource {
                 return new Member(this);
             }
 
-            private Builder from(Member member) {
-                id = member.id;
-                extension.addAll(member.extension);
-                modifierExtension.addAll(member.modifierExtension);
+            protected Builder from(Member member) {
+                super.from(member);
+                entity = member.entity;
                 period = member.period;
                 inactive = member.inactive;
                 return this;

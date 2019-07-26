@@ -329,43 +329,33 @@ public class ImmunizationEvaluation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, patient, targetDisease, immunizationEvent, doseStatus).from(this);
-    }
-
-    public Builder toBuilder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
-        return new Builder(status, patient, targetDisease, immunizationEvent, doseStatus).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
-        return new Builder(status, patient, targetDisease, immunizationEvent, doseStatus);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.patient(patient);
+        builder.targetDisease(targetDisease);
+        builder.immunizationEvent(immunizationEvent);
+        builder.doseStatus(doseStatus);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ImmunizationEvaluationStatus status;
-        private final Reference patient;
-        private final CodeableConcept targetDisease;
-        private final Reference immunizationEvent;
-        private final CodeableConcept doseStatus;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ImmunizationEvaluationStatus status;
+        private Reference patient;
         private DateTime date;
         private Reference authority;
+        private CodeableConcept targetDisease;
+        private Reference immunizationEvent;
+        private CodeableConcept doseStatus;
         private List<CodeableConcept> doseStatusReason = new ArrayList<>();
         private String description;
         private String series;
         private Element doseNumber;
         private Element seriesDoses;
-
-        private Builder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
-            super();
-            this.status = status;
-            this.patient = patient;
-            this.targetDisease = targetDisease;
-            this.immunizationEvent = immunizationEvent;
-            this.doseStatus = doseStatus;
-        }
 
         /**
          * <p>
@@ -635,6 +625,38 @@ public class ImmunizationEvaluation extends DomainResource {
 
         /**
          * <p>
+         * Indicates the current status of the evaluation of the vaccination administration event.
+         * </p>
+         * 
+         * @param status
+         *     completed | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ImmunizationEvaluationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The individual for whom the evaluation is being done.
+         * </p>
+         * 
+         * @param patient
+         *     Who this evaluation is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
          * The date the evaluation of the vaccine administration event was performed.
          * </p>
          * 
@@ -662,6 +684,54 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         public Builder authority(Reference authority) {
             this.authority = authority;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The vaccine preventable disease the dose is being evaluated against.
+         * </p>
+         * 
+         * @param targetDisease
+         *     Evaluation target disease
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder targetDisease(CodeableConcept targetDisease) {
+            this.targetDisease = targetDisease;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The vaccine administration event being evaluated.
+         * </p>
+         * 
+         * @param immunizationEvent
+         *     Immunization being evaluated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder immunizationEvent(Reference immunizationEvent) {
+            this.immunizationEvent = immunizationEvent;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates if the dose is valid or not valid with respect to the published recommendations.
+         * </p>
+         * 
+         * @param doseStatus
+         *     Status of the dose relative to published recommendations
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder doseStatus(CodeableConcept doseStatus) {
+            this.doseStatus = doseStatus;
             return this;
         }
 
@@ -776,18 +846,16 @@ public class ImmunizationEvaluation extends DomainResource {
             return new ImmunizationEvaluation(this);
         }
 
-        private Builder from(ImmunizationEvaluation immunizationEvaluation) {
-            id = immunizationEvaluation.id;
-            meta = immunizationEvaluation.meta;
-            implicitRules = immunizationEvaluation.implicitRules;
-            language = immunizationEvaluation.language;
-            text = immunizationEvaluation.text;
-            contained.addAll(immunizationEvaluation.contained);
-            extension.addAll(immunizationEvaluation.extension);
-            modifierExtension.addAll(immunizationEvaluation.modifierExtension);
+        protected Builder from(ImmunizationEvaluation immunizationEvaluation) {
+            super.from(immunizationEvaluation);
             identifier.addAll(immunizationEvaluation.identifier);
+            status = immunizationEvaluation.status;
+            patient = immunizationEvaluation.patient;
             date = immunizationEvaluation.date;
             authority = immunizationEvaluation.authority;
+            targetDisease = immunizationEvaluation.targetDisease;
+            immunizationEvent = immunizationEvaluation.immunizationEvent;
+            doseStatus = immunizationEvaluation.doseStatus;
             doseStatusReason.addAll(immunizationEvaluation.doseStatusReason);
             description = immunizationEvaluation.description;
             series = immunizationEvaluation.series;

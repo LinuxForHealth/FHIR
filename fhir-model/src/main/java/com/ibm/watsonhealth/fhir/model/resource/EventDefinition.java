@@ -615,29 +615,24 @@ public class EventDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, trigger).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
-        return new Builder(status, trigger).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
-        return new Builder(status, trigger);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.trigger(trigger);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final List<TriggerDefinition> trigger;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private String subtitle;
+        private PublicationStatus status;
         private Boolean experimental;
         private Element subject;
         private DateTime date;
@@ -658,12 +653,7 @@ public class EventDefinition extends DomainResource {
         private List<ContactDetail> reviewer = new ArrayList<>();
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
-
-        private Builder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
-            super();
-            this.status = status;
-            this.trigger = new ArrayList<>(trigger);
-        }
+        private List<TriggerDefinition> trigger = new ArrayList<>();
 
         /**
          * <p>
@@ -1017,6 +1007,22 @@ public class EventDefinition extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this event definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1568,26 +1574,62 @@ public class EventDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * The trigger element defines when the event occurs. If more than one trigger condition is specified, the event fires 
+         * whenever any one of the trigger conditions is met.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param trigger
+         *     "when" the event occurs (multiple = 'or')
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder trigger(TriggerDefinition... trigger) {
+            for (TriggerDefinition value : trigger) {
+                this.trigger.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The trigger element defines when the event occurs. If more than one trigger condition is specified, the event fires 
+         * whenever any one of the trigger conditions is met.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param trigger
+         *     "when" the event occurs (multiple = 'or')
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder trigger(Collection<TriggerDefinition> trigger) {
+            this.trigger = new ArrayList<>(trigger);
+            return this;
+        }
+
         @Override
         public EventDefinition build() {
             return new EventDefinition(this);
         }
 
-        private Builder from(EventDefinition eventDefinition) {
-            id = eventDefinition.id;
-            meta = eventDefinition.meta;
-            implicitRules = eventDefinition.implicitRules;
-            language = eventDefinition.language;
-            text = eventDefinition.text;
-            contained.addAll(eventDefinition.contained);
-            extension.addAll(eventDefinition.extension);
-            modifierExtension.addAll(eventDefinition.modifierExtension);
+        protected Builder from(EventDefinition eventDefinition) {
+            super.from(eventDefinition);
             url = eventDefinition.url;
             identifier.addAll(eventDefinition.identifier);
             version = eventDefinition.version;
             name = eventDefinition.name;
             title = eventDefinition.title;
             subtitle = eventDefinition.subtitle;
+            status = eventDefinition.status;
             experimental = eventDefinition.experimental;
             subject = eventDefinition.subject;
             date = eventDefinition.date;
@@ -1608,6 +1650,7 @@ public class EventDefinition extends DomainResource {
             reviewer.addAll(eventDefinition.reviewer);
             endorser.addAll(eventDefinition.endorser);
             relatedArtifact.addAll(eventDefinition.relatedArtifact);
+            trigger.addAll(eventDefinition.trigger);
             return this;
         }
     }

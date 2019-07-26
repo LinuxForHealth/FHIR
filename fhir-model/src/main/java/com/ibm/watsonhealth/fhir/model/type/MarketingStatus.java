@@ -181,33 +181,23 @@ public class MarketingStatus extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(country, status, dateRange).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept country, CodeableConcept status, Period dateRange) {
-        return new Builder(country, status, dateRange).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept country, CodeableConcept status, Period dateRange) {
-        return new Builder(country, status, dateRange);
+        Builder builder = new Builder();
+        builder.country(country);
+        builder.status(status);
+        builder.dateRange(dateRange);
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // required
-        private final CodeableConcept country;
-        private final CodeableConcept status;
-        private final Period dateRange;
-
-        // optional
+        private CodeableConcept country;
         private CodeableConcept jurisdiction;
+        private CodeableConcept status;
+        private Period dateRange;
         private DateTime restoreDate;
-
-        private Builder(CodeableConcept country, CodeableConcept status, Period dateRange) {
-            super();
-            this.country = country;
-            this.status = status;
-            this.dateRange = dateRange;
-        }
 
         /**
          * <p>
@@ -328,6 +318,24 @@ public class MarketingStatus extends BackboneElement {
 
         /**
          * <p>
+         * The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
+         * ISO 3166 ‑ 1 alpha-2 code elements.
+         * </p>
+         * 
+         * @param country
+         *     The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
+         *     ISO 3166 ‑ 1 alpha-2 code elements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder country(CodeableConcept country) {
+            this.country = country;
+            return this;
+        }
+
+        /**
+         * <p>
          * Where a Medicines Regulatory Agency has granted a marketing authorisation for which specific provisions within a 
          * jurisdiction apply, the jurisdiction can be specified using an appropriate controlled terminology The controlled term 
          * and the controlled term identifier shall be specified.
@@ -343,6 +351,46 @@ public class MarketingStatus extends BackboneElement {
          */
         public Builder jurisdiction(CodeableConcept jurisdiction) {
             this.jurisdiction = jurisdiction;
+            return this;
+        }
+
+        /**
+         * <p>
+         * This attribute provides information on the status of the marketing of the medicinal product See ISO/TS 20443 for more 
+         * information and examples.
+         * </p>
+         * 
+         * @param status
+         *     This attribute provides information on the status of the marketing of the medicinal product See ISO/TS 20443 for more 
+         *     information and examples
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CodeableConcept status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
+         * applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
+         * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
+         * to the release of the Medicinal Product into the distribution chain.
+         * </p>
+         * 
+         * @param dateRange
+         *     The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
+         *     applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
+         *     consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
+         *     to the release of the Medicinal Product into the distribution chain
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder dateRange(Period dateRange) {
+            this.dateRange = dateRange;
             return this;
         }
 
@@ -373,11 +421,12 @@ public class MarketingStatus extends BackboneElement {
             return new MarketingStatus(this);
         }
 
-        private Builder from(MarketingStatus marketingStatus) {
-            id = marketingStatus.id;
-            extension.addAll(marketingStatus.extension);
-            modifierExtension.addAll(marketingStatus.modifierExtension);
+        protected Builder from(MarketingStatus marketingStatus) {
+            super.from(marketingStatus);
+            country = marketingStatus.country;
             jurisdiction = marketingStatus.jurisdiction;
+            status = marketingStatus.status;
+            dateRange = marketingStatus.dateRange;
             restoreDate = marketingStatus.restoreDate;
             return this;
         }

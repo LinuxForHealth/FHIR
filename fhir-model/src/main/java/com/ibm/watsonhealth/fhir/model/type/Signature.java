@@ -212,35 +212,25 @@ public class Signature extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, when, who).from(this);
-    }
-
-    public Builder toBuilder(Collection<Coding> type, Instant when, Reference who) {
-        return new Builder(type, when, who).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<Coding> type, Instant when, Reference who) {
-        return new Builder(type, when, who);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.when(when);
+        builder.who(who);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final List<Coding> type;
-        private final Instant when;
-        private final Reference who;
-
-        // optional
+        private List<Coding> type = new ArrayList<>();
+        private Instant when;
+        private Reference who;
         private Reference onBehalfOf;
         private Code targetFormat;
         private Code sigFormat;
         private Base64Binary data;
-
-        private Builder(Collection<Coding> type, Instant when, Reference who) {
-            super();
-            this.type = new ArrayList<>(type);
-            this.when = when;
-            this.who = who;
-        }
 
         /**
          * <p>
@@ -301,6 +291,81 @@ public class Signature extends Element {
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * <p>
+         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
+         * signature information and can be used when determining accountability for various actions concerning the document.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param type
+         *     Indication of the reason the entity signed the object(s)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(Coding... type) {
+            for (Coding value : type) {
+                this.type.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
+         * signature information and can be used when determining accountability for various actions concerning the document.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param type
+         *     Indication of the reason the entity signed the object(s)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(Collection<Coding> type) {
+            this.type = new ArrayList<>(type);
+            return this;
+        }
+
+        /**
+         * <p>
+         * When the digital signature was signed.
+         * </p>
+         * 
+         * @param when
+         *     When the signature was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder when(Instant when) {
+            this.when = when;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to an application-usable description of the identity that signed (e.g. the signature used their private 
+         * key).
+         * </p>
+         * 
+         * @param who
+         *     Who signed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder who(Reference who) {
+            this.who = who;
+            return this;
         }
 
         /**
@@ -374,9 +439,11 @@ public class Signature extends Element {
             return new Signature(this);
         }
 
-        private Builder from(Signature signature) {
-            id = signature.id;
-            extension.addAll(signature.extension);
+        protected Builder from(Signature signature) {
+            super.from(signature);
+            type.addAll(signature.type);
+            when = signature.when;
+            who = signature.who;
             onBehalfOf = signature.onBehalfOf;
             targetFormat = signature.targetFormat;
             sigFormat = signature.sigFormat;

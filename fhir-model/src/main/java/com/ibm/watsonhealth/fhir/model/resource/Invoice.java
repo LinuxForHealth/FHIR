@@ -388,23 +388,18 @@ public class Invoice extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(InvoiceStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(InvoiceStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final InvoiceStatus status;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private InvoiceStatus status;
         private String cancelledReason;
         private CodeableConcept type;
         private Reference subject;
@@ -419,11 +414,6 @@ public class Invoice extends DomainResource {
         private Money totalGross;
         private Markdown paymentTerms;
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(InvoiceStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -688,6 +678,22 @@ public class Invoice extends DomainResource {
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The current state of the Invoice.
+         * </p>
+         * 
+         * @param status
+         *     draft | issued | balanced | cancelled | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(InvoiceStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1022,16 +1028,10 @@ public class Invoice extends DomainResource {
             return new Invoice(this);
         }
 
-        private Builder from(Invoice invoice) {
-            id = invoice.id;
-            meta = invoice.meta;
-            implicitRules = invoice.implicitRules;
-            language = invoice.language;
-            text = invoice.text;
-            contained.addAll(invoice.contained);
-            extension.addAll(invoice.extension);
-            modifierExtension.addAll(invoice.modifierExtension);
+        protected Builder from(Invoice invoice) {
+            super.from(invoice);
             identifier.addAll(invoice.identifier);
+            status = invoice.status;
             cancelledReason = invoice.cancelledReason;
             type = invoice.type;
             subject = invoice.subject;
@@ -1152,28 +1152,18 @@ public class Invoice extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept role;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
+            private Reference actor;
 
             /**
              * <p>
@@ -1309,16 +1299,31 @@ public class Invoice extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The device, practitioner, etc. who performed or participated in the service.
+             * </p>
+             * 
+             * @param actor
+             *     Individual who was involved
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
             @Override
             public Participant build() {
                 return new Participant(this);
             }
 
-            private Builder from(Participant participant) {
-                id = participant.id;
-                extension.addAll(participant.extension);
-                modifierExtension.addAll(participant.modifierExtension);
+            protected Builder from(Participant participant) {
+                super.from(participant);
                 role = participant.role;
+                actor = participant.actor;
                 return this;
             }
         }
@@ -1448,29 +1453,19 @@ public class Invoice extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(chargeItem).from(this);
-        }
-
-        public Builder toBuilder(Element chargeItem) {
-            return new Builder(chargeItem).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element chargeItem) {
-            return new Builder(chargeItem);
+            Builder builder = new Builder();
+            builder.chargeItem(chargeItem);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element chargeItem;
-
-            // optional
             private PositiveInt sequence;
+            private Element chargeItem;
             private List<PriceComponent> priceComponent = new ArrayList<>();
-
-            private Builder(Element chargeItem) {
-                super();
-                this.chargeItem = chargeItem;
-            }
 
             /**
              * <p>
@@ -1607,6 +1602,23 @@ public class Invoice extends DomainResource {
 
             /**
              * <p>
+             * The ChargeItem contains information such as the billing code, date, amount etc. If no further details are required for 
+             * the lineItem, inline billing codes can be added using the CodeableConcept data type instead of the Reference.
+             * </p>
+             * 
+             * @param chargeItem
+             *     Reference to ChargeItem containing details of this line item or an inline billing code
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder chargeItem(Element chargeItem) {
+                this.chargeItem = chargeItem;
+                return this;
+            }
+
+            /**
+             * <p>
              * The price for a ChargeItem may be calculated as a base price with surcharges/deductions that apply in certain 
              * conditions. A ChargeItemDefinition resource that defines the prices, factors and conditions that apply to a billing 
              * code is currently under development. The priceComponent element can be used to offer transparency to the recipient of 
@@ -1656,11 +1668,10 @@ public class Invoice extends DomainResource {
                 return new LineItem(this);
             }
 
-            private Builder from(LineItem lineItem) {
-                id = lineItem.id;
-                extension.addAll(lineItem.extension);
-                modifierExtension.addAll(lineItem.modifierExtension);
+            protected Builder from(LineItem lineItem) {
+                super.from(lineItem);
                 sequence = lineItem.sequence;
+                chargeItem = lineItem.chargeItem;
                 priceComponent.addAll(lineItem.priceComponent);
                 return this;
             }
@@ -1807,30 +1818,20 @@ public class Invoice extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(InvoicePriceComponentType type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(InvoicePriceComponentType type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final InvoicePriceComponentType type;
-
-                // optional
+                private InvoicePriceComponentType type;
                 private CodeableConcept code;
                 private Decimal factor;
                 private Money amount;
-
-                private Builder(InvoicePriceComponentType type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -1951,6 +1952,22 @@ public class Invoice extends DomainResource {
 
                 /**
                  * <p>
+                 * This code identifies the type of the component.
+                 * </p>
+                 * 
+                 * @param type
+                 *     base | surcharge | deduction | discount | tax | informational
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(InvoicePriceComponentType type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A code that identifies the component. Codes may be used to differentiate between kinds of taxes, surcharges, discounts 
                  * etc.
                  * </p>
@@ -2003,10 +2020,9 @@ public class Invoice extends DomainResource {
                     return new PriceComponent(this);
                 }
 
-                private Builder from(PriceComponent priceComponent) {
-                    id = priceComponent.id;
-                    extension.addAll(priceComponent.extension);
-                    modifierExtension.addAll(priceComponent.modifierExtension);
+                protected Builder from(PriceComponent priceComponent) {
+                    super.from(priceComponent);
+                    type = priceComponent.type;
                     code = priceComponent.code;
                     factor = priceComponent.factor;
                     amount = priceComponent.amount;

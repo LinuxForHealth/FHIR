@@ -261,11 +261,11 @@ public class MedicinalProductIndication extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Reference> subject = new ArrayList<>();
         private CodeableConcept diseaseSymptomProcedure;
         private CodeableConcept diseaseStatus;
@@ -275,10 +275,6 @@ public class MedicinalProductIndication extends DomainResource {
         private List<OtherTherapy> otherTherapy = new ArrayList<>();
         private List<Reference> undesirableEffect = new ArrayList<>();
         private List<Population> population = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -775,15 +771,8 @@ public class MedicinalProductIndication extends DomainResource {
             return new MedicinalProductIndication(this);
         }
 
-        private Builder from(MedicinalProductIndication medicinalProductIndication) {
-            id = medicinalProductIndication.id;
-            meta = medicinalProductIndication.meta;
-            implicitRules = medicinalProductIndication.implicitRules;
-            language = medicinalProductIndication.language;
-            text = medicinalProductIndication.text;
-            contained.addAll(medicinalProductIndication.contained);
-            extension.addAll(medicinalProductIndication.extension);
-            modifierExtension.addAll(medicinalProductIndication.modifierExtension);
+        protected Builder from(MedicinalProductIndication medicinalProductIndication) {
+            super.from(medicinalProductIndication);
             subject.addAll(medicinalProductIndication.subject);
             diseaseSymptomProcedure = medicinalProductIndication.diseaseSymptomProcedure;
             diseaseStatus = medicinalProductIndication.diseaseStatus;
@@ -899,27 +888,19 @@ public class MedicinalProductIndication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(therapyRelationshipType, medication).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept therapyRelationshipType, Element medication) {
-            return new Builder(therapyRelationshipType, medication).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept therapyRelationshipType, Element medication) {
-            return new Builder(therapyRelationshipType, medication);
+            Builder builder = new Builder();
+            builder.therapyRelationshipType(therapyRelationshipType);
+            builder.medication(medication);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept therapyRelationshipType;
-            private final Element medication;
-
-            private Builder(CodeableConcept therapyRelationshipType, Element medication) {
-                super();
-                this.therapyRelationshipType = therapyRelationshipType;
-                this.medication = medication;
-            }
+            private CodeableConcept therapyRelationshipType;
+            private Element medication;
 
             /**
              * <p>
@@ -1038,15 +1019,49 @@ public class MedicinalProductIndication extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The type of relationship between the medicinal product indication or contraindication and another therapy.
+             * </p>
+             * 
+             * @param therapyRelationshipType
+             *     The type of relationship between the medicinal product indication or contraindication and another therapy
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder therapyRelationshipType(CodeableConcept therapyRelationshipType) {
+                this.therapyRelationshipType = therapyRelationshipType;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
+             * or contraindication.
+             * </p>
+             * 
+             * @param medication
+             *     Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
+             *     or contraindication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder medication(Element medication) {
+                this.medication = medication;
+                return this;
+            }
+
             @Override
             public OtherTherapy build() {
                 return new OtherTherapy(this);
             }
 
-            private Builder from(OtherTherapy otherTherapy) {
-                id = otherTherapy.id;
-                extension.addAll(otherTherapy.extension);
-                modifierExtension.addAll(otherTherapy.modifierExtension);
+            protected Builder from(OtherTherapy otherTherapy) {
+                super.from(otherTherapy);
+                therapyRelationshipType = otherTherapy.therapyRelationshipType;
+                medication = otherTherapy.medication;
                 return this;
             }
         }

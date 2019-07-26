@@ -295,33 +295,23 @@ public class Bundle extends Resource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type).from(this);
-    }
-
-    public Builder toBuilder(BundleType type) {
-        return new Builder(type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(BundleType type) {
-        return new Builder(type);
+        Builder builder = new Builder();
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends Resource.Builder {
-        // required
-        private final BundleType type;
-
-        // optional
         private Identifier identifier;
+        private BundleType type;
         private Instant timestamp;
         private UnsignedInt total;
         private List<Link> link = new ArrayList<>();
         private List<Entry> entry = new ArrayList<>();
         private Signature signature;
-
-        private Builder(BundleType type) {
-            super();
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -403,6 +393,22 @@ public class Bundle extends Resource {
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the purpose of this bundle - how it is intended to be used.
+         * </p>
+         * 
+         * @param type
+         *     document | message | transaction | transaction-response | batch | batch-response | history | searchset | collection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(BundleType type) {
+            this.type = type;
             return this;
         }
 
@@ -543,12 +549,10 @@ public class Bundle extends Resource {
             return new Bundle(this);
         }
 
-        private Builder from(Bundle bundle) {
-            id = bundle.id;
-            meta = bundle.meta;
-            implicitRules = bundle.implicitRules;
-            language = bundle.language;
+        protected Builder from(Bundle bundle) {
+            super.from(bundle);
             identifier = bundle.identifier;
+            type = bundle.type;
             timestamp = bundle.timestamp;
             total = bundle.total;
             link.addAll(bundle.link);
@@ -661,27 +665,19 @@ public class Bundle extends Resource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(relation, url).from(this);
-        }
-
-        public Builder toBuilder(String relation, Uri url) {
-            return new Builder(relation, url).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String relation, Uri url) {
-            return new Builder(relation, url);
+            Builder builder = new Builder();
+            builder.relation(relation);
+            builder.url(url);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String relation;
-            private final Uri url;
-
-            private Builder(String relation, Uri url) {
-                super();
-                this.relation = relation;
-                this.url = url;
-            }
+            private String relation;
+            private Uri url;
 
             /**
              * <p>
@@ -800,15 +796,49 @@ public class Bundle extends Resource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * A name which details the functional use for this link - see [http://www.iana.org/assignments/link-relations/link-
+             * relations.xhtml#link-relations-1](http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-
+             * 1).
+             * </p>
+             * 
+             * @param relation
+             *     See http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder relation(String relation) {
+                this.relation = relation;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The reference details for the link.
+             * </p>
+             * 
+             * @param url
+             *     Reference details for the link
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder url(Uri url) {
+                this.url = url;
+                return this;
+            }
+
             @Override
             public Link build() {
                 return new Link(this);
             }
 
-            private Builder from(Link link) {
-                id = link.id;
-                extension.addAll(link.extension);
-                modifierExtension.addAll(link.modifierExtension);
+            protected Builder from(Link link) {
+                super.from(link);
+                relation = link.relation;
+                url = link.url;
                 return this;
             }
         }
@@ -999,21 +1029,17 @@ public class Bundle extends Resource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Bundle.Link> link = new ArrayList<>();
             private Uri fullUrl;
             private Resource resource;
             private Search search;
             private Request request;
             private Response response;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1264,10 +1290,8 @@ public class Bundle extends Resource {
                 return new Entry(this);
             }
 
-            private Builder from(Entry entry) {
-                id = entry.id;
-                extension.addAll(entry.extension);
-                modifierExtension.addAll(entry.modifierExtension);
+            protected Builder from(Entry entry) {
+                super.from(entry);
                 link.addAll(entry.link);
                 fullUrl = entry.fullUrl;
                 resource = entry.resource;
@@ -1384,17 +1408,13 @@ public class Bundle extends Resource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private SearchEntryMode mode;
                 private Decimal score;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1551,10 +1571,8 @@ public class Bundle extends Resource {
                     return new Search(this);
                 }
 
-                private Builder from(Search search) {
-                    id = search.id;
-                    extension.addAll(search.extension);
-                    modifierExtension.addAll(search.modifierExtension);
+                protected Builder from(Search search) {
+                    super.from(search);
                     mode = search.mode;
                     score = search.score;
                     return this;
@@ -1742,33 +1760,23 @@ public class Bundle extends Resource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(method, url).from(this);
-            }
-
-            public Builder toBuilder(HTTPVerb method, Uri url) {
-                return new Builder(method, url).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(HTTPVerb method, Uri url) {
-                return new Builder(method, url);
+                Builder builder = new Builder();
+                builder.method(method);
+                builder.url(url);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final HTTPVerb method;
-                private final Uri url;
-
-                // optional
+                private HTTPVerb method;
+                private Uri url;
                 private String ifNoneMatch;
                 private Instant ifModifiedSince;
                 private String ifMatch;
                 private String ifNoneExist;
-
-                private Builder(HTTPVerb method, Uri url) {
-                    super();
-                    this.method = method;
-                    this.url = url;
-                }
 
                 /**
                  * <p>
@@ -1889,6 +1897,39 @@ public class Bundle extends Resource {
 
                 /**
                  * <p>
+                 * In a transaction or batch, this is the HTTP action to be executed for this entry. In a history bundle, this indicates 
+                 * the HTTP action that occurred.
+                 * </p>
+                 * 
+                 * @param method
+                 *     GET | HEAD | POST | PUT | DELETE | PATCH
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder method(HTTPVerb method) {
+                    this.method = method;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The URL for this entry, relative to the root (the address to which the request is posted).
+                 * </p>
+                 * 
+                 * @param url
+                 *     URL for HTTP equivalent of this entry
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder url(Uri url) {
+                    this.url = url;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * If the ETag values match, return a 304 Not Modified status. See the API documentation for ["Conditional Read"](http.
                  * html#cread).
                  * </p>
@@ -1961,10 +2002,10 @@ public class Bundle extends Resource {
                     return new Request(this);
                 }
 
-                private Builder from(Request request) {
-                    id = request.id;
-                    extension.addAll(request.extension);
-                    modifierExtension.addAll(request.modifierExtension);
+                protected Builder from(Request request) {
+                    super.from(request);
+                    method = request.method;
+                    url = request.url;
                     ifNoneMatch = request.ifNoneMatch;
                     ifModifiedSince = request.ifModifiedSince;
                     ifMatch = request.ifMatch;
@@ -2132,31 +2173,21 @@ public class Bundle extends Resource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(status).from(this);
-            }
-
-            public Builder toBuilder(String status) {
-                return new Builder(status).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String status) {
-                return new Builder(status);
+                Builder builder = new Builder();
+                builder.status(status);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String status;
-
-                // optional
+                private String status;
                 private Uri location;
                 private String etag;
                 private Instant lastModified;
                 private Resource outcome;
-
-                private Builder(String status) {
-                    super();
-                    this.status = status;
-                }
 
                 /**
                  * <p>
@@ -2277,6 +2308,23 @@ public class Bundle extends Resource {
 
                 /**
                  * <p>
+                 * The status code returned by processing this entry. The status SHALL start with a 3 digit HTTP code (e.g. 404) and may 
+                 * contain the standard HTTP description associated with the status code.
+                 * </p>
+                 * 
+                 * @param status
+                 *     Status response code (text optional)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder status(String status) {
+                    this.status = status;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The location header created by processing this operation, populated if the operation returns a location.
                  * </p>
                  * 
@@ -2345,10 +2393,9 @@ public class Bundle extends Resource {
                     return new Response(this);
                 }
 
-                private Builder from(Response response) {
-                    id = response.id;
-                    extension.addAll(response.extension);
-                    modifierExtension.addAll(response.modifierExtension);
+                protected Builder from(Response response) {
+                    super.from(response);
+                    status = response.status;
                     location = response.location;
                     etag = response.etag;
                     lastModified = response.lastModified;

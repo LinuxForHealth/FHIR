@@ -190,20 +190,16 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Reference> subject = new ArrayList<>();
         private CodeableConcept symptomConditionEffect;
         private CodeableConcept classification;
         private CodeableConcept frequencyOfOccurrence;
         private List<Population> population = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -564,15 +560,8 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
             return new MedicinalProductUndesirableEffect(this);
         }
 
-        private Builder from(MedicinalProductUndesirableEffect medicinalProductUndesirableEffect) {
-            id = medicinalProductUndesirableEffect.id;
-            meta = medicinalProductUndesirableEffect.meta;
-            implicitRules = medicinalProductUndesirableEffect.implicitRules;
-            language = medicinalProductUndesirableEffect.language;
-            text = medicinalProductUndesirableEffect.text;
-            contained.addAll(medicinalProductUndesirableEffect.contained);
-            extension.addAll(medicinalProductUndesirableEffect.extension);
-            modifierExtension.addAll(medicinalProductUndesirableEffect.modifierExtension);
+        protected Builder from(MedicinalProductUndesirableEffect medicinalProductUndesirableEffect) {
+            super.from(medicinalProductUndesirableEffect);
             subject.addAll(medicinalProductUndesirableEffect.subject);
             symptomConditionEffect = medicinalProductUndesirableEffect.symptomConditionEffect;
             classification = medicinalProductUndesirableEffect.classification;

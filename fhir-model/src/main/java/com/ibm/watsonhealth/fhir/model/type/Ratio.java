@@ -125,17 +125,13 @@ public class Ratio extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Quantity numerator;
         private Quantity denominator;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -235,9 +231,8 @@ public class Ratio extends Element {
             return new Ratio(this);
         }
 
-        private Builder from(Ratio ratio) {
-            id = ratio.id;
-            extension.addAll(ratio.extension);
+        protected Builder from(Ratio ratio) {
+            super.from(ratio);
             numerator = ratio.numerator;
             denominator = ratio.denominator;
             return this;

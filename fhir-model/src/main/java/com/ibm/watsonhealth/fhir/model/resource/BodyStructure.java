@@ -243,22 +243,16 @@ public class BodyStructure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(patient).from(this);
-    }
-
-    public Builder toBuilder(Reference patient) {
-        return new Builder(patient).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference patient) {
-        return new Builder(patient);
+        Builder builder = new Builder();
+        builder.patient(patient);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference patient;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private CodeableConcept morphology;
@@ -266,11 +260,7 @@ public class BodyStructure extends DomainResource {
         private List<CodeableConcept> locationQualifier = new ArrayList<>();
         private String description;
         private List<Attachment> image = new ArrayList<>();
-
-        private Builder(Reference patient) {
-            super();
-            this.patient = patient;
-        }
+        private Reference patient;
 
         /**
          * <p>
@@ -685,20 +675,29 @@ public class BodyStructure extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * The person to which the body site belongs.
+         * </p>
+         * 
+         * @param patient
+         *     Who this is about
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
         @Override
         public BodyStructure build() {
             return new BodyStructure(this);
         }
 
-        private Builder from(BodyStructure bodyStructure) {
-            id = bodyStructure.id;
-            meta = bodyStructure.meta;
-            implicitRules = bodyStructure.implicitRules;
-            language = bodyStructure.language;
-            text = bodyStructure.text;
-            contained.addAll(bodyStructure.contained);
-            extension.addAll(bodyStructure.extension);
-            modifierExtension.addAll(bodyStructure.modifierExtension);
+        protected Builder from(BodyStructure bodyStructure) {
+            super.from(bodyStructure);
             identifier.addAll(bodyStructure.identifier);
             active = bodyStructure.active;
             morphology = bodyStructure.morphology;
@@ -706,6 +705,7 @@ public class BodyStructure extends DomainResource {
             locationQualifier.addAll(bodyStructure.locationQualifier);
             description = bodyStructure.description;
             image.addAll(bodyStructure.image);
+            patient = bodyStructure.patient;
             return this;
         }
     }

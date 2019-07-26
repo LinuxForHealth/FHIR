@@ -376,25 +376,21 @@ public class GuidanceResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(module, status).from(this);
-    }
-
-    public Builder toBuilder(Element module, GuidanceResponseStatus status) {
-        return new Builder(module, status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Element module, GuidanceResponseStatus status) {
-        return new Builder(module, status);
+        Builder builder = new Builder();
+        builder.module(module);
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Element module;
-        private final GuidanceResponseStatus status;
-
-        // optional
         private Identifier requestIdentifier;
         private List<Identifier> identifier = new ArrayList<>();
+        private Element module;
+        private GuidanceResponseStatus status;
         private Reference subject;
         private Reference encounter;
         private DateTime occurrenceDateTime;
@@ -406,12 +402,6 @@ public class GuidanceResponse extends DomainResource {
         private Reference outputParameters;
         private Reference result;
         private List<DataRequirement> dataRequirement = new ArrayList<>();
-
-        private Builder(Element module, GuidanceResponseStatus status) {
-            super();
-            this.module = module;
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -693,6 +683,43 @@ public class GuidanceResponse extends DomainResource {
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * <p>
+         * An identifier, CodeableConcept or canonical reference to the guidance that was requested.
+         * </p>
+         * 
+         * @param module
+         *     What guidance was requested
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder module(Element module) {
+            this.module = module;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of the response. If the evaluation is completed successfully, the status will indicate success. However, in 
+         * order to complete the evaluation, the engine may require more information. In this case, the status will be data-
+         * required, and the response will contain a description of the additional required information. If the evaluation 
+         * completed successfully, but the engine determines that a potentially more accurate response could be provided if more 
+         * data was available, the status will be data-requested, and the response will contain a description of the additional 
+         * requested information.
+         * </p>
+         * 
+         * @param status
+         *     success | data-requested | data-required | in-progress | failure | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(GuidanceResponseStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1009,17 +1036,12 @@ public class GuidanceResponse extends DomainResource {
             return new GuidanceResponse(this);
         }
 
-        private Builder from(GuidanceResponse guidanceResponse) {
-            id = guidanceResponse.id;
-            meta = guidanceResponse.meta;
-            implicitRules = guidanceResponse.implicitRules;
-            language = guidanceResponse.language;
-            text = guidanceResponse.text;
-            contained.addAll(guidanceResponse.contained);
-            extension.addAll(guidanceResponse.extension);
-            modifierExtension.addAll(guidanceResponse.modifierExtension);
+        protected Builder from(GuidanceResponse guidanceResponse) {
+            super.from(guidanceResponse);
             requestIdentifier = guidanceResponse.requestIdentifier;
             identifier.addAll(guidanceResponse.identifier);
+            module = guidanceResponse.module;
+            status = guidanceResponse.status;
             subject = guidanceResponse.subject;
             encounter = guidanceResponse.encounter;
             occurrenceDateTime = guidanceResponse.occurrenceDateTime;

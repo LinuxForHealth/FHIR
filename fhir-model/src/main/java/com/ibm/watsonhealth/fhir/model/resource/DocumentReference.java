@@ -391,25 +391,20 @@ public class DocumentReference extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, content).from(this);
-    }
-
-    public Builder toBuilder(DocumentReferenceStatus status, Collection<Content> content) {
-        return new Builder(status, content).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(DocumentReferenceStatus status, Collection<Content> content) {
-        return new Builder(status, content);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.content(content);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final DocumentReferenceStatus status;
-        private final List<Content> content;
-
-        // optional
         private Identifier masterIdentifier;
         private List<Identifier> identifier = new ArrayList<>();
+        private DocumentReferenceStatus status;
         private ReferredDocumentStatus docStatus;
         private CodeableConcept type;
         private List<CodeableConcept> category = new ArrayList<>();
@@ -421,13 +416,8 @@ public class DocumentReference extends DomainResource {
         private List<RelatesTo> relatesTo = new ArrayList<>();
         private String description;
         private List<CodeableConcept> securityLabel = new ArrayList<>();
+        private List<Content> content = new ArrayList<>();
         private Context context;
-
-        private Builder(DocumentReferenceStatus status, Collection<Content> content) {
-            super();
-            this.status = status;
-            this.content = new ArrayList<>(content);
-        }
 
         /**
          * <p>
@@ -714,6 +704,22 @@ public class DocumentReference extends DomainResource {
 
         /**
          * <p>
+         * The status of this document reference.
+         * </p>
+         * 
+         * @param status
+         *     current | superseded | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(DocumentReferenceStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The status of the underlying document.
          * </p>
          * 
@@ -995,6 +1001,46 @@ public class DocumentReference extends DomainResource {
 
         /**
          * <p>
+         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param content
+         *     Document referenced
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(Content... content) {
+            for (Content value : content) {
+                this.content.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param content
+         *     Document referenced
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(Collection<Content> content) {
+            this.content = new ArrayList<>(content);
+            return this;
+        }
+
+        /**
+         * <p>
          * The clinical context in which the document was prepared.
          * </p>
          * 
@@ -1014,17 +1060,11 @@ public class DocumentReference extends DomainResource {
             return new DocumentReference(this);
         }
 
-        private Builder from(DocumentReference documentReference) {
-            id = documentReference.id;
-            meta = documentReference.meta;
-            implicitRules = documentReference.implicitRules;
-            language = documentReference.language;
-            text = documentReference.text;
-            contained.addAll(documentReference.contained);
-            extension.addAll(documentReference.extension);
-            modifierExtension.addAll(documentReference.modifierExtension);
+        protected Builder from(DocumentReference documentReference) {
+            super.from(documentReference);
             masterIdentifier = documentReference.masterIdentifier;
             identifier.addAll(documentReference.identifier);
+            status = documentReference.status;
             docStatus = documentReference.docStatus;
             type = documentReference.type;
             category.addAll(documentReference.category);
@@ -1036,6 +1076,7 @@ public class DocumentReference extends DomainResource {
             relatesTo.addAll(documentReference.relatesTo);
             description = documentReference.description;
             securityLabel.addAll(documentReference.securityLabel);
+            content.addAll(documentReference.content);
             context = documentReference.context;
             return this;
         }
@@ -1142,27 +1183,19 @@ public class DocumentReference extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, target).from(this);
-        }
-
-        public Builder toBuilder(DocumentRelationshipType code, Reference target) {
-            return new Builder(code, target).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(DocumentRelationshipType code, Reference target) {
-            return new Builder(code, target);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.target(target);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final DocumentRelationshipType code;
-            private final Reference target;
-
-            private Builder(DocumentRelationshipType code, Reference target) {
-                super();
-                this.code = code;
-                this.target = target;
-            }
+            private DocumentRelationshipType code;
+            private Reference target;
 
             /**
              * <p>
@@ -1281,15 +1314,47 @@ public class DocumentReference extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The type of relationship that this document has with anther document.
+             * </p>
+             * 
+             * @param code
+             *     replaces | transforms | signs | appends
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(DocumentRelationshipType code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The target document of this relationship.
+             * </p>
+             * 
+             * @param target
+             *     Target of the relationship
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder target(Reference target) {
+                this.target = target;
+                return this;
+            }
+
             @Override
             public RelatesTo build() {
                 return new RelatesTo(this);
             }
 
-            private Builder from(RelatesTo relatesTo) {
-                id = relatesTo.id;
-                extension.addAll(relatesTo.extension);
-                modifierExtension.addAll(relatesTo.modifierExtension);
+            protected Builder from(RelatesTo relatesTo) {
+                super.from(relatesTo);
+                code = relatesTo.code;
+                target = relatesTo.target;
                 return this;
             }
         }
@@ -1397,28 +1462,18 @@ public class DocumentReference extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(attachment).from(this);
-        }
-
-        public Builder toBuilder(Attachment attachment) {
-            return new Builder(attachment).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Attachment attachment) {
-            return new Builder(attachment);
+            Builder builder = new Builder();
+            builder.attachment(attachment);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Attachment attachment;
-
-            // optional
+            private Attachment attachment;
             private Coding format;
-
-            private Builder(Attachment attachment) {
-                super();
-                this.attachment = attachment;
-            }
 
             /**
              * <p>
@@ -1539,6 +1594,22 @@ public class DocumentReference extends DomainResource {
 
             /**
              * <p>
+             * The document or URL of the document along with critical metadata to prove content has integrity.
+             * </p>
+             * 
+             * @param attachment
+             *     Where to access the document
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder attachment(Attachment attachment) {
+                this.attachment = attachment;
+                return this;
+            }
+
+            /**
+             * <p>
              * An identifier of the document encoding, structure, and template that the document conforms to beyond the base format 
              * indicated in the mimeType.
              * </p>
@@ -1559,10 +1630,9 @@ public class DocumentReference extends DomainResource {
                 return new Content(this);
             }
 
-            private Builder from(Content content) {
-                id = content.id;
-                extension.addAll(content.extension);
-                modifierExtension.addAll(content.modifierExtension);
+            protected Builder from(Content content) {
+                super.from(content);
+                attachment = content.attachment;
                 format = content.format;
                 return this;
             }
@@ -1768,11 +1838,11 @@ public class DocumentReference extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Reference> encounter = new ArrayList<>();
             private List<CodeableConcept> event = new ArrayList<>();
             private Period period;
@@ -1780,10 +1850,6 @@ public class DocumentReference extends DomainResource {
             private CodeableConcept practiceSetting;
             private Reference sourcePatientInfo;
             private List<Reference> related = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2097,10 +2163,8 @@ public class DocumentReference extends DomainResource {
                 return new Context(this);
             }
 
-            private Builder from(Context context) {
-                id = context.id;
-                extension.addAll(context.extension);
-                modifierExtension.addAll(context.modifierExtension);
+            protected Builder from(Context context) {
+                super.from(context);
                 encounter.addAll(context.encounter);
                 event.addAll(context.event);
                 period = context.period;

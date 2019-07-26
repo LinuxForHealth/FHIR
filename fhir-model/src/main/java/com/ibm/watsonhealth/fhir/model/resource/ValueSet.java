@@ -491,27 +491,22 @@ public class ValueSet extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -524,11 +519,6 @@ public class ValueSet extends DomainResource {
         private Markdown copyright;
         private Compose compose;
         private Expansion expansion;
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -871,6 +861,23 @@ public class ValueSet extends DomainResource {
 
         /**
          * <p>
+         * The status of this value set. Enables tracking the life-cycle of the content. The status of the value set applies to 
+         * the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this value set is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * </p>
@@ -1149,20 +1156,14 @@ public class ValueSet extends DomainResource {
             return new ValueSet(this);
         }
 
-        private Builder from(ValueSet valueSet) {
-            id = valueSet.id;
-            meta = valueSet.meta;
-            implicitRules = valueSet.implicitRules;
-            language = valueSet.language;
-            text = valueSet.text;
-            contained.addAll(valueSet.contained);
-            extension.addAll(valueSet.extension);
-            modifierExtension.addAll(valueSet.modifierExtension);
+        protected Builder from(ValueSet valueSet) {
+            super.from(valueSet);
             url = valueSet.url;
             identifier.addAll(valueSet.identifier);
             version = valueSet.version;
             name = valueSet.name;
             title = valueSet.title;
+            status = valueSet.status;
             experimental = valueSet.experimental;
             date = valueSet.date;
             publisher = valueSet.publisher;
@@ -1321,30 +1322,20 @@ public class ValueSet extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(include).from(this);
-        }
-
-        public Builder toBuilder(Collection<Include> include) {
-            return new Builder(include).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Include> include) {
-            return new Builder(include);
+            Builder builder = new Builder();
+            builder.include(include);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Include> include;
-
-            // optional
             private Date lockedDate;
             private Boolean inactive;
+            private List<Include> include = new ArrayList<>();
             private List<ValueSet.Compose.Include> exclude = new ArrayList<>();
-
-            private Builder(Collection<Include> include) {
-                super();
-                this.include = new ArrayList<>(include);
-            }
 
             /**
              * <p>
@@ -1501,6 +1492,46 @@ public class ValueSet extends DomainResource {
 
             /**
              * <p>
+             * Include one or more codes from a code system or other value set(s).
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param include
+             *     Include one or more codes from a code system or other value set(s)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder include(Include... include) {
+                for (Include value : include) {
+                    this.include.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Include one or more codes from a code system or other value set(s).
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param include
+             *     Include one or more codes from a code system or other value set(s)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder include(Collection<Include> include) {
+                this.include = new ArrayList<>(include);
+                return this;
+            }
+
+            /**
+             * <p>
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
              * <p>
@@ -1544,12 +1575,11 @@ public class ValueSet extends DomainResource {
                 return new Compose(this);
             }
 
-            private Builder from(Compose compose) {
-                id = compose.id;
-                extension.addAll(compose.extension);
-                modifierExtension.addAll(compose.modifierExtension);
+            protected Builder from(Compose compose) {
+                super.from(compose);
                 lockedDate = compose.lockedDate;
                 inactive = compose.inactive;
+                include.addAll(compose.include);
                 exclude.addAll(compose.exclude);
                 return this;
             }
@@ -1717,20 +1747,16 @@ public class ValueSet extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Uri system;
                 private String version;
                 private List<Concept> concept = new ArrayList<>();
                 private List<Filter> filter = new ArrayList<>();
                 private List<Canonical> valueSet = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2012,10 +2038,8 @@ public class ValueSet extends DomainResource {
                     return new Include(this);
                 }
 
-                private Builder from(Include include) {
-                    id = include.id;
-                    extension.addAll(include.extension);
-                    modifierExtension.addAll(include.modifierExtension);
+                protected Builder from(Include include) {
+                    super.from(include);
                     system = include.system;
                     version = include.version;
                     concept.addAll(include.concept);
@@ -2146,29 +2170,19 @@ public class ValueSet extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(code).from(this);
-                }
-
-                public Builder toBuilder(Code code) {
-                    return new Builder(code).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Code code) {
-                    return new Builder(code);
+                    Builder builder = new Builder();
+                    builder.code(code);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Code code;
-
-                    // optional
+                    private Code code;
                     private String display;
                     private List<Designation> designation = new ArrayList<>();
-
-                    private Builder(Code code) {
-                        super();
-                        this.code = code;
-                    }
 
                     /**
                      * <p>
@@ -2289,6 +2303,22 @@ public class ValueSet extends DomainResource {
 
                     /**
                      * <p>
+                     * Specifies a code for the concept to be included or excluded.
+                     * </p>
+                     * 
+                     * @param code
+                     *     Code or expression from system
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder code(Code code) {
+                        this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * The text to display to the user for this concept in the context of this valueset. If no display is provided, then 
                      * applications using the value set use the display specified for the code by the system.
                      * </p>
@@ -2351,10 +2381,9 @@ public class ValueSet extends DomainResource {
                         return new Concept(this);
                     }
 
-                    private Builder from(Concept concept) {
-                        id = concept.id;
-                        extension.addAll(concept.extension);
-                        modifierExtension.addAll(concept.modifierExtension);
+                    protected Builder from(Concept concept) {
+                        super.from(concept);
+                        code = concept.code;
                         display = concept.display;
                         designation.addAll(concept.designation);
                         return this;
@@ -2481,29 +2510,19 @@ public class ValueSet extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return new Builder(value).from(this);
-                    }
-
-                    public Builder toBuilder(String value) {
-                        return new Builder(value).from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder(String value) {
-                        return new Builder(value);
+                        Builder builder = new Builder();
+                        builder.value(value);
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // required
-                        private final String value;
-
-                        // optional
                         private Code language;
                         private Coding use;
-
-                        private Builder(String value) {
-                            super();
-                            this.value = value;
-                        }
+                        private String value;
 
                         /**
                          * <p>
@@ -2654,17 +2673,32 @@ public class ValueSet extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * <p>
+                         * The text value for this designation.
+                         * </p>
+                         * 
+                         * @param value
+                         *     The text value for this designation
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(String value) {
+                            this.value = value;
+                            return this;
+                        }
+
                         @Override
                         public Designation build() {
                             return new Designation(this);
                         }
 
-                        private Builder from(Designation designation) {
-                            id = designation.id;
-                            extension.addAll(designation.extension);
-                            modifierExtension.addAll(designation.modifierExtension);
+                        protected Builder from(Designation designation) {
+                            super.from(designation);
                             language = designation.language;
                             use = designation.use;
+                            value = designation.value;
                             return this;
                         }
                     }
@@ -2794,29 +2828,21 @@ public class ValueSet extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(property, op, value).from(this);
-                }
-
-                public Builder toBuilder(Code property, FilterOperator op, String value) {
-                    return new Builder(property, op, value).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Code property, FilterOperator op, String value) {
-                    return new Builder(property, op, value);
+                    Builder builder = new Builder();
+                    builder.property(property);
+                    builder.op(op);
+                    builder.value(value);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Code property;
-                    private final FilterOperator op;
-                    private final String value;
-
-                    private Builder(Code property, FilterOperator op, String value) {
-                        super();
-                        this.property = property;
-                        this.op = op;
-                        this.value = value;
-                    }
+                    private Code property;
+                    private FilterOperator op;
+                    private String value;
 
                     /**
                      * <p>
@@ -2935,15 +2961,67 @@ public class ValueSet extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * A code that identifies a property or a filter defined in the code system.
+                     * </p>
+                     * 
+                     * @param property
+                     *     A property/filter defined by the code system
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder property(Code property) {
+                        this.property = property;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The kind of operation to perform as a part of the filter criteria.
+                     * </p>
+                     * 
+                     * @param op
+                     *     = | is-a | descendent-of | is-not-a | regex | in | not-in | generalizes | exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder op(FilterOperator op) {
+                        this.op = op;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The match value may be either a code defined by the system, or a string value, which is a regex match on the literal 
+                     * string of the property value (if the filter represents a property defined in CodeSystem) or of the system filter value 
+                     * (if the filter represents a filter defined in CodeSystem) when the operation is 'regex', or one of the values (true 
+                     * and false), when the operation is 'exists'.
+                     * </p>
+                     * 
+                     * @param value
+                     *     Code from the system, or regex criteria, or boolean value for exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder value(String value) {
+                        this.value = value;
+                        return this;
+                    }
+
                     @Override
                     public Filter build() {
                         return new Filter(this);
                     }
 
-                    private Builder from(Filter filter) {
-                        id = filter.id;
-                        extension.addAll(filter.extension);
-                        modifierExtension.addAll(filter.modifierExtension);
+                    protected Builder from(Filter filter) {
+                        super.from(filter);
+                        property = filter.property;
+                        op = filter.op;
+                        value = filter.value;
                         return this;
                     }
                 }
@@ -3131,32 +3209,22 @@ public class ValueSet extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(timestamp).from(this);
-        }
-
-        public Builder toBuilder(DateTime timestamp) {
-            return new Builder(timestamp).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(DateTime timestamp) {
-            return new Builder(timestamp);
+            Builder builder = new Builder();
+            builder.timestamp(timestamp);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final DateTime timestamp;
-
-            // optional
             private Uri identifier;
+            private DateTime timestamp;
             private Integer total;
             private Integer offset;
             private List<Parameter> parameter = new ArrayList<>();
             private List<Contains> contains = new ArrayList<>();
-
-            private Builder(DateTime timestamp) {
-                super();
-                this.timestamp = timestamp;
-            }
 
             /**
              * <p>
@@ -3296,6 +3364,22 @@ public class ValueSet extends DomainResource {
 
             /**
              * <p>
+             * The time at which the expansion was produced by the expanding system.
+             * </p>
+             * 
+             * @param timestamp
+             *     Time ValueSet expansion happened
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder timestamp(DateTime timestamp) {
+                this.timestamp = timestamp;
+                return this;
+            }
+
+            /**
+             * <p>
              * The total number of concepts in the expansion. If the number of concept nodes in this resource is less than the stated 
              * number, then the server can return more using the offset parameter.
              * </p>
@@ -3415,11 +3499,10 @@ public class ValueSet extends DomainResource {
                 return new Expansion(this);
             }
 
-            private Builder from(Expansion expansion) {
-                id = expansion.id;
-                extension.addAll(expansion.extension);
-                modifierExtension.addAll(expansion.modifierExtension);
+            protected Builder from(Expansion expansion) {
+                super.from(expansion);
                 identifier = expansion.identifier;
+                timestamp = expansion.timestamp;
                 total = expansion.total;
                 offset = expansion.offset;
                 parameter.addAll(expansion.parameter);
@@ -3531,28 +3614,18 @@ public class ValueSet extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name).from(this);
-            }
-
-            public Builder toBuilder(String name) {
-                return new Builder(name).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String name) {
-                return new Builder(name);
+                Builder builder = new Builder();
+                builder.name(name);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String name;
-
-                // optional
+                private String name;
                 private Element value;
-
-                private Builder(String name) {
-                    super();
-                    this.name = name;
-                }
 
                 /**
                  * <p>
@@ -3673,6 +3746,23 @@ public class ValueSet extends DomainResource {
 
                 /**
                  * <p>
+                 * Name of the input parameter to the $expand operation; may be a server-assigned name for additional default or other 
+                 * server-supplied parameters used to control the expansion process.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Name as assigned by the client or server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(String name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The value of the parameter.
                  * </p>
                  * 
@@ -3692,10 +3782,9 @@ public class ValueSet extends DomainResource {
                     return new Parameter(this);
                 }
 
-                private Builder from(Parameter parameter) {
-                    id = parameter.id;
-                    extension.addAll(parameter.extension);
-                    modifierExtension.addAll(parameter.modifierExtension);
+                protected Builder from(Parameter parameter) {
+                    super.from(parameter);
+                    name = parameter.name;
                     value = parameter.value;
                     return this;
                 }
@@ -3922,11 +4011,11 @@ public class ValueSet extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Uri system;
                 private Boolean _abstract;
                 private Boolean inactive;
@@ -3935,10 +4024,6 @@ public class ValueSet extends DomainResource {
                 private String display;
                 private List<ValueSet.Compose.Include.Concept.Designation> designation = new ArrayList<>();
                 private List<ValueSet.Expansion.Contains> contains = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4246,10 +4331,8 @@ public class ValueSet extends DomainResource {
                     return new Contains(this);
                 }
 
-                private Builder from(Contains contains) {
-                    id = contains.id;
-                    extension.addAll(contains.extension);
-                    modifierExtension.addAll(contains.modifierExtension);
+                protected Builder from(Contains contains) {
+                    super.from(contains);
                     system = contains.system;
                     _abstract = contains._abstract;
                     inactive = contains.inactive;

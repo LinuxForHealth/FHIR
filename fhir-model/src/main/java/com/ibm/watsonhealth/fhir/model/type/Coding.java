@@ -174,20 +174,16 @@ public class Coding extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Uri system;
         private String version;
         private Code code;
         private String display;
         private Boolean userSelected;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -338,9 +334,8 @@ public class Coding extends Element {
             return new Coding(this);
         }
 
-        private Builder from(Coding coding) {
-            id = coding.id;
-            extension.addAll(coding.extension);
+        protected Builder from(Coding coding) {
+            super.from(coding);
             system = coding.system;
             version = coding.version;
             code = coding.code;

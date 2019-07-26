@@ -260,22 +260,16 @@ public class MedicinalProductPackaged extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(packageItem).from(this);
-    }
-
-    public Builder toBuilder(Collection<PackageItem> packageItem) {
-        return new Builder(packageItem).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<PackageItem> packageItem) {
-        return new Builder(packageItem);
+        Builder builder = new Builder();
+        builder.packageItem(packageItem);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final List<PackageItem> packageItem;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> subject = new ArrayList<>();
         private String description;
@@ -284,11 +278,7 @@ public class MedicinalProductPackaged extends DomainResource {
         private Reference marketingAuthorization;
         private List<Reference> manufacturer = new ArrayList<>();
         private List<BatchIdentifier> batchIdentifier = new ArrayList<>();
-
-        private Builder(Collection<PackageItem> packageItem) {
-            super();
-            this.packageItem = new ArrayList<>(packageItem);
-        }
+        private List<PackageItem> packageItem = new ArrayList<>();
 
         /**
          * <p>
@@ -764,20 +754,53 @@ public class MedicinalProductPackaged extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * A packaging item, as a contained for medicine, possibly with other packaging items within.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param packageItem
+         *     A packaging item, as a contained for medicine, possibly with other packaging items within
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder packageItem(PackageItem... packageItem) {
+            for (PackageItem value : packageItem) {
+                this.packageItem.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A packaging item, as a contained for medicine, possibly with other packaging items within.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param packageItem
+         *     A packaging item, as a contained for medicine, possibly with other packaging items within
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder packageItem(Collection<PackageItem> packageItem) {
+            this.packageItem = new ArrayList<>(packageItem);
+            return this;
+        }
+
         @Override
         public MedicinalProductPackaged build() {
             return new MedicinalProductPackaged(this);
         }
 
-        private Builder from(MedicinalProductPackaged medicinalProductPackaged) {
-            id = medicinalProductPackaged.id;
-            meta = medicinalProductPackaged.meta;
-            implicitRules = medicinalProductPackaged.implicitRules;
-            language = medicinalProductPackaged.language;
-            text = medicinalProductPackaged.text;
-            contained.addAll(medicinalProductPackaged.contained);
-            extension.addAll(medicinalProductPackaged.extension);
-            modifierExtension.addAll(medicinalProductPackaged.modifierExtension);
+        protected Builder from(MedicinalProductPackaged medicinalProductPackaged) {
+            super.from(medicinalProductPackaged);
             identifier.addAll(medicinalProductPackaged.identifier);
             subject.addAll(medicinalProductPackaged.subject);
             description = medicinalProductPackaged.description;
@@ -786,6 +809,7 @@ public class MedicinalProductPackaged extends DomainResource {
             marketingAuthorization = medicinalProductPackaged.marketingAuthorization;
             manufacturer.addAll(medicinalProductPackaged.manufacturer);
             batchIdentifier.addAll(medicinalProductPackaged.batchIdentifier);
+            packageItem.addAll(medicinalProductPackaged.packageItem);
             return this;
         }
     }
@@ -891,28 +915,18 @@ public class MedicinalProductPackaged extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(outerPackaging).from(this);
-        }
-
-        public Builder toBuilder(Identifier outerPackaging) {
-            return new Builder(outerPackaging).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Identifier outerPackaging) {
-            return new Builder(outerPackaging);
+            Builder builder = new Builder();
+            builder.outerPackaging(outerPackaging);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Identifier outerPackaging;
-
-            // optional
+            private Identifier outerPackaging;
             private Identifier immediatePackaging;
-
-            private Builder(Identifier outerPackaging) {
-                super();
-                this.outerPackaging = outerPackaging;
-            }
 
             /**
              * <p>
@@ -1033,6 +1047,22 @@ public class MedicinalProductPackaged extends DomainResource {
 
             /**
              * <p>
+             * A number appearing on the outer packaging of a specific batch.
+             * </p>
+             * 
+             * @param outerPackaging
+             *     A number appearing on the outer packaging of a specific batch
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder outerPackaging(Identifier outerPackaging) {
+                this.outerPackaging = outerPackaging;
+                return this;
+            }
+
+            /**
+             * <p>
              * A number appearing on the immediate packaging (and not the outer packaging).
              * </p>
              * 
@@ -1052,10 +1082,9 @@ public class MedicinalProductPackaged extends DomainResource {
                 return new BatchIdentifier(this);
             }
 
-            private Builder from(BatchIdentifier batchIdentifier) {
-                id = batchIdentifier.id;
-                extension.addAll(batchIdentifier.extension);
-                modifierExtension.addAll(batchIdentifier.modifierExtension);
+            protected Builder from(BatchIdentifier batchIdentifier) {
+                super.from(batchIdentifier);
+                outerPackaging = batchIdentifier.outerPackaging;
                 immediatePackaging = batchIdentifier.immediatePackaging;
                 return this;
             }
@@ -1343,24 +1372,20 @@ public class MedicinalProductPackaged extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, quantity).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Quantity quantity) {
-            return new Builder(type, quantity).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Quantity quantity) {
-            return new Builder(type, quantity);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.quantity(quantity);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final Quantity quantity;
-
-            // optional
             private List<Identifier> identifier = new ArrayList<>();
+            private CodeableConcept type;
+            private Quantity quantity;
             private List<CodeableConcept> material = new ArrayList<>();
             private List<CodeableConcept> alternateMaterial = new ArrayList<>();
             private List<Reference> device = new ArrayList<>();
@@ -1370,12 +1395,6 @@ public class MedicinalProductPackaged extends DomainResource {
             private List<CodeableConcept> otherCharacteristics = new ArrayList<>();
             private List<ProductShelfLife> shelfLifeStorage = new ArrayList<>();
             private List<Reference> manufacturer = new ArrayList<>();
-
-            private Builder(CodeableConcept type, Quantity quantity) {
-                super();
-                this.type = type;
-                this.quantity = quantity;
-            }
 
             /**
              * <p>
@@ -1531,6 +1550,38 @@ public class MedicinalProductPackaged extends DomainResource {
              */
             public Builder identifier(Collection<Identifier> identifier) {
                 this.identifier = new ArrayList<>(identifier);
+                return this;
+            }
+
+            /**
+             * <p>
+             * The physical type of the container of the medicine.
+             * </p>
+             * 
+             * @param type
+             *     The physical type of the container of the medicine
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The quantity of this package in the medicinal product, at the current level of packaging. The outermost is always 1.
+             * </p>
+             * 
+             * @param quantity
+             *     The quantity of this package in the medicinal product, at the current level of packaging. The outermost is always 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder quantity(Quantity quantity) {
+                this.quantity = quantity;
                 return this;
             }
 
@@ -1875,11 +1926,11 @@ public class MedicinalProductPackaged extends DomainResource {
                 return new PackageItem(this);
             }
 
-            private Builder from(PackageItem packageItem) {
-                id = packageItem.id;
-                extension.addAll(packageItem.extension);
-                modifierExtension.addAll(packageItem.modifierExtension);
+            protected Builder from(PackageItem packageItem) {
+                super.from(packageItem);
                 identifier.addAll(packageItem.identifier);
+                type = packageItem.type;
+                quantity = packageItem.quantity;
                 material.addAll(packageItem.material);
                 alternateMaterial.addAll(packageItem.alternateMaterial);
                 device.addAll(packageItem.device);

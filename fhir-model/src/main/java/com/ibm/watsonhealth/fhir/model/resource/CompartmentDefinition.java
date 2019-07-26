@@ -367,27 +367,24 @@ public class CompartmentDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, name, status, code, search).from(this);
-    }
-
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
-        return new Builder(url, name, status, code, search).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
-        return new Builder(url, name, status, code, search);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.name(name);
+        builder.status(status);
+        builder.code(code);
+        builder.search(search);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final String name;
-        private final PublicationStatus status;
-        private final CompartmentType code;
-        private final Boolean search;
-
-        // optional
+        private Uri url;
         private String version;
+        private String name;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -395,16 +392,9 @@ public class CompartmentDefinition extends DomainResource {
         private Markdown description;
         private List<UsageContext> useContext = new ArrayList<>();
         private Markdown purpose;
+        private CompartmentType code;
+        private Boolean search;
         private List<Resource> resource = new ArrayList<>();
-
-        private Builder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
-            super();
-            this.url = url;
-            this.name = name;
-            this.status = status;
-            this.code = code;
-            this.search = search;
-        }
 
         /**
          * <p>
@@ -634,6 +624,26 @@ public class CompartmentDefinition extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this compartment definition when it is referenced in a specification, model, 
+         * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+         * address at which at which an authoritative instance of this compartment definition is (or will be) published. This URL 
+         * can be the target of a canonical reference. It SHALL remain the same when the compartment definition is stored on 
+         * different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this compartment definition, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * The identifier that is used to identify this version of the compartment definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the compartment definition author and 
          * is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is 
@@ -648,6 +658,39 @@ public class CompartmentDefinition extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A natural language name identifying the compartment definition. This name should be usable as an identifier for the 
+         * module by machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this compartment definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this compartment definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -820,6 +863,38 @@ public class CompartmentDefinition extends DomainResource {
 
         /**
          * <p>
+         * Which compartment this definition describes.
+         * </p>
+         * 
+         * @param code
+         *     Patient | Encounter | RelatedPerson | Practitioner | Device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CompartmentType code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Whether the search syntax is supported,.
+         * </p>
+         * 
+         * @param search
+         *     Whether the search syntax is supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder search(Boolean search) {
+            this.search = search;
+            return this;
+        }
+
+        /**
+         * <p>
          * Information about how a resource is related to the compartment.
          * </p>
          * <p>
@@ -863,16 +938,12 @@ public class CompartmentDefinition extends DomainResource {
             return new CompartmentDefinition(this);
         }
 
-        private Builder from(CompartmentDefinition compartmentDefinition) {
-            id = compartmentDefinition.id;
-            meta = compartmentDefinition.meta;
-            implicitRules = compartmentDefinition.implicitRules;
-            language = compartmentDefinition.language;
-            text = compartmentDefinition.text;
-            contained.addAll(compartmentDefinition.contained);
-            extension.addAll(compartmentDefinition.extension);
-            modifierExtension.addAll(compartmentDefinition.modifierExtension);
+        protected Builder from(CompartmentDefinition compartmentDefinition) {
+            super.from(compartmentDefinition);
+            url = compartmentDefinition.url;
             version = compartmentDefinition.version;
+            name = compartmentDefinition.name;
+            status = compartmentDefinition.status;
             experimental = compartmentDefinition.experimental;
             date = compartmentDefinition.date;
             publisher = compartmentDefinition.publisher;
@@ -880,6 +951,8 @@ public class CompartmentDefinition extends DomainResource {
             description = compartmentDefinition.description;
             useContext.addAll(compartmentDefinition.useContext);
             purpose = compartmentDefinition.purpose;
+            code = compartmentDefinition.code;
+            search = compartmentDefinition.search;
             resource.addAll(compartmentDefinition.resource);
             return this;
         }
@@ -1005,29 +1078,19 @@ public class CompartmentDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(ResourceType code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ResourceType code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ResourceType code;
-
-            // optional
+            private ResourceType code;
             private List<String> param = new ArrayList<>();
             private String documentation;
-
-            private Builder(ResourceType code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1148,6 +1211,22 @@ public class CompartmentDefinition extends DomainResource {
 
             /**
              * <p>
+             * The name of a resource supported by the server.
+             * </p>
+             * 
+             * @param code
+             *     Name of resource type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(ResourceType code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * The name of a search parameter that represents the link to the compartment. More than one may be listed because a 
              * resource may be linked to a compartment in more than one way,.
              * </p>
@@ -1209,10 +1288,9 @@ public class CompartmentDefinition extends DomainResource {
                 return new Resource(this);
             }
 
-            private Builder from(Resource resource) {
-                id = resource.id;
-                extension.addAll(resource.extension);
-                modifierExtension.addAll(resource.modifierExtension);
+            protected Builder from(Resource resource) {
+                super.from(resource);
+                code = resource.code;
                 param.addAll(resource.param);
                 documentation = resource.documentation;
                 return this;

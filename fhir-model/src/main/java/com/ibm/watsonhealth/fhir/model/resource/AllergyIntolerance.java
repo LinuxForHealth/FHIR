@@ -413,22 +413,16 @@ public class AllergyIntolerance extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(patient).from(this);
-    }
-
-    public Builder toBuilder(Reference patient) {
-        return new Builder(patient).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference patient) {
-        return new Builder(patient);
+        Builder builder = new Builder();
+        builder.patient(patient);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference patient;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private CodeableConcept clinicalStatus;
         private CodeableConcept verificationStatus;
@@ -436,6 +430,7 @@ public class AllergyIntolerance extends DomainResource {
         private List<AllergyIntoleranceCategory> category = new ArrayList<>();
         private AllergyIntoleranceCriticality criticality;
         private CodeableConcept code;
+        private Reference patient;
         private Reference encounter;
         private Element onset;
         private DateTime recordedDate;
@@ -444,11 +439,6 @@ public class AllergyIntolerance extends DomainResource {
         private DateTime lastOccurrence;
         private List<Annotation> note = new ArrayList<>();
         private List<Reaction> reaction = new ArrayList<>();
-
-        private Builder(Reference patient) {
-            super();
-            this.patient = patient;
-        }
 
         /**
          * <p>
@@ -850,6 +840,22 @@ public class AllergyIntolerance extends DomainResource {
 
         /**
          * <p>
+         * The patient who has the allergy or intolerance.
+         * </p>
+         * 
+         * @param patient
+         *     Who the sensitivity is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
          * The encounter when the allergy or intolerance was asserted.
          * </p>
          * 
@@ -1030,15 +1036,8 @@ public class AllergyIntolerance extends DomainResource {
             return new AllergyIntolerance(this);
         }
 
-        private Builder from(AllergyIntolerance allergyIntolerance) {
-            id = allergyIntolerance.id;
-            meta = allergyIntolerance.meta;
-            implicitRules = allergyIntolerance.implicitRules;
-            language = allergyIntolerance.language;
-            text = allergyIntolerance.text;
-            contained.addAll(allergyIntolerance.contained);
-            extension.addAll(allergyIntolerance.extension);
-            modifierExtension.addAll(allergyIntolerance.modifierExtension);
+        protected Builder from(AllergyIntolerance allergyIntolerance) {
+            super.from(allergyIntolerance);
             identifier.addAll(allergyIntolerance.identifier);
             clinicalStatus = allergyIntolerance.clinicalStatus;
             verificationStatus = allergyIntolerance.verificationStatus;
@@ -1046,6 +1045,7 @@ public class AllergyIntolerance extends DomainResource {
             category.addAll(allergyIntolerance.category);
             criticality = allergyIntolerance.criticality;
             code = allergyIntolerance.code;
+            patient = allergyIntolerance.patient;
             encounter = allergyIntolerance.encounter;
             onset = allergyIntolerance.onset;
             recordedDate = allergyIntolerance.recordedDate;
@@ -1256,33 +1256,23 @@ public class AllergyIntolerance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(manifestation).from(this);
-        }
-
-        public Builder toBuilder(Collection<CodeableConcept> manifestation) {
-            return new Builder(manifestation).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<CodeableConcept> manifestation) {
-            return new Builder(manifestation);
+            Builder builder = new Builder();
+            builder.manifestation(manifestation);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<CodeableConcept> manifestation;
-
-            // optional
             private CodeableConcept substance;
+            private List<CodeableConcept> manifestation = new ArrayList<>();
             private String description;
             private DateTime onset;
             private AllergyIntoleranceSeverity severity;
             private CodeableConcept exposureRoute;
             private List<Annotation> note = new ArrayList<>();
-
-            private Builder(Collection<CodeableConcept> manifestation) {
-                super();
-                this.manifestation = new ArrayList<>(manifestation);
-            }
 
             /**
              * <p>
@@ -1425,6 +1415,46 @@ public class AllergyIntolerance extends DomainResource {
 
             /**
              * <p>
+             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param manifestation
+             *     Clinical symptoms/signs associated with the Event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder manifestation(CodeableConcept... manifestation) {
+                for (CodeableConcept value : manifestation) {
+                    this.manifestation.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param manifestation
+             *     Clinical symptoms/signs associated with the Event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder manifestation(Collection<CodeableConcept> manifestation) {
+                this.manifestation = new ArrayList<>(manifestation);
+                return this;
+            }
+
+            /**
+             * <p>
              * Text description about the reaction as a whole, including details of the manifestation if required.
              * </p>
              * 
@@ -1533,11 +1563,10 @@ public class AllergyIntolerance extends DomainResource {
                 return new Reaction(this);
             }
 
-            private Builder from(Reaction reaction) {
-                id = reaction.id;
-                extension.addAll(reaction.extension);
-                modifierExtension.addAll(reaction.modifierExtension);
+            protected Builder from(Reaction reaction) {
+                super.from(reaction);
                 substance = reaction.substance;
+                manifestation.addAll(reaction.manifestation);
                 description = reaction.description;
                 onset = reaction.onset;
                 severity = reaction.severity;

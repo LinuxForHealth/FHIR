@@ -227,33 +227,23 @@ public class Substance extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(code).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept code) {
-        return new Builder(code).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
-        return new Builder(code);
+        Builder builder = new Builder();
+        builder.code(code);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept code;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private FHIRSubstanceStatus status;
         private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
         private String description;
         private List<Instance> instance = new ArrayList<>();
         private List<Ingredient> ingredient = new ArrayList<>();
-
-        private Builder(CodeableConcept code) {
-            super();
-            this.code = code;
-        }
 
         /**
          * <p>
@@ -579,6 +569,22 @@ public class Substance extends DomainResource {
 
         /**
          * <p>
+         * A code (or set of codes) that identify this substance.
+         * </p>
+         * 
+         * @param code
+         *     What substance this is
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
          * A description of the substance - its appearance, handling requirements, and other usage notes.
          * </p>
          * 
@@ -678,18 +684,12 @@ public class Substance extends DomainResource {
             return new Substance(this);
         }
 
-        private Builder from(Substance substance) {
-            id = substance.id;
-            meta = substance.meta;
-            implicitRules = substance.implicitRules;
-            language = substance.language;
-            text = substance.text;
-            contained.addAll(substance.contained);
-            extension.addAll(substance.extension);
-            modifierExtension.addAll(substance.modifierExtension);
+        protected Builder from(Substance substance) {
+            super.from(substance);
             identifier.addAll(substance.identifier);
             status = substance.status;
             category.addAll(substance.category);
+            code = substance.code;
             description = substance.description;
             instance.addAll(substance.instance);
             ingredient.addAll(substance.ingredient);
@@ -820,18 +820,14 @@ public class Substance extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Identifier identifier;
             private DateTime expiry;
             private Quantity quantity;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1003,10 +999,8 @@ public class Substance extends DomainResource {
                 return new Instance(this);
             }
 
-            private Builder from(Instance instance) {
-                id = instance.id;
-                extension.addAll(instance.extension);
-                modifierExtension.addAll(instance.modifierExtension);
+            protected Builder from(Instance instance) {
+                super.from(instance);
                 identifier = instance.identifier;
                 expiry = instance.expiry;
                 quantity = instance.quantity;
@@ -1116,28 +1110,18 @@ public class Substance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(substance).from(this);
-        }
-
-        public Builder toBuilder(Element substance) {
-            return new Builder(substance).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element substance) {
-            return new Builder(substance);
+            Builder builder = new Builder();
+            builder.substance(substance);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element substance;
-
-            // optional
             private Ratio quantity;
-
-            private Builder(Element substance) {
-                super();
-                this.substance = substance;
-            }
+            private Element substance;
 
             /**
              * <p>
@@ -1272,16 +1256,31 @@ public class Substance extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Another substance that is a component of this substance.
+             * </p>
+             * 
+             * @param substance
+             *     A component of the substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder substance(Element substance) {
+                this.substance = substance;
+                return this;
+            }
+
             @Override
             public Ingredient build() {
                 return new Ingredient(this);
             }
 
-            private Builder from(Ingredient ingredient) {
-                id = ingredient.id;
-                extension.addAll(ingredient.extension);
-                modifierExtension.addAll(ingredient.modifierExtension);
+            protected Builder from(Ingredient ingredient) {
+                super.from(ingredient);
                 quantity = ingredient.quantity;
+                substance = ingredient.substance;
                 return this;
             }
         }

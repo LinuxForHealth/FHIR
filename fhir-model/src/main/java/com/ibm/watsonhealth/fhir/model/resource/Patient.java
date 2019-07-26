@@ -408,11 +408,11 @@ public class Patient extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private List<HumanName> name = new ArrayList<>();
@@ -429,10 +429,6 @@ public class Patient extends DomainResource {
         private List<Reference> generalPractitioner = new ArrayList<>();
         private Reference managingOrganization;
         private List<Link> link = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1146,15 +1142,8 @@ public class Patient extends DomainResource {
             return new Patient(this);
         }
 
-        private Builder from(Patient patient) {
-            id = patient.id;
-            meta = patient.meta;
-            implicitRules = patient.implicitRules;
-            language = patient.language;
-            text = patient.text;
-            contained.addAll(patient.contained);
-            extension.addAll(patient.extension);
-            modifierExtension.addAll(patient.modifierExtension);
+        protected Builder from(Patient patient) {
+            super.from(patient);
             identifier.addAll(patient.identifier);
             active = patient.active;
             name.addAll(patient.name);
@@ -1371,11 +1360,11 @@ public class Patient extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> relationship = new ArrayList<>();
             private HumanName name;
             private List<ContactPoint> telecom = new ArrayList<>();
@@ -1383,10 +1372,6 @@ public class Patient extends DomainResource {
             private AdministrativeGender gender;
             private Reference organization;
             private Period period;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1671,10 +1656,8 @@ public class Patient extends DomainResource {
                 return new Contact(this);
             }
 
-            private Builder from(Contact contact) {
-                id = contact.id;
-                extension.addAll(contact.extension);
-                modifierExtension.addAll(contact.modifierExtension);
+            protected Builder from(Contact contact) {
+                super.from(contact);
                 relationship.addAll(contact.relationship);
                 name = contact.name;
                 telecom.addAll(contact.telecom);
@@ -1790,28 +1773,18 @@ public class Patient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(language).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept language) {
-            return new Builder(language).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept language) {
-            return new Builder(language);
+            Builder builder = new Builder();
+            builder.language(language);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept language;
-
-            // optional
+            private CodeableConcept language;
             private Boolean preferred;
-
-            private Builder(CodeableConcept language) {
-                super();
-                this.language = language;
-            }
 
             /**
              * <p>
@@ -1932,6 +1905,24 @@ public class Patient extends DomainResource {
 
             /**
              * <p>
+             * The ISO-639-1 alpha 2 code in lower case for the language, optionally followed by a hyphen and the ISO-3166-1 alpha 2 
+             * code for the region in upper case; e.g. "en" for English, or "en-US" for American English versus "en-EN" for England 
+             * English.
+             * </p>
+             * 
+             * @param language
+             *     The language which can be used to communicate with the patient about his or her health
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder language(CodeableConcept language) {
+                this.language = language;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
              * </p>
              * 
@@ -1951,10 +1942,9 @@ public class Patient extends DomainResource {
                 return new Communication(this);
             }
 
-            private Builder from(Communication communication) {
-                id = communication.id;
-                extension.addAll(communication.extension);
-                modifierExtension.addAll(communication.modifierExtension);
+            protected Builder from(Communication communication) {
+                super.from(communication);
+                language = communication.language;
                 preferred = communication.preferred;
                 return this;
             }
@@ -2062,27 +2052,19 @@ public class Patient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(other, type).from(this);
-        }
-
-        public Builder toBuilder(Reference other, LinkType type) {
-            return new Builder(other, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference other, LinkType type) {
-            return new Builder(other, type);
+            Builder builder = new Builder();
+            builder.other(other);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference other;
-            private final LinkType type;
-
-            private Builder(Reference other, LinkType type) {
-                super();
-                this.other = other;
-                this.type = type;
-            }
+            private Reference other;
+            private LinkType type;
 
             /**
              * <p>
@@ -2201,15 +2183,47 @@ public class Patient extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The other patient resource that the link refers to.
+             * </p>
+             * 
+             * @param other
+             *     The other patient or related person resource that the link refers to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder other(Reference other) {
+                this.other = other;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of link between this patient resource and another patient resource.
+             * </p>
+             * 
+             * @param type
+             *     replaced-by | replaces | refer | seealso
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(LinkType type) {
+                this.type = type;
+                return this;
+            }
+
             @Override
             public Link build() {
                 return new Link(this);
             }
 
-            private Builder from(Link link) {
-                id = link.id;
-                extension.addAll(link.extension);
-                modifierExtension.addAll(link.modifierExtension);
+            protected Builder from(Link link) {
+                super.from(link);
+                other = link.other;
+                type = link.type;
                 return this;
             }
         }

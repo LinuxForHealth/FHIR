@@ -415,28 +415,24 @@ public class RiskAssessment extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, subject).from(this);
-    }
-
-    public Builder toBuilder(RiskAssessmentStatus status, Reference subject) {
-        return new Builder(status, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(RiskAssessmentStatus status, Reference subject) {
-        return new Builder(status, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final RiskAssessmentStatus status;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Reference basedOn;
         private Reference parent;
+        private RiskAssessmentStatus status;
         private CodeableConcept method;
         private CodeableConcept code;
+        private Reference subject;
         private Reference encounter;
         private Element occurrence;
         private Reference condition;
@@ -447,12 +443,6 @@ public class RiskAssessment extends DomainResource {
         private List<Prediction> prediction = new ArrayList<>();
         private String mitigation;
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(RiskAssessmentStatus status, Reference subject) {
-            super();
-            this.status = status;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -754,6 +744,22 @@ public class RiskAssessment extends DomainResource {
 
         /**
          * <p>
+         * The status of the RiskAssessment, using the same statuses as an Observation.
+         * </p>
+         * 
+         * @param status
+         *     registered | preliminary | final | amended +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(RiskAssessmentStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The algorithm, process or mechanism used to evaluate the risk.
          * </p>
          * 
@@ -781,6 +787,22 @@ public class RiskAssessment extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient or group the risk assessment applies to.
+         * </p>
+         * 
+         * @param subject
+         *     Who/what does assessment apply to?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1071,20 +1093,15 @@ public class RiskAssessment extends DomainResource {
             return new RiskAssessment(this);
         }
 
-        private Builder from(RiskAssessment riskAssessment) {
-            id = riskAssessment.id;
-            meta = riskAssessment.meta;
-            implicitRules = riskAssessment.implicitRules;
-            language = riskAssessment.language;
-            text = riskAssessment.text;
-            contained.addAll(riskAssessment.contained);
-            extension.addAll(riskAssessment.extension);
-            modifierExtension.addAll(riskAssessment.modifierExtension);
+        protected Builder from(RiskAssessment riskAssessment) {
+            super.from(riskAssessment);
             identifier.addAll(riskAssessment.identifier);
             basedOn = riskAssessment.basedOn;
             parent = riskAssessment.parent;
+            status = riskAssessment.status;
             method = riskAssessment.method;
             code = riskAssessment.code;
+            subject = riskAssessment.subject;
             encounter = riskAssessment.encounter;
             occurrence = riskAssessment.occurrence;
             condition = riskAssessment.condition;
@@ -1278,21 +1295,17 @@ public class RiskAssessment extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept outcome;
             private Element probability;
             private CodeableConcept qualitativeRisk;
             private Decimal relativeRisk;
             private Element when;
             private String rationale;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1514,10 +1527,8 @@ public class RiskAssessment extends DomainResource {
                 return new Prediction(this);
             }
 
-            private Builder from(Prediction prediction) {
-                id = prediction.id;
-                extension.addAll(prediction.extension);
-                modifierExtension.addAll(prediction.modifierExtension);
+            protected Builder from(Prediction prediction) {
+                super.from(prediction);
                 outcome = prediction.outcome;
                 probability = prediction.probability;
                 qualitativeRisk = prediction.qualitativeRisk;

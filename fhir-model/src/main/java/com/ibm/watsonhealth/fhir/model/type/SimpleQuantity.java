@@ -170,20 +170,16 @@ public class SimpleQuantity extends Quantity {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Quantity.Builder {
-        // optional
         private Decimal value;
         private QuantityComparator comparator;
         private String unit;
         private Uri system;
         private Code code;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -331,9 +327,8 @@ public class SimpleQuantity extends Quantity {
             return new SimpleQuantity(this);
         }
 
-        private Builder from(SimpleQuantity simpleQuantity) {
-            id = simpleQuantity.id;
-            extension.addAll(simpleQuantity.extension);
+        protected Builder from(SimpleQuantity simpleQuantity) {
+            super.from(simpleQuantity);
             value = simpleQuantity.value;
             comparator = simpleQuantity.comparator;
             unit = simpleQuantity.unit;

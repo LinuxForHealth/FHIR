@@ -613,28 +613,23 @@ public class Questionnaire extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private List<Canonical> derivedFrom = new ArrayList<>();
+        private PublicationStatus status;
         private Boolean experimental;
         private List<ResourceType> subjectType = new ArrayList<>();
         private DateTime date;
@@ -650,11 +645,6 @@ public class Questionnaire extends DomainResource {
         private Period effectivePeriod;
         private List<Coding> code = new ArrayList<>();
         private List<Item> item = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -1032,6 +1022,22 @@ public class Questionnaire extends DomainResource {
          */
         public Builder derivedFrom(Collection<Canonical> derivedFrom) {
             this.derivedFrom = new ArrayList<>(derivedFrom);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this questionnaire. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1434,21 +1440,15 @@ public class Questionnaire extends DomainResource {
             return new Questionnaire(this);
         }
 
-        private Builder from(Questionnaire questionnaire) {
-            id = questionnaire.id;
-            meta = questionnaire.meta;
-            implicitRules = questionnaire.implicitRules;
-            language = questionnaire.language;
-            text = questionnaire.text;
-            contained.addAll(questionnaire.contained);
-            extension.addAll(questionnaire.extension);
-            modifierExtension.addAll(questionnaire.modifierExtension);
+        protected Builder from(Questionnaire questionnaire) {
+            super.from(questionnaire);
             url = questionnaire.url;
             identifier.addAll(questionnaire.identifier);
             version = questionnaire.version;
             name = questionnaire.name;
             title = questionnaire.title;
             derivedFrom.addAll(questionnaire.derivedFrom);
+            status = questionnaire.status;
             experimental = questionnaire.experimental;
             subjectType.addAll(questionnaire.subjectType);
             date = questionnaire.date;
@@ -1843,27 +1843,23 @@ public class Questionnaire extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(linkId, type).from(this);
-        }
-
-        public Builder toBuilder(String linkId, QuestionnaireItemType type) {
-            return new Builder(linkId, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String linkId, QuestionnaireItemType type) {
-            return new Builder(linkId, type);
+            Builder builder = new Builder();
+            builder.linkId(linkId);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String linkId;
-            private final QuestionnaireItemType type;
-
-            // optional
+            private String linkId;
             private Uri definition;
             private List<Coding> code = new ArrayList<>();
             private String prefix;
             private String text;
+            private QuestionnaireItemType type;
             private List<EnableWhen> enableWhen = new ArrayList<>();
             private EnableWhenBehavior enableBehavior;
             private Boolean required;
@@ -1874,12 +1870,6 @@ public class Questionnaire extends DomainResource {
             private List<AnswerOption> answerOption = new ArrayList<>();
             private List<Initial> initial = new ArrayList<>();
             private List<Questionnaire.Item> item = new ArrayList<>();
-
-            private Builder(String linkId, QuestionnaireItemType type) {
-                super();
-                this.linkId = linkId;
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -2000,6 +1990,23 @@ public class Questionnaire extends DomainResource {
 
             /**
              * <p>
+             * An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a 
+             * QuestionnaireResponse resource.
+             * </p>
+             * 
+             * @param linkId
+             *     Unique id for item in questionnaire
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder linkId(String linkId) {
+                this.linkId = linkId;
+                return this;
+            }
+
+            /**
+             * <p>
              * This element is a URI that refers to an [ElementDefinition](elementdefinition.html) that provides information about 
              * this item, including information that might otherwise be included in the instance of the Questionnaire resource. A 
              * detailed description of the construction of the URI is shown in Comments, below. If this element is present then the 
@@ -2099,6 +2106,23 @@ public class Questionnaire extends DomainResource {
              */
             public Builder text(String text) {
                 this.text = text;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of questionnaire item this is - whether text for display, a grouping of other items or a particular type of 
+             * data to be captured (string, integer, coded choice, etc.).
+             * </p>
+             * 
+             * @param type
+             *     group | display | boolean | decimal | integer | date | dateTime +
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(QuestionnaireItemType type) {
+                this.type = type;
                 return this;
             }
 
@@ -2370,14 +2394,14 @@ public class Questionnaire extends DomainResource {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
+                linkId = item.linkId;
                 definition = item.definition;
                 code.addAll(item.code);
                 prefix = item.prefix;
                 text = item.text;
+                type = item.type;
                 enableWhen.addAll(item.enableWhen);
                 enableBehavior = item.enableBehavior;
                 required = item.required;
@@ -2512,29 +2536,21 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(question, operator, answer).from(this);
-            }
-
-            public Builder toBuilder(String question, QuestionnaireItemOperator operator, Element answer) {
-                return new Builder(question, operator, answer).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String question, QuestionnaireItemOperator operator, Element answer) {
-                return new Builder(question, operator, answer);
+                Builder builder = new Builder();
+                builder.question(question);
+                builder.operator(operator);
+                builder.answer(answer);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String question;
-                private final QuestionnaireItemOperator operator;
-                private final Element answer;
-
-                private Builder(String question, QuestionnaireItemOperator operator, Element answer) {
-                    super();
-                    this.question = question;
-                    this.operator = operator;
-                    this.answer = answer;
-                }
+                private String question;
+                private QuestionnaireItemOperator operator;
+                private Element answer;
 
                 /**
                  * <p>
@@ -2653,15 +2669,64 @@ public class Questionnaire extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.
+                 * </p>
+                 * 
+                 * @param question
+                 *     Question that determines whether item is enabled
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder question(String question) {
+                    this.question = question;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Specifies the criteria by which the question is enabled.
+                 * </p>
+                 * 
+                 * @param operator
+                 *     exists | = | != | &gt; | &lt; | &gt;= | &lt;=
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder operator(QuestionnaireItemOperator operator) {
+                    this.operator = operator;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
+                 * </p>
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder answer(Element answer) {
+                    this.answer = answer;
+                    return this;
+                }
+
                 @Override
                 public EnableWhen build() {
                     return new EnableWhen(this);
                 }
 
-                private Builder from(EnableWhen enableWhen) {
-                    id = enableWhen.id;
-                    extension.addAll(enableWhen.extension);
-                    modifierExtension.addAll(enableWhen.modifierExtension);
+                protected Builder from(EnableWhen enableWhen) {
+                    super.from(enableWhen);
+                    question = enableWhen.question;
+                    operator = enableWhen.operator;
+                    answer = enableWhen.answer;
                     return this;
                 }
             }
@@ -2768,28 +2833,18 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(value).from(this);
-            }
-
-            public Builder toBuilder(Element value) {
-                return new Builder(value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Element value) {
-                return new Builder(value);
+                Builder builder = new Builder();
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Element value;
-
-                // optional
+                private Element value;
                 private Boolean initialSelected;
-
-                private Builder(Element value) {
-                    super();
-                    this.value = value;
-                }
 
                 /**
                  * <p>
@@ -2910,6 +2965,22 @@ public class Questionnaire extends DomainResource {
 
                 /**
                  * <p>
+                 * A potential answer that's allowed as the answer to this question.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(Element value) {
+                    this.value = value;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Indicates whether the answer value is selected when the list of possible answers is initially shown.
                  * </p>
                  * 
@@ -2929,10 +3000,9 @@ public class Questionnaire extends DomainResource {
                     return new AnswerOption(this);
                 }
 
-                private Builder from(AnswerOption answerOption) {
-                    id = answerOption.id;
-                    extension.addAll(answerOption.extension);
-                    modifierExtension.addAll(answerOption.modifierExtension);
+                protected Builder from(AnswerOption answerOption) {
+                    super.from(answerOption);
+                    value = answerOption.value;
                     initialSelected = answerOption.initialSelected;
                     return this;
                 }
@@ -3023,25 +3093,17 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(value).from(this);
-            }
-
-            public Builder toBuilder(Element value) {
-                return new Builder(value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Element value) {
-                return new Builder(value);
+                Builder builder = new Builder();
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Element value;
-
-                private Builder(Element value) {
-                    super();
-                    this.value = value;
-                }
+                private Element value;
 
                 /**
                  * <p>
@@ -3160,15 +3222,30 @@ public class Questionnaire extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The actual value to for an initial answer.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(Element value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public Initial build() {
                     return new Initial(this);
                 }
 
-                private Builder from(Initial initial) {
-                    id = initial.id;
-                    extension.addAll(initial.extension);
-                    modifierExtension.addAll(initial.modifierExtension);
+                protected Builder from(Initial initial) {
+                    super.from(initial);
+                    value = initial.value;
                     return this;
                 }
             }

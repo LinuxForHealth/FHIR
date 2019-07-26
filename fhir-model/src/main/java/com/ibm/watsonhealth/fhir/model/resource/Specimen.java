@@ -339,11 +339,11 @@ public class Specimen extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Identifier accessionIdentifier;
         private SpecimenStatus status;
@@ -357,10 +357,6 @@ public class Specimen extends DomainResource {
         private List<Container> container = new ArrayList<>();
         private List<CodeableConcept> condition = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -978,15 +974,8 @@ public class Specimen extends DomainResource {
             return new Specimen(this);
         }
 
-        private Builder from(Specimen specimen) {
-            id = specimen.id;
-            meta = specimen.meta;
-            implicitRules = specimen.implicitRules;
-            language = specimen.language;
-            text = specimen.text;
-            contained.addAll(specimen.contained);
-            extension.addAll(specimen.extension);
-            modifierExtension.addAll(specimen.modifierExtension);
+        protected Builder from(Specimen specimen) {
+            super.from(specimen);
             identifier.addAll(specimen.identifier);
             accessionIdentifier = specimen.accessionIdentifier;
             status = specimen.status;
@@ -1201,11 +1190,11 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference collector;
             private Element collected;
             private Duration duration;
@@ -1213,10 +1202,6 @@ public class Specimen extends DomainResource {
             private CodeableConcept method;
             private CodeableConcept bodySite;
             private Element fastingStatus;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1454,10 +1439,8 @@ public class Specimen extends DomainResource {
                 return new Collection(this);
             }
 
-            private Builder from(Collection collection) {
-                id = collection.id;
-                extension.addAll(collection.extension);
-                modifierExtension.addAll(collection.modifierExtension);
+            protected Builder from(Collection collection) {
+                super.from(collection);
                 collector = collection.collector;
                 collected = collection.collected;
                 duration = collection.duration;
@@ -1612,19 +1595,15 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private CodeableConcept procedure;
             private List<Reference> additive = new ArrayList<>();
             private Element time;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1837,10 +1816,8 @@ public class Specimen extends DomainResource {
                 return new Processing(this);
             }
 
-            private Builder from(Processing processing) {
-                id = processing.id;
-                extension.addAll(processing.extension);
-                modifierExtension.addAll(processing.modifierExtension);
+            protected Builder from(Processing processing) {
+                super.from(processing);
                 description = processing.description;
                 procedure = processing.procedure;
                 additive.addAll(processing.additive);
@@ -2030,21 +2007,17 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Identifier> identifier = new ArrayList<>();
             private String description;
             private CodeableConcept type;
             private Quantity capacity;
             private Quantity specimenQuantity;
             private Element additive;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2291,10 +2264,8 @@ public class Specimen extends DomainResource {
                 return new Container(this);
             }
 
-            private Builder from(Container container) {
-                id = container.id;
-                extension.addAll(container.extension);
-                modifierExtension.addAll(container.modifierExtension);
+            protected Builder from(Container container) {
+                super.from(container);
                 identifier.addAll(container.identifier);
                 description = container.description;
                 type = container.type;

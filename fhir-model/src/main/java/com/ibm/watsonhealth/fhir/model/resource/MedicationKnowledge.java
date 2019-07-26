@@ -500,11 +500,11 @@ public class MedicationKnowledge extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private CodeableConcept code;
         private MedicationKnowledgeStatus status;
         private Reference manufacturer;
@@ -527,10 +527,6 @@ public class MedicationKnowledge extends DomainResource {
         private List<Reference> contraindication = new ArrayList<>();
         private List<Regulatory> regulatory = new ArrayList<>();
         private List<Kinetics> kinetics = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1491,15 +1487,8 @@ public class MedicationKnowledge extends DomainResource {
             return new MedicationKnowledge(this);
         }
 
-        private Builder from(MedicationKnowledge medicationKnowledge) {
-            id = medicationKnowledge.id;
-            meta = medicationKnowledge.meta;
-            implicitRules = medicationKnowledge.implicitRules;
-            language = medicationKnowledge.language;
-            text = medicationKnowledge.text;
-            contained.addAll(medicationKnowledge.contained);
-            extension.addAll(medicationKnowledge.extension);
-            modifierExtension.addAll(medicationKnowledge.modifierExtension);
+        protected Builder from(MedicationKnowledge medicationKnowledge) {
+            super.from(medicationKnowledge);
             code = medicationKnowledge.code;
             status = medicationKnowledge.status;
             manufacturer = medicationKnowledge.manufacturer;
@@ -1627,27 +1616,19 @@ public class MedicationKnowledge extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, reference).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Collection<Reference> reference) {
-            return new Builder(type, reference).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Collection<Reference> reference) {
-            return new Builder(type, reference);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.reference(reference);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final List<Reference> reference;
-
-            private Builder(CodeableConcept type, Collection<Reference> reference) {
-                super();
-                this.type = type;
-                this.reference = new ArrayList<>(reference);
-            }
+            private CodeableConcept type;
+            private List<Reference> reference = new ArrayList<>();
 
             /**
              * <p>
@@ -1766,15 +1747,71 @@ public class MedicationKnowledge extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The category of the associated medication knowledge reference.
+             * </p>
+             * 
+             * @param type
+             *     Category of medicationKnowledge
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Associated documentation about the associated medication knowledge.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param reference
+             *     Associated documentation about the associated medication knowledge
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder reference(Reference... reference) {
+                for (Reference value : reference) {
+                    this.reference.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Associated documentation about the associated medication knowledge.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param reference
+             *     Associated documentation about the associated medication knowledge
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder reference(Collection<Reference> reference) {
+                this.reference = new ArrayList<>(reference);
+                return this;
+            }
+
             @Override
             public RelatedMedicationKnowledge build() {
                 return new RelatedMedicationKnowledge(this);
             }
 
-            private Builder from(RelatedMedicationKnowledge relatedMedicationKnowledge) {
-                id = relatedMedicationKnowledge.id;
-                extension.addAll(relatedMedicationKnowledge.extension);
-                modifierExtension.addAll(relatedMedicationKnowledge.modifierExtension);
+            protected Builder from(RelatedMedicationKnowledge relatedMedicationKnowledge) {
+                super.from(relatedMedicationKnowledge);
+                type = relatedMedicationKnowledge.type;
+                reference.addAll(relatedMedicationKnowledge.reference);
                 return this;
             }
         }
@@ -1885,17 +1922,13 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Reference source;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2051,10 +2084,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new Monograph(this);
             }
 
-            private Builder from(Monograph monograph) {
-                id = monograph.id;
-                extension.addAll(monograph.extension);
-                modifierExtension.addAll(monograph.modifierExtension);
+            protected Builder from(Monograph monograph) {
+                super.from(monograph);
                 type = monograph.type;
                 source = monograph.source;
                 return this;
@@ -2182,29 +2213,19 @@ public class MedicationKnowledge extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(item).from(this);
-        }
-
-        public Builder toBuilder(Element item) {
-            return new Builder(item).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element item) {
-            return new Builder(item);
+            Builder builder = new Builder();
+            builder.item(item);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element item;
-
-            // optional
+            private Element item;
             private Boolean isActive;
             private Ratio strength;
-
-            private Builder(Element item) {
-                super();
-                this.item = item;
-            }
 
             /**
              * <p>
@@ -2325,6 +2346,22 @@ public class MedicationKnowledge extends DomainResource {
 
             /**
              * <p>
+             * The actual ingredient - either a substance (simple ingredient) or another medication.
+             * </p>
+             * 
+             * @param item
+             *     Medication(s) or substance(s) contained in the medication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(Element item) {
+                this.item = item;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indication of whether this ingredient affects the therapeutic action of the drug.
              * </p>
              * 
@@ -2361,10 +2398,9 @@ public class MedicationKnowledge extends DomainResource {
                 return new Ingredient(this);
             }
 
-            private Builder from(Ingredient ingredient) {
-                id = ingredient.id;
-                extension.addAll(ingredient.extension);
-                modifierExtension.addAll(ingredient.modifierExtension);
+            protected Builder from(Ingredient ingredient) {
+                super.from(ingredient);
+                item = ingredient.item;
                 isActive = ingredient.isActive;
                 strength = ingredient.strength;
                 return this;
@@ -2492,30 +2528,20 @@ public class MedicationKnowledge extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, cost).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Money cost) {
-            return new Builder(type, cost).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Money cost) {
-            return new Builder(type, cost);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.cost(cost);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final Money cost;
-
-            // optional
+            private CodeableConcept type;
             private String source;
-
-            private Builder(CodeableConcept type, Money cost) {
-                super();
-                this.type = type;
-                this.cost = cost;
-            }
+            private Money cost;
 
             /**
              * <p>
@@ -2636,6 +2662,23 @@ public class MedicationKnowledge extends DomainResource {
 
             /**
              * <p>
+             * The category of the cost information. For example, manufacturers' cost, patient cost, claim reimbursement cost, actual 
+             * acquisition cost.
+             * </p>
+             * 
+             * @param type
+             *     The category of the cost information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * The source or owner that assigns the price to the medication.
              * </p>
              * 
@@ -2650,16 +2693,32 @@ public class MedicationKnowledge extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The price of the medication.
+             * </p>
+             * 
+             * @param cost
+             *     The price of the medication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder cost(Money cost) {
+                this.cost = cost;
+                return this;
+            }
+
             @Override
             public Cost build() {
                 return new Cost(this);
             }
 
-            private Builder from(Cost cost) {
-                id = cost.id;
-                extension.addAll(cost.extension);
-                modifierExtension.addAll(cost.modifierExtension);
+            protected Builder from(Cost cost) {
+                super.from(cost);
+                type = cost.type;
                 source = cost.source;
+                this.cost = cost.cost;
                 return this;
             }
         }
@@ -2770,17 +2829,13 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private String name;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2936,10 +2991,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new MonitoringProgram(this);
             }
 
-            private Builder from(MonitoringProgram monitoringProgram) {
-                id = monitoringProgram.id;
-                extension.addAll(monitoringProgram.extension);
-                modifierExtension.addAll(monitoringProgram.modifierExtension);
+            protected Builder from(MonitoringProgram monitoringProgram) {
+                super.from(monitoringProgram);
                 type = monitoringProgram.type;
                 name = monitoringProgram.name;
                 return this;
@@ -3071,18 +3124,14 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Dosage> dosage = new ArrayList<>();
             private Element indication;
             private List<PatientCharacteristics> patientCharacteristics = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3304,10 +3353,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new AdministrationGuidelines(this);
             }
 
-            private Builder from(AdministrationGuidelines administrationGuidelines) {
-                id = administrationGuidelines.id;
-                extension.addAll(administrationGuidelines.extension);
-                modifierExtension.addAll(administrationGuidelines.modifierExtension);
+            protected Builder from(AdministrationGuidelines administrationGuidelines) {
+                super.from(administrationGuidelines);
                 dosage.addAll(administrationGuidelines.dosage);
                 indication = administrationGuidelines.indication;
                 patientCharacteristics.addAll(administrationGuidelines.patientCharacteristics);
@@ -3416,27 +3463,19 @@ public class MedicationKnowledge extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type, dosage).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
-                return new Builder(type, dosage).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
-                return new Builder(type, dosage);
+                Builder builder = new Builder();
+                builder.type(type);
+                builder.dosage(dosage);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept type;
-                private final List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage;
-
-                private Builder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
-                    super();
-                    this.type = type;
-                    this.dosage = new ArrayList<>(dosage);
-                }
+                private CodeableConcept type;
+                private List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage = new ArrayList<>();
 
                 /**
                  * <p>
@@ -3555,15 +3594,71 @@ public class MedicationKnowledge extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The type of dosage (for example, prophylaxis, maintenance, therapeutic, etc.).
+                 * </p>
+                 * 
+                 * @param type
+                 *     Type of dosage
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Dosage for the medication for the specific guidelines.
+                 * </p>
+                 * <p>
+                 * Adds new element(s) to existing list
+                 * </p>
+                 * 
+                 * @param dosage
+                 *     Dosage for the medication for the specific guidelines
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder dosage(com.ibm.watsonhealth.fhir.model.type.Dosage... dosage) {
+                    for (com.ibm.watsonhealth.fhir.model.type.Dosage value : dosage) {
+                        this.dosage.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Dosage for the medication for the specific guidelines.
+                 * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
+                 * 
+                 * @param dosage
+                 *     Dosage for the medication for the specific guidelines
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder dosage(Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
+                    this.dosage = new ArrayList<>(dosage);
+                    return this;
+                }
+
                 @Override
                 public Dosage build() {
                     return new Dosage(this);
                 }
 
-                private Builder from(Dosage dosage) {
-                    id = dosage.id;
-                    extension.addAll(dosage.extension);
-                    modifierExtension.addAll(dosage.modifierExtension);
+                protected Builder from(Dosage dosage) {
+                    super.from(dosage);
+                    type = dosage.type;
+                    this.dosage.addAll(dosage.dosage);
                     return this;
                 }
             }
@@ -3671,28 +3766,18 @@ public class MedicationKnowledge extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(characteristic).from(this);
-            }
-
-            public Builder toBuilder(Element characteristic) {
-                return new Builder(characteristic).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Element characteristic) {
-                return new Builder(characteristic);
+                Builder builder = new Builder();
+                builder.characteristic(characteristic);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Element characteristic;
-
-                // optional
+                private Element characteristic;
                 private List<String> value = new ArrayList<>();
-
-                private Builder(Element characteristic) {
-                    super();
-                    this.characteristic = characteristic;
-                }
 
                 /**
                  * <p>
@@ -3813,6 +3898,22 @@ public class MedicationKnowledge extends DomainResource {
 
                 /**
                  * <p>
+                 * Specific characteristic that is relevant to the administration guideline (e.g. height, weight, gender).
+                 * </p>
+                 * 
+                 * @param characteristic
+                 *     Specific characteristic that is relevant to the administration guideline
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder characteristic(Element characteristic) {
+                    this.characteristic = characteristic;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The specific characteristic (e.g. height, weight, gender, etc.).
                  * </p>
                  * <p>
@@ -3856,10 +3957,9 @@ public class MedicationKnowledge extends DomainResource {
                     return new PatientCharacteristics(this);
                 }
 
-                private Builder from(PatientCharacteristics patientCharacteristics) {
-                    id = patientCharacteristics.id;
-                    extension.addAll(patientCharacteristics.extension);
-                    modifierExtension.addAll(patientCharacteristics.modifierExtension);
+                protected Builder from(PatientCharacteristics patientCharacteristics) {
+                    super.from(patientCharacteristics);
+                    characteristic = patientCharacteristics.characteristic;
                     value.addAll(patientCharacteristics.value);
                     return this;
                 }
@@ -3968,28 +4068,18 @@ public class MedicationKnowledge extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
+            private CodeableConcept type;
             private List<CodeableConcept> classification = new ArrayList<>();
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -4110,6 +4200,22 @@ public class MedicationKnowledge extends DomainResource {
 
             /**
              * <p>
+             * The type of category for the medication (for example, therapeutic classification, therapeutic sub-classification).
+             * </p>
+             * 
+             * @param type
+             *     The type of category for the medication (for example, therapeutic classification, therapeutic sub-classification)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Specific category assigned to the medication (e.g. anti-infective, anti-hypertensive, antibiotic, etc.).
              * </p>
              * <p>
@@ -4153,10 +4259,9 @@ public class MedicationKnowledge extends DomainResource {
                 return new MedicineClassification(this);
             }
 
-            private Builder from(MedicineClassification medicineClassification) {
-                id = medicineClassification.id;
-                extension.addAll(medicineClassification.extension);
-                modifierExtension.addAll(medicineClassification.modifierExtension);
+            protected Builder from(MedicineClassification medicineClassification) {
+                super.from(medicineClassification);
+                type = medicineClassification.type;
                 classification.addAll(medicineClassification.classification);
                 return this;
             }
@@ -4269,17 +4374,13 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Quantity quantity;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4436,10 +4537,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new Packaging(this);
             }
 
-            private Builder from(Packaging packaging) {
-                id = packaging.id;
-                extension.addAll(packaging.extension);
-                modifierExtension.addAll(packaging.modifierExtension);
+            protected Builder from(Packaging packaging) {
+                super.from(packaging);
                 type = packaging.type;
                 quantity = packaging.quantity;
                 return this;
@@ -4552,17 +4651,13 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Element value;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4718,10 +4813,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new DrugCharacteristic(this);
             }
 
-            private Builder from(DrugCharacteristic drugCharacteristic) {
-                id = drugCharacteristic.id;
-                extension.addAll(drugCharacteristic.extension);
-                modifierExtension.addAll(drugCharacteristic.modifierExtension);
+            protected Builder from(DrugCharacteristic drugCharacteristic) {
+                super.from(drugCharacteristic);
                 type = drugCharacteristic.type;
                 value = drugCharacteristic.value;
                 return this;
@@ -4866,30 +4959,20 @@ public class MedicationKnowledge extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(regulatoryAuthority).from(this);
-        }
-
-        public Builder toBuilder(Reference regulatoryAuthority) {
-            return new Builder(regulatoryAuthority).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference regulatoryAuthority) {
-            return new Builder(regulatoryAuthority);
+            Builder builder = new Builder();
+            builder.regulatoryAuthority(regulatoryAuthority);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference regulatoryAuthority;
-
-            // optional
+            private Reference regulatoryAuthority;
             private List<Substitution> substitution = new ArrayList<>();
             private List<Schedule> schedule = new ArrayList<>();
             private MaxDispense maxDispense;
-
-            private Builder(Reference regulatoryAuthority) {
-                super();
-                this.regulatoryAuthority = regulatoryAuthority;
-            }
 
             /**
              * <p>
@@ -5010,6 +5093,22 @@ public class MedicationKnowledge extends DomainResource {
 
             /**
              * <p>
+             * The authority that is specifying the regulations.
+             * </p>
+             * 
+             * @param regulatoryAuthority
+             *     Specifies the authority of the regulation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder regulatoryAuthority(Reference regulatoryAuthority) {
+                this.regulatoryAuthority = regulatoryAuthority;
+                return this;
+            }
+
+            /**
+             * <p>
              * Specifies if changes are allowed when dispensing a medication from a regulatory perspective.
              * </p>
              * <p>
@@ -5109,10 +5208,9 @@ public class MedicationKnowledge extends DomainResource {
                 return new Regulatory(this);
             }
 
-            private Builder from(Regulatory regulatory) {
-                id = regulatory.id;
-                extension.addAll(regulatory.extension);
-                modifierExtension.addAll(regulatory.modifierExtension);
+            protected Builder from(Regulatory regulatory) {
+                super.from(regulatory);
+                regulatoryAuthority = regulatory.regulatoryAuthority;
                 substitution.addAll(regulatory.substitution);
                 schedule.addAll(regulatory.schedule);
                 maxDispense = regulatory.maxDispense;
@@ -5221,27 +5319,19 @@ public class MedicationKnowledge extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type, allowed).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept type, Boolean allowed) {
-                return new Builder(type, allowed).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept type, Boolean allowed) {
-                return new Builder(type, allowed);
+                Builder builder = new Builder();
+                builder.type(type);
+                builder.allowed(allowed);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept type;
-                private final Boolean allowed;
-
-                private Builder(CodeableConcept type, Boolean allowed) {
-                    super();
-                    this.type = type;
-                    this.allowed = allowed;
-                }
+                private CodeableConcept type;
+                private Boolean allowed;
 
                 /**
                  * <p>
@@ -5360,15 +5450,47 @@ public class MedicationKnowledge extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * Specifies the type of substitution allowed.
+                 * </p>
+                 * 
+                 * @param type
+                 *     Specifies the type of substitution allowed
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Specifies if regulation allows for changes in the medication when dispensing.
+                 * </p>
+                 * 
+                 * @param allowed
+                 *     Specifies if regulation allows for changes in the medication when dispensing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder allowed(Boolean allowed) {
+                    this.allowed = allowed;
+                    return this;
+                }
+
                 @Override
                 public Substitution build() {
                     return new Substitution(this);
                 }
 
-                private Builder from(Substitution substitution) {
-                    id = substitution.id;
-                    extension.addAll(substitution.extension);
-                    modifierExtension.addAll(substitution.modifierExtension);
+                protected Builder from(Substitution substitution) {
+                    super.from(substitution);
+                    type = substitution.type;
+                    allowed = substitution.allowed;
                     return this;
                 }
             }
@@ -5457,25 +5579,17 @@ public class MedicationKnowledge extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(schedule).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept schedule) {
-                return new Builder(schedule).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept schedule) {
-                return new Builder(schedule);
+                Builder builder = new Builder();
+                builder.schedule(schedule);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept schedule;
-
-                private Builder(CodeableConcept schedule) {
-                    super();
-                    this.schedule = schedule;
-                }
+                private CodeableConcept schedule;
 
                 /**
                  * <p>
@@ -5594,15 +5708,30 @@ public class MedicationKnowledge extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * Specifies the specific drug schedule.
+                 * </p>
+                 * 
+                 * @param schedule
+                 *     Specifies the specific drug schedule
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder schedule(CodeableConcept schedule) {
+                    this.schedule = schedule;
+                    return this;
+                }
+
                 @Override
                 public Schedule build() {
                     return new Schedule(this);
                 }
 
-                private Builder from(Schedule schedule) {
-                    id = schedule.id;
-                    extension.addAll(schedule.extension);
-                    modifierExtension.addAll(schedule.modifierExtension);
+                protected Builder from(Schedule schedule) {
+                    super.from(schedule);
+                    this.schedule = schedule.schedule;
                     return this;
                 }
             }
@@ -5709,28 +5838,18 @@ public class MedicationKnowledge extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(quantity).from(this);
-            }
-
-            public Builder toBuilder(Quantity quantity) {
-                return new Builder(quantity).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Quantity quantity) {
-                return new Builder(quantity);
+                Builder builder = new Builder();
+                builder.quantity(quantity);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Quantity quantity;
-
-                // optional
+                private Quantity quantity;
                 private Duration period;
-
-                private Builder(Quantity quantity) {
-                    super();
-                    this.quantity = quantity;
-                }
 
                 /**
                  * <p>
@@ -5851,6 +5970,22 @@ public class MedicationKnowledge extends DomainResource {
 
                 /**
                  * <p>
+                 * The maximum number of units of the medication that can be dispensed.
+                 * </p>
+                 * 
+                 * @param quantity
+                 *     The maximum number of units of the medication that can be dispensed
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder quantity(Quantity quantity) {
+                    this.quantity = quantity;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The period that applies to the maximum number of units.
                  * </p>
                  * 
@@ -5870,10 +6005,9 @@ public class MedicationKnowledge extends DomainResource {
                     return new MaxDispense(this);
                 }
 
-                private Builder from(MaxDispense maxDispense) {
-                    id = maxDispense.id;
-                    extension.addAll(maxDispense.extension);
-                    modifierExtension.addAll(maxDispense.modifierExtension);
+                protected Builder from(MaxDispense maxDispense) {
+                    super.from(maxDispense);
+                    quantity = maxDispense.quantity;
                     period = maxDispense.period;
                     return this;
                 }
@@ -6004,18 +6138,14 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Quantity> areaUnderCurve = new ArrayList<>();
             private List<Quantity> lethalDose50 = new ArrayList<>();
             private Duration halfLifePeriod;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -6235,10 +6365,8 @@ public class MedicationKnowledge extends DomainResource {
                 return new Kinetics(this);
             }
 
-            private Builder from(Kinetics kinetics) {
-                id = kinetics.id;
-                extension.addAll(kinetics.extension);
-                modifierExtension.addAll(kinetics.modifierExtension);
+            protected Builder from(Kinetics kinetics) {
+                super.from(kinetics);
                 areaUnderCurve.addAll(kinetics.areaUnderCurve);
                 lethalDose50.addAll(kinetics.lethalDose50);
                 halfLifePeriod = kinetics.halfLifePeriod;

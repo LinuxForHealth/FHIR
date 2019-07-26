@@ -611,23 +611,17 @@ public class EvidenceVariable extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, characteristic).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, Collection<Characteristic> characteristic) {
-        return new Builder(status, characteristic).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, Collection<Characteristic> characteristic) {
-        return new Builder(status, characteristic);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.characteristic(characteristic);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final List<Characteristic> characteristic;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
@@ -635,6 +629,7 @@ public class EvidenceVariable extends DomainResource {
         private String title;
         private String shortTitle;
         private String subtitle;
+        private PublicationStatus status;
         private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
@@ -653,12 +648,7 @@ public class EvidenceVariable extends DomainResource {
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private EvidenceVariableType type;
-
-        private Builder(PublicationStatus status, Collection<Characteristic> characteristic) {
-            super();
-            this.status = status;
-            this.characteristic = new ArrayList<>(characteristic);
-        }
+        private List<Characteristic> characteristic = new ArrayList<>();
 
         /**
          * <p>
@@ -1033,6 +1023,22 @@ public class EvidenceVariable extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this evidence variable. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1575,20 +1581,55 @@ public class EvidenceVariable extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the evidence element
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder characteristic(Characteristic... characteristic) {
+            for (Characteristic value : characteristic) {
+                this.characteristic.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the evidence element
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder characteristic(Collection<Characteristic> characteristic) {
+            this.characteristic = new ArrayList<>(characteristic);
+            return this;
+        }
+
         @Override
         public EvidenceVariable build() {
             return new EvidenceVariable(this);
         }
 
-        private Builder from(EvidenceVariable evidenceVariable) {
-            id = evidenceVariable.id;
-            meta = evidenceVariable.meta;
-            implicitRules = evidenceVariable.implicitRules;
-            language = evidenceVariable.language;
-            text = evidenceVariable.text;
-            contained.addAll(evidenceVariable.contained);
-            extension.addAll(evidenceVariable.extension);
-            modifierExtension.addAll(evidenceVariable.modifierExtension);
+        protected Builder from(EvidenceVariable evidenceVariable) {
+            super.from(evidenceVariable);
             url = evidenceVariable.url;
             identifier.addAll(evidenceVariable.identifier);
             version = evidenceVariable.version;
@@ -1596,6 +1637,7 @@ public class EvidenceVariable extends DomainResource {
             title = evidenceVariable.title;
             shortTitle = evidenceVariable.shortTitle;
             subtitle = evidenceVariable.subtitle;
+            status = evidenceVariable.status;
             date = evidenceVariable.date;
             publisher = evidenceVariable.publisher;
             contact.addAll(evidenceVariable.contact);
@@ -1614,6 +1656,7 @@ public class EvidenceVariable extends DomainResource {
             endorser.addAll(evidenceVariable.endorser);
             relatedArtifact.addAll(evidenceVariable.relatedArtifact);
             type = evidenceVariable.type;
+            characteristic.addAll(evidenceVariable.characteristic);
             return this;
         }
     }
@@ -1813,33 +1856,23 @@ public class EvidenceVariable extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(definition).from(this);
-        }
-
-        public Builder toBuilder(Element definition) {
-            return new Builder(definition).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element definition) {
-            return new Builder(definition);
+            Builder builder = new Builder();
+            builder.definition(definition);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element definition;
-
-            // optional
             private String description;
+            private Element definition;
             private List<UsageContext> usageContext = new ArrayList<>();
             private Boolean exclude;
             private Element participantEffective;
             private Duration timeFromStart;
             private GroupMeasure groupMeasure;
-
-            private Builder(Element definition) {
-                super();
-                this.definition = definition;
-            }
 
             /**
              * <p>
@@ -1977,6 +2010,24 @@ public class EvidenceVariable extends DomainResource {
 
             /**
              * <p>
+             * Define members of the evidence element using Codes (such as condition, medication, or observation), Expressions ( 
+             * using an expression language such as FHIRPath or CQL) or DataRequirements (such as Diabetes diagnosis onset in the 
+             * last year).
+             * </p>
+             * 
+             * @param definition
+             *     What code or expression defines members?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder definition(Element definition) {
+                this.definition = definition;
+                return this;
+            }
+
+            /**
+             * <p>
              * Use UsageContext to define the members of the population, such as Age Ranges, Genders, Settings.
              * </p>
              * <p>
@@ -2084,11 +2135,10 @@ public class EvidenceVariable extends DomainResource {
                 return new Characteristic(this);
             }
 
-            private Builder from(Characteristic characteristic) {
-                id = characteristic.id;
-                extension.addAll(characteristic.extension);
-                modifierExtension.addAll(characteristic.modifierExtension);
+            protected Builder from(Characteristic characteristic) {
+                super.from(characteristic);
                 description = characteristic.description;
+                definition = characteristic.definition;
                 usageContext.addAll(characteristic.usageContext);
                 exclude = characteristic.exclude;
                 participantEffective = characteristic.participantEffective;

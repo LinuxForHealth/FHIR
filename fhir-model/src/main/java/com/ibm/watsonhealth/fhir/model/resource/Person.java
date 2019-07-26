@@ -283,11 +283,11 @@ public class Person extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<HumanName> name = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
@@ -298,10 +298,6 @@ public class Person extends DomainResource {
         private Reference managingOrganization;
         private Boolean active;
         private List<Link> link = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -814,15 +810,8 @@ public class Person extends DomainResource {
             return new Person(this);
         }
 
-        private Builder from(Person person) {
-            id = person.id;
-            meta = person.meta;
-            implicitRules = person.implicitRules;
-            language = person.language;
-            text = person.text;
-            contained.addAll(person.contained);
-            extension.addAll(person.extension);
-            modifierExtension.addAll(person.modifierExtension);
+        protected Builder from(Person person) {
+            super.from(person);
             identifier.addAll(person.identifier);
             name.addAll(person.name);
             telecom.addAll(person.telecom);
@@ -938,28 +927,18 @@ public class Person extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(target).from(this);
-        }
-
-        public Builder toBuilder(Reference target) {
-            return new Builder(target).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference target) {
-            return new Builder(target);
+            Builder builder = new Builder();
+            builder.target(target);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference target;
-
-            // optional
+            private Reference target;
             private IdentityAssuranceLevel assurance;
-
-            private Builder(Reference target) {
-                super();
-                this.target = target;
-            }
 
             /**
              * <p>
@@ -1080,6 +1059,22 @@ public class Person extends DomainResource {
 
             /**
              * <p>
+             * The resource to which this actual person is associated.
+             * </p>
+             * 
+             * @param target
+             *     The resource to which this actual person is associated
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder target(Reference target) {
+                this.target = target;
+                return this;
+            }
+
+            /**
+             * <p>
              * Level of assurance that this link is associated with the target resource.
              * </p>
              * 
@@ -1099,10 +1094,9 @@ public class Person extends DomainResource {
                 return new Link(this);
             }
 
-            private Builder from(Link link) {
-                id = link.id;
-                extension.addAll(link.extension);
-                modifierExtension.addAll(link.modifierExtension);
+            protected Builder from(Link link) {
+                super.from(link);
+                target = link.target;
                 assurance = link.assurance;
                 return this;
             }

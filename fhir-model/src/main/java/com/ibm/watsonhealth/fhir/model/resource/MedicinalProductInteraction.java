@@ -226,11 +226,11 @@ public class MedicinalProductInteraction extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Reference> subject = new ArrayList<>();
         private String description;
         private List<Interactant> interactant = new ArrayList<>();
@@ -238,10 +238,6 @@ public class MedicinalProductInteraction extends DomainResource {
         private CodeableConcept effect;
         private CodeableConcept incidence;
         private CodeableConcept management;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -634,15 +630,8 @@ public class MedicinalProductInteraction extends DomainResource {
             return new MedicinalProductInteraction(this);
         }
 
-        private Builder from(MedicinalProductInteraction medicinalProductInteraction) {
-            id = medicinalProductInteraction.id;
-            meta = medicinalProductInteraction.meta;
-            implicitRules = medicinalProductInteraction.implicitRules;
-            language = medicinalProductInteraction.language;
-            text = medicinalProductInteraction.text;
-            contained.addAll(medicinalProductInteraction.contained);
-            extension.addAll(medicinalProductInteraction.extension);
-            modifierExtension.addAll(medicinalProductInteraction.modifierExtension);
+        protected Builder from(MedicinalProductInteraction medicinalProductInteraction) {
+            super.from(medicinalProductInteraction);
             subject.addAll(medicinalProductInteraction.subject);
             description = medicinalProductInteraction.description;
             interactant.addAll(medicinalProductInteraction.interactant);
@@ -737,25 +726,17 @@ public class MedicinalProductInteraction extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(item).from(this);
-        }
-
-        public Builder toBuilder(Element item) {
-            return new Builder(item).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element item) {
-            return new Builder(item);
+            Builder builder = new Builder();
+            builder.item(item);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element item;
-
-            private Builder(Element item) {
-                super();
-                this.item = item;
-            }
+            private Element item;
 
             /**
              * <p>
@@ -874,15 +855,30 @@ public class MedicinalProductInteraction extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The specific medication, food or laboratory test that interacts.
+             * </p>
+             * 
+             * @param item
+             *     The specific medication, food or laboratory test that interacts
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(Element item) {
+                this.item = item;
+                return this;
+            }
+
             @Override
             public Interactant build() {
                 return new Interactant(this);
             }
 
-            private Builder from(Interactant interactant) {
-                id = interactant.id;
-                extension.addAll(interactant.extension);
-                modifierExtension.addAll(interactant.modifierExtension);
+            protected Builder from(Interactant interactant) {
+                super.from(interactant);
+                item = interactant.item;
                 return this;
             }
         }

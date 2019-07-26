@@ -639,27 +639,24 @@ public class TestScript extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, name, status).from(this);
-    }
-
-    public Builder toBuilder(Uri url, String name, PublicationStatus status) {
-        return new Builder(url, name, status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status) {
-        return new Builder(url, name, status);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.name(name);
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final String name;
-        private final PublicationStatus status;
-
-        // optional
+        private Uri url;
         private Identifier identifier;
         private String version;
+        private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -678,13 +675,6 @@ public class TestScript extends DomainResource {
         private Setup setup;
         private List<Test> test = new ArrayList<>();
         private Teardown teardown;
-
-        private Builder(Uri url, String name, PublicationStatus status) {
-            super();
-            this.url = url;
-            this.name = name;
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -914,6 +904,25 @@ public class TestScript extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this test script when it is referenced in a specification, model, design or 
+         * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
+         * which at which an authoritative instance of this test script is (or will be) published. This URL can be the target of 
+         * a canonical reference. It SHALL remain the same when the test script is stored on different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this test script, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * A formal identifier that is used to identify this test script when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
@@ -950,6 +959,23 @@ public class TestScript extends DomainResource {
 
         /**
          * <p>
+         * A natural language name identifying the test script. This name should be usable as an identifier for the module by 
+         * machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this test script (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
          * A short, descriptive, user-friendly title for the test script.
          * </p>
          * 
@@ -961,6 +987,22 @@ public class TestScript extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this test script. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1481,18 +1523,14 @@ public class TestScript extends DomainResource {
             return new TestScript(this);
         }
 
-        private Builder from(TestScript testScript) {
-            id = testScript.id;
-            meta = testScript.meta;
-            implicitRules = testScript.implicitRules;
-            language = testScript.language;
-            text = testScript.text;
-            contained.addAll(testScript.contained);
-            extension.addAll(testScript.extension);
-            modifierExtension.addAll(testScript.modifierExtension);
+        protected Builder from(TestScript testScript) {
+            super.from(testScript);
+            url = testScript.url;
             identifier = testScript.identifier;
             version = testScript.version;
+            name = testScript.name;
             title = testScript.title;
+            status = testScript.status;
             experimental = testScript.experimental;
             date = testScript.date;
             publisher = testScript.publisher;
@@ -1616,27 +1654,19 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(index, profile).from(this);
-        }
-
-        public Builder toBuilder(Integer index, Coding profile) {
-            return new Builder(index, profile).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Integer index, Coding profile) {
-            return new Builder(index, profile);
+            Builder builder = new Builder();
+            builder.index(index);
+            builder.profile(profile);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Integer index;
-            private final Coding profile;
-
-            private Builder(Integer index, Coding profile) {
-                super();
-                this.index = index;
-                this.profile = profile;
-            }
+            private Integer index;
+            private Coding profile;
 
             /**
              * <p>
@@ -1755,15 +1785,47 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Abstract name given to an origin server in this test script. The name is provided as a number starting at 1.
+             * </p>
+             * 
+             * @param index
+             *     The index of the abstract origin server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder index(Integer index) {
+                this.index = index;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of origin profile the test system supports.
+             * </p>
+             * 
+             * @param profile
+             *     FHIR-Client | FHIR-SDC-FormFiller
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder profile(Coding profile) {
+                this.profile = profile;
+                return this;
+            }
+
             @Override
             public Origin build() {
                 return new Origin(this);
             }
 
-            private Builder from(Origin origin) {
-                id = origin.id;
-                extension.addAll(origin.extension);
-                modifierExtension.addAll(origin.modifierExtension);
+            protected Builder from(Origin origin) {
+                super.from(origin);
+                index = origin.index;
+                profile = origin.profile;
                 return this;
             }
         }
@@ -1870,27 +1932,19 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(index, profile).from(this);
-        }
-
-        public Builder toBuilder(Integer index, Coding profile) {
-            return new Builder(index, profile).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Integer index, Coding profile) {
-            return new Builder(index, profile);
+            Builder builder = new Builder();
+            builder.index(index);
+            builder.profile(profile);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Integer index;
-            private final Coding profile;
-
-            private Builder(Integer index, Coding profile) {
-                super();
-                this.index = index;
-                this.profile = profile;
-            }
+            private Integer index;
+            private Coding profile;
 
             /**
              * <p>
@@ -2009,15 +2063,47 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Abstract name given to a destination server in this test script. The name is provided as a number starting at 1.
+             * </p>
+             * 
+             * @param index
+             *     The index of the abstract destination server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder index(Integer index) {
+                this.index = index;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of destination profile the test system supports.
+             * </p>
+             * 
+             * @param profile
+             *     FHIR-Server | FHIR-SDC-FormManager | FHIR-SDC-FormReceiver | FHIR-SDC-FormProcessor
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder profile(Coding profile) {
+                this.profile = profile;
+                return this;
+            }
+
             @Override
             public Destination build() {
                 return new Destination(this);
             }
 
-            private Builder from(Destination destination) {
-                id = destination.id;
-                extension.addAll(destination.extension);
-                modifierExtension.addAll(destination.modifierExtension);
+            protected Builder from(Destination destination) {
+                super.from(destination);
+                index = destination.index;
+                profile = destination.profile;
                 return this;
             }
         }
@@ -2124,28 +2210,18 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(capability).from(this);
-        }
-
-        public Builder toBuilder(Collection<Capability> capability) {
-            return new Builder(capability).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Capability> capability) {
-            return new Builder(capability);
+            Builder builder = new Builder();
+            builder.capability(capability);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Capability> capability;
-
-            // optional
             private List<Link> link = new ArrayList<>();
-
-            private Builder(Collection<Capability> capability) {
-                super();
-                this.capability = new ArrayList<>(capability);
-            }
+            private List<Capability> capability = new ArrayList<>();
 
             /**
              * <p>
@@ -2304,16 +2380,55 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param capability
+             *     Capabilities that are assumed to function correctly on the FHIR server being tested
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder capability(Capability... capability) {
+                for (Capability value : capability) {
+                    this.capability.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param capability
+             *     Capabilities that are assumed to function correctly on the FHIR server being tested
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder capability(Collection<Capability> capability) {
+                this.capability = new ArrayList<>(capability);
+                return this;
+            }
+
             @Override
             public Metadata build() {
                 return new Metadata(this);
             }
 
-            private Builder from(Metadata metadata) {
-                id = metadata.id;
-                extension.addAll(metadata.extension);
-                modifierExtension.addAll(metadata.modifierExtension);
+            protected Builder from(Metadata metadata) {
+                super.from(metadata);
                 link.addAll(metadata.link);
+                capability.addAll(metadata.capability);
                 return this;
             }
         }
@@ -2419,28 +2534,18 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(url).from(this);
-            }
-
-            public Builder toBuilder(Uri url) {
-                return new Builder(url).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Uri url) {
-                return new Builder(url);
+                Builder builder = new Builder();
+                builder.url(url);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Uri url;
-
-                // optional
+                private Uri url;
                 private String description;
-
-                private Builder(Uri url) {
-                    super();
-                    this.url = url;
-                }
 
                 /**
                  * <p>
@@ -2561,6 +2666,22 @@ public class TestScript extends DomainResource {
 
                 /**
                  * <p>
+                 * URL to a particular requirement or feature within the FHIR specification.
+                 * </p>
+                 * 
+                 * @param url
+                 *     URL to the specification
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder url(Uri url) {
+                    this.url = url;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Short description of the link.
                  * </p>
                  * 
@@ -2580,10 +2701,9 @@ public class TestScript extends DomainResource {
                     return new Link(this);
                 }
 
-                private Builder from(Link link) {
-                    id = link.id;
-                    extension.addAll(link.extension);
-                    modifierExtension.addAll(link.modifierExtension);
+                protected Builder from(Link link) {
+                    super.from(link);
+                    url = link.url;
                     description = link.description;
                     return this;
                 }
@@ -2784,35 +2904,25 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(required, validated, capabilities).from(this);
-            }
-
-            public Builder toBuilder(Boolean required, Boolean validated, Canonical capabilities) {
-                return new Builder(required, validated, capabilities).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Boolean required, Boolean validated, Canonical capabilities) {
-                return new Builder(required, validated, capabilities);
+                Builder builder = new Builder();
+                builder.required(required);
+                builder.validated(validated);
+                builder.capabilities(capabilities);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Boolean required;
-                private final Boolean validated;
-                private final Canonical capabilities;
-
-                // optional
+                private Boolean required;
+                private Boolean validated;
                 private String description;
                 private List<Integer> origin = new ArrayList<>();
                 private Integer destination;
                 private List<Uri> link = new ArrayList<>();
-
-                private Builder(Boolean required, Boolean validated, Canonical capabilities) {
-                    super();
-                    this.required = required;
-                    this.validated = validated;
-                    this.capabilities = capabilities;
-                }
+                private Canonical capabilities;
 
                 /**
                  * <p>
@@ -2933,6 +3043,40 @@ public class TestScript extends DomainResource {
 
                 /**
                  * <p>
+                 * Whether or not the test execution will require the given capabilities of the server in order for this test script to 
+                 * execute.
+                 * </p>
+                 * 
+                 * @param required
+                 *     Are the capabilities required?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder required(Boolean required) {
+                    this.required = required;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Whether or not the test execution will validate the given capabilities of the server in order for this test script to 
+                 * execute.
+                 * </p>
+                 * 
+                 * @param validated
+                 *     Are the capabilities validated?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder validated(Boolean validated) {
+                    this.validated = validated;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Description of the capabilities that this test script is requiring the server to support.
                  * </p>
                  * 
@@ -3043,19 +3187,37 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * <p>
+                 * Minimum capabilities required of server for test script to execute successfully. If server does not meet at a minimum 
+                 * the referenced capability statement, then all tests in this script are skipped.
+                 * </p>
+                 * 
+                 * @param capabilities
+                 *     Required Capability Statement
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder capabilities(Canonical capabilities) {
+                    this.capabilities = capabilities;
+                    return this;
+                }
+
                 @Override
                 public Capability build() {
                     return new Capability(this);
                 }
 
-                private Builder from(Capability capability) {
-                    id = capability.id;
-                    extension.addAll(capability.extension);
-                    modifierExtension.addAll(capability.modifierExtension);
+                protected Builder from(Capability capability) {
+                    super.from(capability);
+                    required = capability.required;
+                    validated = capability.validated;
                     description = capability.description;
                     origin.addAll(capability.origin);
                     destination = capability.destination;
                     link.addAll(capability.link);
+                    capabilities = capability.capabilities;
                     return this;
                 }
             }
@@ -3185,30 +3347,20 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(autocreate, autodelete).from(this);
-        }
-
-        public Builder toBuilder(Boolean autocreate, Boolean autodelete) {
-            return new Builder(autocreate, autodelete).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean autocreate, Boolean autodelete) {
-            return new Builder(autocreate, autodelete);
+            Builder builder = new Builder();
+            builder.autocreate(autocreate);
+            builder.autodelete(autodelete);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean autocreate;
-            private final Boolean autodelete;
-
-            // optional
+            private Boolean autocreate;
+            private Boolean autodelete;
             private Reference resource;
-
-            private Builder(Boolean autocreate, Boolean autodelete) {
-                super();
-                this.autocreate = autocreate;
-                this.autodelete = autodelete;
-            }
 
             /**
              * <p>
@@ -3329,6 +3481,42 @@ public class TestScript extends DomainResource {
 
             /**
              * <p>
+             * Whether or not to implicitly create the fixture during setup. If true, the fixture is automatically created on each 
+             * server being tested during setup, therefore no create operation is required for this fixture in the TestScript.setup 
+             * section.
+             * </p>
+             * 
+             * @param autocreate
+             *     Whether or not to implicitly create the fixture during setup
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder autocreate(Boolean autocreate) {
+                this.autocreate = autocreate;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Whether or not to implicitly delete the fixture during teardown. If true, the fixture is automatically deleted on each 
+             * server being tested during teardown, therefore no delete operation is required for this fixture in the TestScript.
+             * teardown section.
+             * </p>
+             * 
+             * @param autodelete
+             *     Whether or not to implicitly delete the fixture during teardown
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder autodelete(Boolean autodelete) {
+                this.autodelete = autodelete;
+                return this;
+            }
+
+            /**
+             * <p>
              * Reference to the resource (containing the contents of the resource needed for operations).
              * </p>
              * 
@@ -3348,10 +3536,10 @@ public class TestScript extends DomainResource {
                 return new Fixture(this);
             }
 
-            private Builder from(Fixture fixture) {
-                id = fixture.id;
-                extension.addAll(fixture.extension);
-                modifierExtension.addAll(fixture.modifierExtension);
+            protected Builder from(Fixture fixture) {
+                super.from(fixture);
+                autocreate = fixture.autocreate;
+                autodelete = fixture.autodelete;
                 resource = fixture.resource;
                 return this;
             }
@@ -3569,22 +3757,17 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private String defaultValue;
             private String description;
             private String expression;
@@ -3592,11 +3775,6 @@ public class TestScript extends DomainResource {
             private String hint;
             private String path;
             private Id sourceId;
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -3713,6 +3891,22 @@ public class TestScript extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Descriptive name for this variable.
+             * </p>
+             * 
+             * @param name
+             *     Descriptive name for this variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
             }
 
             /**
@@ -3834,10 +4028,9 @@ public class TestScript extends DomainResource {
                 return new Variable(this);
             }
 
-            private Builder from(Variable variable) {
-                id = variable.id;
-                extension.addAll(variable.extension);
-                modifierExtension.addAll(variable.modifierExtension);
+            protected Builder from(Variable variable) {
+                super.from(variable);
+                name = variable.name;
                 defaultValue = variable.defaultValue;
                 description = variable.description;
                 expression = variable.expression;
@@ -3933,25 +4126,17 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(action).from(this);
-        }
-
-        public Builder toBuilder(Collection<Action> action) {
-            return new Builder(action).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Action> action) {
-            return new Builder(action);
+            Builder builder = new Builder();
+            builder.action(action);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Action> action;
-
-            private Builder(Collection<Action> action) {
-                super();
-                this.action = new ArrayList<>(action);
-            }
+            private List<Action> action = new ArrayList<>();
 
             /**
              * <p>
@@ -4070,15 +4255,54 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Collection<Action> action) {
+                this.action = new ArrayList<>(action);
+                return this;
+            }
+
             @Override
             public Setup build() {
                 return new Setup(this);
             }
 
-            private Builder from(Setup setup) {
-                id = setup.id;
-                extension.addAll(setup.extension);
-                modifierExtension.addAll(setup.modifierExtension);
+            protected Builder from(Setup setup) {
+                super.from(setup);
+                action.addAll(setup.action);
                 return this;
             }
         }
@@ -4188,17 +4412,13 @@ public class TestScript extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Operation operation;
                 private Assert _assert;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4354,10 +4574,8 @@ public class TestScript extends DomainResource {
                     return new Action(this);
                 }
 
-                private Builder from(Action action) {
-                    id = action.id;
-                    extension.addAll(action.extension);
-                    modifierExtension.addAll(action.modifierExtension);
+                protected Builder from(Action action) {
+                    super.from(action);
                     operation = action.operation;
                     _assert = action._assert;
                     return this;
@@ -4738,22 +4956,16 @@ public class TestScript extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(encodeRequestUrl).from(this);
-                }
-
-                public Builder toBuilder(Boolean encodeRequestUrl) {
-                    return new Builder(encodeRequestUrl).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Boolean encodeRequestUrl) {
-                    return new Builder(encodeRequestUrl);
+                    Builder builder = new Builder();
+                    builder.encodeRequestUrl(encodeRequestUrl);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Boolean encodeRequestUrl;
-
-                    // optional
                     private Coding type;
                     private FHIRDefinedType resource;
                     private String label;
@@ -4761,6 +4973,7 @@ public class TestScript extends DomainResource {
                     private Code accept;
                     private Code contentType;
                     private Integer destination;
+                    private Boolean encodeRequestUrl;
                     private TestScriptRequestMethodCode method;
                     private Integer origin;
                     private String params;
@@ -4770,11 +4983,6 @@ public class TestScript extends DomainResource {
                     private Id sourceId;
                     private Id targetId;
                     private String url;
-
-                    private Builder(Boolean encodeRequestUrl) {
-                        super();
-                        this.encodeRequestUrl = encodeRequestUrl;
-                    }
 
                     /**
                      * <p>
@@ -5008,6 +5216,23 @@ public class TestScript extends DomainResource {
 
                     /**
                      * <p>
+                     * Whether or not to implicitly send the request url in encoded format. The default is true to match the standard RESTful 
+                     * client behavior. Set to false when communicating with a server that does not support encoded url paths.
+                     * </p>
+                     * 
+                     * @param encodeRequestUrl
+                     *     Whether or not to send the request url in encoded format
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder encodeRequestUrl(Boolean encodeRequestUrl) {
+                        this.encodeRequestUrl = encodeRequestUrl;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * The HTTP method the test engine MUST use for this operation regardless of any other operation details.
                      * </p>
                      * 
@@ -5180,10 +5405,8 @@ public class TestScript extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private Builder from(Operation operation) {
-                        id = operation.id;
-                        extension.addAll(operation.extension);
-                        modifierExtension.addAll(operation.modifierExtension);
+                    protected Builder from(Operation operation) {
+                        super.from(operation);
                         type = operation.type;
                         resource = operation.resource;
                         label = operation.label;
@@ -5191,6 +5414,7 @@ public class TestScript extends DomainResource {
                         accept = operation.accept;
                         contentType = operation.contentType;
                         destination = operation.destination;
+                        encodeRequestUrl = operation.encodeRequestUrl;
                         method = operation.method;
                         origin = operation.origin;
                         params = operation.params;
@@ -5305,27 +5529,19 @@ public class TestScript extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return new Builder(field, value).from(this);
-                    }
-
-                    public Builder toBuilder(String field, String value) {
-                        return new Builder(field, value).from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder(String field, String value) {
-                        return new Builder(field, value);
+                        Builder builder = new Builder();
+                        builder.field(field);
+                        builder.value(value);
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // required
-                        private final String field;
-                        private final String value;
-
-                        private Builder(String field, String value) {
-                            super();
-                            this.field = field;
-                            this.value = value;
-                        }
+                        private String field;
+                        private String value;
 
                         /**
                          * <p>
@@ -5444,15 +5660,47 @@ public class TestScript extends DomainResource {
                             return (Builder) super.modifierExtension(modifierExtension);
                         }
 
+                        /**
+                         * <p>
+                         * The HTTP header field e.g. "Accept".
+                         * </p>
+                         * 
+                         * @param field
+                         *     HTTP header field name
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder field(String field) {
+                            this.field = field;
+                            return this;
+                        }
+
+                        /**
+                         * <p>
+                         * The value of the header e.g. "application/fhir+xml".
+                         * </p>
+                         * 
+                         * @param value
+                         *     HTTP headerfield value
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(String value) {
+                            this.value = value;
+                            return this;
+                        }
+
                         @Override
                         public RequestHeader build() {
                             return new RequestHeader(this);
                         }
 
-                        private Builder from(RequestHeader requestHeader) {
-                            id = requestHeader.id;
-                            extension.addAll(requestHeader.extension);
-                            modifierExtension.addAll(requestHeader.modifierExtension);
+                        protected Builder from(RequestHeader requestHeader) {
+                            super.from(requestHeader);
+                            field = requestHeader.field;
+                            value = requestHeader.value;
                             return this;
                         }
                     }
@@ -5924,22 +6172,16 @@ public class TestScript extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(warningOnly).from(this);
-                }
-
-                public Builder toBuilder(Boolean warningOnly) {
-                    return new Builder(warningOnly).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Boolean warningOnly) {
-                    return new Builder(warningOnly);
+                    Builder builder = new Builder();
+                    builder.warningOnly(warningOnly);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Boolean warningOnly;
-
-                    // optional
                     private String label;
                     private String description;
                     private AssertionDirectionType direction;
@@ -5961,11 +6203,7 @@ public class TestScript extends DomainResource {
                     private Id sourceId;
                     private Id validateProfileId;
                     private String value;
-
-                    private Builder(Boolean warningOnly) {
-                        super();
-                        this.warningOnly = warningOnly;
-                    }
+                    private Boolean warningOnly;
 
                     /**
                      * <p>
@@ -6425,15 +6663,29 @@ public class TestScript extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * <p>
+                     * Whether or not the test execution will produce a warning only on error for this assert.
+                     * </p>
+                     * 
+                     * @param warningOnly
+                     *     Will this assert produce a warning only on error?
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder warningOnly(Boolean warningOnly) {
+                        this.warningOnly = warningOnly;
+                        return this;
+                    }
+
                     @Override
                     public Assert build() {
                         return new Assert(this);
                     }
 
-                    private Builder from(Assert _assert) {
-                        id = _assert.id;
-                        extension.addAll(_assert.extension);
-                        modifierExtension.addAll(_assert.modifierExtension);
+                    protected Builder from(Assert _assert) {
+                        super.from(_assert);
                         label = _assert.label;
                         description = _assert.description;
                         direction = _assert.direction;
@@ -6455,6 +6707,7 @@ public class TestScript extends DomainResource {
                         sourceId = _assert.sourceId;
                         validateProfileId = _assert.validateProfileId;
                         value = _assert.value;
+                        warningOnly = _assert.warningOnly;
                         return this;
                     }
                 }
@@ -6581,29 +6834,19 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(action).from(this);
-        }
-
-        public Builder toBuilder(Collection<Action> action) {
-            return new Builder(action).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Action> action) {
-            return new Builder(action);
+            Builder builder = new Builder();
+            builder.action(action);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Action> action;
-
-            // optional
             private String name;
             private String description;
-
-            private Builder(Collection<Action> action) {
-                super();
-                this.action = new ArrayList<>(action);
-            }
+            private List<Action> action = new ArrayList<>();
 
             /**
              * <p>
@@ -6754,17 +6997,56 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Collection<Action> action) {
+                this.action = new ArrayList<>(action);
+                return this;
+            }
+
             @Override
             public Test build() {
                 return new Test(this);
             }
 
-            private Builder from(Test test) {
-                id = test.id;
-                extension.addAll(test.extension);
-                modifierExtension.addAll(test.modifierExtension);
+            protected Builder from(Test test) {
+                super.from(test);
                 name = test.name;
                 description = test.description;
+                action.addAll(test.action);
                 return this;
             }
         }
@@ -6874,17 +7156,13 @@ public class TestScript extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private TestScript.Setup.Action.Operation operation;
                 private TestScript.Setup.Action.Assert _assert;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -7040,10 +7318,8 @@ public class TestScript extends DomainResource {
                     return new Action(this);
                 }
 
-                private Builder from(Action action) {
-                    id = action.id;
-                    extension.addAll(action.extension);
-                    modifierExtension.addAll(action.modifierExtension);
+                protected Builder from(Action action) {
+                    super.from(action);
                     operation = action.operation;
                     _assert = action._assert;
                     return this;
@@ -7135,25 +7411,17 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(action).from(this);
-        }
-
-        public Builder toBuilder(Collection<Action> action) {
-            return new Builder(action).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Action> action) {
-            return new Builder(action);
+            Builder builder = new Builder();
+            builder.action(action);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Action> action;
-
-            private Builder(Collection<Action> action) {
-                super();
-                this.action = new ArrayList<>(action);
-            }
+            private List<Action> action = new ArrayList<>();
 
             /**
              * <p>
@@ -7272,15 +7540,54 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations to perform
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(Collection<Action> action) {
+                this.action = new ArrayList<>(action);
+                return this;
+            }
+
             @Override
             public Teardown build() {
                 return new Teardown(this);
             }
 
-            private Builder from(Teardown teardown) {
-                id = teardown.id;
-                extension.addAll(teardown.extension);
-                modifierExtension.addAll(teardown.modifierExtension);
+            protected Builder from(Teardown teardown) {
+                super.from(teardown);
+                action.addAll(teardown.action);
                 return this;
             }
         }
@@ -7368,25 +7675,17 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(operation).from(this);
-            }
-
-            public Builder toBuilder(TestScript.Setup.Action.Operation operation) {
-                return new Builder(operation).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(TestScript.Setup.Action.Operation operation) {
-                return new Builder(operation);
+                Builder builder = new Builder();
+                builder.operation(operation);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final TestScript.Setup.Action.Operation operation;
-
-                private Builder(TestScript.Setup.Action.Operation operation) {
-                    super();
-                    this.operation = operation;
-                }
+                private TestScript.Setup.Action.Operation operation;
 
                 /**
                  * <p>
@@ -7505,15 +7804,30 @@ public class TestScript extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * An operation would involve a REST request to a server.
+                 * </p>
+                 * 
+                 * @param operation
+                 *     The teardown operation to perform
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder operation(TestScript.Setup.Action.Operation operation) {
+                    this.operation = operation;
+                    return this;
+                }
+
                 @Override
                 public Action build() {
                     return new Action(this);
                 }
 
-                private Builder from(Action action) {
-                    id = action.id;
-                    extension.addAll(action.extension);
-                    modifierExtension.addAll(action.modifierExtension);
+                protected Builder from(Action action) {
+                    super.from(action);
+                    operation = action.operation;
                     return this;
                 }
             }

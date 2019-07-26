@@ -243,34 +243,24 @@ public class Schedule extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(actor).from(this);
-    }
-
-    public Builder toBuilder(Collection<Reference> actor) {
-        return new Builder(actor).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<Reference> actor) {
-        return new Builder(actor);
+        Builder builder = new Builder();
+        builder.actor(actor);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final List<Reference> actor;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private List<CodeableConcept> serviceCategory = new ArrayList<>();
         private List<CodeableConcept> serviceType = new ArrayList<>();
         private List<CodeableConcept> specialty = new ArrayList<>();
+        private List<Reference> actor = new ArrayList<>();
         private Period planningHorizon;
         private String comment;
-
-        private Builder(Collection<Reference> actor) {
-            super();
-            this.actor = new ArrayList<>(actor);
-        }
 
         /**
          * <p>
@@ -676,6 +666,46 @@ public class Schedule extends DomainResource {
 
         /**
          * <p>
+         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param actor
+         *     Resource(s) that availability information is being provided for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actor(Reference... actor) {
+            for (Reference value : actor) {
+                this.actor.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param actor
+         *     Resource(s) that availability information is being provided for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actor(Collection<Reference> actor) {
+            this.actor = new ArrayList<>(actor);
+            return this;
+        }
+
+        /**
+         * <p>
          * The period of time that the slots that reference this Schedule resource cover (even if none exist). These cover the 
          * amount of time that an organization's planning horizon; the interval for which they are currently accepting 
          * appointments. This does not define a "template" for planning outside these dates.
@@ -714,20 +744,14 @@ public class Schedule extends DomainResource {
             return new Schedule(this);
         }
 
-        private Builder from(Schedule schedule) {
-            id = schedule.id;
-            meta = schedule.meta;
-            implicitRules = schedule.implicitRules;
-            language = schedule.language;
-            text = schedule.text;
-            contained.addAll(schedule.contained);
-            extension.addAll(schedule.extension);
-            modifierExtension.addAll(schedule.modifierExtension);
+        protected Builder from(Schedule schedule) {
+            super.from(schedule);
             identifier.addAll(schedule.identifier);
             active = schedule.active;
             serviceCategory.addAll(schedule.serviceCategory);
             serviceType.addAll(schedule.serviceType);
             specialty.addAll(schedule.specialty);
+            actor.addAll(schedule.actor);
             planningHorizon = schedule.planningHorizon;
             comment = schedule.comment;
             return this;

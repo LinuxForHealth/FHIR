@@ -331,26 +331,21 @@ public class MetadataResource extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -358,11 +353,6 @@ public class MetadataResource extends DomainResource {
         private Markdown description;
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -664,6 +654,22 @@ public class MetadataResource extends DomainResource {
 
         /**
          * <p>
+         * The status of this metadata resource. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this metadata resource is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * </p>
@@ -858,19 +864,13 @@ public class MetadataResource extends DomainResource {
             return new MetadataResource(this);
         }
 
-        private Builder from(MetadataResource metadataResource) {
-            id = metadataResource.id;
-            meta = metadataResource.meta;
-            implicitRules = metadataResource.implicitRules;
-            language = metadataResource.language;
-            text = metadataResource.text;
-            contained.addAll(metadataResource.contained);
-            extension.addAll(metadataResource.extension);
-            modifierExtension.addAll(metadataResource.modifierExtension);
+        protected Builder from(MetadataResource metadataResource) {
+            super.from(metadataResource);
             url = metadataResource.url;
             version = metadataResource.version;
             name = metadataResource.name;
             title = metadataResource.title;
+            status = metadataResource.status;
             experimental = metadataResource.experimental;
             date = metadataResource.date;
             publisher = metadataResource.publisher;

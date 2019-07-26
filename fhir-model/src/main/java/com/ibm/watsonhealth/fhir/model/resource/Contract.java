@@ -711,11 +711,11 @@ public class Contract extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Uri url;
         private String version;
@@ -749,10 +749,6 @@ public class Contract extends DomainResource {
         private List<Legal> legal = new ArrayList<>();
         private List<Rule> rule = new ArrayList<>();
         private Element legallyBinding;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1887,15 +1883,8 @@ public class Contract extends DomainResource {
             return new Contract(this);
         }
 
-        private Builder from(Contract contract) {
-            id = contract.id;
-            meta = contract.meta;
-            implicitRules = contract.implicitRules;
-            language = contract.language;
-            text = contract.text;
-            contained.addAll(contract.contained);
-            extension.addAll(contract.extension);
-            modifierExtension.addAll(contract.modifierExtension);
+        protected Builder from(Contract contract) {
+            super.from(contract);
             identifier.addAll(contract.identifier);
             url = contract.url;
             version = contract.version;
@@ -2111,33 +2100,23 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, publicationStatus).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, ContractPublicationStatus publicationStatus) {
-            return new Builder(type, publicationStatus).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, ContractPublicationStatus publicationStatus) {
-            return new Builder(type, publicationStatus);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.publicationStatus(publicationStatus);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final ContractPublicationStatus publicationStatus;
-
-            // optional
+            private CodeableConcept type;
             private CodeableConcept subType;
             private Reference publisher;
             private DateTime publicationDate;
+            private ContractPublicationStatus publicationStatus;
             private Markdown copyright;
-
-            private Builder(CodeableConcept type, ContractPublicationStatus publicationStatus) {
-                super();
-                this.type = type;
-                this.publicationStatus = publicationStatus;
-            }
 
             /**
              * <p>
@@ -2258,6 +2237,23 @@ public class Contract extends DomainResource {
 
             /**
              * <p>
+             * Precusory content structure and use, i.e., a boilerplate, template, application for a contract such as an insurance 
+             * policy or benefits under a program, e.g., workers compensation.
+             * </p>
+             * 
+             * @param type
+             *     Content structure and use
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Detailed Precusory content type.
              * </p>
              * 
@@ -2308,6 +2304,22 @@ public class Contract extends DomainResource {
 
             /**
              * <p>
+             * draft | active | retired | unknown.
+             * </p>
+             * 
+             * @param publicationStatus
+             *     draft | active | retired | unknown
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder publicationStatus(ContractPublicationStatus publicationStatus) {
+                this.publicationStatus = publicationStatus;
+                return this;
+            }
+
+            /**
+             * <p>
              * A copyright statement relating to Contract precursor content. Copyright statements are generally legal restrictions on 
              * the use and publishing of the Contract precursor content.
              * </p>
@@ -2328,13 +2340,13 @@ public class Contract extends DomainResource {
                 return new ContentDefinition(this);
             }
 
-            private Builder from(ContentDefinition contentDefinition) {
-                id = contentDefinition.id;
-                extension.addAll(contentDefinition.extension);
-                modifierExtension.addAll(contentDefinition.modifierExtension);
+            protected Builder from(ContentDefinition contentDefinition) {
+                super.from(contentDefinition);
+                type = contentDefinition.type;
                 subType = contentDefinition.subType;
                 publisher = contentDefinition.publisher;
                 publicationDate = contentDefinition.publicationDate;
+                publicationStatus = contentDefinition.publicationStatus;
                 copyright = contentDefinition.copyright;
                 return this;
             }
@@ -2626,22 +2638,16 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(offer).from(this);
-        }
-
-        public Builder toBuilder(Offer offer) {
-            return new Builder(offer).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Offer offer) {
-            return new Builder(offer);
+            Builder builder = new Builder();
+            builder.offer(offer);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Offer offer;
-
-            // optional
             private Identifier identifier;
             private DateTime issued;
             private Period applies;
@@ -2650,14 +2656,10 @@ public class Contract extends DomainResource {
             private CodeableConcept subType;
             private String text;
             private List<SecurityLabel> securityLabel = new ArrayList<>();
+            private Offer offer;
             private List<Asset> asset = new ArrayList<>();
             private List<Action> action = new ArrayList<>();
             private List<Contract.Term> group = new ArrayList<>();
-
-            private Builder(Offer offer) {
-                super();
-                this.offer = offer;
-            }
 
             /**
              * <p>
@@ -2934,6 +2936,22 @@ public class Contract extends DomainResource {
 
             /**
              * <p>
+             * The matter of concern in the context of this provision of the agrement.
+             * </p>
+             * 
+             * @param offer
+             *     Context of the Contract term
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder offer(Offer offer) {
+                this.offer = offer;
+                return this;
+            }
+
+            /**
+             * <p>
              * Contract Term Asset List.
              * </p>
              * <p>
@@ -3059,10 +3077,8 @@ public class Contract extends DomainResource {
                 return new Term(this);
             }
 
-            private Builder from(Term term) {
-                id = term.id;
-                extension.addAll(term.extension);
-                modifierExtension.addAll(term.modifierExtension);
+            protected Builder from(Term term) {
+                super.from(term);
                 identifier = term.identifier;
                 issued = term.issued;
                 applies = term.applies;
@@ -3071,6 +3087,7 @@ public class Contract extends DomainResource {
                 subType = term.subType;
                 text = term.text;
                 securityLabel.addAll(term.securityLabel);
+                offer = term.offer;
                 asset.addAll(term.asset);
                 action.addAll(term.action);
                 group.addAll(term.group);
@@ -3218,30 +3235,20 @@ public class Contract extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(classification).from(this);
-            }
-
-            public Builder toBuilder(Coding classification) {
-                return new Builder(classification).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Coding classification) {
-                return new Builder(classification);
+                Builder builder = new Builder();
+                builder.classification(classification);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Coding classification;
-
-                // optional
                 private List<UnsignedInt> number = new ArrayList<>();
+                private Coding classification;
                 private List<Coding> category = new ArrayList<>();
                 private List<Coding> control = new ArrayList<>();
-
-                private Builder(Coding classification) {
-                    super();
-                    this.classification = classification;
-                }
 
                 /**
                  * <p>
@@ -3402,6 +3409,23 @@ public class Contract extends DomainResource {
 
                 /**
                  * <p>
+                 * Security label privacy tag that species the level of confidentiality protection required for this term and/or term 
+                 * elements.
+                 * </p>
+                 * 
+                 * @param classification
+                 *     Confidentiality Protection
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder classification(Coding classification) {
+                    this.classification = classification;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
                  * </p>
@@ -3487,11 +3511,10 @@ public class Contract extends DomainResource {
                     return new SecurityLabel(this);
                 }
 
-                private Builder from(SecurityLabel securityLabel) {
-                    id = securityLabel.id;
-                    extension.addAll(securityLabel.extension);
-                    modifierExtension.addAll(securityLabel.modifierExtension);
+                protected Builder from(SecurityLabel securityLabel) {
+                    super.from(securityLabel);
                     number.addAll(securityLabel.number);
+                    classification = securityLabel.classification;
                     category.addAll(securityLabel.category);
                     control.addAll(securityLabel.control);
                     return this;
@@ -3750,11 +3773,11 @@ public class Contract extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private List<Identifier> identifier = new ArrayList<>();
                 private List<Party> party = new ArrayList<>();
                 private Reference topic;
@@ -3765,10 +3788,6 @@ public class Contract extends DomainResource {
                 private String text;
                 private List<String> linkId = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4198,10 +4217,8 @@ public class Contract extends DomainResource {
                     return new Offer(this);
                 }
 
-                private Builder from(Offer offer) {
-                    id = offer.id;
-                    extension.addAll(offer.extension);
-                    modifierExtension.addAll(offer.modifierExtension);
+                protected Builder from(Offer offer) {
+                    super.from(offer);
                     identifier.addAll(offer.identifier);
                     party.addAll(offer.party);
                     topic = offer.topic;
@@ -4317,27 +4334,19 @@ public class Contract extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(reference, role).from(this);
-                }
-
-                public Builder toBuilder(Collection<Reference> reference, CodeableConcept role) {
-                    return new Builder(reference, role).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Collection<Reference> reference, CodeableConcept role) {
-                    return new Builder(reference, role);
+                    Builder builder = new Builder();
+                    builder.reference(reference);
+                    builder.role(role);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final List<Reference> reference;
-                    private final CodeableConcept role;
-
-                    private Builder(Collection<Reference> reference, CodeableConcept role) {
-                        super();
-                        this.reference = new ArrayList<>(reference);
-                        this.role = role;
-                    }
+                    private List<Reference> reference = new ArrayList<>();
+                    private CodeableConcept role;
 
                     /**
                      * <p>
@@ -4456,15 +4465,71 @@ public class Contract extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Participant in the offer.
+                     * </p>
+                     * <p>
+                     * Adds new element(s) to existing list
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Referenced entity
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder reference(Reference... reference) {
+                        for (Reference value : reference) {
+                            this.reference.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Participant in the offer.
+                     * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Referenced entity
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder reference(Collection<Reference> reference) {
+                        this.reference = new ArrayList<>(reference);
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * How the party participates in the offer.
+                     * </p>
+                     * 
+                     * @param role
+                     *     Participant engagement type
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder role(CodeableConcept role) {
+                        this.role = role;
+                        return this;
+                    }
+
                     @Override
                     public Party build() {
                         return new Party(this);
                     }
 
-                    private Builder from(Party party) {
-                        id = party.id;
-                        extension.addAll(party.extension);
-                        modifierExtension.addAll(party.modifierExtension);
+                    protected Builder from(Party party) {
+                        super.from(party);
+                        reference.addAll(party.reference);
+                        role = party.role;
                         return this;
                     }
                 }
@@ -4555,25 +4620,17 @@ public class Contract extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(value).from(this);
-                }
-
-                public Builder toBuilder(Element value) {
-                    return new Builder(value).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Element value) {
-                    return new Builder(value);
+                    Builder builder = new Builder();
+                    builder.value(value);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Element value;
-
-                    private Builder(Element value) {
-                        super();
-                        this.value = value;
-                    }
+                    private Element value;
 
                     /**
                      * <p>
@@ -4692,15 +4749,32 @@ public class Contract extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Response to an offer clause or question text, which enables selection of values to be agreed to, e.g., the period of 
+                     * participation, the date of occupancy of a rental, warrently duration, or whether biospecimen may be used for further 
+                     * research.
+                     * </p>
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder value(Element value) {
+                        this.value = value;
+                        return this;
+                    }
+
                     @Override
                     public Answer build() {
                         return new Answer(this);
                     }
 
-                    private Builder from(Answer answer) {
-                        id = answer.id;
-                        extension.addAll(answer.extension);
-                        modifierExtension.addAll(answer.modifierExtension);
+                    protected Builder from(Answer answer) {
+                        super.from(answer);
+                        value = answer.value;
                         return this;
                     }
                 }
@@ -5048,11 +5122,11 @@ public class Contract extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept scope;
                 private List<CodeableConcept> type = new ArrayList<>();
                 private List<Reference> typeReference = new ArrayList<>();
@@ -5068,10 +5142,6 @@ public class Contract extends DomainResource {
                 private List<Contract.Term.Offer.Answer> answer = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
                 private List<ValuedItem> valuedItem = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -5701,10 +5771,8 @@ public class Contract extends DomainResource {
                     return new Asset(this);
                 }
 
-                private Builder from(Asset asset) {
-                    id = asset.id;
-                    extension.addAll(asset.extension);
-                    modifierExtension.addAll(asset.modifierExtension);
+                protected Builder from(Asset asset) {
+                    super.from(asset);
                     scope = asset.scope;
                     type.addAll(asset.type);
                     typeReference.addAll(asset.typeReference);
@@ -5848,18 +5916,14 @@ public class Contract extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private Reference reference;
                     private List<CodeableConcept> code = new ArrayList<>();
                     private String text;
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -6056,10 +6120,8 @@ public class Contract extends DomainResource {
                         return new Context(this);
                     }
 
-                    private Builder from(Context context) {
-                        id = context.id;
-                        extension.addAll(context.extension);
-                        modifierExtension.addAll(context.modifierExtension);
+                    protected Builder from(Context context) {
+                        super.from(context);
                         reference = context.reference;
                         code.addAll(context.code);
                         text = context.text;
@@ -6396,11 +6458,11 @@ public class Contract extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private Element entity;
                     private Identifier identifier;
                     private DateTime effectiveTime;
@@ -6415,10 +6477,6 @@ public class Contract extends DomainResource {
                     private Reference recipient;
                     private List<String> linkId = new ArrayList<>();
                     private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -6822,10 +6880,8 @@ public class Contract extends DomainResource {
                         return new ValuedItem(this);
                     }
 
-                    private Builder from(ValuedItem valuedItem) {
-                        id = valuedItem.id;
-                        extension.addAll(valuedItem.extension);
-                        modifierExtension.addAll(valuedItem.modifierExtension);
+                    protected Builder from(ValuedItem valuedItem) {
+                        super.from(valuedItem);
                         entity = valuedItem.entity;
                         identifier = valuedItem.identifier;
                         effectiveTime = valuedItem.effectiveTime;
@@ -7296,27 +7352,24 @@ public class Contract extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type, intent, status).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept type, CodeableConcept intent, CodeableConcept status) {
-                return new Builder(type, intent, status).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept type, CodeableConcept intent, CodeableConcept status) {
-                return new Builder(type, intent, status);
+                Builder builder = new Builder();
+                builder.type(type);
+                builder.intent(intent);
+                builder.status(status);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept type;
-                private final CodeableConcept intent;
-                private final CodeableConcept status;
-
-                // optional
                 private Boolean doNotPerform;
+                private CodeableConcept type;
                 private List<Subject> subject = new ArrayList<>();
+                private CodeableConcept intent;
                 private List<String> linkId = new ArrayList<>();
+                private CodeableConcept status;
                 private Reference context;
                 private List<String> contextLinkId = new ArrayList<>();
                 private Element occurrence;
@@ -7332,13 +7385,6 @@ public class Contract extends DomainResource {
                 private List<String> reasonLinkId = new ArrayList<>();
                 private List<Annotation> note = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
-
-                private Builder(CodeableConcept type, CodeableConcept intent, CodeableConcept status) {
-                    super();
-                    this.type = type;
-                    this.intent = intent;
-                    this.status = status;
-                }
 
                 /**
                  * <p>
@@ -7475,6 +7521,23 @@ public class Contract extends DomainResource {
 
                 /**
                  * <p>
+                 * Activity or service obligation to be done or not done, performed or not performed, effectuated or not by this Contract 
+                 * term.
+                 * </p>
+                 * 
+                 * @param type
+                 *     Type or form of the action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Entity of the action.
                  * </p>
                  * <p>
@@ -7510,6 +7573,22 @@ public class Contract extends DomainResource {
                  */
                 public Builder subject(Collection<Subject> subject) {
                     this.subject = new ArrayList<>(subject);
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Reason or purpose for the action stipulated by this Contract Provision.
+                 * </p>
+                 * 
+                 * @param intent
+                 *     Purpose for the Contract Term Action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder intent(CodeableConcept intent) {
+                    this.intent = intent;
                     return this;
                 }
 
@@ -7552,6 +7631,22 @@ public class Contract extends DomainResource {
                  */
                 public Builder linkId(Collection<String> linkId) {
                     this.linkId = new ArrayList<>(linkId);
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Current state of the term action.
+                 * </p>
+                 * 
+                 * @param status
+                 *     State of the action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder status(CodeableConcept status) {
+                    this.status = status;
                     return this;
                 }
 
@@ -8072,13 +8167,14 @@ public class Contract extends DomainResource {
                     return new Action(this);
                 }
 
-                private Builder from(Action action) {
-                    id = action.id;
-                    extension.addAll(action.extension);
-                    modifierExtension.addAll(action.modifierExtension);
+                protected Builder from(Action action) {
+                    super.from(action);
                     doNotPerform = action.doNotPerform;
+                    type = action.type;
                     subject.addAll(action.subject);
+                    intent = action.intent;
                     linkId.addAll(action.linkId);
+                    status = action.status;
                     context = action.context;
                     contextLinkId.addAll(action.contextLinkId);
                     occurrence = action.occurrence;
@@ -8199,28 +8295,18 @@ public class Contract extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(reference).from(this);
-                }
-
-                public Builder toBuilder(Collection<Reference> reference) {
-                    return new Builder(reference).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Collection<Reference> reference) {
-                    return new Builder(reference);
+                    Builder builder = new Builder();
+                    builder.reference(reference);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final List<Reference> reference;
-
-                    // optional
+                    private List<Reference> reference = new ArrayList<>();
                     private CodeableConcept role;
-
-                    private Builder(Collection<Reference> reference) {
-                        super();
-                        this.reference = new ArrayList<>(reference);
-                    }
 
                     /**
                      * <p>
@@ -8341,6 +8427,46 @@ public class Contract extends DomainResource {
 
                     /**
                      * <p>
+                     * The entity the action is performed or not performed on or for.
+                     * </p>
+                     * <p>
+                     * Adds new element(s) to existing list
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Entity of the action
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder reference(Reference... reference) {
+                        for (Reference value : reference) {
+                            this.reference.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The entity the action is performed or not performed on or for.
+                     * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Entity of the action
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder reference(Collection<Reference> reference) {
+                        this.reference = new ArrayList<>(reference);
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * Role type of agent assigned roles in this Contract.
                      * </p>
                      * 
@@ -8360,10 +8486,9 @@ public class Contract extends DomainResource {
                         return new Subject(this);
                     }
 
-                    private Builder from(Subject subject) {
-                        id = subject.id;
-                        extension.addAll(subject.extension);
-                        modifierExtension.addAll(subject.modifierExtension);
+                    protected Builder from(Subject subject) {
+                        super.from(subject);
+                        reference.addAll(subject.reference);
                         role = subject.role;
                         return this;
                     }
@@ -8493,29 +8618,21 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, party, signature).from(this);
-        }
-
-        public Builder toBuilder(Coding type, Reference party, Collection<Signature> signature) {
-            return new Builder(type, party, signature).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Coding type, Reference party, Collection<Signature> signature) {
-            return new Builder(type, party, signature);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.party(party);
+            builder.signature(signature);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Coding type;
-            private final Reference party;
-            private final List<Signature> signature;
-
-            private Builder(Coding type, Reference party, Collection<Signature> signature) {
-                super();
-                this.type = type;
-                this.party = party;
-                this.signature = new ArrayList<>(signature);
-            }
+            private Coding type;
+            private Reference party;
+            private List<Signature> signature = new ArrayList<>();
 
             /**
              * <p>
@@ -8634,15 +8751,88 @@ public class Contract extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Role of this Contract signer, e.g. notary, grantee.
+             * </p>
+             * 
+             * @param type
+             *     Contract Signatory Role
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(Coding type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Party which is a signator to this Contract.
+             * </p>
+             * 
+             * @param party
+             *     Contract Signatory Party
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder party(Reference party) {
+                this.party = party;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Legally binding Contract DSIG signature contents in Base64.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param signature
+             *     Contract Documentation Signature
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder signature(Signature... signature) {
+                for (Signature value : signature) {
+                    this.signature.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Legally binding Contract DSIG signature contents in Base64.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param signature
+             *     Contract Documentation Signature
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder signature(Collection<Signature> signature) {
+                this.signature = new ArrayList<>(signature);
+                return this;
+            }
+
             @Override
             public Signer build() {
                 return new Signer(this);
             }
 
-            private Builder from(Signer signer) {
-                id = signer.id;
-                extension.addAll(signer.extension);
-                modifierExtension.addAll(signer.modifierExtension);
+            protected Builder from(Signer signer) {
+                super.from(signer);
+                type = signer.type;
+                party = signer.party;
+                signature.addAll(signer.signature);
                 return this;
             }
         }
@@ -8735,25 +8925,17 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(content).from(this);
-        }
-
-        public Builder toBuilder(Element content) {
-            return new Builder(content).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element content) {
-            return new Builder(content);
+            Builder builder = new Builder();
+            builder.content(content);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element content;
-
-            private Builder(Element content) {
-                super();
-                this.content = content;
-            }
+            private Element content;
 
             /**
              * <p>
@@ -8872,15 +9054,31 @@ public class Contract extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Human readable rendering of this Contract in a format and representation intended to enhance comprehension and ensure 
+             * understandability.
+             * </p>
+             * 
+             * @param content
+             *     Easily comprehended representation of this Contract
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder content(Element content) {
+                this.content = content;
+                return this;
+            }
+
             @Override
             public Friendly build() {
                 return new Friendly(this);
             }
 
-            private Builder from(Friendly friendly) {
-                id = friendly.id;
-                extension.addAll(friendly.extension);
-                modifierExtension.addAll(friendly.modifierExtension);
+            protected Builder from(Friendly friendly) {
+                super.from(friendly);
+                content = friendly.content;
                 return this;
             }
         }
@@ -8969,25 +9167,17 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(content).from(this);
-        }
-
-        public Builder toBuilder(Element content) {
-            return new Builder(content).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element content) {
-            return new Builder(content);
+            Builder builder = new Builder();
+            builder.content(content);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element content;
-
-            private Builder(Element content) {
-                super();
-                this.content = content;
-            }
+            private Element content;
 
             /**
              * <p>
@@ -9106,15 +9296,30 @@ public class Contract extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Contract legal text in human renderable form.
+             * </p>
+             * 
+             * @param content
+             *     Contract Legal Text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder content(Element content) {
+                this.content = content;
+                return this;
+            }
+
             @Override
             public Legal build() {
                 return new Legal(this);
             }
 
-            private Builder from(Legal legal) {
-                id = legal.id;
-                extension.addAll(legal.extension);
-                modifierExtension.addAll(legal.modifierExtension);
+            protected Builder from(Legal legal) {
+                super.from(legal);
+                content = legal.content;
                 return this;
             }
         }
@@ -9203,25 +9408,17 @@ public class Contract extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(content).from(this);
-        }
-
-        public Builder toBuilder(Element content) {
-            return new Builder(content).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element content) {
-            return new Builder(content);
+            Builder builder = new Builder();
+            builder.content(content);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element content;
-
-            private Builder(Element content) {
-                super();
-                this.content = content;
-            }
+            private Element content;
 
             /**
              * <p>
@@ -9340,15 +9537,30 @@ public class Contract extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
+             * </p>
+             * 
+             * @param content
+             *     Computable Contract Rules
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder content(Element content) {
+                this.content = content;
+                return this;
+            }
+
             @Override
             public Rule build() {
                 return new Rule(this);
             }
 
-            private Builder from(Rule rule) {
-                id = rule.id;
-                extension.addAll(rule.extension);
-                modifierExtension.addAll(rule.modifierExtension);
+            protected Builder from(Rule rule) {
+                super.from(rule);
+                content = rule.content;
                 return this;
             }
         }

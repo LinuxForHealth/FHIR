@@ -78,14 +78,11 @@ public class Markdown extends String {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends String.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -167,10 +164,8 @@ public class Markdown extends String {
             return new Markdown(this);
         }
 
-        private Builder from(Markdown markdown) {
-            id = markdown.id;
-            extension.addAll(markdown.extension);
-            value = markdown.value;
+        protected Builder from(Markdown markdown) {
+            super.from(markdown);
             return this;
         }
     }

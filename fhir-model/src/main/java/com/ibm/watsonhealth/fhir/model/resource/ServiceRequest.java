@@ -702,36 +702,33 @@ public class ServiceRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent, subject).from(this);
-    }
-
-    public Builder toBuilder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
-        return new Builder(status, intent, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
-        return new Builder(status, intent, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ServiceRequestStatus status;
-        private final ServiceRequestIntent intent;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> replaces = new ArrayList<>();
         private Identifier requisition;
+        private ServiceRequestStatus status;
+        private ServiceRequestIntent intent;
         private List<CodeableConcept> category = new ArrayList<>();
         private ServiceRequestPriority priority;
         private Boolean doNotPerform;
         private CodeableConcept code;
         private List<CodeableConcept> orderDetail = new ArrayList<>();
         private Element quantity;
+        private Reference subject;
         private Reference encounter;
         private Element occurrence;
         private Element asNeeded;
@@ -750,13 +747,6 @@ public class ServiceRequest extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private String patientInstruction;
         private List<Reference> relevantHistory = new ArrayList<>();
-
-        private Builder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
-            super();
-            this.status = status;
-            this.intent = intent;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -1207,6 +1197,38 @@ public class ServiceRequest extends DomainResource {
 
         /**
          * <p>
+         * The status of the order.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | suspended | completed | entered-in-error | cancelled
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ServiceRequestStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Whether the request is a proposal, plan, an original order or a reflex order.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | order +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(ServiceRequestIntent intent) {
+            this.intent = intent;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
          * </p>
          * <p>
@@ -1352,6 +1374,23 @@ public class ServiceRequest extends DomainResource {
          */
         public Builder quantity(Element quantity) {
             this.quantity = quantity;
+            return this;
+        }
+
+        /**
+         * <p>
+         * On whom or what the service is to be performed. This is usually a human patient, but can also be requested on animals, 
+         * groups of humans or animals, devices such as dialysis machines, or even locations (typically for environmental scans).
+         * </p>
+         * 
+         * @param subject
+         *     Individual or Entity the service is ordered for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1931,27 +1970,23 @@ public class ServiceRequest extends DomainResource {
             return new ServiceRequest(this);
         }
 
-        private Builder from(ServiceRequest serviceRequest) {
-            id = serviceRequest.id;
-            meta = serviceRequest.meta;
-            implicitRules = serviceRequest.implicitRules;
-            language = serviceRequest.language;
-            text = serviceRequest.text;
-            contained.addAll(serviceRequest.contained);
-            extension.addAll(serviceRequest.extension);
-            modifierExtension.addAll(serviceRequest.modifierExtension);
+        protected Builder from(ServiceRequest serviceRequest) {
+            super.from(serviceRequest);
             identifier.addAll(serviceRequest.identifier);
             instantiatesCanonical.addAll(serviceRequest.instantiatesCanonical);
             instantiatesUri.addAll(serviceRequest.instantiatesUri);
             basedOn.addAll(serviceRequest.basedOn);
             replaces.addAll(serviceRequest.replaces);
             requisition = serviceRequest.requisition;
+            status = serviceRequest.status;
+            intent = serviceRequest.intent;
             category.addAll(serviceRequest.category);
             priority = serviceRequest.priority;
             doNotPerform = serviceRequest.doNotPerform;
             code = serviceRequest.code;
             orderDetail.addAll(serviceRequest.orderDetail);
             quantity = serviceRequest.quantity;
+            subject = serviceRequest.subject;
             encounter = serviceRequest.encounter;
             occurrence = serviceRequest.occurrence;
             asNeeded = serviceRequest.asNeeded;

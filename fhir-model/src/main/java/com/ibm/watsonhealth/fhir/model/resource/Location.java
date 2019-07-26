@@ -412,11 +412,11 @@ public class Location extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private LocationStatus status;
         private Coding operationalStatus;
@@ -434,10 +434,6 @@ public class Location extends DomainResource {
         private List<HoursOfOperation> hoursOfOperation = new ArrayList<>();
         private String availabilityExceptions;
         private List<Reference> endpoint = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1094,15 +1090,8 @@ public class Location extends DomainResource {
             return new Location(this);
         }
 
-        private Builder from(Location location) {
-            id = location.id;
-            meta = location.meta;
-            implicitRules = location.implicitRules;
-            language = location.language;
-            text = location.text;
-            contained.addAll(location.contained);
-            extension.addAll(location.extension);
-            modifierExtension.addAll(location.modifierExtension);
+        protected Builder from(Location location) {
+            super.from(location);
             identifier.addAll(location.identifier);
             status = location.status;
             operationalStatus = location.operationalStatus;
@@ -1247,30 +1236,20 @@ public class Location extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(longitude, latitude).from(this);
-        }
-
-        public Builder toBuilder(Decimal longitude, Decimal latitude) {
-            return new Builder(longitude, latitude).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Decimal longitude, Decimal latitude) {
-            return new Builder(longitude, latitude);
+            Builder builder = new Builder();
+            builder.longitude(longitude);
+            builder.latitude(latitude);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Decimal longitude;
-            private final Decimal latitude;
-
-            // optional
+            private Decimal longitude;
+            private Decimal latitude;
             private Decimal altitude;
-
-            private Builder(Decimal longitude, Decimal latitude) {
-                super();
-                this.longitude = longitude;
-                this.latitude = latitude;
-            }
 
             /**
              * <p>
@@ -1391,6 +1370,40 @@ public class Location extends DomainResource {
 
             /**
              * <p>
+             * Longitude. The value domain and the interpretation are the same as for the text of the longitude element in KML (see 
+             * notes below).
+             * </p>
+             * 
+             * @param longitude
+             *     Longitude with WGS84 datum
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder longitude(Decimal longitude) {
+                this.longitude = longitude;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Latitude. The value domain and the interpretation are the same as for the text of the latitude element in KML (see 
+             * notes below).
+             * </p>
+             * 
+             * @param latitude
+             *     Latitude with WGS84 datum
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder latitude(Decimal latitude) {
+                this.latitude = latitude;
+                return this;
+            }
+
+            /**
+             * <p>
              * Altitude. The value domain and the interpretation are the same as for the text of the altitude element in KML (see 
              * notes below).
              * </p>
@@ -1411,10 +1424,10 @@ public class Location extends DomainResource {
                 return new Position(this);
             }
 
-            private Builder from(Position position) {
-                id = position.id;
-                extension.addAll(position.extension);
-                modifierExtension.addAll(position.modifierExtension);
+            protected Builder from(Position position) {
+                super.from(position);
+                longitude = position.longitude;
+                latitude = position.latitude;
                 altitude = position.altitude;
                 return this;
             }
@@ -1562,19 +1575,15 @@ public class Location extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<DaysOfWeek> daysOfWeek = new ArrayList<>();
             private Boolean allDay;
             private Time openingTime;
             private Time closingTime;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1786,10 +1795,8 @@ public class Location extends DomainResource {
                 return new HoursOfOperation(this);
             }
 
-            private Builder from(HoursOfOperation hoursOfOperation) {
-                id = hoursOfOperation.id;
-                extension.addAll(hoursOfOperation.extension);
-                modifierExtension.addAll(hoursOfOperation.modifierExtension);
+            protected Builder from(HoursOfOperation hoursOfOperation) {
+                super.from(hoursOfOperation);
                 daysOfWeek.addAll(hoursOfOperation.daysOfWeek);
                 allDay = hoursOfOperation.allDay;
                 openingTime = hoursOfOperation.openingTime;

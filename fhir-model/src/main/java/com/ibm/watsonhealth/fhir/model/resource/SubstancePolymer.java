@@ -211,21 +211,17 @@ public class SubstancePolymer extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private CodeableConcept clazz;
         private CodeableConcept geometry;
         private List<CodeableConcept> copolymerConnectivity = new ArrayList<>();
         private List<String> modification = new ArrayList<>();
         private List<MonomerSet> monomerSet = new ArrayList<>();
         private List<Repeat> repeat = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -650,15 +646,8 @@ public class SubstancePolymer extends DomainResource {
             return new SubstancePolymer(this);
         }
 
-        private Builder from(SubstancePolymer substancePolymer) {
-            id = substancePolymer.id;
-            meta = substancePolymer.meta;
-            implicitRules = substancePolymer.implicitRules;
-            language = substancePolymer.language;
-            text = substancePolymer.text;
-            contained.addAll(substancePolymer.contained);
-            extension.addAll(substancePolymer.extension);
-            modifierExtension.addAll(substancePolymer.modifierExtension);
+        protected Builder from(SubstancePolymer substancePolymer) {
+            super.from(substancePolymer);
             clazz = substancePolymer.clazz;
             geometry = substancePolymer.geometry;
             copolymerConnectivity.addAll(substancePolymer.copolymerConnectivity);
@@ -774,17 +763,13 @@ public class SubstancePolymer extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept ratioType;
             private List<StartingMaterial> startingMaterial = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -964,10 +949,8 @@ public class SubstancePolymer extends DomainResource {
                 return new MonomerSet(this);
             }
 
-            private Builder from(MonomerSet monomerSet) {
-                id = monomerSet.id;
-                extension.addAll(monomerSet.extension);
-                modifierExtension.addAll(monomerSet.modifierExtension);
+            protected Builder from(MonomerSet monomerSet) {
+                super.from(monomerSet);
                 ratioType = monomerSet.ratioType;
                 startingMaterial.addAll(monomerSet.startingMaterial);
                 return this;
@@ -1115,19 +1098,15 @@ public class SubstancePolymer extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept material;
                 private CodeableConcept type;
                 private Boolean isDefining;
                 private SubstanceAmount amount;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1315,10 +1294,8 @@ public class SubstancePolymer extends DomainResource {
                     return new StartingMaterial(this);
                 }
 
-                private Builder from(StartingMaterial startingMaterial) {
-                    id = startingMaterial.id;
-                    extension.addAll(startingMaterial.extension);
-                    modifierExtension.addAll(startingMaterial.modifierExtension);
+                protected Builder from(StartingMaterial startingMaterial) {
+                    super.from(startingMaterial);
                     material = startingMaterial.material;
                     type = startingMaterial.type;
                     isDefining = startingMaterial.isDefining;
@@ -1470,19 +1447,15 @@ public class SubstancePolymer extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Integer numberOfUnits;
             private String averageMolecularFormula;
             private CodeableConcept repeatUnitAmountType;
             private List<RepeatUnit> repeatUnit = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1694,10 +1667,8 @@ public class SubstancePolymer extends DomainResource {
                 return new Repeat(this);
             }
 
-            private Builder from(Repeat repeat) {
-                id = repeat.id;
-                extension.addAll(repeat.extension);
-                modifierExtension.addAll(repeat.modifierExtension);
+            protected Builder from(Repeat repeat) {
+                super.from(repeat);
                 numberOfUnits = repeat.numberOfUnits;
                 averageMolecularFormula = repeat.averageMolecularFormula;
                 repeatUnitAmountType = repeat.repeatUnitAmountType;
@@ -1865,20 +1836,16 @@ public class SubstancePolymer extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept orientationOfPolymerisation;
                 private String repeatUnit;
                 private SubstanceAmount amount;
                 private List<DegreeOfPolymerisation> degreeOfPolymerisation = new ArrayList<>();
                 private List<StructuralRepresentation> structuralRepresentation = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2130,10 +2097,8 @@ public class SubstancePolymer extends DomainResource {
                     return new RepeatUnit(this);
                 }
 
-                private Builder from(RepeatUnit repeatUnit) {
-                    id = repeatUnit.id;
-                    extension.addAll(repeatUnit.extension);
-                    modifierExtension.addAll(repeatUnit.modifierExtension);
+                protected Builder from(RepeatUnit repeatUnit) {
+                    super.from(repeatUnit);
                     orientationOfPolymerisation = repeatUnit.orientationOfPolymerisation;
                     this.repeatUnit = repeatUnit.repeatUnit;
                     amount = repeatUnit.amount;
@@ -2248,17 +2213,13 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private CodeableConcept degree;
                     private SubstanceAmount amount;
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -2414,10 +2375,8 @@ public class SubstancePolymer extends DomainResource {
                         return new DegreeOfPolymerisation(this);
                     }
 
-                    private Builder from(DegreeOfPolymerisation degreeOfPolymerisation) {
-                        id = degreeOfPolymerisation.id;
-                        extension.addAll(degreeOfPolymerisation.extension);
-                        modifierExtension.addAll(degreeOfPolymerisation.modifierExtension);
+                    protected Builder from(DegreeOfPolymerisation degreeOfPolymerisation) {
+                        super.from(degreeOfPolymerisation);
                         degree = degreeOfPolymerisation.degree;
                         amount = degreeOfPolymerisation.amount;
                         return this;
@@ -2548,18 +2507,14 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private CodeableConcept type;
                     private String representation;
                     private Attachment attachment;
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -2731,10 +2686,8 @@ public class SubstancePolymer extends DomainResource {
                         return new StructuralRepresentation(this);
                     }
 
-                    private Builder from(StructuralRepresentation structuralRepresentation) {
-                        id = structuralRepresentation.id;
-                        extension.addAll(structuralRepresentation.extension);
-                        modifierExtension.addAll(structuralRepresentation.modifierExtension);
+                    protected Builder from(StructuralRepresentation structuralRepresentation) {
+                        super.from(structuralRepresentation);
                         type = structuralRepresentation.type;
                         representation = structuralRepresentation.representation;
                         attachment = structuralRepresentation.attachment;

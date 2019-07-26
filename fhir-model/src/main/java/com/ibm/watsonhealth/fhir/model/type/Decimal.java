@@ -116,16 +116,12 @@ public class Decimal extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private BigDecimal value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -213,9 +209,8 @@ public class Decimal extends Element {
             return new Decimal(this);
         }
 
-        private Builder from(Decimal decimal) {
-            id = decimal.id;
-            extension.addAll(decimal.extension);
+        protected Builder from(Decimal decimal) {
+            super.from(decimal);
             value = decimal.value;
             return this;
         }

@@ -163,16 +163,12 @@ public class Parameters extends Resource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Resource.Builder {
-        // optional
         private List<Parameter> parameter = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -286,11 +282,8 @@ public class Parameters extends Resource {
             return new Parameters(this);
         }
 
-        private Builder from(Parameters parameters) {
-            id = parameters.id;
-            meta = parameters.meta;
-            implicitRules = parameters.implicitRules;
-            language = parameters.language;
+        protected Builder from(Parameters parameters) {
+            super.from(parameters);
             parameter.addAll(parameters.parameter);
             return this;
         }
@@ -433,30 +426,20 @@ public class Parameters extends Resource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private Element value;
             private Resource resource;
             private List<Parameters.Parameter> part = new ArrayList<>();
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -577,6 +560,22 @@ public class Parameters extends Resource {
 
             /**
              * <p>
+             * The name of the parameter (reference to the operation definition).
+             * </p>
+             * 
+             * @param name
+             *     Name from the definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
              * If the parameter is a data type.
              * </p>
              * 
@@ -652,10 +651,9 @@ public class Parameters extends Resource {
                 return new Parameter(this);
             }
 
-            private Builder from(Parameter parameter) {
-                id = parameter.id;
-                extension.addAll(parameter.extension);
-                modifierExtension.addAll(parameter.modifierExtension);
+            protected Builder from(Parameter parameter) {
+                super.from(parameter);
+                name = parameter.name;
                 value = parameter.value;
                 resource = parameter.resource;
                 part.addAll(parameter.part);

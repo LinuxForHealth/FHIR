@@ -60,7 +60,6 @@ public abstract class BackboneElement extends Element {
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends Element.Builder {
-        // optional
         protected List<Extension> modifierExtension = new ArrayList<>();
 
         protected Builder() {
@@ -188,5 +187,10 @@ public abstract class BackboneElement extends Element {
 
         @Override
         public abstract BackboneElement build();
+
+        protected Builder from(BackboneElement backboneElement) {
+            modifierExtension.addAll(backboneElement.modifierExtension);
+            return this;
+        }
     }
 }

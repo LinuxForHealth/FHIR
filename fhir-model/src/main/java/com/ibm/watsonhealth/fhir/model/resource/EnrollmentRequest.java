@@ -225,11 +225,11 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private EnrollmentRequestStatus status;
         private DateTime created;
@@ -237,10 +237,6 @@ public class EnrollmentRequest extends DomainResource {
         private Reference provider;
         private Reference candidate;
         private Reference coverage;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -609,15 +605,8 @@ public class EnrollmentRequest extends DomainResource {
             return new EnrollmentRequest(this);
         }
 
-        private Builder from(EnrollmentRequest enrollmentRequest) {
-            id = enrollmentRequest.id;
-            meta = enrollmentRequest.meta;
-            implicitRules = enrollmentRequest.implicitRules;
-            language = enrollmentRequest.language;
-            text = enrollmentRequest.text;
-            contained.addAll(enrollmentRequest.contained);
-            extension.addAll(enrollmentRequest.extension);
-            modifierExtension.addAll(enrollmentRequest.modifierExtension);
+        protected Builder from(EnrollmentRequest enrollmentRequest) {
+            super.from(enrollmentRequest);
             identifier.addAll(enrollmentRequest.identifier);
             status = enrollmentRequest.status;
             created = enrollmentRequest.created;

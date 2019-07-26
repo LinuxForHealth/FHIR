@@ -199,20 +199,16 @@ public class SubstanceNucleicAcid extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private CodeableConcept sequenceType;
         private Integer numberOfSubunits;
         private String areaOfHybridisation;
         private CodeableConcept oligoNucleotideType;
         private List<Subunit> subunit = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -561,15 +557,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             return new SubstanceNucleicAcid(this);
         }
 
-        private Builder from(SubstanceNucleicAcid substanceNucleicAcid) {
-            id = substanceNucleicAcid.id;
-            meta = substanceNucleicAcid.meta;
-            implicitRules = substanceNucleicAcid.implicitRules;
-            language = substanceNucleicAcid.language;
-            text = substanceNucleicAcid.text;
-            contained.addAll(substanceNucleicAcid.contained);
-            extension.addAll(substanceNucleicAcid.extension);
-            modifierExtension.addAll(substanceNucleicAcid.modifierExtension);
+        protected Builder from(SubstanceNucleicAcid substanceNucleicAcid) {
+            super.from(substanceNucleicAcid);
             sequenceType = substanceNucleicAcid.sequenceType;
             numberOfSubunits = substanceNucleicAcid.numberOfSubunits;
             areaOfHybridisation = substanceNucleicAcid.areaOfHybridisation;
@@ -799,11 +788,11 @@ public class SubstanceNucleicAcid extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Integer subunit;
             private String sequence;
             private Integer length;
@@ -812,10 +801,6 @@ public class SubstanceNucleicAcid extends DomainResource {
             private CodeableConcept threePrime;
             private List<Linkage> linkage = new ArrayList<>();
             private List<Sugar> sugar = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1127,10 +1112,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                 return new Subunit(this);
             }
 
-            private Builder from(Subunit subunit) {
-                id = subunit.id;
-                extension.addAll(subunit.extension);
-                modifierExtension.addAll(subunit.modifierExtension);
+            protected Builder from(Subunit subunit) {
+                super.from(subunit);
                 this.subunit = subunit.subunit;
                 sequence = subunit.sequence;
                 length = subunit.length;
@@ -1287,19 +1270,15 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private String connectivity;
                 private Identifier identifier;
                 private String name;
                 private String residueSite;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1493,10 +1472,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                     return new Linkage(this);
                 }
 
-                private Builder from(Linkage linkage) {
-                    id = linkage.id;
-                    extension.addAll(linkage.extension);
-                    modifierExtension.addAll(linkage.modifierExtension);
+                protected Builder from(Linkage linkage) {
+                    super.from(linkage);
                     connectivity = linkage.connectivity;
                     identifier = linkage.identifier;
                     name = linkage.name;
@@ -1630,18 +1607,14 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Identifier identifier;
                 private String name;
                 private String residueSite;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1815,10 +1788,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                     return new Sugar(this);
                 }
 
-                private Builder from(Sugar sugar) {
-                    id = sugar.id;
-                    extension.addAll(sugar.extension);
-                    modifierExtension.addAll(sugar.modifierExtension);
+                protected Builder from(Sugar sugar) {
+                    super.from(sugar);
                     identifier = sugar.identifier;
                     name = sugar.name;
                     residueSite = sugar.residueSite;

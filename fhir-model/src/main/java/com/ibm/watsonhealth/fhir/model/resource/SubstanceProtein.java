@@ -189,19 +189,15 @@ public class SubstanceProtein extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private CodeableConcept sequenceType;
         private Integer numberOfSubunits;
         private List<String> disulfideLinkage = new ArrayList<>();
         private List<Subunit> subunit = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -578,15 +574,8 @@ public class SubstanceProtein extends DomainResource {
             return new SubstanceProtein(this);
         }
 
-        private Builder from(SubstanceProtein substanceProtein) {
-            id = substanceProtein.id;
-            meta = substanceProtein.meta;
-            implicitRules = substanceProtein.implicitRules;
-            language = substanceProtein.language;
-            text = substanceProtein.text;
-            contained.addAll(substanceProtein.contained);
-            extension.addAll(substanceProtein.extension);
-            modifierExtension.addAll(substanceProtein.modifierExtension);
+        protected Builder from(SubstanceProtein substanceProtein) {
+            super.from(substanceProtein);
             sequenceType = substanceProtein.sequenceType;
             numberOfSubunits = substanceProtein.numberOfSubunits;
             disulfideLinkage.addAll(substanceProtein.disulfideLinkage);
@@ -822,11 +811,11 @@ public class SubstanceProtein extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Integer subunit;
             private String sequence;
             private Integer length;
@@ -835,10 +824,6 @@ public class SubstanceProtein extends DomainResource {
             private String nTerminalModification;
             private Identifier cTerminalModificationId;
             private String cTerminalModification;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1110,10 +1095,8 @@ public class SubstanceProtein extends DomainResource {
                 return new Subunit(this);
             }
 
-            private Builder from(Subunit subunit) {
-                id = subunit.id;
-                extension.addAll(subunit.extension);
-                modifierExtension.addAll(subunit.modifierExtension);
+            protected Builder from(Subunit subunit) {
+                super.from(subunit);
                 this.subunit = subunit.subunit;
                 sequence = subunit.sequence;
                 length = subunit.length;

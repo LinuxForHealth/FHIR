@@ -120,25 +120,17 @@ public class OperationOutcome extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(issue).from(this);
-    }
-
-    public Builder toBuilder(Collection<Issue> issue) {
-        return new Builder(issue).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<Issue> issue) {
-        return new Builder(issue);
+        Builder builder = new Builder();
+        builder.issue(issue);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final List<Issue> issue;
-
-        private Builder(Collection<Issue> issue) {
-            super();
-            this.issue = new ArrayList<>(issue);
-        }
+        private List<Issue> issue = new ArrayList<>();
 
         /**
          * <p>
@@ -366,20 +358,54 @@ public class OperationOutcome extends DomainResource {
             return (Builder) super.modifierExtension(modifierExtension);
         }
 
+        /**
+         * <p>
+         * An error, warning, or information message that results from a system action.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param issue
+         *     A single issue associated with the action
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder issue(Issue... issue) {
+            for (Issue value : issue) {
+                this.issue.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An error, warning, or information message that results from a system action.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param issue
+         *     A single issue associated with the action
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder issue(Collection<Issue> issue) {
+            this.issue = new ArrayList<>(issue);
+            return this;
+        }
+
         @Override
         public OperationOutcome build() {
             return new OperationOutcome(this);
         }
 
-        private Builder from(OperationOutcome operationOutcome) {
-            id = operationOutcome.id;
-            meta = operationOutcome.meta;
-            implicitRules = operationOutcome.implicitRules;
-            language = operationOutcome.language;
-            text = operationOutcome.text;
-            contained.addAll(operationOutcome.contained);
-            extension.addAll(operationOutcome.extension);
-            modifierExtension.addAll(operationOutcome.modifierExtension);
+        protected Builder from(OperationOutcome operationOutcome) {
+            super.from(operationOutcome);
+            issue.addAll(operationOutcome.issue);
             return this;
         }
     }
@@ -566,33 +592,23 @@ public class OperationOutcome extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(severity, code).from(this);
-        }
-
-        public Builder toBuilder(IssueSeverity severity, IssueType code) {
-            return new Builder(severity, code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(IssueSeverity severity, IssueType code) {
-            return new Builder(severity, code);
+            Builder builder = new Builder();
+            builder.severity(severity);
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final IssueSeverity severity;
-            private final IssueType code;
-
-            // optional
+            private IssueSeverity severity;
+            private IssueType code;
             private CodeableConcept details;
             private String diagnostics;
             private List<String> location = new ArrayList<>();
             private List<String> expression = new ArrayList<>();
-
-            private Builder(IssueSeverity severity, IssueType code) {
-                super();
-                this.severity = severity;
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -709,6 +725,39 @@ public class OperationOutcome extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Indicates whether the issue indicates a variation from successful processing.
+             * </p>
+             * 
+             * @param severity
+             *     fatal | error | warning | information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder severity(IssueSeverity severity) {
+                this.severity = severity;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Describes the type of the issue. The system that creates an OperationOutcome SHALL choose the most applicable code 
+             * from the IssueType value set, and may additional provide its own code for the error in the details element.
+             * </p>
+             * 
+             * @param code
+             *     Error or warning code
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(IssueType code) {
+                this.code = code;
+                return this;
             }
 
             /**
@@ -843,10 +892,10 @@ public class OperationOutcome extends DomainResource {
                 return new Issue(this);
             }
 
-            private Builder from(Issue issue) {
-                id = issue.id;
-                extension.addAll(issue.extension);
-                modifierExtension.addAll(issue.modifierExtension);
+            protected Builder from(Issue issue) {
+                super.from(issue);
+                severity = issue.severity;
+                code = issue.code;
                 details = issue.details;
                 diagnostics = issue.diagnostics;
                 location.addAll(issue.location);

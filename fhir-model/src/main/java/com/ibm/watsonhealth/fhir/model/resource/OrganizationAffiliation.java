@@ -315,11 +315,11 @@ public class OrganizationAffiliation extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private Period period;
@@ -332,10 +332,6 @@ public class OrganizationAffiliation extends DomainResource {
         private List<Reference> healthcareService = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
         private List<Reference> endpoint = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -957,15 +953,8 @@ public class OrganizationAffiliation extends DomainResource {
             return new OrganizationAffiliation(this);
         }
 
-        private Builder from(OrganizationAffiliation organizationAffiliation) {
-            id = organizationAffiliation.id;
-            meta = organizationAffiliation.meta;
-            implicitRules = organizationAffiliation.implicitRules;
-            language = organizationAffiliation.language;
-            text = organizationAffiliation.text;
-            contained.addAll(organizationAffiliation.contained);
-            extension.addAll(organizationAffiliation.extension);
-            modifierExtension.addAll(organizationAffiliation.modifierExtension);
+        protected Builder from(OrganizationAffiliation organizationAffiliation) {
+            super.from(organizationAffiliation);
             identifier.addAll(organizationAffiliation.identifier);
             active = organizationAffiliation.active;
             period = organizationAffiliation.period;

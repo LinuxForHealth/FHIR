@@ -234,11 +234,11 @@ public class Attachment extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Code contentType;
         private Code language;
         private Base64Binary data;
@@ -247,10 +247,6 @@ public class Attachment extends Element {
         private Base64Binary hash;
         private String title;
         private DateTime creation;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -447,9 +443,8 @@ public class Attachment extends Element {
             return new Attachment(this);
         }
 
-        private Builder from(Attachment attachment) {
-            id = attachment.id;
-            extension.addAll(attachment.extension);
+        protected Builder from(Attachment attachment) {
+            super.from(attachment);
             contentType = attachment.contentType;
             language = attachment.language;
             data = attachment.data;

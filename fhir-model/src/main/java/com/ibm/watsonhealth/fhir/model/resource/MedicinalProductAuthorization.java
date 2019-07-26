@@ -382,11 +382,11 @@ public class MedicinalProductAuthorization extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Reference subject;
         private List<CodeableConcept> country = new ArrayList<>();
@@ -403,10 +403,6 @@ public class MedicinalProductAuthorization extends DomainResource {
         private Reference holder;
         private Reference regulator;
         private Procedure procedure;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -993,15 +989,8 @@ public class MedicinalProductAuthorization extends DomainResource {
             return new MedicinalProductAuthorization(this);
         }
 
-        private Builder from(MedicinalProductAuthorization medicinalProductAuthorization) {
-            id = medicinalProductAuthorization.id;
-            meta = medicinalProductAuthorization.meta;
-            implicitRules = medicinalProductAuthorization.implicitRules;
-            language = medicinalProductAuthorization.language;
-            text = medicinalProductAuthorization.text;
-            contained.addAll(medicinalProductAuthorization.contained);
-            extension.addAll(medicinalProductAuthorization.extension);
-            modifierExtension.addAll(medicinalProductAuthorization.modifierExtension);
+        protected Builder from(MedicinalProductAuthorization medicinalProductAuthorization) {
+            super.from(medicinalProductAuthorization);
             identifier.addAll(medicinalProductAuthorization.identifier);
             subject = medicinalProductAuthorization.subject;
             country.addAll(medicinalProductAuthorization.country);
@@ -1181,20 +1170,16 @@ public class MedicinalProductAuthorization extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Identifier> identifier = new ArrayList<>();
             private CodeableConcept country;
             private List<CodeableConcept> jurisdiction = new ArrayList<>();
             private CodeableConcept legalStatusOfSupply;
             private Period validityPeriod;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1446,10 +1431,8 @@ public class MedicinalProductAuthorization extends DomainResource {
                 return new JurisdictionalAuthorization(this);
             }
 
-            private Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
-                id = jurisdictionalAuthorization.id;
-                extension.addAll(jurisdictionalAuthorization.extension);
-                modifierExtension.addAll(jurisdictionalAuthorization.modifierExtension);
+            protected Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
+                super.from(jurisdictionalAuthorization);
                 identifier.addAll(jurisdictionalAuthorization.identifier);
                 country = jurisdictionalAuthorization.country;
                 jurisdiction.addAll(jurisdictionalAuthorization.jurisdiction);
@@ -1597,30 +1580,20 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
             private Identifier identifier;
+            private CodeableConcept type;
             private Element date;
             private List<MedicinalProductAuthorization.Procedure> application = new ArrayList<>();
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -1757,6 +1730,22 @@ public class MedicinalProductAuthorization extends DomainResource {
 
             /**
              * <p>
+             * Type of procedure.
+             * </p>
+             * 
+             * @param type
+             *     Type of procedure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Date of procedure.
              * </p>
              * 
@@ -1816,11 +1805,10 @@ public class MedicinalProductAuthorization extends DomainResource {
                 return new Procedure(this);
             }
 
-            private Builder from(Procedure procedure) {
-                id = procedure.id;
-                extension.addAll(procedure.extension);
-                modifierExtension.addAll(procedure.modifierExtension);
+            protected Builder from(Procedure procedure) {
+                super.from(procedure);
                 identifier = procedure.identifier;
+                type = procedure.type;
                 date = procedure.date;
                 application.addAll(procedure.application);
                 return this;

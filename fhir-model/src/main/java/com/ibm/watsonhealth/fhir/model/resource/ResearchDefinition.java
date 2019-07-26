@@ -723,23 +723,17 @@ public class ResearchDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, population).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, Reference population) {
-        return new Builder(status, population).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference population) {
-        return new Builder(status, population);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.population(population);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final Reference population;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
@@ -747,6 +741,7 @@ public class ResearchDefinition extends DomainResource {
         private String title;
         private String shortTitle;
         private String subtitle;
+        private PublicationStatus status;
         private Boolean experimental;
         private Element subject;
         private DateTime date;
@@ -769,15 +764,10 @@ public class ResearchDefinition extends DomainResource {
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private List<Canonical> library = new ArrayList<>();
+        private Reference population;
         private Reference exposure;
         private Reference exposureAlternative;
         private Reference outcome;
-
-        private Builder(PublicationStatus status, Reference population) {
-            super();
-            this.status = status;
-            this.population = population;
-        }
 
         /**
          * <p>
@@ -1152,6 +1142,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this research definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1786,6 +1792,22 @@ public class ResearchDefinition extends DomainResource {
 
         /**
          * <p>
+         * A reference to a ResearchElementDefinition resource that defines the population for the research.
+         * </p>
+         * 
+         * @param population
+         *     What population?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder population(Reference population) {
+            this.population = population;
+            return this;
+        }
+
+        /**
+         * <p>
          * A reference to a ResearchElementDefinition resource that defines the exposure for the research.
          * </p>
          * 
@@ -1837,15 +1859,8 @@ public class ResearchDefinition extends DomainResource {
             return new ResearchDefinition(this);
         }
 
-        private Builder from(ResearchDefinition researchDefinition) {
-            id = researchDefinition.id;
-            meta = researchDefinition.meta;
-            implicitRules = researchDefinition.implicitRules;
-            language = researchDefinition.language;
-            text = researchDefinition.text;
-            contained.addAll(researchDefinition.contained);
-            extension.addAll(researchDefinition.extension);
-            modifierExtension.addAll(researchDefinition.modifierExtension);
+        protected Builder from(ResearchDefinition researchDefinition) {
+            super.from(researchDefinition);
             url = researchDefinition.url;
             identifier.addAll(researchDefinition.identifier);
             version = researchDefinition.version;
@@ -1853,6 +1868,7 @@ public class ResearchDefinition extends DomainResource {
             title = researchDefinition.title;
             shortTitle = researchDefinition.shortTitle;
             subtitle = researchDefinition.subtitle;
+            status = researchDefinition.status;
             experimental = researchDefinition.experimental;
             subject = researchDefinition.subject;
             date = researchDefinition.date;
@@ -1875,6 +1891,7 @@ public class ResearchDefinition extends DomainResource {
             endorser.addAll(researchDefinition.endorser);
             relatedArtifact.addAll(researchDefinition.relatedArtifact);
             library.addAll(researchDefinition.library);
+            population = researchDefinition.population;
             exposure = researchDefinition.exposure;
             exposureAlternative = researchDefinition.exposureAlternative;
             outcome = researchDefinition.outcome;

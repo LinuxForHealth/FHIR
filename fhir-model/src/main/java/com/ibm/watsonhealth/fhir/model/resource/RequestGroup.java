@@ -443,29 +443,25 @@ public class RequestGroup extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent).from(this);
-    }
-
-    public Builder toBuilder(RequestStatus status, RequestIntent intent) {
-        return new Builder(status, intent).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(RequestStatus status, RequestIntent intent) {
-        return new Builder(status, intent);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final RequestStatus status;
-        private final RequestIntent intent;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> replaces = new ArrayList<>();
         private Identifier groupIdentifier;
+        private RequestStatus status;
+        private RequestIntent intent;
         private RequestPriority priority;
         private CodeableConcept code;
         private Reference subject;
@@ -476,12 +472,6 @@ public class RequestGroup extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Action> action = new ArrayList<>();
-
-        private Builder(RequestStatus status, RequestIntent intent) {
-            super();
-            this.status = status;
-            this.intent = intent;
-        }
 
         /**
          * <p>
@@ -932,6 +922,39 @@ public class RequestGroup extends DomainResource {
 
         /**
          * <p>
+         * The current state of the request. For request groups, the status reflects the status of all the requests in the group.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | suspended | cancelled | completed | entered-in-error | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(RequestStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the level of authority/intentionality associated with the request and where the request fits into the 
+         * workflow chain.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | order
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(RequestIntent intent) {
+            this.intent = intent;
+            return this;
+        }
+
+        /**
+         * <p>
          * Indicates how quickly the request should be addressed with respect to other requests.
          * </p>
          * 
@@ -1191,21 +1214,16 @@ public class RequestGroup extends DomainResource {
             return new RequestGroup(this);
         }
 
-        private Builder from(RequestGroup requestGroup) {
-            id = requestGroup.id;
-            meta = requestGroup.meta;
-            implicitRules = requestGroup.implicitRules;
-            language = requestGroup.language;
-            text = requestGroup.text;
-            contained.addAll(requestGroup.contained);
-            extension.addAll(requestGroup.extension);
-            modifierExtension.addAll(requestGroup.modifierExtension);
+        protected Builder from(RequestGroup requestGroup) {
+            super.from(requestGroup);
             identifier.addAll(requestGroup.identifier);
             instantiatesCanonical.addAll(requestGroup.instantiatesCanonical);
             instantiatesUri.addAll(requestGroup.instantiatesUri);
             basedOn.addAll(requestGroup.basedOn);
             replaces.addAll(requestGroup.replaces);
             groupIdentifier = requestGroup.groupIdentifier;
+            status = requestGroup.status;
+            intent = requestGroup.intent;
             priority = requestGroup.priority;
             code = requestGroup.code;
             subject = requestGroup.subject;
@@ -1634,11 +1652,11 @@ public class RequestGroup extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String prefix;
             private String title;
             private String description;
@@ -1658,10 +1676,6 @@ public class RequestGroup extends DomainResource {
             private ActionCardinalityBehavior cardinalityBehavior;
             private Reference resource;
             private List<RequestGroup.Action> action = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2238,10 +2252,8 @@ public class RequestGroup extends DomainResource {
                 return new Action(this);
             }
 
-            private Builder from(Action action) {
-                id = action.id;
-                extension.addAll(action.extension);
-                modifierExtension.addAll(action.modifierExtension);
+            protected Builder from(Action action) {
+                super.from(action);
                 prefix = action.prefix;
                 title = action.title;
                 description = action.description;
@@ -2366,28 +2378,18 @@ public class RequestGroup extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(kind).from(this);
-            }
-
-            public Builder toBuilder(ActionConditionKind kind) {
-                return new Builder(kind).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ActionConditionKind kind) {
-                return new Builder(kind);
+                Builder builder = new Builder();
+                builder.kind(kind);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ActionConditionKind kind;
-
-                // optional
+                private ActionConditionKind kind;
                 private Expression expression;
-
-                private Builder(ActionConditionKind kind) {
-                    super();
-                    this.kind = kind;
-                }
 
                 /**
                  * <p>
@@ -2508,6 +2510,22 @@ public class RequestGroup extends DomainResource {
 
                 /**
                  * <p>
+                 * The kind of condition.
+                 * </p>
+                 * 
+                 * @param kind
+                 *     applicability | start | stop
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder kind(ActionConditionKind kind) {
+                    this.kind = kind;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * An expression that returns true or false, indicating whether or not the condition is satisfied.
                  * </p>
                  * 
@@ -2527,10 +2545,9 @@ public class RequestGroup extends DomainResource {
                     return new Condition(this);
                 }
 
-                private Builder from(Condition condition) {
-                    id = condition.id;
-                    extension.addAll(condition.extension);
-                    modifierExtension.addAll(condition.modifierExtension);
+                protected Builder from(Condition condition) {
+                    super.from(condition);
+                    kind = condition.kind;
                     expression = condition.expression;
                     return this;
                 }
@@ -2656,30 +2673,20 @@ public class RequestGroup extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(actionId, relationship).from(this);
-            }
-
-            public Builder toBuilder(Id actionId, ActionRelationshipType relationship) {
-                return new Builder(actionId, relationship).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Id actionId, ActionRelationshipType relationship) {
-                return new Builder(actionId, relationship);
+                Builder builder = new Builder();
+                builder.actionId(actionId);
+                builder.relationship(relationship);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Id actionId;
-                private final ActionRelationshipType relationship;
-
-                // optional
+                private Id actionId;
+                private ActionRelationshipType relationship;
                 private Element offset;
-
-                private Builder(Id actionId, ActionRelationshipType relationship) {
-                    super();
-                    this.actionId = actionId;
-                    this.relationship = relationship;
-                }
 
                 /**
                  * <p>
@@ -2800,6 +2807,39 @@ public class RequestGroup extends DomainResource {
 
                 /**
                  * <p>
+                 * The element id of the action this is related to.
+                 * </p>
+                 * 
+                 * @param actionId
+                 *     What action this is related to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder actionId(Id actionId) {
+                    this.actionId = actionId;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The relationship of this action to the related action.
+                 * </p>
+                 * 
+                 * @param relationship
+                 *     before-start | before | before-end | concurrent-with-start | concurrent | concurrent-with-end | after-start | after | 
+                 *     after-end
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder relationship(ActionRelationshipType relationship) {
+                    this.relationship = relationship;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
                  * </p>
                  * 
@@ -2819,10 +2859,10 @@ public class RequestGroup extends DomainResource {
                     return new RelatedAction(this);
                 }
 
-                private Builder from(RelatedAction relatedAction) {
-                    id = relatedAction.id;
-                    extension.addAll(relatedAction.extension);
-                    modifierExtension.addAll(relatedAction.modifierExtension);
+                protected Builder from(RelatedAction relatedAction) {
+                    super.from(relatedAction);
+                    actionId = relatedAction.actionId;
+                    relationship = relatedAction.relationship;
                     offset = relatedAction.offset;
                     return this;
                 }

@@ -441,22 +441,16 @@ public class Condition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(subject).from(this);
-    }
-
-    public Builder toBuilder(Reference subject) {
-        return new Builder(subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference subject) {
-        return new Builder(subject);
+        Builder builder = new Builder();
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private CodeableConcept clinicalStatus;
         private CodeableConcept verificationStatus;
@@ -464,6 +458,7 @@ public class Condition extends DomainResource {
         private CodeableConcept severity;
         private CodeableConcept code;
         private List<CodeableConcept> bodySite = new ArrayList<>();
+        private Reference subject;
         private Reference encounter;
         private Element onset;
         private Element abatement;
@@ -473,11 +468,6 @@ public class Condition extends DomainResource {
         private List<Stage> stage = new ArrayList<>();
         private List<Evidence> evidence = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(Reference subject) {
-            super();
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -893,6 +883,22 @@ public class Condition extends DomainResource {
 
         /**
          * <p>
+         * Indicates the patient or group who the condition record is associated with.
+         * </p>
+         * 
+         * @param subject
+         *     Who has the condition?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        /**
+         * <p>
          * The Encounter during which this Condition was created or to which the creation of this record is tightly associated.
          * </p>
          * 
@@ -1119,15 +1125,8 @@ public class Condition extends DomainResource {
             return new Condition(this);
         }
 
-        private Builder from(Condition condition) {
-            id = condition.id;
-            meta = condition.meta;
-            implicitRules = condition.implicitRules;
-            language = condition.language;
-            text = condition.text;
-            contained.addAll(condition.contained);
-            extension.addAll(condition.extension);
-            modifierExtension.addAll(condition.modifierExtension);
+        protected Builder from(Condition condition) {
+            super.from(condition);
             identifier.addAll(condition.identifier);
             clinicalStatus = condition.clinicalStatus;
             verificationStatus = condition.verificationStatus;
@@ -1135,6 +1134,7 @@ public class Condition extends DomainResource {
             severity = condition.severity;
             code = condition.code;
             bodySite.addAll(condition.bodySite);
+            subject = condition.subject;
             encounter = condition.encounter;
             onset = condition.onset;
             abatement = condition.abatement;
@@ -1271,18 +1271,14 @@ public class Condition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept summary;
             private List<Reference> assessment = new ArrayList<>();
             private CodeableConcept type;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1478,10 +1474,8 @@ public class Condition extends DomainResource {
                 return new Stage(this);
             }
 
-            private Builder from(Stage stage) {
-                id = stage.id;
-                extension.addAll(stage.extension);
-                modifierExtension.addAll(stage.modifierExtension);
+            protected Builder from(Stage stage) {
+                super.from(stage);
                 summary = stage.summary;
                 assessment.addAll(stage.assessment);
                 type = stage.type;
@@ -1596,17 +1590,13 @@ public class Condition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> code = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1810,10 +1800,8 @@ public class Condition extends DomainResource {
                 return new Evidence(this);
             }
 
-            private Builder from(Evidence evidence) {
-                id = evidence.id;
-                extension.addAll(evidence.extension);
-                modifierExtension.addAll(evidence.modifierExtension);
+            protected Builder from(Evidence evidence) {
+                super.from(evidence);
                 code.addAll(evidence.code);
                 detail.addAll(evidence.detail);
                 return this;

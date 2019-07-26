@@ -298,23 +298,18 @@ public class Account extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(AccountStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(AccountStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final AccountStatus status;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private AccountStatus status;
         private CodeableConcept type;
         private String name;
         private List<Reference> subject = new ArrayList<>();
@@ -324,11 +319,6 @@ public class Account extends DomainResource {
         private String description;
         private List<Guarantor> guarantor = new ArrayList<>();
         private Reference partOf;
-
-        private Builder(AccountStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -600,6 +590,22 @@ public class Account extends DomainResource {
 
         /**
          * <p>
+         * Indicates whether the account is presently used/usable or not.
+         * </p>
+         * 
+         * @param status
+         *     active | inactive | entered-in-error | on-hold | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(AccountStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Categorizes the account for reporting and searching purposes.
          * </p>
          * 
@@ -825,16 +831,10 @@ public class Account extends DomainResource {
             return new Account(this);
         }
 
-        private Builder from(Account account) {
-            id = account.id;
-            meta = account.meta;
-            implicitRules = account.implicitRules;
-            language = account.language;
-            text = account.text;
-            contained.addAll(account.contained);
-            extension.addAll(account.extension);
-            modifierExtension.addAll(account.modifierExtension);
+        protected Builder from(Account account) {
+            super.from(account);
             identifier.addAll(account.identifier);
+            status = account.status;
             type = account.type;
             name = account.name;
             subject.addAll(account.subject);
@@ -954,28 +954,18 @@ public class Account extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(coverage).from(this);
-        }
-
-        public Builder toBuilder(Reference coverage) {
-            return new Builder(coverage).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference coverage) {
-            return new Builder(coverage);
+            Builder builder = new Builder();
+            builder.coverage(coverage);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference coverage;
-
-            // optional
+            private Reference coverage;
             private PositiveInt priority;
-
-            private Builder(Reference coverage) {
-                super();
-                this.coverage = coverage;
-            }
 
             /**
              * <p>
@@ -1096,6 +1086,26 @@ public class Account extends DomainResource {
 
             /**
              * <p>
+             * The party(s) that contribute to payment (or part of) of the charges applied to this account (including self-pay).
+             * </p>
+             * <p>
+             * A coverage may only be responsible for specific types of charges, and the sequence of the coverages in the account 
+             * could be important when processing billing.
+             * </p>
+             * 
+             * @param coverage
+             *     The party(s), such as insurances, that may contribute to the payment of this account
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder coverage(Reference coverage) {
+                this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * <p>
              * The priority of the coverage in the context of this account.
              * </p>
              * 
@@ -1115,10 +1125,9 @@ public class Account extends DomainResource {
                 return new Coverage(this);
             }
 
-            private Builder from(Coverage coverage) {
-                id = coverage.id;
-                extension.addAll(coverage.extension);
-                modifierExtension.addAll(coverage.modifierExtension);
+            protected Builder from(Coverage coverage) {
+                super.from(coverage);
+                this.coverage = coverage.coverage;
                 priority = coverage.priority;
                 return this;
             }
@@ -1244,29 +1253,19 @@ public class Account extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(party).from(this);
-        }
-
-        public Builder toBuilder(Reference party) {
-            return new Builder(party).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference party) {
-            return new Builder(party);
+            Builder builder = new Builder();
+            builder.party(party);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference party;
-
-            // optional
+            private Reference party;
             private Boolean onHold;
             private Period period;
-
-            private Builder(Reference party) {
-                super();
-                this.party = party;
-            }
 
             /**
              * <p>
@@ -1387,6 +1386,22 @@ public class Account extends DomainResource {
 
             /**
              * <p>
+             * The entity who is responsible.
+             * </p>
+             * 
+             * @param party
+             *     Responsible entity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder party(Reference party) {
+                this.party = party;
+                return this;
+            }
+
+            /**
+             * <p>
              * A guarantor may be placed on credit hold or otherwise have their role temporarily suspended.
              * </p>
              * 
@@ -1422,10 +1437,9 @@ public class Account extends DomainResource {
                 return new Guarantor(this);
             }
 
-            private Builder from(Guarantor guarantor) {
-                id = guarantor.id;
-                extension.addAll(guarantor.extension);
-                modifierExtension.addAll(guarantor.modifierExtension);
+            protected Builder from(Guarantor guarantor) {
+                super.from(guarantor);
+                party = guarantor.party;
                 onHold = guarantor.onHold;
                 period = guarantor.period;
                 return this;

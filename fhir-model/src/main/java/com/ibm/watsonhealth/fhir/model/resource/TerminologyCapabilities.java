@@ -583,29 +583,25 @@ public class TerminologyCapabilities extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, date, kind).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
-        return new Builder(status, date, kind).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
-        return new Builder(status, date, kind);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.date(date);
+        builder.kind(kind);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final DateTime date;
-        private final CapabilityStatementKind kind;
-
-        // optional
         private Uri url;
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
+        private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
         private Markdown description;
@@ -613,6 +609,7 @@ public class TerminologyCapabilities extends DomainResource {
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown purpose;
         private Markdown copyright;
+        private CapabilityStatementKind kind;
         private Software software;
         private Implementation implementation;
         private Boolean lockedDate;
@@ -622,13 +619,6 @@ public class TerminologyCapabilities extends DomainResource {
         private ValidateCode validateCode;
         private Translation translation;
         private Closure closure;
-
-        private Builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
-            super();
-            this.status = status;
-            this.date = date;
-            this.kind = kind;
-        }
 
         /**
          * <p>
@@ -930,6 +920,22 @@ public class TerminologyCapabilities extends DomainResource {
 
         /**
          * <p>
+         * The status of this terminology capabilities. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this terminology capabilities is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * </p>
@@ -942,6 +948,24 @@ public class TerminologyCapabilities extends DomainResource {
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date (and optionally time) when the terminology capabilities was published. The date must change when the business 
+         * version changes and it must change if the status code changes. In addition, it should change when the substantive 
+         * content of the terminology capabilities changes.
+         * </p>
+         * 
+         * @param date
+         *     Date last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
             return this;
         }
 
@@ -1138,6 +1162,23 @@ public class TerminologyCapabilities extends DomainResource {
 
         /**
          * <p>
+         * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
+         * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
+         * </p>
+         * 
+         * @param kind
+         *     instance | capability | requirements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder kind(CapabilityStatementKind kind) {
+            this.kind = kind;
+            return this;
+        }
+
+        /**
+         * <p>
          * Software that is covered by this terminology capability statement. It is used when the statement describes the 
          * capabilities of a particular software version, independent of an installation.
          * </p>
@@ -1313,20 +1354,15 @@ public class TerminologyCapabilities extends DomainResource {
             return new TerminologyCapabilities(this);
         }
 
-        private Builder from(TerminologyCapabilities terminologyCapabilities) {
-            id = terminologyCapabilities.id;
-            meta = terminologyCapabilities.meta;
-            implicitRules = terminologyCapabilities.implicitRules;
-            language = terminologyCapabilities.language;
-            text = terminologyCapabilities.text;
-            contained.addAll(terminologyCapabilities.contained);
-            extension.addAll(terminologyCapabilities.extension);
-            modifierExtension.addAll(terminologyCapabilities.modifierExtension);
+        protected Builder from(TerminologyCapabilities terminologyCapabilities) {
+            super.from(terminologyCapabilities);
             url = terminologyCapabilities.url;
             version = terminologyCapabilities.version;
             name = terminologyCapabilities.name;
             title = terminologyCapabilities.title;
+            status = terminologyCapabilities.status;
             experimental = terminologyCapabilities.experimental;
+            date = terminologyCapabilities.date;
             publisher = terminologyCapabilities.publisher;
             contact.addAll(terminologyCapabilities.contact);
             description = terminologyCapabilities.description;
@@ -1334,6 +1370,7 @@ public class TerminologyCapabilities extends DomainResource {
             jurisdiction.addAll(terminologyCapabilities.jurisdiction);
             purpose = terminologyCapabilities.purpose;
             copyright = terminologyCapabilities.copyright;
+            kind = terminologyCapabilities.kind;
             software = terminologyCapabilities.software;
             implementation = terminologyCapabilities.implementation;
             lockedDate = terminologyCapabilities.lockedDate;
@@ -1449,28 +1486,18 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private String version;
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -1591,6 +1618,22 @@ public class TerminologyCapabilities extends DomainResource {
 
             /**
              * <p>
+             * Name the software is known by.
+             * </p>
+             * 
+             * @param name
+             *     A name the software is known by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
              * The version identifier for the software covered by this statement.
              * </p>
              * 
@@ -1610,10 +1653,9 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Software(this);
             }
 
-            private Builder from(Software software) {
-                id = software.id;
-                extension.addAll(software.extension);
-                modifierExtension.addAll(software.modifierExtension);
+            protected Builder from(Software software) {
+                super.from(software);
+                name = software.name;
                 version = software.version;
                 return this;
             }
@@ -1722,28 +1764,18 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(description).from(this);
-        }
-
-        public Builder toBuilder(String description) {
-            return new Builder(description).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String description) {
-            return new Builder(description);
+            Builder builder = new Builder();
+            builder.description(description);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String description;
-
-            // optional
+            private String description;
             private Url url;
-
-            private Builder(String description) {
-                super();
-                this.description = description;
-            }
 
             /**
              * <p>
@@ -1864,6 +1896,22 @@ public class TerminologyCapabilities extends DomainResource {
 
             /**
              * <p>
+             * Information about the specific installation that this terminology capability statement relates to.
+             * </p>
+             * 
+             * @param description
+             *     Describes this specific instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(String description) {
+                this.description = description;
+                return this;
+            }
+
+            /**
+             * <p>
              * An absolute base URL for the implementation.
              * </p>
              * 
@@ -1883,10 +1931,9 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Implementation(this);
             }
 
-            private Builder from(Implementation implementation) {
-                id = implementation.id;
-                extension.addAll(implementation.extension);
-                modifierExtension.addAll(implementation.modifierExtension);
+            protected Builder from(Implementation implementation) {
+                super.from(implementation);
+                description = implementation.description;
                 url = implementation.url;
                 return this;
             }
@@ -2017,18 +2064,14 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Canonical uri;
             private List<Version> version = new ArrayList<>();
             private Boolean subsumption;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2224,10 +2267,8 @@ public class TerminologyCapabilities extends DomainResource {
                 return new CodeSystem(this);
             }
 
-            private Builder from(CodeSystem codeSystem) {
-                id = codeSystem.id;
-                extension.addAll(codeSystem.extension);
-                modifierExtension.addAll(codeSystem.modifierExtension);
+            protected Builder from(CodeSystem codeSystem) {
+                super.from(codeSystem);
                 uri = codeSystem.uri;
                 version.addAll(codeSystem.version);
                 subsumption = codeSystem.subsumption;
@@ -2412,21 +2453,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private String code;
                 private Boolean isDefault;
                 private Boolean compositional;
                 private List<Code> language = new ArrayList<>();
                 private List<Filter> filter = new ArrayList<>();
                 private List<Code> property = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2718,10 +2755,8 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Version(this);
                 }
 
-                private Builder from(Version version) {
-                    id = version.id;
-                    extension.addAll(version.extension);
-                    modifierExtension.addAll(version.modifierExtension);
+                protected Builder from(Version version) {
+                    super.from(version);
                     code = version.code;
                     isDefault = version.isDefault;
                     compositional = version.compositional;
@@ -2833,27 +2868,19 @@ public class TerminologyCapabilities extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(code, op).from(this);
-                }
-
-                public Builder toBuilder(Code code, Collection<Code> op) {
-                    return new Builder(code, op).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Code code, Collection<Code> op) {
-                    return new Builder(code, op);
+                    Builder builder = new Builder();
+                    builder.code(code);
+                    builder.op(op);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Code code;
-                    private final List<Code> op;
-
-                    private Builder(Code code, Collection<Code> op) {
-                        super();
-                        this.code = code;
-                        this.op = new ArrayList<>(op);
-                    }
+                    private Code code;
+                    private List<Code> op = new ArrayList<>();
 
                     /**
                      * <p>
@@ -2972,15 +2999,71 @@ public class TerminologyCapabilities extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Code of the property supported.
+                     * </p>
+                     * 
+                     * @param code
+                     *     Code of the property supported
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder code(Code code) {
+                        this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Operations supported for the property.
+                     * </p>
+                     * <p>
+                     * Adds new element(s) to existing list
+                     * </p>
+                     * 
+                     * @param op
+                     *     Operations supported for the property
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder op(Code... op) {
+                        for (Code value : op) {
+                            this.op.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Operations supported for the property.
+                     * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
+                     * 
+                     * @param op
+                     *     Operations supported for the property
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder op(Collection<Code> op) {
+                        this.op = new ArrayList<>(op);
+                        return this;
+                    }
+
                     @Override
                     public Filter build() {
                         return new Filter(this);
                     }
 
-                    private Builder from(Filter filter) {
-                        id = filter.id;
-                        extension.addAll(filter.extension);
-                        modifierExtension.addAll(filter.modifierExtension);
+                    protected Builder from(Filter filter) {
+                        super.from(filter);
+                        code = filter.code;
+                        op.addAll(filter.op);
                         return this;
                     }
                 }
@@ -3147,20 +3230,16 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Boolean hierarchical;
             private Boolean paging;
             private Boolean incomplete;
             private List<Parameter> parameter = new ArrayList<>();
             private Markdown textFilter;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3388,10 +3467,8 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Expansion(this);
             }
 
-            private Builder from(Expansion expansion) {
-                id = expansion.id;
-                extension.addAll(expansion.extension);
-                modifierExtension.addAll(expansion.modifierExtension);
+            protected Builder from(Expansion expansion) {
+                super.from(expansion);
                 hierarchical = expansion.hierarchical;
                 paging = expansion.paging;
                 incomplete = expansion.incomplete;
@@ -3502,28 +3579,18 @@ public class TerminologyCapabilities extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name).from(this);
-            }
-
-            public Builder toBuilder(Code name) {
-                return new Builder(name).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Code name) {
-                return new Builder(name);
+                Builder builder = new Builder();
+                builder.name(name);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Code name;
-
-                // optional
+                private Code name;
                 private String documentation;
-
-                private Builder(Code name) {
-                    super();
-                    this.name = name;
-                }
 
                 /**
                  * <p>
@@ -3644,6 +3711,22 @@ public class TerminologyCapabilities extends DomainResource {
 
                 /**
                  * <p>
+                 * Expansion Parameter name.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Expansion Parameter name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(Code name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Description of support for parameter.
                  * </p>
                  * 
@@ -3663,10 +3746,9 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Parameter(this);
                 }
 
-                private Builder from(Parameter parameter) {
-                    id = parameter.id;
-                    extension.addAll(parameter.extension);
-                    modifierExtension.addAll(parameter.modifierExtension);
+                protected Builder from(Parameter parameter) {
+                    super.from(parameter);
+                    name = parameter.name;
                     documentation = parameter.documentation;
                     return this;
                 }
@@ -3757,25 +3839,17 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(translations).from(this);
-        }
-
-        public Builder toBuilder(Boolean translations) {
-            return new Builder(translations).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean translations) {
-            return new Builder(translations);
+            Builder builder = new Builder();
+            builder.translations(translations);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean translations;
-
-            private Builder(Boolean translations) {
-                super();
-                this.translations = translations;
-            }
+            private Boolean translations;
 
             /**
              * <p>
@@ -3894,15 +3968,30 @@ public class TerminologyCapabilities extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Whether translations are validated.
+             * </p>
+             * 
+             * @param translations
+             *     Whether translations are validated
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder translations(Boolean translations) {
+                this.translations = translations;
+                return this;
+            }
+
             @Override
             public ValidateCode build() {
                 return new ValidateCode(this);
             }
 
-            private Builder from(ValidateCode validateCode) {
-                id = validateCode.id;
-                extension.addAll(validateCode.extension);
-                modifierExtension.addAll(validateCode.modifierExtension);
+            protected Builder from(ValidateCode validateCode) {
+                super.from(validateCode);
+                translations = validateCode.translations;
                 return this;
             }
         }
@@ -3991,25 +4080,17 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(needsMap).from(this);
-        }
-
-        public Builder toBuilder(Boolean needsMap) {
-            return new Builder(needsMap).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean needsMap) {
-            return new Builder(needsMap);
+            Builder builder = new Builder();
+            builder.needsMap(needsMap);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean needsMap;
-
-            private Builder(Boolean needsMap) {
-                super();
-                this.needsMap = needsMap;
-            }
+            private Boolean needsMap;
 
             /**
              * <p>
@@ -4128,15 +4209,30 @@ public class TerminologyCapabilities extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Whether the client must identify the map.
+             * </p>
+             * 
+             * @param needsMap
+             *     Whether the client must identify the map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder needsMap(Boolean needsMap) {
+                this.needsMap = needsMap;
+                return this;
+            }
+
             @Override
             public Translation build() {
                 return new Translation(this);
             }
 
-            private Builder from(Translation translation) {
-                id = translation.id;
-                extension.addAll(translation.extension);
-                modifierExtension.addAll(translation.modifierExtension);
+            protected Builder from(Translation translation) {
+                super.from(translation);
+                needsMap = translation.needsMap;
                 return this;
             }
         }
@@ -4229,16 +4325,12 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Boolean translation;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4378,10 +4470,8 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Closure(this);
             }
 
-            private Builder from(Closure closure) {
-                id = closure.id;
-                extension.addAll(closure.extension);
-                modifierExtension.addAll(closure.modifierExtension);
+            protected Builder from(Closure closure) {
+                super.from(closure);
                 translation = closure.translation;
                 return this;
             }

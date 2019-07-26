@@ -330,25 +330,21 @@ public class CatalogEntry extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(orderable, referencedItem).from(this);
-    }
-
-    public Builder toBuilder(Boolean orderable, Reference referencedItem) {
-        return new Builder(orderable, referencedItem).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Boolean orderable, Reference referencedItem) {
-        return new Builder(orderable, referencedItem);
+        Builder builder = new Builder();
+        builder.orderable(orderable);
+        builder.referencedItem(referencedItem);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Boolean orderable;
-        private final Reference referencedItem;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private CodeableConcept type;
+        private Boolean orderable;
+        private Reference referencedItem;
         private List<Identifier> additionalIdentifier = new ArrayList<>();
         private List<CodeableConcept> classification = new ArrayList<>();
         private PublicationStatus status;
@@ -358,12 +354,6 @@ public class CatalogEntry extends DomainResource {
         private List<CodeableConcept> additionalCharacteristic = new ArrayList<>();
         private List<CodeableConcept> additionalClassification = new ArrayList<>();
         private List<RelatedEntry> relatedEntry = new ArrayList<>();
-
-        private Builder(Boolean orderable, Reference referencedItem) {
-            super();
-            this.orderable = orderable;
-            this.referencedItem = referencedItem;
-        }
 
         /**
          * <p>
@@ -649,6 +639,38 @@ public class CatalogEntry extends DomainResource {
 
         /**
          * <p>
+         * Whether the entry represents an orderable item.
+         * </p>
+         * 
+         * @param orderable
+         *     Whether the entry represents an orderable item
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder orderable(Boolean orderable) {
+            this.orderable = orderable;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The item in a catalog or definition.
+         * </p>
+         * 
+         * @param referencedItem
+         *     The item that is being defined
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder referencedItem(Reference referencedItem) {
+            this.referencedItem = referencedItem;
+            return this;
+        }
+
+        /**
+         * <p>
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * </p>
          * <p>
@@ -918,17 +940,12 @@ public class CatalogEntry extends DomainResource {
             return new CatalogEntry(this);
         }
 
-        private Builder from(CatalogEntry catalogEntry) {
-            id = catalogEntry.id;
-            meta = catalogEntry.meta;
-            implicitRules = catalogEntry.implicitRules;
-            language = catalogEntry.language;
-            text = catalogEntry.text;
-            contained.addAll(catalogEntry.contained);
-            extension.addAll(catalogEntry.extension);
-            modifierExtension.addAll(catalogEntry.modifierExtension);
+        protected Builder from(CatalogEntry catalogEntry) {
+            super.from(catalogEntry);
             identifier.addAll(catalogEntry.identifier);
             type = catalogEntry.type;
+            orderable = catalogEntry.orderable;
+            referencedItem = catalogEntry.referencedItem;
             additionalIdentifier.addAll(catalogEntry.additionalIdentifier);
             classification.addAll(catalogEntry.classification);
             status = catalogEntry.status;
@@ -1043,27 +1060,19 @@ public class CatalogEntry extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(relationtype, item).from(this);
-        }
-
-        public Builder toBuilder(CatalogEntryRelationType relationtype, Reference item) {
-            return new Builder(relationtype, item).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CatalogEntryRelationType relationtype, Reference item) {
-            return new Builder(relationtype, item);
+            Builder builder = new Builder();
+            builder.relationtype(relationtype);
+            builder.item(item);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CatalogEntryRelationType relationtype;
-            private final Reference item;
-
-            private Builder(CatalogEntryRelationType relationtype, Reference item) {
-                super();
-                this.relationtype = relationtype;
-                this.item = item;
-            }
+            private CatalogEntryRelationType relationtype;
+            private Reference item;
 
             /**
              * <p>
@@ -1182,15 +1191,47 @@ public class CatalogEntry extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The type of relation to the related item: child, parent, packageContent, containerPackage, usedIn, uses, requires, etc.
+             * </p>
+             * 
+             * @param relationtype
+             *     triggers | is-replaced-by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder relationtype(CatalogEntryRelationType relationtype) {
+                this.relationtype = relationtype;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The reference to the related item.
+             * </p>
+             * 
+             * @param item
+             *     The reference to the related item
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(Reference item) {
+                this.item = item;
+                return this;
+            }
+
             @Override
             public RelatedEntry build() {
                 return new RelatedEntry(this);
             }
 
-            private Builder from(RelatedEntry relatedEntry) {
-                id = relatedEntry.id;
-                extension.addAll(relatedEntry.extension);
-                modifierExtension.addAll(relatedEntry.modifierExtension);
+            protected Builder from(RelatedEntry relatedEntry) {
+                super.from(relatedEntry);
+                relationtype = relatedEntry.relationtype;
+                item = relatedEntry.item;
                 return this;
             }
         }

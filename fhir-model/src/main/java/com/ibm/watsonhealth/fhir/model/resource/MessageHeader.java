@@ -303,38 +303,28 @@ public class MessageHeader extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(event, source).from(this);
-    }
-
-    public Builder toBuilder(Element event, Source source) {
-        return new Builder(event, source).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Element event, Source source) {
-        return new Builder(event, source);
+        Builder builder = new Builder();
+        builder.event(event);
+        builder.source(source);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Element event;
-        private final Source source;
-
-        // optional
+        private Element event;
         private List<Destination> destination = new ArrayList<>();
         private Reference sender;
         private Reference enterer;
         private Reference author;
+        private Source source;
         private Reference responsible;
         private CodeableConcept reason;
         private Response response;
         private List<Reference> focus = new ArrayList<>();
         private Canonical definition;
-
-        private Builder(Element event, Source source) {
-            super();
-            this.event = event;
-            this.source = source;
-        }
 
         /**
          * <p>
@@ -564,6 +554,24 @@ public class MessageHeader extends DomainResource {
 
         /**
          * <p>
+         * Code that identifies the event this message represents and connects it with its definition. Events defined as part of 
+         * the FHIR specification have the system value "http://terminology.hl7.org/CodeSystem/message-events". Alternatively uri 
+         * to the EventDefinition.
+         * </p>
+         * 
+         * @param event
+         *     Code for the event this message represents or link to event definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder event(Element event) {
+            this.event = event;
+            return this;
+        }
+
+        /**
+         * <p>
          * The destination application which the message is intended for.
          * </p>
          * <p>
@@ -649,6 +657,22 @@ public class MessageHeader extends DomainResource {
          */
         public Builder author(Reference author) {
             this.author = author;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The source application from which this message originated.
+         * </p>
+         * 
+         * @param source
+         *     Message source application
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder source(Source source) {
+            this.source = source;
             return this;
         }
 
@@ -763,19 +787,14 @@ public class MessageHeader extends DomainResource {
             return new MessageHeader(this);
         }
 
-        private Builder from(MessageHeader messageHeader) {
-            id = messageHeader.id;
-            meta = messageHeader.meta;
-            implicitRules = messageHeader.implicitRules;
-            language = messageHeader.language;
-            text = messageHeader.text;
-            contained.addAll(messageHeader.contained);
-            extension.addAll(messageHeader.extension);
-            modifierExtension.addAll(messageHeader.modifierExtension);
+        protected Builder from(MessageHeader messageHeader) {
+            super.from(messageHeader);
+            event = messageHeader.event;
             destination.addAll(messageHeader.destination);
             sender = messageHeader.sender;
             enterer = messageHeader.enterer;
             author = messageHeader.author;
+            source = messageHeader.source;
             responsible = messageHeader.responsible;
             reason = messageHeader.reason;
             response = messageHeader.response;
@@ -923,30 +942,20 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(endpoint).from(this);
-        }
-
-        public Builder toBuilder(Url endpoint) {
-            return new Builder(endpoint).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Url endpoint) {
-            return new Builder(endpoint);
+            Builder builder = new Builder();
+            builder.endpoint(endpoint);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Url endpoint;
-
-            // optional
             private String name;
             private Reference target;
+            private Url endpoint;
             private Reference receiver;
-
-            private Builder(Url endpoint) {
-                super();
-                this.endpoint = endpoint;
-            }
 
             /**
              * <p>
@@ -1099,6 +1108,22 @@ public class MessageHeader extends DomainResource {
 
             /**
              * <p>
+             * Indicates where the message should be routed to.
+             * </p>
+             * 
+             * @param endpoint
+             *     Actual destination address or id
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder endpoint(Url endpoint) {
+                this.endpoint = endpoint;
+                return this;
+            }
+
+            /**
+             * <p>
              * Allows data conveyed by a message to be addressed to a particular person or department when routing to a specific 
              * application isn't sufficient.
              * </p>
@@ -1119,12 +1144,11 @@ public class MessageHeader extends DomainResource {
                 return new Destination(this);
             }
 
-            private Builder from(Destination destination) {
-                id = destination.id;
-                extension.addAll(destination.extension);
-                modifierExtension.addAll(destination.modifierExtension);
+            protected Builder from(Destination destination) {
+                super.from(destination);
                 name = destination.name;
                 target = destination.target;
+                endpoint = destination.endpoint;
                 receiver = destination.receiver;
                 return this;
             }
@@ -1286,31 +1310,21 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(endpoint).from(this);
-        }
-
-        public Builder toBuilder(Url endpoint) {
-            return new Builder(endpoint).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Url endpoint) {
-            return new Builder(endpoint);
+            Builder builder = new Builder();
+            builder.endpoint(endpoint);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Url endpoint;
-
-            // optional
             private String name;
             private String software;
             private String version;
             private ContactPoint contact;
-
-            private Builder(Url endpoint) {
-                super();
-                this.endpoint = endpoint;
-            }
+            private Url endpoint;
 
             /**
              * <p>
@@ -1493,19 +1507,34 @@ public class MessageHeader extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Identifies the routing target to send acknowledgements to.
+             * </p>
+             * 
+             * @param endpoint
+             *     Actual message source address or id
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder endpoint(Url endpoint) {
+                this.endpoint = endpoint;
+                return this;
+            }
+
             @Override
             public Source build() {
                 return new Source(this);
             }
 
-            private Builder from(Source source) {
-                id = source.id;
-                extension.addAll(source.extension);
-                modifierExtension.addAll(source.modifierExtension);
+            protected Builder from(Source source) {
+                super.from(source);
                 name = source.name;
                 software = source.software;
                 version = source.version;
                 contact = source.contact;
+                endpoint = source.endpoint;
                 return this;
             }
         }
@@ -1631,30 +1660,20 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(identifier, code).from(this);
-        }
-
-        public Builder toBuilder(Id identifier, ResponseType code) {
-            return new Builder(identifier, code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id identifier, ResponseType code) {
-            return new Builder(identifier, code);
+            Builder builder = new Builder();
+            builder.identifier(identifier);
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id identifier;
-            private final ResponseType code;
-
-            // optional
+            private Id identifier;
+            private ResponseType code;
             private Reference details;
-
-            private Builder(Id identifier, ResponseType code) {
-                super();
-                this.identifier = identifier;
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1775,6 +1794,39 @@ public class MessageHeader extends DomainResource {
 
             /**
              * <p>
+             * The MessageHeader.id of the message to which this message is a response.
+             * </p>
+             * 
+             * @param identifier
+             *     Id of original message
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder identifier(Id identifier) {
+                this.identifier = identifier;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Code that identifies the type of response to the message - whether it was successful or not, and whether it should be 
+             * resent or not.
+             * </p>
+             * 
+             * @param code
+             *     ok | transient-error | fatal-error
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(ResponseType code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * Full details of any issues found in the message.
              * </p>
              * 
@@ -1794,10 +1846,10 @@ public class MessageHeader extends DomainResource {
                 return new Response(this);
             }
 
-            private Builder from(Response response) {
-                id = response.id;
-                extension.addAll(response.extension);
-                modifierExtension.addAll(response.modifierExtension);
+            protected Builder from(Response response) {
+                super.from(response);
+                identifier = response.identifier;
+                code = response.code;
                 details = response.details;
                 return this;
             }

@@ -392,45 +392,35 @@ public class Composition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, type, date, author, title).from(this);
-    }
-
-    public Builder toBuilder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
-        return new Builder(status, type, date, author, title).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
-        return new Builder(status, type, date, author, title);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.type(type);
+        builder.date(date);
+        builder.author(author);
+        builder.title(title);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CompositionStatus status;
-        private final CodeableConcept type;
-        private final DateTime date;
-        private final List<Reference> author;
-        private final String title;
-
-        // optional
         private Identifier identifier;
+        private CompositionStatus status;
+        private CodeableConcept type;
         private List<CodeableConcept> category = new ArrayList<>();
         private Reference subject;
         private Reference encounter;
+        private DateTime date;
+        private List<Reference> author = new ArrayList<>();
+        private String title;
         private DocumentConfidentiality confidentiality;
         private List<Attester> attester = new ArrayList<>();
         private Reference custodian;
         private List<RelatesTo> relatesTo = new ArrayList<>();
         private List<Event> event = new ArrayList<>();
         private List<Section> section = new ArrayList<>();
-
-        private Builder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
-            super();
-            this.status = status;
-            this.type = type;
-            this.date = date;
-            this.author = new ArrayList<>(author);
-            this.title = title;
-        }
 
         /**
          * <p>
@@ -677,6 +667,39 @@ public class Composition extends DomainResource {
 
         /**
          * <p>
+         * The workflow/clinical status of this composition. The status is a marker for the clinical standing of the document.
+         * </p>
+         * 
+         * @param status
+         *     preliminary | final | amended | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CompositionStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Specifies the particular kind of composition (e.g. History and Physical, Discharge Summary, Progress Note). This 
+         * usually equates to the purpose of making the composition.
+         * </p>
+         * 
+         * @param type
+         *     Kind of composition (LOINC if possible)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
          * from the code specified in the Composition Type.
          * </p>
@@ -748,6 +771,78 @@ public class Composition extends DomainResource {
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The composition editing time, when the composition was last logically changed by the author.
+         * </p>
+         * 
+         * @param date
+         *     Composition editing time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param author
+         *     Who and/or what authored the composition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder author(Reference... author) {
+            for (Reference value : author) {
+                this.author.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param author
+         *     Who and/or what authored the composition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder author(Collection<Reference> author) {
+            this.author = new ArrayList<>(author);
+            return this;
+        }
+
+        /**
+         * <p>
+         * Official human-readable label for the composition.
+         * </p>
+         * 
+         * @param title
+         *     Human Readable name/title
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(String title) {
+            this.title = title;
             return this;
         }
 
@@ -949,19 +1044,17 @@ public class Composition extends DomainResource {
             return new Composition(this);
         }
 
-        private Builder from(Composition composition) {
-            id = composition.id;
-            meta = composition.meta;
-            implicitRules = composition.implicitRules;
-            language = composition.language;
-            text = composition.text;
-            contained.addAll(composition.contained);
-            extension.addAll(composition.extension);
-            modifierExtension.addAll(composition.modifierExtension);
+        protected Builder from(Composition composition) {
+            super.from(composition);
             identifier = composition.identifier;
+            status = composition.status;
+            type = composition.type;
             category.addAll(composition.category);
             subject = composition.subject;
             encounter = composition.encounter;
+            date = composition.date;
+            author.addAll(composition.author);
+            title = composition.title;
             confidentiality = composition.confidentiality;
             attester.addAll(composition.attester);
             custodian = composition.custodian;
@@ -1091,29 +1184,19 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(mode).from(this);
-        }
-
-        public Builder toBuilder(CompositionAttestationMode mode) {
-            return new Builder(mode).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CompositionAttestationMode mode) {
-            return new Builder(mode);
+            Builder builder = new Builder();
+            builder.mode(mode);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CompositionAttestationMode mode;
-
-            // optional
+            private CompositionAttestationMode mode;
             private DateTime time;
             private Reference party;
-
-            private Builder(CompositionAttestationMode mode) {
-                super();
-                this.mode = mode;
-            }
 
             /**
              * <p>
@@ -1234,6 +1317,22 @@ public class Composition extends DomainResource {
 
             /**
              * <p>
+             * The type of attestation the authenticator offers.
+             * </p>
+             * 
+             * @param mode
+             *     personal | professional | legal | official
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder mode(CompositionAttestationMode mode) {
+                this.mode = mode;
+                return this;
+            }
+
+            /**
+             * <p>
              * When the composition was attested by the party.
              * </p>
              * 
@@ -1269,10 +1368,9 @@ public class Composition extends DomainResource {
                 return new Attester(this);
             }
 
-            private Builder from(Attester attester) {
-                id = attester.id;
-                extension.addAll(attester.extension);
-                modifierExtension.addAll(attester.modifierExtension);
+            protected Builder from(Attester attester) {
+                super.from(attester);
+                mode = attester.mode;
                 time = attester.time;
                 party = attester.party;
                 return this;
@@ -1381,27 +1479,19 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, target).from(this);
-        }
-
-        public Builder toBuilder(DocumentRelationshipType code, Element target) {
-            return new Builder(code, target).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(DocumentRelationshipType code, Element target) {
-            return new Builder(code, target);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.target(target);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final DocumentRelationshipType code;
-            private final Element target;
-
-            private Builder(DocumentRelationshipType code, Element target) {
-                super();
-                this.code = code;
-                this.target = target;
-            }
+            private DocumentRelationshipType code;
+            private Element target;
 
             /**
              * <p>
@@ -1520,15 +1610,47 @@ public class Composition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The type of relationship that this composition has with anther composition or document.
+             * </p>
+             * 
+             * @param code
+             *     replaces | transforms | signs | appends
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(DocumentRelationshipType code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The target composition/document of this relationship.
+             * </p>
+             * 
+             * @param target
+             *     Target of the relationship
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder target(Element target) {
+                this.target = target;
+                return this;
+            }
+
             @Override
             public RelatesTo build() {
                 return new RelatesTo(this);
             }
 
-            private Builder from(RelatesTo relatesTo) {
-                id = relatesTo.id;
-                extension.addAll(relatesTo.extension);
-                modifierExtension.addAll(relatesTo.modifierExtension);
+            protected Builder from(RelatesTo relatesTo) {
+                super.from(relatesTo);
+                code = relatesTo.code;
+                target = relatesTo.target;
                 return this;
             }
         }
@@ -1661,18 +1783,14 @@ public class Composition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> code = new ArrayList<>();
             private Period period;
             private List<Reference> detail = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1899,10 +2017,8 @@ public class Composition extends DomainResource {
                 return new Event(this);
             }
 
-            private Builder from(Event event) {
-                id = event.id;
-                extension.addAll(event.extension);
-                modifierExtension.addAll(event.modifierExtension);
+            protected Builder from(Event event) {
+                super.from(event);
                 code.addAll(event.code);
                 period = event.period;
                 detail.addAll(event.detail);
@@ -2169,11 +2285,11 @@ public class Composition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String title;
             private CodeableConcept code;
             private List<Reference> author = new ArrayList<>();
@@ -2184,10 +2300,6 @@ public class Composition extends DomainResource {
             private List<Reference> entry = new ArrayList<>();
             private CodeableConcept emptyReason;
             private List<Composition.Section> section = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2552,10 +2664,8 @@ public class Composition extends DomainResource {
                 return new Section(this);
             }
 
-            private Builder from(Section section) {
-                id = section.id;
-                extension.addAll(section.extension);
-                modifierExtension.addAll(section.modifierExtension);
+            protected Builder from(Section section) {
+                super.from(section);
                 title = section.title;
                 code = section.code;
                 author.addAll(section.author);

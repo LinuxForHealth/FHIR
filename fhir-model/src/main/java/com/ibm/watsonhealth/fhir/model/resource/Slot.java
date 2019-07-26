@@ -294,40 +294,30 @@ public class Slot extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(schedule, status, start, end).from(this);
-    }
-
-    public Builder toBuilder(Reference schedule, SlotStatus status, Instant start, Instant end) {
-        return new Builder(schedule, status, start, end).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference schedule, SlotStatus status, Instant start, Instant end) {
-        return new Builder(schedule, status, start, end);
+        Builder builder = new Builder();
+        builder.schedule(schedule);
+        builder.status(status);
+        builder.start(start);
+        builder.end(end);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference schedule;
-        private final SlotStatus status;
-        private final Instant start;
-        private final Instant end;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<CodeableConcept> serviceCategory = new ArrayList<>();
         private List<CodeableConcept> serviceType = new ArrayList<>();
         private List<CodeableConcept> specialty = new ArrayList<>();
         private CodeableConcept appointmentType;
+        private Reference schedule;
+        private SlotStatus status;
+        private Instant start;
+        private Instant end;
         private Boolean overbooked;
         private String comment;
-
-        private Builder(Reference schedule, SlotStatus status, Instant start, Instant end) {
-            super();
-            this.schedule = schedule;
-            this.status = status;
-            this.start = start;
-            this.end = end;
-        }
 
         /**
          * <p>
@@ -741,6 +731,70 @@ public class Slot extends DomainResource {
 
         /**
          * <p>
+         * The schedule resource that this slot defines an interval of status information.
+         * </p>
+         * 
+         * @param schedule
+         *     The schedule resource that this slot defines an interval of status information
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder schedule(Reference schedule) {
+            this.schedule = schedule;
+            return this;
+        }
+
+        /**
+         * <p>
+         * busy | free | busy-unavailable | busy-tentative | entered-in-error.
+         * </p>
+         * 
+         * @param status
+         *     busy | free | busy-unavailable | busy-tentative | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(SlotStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Date/Time that the slot is to begin.
+         * </p>
+         * 
+         * @param start
+         *     Date/Time that the slot is to begin
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder start(Instant start) {
+            this.start = start;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Date/Time that the slot is to conclude.
+         * </p>
+         * 
+         * @param end
+         *     Date/Time that the slot is to conclude
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder end(Instant end) {
+            this.end = end;
+            return this;
+        }
+
+        /**
+         * <p>
          * This slot has already been overbooked, appointments are unlikely to be accepted for this time.
          * </p>
          * 
@@ -776,20 +830,17 @@ public class Slot extends DomainResource {
             return new Slot(this);
         }
 
-        private Builder from(Slot slot) {
-            id = slot.id;
-            meta = slot.meta;
-            implicitRules = slot.implicitRules;
-            language = slot.language;
-            text = slot.text;
-            contained.addAll(slot.contained);
-            extension.addAll(slot.extension);
-            modifierExtension.addAll(slot.modifierExtension);
+        protected Builder from(Slot slot) {
+            super.from(slot);
             identifier.addAll(slot.identifier);
             serviceCategory.addAll(slot.serviceCategory);
             serviceType.addAll(slot.serviceType);
             specialty.addAll(slot.specialty);
             appointmentType = slot.appointmentType;
+            schedule = slot.schedule;
+            status = slot.status;
+            start = slot.start;
+            end = slot.end;
             overbooked = slot.overbooked;
             comment = slot.comment;
             return this;

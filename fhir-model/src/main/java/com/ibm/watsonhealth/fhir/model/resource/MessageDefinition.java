@@ -554,31 +554,27 @@ public class MessageDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, date, event).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, DateTime date, Element event) {
-        return new Builder(status, date, event).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, Element event) {
-        return new Builder(status, date, event);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.date(date);
+        builder.event(event);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final DateTime date;
-        private final Element event;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private List<Canonical> replaces = new ArrayList<>();
+        private PublicationStatus status;
         private Boolean experimental;
+        private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
         private Markdown description;
@@ -588,18 +584,12 @@ public class MessageDefinition extends DomainResource {
         private Markdown copyright;
         private Canonical base;
         private List<Canonical> parent = new ArrayList<>();
+        private Element event;
         private MessageSignificanceCategory category;
         private List<Focus> focus = new ArrayList<>();
         private MessageHeaderResponseRequest responseRequired;
         private List<AllowedResponse> allowedResponse = new ArrayList<>();
         private List<Canonical> graph = new ArrayList<>();
-
-        private Builder(PublicationStatus status, DateTime date, Element event) {
-            super();
-            this.status = status;
-            this.date = date;
-            this.event = event;
-        }
 
         /**
          * <p>
@@ -980,6 +970,22 @@ public class MessageDefinition extends DomainResource {
 
         /**
          * <p>
+         * The status of this message definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this message definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * </p>
@@ -992,6 +998,24 @@ public class MessageDefinition extends DomainResource {
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date (and optionally time) when the message definition was published. The date must change when the business 
+         * version changes and it must change if the status code changes. In addition, it should change when the substantive 
+         * content of the message definition changes.
+         * </p>
+         * 
+         * @param date
+         *     Date last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
             return this;
         }
 
@@ -1242,6 +1266,22 @@ public class MessageDefinition extends DomainResource {
 
         /**
          * <p>
+         * Event code or link to the EventDefinition.
+         * </p>
+         * 
+         * @param event
+         *     Event code or link to the EventDefinition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder event(Element event) {
+            this.event = event;
+            return this;
+        }
+
+        /**
+         * <p>
          * The impact of the content of the message.
          * </p>
          * 
@@ -1403,22 +1443,17 @@ public class MessageDefinition extends DomainResource {
             return new MessageDefinition(this);
         }
 
-        private Builder from(MessageDefinition messageDefinition) {
-            id = messageDefinition.id;
-            meta = messageDefinition.meta;
-            implicitRules = messageDefinition.implicitRules;
-            language = messageDefinition.language;
-            text = messageDefinition.text;
-            contained.addAll(messageDefinition.contained);
-            extension.addAll(messageDefinition.extension);
-            modifierExtension.addAll(messageDefinition.modifierExtension);
+        protected Builder from(MessageDefinition messageDefinition) {
+            super.from(messageDefinition);
             url = messageDefinition.url;
             identifier.addAll(messageDefinition.identifier);
             version = messageDefinition.version;
             name = messageDefinition.name;
             title = messageDefinition.title;
             replaces.addAll(messageDefinition.replaces);
+            status = messageDefinition.status;
             experimental = messageDefinition.experimental;
+            date = messageDefinition.date;
             publisher = messageDefinition.publisher;
             contact.addAll(messageDefinition.contact);
             description = messageDefinition.description;
@@ -1428,6 +1463,7 @@ public class MessageDefinition extends DomainResource {
             copyright = messageDefinition.copyright;
             base = messageDefinition.base;
             parent.addAll(messageDefinition.parent);
+            event = messageDefinition.event;
             category = messageDefinition.category;
             focus.addAll(messageDefinition.focus);
             responseRequired = messageDefinition.responseRequired;
@@ -1577,31 +1613,21 @@ public class MessageDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, min).from(this);
-        }
-
-        public Builder toBuilder(ResourceType code, UnsignedInt min) {
-            return new Builder(code, min).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ResourceType code, UnsignedInt min) {
-            return new Builder(code, min);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.min(min);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ResourceType code;
-            private final UnsignedInt min;
-
-            // optional
+            private ResourceType code;
             private Canonical profile;
+            private UnsignedInt min;
             private String max;
-
-            private Builder(ResourceType code, UnsignedInt min) {
-                super();
-                this.code = code;
-                this.min = min;
-            }
 
             /**
              * <p>
@@ -1722,6 +1748,22 @@ public class MessageDefinition extends DomainResource {
 
             /**
              * <p>
+             * The kind of resource that must be the focus for this message.
+             * </p>
+             * 
+             * @param code
+             *     Type of resource
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(ResourceType code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * A profile that reflects constraints for the focal resource (and potentially for related resources).
              * </p>
              * 
@@ -1733,6 +1775,23 @@ public class MessageDefinition extends DomainResource {
              */
             public Builder profile(Canonical profile) {
                 this.profile = profile;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Identifies the minimum number of resources of this type that must be pointed to by a message in order for it to be 
+             * valid against this MessageDefinition.
+             * </p>
+             * 
+             * @param min
+             *     Minimum number of focuses of this type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder min(UnsignedInt min) {
+                this.min = min;
                 return this;
             }
 
@@ -1758,11 +1817,11 @@ public class MessageDefinition extends DomainResource {
                 return new Focus(this);
             }
 
-            private Builder from(Focus focus) {
-                id = focus.id;
-                extension.addAll(focus.extension);
-                modifierExtension.addAll(focus.modifierExtension);
+            protected Builder from(Focus focus) {
+                super.from(focus);
+                code = focus.code;
                 profile = focus.profile;
+                min = focus.min;
                 max = focus.max;
                 return this;
             }
@@ -1871,28 +1930,18 @@ public class MessageDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(message).from(this);
-        }
-
-        public Builder toBuilder(Canonical message) {
-            return new Builder(message).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Canonical message) {
-            return new Builder(message);
+            Builder builder = new Builder();
+            builder.message(message);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Canonical message;
-
-            // optional
+            private Canonical message;
             private Markdown situation;
-
-            private Builder(Canonical message) {
-                super();
-                this.message = message;
-            }
 
             /**
              * <p>
@@ -2013,6 +2062,22 @@ public class MessageDefinition extends DomainResource {
 
             /**
              * <p>
+             * A reference to the message definition that must be adhered to by this supported response.
+             * </p>
+             * 
+             * @param message
+             *     Reference to allowed message definition response
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder message(Canonical message) {
+                this.message = message;
+                return this;
+            }
+
+            /**
+             * <p>
              * Provides a description of the circumstances in which this response should be used (as opposed to one of the 
              * alternative responses).
              * </p>
@@ -2033,10 +2098,9 @@ public class MessageDefinition extends DomainResource {
                 return new AllowedResponse(this);
             }
 
-            private Builder from(AllowedResponse allowedResponse) {
-                id = allowedResponse.id;
-                extension.addAll(allowedResponse.extension);
-                modifierExtension.addAll(allowedResponse.modifierExtension);
+            protected Builder from(AllowedResponse allowedResponse) {
+                super.from(allowedResponse);
+                message = allowedResponse.message;
                 situation = allowedResponse.situation;
                 return this;
             }

@@ -347,25 +347,20 @@ public class VerificationResult extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(Status status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Status status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Status status;
-
-        // optional
         private List<Reference> target = new ArrayList<>();
         private List<String> targetLocation = new ArrayList<>();
         private CodeableConcept need;
+        private Status status;
         private DateTime statusDate;
         private CodeableConcept validationType;
         private List<CodeableConcept> validationProcess = new ArrayList<>();
@@ -376,11 +371,6 @@ public class VerificationResult extends DomainResource {
         private List<PrimarySource> primarySource = new ArrayList<>();
         private Attestation attestation;
         private List<Validator> validator = new ArrayList<>();
-
-        private Builder(Status status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -706,6 +696,23 @@ public class VerificationResult extends DomainResource {
 
         /**
          * <p>
+         * The validation status of the target (attested; validated; in process; requires revalidation; validation failed; 
+         * revalidation failed).
+         * </p>
+         * 
+         * @param status
+         *     attested | validated | in-process | req-revalid | val-fail | reval-fail
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(Status status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * When the validation status was updated.
          * </p>
          * 
@@ -945,18 +952,12 @@ public class VerificationResult extends DomainResource {
             return new VerificationResult(this);
         }
 
-        private Builder from(VerificationResult verificationResult) {
-            id = verificationResult.id;
-            meta = verificationResult.meta;
-            implicitRules = verificationResult.implicitRules;
-            language = verificationResult.language;
-            text = verificationResult.text;
-            contained.addAll(verificationResult.contained);
-            extension.addAll(verificationResult.extension);
-            modifierExtension.addAll(verificationResult.modifierExtension);
+        protected Builder from(VerificationResult verificationResult) {
+            super.from(verificationResult);
             target.addAll(verificationResult.target);
             targetLocation.addAll(verificationResult.targetLocation);
             need = verificationResult.need;
+            status = verificationResult.status;
             statusDate = verificationResult.statusDate;
             validationType = verificationResult.validationType;
             validationProcess.addAll(verificationResult.validationProcess);
@@ -1167,11 +1168,11 @@ public class VerificationResult extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference who;
             private List<CodeableConcept> type = new ArrayList<>();
             private List<CodeableConcept> communicationMethod = new ArrayList<>();
@@ -1179,10 +1180,6 @@ public class VerificationResult extends DomainResource {
             private DateTime validationDate;
             private CodeableConcept canPushUpdates;
             private List<CodeableConcept> pushTypeAvailable = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1494,10 +1491,8 @@ public class VerificationResult extends DomainResource {
                 return new PrimarySource(this);
             }
 
-            private Builder from(PrimarySource primarySource) {
-                id = primarySource.id;
-                extension.addAll(primarySource.extension);
-                modifierExtension.addAll(primarySource.modifierExtension);
+            protected Builder from(PrimarySource primarySource) {
+                super.from(primarySource);
                 who = primarySource.who;
                 type.addAll(primarySource.type);
                 communicationMethod.addAll(primarySource.communicationMethod);
@@ -1725,11 +1720,11 @@ public class VerificationResult extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference who;
             private Reference onBehalfOf;
             private CodeableConcept communicationMethod;
@@ -1738,10 +1733,6 @@ public class VerificationResult extends DomainResource {
             private String proxyIdentityCertificate;
             private Signature proxySignature;
             private Signature sourceSignature;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1996,10 +1987,8 @@ public class VerificationResult extends DomainResource {
                 return new Attestation(this);
             }
 
-            private Builder from(Attestation attestation) {
-                id = attestation.id;
-                extension.addAll(attestation.extension);
-                modifierExtension.addAll(attestation.modifierExtension);
+            protected Builder from(Attestation attestation) {
+                super.from(attestation);
                 who = attestation.who;
                 onBehalfOf = attestation.onBehalfOf;
                 communicationMethod = attestation.communicationMethod;
@@ -2132,29 +2121,19 @@ public class VerificationResult extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(organization).from(this);
-        }
-
-        public Builder toBuilder(Reference organization) {
-            return new Builder(organization).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference organization) {
-            return new Builder(organization);
+            Builder builder = new Builder();
+            builder.organization(organization);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference organization;
-
-            // optional
+            private Reference organization;
             private String identityCertificate;
             private Signature attestationSignature;
-
-            private Builder(Reference organization) {
-                super();
-                this.organization = organization;
-            }
 
             /**
              * <p>
@@ -2275,6 +2254,22 @@ public class VerificationResult extends DomainResource {
 
             /**
              * <p>
+             * Reference to the organization validating information.
+             * </p>
+             * 
+             * @param organization
+             *     Reference to the organization validating information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder organization(Reference organization) {
+                this.organization = organization;
+                return this;
+            }
+
+            /**
+             * <p>
              * A digital identity certificate associated with the validator.
              * </p>
              * 
@@ -2310,10 +2305,9 @@ public class VerificationResult extends DomainResource {
                 return new Validator(this);
             }
 
-            private Builder from(Validator validator) {
-                id = validator.id;
-                extension.addAll(validator.extension);
-                modifierExtension.addAll(validator.modifierExtension);
+            protected Builder from(Validator validator) {
+                super.from(validator);
+                organization = validator.organization;
                 identityCertificate = validator.identityCertificate;
                 attestationSignature = validator.attestationSignature;
                 return this;

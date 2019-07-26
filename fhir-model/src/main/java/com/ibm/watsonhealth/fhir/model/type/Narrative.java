@@ -131,27 +131,19 @@ public class Narrative extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, div).from(this);
-    }
-
-    public Builder toBuilder(NarrativeStatus status, java.lang.String div) {
-        return new Builder(status, div).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(NarrativeStatus status, java.lang.String div) {
-        return new Builder(status, div);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.div(div);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final NarrativeStatus status;
-        private final java.lang.String div;
-
-        private Builder(NarrativeStatus status, java.lang.String div) {
-            super();
-            this.status = status;
-            this.div = div;
-        }
+        private NarrativeStatus status;
+        private java.lang.String div;
 
         /**
          * <p>
@@ -214,14 +206,48 @@ public class Narrative extends Element {
             return (Builder) super.extension(extension);
         }
 
+        /**
+         * <p>
+         * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
+         * whether a human authored it and it may contain additional data.
+         * </p>
+         * 
+         * @param status
+         *     generated | extensions | additional | empty
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(NarrativeStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The actual narrative content, a stripped down version of XHTML.
+         * </p>
+         * 
+         * @param div
+         *     Limited xhtml content
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder div(java.lang.String div) {
+            this.div = div;
+            return this;
+        }
+
         @Override
         public Narrative build() {
             return new Narrative(this);
         }
 
-        private Builder from(Narrative narrative) {
-            id = narrative.id;
-            extension.addAll(narrative.extension);
+        protected Builder from(Narrative narrative) {
+            super.from(narrative);
+            status = narrative.status;
+            div = narrative.div;
             return this;
         }
     }

@@ -682,31 +682,29 @@ public class MedicationRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent, medication, subject).from(this);
-    }
-
-    public Builder toBuilder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
-        return new Builder(status, intent, medication, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
-        return new Builder(status, intent, medication, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        builder.medication(medication);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MedicationRequestStatus status;
-        private final MedicationRequestIntent intent;
-        private final Element medication;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private MedicationRequestStatus status;
         private CodeableConcept statusReason;
+        private MedicationRequestIntent intent;
         private List<CodeableConcept> category = new ArrayList<>();
         private MedicationRequestPriority priority;
         private Boolean doNotPerform;
         private Element reported;
+        private Element medication;
+        private Reference subject;
         private Reference encounter;
         private List<Reference> supportingInformation = new ArrayList<>();
         private DateTime authoredOn;
@@ -729,14 +727,6 @@ public class MedicationRequest extends DomainResource {
         private Reference priorPrescription;
         private List<Reference> detectedIssue = new ArrayList<>();
         private List<Reference> eventHistory = new ArrayList<>();
-
-        private Builder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
-            super();
-            this.status = status;
-            this.intent = intent;
-            this.medication = medication;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -1012,6 +1002,22 @@ public class MedicationRequest extends DomainResource {
 
         /**
          * <p>
+         * A code specifying the current state of the order. Generally, this will be active or completed state.
+         * </p>
+         * 
+         * @param status
+         *     active | on-hold | cancelled | completed | entered-in-error | stopped | draft | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MedicationRequestStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Captures the reason for the current state of the MedicationRequest.
          * </p>
          * 
@@ -1023,6 +1029,22 @@ public class MedicationRequest extends DomainResource {
          */
         public Builder statusReason(CodeableConcept statusReason) {
             this.statusReason = statusReason;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Whether the request is a proposal, plan, or an original order.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | order | original-order | instance-order | option
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(MedicationRequestIntent intent) {
+            this.intent = intent;
             return this;
         }
 
@@ -1114,6 +1136,40 @@ public class MedicationRequest extends DomainResource {
          */
         public Builder reported(Element reported) {
             this.reported = reported;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the medication being requested. This is a link to a resource that represents the medication which may be 
+         * the details of the medication or simply an attribute carrying a code that identifies the medication from a known list 
+         * of medications.
+         * </p>
+         * 
+         * @param medication
+         *     Medication to be taken
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder medication(Element medication) {
+            this.medication = medication;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A link to a resource representing the person or set of individuals to whom the medication will be given.
+         * </p>
+         * 
+         * @param subject
+         *     Who or group medication request is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1757,21 +1813,18 @@ public class MedicationRequest extends DomainResource {
             return new MedicationRequest(this);
         }
 
-        private Builder from(MedicationRequest medicationRequest) {
-            id = medicationRequest.id;
-            meta = medicationRequest.meta;
-            implicitRules = medicationRequest.implicitRules;
-            language = medicationRequest.language;
-            text = medicationRequest.text;
-            contained.addAll(medicationRequest.contained);
-            extension.addAll(medicationRequest.extension);
-            modifierExtension.addAll(medicationRequest.modifierExtension);
+        protected Builder from(MedicationRequest medicationRequest) {
+            super.from(medicationRequest);
             identifier.addAll(medicationRequest.identifier);
+            status = medicationRequest.status;
             statusReason = medicationRequest.statusReason;
+            intent = medicationRequest.intent;
             category.addAll(medicationRequest.category);
             priority = medicationRequest.priority;
             doNotPerform = medicationRequest.doNotPerform;
             reported = medicationRequest.reported;
+            medication = medicationRequest.medication;
+            subject = medicationRequest.subject;
             encounter = medicationRequest.encounter;
             supportingInformation.addAll(medicationRequest.supportingInformation);
             authoredOn = medicationRequest.authoredOn;
@@ -2001,11 +2054,11 @@ public class MedicationRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private InitialFill initialFill;
             private Duration dispenseInterval;
             private Period validityPeriod;
@@ -2013,10 +2066,6 @@ public class MedicationRequest extends DomainResource {
             private Quantity quantity;
             private Duration expectedSupplyDuration;
             private Reference performer;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2257,10 +2306,8 @@ public class MedicationRequest extends DomainResource {
                 return new DispenseRequest(this);
             }
 
-            private Builder from(DispenseRequest dispenseRequest) {
-                id = dispenseRequest.id;
-                extension.addAll(dispenseRequest.extension);
-                modifierExtension.addAll(dispenseRequest.modifierExtension);
+            protected Builder from(DispenseRequest dispenseRequest) {
+                super.from(dispenseRequest);
                 initialFill = dispenseRequest.initialFill;
                 dispenseInterval = dispenseRequest.dispenseInterval;
                 validityPeriod = dispenseRequest.validityPeriod;
@@ -2377,17 +2424,13 @@ public class MedicationRequest extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Quantity quantity;
                 private Duration duration;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2543,10 +2586,8 @@ public class MedicationRequest extends DomainResource {
                     return new InitialFill(this);
                 }
 
-                private Builder from(InitialFill initialFill) {
-                    id = initialFill.id;
-                    extension.addAll(initialFill.extension);
-                    modifierExtension.addAll(initialFill.modifierExtension);
+                protected Builder from(InitialFill initialFill) {
+                    super.from(initialFill);
                     quantity = initialFill.quantity;
                     duration = initialFill.duration;
                     return this;
@@ -2658,28 +2699,18 @@ public class MedicationRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(allowed).from(this);
-        }
-
-        public Builder toBuilder(Element allowed) {
-            return new Builder(allowed).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element allowed) {
-            return new Builder(allowed);
+            Builder builder = new Builder();
+            builder.allowed(allowed);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element allowed;
-
-            // optional
+            private Element allowed;
             private CodeableConcept reason;
-
-            private Builder(Element allowed) {
-                super();
-                this.allowed = allowed;
-            }
 
             /**
              * <p>
@@ -2800,6 +2831,22 @@ public class MedicationRequest extends DomainResource {
 
             /**
              * <p>
+             * True if the prescriber allows a different drug to be dispensed from what was prescribed.
+             * </p>
+             * 
+             * @param allowed
+             *     Whether substitution is allowed or not
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder allowed(Element allowed) {
+                this.allowed = allowed;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates the reason for the substitution, or why substitution must or must not be performed.
              * </p>
              * 
@@ -2819,10 +2866,9 @@ public class MedicationRequest extends DomainResource {
                 return new Substitution(this);
             }
 
-            private Builder from(Substitution substitution) {
-                id = substitution.id;
-                extension.addAll(substitution.extension);
-                modifierExtension.addAll(substitution.modifierExtension);
+            protected Builder from(Substitution substitution) {
+                super.from(substitution);
+                allowed = substitution.allowed;
                 reason = substitution.reason;
                 return this;
             }

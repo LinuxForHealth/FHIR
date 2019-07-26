@@ -288,38 +288,28 @@ public class Provenance extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(target, recorded, agent).from(this);
-    }
-
-    public Builder toBuilder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
-        return new Builder(target, recorded, agent).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
-        return new Builder(target, recorded, agent);
+        Builder builder = new Builder();
+        builder.target(target);
+        builder.recorded(recorded);
+        builder.agent(agent);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final List<Reference> target;
-        private final Instant recorded;
-        private final List<Agent> agent;
-
-        // optional
+        private List<Reference> target = new ArrayList<>();
         private Element occurred;
+        private Instant recorded;
         private List<Uri> policy = new ArrayList<>();
         private Reference location;
         private List<CodeableConcept> reason = new ArrayList<>();
         private CodeableConcept activity;
+        private List<Agent> agent = new ArrayList<>();
         private List<Entity> entity = new ArrayList<>();
         private List<Signature> signature = new ArrayList<>();
-
-        private Builder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
-            super();
-            this.target = new ArrayList<>(target);
-            this.recorded = recorded;
-            this.agent = new ArrayList<>(agent);
-        }
 
         /**
          * <p>
@@ -549,6 +539,48 @@ public class Provenance extends DomainResource {
 
         /**
          * <p>
+         * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
+         * more than one target if multiple resources were created/updated by the same activity.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param target
+         *     Target Reference(s) (usually version specific)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder target(Reference... target) {
+            for (Reference value : target) {
+                this.target.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
+         * more than one target if multiple resources were created/updated by the same activity.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param target
+         *     Target Reference(s) (usually version specific)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder target(Collection<Reference> target) {
+            this.target = new ArrayList<>(target);
+            return this;
+        }
+
+        /**
+         * <p>
          * The period during which the activity occurred.
          * </p>
          * 
@@ -560,6 +592,22 @@ public class Provenance extends DomainResource {
          */
         public Builder occurred(Element occurred) {
             this.occurred = occurred;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The instant of time at which the activity was recorded.
+         * </p>
+         * 
+         * @param recorded
+         *     When the activity was recorded / updated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recorded(Instant recorded) {
+            this.recorded = recorded;
             return this;
         }
 
@@ -680,6 +728,48 @@ public class Provenance extends DomainResource {
 
         /**
          * <p>
+         * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
+         * taking place.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder agent(Agent... agent) {
+            for (Agent value : agent) {
+                this.agent.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
+         * taking place.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder agent(Collection<Agent> agent) {
+            this.agent = new ArrayList<>(agent);
+            return this;
+        }
+
+        /**
+         * <p>
          * An entity used in this activity.
          * </p>
          * <p>
@@ -765,20 +855,16 @@ public class Provenance extends DomainResource {
             return new Provenance(this);
         }
 
-        private Builder from(Provenance provenance) {
-            id = provenance.id;
-            meta = provenance.meta;
-            implicitRules = provenance.implicitRules;
-            language = provenance.language;
-            text = provenance.text;
-            contained.addAll(provenance.contained);
-            extension.addAll(provenance.extension);
-            modifierExtension.addAll(provenance.modifierExtension);
+        protected Builder from(Provenance provenance) {
+            super.from(provenance);
+            target.addAll(provenance.target);
             occurred = provenance.occurred;
+            recorded = provenance.recorded;
             policy.addAll(provenance.policy);
             location = provenance.location;
             reason.addAll(provenance.reason);
             activity = provenance.activity;
+            agent.addAll(provenance.agent);
             entity.addAll(provenance.entity);
             signature.addAll(provenance.signature);
             return this;
@@ -924,30 +1010,20 @@ public class Provenance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(who).from(this);
-        }
-
-        public Builder toBuilder(Reference who) {
-            return new Builder(who).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference who) {
-            return new Builder(who);
+            Builder builder = new Builder();
+            builder.who(who);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference who;
-
-            // optional
             private CodeableConcept type;
             private List<CodeableConcept> role = new ArrayList<>();
+            private Reference who;
             private Reference onBehalfOf;
-
-            private Builder(Reference who) {
-                super();
-                this.who = who;
-            }
 
             /**
              * <p>
@@ -1126,6 +1202,22 @@ public class Provenance extends DomainResource {
 
             /**
              * <p>
+             * The individual, device or organization that participated in the event.
+             * </p>
+             * 
+             * @param who
+             *     Who participated
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder who(Reference who) {
+                this.who = who;
+                return this;
+            }
+
+            /**
+             * <p>
              * The individual, device, or organization for whom the change was made.
              * </p>
              * 
@@ -1145,12 +1237,11 @@ public class Provenance extends DomainResource {
                 return new Agent(this);
             }
 
-            private Builder from(Agent agent) {
-                id = agent.id;
-                extension.addAll(agent.extension);
-                modifierExtension.addAll(agent.modifierExtension);
+            protected Builder from(Agent agent) {
+                super.from(agent);
                 type = agent.type;
                 role.addAll(agent.role);
+                who = agent.who;
                 onBehalfOf = agent.onBehalfOf;
                 return this;
             }
@@ -1278,30 +1369,20 @@ public class Provenance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(role, what).from(this);
-        }
-
-        public Builder toBuilder(ProvenanceEntityRole role, Reference what) {
-            return new Builder(role, what).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ProvenanceEntityRole role, Reference what) {
-            return new Builder(role, what);
+            Builder builder = new Builder();
+            builder.role(role);
+            builder.what(what);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ProvenanceEntityRole role;
-            private final Reference what;
-
-            // optional
+            private ProvenanceEntityRole role;
+            private Reference what;
             private List<Provenance.Agent> agent = new ArrayList<>();
-
-            private Builder(ProvenanceEntityRole role, Reference what) {
-                super();
-                this.role = role;
-                this.what = what;
-            }
 
             /**
              * <p>
@@ -1422,6 +1503,38 @@ public class Provenance extends DomainResource {
 
             /**
              * <p>
+             * How the entity was used during the activity.
+             * </p>
+             * 
+             * @param role
+             *     derivation | revision | quotation | source | removal
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder role(ProvenanceEntityRole role) {
+                this.role = role;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Identity of the Entity used. May be a logical or physical uri and maybe absolute or relative.
+             * </p>
+             * 
+             * @param what
+             *     Identity of entity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder what(Reference what) {
+                this.what = what;
+                return this;
+            }
+
+            /**
+             * <p>
              * The entity is attributed to an agent to express the agent's responsibility for that entity, possibly along with other 
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
@@ -1469,10 +1582,10 @@ public class Provenance extends DomainResource {
                 return new Entity(this);
             }
 
-            private Builder from(Entity entity) {
-                id = entity.id;
-                extension.addAll(entity.extension);
-                modifierExtension.addAll(entity.modifierExtension);
+            protected Builder from(Entity entity) {
+                super.from(entity);
+                role = entity.role;
+                what = entity.what;
                 agent.addAll(entity.agent);
                 return this;
             }

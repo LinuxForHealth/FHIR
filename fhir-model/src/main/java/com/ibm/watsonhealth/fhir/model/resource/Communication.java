@@ -511,28 +511,23 @@ public class Communication extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(CommunicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CommunicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CommunicationStatus status;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
         private List<Reference> inResponseTo = new ArrayList<>();
+        private CommunicationStatus status;
         private CodeableConcept statusReason;
         private List<CodeableConcept> category = new ArrayList<>();
         private CommunicationPriority priority;
@@ -549,11 +544,6 @@ public class Communication extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Payload> payload = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(CommunicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -1029,6 +1019,22 @@ public class Communication extends DomainResource {
 
         /**
          * <p>
+         * The status of the transmission.
+         * </p>
+         * 
+         * @param status
+         *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CommunicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Captures the reason for the current state of the Communication.
          * </p>
          * 
@@ -1489,21 +1495,15 @@ public class Communication extends DomainResource {
             return new Communication(this);
         }
 
-        private Builder from(Communication communication) {
-            id = communication.id;
-            meta = communication.meta;
-            implicitRules = communication.implicitRules;
-            language = communication.language;
-            text = communication.text;
-            contained.addAll(communication.contained);
-            extension.addAll(communication.extension);
-            modifierExtension.addAll(communication.modifierExtension);
+        protected Builder from(Communication communication) {
+            super.from(communication);
             identifier.addAll(communication.identifier);
             instantiatesCanonical.addAll(communication.instantiatesCanonical);
             instantiatesUri.addAll(communication.instantiatesUri);
             basedOn.addAll(communication.basedOn);
             partOf.addAll(communication.partOf);
             inResponseTo.addAll(communication.inResponseTo);
+            status = communication.status;
             statusReason = communication.statusReason;
             category.addAll(communication.category);
             priority = communication.priority;
@@ -1607,25 +1607,17 @@ public class Communication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(content).from(this);
-        }
-
-        public Builder toBuilder(Element content) {
-            return new Builder(content).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element content) {
-            return new Builder(content);
+            Builder builder = new Builder();
+            builder.content(content);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element content;
-
-            private Builder(Element content) {
-                super();
-                this.content = content;
-            }
+            private Element content;
 
             /**
              * <p>
@@ -1744,15 +1736,30 @@ public class Communication extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * A communicated content (or for multi-part communications, one portion of the communication).
+             * </p>
+             * 
+             * @param content
+             *     Message part content
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder content(Element content) {
+                this.content = content;
+                return this;
+            }
+
             @Override
             public Payload build() {
                 return new Payload(this);
             }
 
-            private Builder from(Payload payload) {
-                id = payload.id;
-                extension.addAll(payload.extension);
-                modifierExtension.addAll(payload.modifierExtension);
+            protected Builder from(Payload payload) {
+                super.from(payload);
+                content = payload.content;
                 return this;
             }
         }

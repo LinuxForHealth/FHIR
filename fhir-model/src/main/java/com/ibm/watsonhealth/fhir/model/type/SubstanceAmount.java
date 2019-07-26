@@ -165,19 +165,15 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // optional
         private Element amount;
         private CodeableConcept amountType;
         private String amountText;
         private ReferenceRange referenceRange;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -375,10 +371,8 @@ public class SubstanceAmount extends BackboneElement {
             return new SubstanceAmount(this);
         }
 
-        private Builder from(SubstanceAmount substanceAmount) {
-            id = substanceAmount.id;
-            extension.addAll(substanceAmount.extension);
-            modifierExtension.addAll(substanceAmount.modifierExtension);
+        protected Builder from(SubstanceAmount substanceAmount) {
+            super.from(substanceAmount);
             amount = substanceAmount.amount;
             amountType = substanceAmount.amountType;
             amountText = substanceAmount.amountText;
@@ -492,17 +486,13 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Quantity lowLimit;
             private Quantity highLimit;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -654,10 +644,8 @@ public class SubstanceAmount extends BackboneElement {
                 return new ReferenceRange(this);
             }
 
-            private Builder from(ReferenceRange referenceRange) {
-                id = referenceRange.id;
-                extension.addAll(referenceRange.extension);
-                modifierExtension.addAll(referenceRange.modifierExtension);
+            protected Builder from(ReferenceRange referenceRange) {
+                super.from(referenceRange);
                 lowLimit = referenceRange.lowLimit;
                 highLimit = referenceRange.highLimit;
                 return this;

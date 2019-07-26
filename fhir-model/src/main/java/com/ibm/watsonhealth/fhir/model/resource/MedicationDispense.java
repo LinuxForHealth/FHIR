@@ -537,27 +537,23 @@ public class MedicationDispense extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, medication).from(this);
-    }
-
-    public Builder toBuilder(MedicationDispenseStatus status, Element medication) {
-        return new Builder(status, medication).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MedicationDispenseStatus status, Element medication) {
-        return new Builder(status, medication);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.medication(medication);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MedicationDispenseStatus status;
-        private final Element medication;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private MedicationDispenseStatus status;
         private Element statusReason;
         private CodeableConcept category;
+        private Element medication;
         private Reference subject;
         private Reference context;
         private List<Reference> supportingInformation = new ArrayList<>();
@@ -576,12 +572,6 @@ public class MedicationDispense extends DomainResource {
         private Substitution substitution;
         private List<Reference> detectedIssue = new ArrayList<>();
         private List<Reference> eventHistory = new ArrayList<>();
-
-        private Builder(MedicationDispenseStatus status, Element medication) {
-            super();
-            this.status = status;
-            this.medication = medication;
-        }
 
         /**
          * <p>
@@ -897,6 +887,22 @@ public class MedicationDispense extends DomainResource {
 
         /**
          * <p>
+         * A code specifying the state of the set of dispense events.
+         * </p>
+         * 
+         * @param status
+         *     preparation | in-progress | cancelled | on-hold | completed | entered-in-error | stopped | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MedicationDispenseStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Indicates the reason why a dispense was not performed.
          * </p>
          * 
@@ -925,6 +931,23 @@ public class MedicationDispense extends DomainResource {
          */
         public Builder category(CodeableConcept category) {
             this.category = category;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the medication being administered. This is either a link to a resource representing the details of the 
+         * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
+         * </p>
+         * 
+         * @param medication
+         *     What medication was supplied
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder medication(Element medication) {
+            this.medication = medication;
             return this;
         }
 
@@ -1420,19 +1443,14 @@ public class MedicationDispense extends DomainResource {
             return new MedicationDispense(this);
         }
 
-        private Builder from(MedicationDispense medicationDispense) {
-            id = medicationDispense.id;
-            meta = medicationDispense.meta;
-            implicitRules = medicationDispense.implicitRules;
-            language = medicationDispense.language;
-            text = medicationDispense.text;
-            contained.addAll(medicationDispense.contained);
-            extension.addAll(medicationDispense.extension);
-            modifierExtension.addAll(medicationDispense.modifierExtension);
+        protected Builder from(MedicationDispense medicationDispense) {
+            super.from(medicationDispense);
             identifier.addAll(medicationDispense.identifier);
             partOf.addAll(medicationDispense.partOf);
+            status = medicationDispense.status;
             statusReason = medicationDispense.statusReason;
             category = medicationDispense.category;
+            medication = medicationDispense.medication;
             subject = medicationDispense.subject;
             context = medicationDispense.context;
             supportingInformation.addAll(medicationDispense.supportingInformation);
@@ -1557,28 +1575,18 @@ public class MedicationDispense extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept function;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
+            private Reference actor;
 
             /**
              * <p>
@@ -1713,16 +1721,32 @@ public class MedicationDispense extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The device, practitioner, etc. who performed the action. It should be assumed that the actor is the dispenser of the 
+             * medication.
+             * </p>
+             * 
+             * @param actor
+             *     Individual who was performing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
             @Override
             public Performer build() {
                 return new Performer(this);
             }
 
-            private Builder from(Performer performer) {
-                id = performer.id;
-                extension.addAll(performer.extension);
-                modifierExtension.addAll(performer.modifierExtension);
+            protected Builder from(Performer performer) {
+                super.from(performer);
                 function = performer.function;
+                actor = performer.actor;
                 return this;
             }
         }
@@ -1867,30 +1891,20 @@ public class MedicationDispense extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(wasSubstituted).from(this);
-        }
-
-        public Builder toBuilder(Boolean wasSubstituted) {
-            return new Builder(wasSubstituted).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean wasSubstituted) {
-            return new Builder(wasSubstituted);
+            Builder builder = new Builder();
+            builder.wasSubstituted(wasSubstituted);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean wasSubstituted;
-
-            // optional
+            private Boolean wasSubstituted;
             private CodeableConcept type;
             private List<CodeableConcept> reason = new ArrayList<>();
             private List<Reference> responsibleParty = new ArrayList<>();
-
-            private Builder(Boolean wasSubstituted) {
-                super();
-                this.wasSubstituted = wasSubstituted;
-            }
 
             /**
              * <p>
@@ -2011,6 +2025,22 @@ public class MedicationDispense extends DomainResource {
 
             /**
              * <p>
+             * True if the dispenser dispensed a different drug or product from what was prescribed.
+             * </p>
+             * 
+             * @param wasSubstituted
+             *     Whether a substitution was or was not performed on the dispense
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder wasSubstituted(Boolean wasSubstituted) {
+                this.wasSubstituted = wasSubstituted;
+                return this;
+            }
+
+            /**
+             * <p>
              * A code signifying whether a different drug was dispensed from what was prescribed.
              * </p>
              * 
@@ -2110,10 +2140,9 @@ public class MedicationDispense extends DomainResource {
                 return new Substitution(this);
             }
 
-            private Builder from(Substitution substitution) {
-                id = substitution.id;
-                extension.addAll(substitution.extension);
-                modifierExtension.addAll(substitution.modifierExtension);
+            protected Builder from(Substitution substitution) {
+                super.from(substitution);
+                wasSubstituted = substitution.wasSubstituted;
                 type = substitution.type;
                 reason.addAll(substitution.reason);
                 responsibleParty.addAll(substitution.responsibleParty);

@@ -317,40 +317,30 @@ public class MeasureReport extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, type, measure, period).from(this);
-    }
-
-    public Builder toBuilder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
-        return new Builder(status, type, measure, period).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
-        return new Builder(status, type, measure, period);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.type(type);
+        builder.measure(measure);
+        builder.period(period);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MeasureReportStatus status;
-        private final MeasureReportType type;
-        private final Canonical measure;
-        private final Period period;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private MeasureReportStatus status;
+        private MeasureReportType type;
+        private Canonical measure;
         private Reference subject;
         private DateTime date;
         private Reference reporter;
+        private Period period;
         private CodeableConcept improvementNotation;
         private List<Group> group = new ArrayList<>();
         private List<Reference> evaluatedResource = new ArrayList<>();
-
-        private Builder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
-            super();
-            this.status = status;
-            this.type = type;
-            this.measure = measure;
-            this.period = period;
-        }
 
         /**
          * <p>
@@ -622,6 +612,58 @@ public class MeasureReport extends DomainResource {
 
         /**
          * <p>
+         * The MeasureReport status. No data will be available until the MeasureReport status is complete.
+         * </p>
+         * 
+         * @param status
+         *     complete | pending | error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MeasureReportStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The type of measure report. This may be an individual report, which provides the score for the measure for an 
+         * individual member of the population; a subject-listing, which returns the list of members that meet the various 
+         * criteria in the measure; a summary report, which returns a population count for each of the criteria in the measure; 
+         * or a data-collection, which enables the MeasureReport to be used to exchange the data-of-interest for a quality 
+         * measure.
+         * </p>
+         * 
+         * @param type
+         *     individual | subject-list | summary | data-collection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(MeasureReportType type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to the Measure that was calculated to produce this report.
+         * </p>
+         * 
+         * @param measure
+         *     What measure was calculated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder measure(Canonical measure) {
+            this.measure = measure;
+            return this;
+        }
+
+        /**
+         * <p>
          * Optional subject identifying the individual or individuals the report is for.
          * </p>
          * 
@@ -665,6 +707,22 @@ public class MeasureReport extends DomainResource {
          */
         public Builder reporter(Reference reporter) {
             this.reporter = reporter;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The reporting period for which the report was calculated.
+         * </p>
+         * 
+         * @param period
+         *     What period the report covers
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder period(Period period) {
+            this.period = period;
             return this;
         }
 
@@ -769,19 +827,16 @@ public class MeasureReport extends DomainResource {
             return new MeasureReport(this);
         }
 
-        private Builder from(MeasureReport measureReport) {
-            id = measureReport.id;
-            meta = measureReport.meta;
-            implicitRules = measureReport.implicitRules;
-            language = measureReport.language;
-            text = measureReport.text;
-            contained.addAll(measureReport.contained);
-            extension.addAll(measureReport.extension);
-            modifierExtension.addAll(measureReport.modifierExtension);
+        protected Builder from(MeasureReport measureReport) {
+            super.from(measureReport);
             identifier.addAll(measureReport.identifier);
+            status = measureReport.status;
+            type = measureReport.type;
+            measure = measureReport.measure;
             subject = measureReport.subject;
             date = measureReport.date;
             reporter = measureReport.reporter;
+            period = measureReport.period;
             improvementNotation = measureReport.improvementNotation;
             group.addAll(measureReport.group);
             evaluatedResource.addAll(measureReport.evaluatedResource);
@@ -932,19 +987,15 @@ public class MeasureReport extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private List<Population> population = new ArrayList<>();
             private Quantity measureScore;
             private List<Stratifier> stratifier = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1183,10 +1234,8 @@ public class MeasureReport extends DomainResource {
                 return new Group(this);
             }
 
-            private Builder from(Group group) {
-                id = group.id;
-                extension.addAll(group.extension);
-                modifierExtension.addAll(group.modifierExtension);
+            protected Builder from(Group group) {
+                super.from(group);
                 code = group.code;
                 population.addAll(group.population);
                 measureScore = group.measureScore;
@@ -1318,18 +1367,14 @@ public class MeasureReport extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept code;
                 private Integer count;
                 private Reference subjectResults;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1502,10 +1547,8 @@ public class MeasureReport extends DomainResource {
                     return new Population(this);
                 }
 
-                private Builder from(Population population) {
-                    id = population.id;
-                    extension.addAll(population.extension);
-                    modifierExtension.addAll(population.modifierExtension);
+                protected Builder from(Population population) {
+                    super.from(population);
                     code = population.code;
                     count = population.count;
                     subjectResults = population.subjectResults;
@@ -1621,17 +1664,13 @@ public class MeasureReport extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private List<CodeableConcept> code = new ArrayList<>();
                 private List<Stratum> stratum = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1837,10 +1876,8 @@ public class MeasureReport extends DomainResource {
                     return new Stratifier(this);
                 }
 
-                private Builder from(Stratifier stratifier) {
-                    id = stratifier.id;
-                    extension.addAll(stratifier.extension);
-                    modifierExtension.addAll(stratifier.modifierExtension);
+                protected Builder from(Stratifier stratifier) {
+                    super.from(stratifier);
                     code.addAll(stratifier.code);
                     stratum.addAll(stratifier.stratum);
                     return this;
@@ -1991,19 +2028,15 @@ public class MeasureReport extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private CodeableConcept value;
                     private List<Component> component = new ArrayList<>();
                     private List<Population> population = new ArrayList<>();
                     private Quantity measureScore;
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -2241,10 +2274,8 @@ public class MeasureReport extends DomainResource {
                         return new Stratum(this);
                     }
 
-                    private Builder from(Stratum stratum) {
-                        id = stratum.id;
-                        extension.addAll(stratum.extension);
-                        modifierExtension.addAll(stratum.modifierExtension);
+                    protected Builder from(Stratum stratum) {
+                        super.from(stratum);
                         value = stratum.value;
                         component.addAll(stratum.component);
                         population.addAll(stratum.population);
@@ -2354,27 +2385,19 @@ public class MeasureReport extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return new Builder(code, value).from(this);
-                    }
-
-                    public Builder toBuilder(CodeableConcept code, CodeableConcept value) {
-                        return new Builder(code, value).from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder(CodeableConcept code, CodeableConcept value) {
-                        return new Builder(code, value);
+                        Builder builder = new Builder();
+                        builder.code(code);
+                        builder.value(value);
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // required
-                        private final CodeableConcept code;
-                        private final CodeableConcept value;
-
-                        private Builder(CodeableConcept code, CodeableConcept value) {
-                            super();
-                            this.code = code;
-                            this.value = value;
-                        }
+                        private CodeableConcept code;
+                        private CodeableConcept value;
 
                         /**
                          * <p>
@@ -2493,15 +2516,47 @@ public class MeasureReport extends DomainResource {
                             return (Builder) super.modifierExtension(modifierExtension);
                         }
 
+                        /**
+                         * <p>
+                         * The code for the stratum component value.
+                         * </p>
+                         * 
+                         * @param code
+                         *     What stratifier component of the group
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder code(CodeableConcept code) {
+                            this.code = code;
+                            return this;
+                        }
+
+                        /**
+                         * <p>
+                         * The stratum component value.
+                         * </p>
+                         * 
+                         * @param value
+                         *     The stratum component value, e.g. male
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(CodeableConcept value) {
+                            this.value = value;
+                            return this;
+                        }
+
                         @Override
                         public Component build() {
                             return new Component(this);
                         }
 
-                        private Builder from(Component component) {
-                            id = component.id;
-                            extension.addAll(component.extension);
-                            modifierExtension.addAll(component.modifierExtension);
+                        protected Builder from(Component component) {
+                            super.from(component);
+                            code = component.code;
+                            value = component.value;
                             return this;
                         }
                     }
@@ -2631,18 +2686,14 @@ public class MeasureReport extends DomainResource {
                     }
 
                     public static Builder builder() {
-                        return new Builder();
+                        Builder builder = new Builder();
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // optional
                         private CodeableConcept code;
                         private Integer count;
                         private Reference subjectResults;
-
-                        private Builder() {
-                            super();
-                        }
 
                         /**
                          * <p>
@@ -2816,10 +2867,8 @@ public class MeasureReport extends DomainResource {
                             return new Population(this);
                         }
 
-                        private Builder from(Population population) {
-                            id = population.id;
-                            extension.addAll(population.extension);
-                            modifierExtension.addAll(population.modifierExtension);
+                        protected Builder from(Population population) {
+                            super.from(population);
                             code = population.code;
                             count = population.count;
                             subjectResults = population.subjectResults;

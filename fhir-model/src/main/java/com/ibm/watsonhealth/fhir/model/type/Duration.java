@@ -99,14 +99,11 @@ public class Duration extends Quantity {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Quantity.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
@@ -254,14 +251,8 @@ public class Duration extends Quantity {
             return new Duration(this);
         }
 
-        private Builder from(Duration duration) {
-            id = duration.id;
-            extension.addAll(duration.extension);
-            value = duration.value;
-            comparator = duration.comparator;
-            unit = duration.unit;
-            system = duration.system;
-            code = duration.code;
+        protected Builder from(Duration duration) {
+            super.from(duration);
             return this;
         }
     }

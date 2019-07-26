@@ -88,7 +88,6 @@ public abstract class Element extends AbstractVisitable {
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Element> {
-        // optional
         protected java.lang.String id;
         protected List<Extension> extension = new ArrayList<>();
 
@@ -161,5 +160,11 @@ public abstract class Element extends AbstractVisitable {
 
         @Override
         public abstract Element build();
+
+        protected Builder from(Element element) {
+            id = element.id;
+            extension.addAll(element.extension);
+            return this;
+        }
     }
 }

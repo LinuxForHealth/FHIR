@@ -436,11 +436,11 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private Identifier identifier;
         private CodeableConcept type;
         private CodeableConcept status;
@@ -460,10 +460,6 @@ public class SubstanceSpecification extends DomainResource {
         private Reference polymer;
         private Reference protein;
         private Reference sourceMaterial;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1168,15 +1164,8 @@ public class SubstanceSpecification extends DomainResource {
             return new SubstanceSpecification(this);
         }
 
-        private Builder from(SubstanceSpecification substanceSpecification) {
-            id = substanceSpecification.id;
-            meta = substanceSpecification.meta;
-            implicitRules = substanceSpecification.implicitRules;
-            language = substanceSpecification.language;
-            text = substanceSpecification.text;
-            contained.addAll(substanceSpecification.contained);
-            extension.addAll(substanceSpecification.extension);
-            modifierExtension.addAll(substanceSpecification.modifierExtension);
+        protected Builder from(SubstanceSpecification substanceSpecification) {
+            super.from(substanceSpecification);
             identifier = substanceSpecification.identifier;
             type = substanceSpecification.type;
             status = substanceSpecification.status;
@@ -1395,11 +1384,11 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept role;
             private Identifier identifier;
             private String name;
@@ -1407,10 +1396,6 @@ public class SubstanceSpecification extends DomainResource {
             private CodeableConcept opticalActivity;
             private String molecularFormula;
             private Element amount;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1646,10 +1631,8 @@ public class SubstanceSpecification extends DomainResource {
                 return new Moiety(this);
             }
 
-            private Builder from(Moiety moiety) {
-                id = moiety.id;
-                extension.addAll(moiety.extension);
-                modifierExtension.addAll(moiety.modifierExtension);
+            protected Builder from(Moiety moiety) {
+                super.from(moiety);
                 role = moiety.role;
                 identifier = moiety.identifier;
                 name = moiety.name;
@@ -1821,20 +1804,16 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept category;
             private CodeableConcept code;
             private String parameters;
             private Element definingSubstance;
             private Element amount;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2038,10 +2017,8 @@ public class SubstanceSpecification extends DomainResource {
                 return new Property(this);
             }
 
-            private Builder from(Property property) {
-                id = property.id;
-                extension.addAll(property.extension);
-                modifierExtension.addAll(property.modifierExtension);
+            protected Builder from(Property property) {
+                super.from(property);
                 category = property.category;
                 code = property.code;
                 parameters = property.parameters;
@@ -2266,11 +2243,11 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept stereochemistry;
             private CodeableConcept opticalActivity;
             private String molecularFormula;
@@ -2279,10 +2256,6 @@ public class SubstanceSpecification extends DomainResource {
             private SubstanceSpecification.Structure.Isotope.MolecularWeight molecularWeight;
             private List<Reference> source = new ArrayList<>();
             private List<Representation> representation = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2608,10 +2581,8 @@ public class SubstanceSpecification extends DomainResource {
                 return new Structure(this);
             }
 
-            private Builder from(Structure structure) {
-                id = structure.id;
-                extension.addAll(structure.extension);
-                modifierExtension.addAll(structure.modifierExtension);
+            protected Builder from(Structure structure) {
+                super.from(structure);
                 stereochemistry = structure.stereochemistry;
                 opticalActivity = structure.opticalActivity;
                 molecularFormula = structure.molecularFormula;
@@ -2783,20 +2754,16 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Identifier identifier;
                 private CodeableConcept name;
                 private CodeableConcept substitution;
                 private Quantity halfLife;
                 private MolecularWeight molecularWeight;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3000,10 +2967,8 @@ public class SubstanceSpecification extends DomainResource {
                     return new Isotope(this);
                 }
 
-                private Builder from(Isotope isotope) {
-                    id = isotope.id;
-                    extension.addAll(isotope.extension);
-                    modifierExtension.addAll(isotope.modifierExtension);
+                protected Builder from(Isotope isotope) {
+                    super.from(isotope);
                     identifier = isotope.identifier;
                     name = isotope.name;
                     substitution = isotope.substitution;
@@ -3137,18 +3102,14 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private CodeableConcept method;
                     private CodeableConcept type;
                     private Quantity amount;
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -3322,10 +3283,8 @@ public class SubstanceSpecification extends DomainResource {
                         return new MolecularWeight(this);
                     }
 
-                    private Builder from(MolecularWeight molecularWeight) {
-                        id = molecularWeight.id;
-                        extension.addAll(molecularWeight.extension);
-                        modifierExtension.addAll(molecularWeight.modifierExtension);
+                    protected Builder from(MolecularWeight molecularWeight) {
+                        super.from(molecularWeight);
                         method = molecularWeight.method;
                         type = molecularWeight.type;
                         amount = molecularWeight.amount;
@@ -3458,18 +3417,14 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept type;
                 private String representation;
                 private Attachment attachment;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3641,10 +3596,8 @@ public class SubstanceSpecification extends DomainResource {
                     return new Representation(this);
                 }
 
-                private Builder from(Representation representation) {
-                    id = representation.id;
-                    extension.addAll(representation.extension);
-                    modifierExtension.addAll(representation.modifierExtension);
+                protected Builder from(Representation representation) {
+                    super.from(representation);
                     type = representation.type;
                     this.representation = representation.representation;
                     attachment = representation.attachment;
@@ -3813,20 +3766,16 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private CodeableConcept status;
             private DateTime statusDate;
             private String comment;
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4054,10 +4003,8 @@ public class SubstanceSpecification extends DomainResource {
                 return new Code(this);
             }
 
-            private Builder from(Code code) {
-                id = code.id;
-                extension.addAll(code.extension);
-                modifierExtension.addAll(code.modifierExtension);
+            protected Builder from(Code code) {
+                super.from(code);
                 this.code = code.code;
                 status = code.status;
                 statusDate = code.statusDate;
@@ -4332,22 +4279,17 @@ public class SubstanceSpecification extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private CodeableConcept type;
             private CodeableConcept status;
             private Boolean preferred;
@@ -4358,11 +4300,6 @@ public class SubstanceSpecification extends DomainResource {
             private List<SubstanceSpecification.Name> translation = new ArrayList<>();
             private List<Official> official = new ArrayList<>();
             private List<Reference> source = new ArrayList<>();
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -4479,6 +4416,22 @@ public class SubstanceSpecification extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * The actual name.
+             * </p>
+             * 
+             * @param name
+             *     The actual name
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
             }
 
             /**
@@ -4818,10 +4771,9 @@ public class SubstanceSpecification extends DomainResource {
                 return new Name(this);
             }
 
-            private Builder from(Name name) {
-                id = name.id;
-                extension.addAll(name.extension);
-                modifierExtension.addAll(name.modifierExtension);
+            protected Builder from(Name name) {
+                super.from(name);
+                this.name = name.name;
                 type = name.type;
                 status = name.status;
                 preferred = name.preferred;
@@ -4959,18 +4911,14 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept authority;
                 private CodeableConcept status;
                 private DateTime date;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -5142,10 +5090,8 @@ public class SubstanceSpecification extends DomainResource {
                     return new Official(this);
                 }
 
-                private Builder from(Official official) {
-                    id = official.id;
-                    extension.addAll(official.extension);
-                    modifierExtension.addAll(official.modifierExtension);
+                protected Builder from(Official official) {
+                    super.from(official);
                     authority = official.authority;
                     status = official.status;
                     date = official.date;
@@ -5352,11 +5298,11 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Element substance;
             private CodeableConcept relationship;
             private Boolean isDefining;
@@ -5364,10 +5310,6 @@ public class SubstanceSpecification extends DomainResource {
             private Ratio amountRatioLowLimit;
             private CodeableConcept amountType;
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -5631,10 +5573,8 @@ public class SubstanceSpecification extends DomainResource {
                 return new Relationship(this);
             }
 
-            private Builder from(Relationship relationship) {
-                id = relationship.id;
-                extension.addAll(relationship.extension);
-                modifierExtension.addAll(relationship.modifierExtension);
+            protected Builder from(Relationship relationship) {
+                super.from(relationship);
                 substance = relationship.substance;
                 this.relationship = relationship.relationship;
                 isDefining = relationship.isDefining;

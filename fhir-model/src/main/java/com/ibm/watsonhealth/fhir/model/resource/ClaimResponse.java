@@ -584,32 +584,33 @@ public class ClaimResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, type, use, patient, created, insurer, outcome).from(this);
-    }
-
-    public Builder toBuilder(ClaimResponseStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, RemittanceOutcome outcome) {
-        return new Builder(status, type, use, patient, created, insurer, outcome).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ClaimResponseStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, RemittanceOutcome outcome) {
-        return new Builder(status, type, use, patient, created, insurer, outcome);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.type(type);
+        builder.use(use);
+        builder.patient(patient);
+        builder.created(created);
+        builder.insurer(insurer);
+        builder.outcome(outcome);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ClaimResponseStatus status;
-        private final CodeableConcept type;
-        private final Use use;
-        private final Reference patient;
-        private final DateTime created;
-        private final Reference insurer;
-        private final RemittanceOutcome outcome;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ClaimResponseStatus status;
+        private CodeableConcept type;
         private CodeableConcept subType;
+        private Use use;
+        private Reference patient;
+        private DateTime created;
+        private Reference insurer;
         private Reference requestor;
         private Reference request;
+        private RemittanceOutcome outcome;
         private String disposition;
         private String preAuthRef;
         private Period preAuthPeriod;
@@ -626,17 +627,6 @@ public class ClaimResponse extends DomainResource {
         private List<Reference> communicationRequest = new ArrayList<>();
         private List<Insurance> insurance = new ArrayList<>();
         private List<Error> error = new ArrayList<>();
-
-        private Builder(ClaimResponseStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, RemittanceOutcome outcome) {
-            super();
-            this.status = status;
-            this.type = type;
-            this.use = use;
-            this.patient = patient;
-            this.created = created;
-            this.insurer = insurer;
-            this.outcome = outcome;
-        }
 
         /**
          * <p>
@@ -906,6 +896,39 @@ public class ClaimResponse extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ClaimResponseStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
+         * and/or a specialty service.
+         * </p>
+         * 
+         * @param type
+         *     More granular claim type
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
          * and/or a specialty service.
          * </p>
@@ -918,6 +941,73 @@ public class ClaimResponse extends DomainResource {
          */
         public Builder subType(CodeableConcept subType) {
             this.subType = subType;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
+         * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
+         * adjudication of the listed products and services which could be provided in the future.
+         * </p>
+         * 
+         * @param use
+         *     claim | preauthorization | predetermination
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder use(Use use) {
+            this.use = use;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
+         * actual for facast reimbursement is sought.
+         * </p>
+         * 
+         * @param patient
+         *     The recipient of the products and services
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date this resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Response creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The party responsible for authorization, adjudication and reimbursement.
+         * </p>
+         * 
+         * @param insurer
+         *     Party responsible for reimbursement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder insurer(Reference insurer) {
+            this.insurer = insurer;
             return this;
         }
 
@@ -950,6 +1040,22 @@ public class ClaimResponse extends DomainResource {
          */
         public Builder request(Reference request) {
             this.request = request;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The outcome of the claim, predetermination, or preauthorization processing.
+         * </p>
+         * 
+         * @param outcome
+         *     queued | complete | error | partial
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder outcome(RemittanceOutcome outcome) {
+            this.outcome = outcome;
             return this;
         }
 
@@ -1409,19 +1515,19 @@ public class ClaimResponse extends DomainResource {
             return new ClaimResponse(this);
         }
 
-        private Builder from(ClaimResponse claimResponse) {
-            id = claimResponse.id;
-            meta = claimResponse.meta;
-            implicitRules = claimResponse.implicitRules;
-            language = claimResponse.language;
-            text = claimResponse.text;
-            contained.addAll(claimResponse.contained);
-            extension.addAll(claimResponse.extension);
-            modifierExtension.addAll(claimResponse.modifierExtension);
+        protected Builder from(ClaimResponse claimResponse) {
+            super.from(claimResponse);
             identifier.addAll(claimResponse.identifier);
+            status = claimResponse.status;
+            type = claimResponse.type;
             subType = claimResponse.subType;
+            use = claimResponse.use;
+            patient = claimResponse.patient;
+            created = claimResponse.created;
+            insurer = claimResponse.insurer;
             requestor = claimResponse.requestor;
             request = claimResponse.request;
+            outcome = claimResponse.outcome;
             disposition = claimResponse.disposition;
             preAuthRef = claimResponse.preAuthRef;
             preAuthPeriod = claimResponse.preAuthPeriod;
@@ -1581,31 +1687,21 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(itemSequence, adjudication).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
-            return new Builder(itemSequence, adjudication).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
-            return new Builder(itemSequence, adjudication);
+            Builder builder = new Builder();
+            builder.itemSequence(itemSequence);
+            builder.adjudication(adjudication);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt itemSequence;
-            private final List<Adjudication> adjudication;
-
-            // optional
+            private PositiveInt itemSequence;
             private List<PositiveInt> noteNumber = new ArrayList<>();
+            private List<Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
-
-            private Builder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
-                super();
-                this.itemSequence = itemSequence;
-                this.adjudication = new ArrayList<>(adjudication);
-            }
 
             /**
              * <p>
@@ -1726,6 +1822,22 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely reference the claim item entries.
+             * </p>
+             * 
+             * @param itemSequence
+             *     Claim item instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder itemSequence(PositiveInt itemSequence) {
+                this.itemSequence = itemSequence;
+                return this;
+            }
+
+            /**
+             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
              * </p>
              * <p>
@@ -1761,6 +1873,48 @@ public class ClaimResponse extends DomainResource {
              */
             public Builder noteNumber(Collection<PositiveInt> noteNumber) {
                 this.noteNumber = new ArrayList<>(noteNumber);
+                return this;
+            }
+
+            /**
+             * <p>
+             * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
+             * simple product or service then this is the result of the adjudication of this item.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param adjudication
+             *     Adjudication details
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder adjudication(Adjudication... adjudication) {
+                for (Adjudication value : adjudication) {
+                    this.adjudication.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
+             * simple product or service then this is the result of the adjudication of this item.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param adjudication
+             *     Adjudication details
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder adjudication(Collection<Adjudication> adjudication) {
+                this.adjudication = new ArrayList<>(adjudication);
                 return this;
             }
 
@@ -1809,11 +1963,11 @@ public class ClaimResponse extends DomainResource {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
+                itemSequence = item.itemSequence;
                 noteNumber.addAll(item.noteNumber);
+                adjudication.addAll(item.adjudication);
                 detail.addAll(item.detail);
                 return this;
             }
@@ -1959,30 +2113,20 @@ public class ClaimResponse extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(category).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept category) {
-                return new Builder(category).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept category) {
-                return new Builder(category);
+                Builder builder = new Builder();
+                builder.category(category);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept category;
-
-                // optional
+                private CodeableConcept category;
                 private CodeableConcept reason;
                 private Money amount;
                 private Decimal value;
-
-                private Builder(CodeableConcept category) {
-                    super();
-                    this.category = category;
-                }
 
                 /**
                  * <p>
@@ -2103,6 +2247,24 @@ public class ClaimResponse extends DomainResource {
 
                 /**
                  * <p>
+                 * A code to indicate the information type of this adjudication record. Information types may include the value 
+                 * submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible 
+                 * for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item.
+                 * </p>
+                 * 
+                 * @param category
+                 *     Type of adjudication information
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder category(CodeableConcept category) {
+                    this.category = category;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
                  * </p>
                  * 
@@ -2154,10 +2316,9 @@ public class ClaimResponse extends DomainResource {
                     return new Adjudication(this);
                 }
 
-                private Builder from(Adjudication adjudication) {
-                    id = adjudication.id;
-                    extension.addAll(adjudication.extension);
-                    modifierExtension.addAll(adjudication.modifierExtension);
+                protected Builder from(Adjudication adjudication) {
+                    super.from(adjudication);
+                    category = adjudication.category;
                     reason = adjudication.reason;
                     amount = adjudication.amount;
                     value = adjudication.value;
@@ -2303,31 +2464,21 @@ public class ClaimResponse extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(detailSequence, adjudication).from(this);
-            }
-
-            public Builder toBuilder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                return new Builder(detailSequence, adjudication).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                return new Builder(detailSequence, adjudication);
+                Builder builder = new Builder();
+                builder.detailSequence(detailSequence);
+                builder.adjudication(adjudication);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final PositiveInt detailSequence;
-                private final List<ClaimResponse.Item.Adjudication> adjudication;
-
-                // optional
+                private PositiveInt detailSequence;
                 private List<PositiveInt> noteNumber = new ArrayList<>();
+                private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
-
-                private Builder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                    super();
-                    this.detailSequence = detailSequence;
-                    this.adjudication = new ArrayList<>(adjudication);
-                }
 
                 /**
                  * <p>
@@ -2448,6 +2599,22 @@ public class ClaimResponse extends DomainResource {
 
                 /**
                  * <p>
+                 * A number to uniquely reference the claim detail entry.
+                 * </p>
+                 * 
+                 * @param detailSequence
+                 *     Claim detail instance identifier
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder detailSequence(PositiveInt detailSequence) {
+                    this.detailSequence = detailSequence;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
                  * </p>
                  * <p>
@@ -2483,6 +2650,46 @@ public class ClaimResponse extends DomainResource {
                  */
                 public Builder noteNumber(Collection<PositiveInt> noteNumber) {
                     this.noteNumber = new ArrayList<>(noteNumber);
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The adjudication results.
+                 * </p>
+                 * <p>
+                 * Adds new element(s) to existing list
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Detail level adjudication details
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                    for (ClaimResponse.Item.Adjudication value : adjudication) {
+                        this.adjudication.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The adjudication results.
+                 * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Detail level adjudication details
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                    this.adjudication = new ArrayList<>(adjudication);
                     return this;
                 }
 
@@ -2531,11 +2738,11 @@ public class ClaimResponse extends DomainResource {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
+                    detailSequence = detail.detailSequence;
                     noteNumber.addAll(detail.noteNumber);
+                    adjudication.addAll(detail.adjudication);
                     subDetail.addAll(detail.subDetail);
                     return this;
                 }
@@ -2660,29 +2867,19 @@ public class ClaimResponse extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(subDetailSequence).from(this);
-                }
-
-                public Builder toBuilder(PositiveInt subDetailSequence) {
-                    return new Builder(subDetailSequence).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(PositiveInt subDetailSequence) {
-                    return new Builder(subDetailSequence);
+                    Builder builder = new Builder();
+                    builder.subDetailSequence(subDetailSequence);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final PositiveInt subDetailSequence;
-
-                    // optional
+                    private PositiveInt subDetailSequence;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-
-                    private Builder(PositiveInt subDetailSequence) {
-                        super();
-                        this.subDetailSequence = subDetailSequence;
-                    }
 
                     /**
                      * <p>
@@ -2803,6 +3000,22 @@ public class ClaimResponse extends DomainResource {
 
                     /**
                      * <p>
+                     * A number to uniquely reference the claim sub-detail entry.
+                     * </p>
+                     * 
+                     * @param subDetailSequence
+                     *     Claim sub-detail instance identifier
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder subDetailSequence(PositiveInt subDetailSequence) {
+                        this.subDetailSequence = subDetailSequence;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
                      * </p>
                      * <p>
@@ -2886,10 +3099,9 @@ public class ClaimResponse extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private Builder from(SubDetail subDetail) {
-                        id = subDetail.id;
-                        extension.addAll(subDetail.extension);
-                        modifierExtension.addAll(subDetail.modifierExtension);
+                    protected Builder from(SubDetail subDetail) {
+                        super.from(subDetail);
+                        subDetailSequence = subDetail.subDetailSequence;
                         noteNumber.addAll(subDetail.noteNumber);
                         adjudication.addAll(subDetail.adjudication);
                         return this;
@@ -3291,27 +3503,22 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(productOrService, adjudication).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-            return new Builder(productOrService, adjudication).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-            return new Builder(productOrService, adjudication);
+            Builder builder = new Builder();
+            builder.productOrService(productOrService);
+            builder.adjudication(adjudication);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept productOrService;
-            private final List<ClaimResponse.Item.Adjudication> adjudication;
-
-            // optional
             private List<PositiveInt> itemSequence = new ArrayList<>();
             private List<PositiveInt> detailSequence = new ArrayList<>();
             private List<PositiveInt> subdetailSequence = new ArrayList<>();
             private List<Reference> provider = new ArrayList<>();
+            private CodeableConcept productOrService;
             private List<CodeableConcept> modifier = new ArrayList<>();
             private List<CodeableConcept> programCode = new ArrayList<>();
             private Element serviced;
@@ -3323,13 +3530,8 @@ public class ClaimResponse extends DomainResource {
             private CodeableConcept bodySite;
             private List<CodeableConcept> subSite = new ArrayList<>();
             private List<PositiveInt> noteNumber = new ArrayList<>();
+            private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
-
-            private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                super();
-                this.productOrService = productOrService;
-                this.adjudication = new ArrayList<>(adjudication);
-            }
 
             /**
              * <p>
@@ -3610,6 +3812,23 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+             * product, service, drug or other billing code for the item.
+             * </p>
+             * 
+             * @param productOrService
+             *     Billing, service, product, or drug code
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder productOrService(CodeableConcept productOrService) {
+                this.productOrService = productOrService;
+                return this;
+            }
+
+            /**
+             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
              * </p>
              * <p>
@@ -3884,6 +4103,46 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * The adjudication results.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param adjudication
+             *     Added items adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                for (ClaimResponse.Item.Adjudication value : adjudication) {
+                    this.adjudication.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * The adjudication results.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param adjudication
+             *     Added items adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                this.adjudication = new ArrayList<>(adjudication);
+                return this;
+            }
+
+            /**
+             * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
              * <p>
@@ -3927,14 +4186,13 @@ public class ClaimResponse extends DomainResource {
                 return new AddItem(this);
             }
 
-            private Builder from(AddItem addItem) {
-                id = addItem.id;
-                extension.addAll(addItem.extension);
-                modifierExtension.addAll(addItem.modifierExtension);
+            protected Builder from(AddItem addItem) {
+                super.from(addItem);
                 itemSequence.addAll(addItem.itemSequence);
                 detailSequence.addAll(addItem.detailSequence);
                 subdetailSequence.addAll(addItem.subdetailSequence);
                 provider.addAll(addItem.provider);
+                productOrService = addItem.productOrService;
                 modifier.addAll(addItem.modifier);
                 programCode.addAll(addItem.programCode);
                 serviced = addItem.serviced;
@@ -3946,6 +4204,7 @@ public class ClaimResponse extends DomainResource {
                 bodySite = addItem.bodySite;
                 subSite.addAll(addItem.subSite);
                 noteNumber.addAll(addItem.noteNumber);
+                adjudication.addAll(addItem.adjudication);
                 detail.addAll(addItem.detail);
                 return this;
             }
@@ -4181,36 +4440,26 @@ public class ClaimResponse extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(productOrService, adjudication).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                return new Builder(productOrService, adjudication).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                return new Builder(productOrService, adjudication);
+                Builder builder = new Builder();
+                builder.productOrService(productOrService);
+                builder.adjudication(adjudication);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept productOrService;
-                private final List<ClaimResponse.Item.Adjudication> adjudication;
-
-                // optional
+                private CodeableConcept productOrService;
                 private List<CodeableConcept> modifier = new ArrayList<>();
                 private Quantity quantity;
                 private Money unitPrice;
                 private Decimal factor;
                 private Money net;
                 private List<PositiveInt> noteNumber = new ArrayList<>();
+                private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
-
-                private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                    super();
-                    this.productOrService = productOrService;
-                    this.adjudication = new ArrayList<>(adjudication);
-                }
 
                 /**
                  * <p>
@@ -4327,6 +4576,23 @@ public class ClaimResponse extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * <p>
+                 * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                 * product, service, drug or other billing code for the item.
+                 * </p>
+                 * 
+                 * @param productOrService
+                 *     Billing, service, product, or drug code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder productOrService(CodeableConcept productOrService) {
+                    this.productOrService = productOrService;
+                    return this;
                 }
 
                 /**
@@ -4477,6 +4743,46 @@ public class ClaimResponse extends DomainResource {
 
                 /**
                  * <p>
+                 * The adjudication results.
+                 * </p>
+                 * <p>
+                 * Adds new element(s) to existing list
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Added items detail adjudication
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                    for (ClaimResponse.Item.Adjudication value : adjudication) {
+                        this.adjudication.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The adjudication results.
+                 * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Added items detail adjudication
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                    this.adjudication = new ArrayList<>(adjudication);
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
                  * <p>
@@ -4520,16 +4826,16 @@ public class ClaimResponse extends DomainResource {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
+                    productOrService = detail.productOrService;
                     modifier.addAll(detail.modifier);
                     quantity = detail.quantity;
                     unitPrice = detail.unitPrice;
                     factor = detail.factor;
                     net = detail.net;
                     noteNumber.addAll(detail.noteNumber);
+                    adjudication.addAll(detail.adjudication);
                     subDetail.addAll(detail.subDetail);
                     return this;
                 }
@@ -4747,35 +5053,25 @@ public class ClaimResponse extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(productOrService, adjudication).from(this);
-                }
-
-                public Builder toBuilder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                    return new Builder(productOrService, adjudication).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                    return new Builder(productOrService, adjudication);
+                    Builder builder = new Builder();
+                    builder.productOrService(productOrService);
+                    builder.adjudication(adjudication);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final CodeableConcept productOrService;
-                    private final List<ClaimResponse.Item.Adjudication> adjudication;
-
-                    // optional
+                    private CodeableConcept productOrService;
                     private List<CodeableConcept> modifier = new ArrayList<>();
                     private Quantity quantity;
                     private Money unitPrice;
                     private Decimal factor;
                     private Money net;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
-
-                    private Builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                        super();
-                        this.productOrService = productOrService;
-                        this.adjudication = new ArrayList<>(adjudication);
-                    }
+                    private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
 
                     /**
                      * <p>
@@ -4892,6 +5188,23 @@ public class ClaimResponse extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * <p>
+                     * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                     * product, service, drug or other billing code for the item.
+                     * </p>
+                     * 
+                     * @param productOrService
+                     *     Billing, service, product, or drug code
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder productOrService(CodeableConcept productOrService) {
+                        this.productOrService = productOrService;
+                        return this;
                     }
 
                     /**
@@ -5040,21 +5353,61 @@ public class ClaimResponse extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * <p>
+                     * The adjudication results.
+                     * </p>
+                     * <p>
+                     * Adds new element(s) to existing list
+                     * </p>
+                     * 
+                     * @param adjudication
+                     *     Added items detail adjudication
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                        for (ClaimResponse.Item.Adjudication value : adjudication) {
+                            this.adjudication.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The adjudication results.
+                     * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
+                     * 
+                     * @param adjudication
+                     *     Added items detail adjudication
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                        this.adjudication = new ArrayList<>(adjudication);
+                        return this;
+                    }
+
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
                     }
 
-                    private Builder from(SubDetail subDetail) {
-                        id = subDetail.id;
-                        extension.addAll(subDetail.extension);
-                        modifierExtension.addAll(subDetail.modifierExtension);
+                    protected Builder from(SubDetail subDetail) {
+                        super.from(subDetail);
+                        productOrService = subDetail.productOrService;
                         modifier.addAll(subDetail.modifier);
                         quantity = subDetail.quantity;
                         unitPrice = subDetail.unitPrice;
                         factor = subDetail.factor;
                         net = subDetail.net;
                         noteNumber.addAll(subDetail.noteNumber);
+                        adjudication.addAll(subDetail.adjudication);
                         return this;
                     }
                 }
@@ -5165,27 +5518,19 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(category, amount).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept category, Money amount) {
-            return new Builder(category, amount).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept category, Money amount) {
-            return new Builder(category, amount);
+            Builder builder = new Builder();
+            builder.category(category);
+            builder.amount(amount);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept category;
-            private final Money amount;
-
-            private Builder(CodeableConcept category, Money amount) {
-                super();
-                this.category = category;
-                this.amount = amount;
-            }
+            private CodeableConcept category;
+            private Money amount;
 
             /**
              * <p>
@@ -5304,15 +5649,49 @@ public class ClaimResponse extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * A code to indicate the information type of this adjudication record. Information types may include: the value 
+             * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
+             * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
+             * </p>
+             * 
+             * @param category
+             *     Type of adjudication information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder category(CodeableConcept category) {
+                this.category = category;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Monetary total amount associated with the category.
+             * </p>
+             * 
+             * @param amount
+             *     Financial total for the category
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder amount(Money amount) {
+                this.amount = amount;
+                return this;
+            }
+
             @Override
             public Total build() {
                 return new Total(this);
             }
 
-            private Builder from(Total total) {
-                id = total.id;
-                extension.addAll(total.extension);
-                modifierExtension.addAll(total.modifierExtension);
+            protected Builder from(Total total) {
+                super.from(total);
+                category = total.category;
+                amount = total.amount;
                 return this;
             }
         }
@@ -5492,33 +5871,23 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, amount).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Money amount) {
-            return new Builder(type, amount).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Money amount) {
-            return new Builder(type, amount);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.amount(amount);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final Money amount;
-
-            // optional
+            private CodeableConcept type;
             private Money adjustment;
             private CodeableConcept adjustmentReason;
             private Date date;
+            private Money amount;
             private Identifier identifier;
-
-            private Builder(CodeableConcept type, Money amount) {
-                super();
-                this.type = type;
-                this.amount = amount;
-            }
 
             /**
              * <p>
@@ -5639,6 +6008,22 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * Whether this represents partial or complete payment of the benefits payable.
+             * </p>
+             * 
+             * @param type
+             *     Partial or complete payment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Total amount of all adjustments to this payment included in this transaction which are not related to this claim's 
              * adjudication.
              * </p>
@@ -5688,6 +6073,22 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * Benefits payable less any payment adjustment.
+             * </p>
+             * 
+             * @param amount
+             *     Payable amount after adjustment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder amount(Money amount) {
+                this.amount = amount;
+                return this;
+            }
+
+            /**
+             * <p>
              * Issuer's unique identifier for the payment instrument.
              * </p>
              * 
@@ -5707,13 +6108,13 @@ public class ClaimResponse extends DomainResource {
                 return new Payment(this);
             }
 
-            private Builder from(Payment payment) {
-                id = payment.id;
-                extension.addAll(payment.extension);
-                modifierExtension.addAll(payment.modifierExtension);
+            protected Builder from(Payment payment) {
+                super.from(payment);
+                type = payment.type;
                 adjustment = payment.adjustment;
                 adjustmentReason = payment.adjustmentReason;
                 date = payment.date;
+                amount = payment.amount;
                 identifier = payment.identifier;
                 return this;
             }
@@ -5857,30 +6258,20 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(text).from(this);
-        }
-
-        public Builder toBuilder(String text) {
-            return new Builder(text).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String text) {
-            return new Builder(text);
+            Builder builder = new Builder();
+            builder.text(text);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String text;
-
-            // optional
             private PositiveInt number;
             private NoteType type;
+            private String text;
             private CodeableConcept language;
-
-            private Builder(String text) {
-                super();
-                this.text = text;
-            }
 
             /**
              * <p>
@@ -6033,6 +6424,22 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * The explanation or description associated with the processing.
+             * </p>
+             * 
+             * @param text
+             *     Note explanatory text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(String text) {
+                this.text = text;
+                return this;
+            }
+
+            /**
+             * <p>
              * A code to define the language used in the text of the note.
              * </p>
              * 
@@ -6052,12 +6459,11 @@ public class ClaimResponse extends DomainResource {
                 return new ProcessNote(this);
             }
 
-            private Builder from(ProcessNote processNote) {
-                id = processNote.id;
-                extension.addAll(processNote.extension);
-                modifierExtension.addAll(processNote.modifierExtension);
+            protected Builder from(ProcessNote processNote) {
+                super.from(processNote);
                 number = processNote.number;
                 type = processNote.type;
+                text = processNote.text;
                 language = processNote.language;
                 return this;
             }
@@ -6221,33 +6627,23 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, focal, coverage).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, Boolean focal, Reference coverage) {
-            return new Builder(sequence, focal, coverage).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Boolean focal, Reference coverage) {
-            return new Builder(sequence, focal, coverage);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.focal(focal);
+            builder.coverage(coverage);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final Boolean focal;
-            private final Reference coverage;
-
-            // optional
+            private PositiveInt sequence;
+            private Boolean focal;
+            private Reference coverage;
             private String businessArrangement;
             private Reference claimResponse;
-
-            private Builder(PositiveInt sequence, Boolean focal, Reference coverage) {
-                super();
-                this.sequence = sequence;
-                this.focal = focal;
-                this.coverage = coverage;
-            }
 
             /**
              * <p>
@@ -6368,6 +6764,56 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit 
+             * order.
+             * </p>
+             * 
+             * @param sequence
+             *     Insurance instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
+             * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
+             * </p>
+             * 
+             * @param focal
+             *     Coverage to be used for adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(Boolean focal) {
+                this.focal = focal;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
+             * will use these details to locate the patient's actual coverage within the insurer's information system.
+             * </p>
+             * 
+             * @param coverage
+             *     Insurance information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder coverage(Reference coverage) {
+                this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * <p>
              * A business agreement number established between the provider and the insurer for special business processing purposes.
              * </p>
              * 
@@ -6403,10 +6849,11 @@ public class ClaimResponse extends DomainResource {
                 return new Insurance(this);
             }
 
-            private Builder from(Insurance insurance) {
-                id = insurance.id;
-                extension.addAll(insurance.extension);
-                modifierExtension.addAll(insurance.modifierExtension);
+            protected Builder from(Insurance insurance) {
+                super.from(insurance);
+                sequence = insurance.sequence;
+                focal = insurance.focal;
+                coverage = insurance.coverage;
                 businessArrangement = insurance.businessArrangement;
                 claimResponse = insurance.claimResponse;
                 return this;
@@ -6554,30 +7001,20 @@ public class ClaimResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
             private PositiveInt itemSequence;
             private PositiveInt detailSequence;
             private PositiveInt subDetailSequence;
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
+            private CodeableConcept code;
 
             /**
              * <p>
@@ -6747,18 +7184,33 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * An error code, from a specified code system, which details why the claim could not be adjudicated.
+             * </p>
+             * 
+             * @param code
+             *     Error code detailing processing issues
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
             @Override
             public Error build() {
                 return new Error(this);
             }
 
-            private Builder from(Error error) {
-                id = error.id;
-                extension.addAll(error.extension);
-                modifierExtension.addAll(error.modifierExtension);
+            protected Builder from(Error error) {
+                super.from(error);
                 itemSequence = error.itemSequence;
                 detailSequence = error.detailSequence;
                 subDetailSequence = error.subDetailSequence;
+                code = error.code;
                 return this;
             }
         }

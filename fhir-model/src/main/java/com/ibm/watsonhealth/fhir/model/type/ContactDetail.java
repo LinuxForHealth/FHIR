@@ -120,17 +120,13 @@ public class ContactDetail extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private String name;
         private List<ContactPoint> telecom = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -254,9 +250,8 @@ public class ContactDetail extends Element {
             return new ContactDetail(this);
         }
 
-        private Builder from(ContactDetail contactDetail) {
-            id = contactDetail.id;
-            extension.addAll(contactDetail.extension);
+        protected Builder from(ContactDetail contactDetail) {
+            super.from(contactDetail);
             name = contactDetail.name;
             telecom.addAll(contactDetail.telecom);
             return this;

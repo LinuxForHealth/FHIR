@@ -308,40 +308,30 @@ public class AuditEvent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, recorded, agent, source).from(this);
-    }
-
-    public Builder toBuilder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
-        return new Builder(type, recorded, agent, source).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
-        return new Builder(type, recorded, agent, source);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.recorded(recorded);
+        builder.agent(agent);
+        builder.source(source);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Coding type;
-        private final Instant recorded;
-        private final List<Agent> agent;
-        private final Source source;
-
-        // optional
+        private Coding type;
         private List<Coding> subtype = new ArrayList<>();
         private AuditEventAction action;
         private Period period;
+        private Instant recorded;
         private AuditEventOutcome outcome;
         private String outcomeDesc;
         private List<CodeableConcept> purposeOfEvent = new ArrayList<>();
+        private List<Agent> agent = new ArrayList<>();
+        private Source source;
         private List<Entity> entity = new ArrayList<>();
-
-        private Builder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
-            super();
-            this.type = type;
-            this.recorded = recorded;
-            this.agent = new ArrayList<>(agent);
-            this.source = source;
-        }
 
         /**
          * <p>
@@ -571,6 +561,23 @@ public class AuditEvent extends DomainResource {
 
         /**
          * <p>
+         * Identifier for a family of the event. For example, a menu item, program, rule, policy, function code, application name 
+         * or URL. It identifies the performed function.
+         * </p>
+         * 
+         * @param type
+         *     Type/identifier of event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(Coding type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * Identifier for the category of event.
          * </p>
          * <p>
@@ -638,6 +645,22 @@ public class AuditEvent extends DomainResource {
          */
         public Builder period(Period period) {
             this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The time when the event was recorded.
+         * </p>
+         * 
+         * @param recorded
+         *     Time when the event was recorded
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recorded(Instant recorded) {
+            this.recorded = recorded;
             return this;
         }
 
@@ -715,6 +738,62 @@ public class AuditEvent extends DomainResource {
 
         /**
          * <p>
+         * An actor taking an active role in the event or activity that is logged.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved in the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder agent(Agent... agent) {
+            for (Agent value : agent) {
+                this.agent.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An actor taking an active role in the event or activity that is logged.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved in the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder agent(Collection<Agent> agent) {
+            this.agent = new ArrayList<>(agent);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The system that is reporting the event.
+         * </p>
+         * 
+         * @param source
+         *     Audit Event Reporter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder source(Source source) {
+            this.source = source;
+            return this;
+        }
+
+        /**
+         * <p>
          * Specific instances of data or objects that have been accessed.
          * </p>
          * <p>
@@ -758,21 +837,18 @@ public class AuditEvent extends DomainResource {
             return new AuditEvent(this);
         }
 
-        private Builder from(AuditEvent auditEvent) {
-            id = auditEvent.id;
-            meta = auditEvent.meta;
-            implicitRules = auditEvent.implicitRules;
-            language = auditEvent.language;
-            text = auditEvent.text;
-            contained.addAll(auditEvent.contained);
-            extension.addAll(auditEvent.extension);
-            modifierExtension.addAll(auditEvent.modifierExtension);
+        protected Builder from(AuditEvent auditEvent) {
+            super.from(auditEvent);
+            type = auditEvent.type;
             subtype.addAll(auditEvent.subtype);
             action = auditEvent.action;
             period = auditEvent.period;
+            recorded = auditEvent.recorded;
             outcome = auditEvent.outcome;
             outcomeDesc = auditEvent.outcomeDesc;
             purposeOfEvent.addAll(auditEvent.purposeOfEvent);
+            agent.addAll(auditEvent.agent);
+            source = auditEvent.source;
             entity.addAll(auditEvent.entity);
             return this;
         }
@@ -1045,37 +1121,27 @@ public class AuditEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(requestor).from(this);
-        }
-
-        public Builder toBuilder(Boolean requestor) {
-            return new Builder(requestor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean requestor) {
-            return new Builder(requestor);
+            Builder builder = new Builder();
+            builder.requestor(requestor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean requestor;
-
-            // optional
             private CodeableConcept type;
             private List<CodeableConcept> role = new ArrayList<>();
             private Reference who;
             private String altId;
             private String name;
+            private Boolean requestor;
             private Reference location;
             private List<Uri> policy = new ArrayList<>();
             private Coding media;
             private Network network;
             private List<CodeableConcept> purposeOfUse = new ArrayList<>();
-
-            private Builder(Boolean requestor) {
-                super();
-                this.requestor = requestor;
-            }
 
             /**
              * <p>
@@ -1303,6 +1369,22 @@ public class AuditEvent extends DomainResource {
 
             /**
              * <p>
+             * Indicator that the user is or is not the requestor, or initiator, for the event being audited.
+             * </p>
+             * 
+             * @param requestor
+             *     Whether user is initiator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder requestor(Boolean requestor) {
+                this.requestor = requestor;
+                return this;
+            }
+
+            /**
+             * <p>
              * Where the event occurred.
              * </p>
              * 
@@ -1438,15 +1520,14 @@ public class AuditEvent extends DomainResource {
                 return new Agent(this);
             }
 
-            private Builder from(Agent agent) {
-                id = agent.id;
-                extension.addAll(agent.extension);
-                modifierExtension.addAll(agent.modifierExtension);
+            protected Builder from(Agent agent) {
+                super.from(agent);
                 type = agent.type;
                 role.addAll(agent.role);
                 who = agent.who;
                 altId = agent.altId;
                 name = agent.name;
+                requestor = agent.requestor;
                 location = agent.location;
                 policy.addAll(agent.policy);
                 media = agent.media;
@@ -1561,17 +1642,13 @@ public class AuditEvent extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private String address;
                 private AuditEventAgentNetworkType type;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1727,10 +1804,8 @@ public class AuditEvent extends DomainResource {
                     return new Network(this);
                 }
 
-                private Builder from(Network network) {
-                    id = network.id;
-                    extension.addAll(network.extension);
-                    modifierExtension.addAll(network.modifierExtension);
+                protected Builder from(Network network) {
+                    super.from(network);
                     address = network.address;
                     type = network.type;
                     return this;
@@ -1859,29 +1934,19 @@ public class AuditEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(observer).from(this);
-        }
-
-        public Builder toBuilder(Reference observer) {
-            return new Builder(observer).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference observer) {
-            return new Builder(observer);
+            Builder builder = new Builder();
+            builder.observer(observer);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference observer;
-
-            // optional
             private String site;
+            private Reference observer;
             private List<Coding> type = new ArrayList<>();
-
-            private Builder(Reference observer) {
-                super();
-                this.observer = observer;
-            }
 
             /**
              * <p>
@@ -2019,6 +2084,22 @@ public class AuditEvent extends DomainResource {
 
             /**
              * <p>
+             * Identifier of the source where the event was detected.
+             * </p>
+             * 
+             * @param observer
+             *     The identity of source detecting the event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder observer(Reference observer) {
+                this.observer = observer;
+                return this;
+            }
+
+            /**
+             * <p>
              * Code specifying the type of source where event originated.
              * </p>
              * <p>
@@ -2062,11 +2143,10 @@ public class AuditEvent extends DomainResource {
                 return new Source(this);
             }
 
-            private Builder from(Source source) {
-                id = source.id;
-                extension.addAll(source.extension);
-                modifierExtension.addAll(source.modifierExtension);
+            protected Builder from(Source source) {
+                super.from(source);
                 site = source.site;
+                observer = source.observer;
                 type.addAll(source.type);
                 return this;
             }
@@ -2304,11 +2384,11 @@ public class AuditEvent extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference what;
             private Coding type;
             private Coding role;
@@ -2318,10 +2398,6 @@ public class AuditEvent extends DomainResource {
             private String description;
             private Base64Binary query;
             private List<Detail> detail = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2637,10 +2713,8 @@ public class AuditEvent extends DomainResource {
                 return new Entity(this);
             }
 
-            private Builder from(Entity entity) {
-                id = entity.id;
-                extension.addAll(entity.extension);
-                modifierExtension.addAll(entity.modifierExtension);
+            protected Builder from(Entity entity) {
+                super.from(entity);
                 what = entity.what;
                 type = entity.type;
                 role = entity.role;
@@ -2755,27 +2829,19 @@ public class AuditEvent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type, value).from(this);
-            }
-
-            public Builder toBuilder(String type, Element value) {
-                return new Builder(type, value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String type, Element value) {
-                return new Builder(type, value);
+                Builder builder = new Builder();
+                builder.type(type);
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String type;
-                private final Element value;
-
-                private Builder(String type, Element value) {
-                    super();
-                    this.type = type;
-                    this.value = value;
-                }
+                private String type;
+                private Element value;
 
                 /**
                  * <p>
@@ -2894,15 +2960,47 @@ public class AuditEvent extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The type of extra detail provided in the value.
+                 * </p>
+                 * 
+                 * @param type
+                 *     Name of the property
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(String type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The value of the extra detail.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Property value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(Element value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public Detail build() {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
+                    type = detail.type;
+                    value = detail.value;
                     return this;
                 }
             }

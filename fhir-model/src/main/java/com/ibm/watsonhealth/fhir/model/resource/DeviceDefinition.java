@@ -494,11 +494,11 @@ public class DeviceDefinition extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<UdiDeviceIdentifier> udiDeviceIdentifier = new ArrayList<>();
         private Element manufacturer;
@@ -521,10 +521,6 @@ public class DeviceDefinition extends DomainResource {
         private Quantity quantity;
         private Reference parentDevice;
         private List<Material> material = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1433,15 +1429,8 @@ public class DeviceDefinition extends DomainResource {
             return new DeviceDefinition(this);
         }
 
-        private Builder from(DeviceDefinition deviceDefinition) {
-            id = deviceDefinition.id;
-            meta = deviceDefinition.meta;
-            implicitRules = deviceDefinition.implicitRules;
-            language = deviceDefinition.language;
-            text = deviceDefinition.text;
-            contained.addAll(deviceDefinition.contained);
-            extension.addAll(deviceDefinition.extension);
-            modifierExtension.addAll(deviceDefinition.modifierExtension);
+        protected Builder from(DeviceDefinition deviceDefinition) {
+            super.from(deviceDefinition);
             identifier.addAll(deviceDefinition.identifier);
             udiDeviceIdentifier.addAll(deviceDefinition.udiDeviceIdentifier);
             manufacturer = deviceDefinition.manufacturer;
@@ -1590,29 +1579,21 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(deviceIdentifier, issuer, jurisdiction).from(this);
-        }
-
-        public Builder toBuilder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
-            return new Builder(deviceIdentifier, issuer, jurisdiction).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
-            return new Builder(deviceIdentifier, issuer, jurisdiction);
+            Builder builder = new Builder();
+            builder.deviceIdentifier(deviceIdentifier);
+            builder.issuer(issuer);
+            builder.jurisdiction(jurisdiction);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String deviceIdentifier;
-            private final Uri issuer;
-            private final Uri jurisdiction;
-
-            private Builder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
-                super();
-                this.deviceIdentifier = deviceIdentifier;
-                this.issuer = issuer;
-                this.jurisdiction = jurisdiction;
-            }
+            private String deviceIdentifier;
+            private Uri issuer;
+            private Uri jurisdiction;
 
             /**
              * <p>
@@ -1731,15 +1712,66 @@ public class DeviceDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and 
+             * jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier.
+             * </p>
+             * 
+             * @param deviceIdentifier
+             *     The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and 
+             *     jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder deviceIdentifier(String deviceIdentifier) {
+                this.deviceIdentifier = deviceIdentifier;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The organization that assigns the identifier algorithm.
+             * </p>
+             * 
+             * @param issuer
+             *     The organization that assigns the identifier algorithm
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder issuer(Uri issuer) {
+                this.issuer = issuer;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The jurisdiction to which the deviceIdentifier applies.
+             * </p>
+             * 
+             * @param jurisdiction
+             *     The jurisdiction to which the deviceIdentifier applies
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder jurisdiction(Uri jurisdiction) {
+                this.jurisdiction = jurisdiction;
+                return this;
+            }
+
             @Override
             public UdiDeviceIdentifier build() {
                 return new UdiDeviceIdentifier(this);
             }
 
-            private Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
-                id = udiDeviceIdentifier.id;
-                extension.addAll(udiDeviceIdentifier.extension);
-                modifierExtension.addAll(udiDeviceIdentifier.modifierExtension);
+            protected Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
+                super.from(udiDeviceIdentifier);
+                deviceIdentifier = udiDeviceIdentifier.deviceIdentifier;
+                issuer = udiDeviceIdentifier.issuer;
+                jurisdiction = udiDeviceIdentifier.jurisdiction;
                 return this;
             }
         }
@@ -1847,27 +1879,19 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name, type).from(this);
-        }
-
-        public Builder toBuilder(String name, DeviceNameType type) {
-            return new Builder(name, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name, DeviceNameType type) {
-            return new Builder(name, type);
+            Builder builder = new Builder();
+            builder.name(name);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-            private final DeviceNameType type;
-
-            private Builder(String name, DeviceNameType type) {
-                super();
-                this.name = name;
-                this.type = type;
-            }
+            private String name;
+            private DeviceNameType type;
 
             /**
              * <p>
@@ -1986,15 +2010,48 @@ public class DeviceDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The name of the device.
+             * </p>
+             * 
+             * @param name
+             *     The name of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of deviceName.
+             * UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
+             * </p>
+             * 
+             * @param type
+             *     udi-label-name | user-friendly-name | patient-reported-name | manufacturer-name | model-name | other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(DeviceNameType type) {
+                this.type = type;
+                return this;
+            }
+
             @Override
             public DeviceName build() {
                 return new DeviceName(this);
             }
 
-            private Builder from(DeviceName deviceName) {
-                id = deviceName.id;
-                extension.addAll(deviceName.extension);
-                modifierExtension.addAll(deviceName.modifierExtension);
+            protected Builder from(DeviceName deviceName) {
+                super.from(deviceName);
+                name = deviceName.name;
+                type = deviceName.type;
                 return this;
             }
         }
@@ -2102,28 +2159,18 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(systemType).from(this);
-        }
-
-        public Builder toBuilder(String systemType) {
-            return new Builder(systemType).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String systemType) {
-            return new Builder(systemType);
+            Builder builder = new Builder();
+            builder.systemType(systemType);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String systemType;
-
-            // optional
+            private String systemType;
             private String version;
-
-            private Builder(String systemType) {
-                super();
-                this.systemType = systemType;
-            }
 
             /**
              * <p>
@@ -2244,6 +2291,22 @@ public class DeviceDefinition extends DomainResource {
 
             /**
              * <p>
+             * The standard that is used to operate and communicate.
+             * </p>
+             * 
+             * @param systemType
+             *     The standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder systemType(String systemType) {
+                this.systemType = systemType;
+                return this;
+            }
+
+            /**
+             * <p>
              * The version of the standard that is used to operate and communicate.
              * </p>
              * 
@@ -2263,10 +2326,9 @@ public class DeviceDefinition extends DomainResource {
                 return new Specialization(this);
             }
 
-            private Builder from(Specialization specialization) {
-                id = specialization.id;
-                extension.addAll(specialization.extension);
-                modifierExtension.addAll(specialization.modifierExtension);
+            protected Builder from(Specialization specialization) {
+                super.from(specialization);
+                systemType = specialization.systemType;
                 version = specialization.version;
                 return this;
             }
@@ -2374,28 +2436,18 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
+            private CodeableConcept type;
             private List<CodeableConcept> description = new ArrayList<>();
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -2516,6 +2568,22 @@ public class DeviceDefinition extends DomainResource {
 
             /**
              * <p>
+             * Type of capability.
+             * </p>
+             * 
+             * @param type
+             *     Type of capability
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Description of capability.
              * </p>
              * <p>
@@ -2559,10 +2627,9 @@ public class DeviceDefinition extends DomainResource {
                 return new Capability(this);
             }
 
-            private Builder from(Capability capability) {
-                id = capability.id;
-                extension.addAll(capability.extension);
-                modifierExtension.addAll(capability.modifierExtension);
+            protected Builder from(Capability capability) {
+                super.from(capability);
+                type = capability.type;
                 description.addAll(capability.description);
                 return this;
             }
@@ -2688,29 +2755,19 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
+            private CodeableConcept type;
             private List<Quantity> valueQuantity = new ArrayList<>();
             private List<CodeableConcept> valueCode = new ArrayList<>();
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -2831,6 +2888,22 @@ public class DeviceDefinition extends DomainResource {
 
             /**
              * <p>
+             * Code that specifies the property DeviceDefinitionPropetyCode (Extensible).
+             * </p>
+             * 
+             * @param type
+             *     Code that specifies the property DeviceDefinitionPropetyCode (Extensible)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Property value as a quantity.
              * </p>
              * <p>
@@ -2914,10 +2987,9 @@ public class DeviceDefinition extends DomainResource {
                 return new Property(this);
             }
 
-            private Builder from(Property property) {
-                id = property.id;
-                extension.addAll(property.extension);
-                modifierExtension.addAll(property.modifierExtension);
+            protected Builder from(Property property) {
+                super.from(property);
+                type = property.type;
                 valueQuantity.addAll(property.valueQuantity);
                 valueCode.addAll(property.valueCode);
                 return this;
@@ -3044,29 +3116,19 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(substance).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept substance) {
-            return new Builder(substance).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept substance) {
-            return new Builder(substance);
+            Builder builder = new Builder();
+            builder.substance(substance);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept substance;
-
-            // optional
+            private CodeableConcept substance;
             private Boolean alternate;
             private Boolean allergenicIndicator;
-
-            private Builder(CodeableConcept substance) {
-                super();
-                this.substance = substance;
-            }
 
             /**
              * <p>
@@ -3187,6 +3249,22 @@ public class DeviceDefinition extends DomainResource {
 
             /**
              * <p>
+             * The substance.
+             * </p>
+             * 
+             * @param substance
+             *     The substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder substance(CodeableConcept substance) {
+                this.substance = substance;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates an alternative material of the device.
              * </p>
              * 
@@ -3222,10 +3300,9 @@ public class DeviceDefinition extends DomainResource {
                 return new Material(this);
             }
 
-            private Builder from(Material material) {
-                id = material.id;
-                extension.addAll(material.extension);
-                modifierExtension.addAll(material.modifierExtension);
+            protected Builder from(Material material) {
+                super.from(material);
+                substance = material.substance;
                 alternate = material.alternate;
                 allergenicIndicator = material.allergenicIndicator;
                 return this;

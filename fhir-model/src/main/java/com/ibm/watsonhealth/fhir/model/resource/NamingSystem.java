@@ -362,26 +362,24 @@ public class NamingSystem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(name, status, kind, date, uniqueId).from(this);
-    }
-
-    public Builder toBuilder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
-        return new Builder(name, status, kind, date, uniqueId).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
-        return new Builder(name, status, kind, date, uniqueId);
+        Builder builder = new Builder();
+        builder.name(name);
+        builder.status(status);
+        builder.kind(kind);
+        builder.date(date);
+        builder.uniqueId(uniqueId);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final String name;
-        private final PublicationStatus status;
-        private final NamingSystemType kind;
-        private final DateTime date;
-        private final List<UniqueId> uniqueId;
-
-        // optional
+        private String name;
+        private PublicationStatus status;
+        private NamingSystemType kind;
+        private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
         private String responsible;
@@ -390,15 +388,7 @@ public class NamingSystem extends DomainResource {
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private String usage;
-
-        private Builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
-            super();
-            this.name = name;
-            this.status = status;
-            this.kind = kind;
-            this.date = date;
-            this.uniqueId = new ArrayList<>(uniqueId);
-        }
+        private List<UniqueId> uniqueId = new ArrayList<>();
 
         /**
          * <p>
@@ -628,6 +618,73 @@ public class NamingSystem extends DomainResource {
 
         /**
          * <p>
+         * A natural language name identifying the naming system. This name should be usable as an identifier for the module by 
+         * machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this naming system (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this naming system. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the purpose for the naming system - what kinds of things does it make unique?
+         * </p>
+         * 
+         * @param kind
+         *     codesystem | identifier | root
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder kind(NamingSystemType kind) {
+            this.kind = kind;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date (and optionally time) when the naming system was published. The date must change when the business version 
+         * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
+         * the naming system changes.
+         * </p>
+         * 
+         * @param date
+         *     Date last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
+            return this;
+        }
+
+        /**
+         * <p>
          * The name of the organization or individual that published the naming system.
          * </p>
          * 
@@ -833,20 +890,57 @@ public class NamingSystem extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Indicates how the system may be identified when referenced in electronic exchange.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param uniqueId
+         *     Unique identifiers used for system
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder uniqueId(UniqueId... uniqueId) {
+            for (UniqueId value : uniqueId) {
+                this.uniqueId.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates how the system may be identified when referenced in electronic exchange.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param uniqueId
+         *     Unique identifiers used for system
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder uniqueId(Collection<UniqueId> uniqueId) {
+            this.uniqueId = new ArrayList<>(uniqueId);
+            return this;
+        }
+
         @Override
         public NamingSystem build() {
             return new NamingSystem(this);
         }
 
-        private Builder from(NamingSystem namingSystem) {
-            id = namingSystem.id;
-            meta = namingSystem.meta;
-            implicitRules = namingSystem.implicitRules;
-            language = namingSystem.language;
-            text = namingSystem.text;
-            contained.addAll(namingSystem.contained);
-            extension.addAll(namingSystem.extension);
-            modifierExtension.addAll(namingSystem.modifierExtension);
+        protected Builder from(NamingSystem namingSystem) {
+            super.from(namingSystem);
+            name = namingSystem.name;
+            status = namingSystem.status;
+            kind = namingSystem.kind;
+            date = namingSystem.date;
             publisher = namingSystem.publisher;
             contact.addAll(namingSystem.contact);
             responsible = namingSystem.responsible;
@@ -855,6 +949,7 @@ public class NamingSystem extends DomainResource {
             useContext.addAll(namingSystem.useContext);
             jurisdiction.addAll(namingSystem.jurisdiction);
             usage = namingSystem.usage;
+            uniqueId.addAll(namingSystem.uniqueId);
             return this;
         }
     }
@@ -1015,32 +1110,22 @@ public class NamingSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, value).from(this);
-        }
-
-        public Builder toBuilder(NamingSystemIdentifierType type, String value) {
-            return new Builder(type, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(NamingSystemIdentifierType type, String value) {
-            return new Builder(type, value);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final NamingSystemIdentifierType type;
-            private final String value;
-
-            // optional
+            private NamingSystemIdentifierType type;
+            private String value;
             private Boolean preferred;
             private String comment;
             private Period period;
-
-            private Builder(NamingSystemIdentifierType type, String value) {
-                super();
-                this.type = type;
-                this.value = value;
-            }
 
             /**
              * <p>
@@ -1161,6 +1246,38 @@ public class NamingSystem extends DomainResource {
 
             /**
              * <p>
+             * Identifies the unique identifier scheme used for this particular identifier.
+             * </p>
+             * 
+             * @param type
+             *     oid | uuid | uri | other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(NamingSystemIdentifierType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The string that should be sent over the wire to identify the code system or identifier system.
+             * </p>
+             * 
+             * @param value
+             *     The unique identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(String value) {
+                this.value = value;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates whether this identifier is the "preferred" identifier of this type.
              * </p>
              * 
@@ -1213,10 +1330,10 @@ public class NamingSystem extends DomainResource {
                 return new UniqueId(this);
             }
 
-            private Builder from(UniqueId uniqueId) {
-                id = uniqueId.id;
-                extension.addAll(uniqueId.extension);
-                modifierExtension.addAll(uniqueId.modifierExtension);
+            protected Builder from(UniqueId uniqueId) {
+                super.from(uniqueId);
+                type = uniqueId.type;
+                value = uniqueId.value;
                 preferred = uniqueId.preferred;
                 comment = uniqueId.comment;
                 period = uniqueId.period;

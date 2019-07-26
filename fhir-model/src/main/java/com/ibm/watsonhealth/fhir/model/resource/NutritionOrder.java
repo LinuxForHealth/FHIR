@@ -422,30 +422,28 @@ public class NutritionOrder extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent, patient, dateTime).from(this);
-    }
-
-    public Builder toBuilder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
-        return new Builder(status, intent, patient, dateTime).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
-        return new Builder(status, intent, patient, dateTime);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        builder.patient(patient);
+        builder.dateTime(dateTime);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final NutritionOrderStatus status;
-        private final NutritionOrderIntent intent;
-        private final Reference patient;
-        private final DateTime dateTime;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Uri> instantiates = new ArrayList<>();
+        private NutritionOrderStatus status;
+        private NutritionOrderIntent intent;
+        private Reference patient;
         private Reference encounter;
+        private DateTime dateTime;
         private Reference orderer;
         private List<Reference> allergyIntolerance = new ArrayList<>();
         private List<CodeableConcept> foodPreferenceModifier = new ArrayList<>();
@@ -454,14 +452,6 @@ public class NutritionOrder extends DomainResource {
         private List<Supplement> supplement = new ArrayList<>();
         private EnteralFormula enteralFormula;
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
-            super();
-            this.status = status;
-            this.intent = intent;
-            this.patient = patient;
-            this.dateTime = dateTime;
-        }
 
         /**
          * <p>
@@ -857,6 +847,56 @@ public class NutritionOrder extends DomainResource {
 
         /**
          * <p>
+         * The workflow status of the nutrition order/request.
+         * </p>
+         * 
+         * @param status
+         *     proposed | draft | planned | requested | active | on-hold | completed | cancelled | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(NutritionOrderStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the level of authority/intentionality associated with the NutrionOrder and where the request fits into the 
+         * workflow chain.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | order
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(NutritionOrderIntent intent) {
+            this.intent = intent;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The person (patient) who needs the nutrition order for an oral diet, nutritional supplement and/or enteral or formula 
+         * feeding.
+         * </p>
+         * 
+         * @param patient
+         *     The person who requires the diet, formula or nutritional supplement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
          * An encounter that provides additional information about the healthcare context in which this request is made.
          * </p>
          * 
@@ -868,6 +908,22 @@ public class NutritionOrder extends DomainResource {
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date and time that this nutrition order was requested.
+         * </p>
+         * 
+         * @param dateTime
+         *     Date and time the nutrition order was requested
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder dateTime(DateTime dateTime) {
+            this.dateTime = dateTime;
             return this;
         }
 
@@ -1139,20 +1195,17 @@ public class NutritionOrder extends DomainResource {
             return new NutritionOrder(this);
         }
 
-        private Builder from(NutritionOrder nutritionOrder) {
-            id = nutritionOrder.id;
-            meta = nutritionOrder.meta;
-            implicitRules = nutritionOrder.implicitRules;
-            language = nutritionOrder.language;
-            text = nutritionOrder.text;
-            contained.addAll(nutritionOrder.contained);
-            extension.addAll(nutritionOrder.extension);
-            modifierExtension.addAll(nutritionOrder.modifierExtension);
+        protected Builder from(NutritionOrder nutritionOrder) {
+            super.from(nutritionOrder);
             identifier.addAll(nutritionOrder.identifier);
             instantiatesCanonical.addAll(nutritionOrder.instantiatesCanonical);
             instantiatesUri.addAll(nutritionOrder.instantiatesUri);
             instantiates.addAll(nutritionOrder.instantiates);
+            status = nutritionOrder.status;
+            intent = nutritionOrder.intent;
+            patient = nutritionOrder.patient;
             encounter = nutritionOrder.encounter;
+            dateTime = nutritionOrder.dateTime;
             orderer = nutritionOrder.orderer;
             allergyIntolerance.addAll(nutritionOrder.allergyIntolerance);
             foodPreferenceModifier.addAll(nutritionOrder.foodPreferenceModifier);
@@ -1344,21 +1397,17 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> type = new ArrayList<>();
             private List<Timing> schedule = new ArrayList<>();
             private List<Nutrient> nutrient = new ArrayList<>();
             private List<Texture> texture = new ArrayList<>();
             private List<CodeableConcept> fluidConsistencyType = new ArrayList<>();
             private String instruction;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1702,10 +1751,8 @@ public class NutritionOrder extends DomainResource {
                 return new OralDiet(this);
             }
 
-            private Builder from(OralDiet oralDiet) {
-                id = oralDiet.id;
-                extension.addAll(oralDiet.extension);
-                modifierExtension.addAll(oralDiet.modifierExtension);
+            protected Builder from(OralDiet oralDiet) {
+                super.from(oralDiet);
                 type.addAll(oralDiet.type);
                 schedule.addAll(oralDiet.schedule);
                 nutrient.addAll(oralDiet.nutrient);
@@ -1822,17 +1869,13 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept modifier;
                 private Quantity amount;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1988,10 +2031,8 @@ public class NutritionOrder extends DomainResource {
                     return new Nutrient(this);
                 }
 
-                private Builder from(Nutrient nutrient) {
-                    id = nutrient.id;
-                    extension.addAll(nutrient.extension);
-                    modifierExtension.addAll(nutrient.modifierExtension);
+                protected Builder from(Nutrient nutrient) {
+                    super.from(nutrient);
                     modifier = nutrient.modifier;
                     amount = nutrient.amount;
                     return this;
@@ -2104,17 +2145,13 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept modifier;
                 private CodeableConcept foodType;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2270,10 +2307,8 @@ public class NutritionOrder extends DomainResource {
                     return new Texture(this);
                 }
 
-                private Builder from(Texture texture) {
-                    id = texture.id;
-                    extension.addAll(texture.extension);
-                    modifierExtension.addAll(texture.modifierExtension);
+                protected Builder from(Texture texture) {
+                    super.from(texture);
                     modifier = texture.modifier;
                     foodType = texture.foodType;
                     return this;
@@ -2442,20 +2477,16 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private String productName;
             private List<Timing> schedule = new ArrayList<>();
             private Quantity quantity;
             private String instruction;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2685,10 +2716,8 @@ public class NutritionOrder extends DomainResource {
                 return new Supplement(this);
             }
 
-            private Builder from(Supplement supplement) {
-                id = supplement.id;
-                extension.addAll(supplement.extension);
-                modifierExtension.addAll(supplement.modifierExtension);
+            protected Builder from(Supplement supplement) {
+                super.from(supplement);
                 type = supplement.type;
                 productName = supplement.productName;
                 schedule.addAll(supplement.schedule);
@@ -2938,11 +2967,11 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept baseFormulaType;
             private String baseFormulaProductName;
             private CodeableConcept additiveType;
@@ -2952,10 +2981,6 @@ public class NutritionOrder extends DomainResource {
             private List<Administration> administration = new ArrayList<>();
             private Quantity maxVolumeToDeliver;
             private String administrationInstruction;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3256,10 +3281,8 @@ public class NutritionOrder extends DomainResource {
                 return new EnteralFormula(this);
             }
 
-            private Builder from(EnteralFormula enteralFormula) {
-                id = enteralFormula.id;
-                extension.addAll(enteralFormula.extension);
-                modifierExtension.addAll(enteralFormula.modifierExtension);
+            protected Builder from(EnteralFormula enteralFormula) {
+                super.from(enteralFormula);
                 baseFormulaType = enteralFormula.baseFormulaType;
                 baseFormulaProductName = enteralFormula.baseFormulaProductName;
                 additiveType = enteralFormula.additiveType;
@@ -3398,18 +3421,14 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Timing schedule;
                 private Quantity quantity;
                 private Element rate;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3581,10 +3600,8 @@ public class NutritionOrder extends DomainResource {
                     return new Administration(this);
                 }
 
-                private Builder from(Administration administration) {
-                    id = administration.id;
-                    extension.addAll(administration.extension);
-                    modifierExtension.addAll(administration.modifierExtension);
+                protected Builder from(Administration administration) {
+                    super.from(administration);
                     schedule = administration.schedule;
                     quantity = administration.quantity;
                     rate = administration.rate;

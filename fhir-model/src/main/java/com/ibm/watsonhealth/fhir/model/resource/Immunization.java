@@ -602,28 +602,26 @@ public class Immunization extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, vaccineCode, patient, occurrence).from(this);
-    }
-
-    public Builder toBuilder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
-        return new Builder(status, vaccineCode, patient, occurrence).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
-        return new Builder(status, vaccineCode, patient, occurrence);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.vaccineCode(vaccineCode);
+        builder.patient(patient);
+        builder.occurrence(occurrence);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ImmunizationStatus status;
-        private final CodeableConcept vaccineCode;
-        private final Reference patient;
-        private final Element occurrence;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ImmunizationStatus status;
         private CodeableConcept statusReason;
+        private CodeableConcept vaccineCode;
+        private Reference patient;
         private Reference encounter;
+        private Element occurrence;
         private DateTime recorded;
         private Boolean primarySource;
         private CodeableConcept reportOrigin;
@@ -645,14 +643,6 @@ public class Immunization extends DomainResource {
         private CodeableConcept fundingSource;
         private List<Reaction> reaction = new ArrayList<>();
         private List<ProtocolApplied> protocolApplied = new ArrayList<>();
-
-        private Builder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
-            super();
-            this.status = status;
-            this.vaccineCode = vaccineCode;
-            this.patient = patient;
-            this.occurrence = occurrence;
-        }
 
         /**
          * <p>
@@ -922,6 +912,22 @@ public class Immunization extends DomainResource {
 
         /**
          * <p>
+         * Indicates the current status of the immunization event.
+         * </p>
+         * 
+         * @param status
+         *     completed | entered-in-error | not-done
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ImmunizationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Indicates the reason the immunization event was not performed.
          * </p>
          * 
@@ -933,6 +939,38 @@ public class Immunization extends DomainResource {
          */
         public Builder statusReason(CodeableConcept statusReason) {
             this.statusReason = statusReason;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Vaccine that was administered or was to be administered.
+         * </p>
+         * 
+         * @param vaccineCode
+         *     Vaccine product administered
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder vaccineCode(CodeableConcept vaccineCode) {
+            this.vaccineCode = vaccineCode;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient who either received or did not receive the immunization.
+         * </p>
+         * 
+         * @param patient
+         *     Who was immunized
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
             return this;
         }
 
@@ -950,6 +988,22 @@ public class Immunization extends DomainResource {
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Date vaccine administered or was to be administered.
+         * </p>
+         * 
+         * @param occurrence
+         *     Vaccine administration date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder occurrence(Element occurrence) {
+            this.occurrence = occurrence;
             return this;
         }
 
@@ -1515,18 +1569,15 @@ public class Immunization extends DomainResource {
             return new Immunization(this);
         }
 
-        private Builder from(Immunization immunization) {
-            id = immunization.id;
-            meta = immunization.meta;
-            implicitRules = immunization.implicitRules;
-            language = immunization.language;
-            text = immunization.text;
-            contained.addAll(immunization.contained);
-            extension.addAll(immunization.extension);
-            modifierExtension.addAll(immunization.modifierExtension);
+        protected Builder from(Immunization immunization) {
+            super.from(immunization);
             identifier.addAll(immunization.identifier);
+            status = immunization.status;
             statusReason = immunization.statusReason;
+            vaccineCode = immunization.vaccineCode;
+            patient = immunization.patient;
             encounter = immunization.encounter;
+            occurrence = immunization.occurrence;
             recorded = immunization.recorded;
             primarySource = immunization.primarySource;
             reportOrigin = immunization.reportOrigin;
@@ -1653,28 +1704,18 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept function;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
+            private Reference actor;
 
             /**
              * <p>
@@ -1809,16 +1850,31 @@ public class Immunization extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The practitioner or organization who performed the action.
+             * </p>
+             * 
+             * @param actor
+             *     Individual or organization who was performing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
             @Override
             public Performer build() {
                 return new Performer(this);
             }
 
-            private Builder from(Performer performer) {
-                id = performer.id;
-                extension.addAll(performer.extension);
-                modifierExtension.addAll(performer.modifierExtension);
+            protected Builder from(Performer performer) {
+                super.from(performer);
                 function = performer.function;
+                actor = performer.actor;
                 return this;
             }
         }
@@ -1965,19 +2021,15 @@ public class Immunization extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String documentType;
             private Uri reference;
             private DateTime publicationDate;
             private DateTime presentationDate;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2165,10 +2217,8 @@ public class Immunization extends DomainResource {
                 return new Education(this);
             }
 
-            private Builder from(Education education) {
-                id = education.id;
-                extension.addAll(education.extension);
-                modifierExtension.addAll(education.modifierExtension);
+            protected Builder from(Education education) {
+                super.from(education);
                 documentType = education.documentType;
                 reference = education.reference;
                 publicationDate = education.publicationDate;
@@ -2301,18 +2351,14 @@ public class Immunization extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private DateTime date;
             private Reference detail;
             private Boolean reported;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2484,10 +2530,8 @@ public class Immunization extends DomainResource {
                 return new Reaction(this);
             }
 
-            private Builder from(Reaction reaction) {
-                id = reaction.id;
-                extension.addAll(reaction.extension);
-                modifierExtension.addAll(reaction.modifierExtension);
+            protected Builder from(Reaction reaction) {
+                super.from(reaction);
                 date = reaction.date;
                 detail = reaction.detail;
                 reported = reaction.reported;
@@ -2651,31 +2695,21 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(doseNumber).from(this);
-        }
-
-        public Builder toBuilder(Element doseNumber) {
-            return new Builder(doseNumber).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element doseNumber) {
-            return new Builder(doseNumber);
+            Builder builder = new Builder();
+            builder.doseNumber(doseNumber);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element doseNumber;
-
-            // optional
             private String series;
             private Reference authority;
             private List<CodeableConcept> targetDisease = new ArrayList<>();
+            private Element doseNumber;
             private Element seriesDoses;
-
-            private Builder(Element doseNumber) {
-                super();
-                this.doseNumber = doseNumber;
-            }
 
             /**
              * <p>
@@ -2868,6 +2902,22 @@ public class Immunization extends DomainResource {
 
             /**
              * <p>
+             * Nominal position in a series.
+             * </p>
+             * 
+             * @param doseNumber
+             *     Dose number within series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder doseNumber(Element doseNumber) {
+                this.doseNumber = doseNumber;
+                return this;
+            }
+
+            /**
+             * <p>
              * The recommended number of doses to achieve immunity.
              * </p>
              * 
@@ -2887,13 +2937,12 @@ public class Immunization extends DomainResource {
                 return new ProtocolApplied(this);
             }
 
-            private Builder from(ProtocolApplied protocolApplied) {
-                id = protocolApplied.id;
-                extension.addAll(protocolApplied.extension);
-                modifierExtension.addAll(protocolApplied.modifierExtension);
+            protected Builder from(ProtocolApplied protocolApplied) {
+                super.from(protocolApplied);
                 series = protocolApplied.series;
                 authority = protocolApplied.authority;
                 targetDisease.addAll(protocolApplied.targetDisease);
+                doseNumber = protocolApplied.doseNumber;
                 seriesDoses = protocolApplied.seriesDoses;
                 return this;
             }

@@ -409,45 +409,35 @@ public class Coverage extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, beneficiary, payor).from(this);
-    }
-
-    public Builder toBuilder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
-        return new Builder(status, beneficiary, payor).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
-        return new Builder(status, beneficiary, payor);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.beneficiary(beneficiary);
+        builder.payor(payor);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CoverageStatus status;
-        private final Reference beneficiary;
-        private final List<Reference> payor;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private CoverageStatus status;
         private CodeableConcept type;
         private Reference policyHolder;
         private Reference subscriber;
         private String subscriberId;
+        private Reference beneficiary;
         private String dependent;
         private CodeableConcept relationship;
         private Period period;
+        private List<Reference> payor = new ArrayList<>();
         private List<Class> clazz = new ArrayList<>();
         private PositiveInt order;
         private String network;
         private List<CostToBeneficiary> costToBeneficiary = new ArrayList<>();
         private Boolean subrogation;
         private List<Reference> contract = new ArrayList<>();
-
-        private Builder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
-            super();
-            this.status = status;
-            this.beneficiary = beneficiary;
-            this.payor = new ArrayList<>(payor);
-        }
 
         /**
          * <p>
@@ -717,6 +707,22 @@ public class Coverage extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CoverageStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The type of coverage: social program, medical plan, accident coverage (workers compensation, auto), group health or 
          * payment by an individual or organization.
          * </p>
@@ -783,6 +789,22 @@ public class Coverage extends DomainResource {
 
         /**
          * <p>
+         * The party who benefits from the insurance coverage; the patient when products and/or services are provided.
+         * </p>
+         * 
+         * @param beneficiary
+         *     Plan beneficiary
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder beneficiary(Reference beneficiary) {
+            this.beneficiary = beneficiary;
+            return this;
+        }
+
+        /**
+         * <p>
          * A unique identifier for a dependent under the coverage.
          * </p>
          * 
@@ -827,6 +849,48 @@ public class Coverage extends DomainResource {
          */
         public Builder period(Period period) {
             this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
+         * agreements.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param payor
+         *     Issuer of the policy
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder payor(Reference... payor) {
+            for (Reference value : payor) {
+                this.payor.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
+         * agreements.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param payor
+         *     Issuer of the policy
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder payor(Collection<Reference> payor) {
+            this.payor = new ArrayList<>(payor);
             return this;
         }
 
@@ -1009,23 +1073,19 @@ public class Coverage extends DomainResource {
             return new Coverage(this);
         }
 
-        private Builder from(Coverage coverage) {
-            id = coverage.id;
-            meta = coverage.meta;
-            implicitRules = coverage.implicitRules;
-            language = coverage.language;
-            text = coverage.text;
-            contained.addAll(coverage.contained);
-            extension.addAll(coverage.extension);
-            modifierExtension.addAll(coverage.modifierExtension);
+        protected Builder from(Coverage coverage) {
+            super.from(coverage);
             identifier.addAll(coverage.identifier);
+            status = coverage.status;
             type = coverage.type;
             policyHolder = coverage.policyHolder;
             subscriber = coverage.subscriber;
             subscriberId = coverage.subscriberId;
+            beneficiary = coverage.beneficiary;
             dependent = coverage.dependent;
             relationship = coverage.relationship;
             period = coverage.period;
+            payor.addAll(coverage.payor);
             clazz.addAll(coverage.clazz);
             order = coverage.order;
             network = coverage.network;
@@ -1156,30 +1216,20 @@ public class Coverage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, value).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, String value) {
-            return new Builder(type, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, String value) {
-            return new Builder(type, value);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final String value;
-
-            // optional
+            private CodeableConcept type;
+            private String value;
             private String name;
-
-            private Builder(CodeableConcept type, String value) {
-                super();
-                this.type = type;
-                this.value = value;
-            }
 
             /**
              * <p>
@@ -1300,6 +1350,39 @@ public class Coverage extends DomainResource {
 
             /**
              * <p>
+             * The type of classification for which an insurer-specific class label or number and optional name is provided, for 
+             * example may be used to identify a class of coverage or employer group, Policy, Plan.
+             * </p>
+             * 
+             * @param type
+             *     Type of class such as 'group' or 'plan'
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The alphanumeric string value associated with the insurer issued label.
+             * </p>
+             * 
+             * @param value
+             *     Value associated with the type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(String value) {
+                this.value = value;
+                return this;
+            }
+
+            /**
+             * <p>
              * A short description for the class.
              * </p>
              * 
@@ -1319,10 +1402,10 @@ public class Coverage extends DomainResource {
                 return new Class(this);
             }
 
-            private Builder from(Class _class) {
-                id = _class.id;
-                extension.addAll(_class.extension);
-                modifierExtension.addAll(_class.modifierExtension);
+            protected Builder from(Class _class) {
+                super.from(_class);
+                type = _class.type;
+                value = _class.value;
                 name = _class.name;
                 return this;
             }
@@ -1449,29 +1532,19 @@ public class Coverage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(value).from(this);
-        }
-
-        public Builder toBuilder(Element value) {
-            return new Builder(value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element value) {
-            return new Builder(value);
+            Builder builder = new Builder();
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element value;
-
-            // optional
             private CodeableConcept type;
+            private Element value;
             private List<Exception> exception = new ArrayList<>();
-
-            private Builder(Element value) {
-                super();
-                this.value = value;
-            }
 
             /**
              * <p>
@@ -1608,6 +1681,22 @@ public class Coverage extends DomainResource {
 
             /**
              * <p>
+             * The amount due from the patient for the cost category.
+             * </p>
+             * 
+             * @param value
+             *     The amount or percentage due from the beneficiary
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
+            /**
+             * <p>
              * A suite of codes indicating exceptions or reductions to patient costs and their effective periods.
              * </p>
              * <p>
@@ -1651,11 +1740,10 @@ public class Coverage extends DomainResource {
                 return new CostToBeneficiary(this);
             }
 
-            private Builder from(CostToBeneficiary costToBeneficiary) {
-                id = costToBeneficiary.id;
-                extension.addAll(costToBeneficiary.extension);
-                modifierExtension.addAll(costToBeneficiary.modifierExtension);
+            protected Builder from(CostToBeneficiary costToBeneficiary) {
+                super.from(costToBeneficiary);
                 type = costToBeneficiary.type;
+                value = costToBeneficiary.value;
                 exception.addAll(costToBeneficiary.exception);
                 return this;
             }
@@ -1762,28 +1850,18 @@ public class Coverage extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept type;
-
-                // optional
+                private CodeableConcept type;
                 private Period period;
-
-                private Builder(CodeableConcept type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -1904,6 +1982,22 @@ public class Coverage extends DomainResource {
 
                 /**
                  * <p>
+                 * The code for the specific exception.
+                 * </p>
+                 * 
+                 * @param type
+                 *     Exception category
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The timeframe during when the exception is in force.
                  * </p>
                  * 
@@ -1923,10 +2017,9 @@ public class Coverage extends DomainResource {
                     return new Exception(this);
                 }
 
-                private Builder from(Exception exception) {
-                    id = exception.id;
-                    extension.addAll(exception.extension);
-                    modifierExtension.addAll(exception.modifierExtension);
+                protected Builder from(Exception exception) {
+                    super.from(exception);
+                    type = exception.type;
                     period = exception.period;
                     return this;
                 }

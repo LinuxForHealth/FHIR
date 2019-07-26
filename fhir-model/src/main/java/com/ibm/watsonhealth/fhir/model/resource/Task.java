@@ -694,31 +694,27 @@ public class Task extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent).from(this);
-    }
-
-    public Builder toBuilder(TaskStatus status, TaskIntent intent) {
-        return new Builder(status, intent).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(TaskStatus status, TaskIntent intent) {
-        return new Builder(status, intent);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final TaskStatus status;
-        private final TaskIntent intent;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Canonical instantiatesCanonical;
         private Uri instantiatesUri;
         private List<Reference> basedOn = new ArrayList<>();
         private Identifier groupIdentifier;
         private List<Reference> partOf = new ArrayList<>();
+        private TaskStatus status;
         private CodeableConcept statusReason;
         private CodeableConcept businessStatus;
+        private TaskIntent intent;
         private TaskPriority priority;
         private CodeableConcept code;
         private String description;
@@ -740,12 +736,6 @@ public class Task extends DomainResource {
         private Restriction restriction;
         private List<Input> input = new ArrayList<>();
         private List<Output> output = new ArrayList<>();
-
-        private Builder(TaskStatus status, TaskIntent intent) {
-            super();
-            this.status = status;
-            this.intent = intent;
-        }
 
         /**
          * <p>
@@ -1153,6 +1143,22 @@ public class Task extends DomainResource {
 
         /**
          * <p>
+         * The current status of the task.
+         * </p>
+         * 
+         * @param status
+         *     draft | requested | received | accepted | +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(TaskStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * An explanation as to why this task is held, failed, was refused, etc.
          * </p>
          * 
@@ -1180,6 +1186,23 @@ public class Task extends DomainResource {
          */
         public Builder businessStatus(CodeableConcept businessStatus) {
             this.businessStatus = businessStatus;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the "level" of actionability associated with the Task, i.e. i+R[9]Cs this a proposed task, a planned task, 
+         * an actionable task, etc.
+         * </p>
+         * 
+         * @param intent
+         *     unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(TaskIntent intent) {
+            this.intent = intent;
             return this;
         }
 
@@ -1672,23 +1695,18 @@ public class Task extends DomainResource {
             return new Task(this);
         }
 
-        private Builder from(Task task) {
-            id = task.id;
-            meta = task.meta;
-            implicitRules = task.implicitRules;
-            language = task.language;
-            text = task.text;
-            contained.addAll(task.contained);
-            extension.addAll(task.extension);
-            modifierExtension.addAll(task.modifierExtension);
+        protected Builder from(Task task) {
+            super.from(task);
             identifier.addAll(task.identifier);
             instantiatesCanonical = task.instantiatesCanonical;
             instantiatesUri = task.instantiatesUri;
             basedOn.addAll(task.basedOn);
             groupIdentifier = task.groupIdentifier;
             partOf.addAll(task.partOf);
+            status = task.status;
             statusReason = task.statusReason;
             businessStatus = task.businessStatus;
+            intent = task.intent;
             priority = task.priority;
             code = task.code;
             description = task.description;
@@ -1838,18 +1856,14 @@ public class Task extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private PositiveInt repetitions;
             private Period period;
             private List<Reference> recipient = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2045,10 +2059,8 @@ public class Task extends DomainResource {
                 return new Restriction(this);
             }
 
-            private Builder from(Restriction restriction) {
-                id = restriction.id;
-                extension.addAll(restriction.extension);
-                modifierExtension.addAll(restriction.modifierExtension);
+            protected Builder from(Restriction restriction) {
+                super.from(restriction);
                 repetitions = restriction.repetitions;
                 period = restriction.period;
                 recipient.addAll(restriction.recipient);
@@ -2158,27 +2170,19 @@ public class Task extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, value).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Element value) {
-            return new Builder(type, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Element value) {
-            return new Builder(type, value);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final Element value;
-
-            private Builder(CodeableConcept type, Element value) {
-                super();
-                this.type = type;
-                this.value = value;
-            }
+            private CodeableConcept type;
+            private Element value;
 
             /**
              * <p>
@@ -2297,15 +2301,47 @@ public class Task extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * A code or description indicating how the input is intended to be used as part of the task execution.
+             * </p>
+             * 
+             * @param type
+             *     Label for the input
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The value of the input parameter as a basic type.
+             * </p>
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
             @Override
             public Input build() {
                 return new Input(this);
             }
 
-            private Builder from(Input input) {
-                id = input.id;
-                extension.addAll(input.extension);
-                modifierExtension.addAll(input.modifierExtension);
+            protected Builder from(Input input) {
+                super.from(input);
+                type = input.type;
+                value = input.value;
                 return this;
             }
         }
@@ -2412,27 +2448,19 @@ public class Task extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, value).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type, Element value) {
-            return new Builder(type, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type, Element value) {
-            return new Builder(type, value);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-            private final Element value;
-
-            private Builder(CodeableConcept type, Element value) {
-                super();
-                this.type = type;
-                this.value = value;
-            }
+            private CodeableConcept type;
+            private Element value;
 
             /**
              * <p>
@@ -2551,15 +2579,47 @@ public class Task extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The name of the Output parameter.
+             * </p>
+             * 
+             * @param type
+             *     Label for output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The value of the Output parameter as a basic type.
+             * </p>
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
             @Override
             public Output build() {
                 return new Output(this);
             }
 
-            private Builder from(Output output) {
-                id = output.id;
-                extension.addAll(output.extension);
-                modifierExtension.addAll(output.modifierExtension);
+            protected Builder from(Output output) {
+                super.from(output);
+                type = output.type;
+                value = output.value;
                 return this;
             }
         }

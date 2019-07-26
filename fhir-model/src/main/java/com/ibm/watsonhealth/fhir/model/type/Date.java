@@ -124,16 +124,12 @@ public class Date extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private TemporalAccessor value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -221,9 +217,8 @@ public class Date extends Element {
             return new Date(this);
         }
 
-        private Builder from(Date date) {
-            id = date.id;
-            extension.addAll(date.extension);
+        protected Builder from(Date date) {
+            super.from(date);
             value = date.value;
             return this;
         }

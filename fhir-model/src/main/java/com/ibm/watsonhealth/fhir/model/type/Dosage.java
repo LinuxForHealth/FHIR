@@ -325,11 +325,11 @@ public class Dosage extends BackboneElement {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // optional
         private Integer sequence;
         private String text;
         private List<CodeableConcept> additionalInstruction = new ArrayList<>();
@@ -343,10 +343,6 @@ public class Dosage extends BackboneElement {
         private Ratio maxDosePerPeriod;
         private Quantity maxDosePerAdministration;
         private Quantity maxDosePerLifetime;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -731,10 +727,8 @@ public class Dosage extends BackboneElement {
             return new Dosage(this);
         }
 
-        private Builder from(Dosage dosage) {
-            id = dosage.id;
-            extension.addAll(dosage.extension);
-            modifierExtension.addAll(dosage.modifierExtension);
+        protected Builder from(Dosage dosage) {
+            super.from(dosage);
             sequence = dosage.sequence;
             text = dosage.text;
             additionalInstruction.addAll(dosage.additionalInstruction);
@@ -875,18 +869,14 @@ public class Dosage extends BackboneElement {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Element dose;
             private Element rate;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1054,10 +1044,8 @@ public class Dosage extends BackboneElement {
                 return new DoseAndRate(this);
             }
 
-            private Builder from(DoseAndRate doseAndRate) {
-                id = doseAndRate.id;
-                extension.addAll(doseAndRate.extension);
-                modifierExtension.addAll(doseAndRate.modifierExtension);
+            protected Builder from(DoseAndRate doseAndRate) {
+                super.from(doseAndRate);
                 type = doseAndRate.type;
                 dose = doseAndRate.dose;
                 rate = doseAndRate.rate;

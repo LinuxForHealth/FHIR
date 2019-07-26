@@ -299,40 +299,30 @@ public class Endpoint extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, connectionType, payloadType, address).from(this);
-    }
-
-    public Builder toBuilder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
-        return new Builder(status, connectionType, payloadType, address).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
-        return new Builder(status, connectionType, payloadType, address);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.connectionType(connectionType);
+        builder.payloadType(payloadType);
+        builder.address(address);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final EndpointStatus status;
-        private final Coding connectionType;
-        private final List<CodeableConcept> payloadType;
-        private final Url address;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private EndpointStatus status;
+        private Coding connectionType;
         private String name;
         private Reference managingOrganization;
         private List<ContactPoint> contact = new ArrayList<>();
         private Period period;
+        private List<CodeableConcept> payloadType = new ArrayList<>();
         private List<Code> payloadMimeType = new ArrayList<>();
+        private Url address;
         private List<String> header = new ArrayList<>();
-
-        private Builder(EndpointStatus status, Coding connectionType, Collection<CodeableConcept> payloadType, Url address) {
-            super();
-            this.status = status;
-            this.connectionType = connectionType;
-            this.payloadType = new ArrayList<>(payloadType);
-            this.address = address;
-        }
 
         /**
          * <p>
@@ -602,6 +592,39 @@ public class Endpoint extends DomainResource {
 
         /**
          * <p>
+         * active | suspended | error | off | test.
+         * </p>
+         * 
+         * @param status
+         *     active | suspended | error | off | entered-in-error | test
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(EndpointStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A coded value that represents the technical details of the usage of this endpoint, such as what WSDLs should be used 
+         * in what way. (e.g. XDS.b/DICOM/cds-hook).
+         * </p>
+         * 
+         * @param connectionType
+         *     Protocol/Profile/Standard to be used with this endpoint connection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder connectionType(Coding connectionType) {
+            this.connectionType = connectionType;
+            return this;
+        }
+
+        /**
+         * <p>
          * A friendly name that this endpoint can be referred to with.
          * </p>
          * 
@@ -693,6 +716,46 @@ public class Endpoint extends DomainResource {
 
         /**
          * <p>
+         * The payload type describes the acceptable content that can be communicated on the endpoint.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param payloadType
+         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder payloadType(CodeableConcept... payloadType) {
+            for (CodeableConcept value : payloadType) {
+                this.payloadType.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The payload type describes the acceptable content that can be communicated on the endpoint.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param payloadType
+         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder payloadType(Collection<CodeableConcept> payloadType) {
+            this.payloadType = new ArrayList<>(payloadType);
+            return this;
+        }
+
+        /**
+         * <p>
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * </p>
@@ -732,6 +795,22 @@ public class Endpoint extends DomainResource {
          */
         public Builder payloadMimeType(Collection<Code> payloadMimeType) {
             this.payloadMimeType = new ArrayList<>(payloadMimeType);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The uri that describes the actual end-point to connect to.
+         * </p>
+         * 
+         * @param address
+         *     The technical base address for connecting to this endpoint
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder address(Url address) {
+            this.address = address;
             return this;
         }
 
@@ -780,21 +859,18 @@ public class Endpoint extends DomainResource {
             return new Endpoint(this);
         }
 
-        private Builder from(Endpoint endpoint) {
-            id = endpoint.id;
-            meta = endpoint.meta;
-            implicitRules = endpoint.implicitRules;
-            language = endpoint.language;
-            text = endpoint.text;
-            contained.addAll(endpoint.contained);
-            extension.addAll(endpoint.extension);
-            modifierExtension.addAll(endpoint.modifierExtension);
+        protected Builder from(Endpoint endpoint) {
+            super.from(endpoint);
             identifier.addAll(endpoint.identifier);
+            status = endpoint.status;
+            connectionType = endpoint.connectionType;
             name = endpoint.name;
             managingOrganization = endpoint.managingOrganization;
             contact.addAll(endpoint.contact);
             period = endpoint.period;
+            payloadType.addAll(endpoint.payloadType);
             payloadMimeType.addAll(endpoint.payloadMimeType);
+            address = endpoint.address;
             header.addAll(endpoint.header);
             return this;
         }

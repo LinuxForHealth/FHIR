@@ -139,29 +139,19 @@ public class Binary extends Resource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(contentType).from(this);
-    }
-
-    public Builder toBuilder(Code contentType) {
-        return new Builder(contentType).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Code contentType) {
-        return new Builder(contentType);
+        Builder builder = new Builder();
+        builder.contentType(contentType);
+        return builder;
     }
 
     public static class Builder extends Resource.Builder {
-        // required
-        private final Code contentType;
-
-        // optional
+        private Code contentType;
         private Reference securityContext;
         private Base64Binary data;
-
-        private Builder(Code contentType) {
-            super();
-            this.contentType = contentType;
-        }
 
         /**
          * <p>
@@ -232,6 +222,22 @@ public class Binary extends Resource {
 
         /**
          * <p>
+         * MimeType of the binary content represented as a standard MimeType (BCP 13).
+         * </p>
+         * 
+         * @param contentType
+         *     MimeType of the binary content
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder contentType(Code contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
+        /**
+         * <p>
          * This element identifies another resource that can be used as a proxy of the security sensitivity to use when deciding 
          * and enforcing access control rules for the Binary resource. Given that the Binary resource contains very few elements 
          * that can be used to determine the sensitivity of the data and relationships to individuals, the referenced resource 
@@ -272,11 +278,9 @@ public class Binary extends Resource {
             return new Binary(this);
         }
 
-        private Builder from(Binary binary) {
-            id = binary.id;
-            meta = binary.meta;
-            implicitRules = binary.implicitRules;
-            language = binary.language;
+        protected Builder from(Binary binary) {
+            super.from(binary);
+            contentType = binary.contentType;
             securityContext = binary.securityContext;
             data = binary.data;
             return this;

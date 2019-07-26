@@ -225,34 +225,24 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(administrableDoseForm, routeOfAdministration).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
-        return new Builder(administrableDoseForm, routeOfAdministration).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
-        return new Builder(administrableDoseForm, routeOfAdministration);
+        Builder builder = new Builder();
+        builder.administrableDoseForm(administrableDoseForm);
+        builder.routeOfAdministration(routeOfAdministration);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept administrableDoseForm;
-        private final List<RouteOfAdministration> routeOfAdministration;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private CodeableConcept administrableDoseForm;
         private CodeableConcept unitOfPresentation;
         private List<Reference> ingredient = new ArrayList<>();
         private List<Reference> device = new ArrayList<>();
         private List<Characteristics> characteristics = new ArrayList<>();
-
-        private Builder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
-            super();
-            this.administrableDoseForm = administrableDoseForm;
-            this.routeOfAdministration = new ArrayList<>(routeOfAdministration);
-        }
+        private List<RouteOfAdministration> routeOfAdministration = new ArrayList<>();
 
         /**
          * <p>
@@ -522,6 +512,22 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         /**
          * <p>
+         * The administrable dose form, after necessary reconstitution.
+         * </p>
+         * 
+         * @param administrableDoseForm
+         *     The administrable dose form, after necessary reconstitution
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder administrableDoseForm(CodeableConcept administrableDoseForm) {
+            this.administrableDoseForm = administrableDoseForm;
+            return this;
+        }
+
+        /**
+         * <p>
          * Todo.
          * </p>
          * 
@@ -656,25 +662,60 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param routeOfAdministration
+         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder routeOfAdministration(RouteOfAdministration... routeOfAdministration) {
+            for (RouteOfAdministration value : routeOfAdministration) {
+                this.routeOfAdministration.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param routeOfAdministration
+         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder routeOfAdministration(Collection<RouteOfAdministration> routeOfAdministration) {
+            this.routeOfAdministration = new ArrayList<>(routeOfAdministration);
+            return this;
+        }
+
         @Override
         public MedicinalProductPharmaceutical build() {
             return new MedicinalProductPharmaceutical(this);
         }
 
-        private Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
-            id = medicinalProductPharmaceutical.id;
-            meta = medicinalProductPharmaceutical.meta;
-            implicitRules = medicinalProductPharmaceutical.implicitRules;
-            language = medicinalProductPharmaceutical.language;
-            text = medicinalProductPharmaceutical.text;
-            contained.addAll(medicinalProductPharmaceutical.contained);
-            extension.addAll(medicinalProductPharmaceutical.extension);
-            modifierExtension.addAll(medicinalProductPharmaceutical.modifierExtension);
+        protected Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
+            super.from(medicinalProductPharmaceutical);
             identifier.addAll(medicinalProductPharmaceutical.identifier);
+            administrableDoseForm = medicinalProductPharmaceutical.administrableDoseForm;
             unitOfPresentation = medicinalProductPharmaceutical.unitOfPresentation;
             ingredient.addAll(medicinalProductPharmaceutical.ingredient);
             device.addAll(medicinalProductPharmaceutical.device);
             characteristics.addAll(medicinalProductPharmaceutical.characteristics);
+            routeOfAdministration.addAll(medicinalProductPharmaceutical.routeOfAdministration);
             return this;
         }
     }
@@ -780,28 +821,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
+            private CodeableConcept code;
             private CodeableConcept status;
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -922,6 +953,22 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             /**
              * <p>
+             * A coded characteristic.
+             * </p>
+             * 
+             * @param code
+             *     A coded characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * The status of characteristic e.g. assigned or pending.
              * </p>
              * 
@@ -941,10 +988,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 return new Characteristics(this);
             }
 
-            private Builder from(Characteristics characteristics) {
-                id = characteristics.id;
-                extension.addAll(characteristics.extension);
-                modifierExtension.addAll(characteristics.modifierExtension);
+            protected Builder from(Characteristics characteristics) {
+                super.from(characteristics);
+                code = characteristics.code;
                 status = characteristics.status;
                 return this;
             }
@@ -1147,33 +1193,23 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
+            private CodeableConcept code;
             private Quantity firstDose;
             private Quantity maxSingleDose;
             private Quantity maxDosePerDay;
             private Ratio maxDosePerTreatmentPeriod;
             private Duration maxTreatmentPeriod;
             private List<TargetSpecies> targetSpecies = new ArrayList<>();
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1290,6 +1326,22 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Coded expression for the route.
+             * </p>
+             * 
+             * @param code
+             *     Coded expression for the route
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
             }
 
             /**
@@ -1427,10 +1479,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 return new RouteOfAdministration(this);
             }
 
-            private Builder from(RouteOfAdministration routeOfAdministration) {
-                id = routeOfAdministration.id;
-                extension.addAll(routeOfAdministration.extension);
-                modifierExtension.addAll(routeOfAdministration.modifierExtension);
+            protected Builder from(RouteOfAdministration routeOfAdministration) {
+                super.from(routeOfAdministration);
+                code = routeOfAdministration.code;
                 firstDose = routeOfAdministration.firstDose;
                 maxSingleDose = routeOfAdministration.maxSingleDose;
                 maxDosePerDay = routeOfAdministration.maxDosePerDay;
@@ -1542,28 +1593,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept code) {
-                return new Builder(code).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept code) {
-                return new Builder(code);
+                Builder builder = new Builder();
+                builder.code(code);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept code;
-
-                // optional
+                private CodeableConcept code;
                 private List<WithdrawalPeriod> withdrawalPeriod = new ArrayList<>();
-
-                private Builder(CodeableConcept code) {
-                    super();
-                    this.code = code;
-                }
 
                 /**
                  * <p>
@@ -1684,6 +1725,22 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                 /**
                  * <p>
+                 * Coded expression for the species.
+                 * </p>
+                 * 
+                 * @param code
+                 *     Coded expression for the species
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(CodeableConcept code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A species specific time during which consumption of animal product is not appropriate.
                  * </p>
                  * <p>
@@ -1727,10 +1784,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     return new TargetSpecies(this);
                 }
 
-                private Builder from(TargetSpecies targetSpecies) {
-                    id = targetSpecies.id;
-                    extension.addAll(targetSpecies.extension);
-                    modifierExtension.addAll(targetSpecies.modifierExtension);
+                protected Builder from(TargetSpecies targetSpecies) {
+                    super.from(targetSpecies);
+                    code = targetSpecies.code;
                     withdrawalPeriod.addAll(targetSpecies.withdrawalPeriod);
                     return this;
                 }
@@ -1855,30 +1911,20 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(tissue, value).from(this);
-                }
-
-                public Builder toBuilder(CodeableConcept tissue, Quantity value) {
-                    return new Builder(tissue, value).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(CodeableConcept tissue, Quantity value) {
-                    return new Builder(tissue, value);
+                    Builder builder = new Builder();
+                    builder.tissue(tissue);
+                    builder.value(value);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final CodeableConcept tissue;
-                    private final Quantity value;
-
-                    // optional
+                    private CodeableConcept tissue;
+                    private Quantity value;
                     private String supportingInformation;
-
-                    private Builder(CodeableConcept tissue, Quantity value) {
-                        super();
-                        this.tissue = tissue;
-                        this.value = value;
-                    }
 
                     /**
                      * <p>
@@ -1999,6 +2045,38 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                     /**
                      * <p>
+                     * Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.
+                     * </p>
+                     * 
+                     * @param tissue
+                     *     Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder tissue(CodeableConcept tissue) {
+                        this.tissue = tissue;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * A value for the time.
+                     * </p>
+                     * 
+                     * @param value
+                     *     A value for the time
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder value(Quantity value) {
+                        this.value = value;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * Extra information about the withdrawal period.
                      * </p>
                      * 
@@ -2018,10 +2096,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                         return new WithdrawalPeriod(this);
                     }
 
-                    private Builder from(WithdrawalPeriod withdrawalPeriod) {
-                        id = withdrawalPeriod.id;
-                        extension.addAll(withdrawalPeriod.extension);
-                        modifierExtension.addAll(withdrawalPeriod.modifierExtension);
+                    protected Builder from(WithdrawalPeriod withdrawalPeriod) {
+                        super.from(withdrawalPeriod);
+                        tissue = withdrawalPeriod.tissue;
+                        value = withdrawalPeriod.value;
                         supportingInformation = withdrawalPeriod.supportingInformation;
                         return this;
                     }

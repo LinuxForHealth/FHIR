@@ -221,34 +221,24 @@ public class MedicinalProductManufactured extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(manufacturedDoseForm, quantity).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
-        return new Builder(manufacturedDoseForm, quantity).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
-        return new Builder(manufacturedDoseForm, quantity);
+        Builder builder = new Builder();
+        builder.manufacturedDoseForm(manufacturedDoseForm);
+        builder.quantity(quantity);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept manufacturedDoseForm;
-        private final Quantity quantity;
-
-        // optional
+        private CodeableConcept manufacturedDoseForm;
         private CodeableConcept unitOfPresentation;
+        private Quantity quantity;
         private List<Reference> manufacturer = new ArrayList<>();
         private List<Reference> ingredient = new ArrayList<>();
         private ProdCharacteristic physicalCharacteristics;
         private List<CodeableConcept> otherCharacteristics = new ArrayList<>();
-
-        private Builder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
-            super();
-            this.manufacturedDoseForm = manufacturedDoseForm;
-            this.quantity = quantity;
-        }
 
         /**
          * <p>
@@ -478,6 +468,22 @@ public class MedicinalProductManufactured extends DomainResource {
 
         /**
          * <p>
+         * Dose form as manufactured and before any transformation into the pharmaceutical product.
+         * </p>
+         * 
+         * @param manufacturedDoseForm
+         *     Dose form as manufactured and before any transformation into the pharmaceutical product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder manufacturedDoseForm(CodeableConcept manufacturedDoseForm) {
+            this.manufacturedDoseForm = manufacturedDoseForm;
+            return this;
+        }
+
+        /**
+         * <p>
          * The “real world” units in which the quantity of the manufactured item is described.
          * </p>
          * 
@@ -489,6 +495,22 @@ public class MedicinalProductManufactured extends DomainResource {
          */
         public Builder unitOfPresentation(CodeableConcept unitOfPresentation) {
             this.unitOfPresentation = unitOfPresentation;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The quantity or "count number" of the manufactured item.
+         * </p>
+         * 
+         * @param quantity
+         *     The quantity or "count number" of the manufactured item
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder quantity(Quantity quantity) {
+            this.quantity = quantity;
             return this;
         }
 
@@ -633,16 +655,11 @@ public class MedicinalProductManufactured extends DomainResource {
             return new MedicinalProductManufactured(this);
         }
 
-        private Builder from(MedicinalProductManufactured medicinalProductManufactured) {
-            id = medicinalProductManufactured.id;
-            meta = medicinalProductManufactured.meta;
-            implicitRules = medicinalProductManufactured.implicitRules;
-            language = medicinalProductManufactured.language;
-            text = medicinalProductManufactured.text;
-            contained.addAll(medicinalProductManufactured.contained);
-            extension.addAll(medicinalProductManufactured.extension);
-            modifierExtension.addAll(medicinalProductManufactured.modifierExtension);
+        protected Builder from(MedicinalProductManufactured medicinalProductManufactured) {
+            super.from(medicinalProductManufactured);
+            manufacturedDoseForm = medicinalProductManufactured.manufacturedDoseForm;
             unitOfPresentation = medicinalProductManufactured.unitOfPresentation;
+            quantity = medicinalProductManufactured.quantity;
             manufacturer.addAll(medicinalProductManufactured.manufacturer);
             ingredient.addAll(medicinalProductManufactured.ingredient);
             physicalCharacteristics = medicinalProductManufactured.physicalCharacteristics;

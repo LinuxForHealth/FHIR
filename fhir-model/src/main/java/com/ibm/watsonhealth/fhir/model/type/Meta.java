@@ -200,21 +200,17 @@ public class Meta extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Id versionId;
         private Instant lastUpdated;
         private Uri source;
         private List<Canonical> profile = new ArrayList<>();
         private List<Coding> security = new ArrayList<>();
         private List<Coding> tag = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -461,9 +457,8 @@ public class Meta extends Element {
             return new Meta(this);
         }
 
-        private Builder from(Meta meta) {
-            id = meta.id;
-            extension.addAll(meta.extension);
+        protected Builder from(Meta meta) {
+            super.from(meta);
             versionId = meta.versionId;
             lastUpdated = meta.lastUpdated;
             source = meta.source;

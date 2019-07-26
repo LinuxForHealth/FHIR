@@ -396,28 +396,25 @@ public class Goal extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(lifecycleStatus, description, subject).from(this);
-    }
-
-    public Builder toBuilder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
-        return new Builder(lifecycleStatus, description, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
-        return new Builder(lifecycleStatus, description, subject);
+        Builder builder = new Builder();
+        builder.lifecycleStatus(lifecycleStatus);
+        builder.description(description);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final GoalLifecycleStatus lifecycleStatus;
-        private final CodeableConcept description;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private GoalLifecycleStatus lifecycleStatus;
         private CodeableConcept achievementStatus;
         private List<CodeableConcept> category = new ArrayList<>();
         private CodeableConcept priority;
+        private CodeableConcept description;
+        private Reference subject;
         private Element start;
         private List<Target> target = new ArrayList<>();
         private Date statusDate;
@@ -427,13 +424,6 @@ public class Goal extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> outcomeCode = new ArrayList<>();
         private List<Reference> outcomeReference = new ArrayList<>();
-
-        private Builder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
-            super();
-            this.lifecycleStatus = lifecycleStatus;
-            this.description = description;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -705,6 +695,22 @@ public class Goal extends DomainResource {
 
         /**
          * <p>
+         * The state of the goal throughout its lifecycle.
+         * </p>
+         * 
+         * @param lifecycleStatus
+         *     proposed | planned | accepted | active | on-hold | completed | cancelled | entered-in-error | rejected
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lifecycleStatus(GoalLifecycleStatus lifecycleStatus) {
+            this.lifecycleStatus = lifecycleStatus;
+            return this;
+        }
+
+        /**
+         * <p>
          * Describes the progression, or lack thereof, towards the goal against the target.
          * </p>
          * 
@@ -772,6 +778,39 @@ public class Goal extends DomainResource {
          */
         public Builder priority(CodeableConcept priority) {
             this.priority = priority;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Human-readable and/or coded description of a specific desired objective of care, such as "control blood pressure" or 
+         * "negotiate an obstacle course" or "dance with child at wedding".
+         * </p>
+         * 
+         * @param description
+         *     Code or text describing goal
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(CodeableConcept description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the patient, group or organization for whom the goal is being established.
+         * </p>
+         * 
+         * @param subject
+         *     Who this goal is intended for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1044,19 +1083,15 @@ public class Goal extends DomainResource {
             return new Goal(this);
         }
 
-        private Builder from(Goal goal) {
-            id = goal.id;
-            meta = goal.meta;
-            implicitRules = goal.implicitRules;
-            language = goal.language;
-            text = goal.text;
-            contained.addAll(goal.contained);
-            extension.addAll(goal.extension);
-            modifierExtension.addAll(goal.modifierExtension);
+        protected Builder from(Goal goal) {
+            super.from(goal);
             identifier.addAll(goal.identifier);
+            lifecycleStatus = goal.lifecycleStatus;
             achievementStatus = goal.achievementStatus;
             category.addAll(goal.category);
             priority = goal.priority;
+            description = goal.description;
+            subject = goal.subject;
             start = goal.start;
             target.addAll(goal.target);
             statusDate = goal.statusDate;
@@ -1196,18 +1231,14 @@ public class Goal extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept measure;
             private Element detail;
             private Element due;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1382,10 +1413,8 @@ public class Goal extends DomainResource {
                 return new Target(this);
             }
 
-            private Builder from(Target target) {
-                id = target.id;
-                extension.addAll(target.extension);
-                modifierExtension.addAll(target.modifierExtension);
+            protected Builder from(Target target) {
+                super.from(target);
                 measure = target.measure;
                 detail = target.detail;
                 due = target.due;

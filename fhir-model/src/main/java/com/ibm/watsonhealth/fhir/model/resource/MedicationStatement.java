@@ -419,29 +419,26 @@ public class MedicationStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, medication, subject).from(this);
-    }
-
-    public Builder toBuilder(MedicationStatementStatus status, Element medication, Reference subject) {
-        return new Builder(status, medication, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MedicationStatementStatus status, Element medication, Reference subject) {
-        return new Builder(status, medication, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.medication(medication);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MedicationStatementStatus status;
-        private final Element medication;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private MedicationStatementStatus status;
         private List<CodeableConcept> statusReason = new ArrayList<>();
         private CodeableConcept category;
+        private Element medication;
+        private Reference subject;
         private Reference context;
         private Element effective;
         private DateTime dateAsserted;
@@ -451,13 +448,6 @@ public class MedicationStatement extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Dosage> dosage = new ArrayList<>();
-
-        private Builder(MedicationStatementStatus status, Element medication, Reference subject) {
-            super();
-            this.status = status;
-            this.medication = medication;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -813,6 +803,23 @@ public class MedicationStatement extends DomainResource {
 
         /**
          * <p>
+         * A code representing the patient or other source's judgment about the state of the medication used that this statement 
+         * is about. Generally, this will be active or completed.
+         * </p>
+         * 
+         * @param status
+         *     active | completed | entered-in-error | intended | stopped | on-hold | unknown | not-taken
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MedicationStatementStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Captures the reason for the current state of the MedicationStatement.
          * </p>
          * <p>
@@ -864,6 +871,39 @@ public class MedicationStatement extends DomainResource {
          */
         public Builder category(CodeableConcept category) {
             this.category = category;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the medication being administered. This is either a link to a resource representing the details of the 
+         * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
+         * </p>
+         * 
+         * @param medication
+         *     What medication was taken
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder medication(Element medication) {
+            this.medication = medication;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The person, animal or group who is/was taking the medication.
+         * </p>
+         * 
+         * @param subject
+         *     Who is/was taking the medication
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1140,20 +1180,16 @@ public class MedicationStatement extends DomainResource {
             return new MedicationStatement(this);
         }
 
-        private Builder from(MedicationStatement medicationStatement) {
-            id = medicationStatement.id;
-            meta = medicationStatement.meta;
-            implicitRules = medicationStatement.implicitRules;
-            language = medicationStatement.language;
-            text = medicationStatement.text;
-            contained.addAll(medicationStatement.contained);
-            extension.addAll(medicationStatement.extension);
-            modifierExtension.addAll(medicationStatement.modifierExtension);
+        protected Builder from(MedicationStatement medicationStatement) {
+            super.from(medicationStatement);
             identifier.addAll(medicationStatement.identifier);
             basedOn.addAll(medicationStatement.basedOn);
             partOf.addAll(medicationStatement.partOf);
+            status = medicationStatement.status;
             statusReason.addAll(medicationStatement.statusReason);
             category = medicationStatement.category;
+            medication = medicationStatement.medication;
+            subject = medicationStatement.subject;
             context = medicationStatement.context;
             effective = medicationStatement.effective;
             dateAsserted = medicationStatement.dateAsserted;

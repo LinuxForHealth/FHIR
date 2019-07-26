@@ -353,24 +353,20 @@ public class List extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, mode).from(this);
-    }
-
-    public Builder toBuilder(ListStatus status, ListMode mode) {
-        return new Builder(status, mode).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ListStatus status, ListMode mode) {
-        return new Builder(status, mode);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.mode(mode);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ListStatus status;
-        private final ListMode mode;
-
-        // optional
         private java.util.List<Identifier> identifier = new ArrayList<>();
+        private ListStatus status;
+        private ListMode mode;
         private String title;
         private CodeableConcept code;
         private Reference subject;
@@ -381,12 +377,6 @@ public class List extends DomainResource {
         private java.util.List<Annotation> note = new ArrayList<>();
         private java.util.List<Entry> entry = new ArrayList<>();
         private CodeableConcept emptyReason;
-
-        private Builder(ListStatus status, ListMode mode) {
-            super();
-            this.status = status;
-            this.mode = mode;
-        }
 
         /**
          * <p>
@@ -656,6 +646,40 @@ public class List extends DomainResource {
 
         /**
          * <p>
+         * Indicates the current state of this list.
+         * </p>
+         * 
+         * @param status
+         *     current | retired | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ListStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * How this list was prepared - whether it is a working list that is suitable for being maintained on an ongoing basis, 
+         * or if it represents a snapshot of a list of items from another source, or whether it is a prepared list where items 
+         * may be marked as added, modified or deleted.
+         * </p>
+         * 
+         * @param mode
+         *     working | snapshot | changes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder mode(ListMode mode) {
+            this.mode = mode;
+            return this;
+        }
+
+        /**
+         * <p>
          * A label for the list assigned by the author.
          * </p>
          * 
@@ -868,16 +892,11 @@ public class List extends DomainResource {
             return new List(this);
         }
 
-        private Builder from(List list) {
-            id = list.id;
-            meta = list.meta;
-            implicitRules = list.implicitRules;
-            language = list.language;
-            text = list.text;
-            contained.addAll(list.contained);
-            extension.addAll(list.extension);
-            modifierExtension.addAll(list.modifierExtension);
+        protected Builder from(List list) {
+            super.from(list);
             identifier.addAll(list.identifier);
+            status = list.status;
+            mode = list.mode;
             title = list.title;
             code = list.code;
             subject = list.subject;
@@ -1029,30 +1048,20 @@ public class List extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(item).from(this);
-        }
-
-        public Builder toBuilder(Reference item) {
-            return new Builder(item).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference item) {
-            return new Builder(item);
+            Builder builder = new Builder();
+            builder.item(item);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference item;
-
-            // optional
             private CodeableConcept flag;
             private Boolean deleted;
             private DateTime date;
-
-            private Builder(Reference item) {
-                super();
-                this.item = item;
-            }
+            private Reference item;
 
             /**
              * <p>
@@ -1219,18 +1228,33 @@ public class List extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A reference to the actual resource from which data was derived.
+             * </p>
+             * 
+             * @param item
+             *     Actual entry
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(Reference item) {
+                this.item = item;
+                return this;
+            }
+
             @Override
             public Entry build() {
                 return new Entry(this);
             }
 
-            private Builder from(Entry entry) {
-                id = entry.id;
-                extension.addAll(entry.extension);
-                modifierExtension.addAll(entry.modifierExtension);
+            protected Builder from(Entry entry) {
+                super.from(entry);
                 flag = entry.flag;
                 deleted = entry.deleted;
                 date = entry.date;
+                item = entry.item;
                 return this;
             }
         }

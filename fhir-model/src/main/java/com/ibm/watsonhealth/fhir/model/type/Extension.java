@@ -122,28 +122,18 @@ public class Extension extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url).from(this);
-    }
-
-    public Builder toBuilder(java.lang.String url) {
-        return new Builder(url).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(java.lang.String url) {
-        return new Builder(url);
+        Builder builder = new Builder();
+        builder.url(url);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final java.lang.String url;
-
-        // optional
+        private java.lang.String url;
         private Element value;
-
-        private Builder(java.lang.String url) {
-            super();
-            this.url = url;
-        }
 
         /**
          * <p>
@@ -208,6 +198,22 @@ public class Extension extends Element {
 
         /**
          * <p>
+         * Source of the definition for the extension code - a logical name or a URL.
+         * </p>
+         * 
+         * @param url
+         *     identifies the meaning of the extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(java.lang.String url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a 
          * list).
          * </p>
@@ -228,9 +234,9 @@ public class Extension extends Element {
             return new Extension(this);
         }
 
-        private Builder from(Extension extension) {
-            id = extension.id;
-            this.extension.addAll(extension.extension);
+        protected Builder from(Extension extension) {
+            super.from(extension);
+            url = extension.url;
             value = extension.value;
             return this;
         }

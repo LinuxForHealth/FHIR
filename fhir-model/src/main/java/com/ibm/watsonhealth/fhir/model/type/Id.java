@@ -79,14 +79,11 @@ public class Id extends String {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends String.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -168,10 +165,8 @@ public class Id extends String {
             return new Id(this);
         }
 
-        private Builder from(Id id) {
-            this.id = id.id;
-            extension.addAll(id.extension);
-            value = id.value;
+        protected Builder from(Id id) {
+            super.from(id);
             return this;
         }
     }

@@ -464,27 +464,22 @@ public class ConceptMap extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private Identifier identifier;
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -497,11 +492,6 @@ public class ConceptMap extends DomainResource {
         private Element source;
         private Element target;
         private List<Group> group = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -819,6 +809,22 @@ public class ConceptMap extends DomainResource {
 
         /**
          * <p>
+         * The status of this concept map. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this concept map is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * </p>
@@ -1120,20 +1126,14 @@ public class ConceptMap extends DomainResource {
             return new ConceptMap(this);
         }
 
-        private Builder from(ConceptMap conceptMap) {
-            id = conceptMap.id;
-            meta = conceptMap.meta;
-            implicitRules = conceptMap.implicitRules;
-            language = conceptMap.language;
-            text = conceptMap.text;
-            contained.addAll(conceptMap.contained);
-            extension.addAll(conceptMap.extension);
-            modifierExtension.addAll(conceptMap.modifierExtension);
+        protected Builder from(ConceptMap conceptMap) {
+            super.from(conceptMap);
             url = conceptMap.url;
             identifier = conceptMap.identifier;
             version = conceptMap.version;
             name = conceptMap.name;
             title = conceptMap.title;
+            status = conceptMap.status;
             experimental = conceptMap.experimental;
             date = conceptMap.date;
             publisher = conceptMap.publisher;
@@ -1324,32 +1324,22 @@ public class ConceptMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(element).from(this);
-        }
-
-        public Builder toBuilder(Collection<Element> element) {
-            return new Builder(element).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Element> element) {
-            return new Builder(element);
+            Builder builder = new Builder();
+            builder.element(element);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Element> element;
-
-            // optional
             private Uri source;
             private String sourceVersion;
             private Uri target;
             private String targetVersion;
+            private List<Element> element = new ArrayList<>();
             private Unmapped unmapped;
-
-            private Builder(Collection<Element> element) {
-                super();
-                this.element = new ArrayList<>(element);
-            }
 
             /**
              * <p>
@@ -1534,6 +1524,46 @@ public class ConceptMap extends DomainResource {
 
             /**
              * <p>
+             * Mappings for an individual concept in the source to one or more concepts in the target.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param element
+             *     Mappings for a concept from the source set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(Element... element) {
+                for (Element value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Mappings for an individual concept in the source to one or more concepts in the target.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param element
+             *     Mappings for a concept from the source set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(Collection<Element> element) {
+                this.element = new ArrayList<>(element);
+                return this;
+            }
+
+            /**
+             * <p>
              * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
              * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
              * </p>
@@ -1554,14 +1584,13 @@ public class ConceptMap extends DomainResource {
                 return new Group(this);
             }
 
-            private Builder from(Group group) {
-                id = group.id;
-                extension.addAll(group.extension);
-                modifierExtension.addAll(group.modifierExtension);
+            protected Builder from(Group group) {
+                super.from(group);
                 source = group.source;
                 sourceVersion = group.sourceVersion;
                 target = group.target;
                 targetVersion = group.targetVersion;
+                element.addAll(group.element);
                 unmapped = group.unmapped;
                 return this;
             }
@@ -1690,18 +1719,14 @@ public class ConceptMap extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Code code;
                 private String display;
                 private List<Target> target = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1897,10 +1922,8 @@ public class ConceptMap extends DomainResource {
                     return new Element(this);
                 }
 
-                private Builder from(Element element) {
-                    id = element.id;
-                    extension.addAll(element.extension);
-                    modifierExtension.addAll(element.modifierExtension);
+                protected Builder from(Element element) {
+                    super.from(element);
                     code = element.code;
                     display = element.display;
                     target.addAll(element.target);
@@ -2085,32 +2108,22 @@ public class ConceptMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(equivalence).from(this);
-                }
-
-                public Builder toBuilder(ConceptMapEquivalence equivalence) {
-                    return new Builder(equivalence).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(ConceptMapEquivalence equivalence) {
-                    return new Builder(equivalence);
+                    Builder builder = new Builder();
+                    builder.equivalence(equivalence);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final ConceptMapEquivalence equivalence;
-
-                    // optional
                     private Code code;
                     private String display;
+                    private ConceptMapEquivalence equivalence;
                     private String comment;
                     private List<DependsOn> dependsOn = new ArrayList<>();
                     private List<ConceptMap.Group.Element.Target.DependsOn> product = new ArrayList<>();
-
-                    private Builder(ConceptMapEquivalence equivalence) {
-                        super();
-                        this.equivalence = equivalence;
-                    }
 
                     /**
                      * <p>
@@ -2263,6 +2276,23 @@ public class ConceptMap extends DomainResource {
 
                     /**
                      * <p>
+                     * The equivalence between the source and target concepts (counting for the dependencies and products). The equivalence 
+                     * is read from target to source (e.g. the target is 'wider' than the source).
+                     * </p>
+                     * 
+                     * @param equivalence
+                     *     relatedto | equivalent | equal | wider | subsumes | narrower | specializes | inexact | unmatched | disjoint
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder equivalence(ConceptMapEquivalence equivalence) {
+                        this.equivalence = equivalence;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * A description of status/issues in mapping that conveys additional information not represented in the structured data.
                      * </p>
                      * 
@@ -2368,12 +2398,11 @@ public class ConceptMap extends DomainResource {
                         return new Target(this);
                     }
 
-                    private Builder from(Target target) {
-                        id = target.id;
-                        extension.addAll(target.extension);
-                        modifierExtension.addAll(target.modifierExtension);
+                    protected Builder from(Target target) {
+                        super.from(target);
                         code = target.code;
                         display = target.display;
+                        equivalence = target.equivalence;
                         comment = target.comment;
                         dependsOn.addAll(target.dependsOn);
                         product.addAll(target.product);
@@ -2521,31 +2550,21 @@ public class ConceptMap extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return new Builder(property, value).from(this);
-                    }
-
-                    public Builder toBuilder(Uri property, String value) {
-                        return new Builder(property, value).from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder(Uri property, String value) {
-                        return new Builder(property, value);
+                        Builder builder = new Builder();
+                        builder.property(property);
+                        builder.value(value);
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // required
-                        private final Uri property;
-                        private final String value;
-
-                        // optional
+                        private Uri property;
                         private Canonical system;
+                        private String value;
                         private String display;
-
-                        private Builder(Uri property, String value) {
-                            super();
-                            this.property = property;
-                            this.value = value;
-                        }
 
                         /**
                          * <p>
@@ -2666,6 +2685,23 @@ public class ConceptMap extends DomainResource {
 
                         /**
                          * <p>
+                         * A reference to an element that holds a coded value that corresponds to a code system property. The idea is that the 
+                         * information model carries an element somewhere that is labeled to correspond with a code system property.
+                         * </p>
+                         * 
+                         * @param property
+                         *     Reference to property mapping depends on
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder property(Uri property) {
+                            this.property = property;
+                            return this;
+                        }
+
+                        /**
+                         * <p>
                          * An absolute URI that identifies the code system of the dependency code (if the source/dependency is a value set that 
                          * crosses code systems).
                          * </p>
@@ -2678,6 +2714,22 @@ public class ConceptMap extends DomainResource {
                          */
                         public Builder system(Canonical system) {
                             this.system = system;
+                            return this;
+                        }
+
+                        /**
+                         * <p>
+                         * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
+                         * </p>
+                         * 
+                         * @param value
+                         *     Value of the referenced element
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(String value) {
+                            this.value = value;
                             return this;
                         }
 
@@ -2702,11 +2754,11 @@ public class ConceptMap extends DomainResource {
                             return new DependsOn(this);
                         }
 
-                        private Builder from(DependsOn dependsOn) {
-                            id = dependsOn.id;
-                            extension.addAll(dependsOn.extension);
-                            modifierExtension.addAll(dependsOn.modifierExtension);
+                        protected Builder from(DependsOn dependsOn) {
+                            super.from(dependsOn);
+                            property = dependsOn.property;
                             system = dependsOn.system;
+                            value = dependsOn.value;
                             display = dependsOn.display;
                             return this;
                         }
@@ -2857,30 +2909,20 @@ public class ConceptMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(mode).from(this);
-            }
-
-            public Builder toBuilder(ConceptMapGroupUnmappedMode mode) {
-                return new Builder(mode).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ConceptMapGroupUnmappedMode mode) {
-                return new Builder(mode);
+                Builder builder = new Builder();
+                builder.mode(mode);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ConceptMapGroupUnmappedMode mode;
-
-                // optional
+                private ConceptMapGroupUnmappedMode mode;
                 private Code code;
                 private String display;
                 private Canonical url;
-
-                private Builder(ConceptMapGroupUnmappedMode mode) {
-                    super();
-                    this.mode = mode;
-                }
 
                 /**
                  * <p>
@@ -3001,6 +3043,25 @@ public class ConceptMap extends DomainResource {
 
                 /**
                  * <p>
+                 * Defines which action to take if there is no match for the source concept in the target system designated for the 
+                 * group. One of 3 actions are possible: use the unmapped code (this is useful when doing a mapping between versions, and 
+                 * only a few codes have changed), use a fixed code (a default code), or alternatively, a reference to a different 
+                 * concept map can be provided (by canonical URL).
+                 * </p>
+                 * 
+                 * @param mode
+                 *     provided | fixed | other-map
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder mode(ConceptMapGroupUnmappedMode mode) {
+                    this.mode = mode;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The fixed code to use when the mode = 'fixed' - all unmapped codes are mapped to a single fixed code.
                  * </p>
                  * 
@@ -3053,10 +3114,9 @@ public class ConceptMap extends DomainResource {
                     return new Unmapped(this);
                 }
 
-                private Builder from(Unmapped unmapped) {
-                    id = unmapped.id;
-                    extension.addAll(unmapped.extension);
-                    modifierExtension.addAll(unmapped.modifierExtension);
+                protected Builder from(Unmapped unmapped) {
+                    super.from(unmapped);
+                    mode = unmapped.mode;
                     code = unmapped.code;
                     display = unmapped.display;
                     url = unmapped.url;

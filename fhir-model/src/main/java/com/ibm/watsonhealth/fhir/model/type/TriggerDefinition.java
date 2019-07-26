@@ -197,31 +197,21 @@ public class TriggerDefinition extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type).from(this);
-    }
-
-    public Builder toBuilder(TriggerType type) {
-        return new Builder(type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(TriggerType type) {
-        return new Builder(type);
+        Builder builder = new Builder();
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final TriggerType type;
-
-        // optional
+        private TriggerType type;
         private String name;
         private Element timing;
         private List<DataRequirement> data = new ArrayList<>();
         private Expression condition;
-
-        private Builder(TriggerType type) {
-            super();
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -282,6 +272,22 @@ public class TriggerDefinition extends Element {
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * <p>
+         * The type of triggering event.
+         * </p>
+         * 
+         * @param type
+         *     named-event | periodic | data-changed | data-added | data-modified | data-removed | data-accessed | data-access-ended
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(TriggerType type) {
+            this.type = type;
+            return this;
         }
 
         /**
@@ -381,9 +387,9 @@ public class TriggerDefinition extends Element {
             return new TriggerDefinition(this);
         }
 
-        private Builder from(TriggerDefinition triggerDefinition) {
-            id = triggerDefinition.id;
-            extension.addAll(triggerDefinition.extension);
+        protected Builder from(TriggerDefinition triggerDefinition) {
+            super.from(triggerDefinition);
+            type = triggerDefinition.type;
             name = triggerDefinition.name;
             timing = triggerDefinition.timing;
             data.addAll(triggerDefinition.data);

@@ -252,35 +252,25 @@ public class AppointmentResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(appointment, participantStatus).from(this);
-    }
-
-    public Builder toBuilder(Reference appointment, ParticipantStatus participantStatus) {
-        return new Builder(appointment, participantStatus).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference appointment, ParticipantStatus participantStatus) {
-        return new Builder(appointment, participantStatus);
+        Builder builder = new Builder();
+        builder.appointment(appointment);
+        builder.participantStatus(participantStatus);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference appointment;
-        private final ParticipantStatus participantStatus;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private Reference appointment;
         private Instant start;
         private Instant end;
         private List<CodeableConcept> participantType = new ArrayList<>();
         private Reference actor;
+        private ParticipantStatus participantStatus;
         private String comment;
-
-        private Builder(Reference appointment, ParticipantStatus participantStatus) {
-            super();
-            this.appointment = appointment;
-            this.participantStatus = participantStatus;
-        }
 
         /**
          * <p>
@@ -552,6 +542,22 @@ public class AppointmentResponse extends DomainResource {
 
         /**
          * <p>
+         * Appointment that this response is replying to.
+         * </p>
+         * 
+         * @param appointment
+         *     Appointment this response relates to
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder appointment(Reference appointment) {
+            this.appointment = appointment;
+            return this;
+        }
+
+        /**
+         * <p>
          * Date/Time that the appointment is to take place, or requested new start time.
          * </p>
          * 
@@ -641,6 +647,24 @@ public class AppointmentResponse extends DomainResource {
 
         /**
          * <p>
+         * Participation status of the participant. When the status is declined or tentative if the start/end times are different 
+         * to the appointment, then these times should be interpreted as a requested time change. When the status is accepted, 
+         * the times can either be the time of the appointment (as a confirmation of the time) or can be empty.
+         * </p>
+         * 
+         * @param participantStatus
+         *     accepted | declined | tentative | in-process | completed | needs-action | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder participantStatus(ParticipantStatus participantStatus) {
+            this.participantStatus = participantStatus;
+            return this;
+        }
+
+        /**
+         * <p>
          * Additional comments about the appointment.
          * </p>
          * 
@@ -660,20 +684,15 @@ public class AppointmentResponse extends DomainResource {
             return new AppointmentResponse(this);
         }
 
-        private Builder from(AppointmentResponse appointmentResponse) {
-            id = appointmentResponse.id;
-            meta = appointmentResponse.meta;
-            implicitRules = appointmentResponse.implicitRules;
-            language = appointmentResponse.language;
-            text = appointmentResponse.text;
-            contained.addAll(appointmentResponse.contained);
-            extension.addAll(appointmentResponse.extension);
-            modifierExtension.addAll(appointmentResponse.modifierExtension);
+        protected Builder from(AppointmentResponse appointmentResponse) {
+            super.from(appointmentResponse);
             identifier.addAll(appointmentResponse.identifier);
+            appointment = appointmentResponse.appointment;
             start = appointmentResponse.start;
             end = appointmentResponse.end;
             participantType.addAll(appointmentResponse.participantType);
             actor = appointmentResponse.actor;
+            participantStatus = appointmentResponse.participantStatus;
             comment = appointmentResponse.comment;
             return this;
         }

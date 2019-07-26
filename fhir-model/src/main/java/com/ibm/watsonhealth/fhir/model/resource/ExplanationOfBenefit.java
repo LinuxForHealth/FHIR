@@ -863,34 +863,35 @@ public class ExplanationOfBenefit extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
-    }
-
-    public Builder toBuilder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
-        return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
-        return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.type(type);
+        builder.use(use);
+        builder.patient(patient);
+        builder.created(created);
+        builder.insurer(insurer);
+        builder.provider(provider);
+        builder.outcome(outcome);
+        builder.insurance(insurance);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ExplanationOfBenefitStatus status;
-        private final CodeableConcept type;
-        private final Use use;
-        private final Reference patient;
-        private final DateTime created;
-        private final Reference insurer;
-        private final Reference provider;
-        private final RemittanceOutcome outcome;
-        private final List<Insurance> insurance;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ExplanationOfBenefitStatus status;
+        private CodeableConcept type;
         private CodeableConcept subType;
+        private Use use;
+        private Reference patient;
         private Period billablePeriod;
+        private DateTime created;
         private Reference enterer;
+        private Reference insurer;
+        private Reference provider;
         private CodeableConcept priority;
         private CodeableConcept fundsReserveRequested;
         private CodeableConcept fundsReserve;
@@ -902,6 +903,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private Reference facility;
         private Reference claim;
         private Reference claimResponse;
+        private RemittanceOutcome outcome;
         private String disposition;
         private List<String> preAuthRef = new ArrayList<>();
         private List<Period> preAuthRefPeriod = new ArrayList<>();
@@ -910,6 +912,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private List<Diagnosis> diagnosis = new ArrayList<>();
         private List<Procedure> procedure = new ArrayList<>();
         private PositiveInt precedence;
+        private List<Insurance> insurance = new ArrayList<>();
         private Accident accident;
         private List<Item> item = new ArrayList<>();
         private List<AddItem> addItem = new ArrayList<>();
@@ -921,19 +924,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private List<ProcessNote> processNote = new ArrayList<>();
         private Period benefitPeriod;
         private List<BenefitBalance> benefitBalance = new ArrayList<>();
-
-        private Builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
-            super();
-            this.status = status;
-            this.type = type;
-            this.use = use;
-            this.patient = patient;
-            this.created = created;
-            this.insurer = insurer;
-            this.provider = provider;
-            this.outcome = outcome;
-            this.insurance = new ArrayList<>(insurance);
-        }
 
         /**
          * <p>
@@ -1203,6 +1193,38 @@ public class ExplanationOfBenefit extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ExplanationOfBenefitStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The category of claim, e.g. oral, pharmacy, vision, institutional, professional.
+         * </p>
+         * 
+         * @param type
+         *     Category or discipline
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
          * and/or a specialty service.
          * </p>
@@ -1215,6 +1237,41 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Builder subType(CodeableConcept subType) {
             this.subType = subType;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
+         * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
+         * adjudication of the listed products and services which could be provided in the future.
+         * </p>
+         * 
+         * @param use
+         *     claim | preauthorization | predetermination
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder use(Use use) {
+            this.use = use;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
+         * actual for forecast reimbursement is sought.
+         * </p>
+         * 
+         * @param patient
+         *     The recipient of the products and services
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
             return this;
         }
 
@@ -1236,6 +1293,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
         /**
          * <p>
+         * The date this resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Response creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        /**
+         * <p>
          * Individual who created the claim, predetermination or preauthorization.
          * </p>
          * 
@@ -1247,6 +1320,38 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Builder enterer(Reference enterer) {
             this.enterer = enterer;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The party responsible for authorization, adjudication and reimbursement.
+         * </p>
+         * 
+         * @param insurer
+         *     Party responsible for reimbursement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder insurer(Reference insurer) {
+            this.insurer = insurer;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The provider which is responsible for the claim, predetermination or preauthorization.
+         * </p>
+         * 
+         * @param provider
+         *     Party responsible for the claim
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder provider(Reference provider) {
+            this.provider = provider;
             return this;
         }
 
@@ -1452,6 +1557,22 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Builder claimResponse(Reference claimResponse) {
             this.claimResponse = claimResponse;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The outcome of the claim, predetermination, or preauthorization processing.
+         * </p>
+         * 
+         * @param outcome
+         *     queued | complete | error | partial
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder outcome(RemittanceOutcome outcome) {
+            this.outcome = outcome;
             return this;
         }
 
@@ -1728,6 +1849,46 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Builder precedence(PositiveInt precedence) {
             this.precedence = precedence;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Financial instruments for reimbursement for the health care products and services specified on the claim.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param insurance
+         *     Patient insurance information
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder insurance(Insurance... insurance) {
+            for (Insurance value : insurance) {
+                this.insurance.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Financial instruments for reimbursement for the health care products and services specified on the claim.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param insurance
+         *     Patient insurance information
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder insurance(Collection<Insurance> insurance) {
+            this.insurance = new ArrayList<>(insurance);
             return this;
         }
 
@@ -2058,19 +2219,19 @@ public class ExplanationOfBenefit extends DomainResource {
             return new ExplanationOfBenefit(this);
         }
 
-        private Builder from(ExplanationOfBenefit explanationOfBenefit) {
-            id = explanationOfBenefit.id;
-            meta = explanationOfBenefit.meta;
-            implicitRules = explanationOfBenefit.implicitRules;
-            language = explanationOfBenefit.language;
-            text = explanationOfBenefit.text;
-            contained.addAll(explanationOfBenefit.contained);
-            extension.addAll(explanationOfBenefit.extension);
-            modifierExtension.addAll(explanationOfBenefit.modifierExtension);
+        protected Builder from(ExplanationOfBenefit explanationOfBenefit) {
+            super.from(explanationOfBenefit);
             identifier.addAll(explanationOfBenefit.identifier);
+            status = explanationOfBenefit.status;
+            type = explanationOfBenefit.type;
             subType = explanationOfBenefit.subType;
+            use = explanationOfBenefit.use;
+            patient = explanationOfBenefit.patient;
             billablePeriod = explanationOfBenefit.billablePeriod;
+            created = explanationOfBenefit.created;
             enterer = explanationOfBenefit.enterer;
+            insurer = explanationOfBenefit.insurer;
+            provider = explanationOfBenefit.provider;
             priority = explanationOfBenefit.priority;
             fundsReserveRequested = explanationOfBenefit.fundsReserveRequested;
             fundsReserve = explanationOfBenefit.fundsReserve;
@@ -2082,6 +2243,7 @@ public class ExplanationOfBenefit extends DomainResource {
             facility = explanationOfBenefit.facility;
             claim = explanationOfBenefit.claim;
             claimResponse = explanationOfBenefit.claimResponse;
+            outcome = explanationOfBenefit.outcome;
             disposition = explanationOfBenefit.disposition;
             preAuthRef.addAll(explanationOfBenefit.preAuthRef);
             preAuthRefPeriod.addAll(explanationOfBenefit.preAuthRefPeriod);
@@ -2090,6 +2252,7 @@ public class ExplanationOfBenefit extends DomainResource {
             diagnosis.addAll(explanationOfBenefit.diagnosis);
             procedure.addAll(explanationOfBenefit.procedure);
             precedence = explanationOfBenefit.precedence;
+            insurance.addAll(explanationOfBenefit.insurance);
             accident = explanationOfBenefit.accident;
             item.addAll(explanationOfBenefit.item);
             addItem.addAll(explanationOfBenefit.addItem);
@@ -2229,18 +2392,14 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference claim;
             private CodeableConcept relationship;
             private Identifier reference;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2412,10 +2571,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Related(this);
             }
 
-            private Builder from(Related related) {
-                id = related.id;
-                extension.addAll(related.extension);
-                modifierExtension.addAll(related.modifierExtension);
+            protected Builder from(Related related) {
+                super.from(related);
                 claim = related.claim;
                 relationship = related.relationship;
                 reference = related.reference;
@@ -2529,17 +2686,13 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Reference party;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2695,10 +2848,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Payee(this);
             }
 
-            private Builder from(Payee payee) {
-                id = payee.id;
-                extension.addAll(payee.extension);
-                modifierExtension.addAll(payee.modifierExtension);
+            protected Builder from(Payee payee) {
+                super.from(payee);
                 type = payee.type;
                 party = payee.party;
                 return this;
@@ -2861,32 +3012,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, provider).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, Reference provider) {
-            return new Builder(sequence, provider).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Reference provider) {
-            return new Builder(sequence, provider);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.provider(provider);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final Reference provider;
-
-            // optional
+            private PositiveInt sequence;
+            private Reference provider;
             private Boolean responsible;
             private CodeableConcept role;
             private CodeableConcept qualification;
-
-            private Builder(PositiveInt sequence, Reference provider) {
-                super();
-                this.sequence = sequence;
-                this.provider = provider;
-            }
 
             /**
              * <p>
@@ -3007,6 +3148,38 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify care team entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Order of care team
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Member of the team who provided the product or service.
+             * </p>
+             * 
+             * @param provider
+             *     Practitioner or organization
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder provider(Reference provider) {
+                this.provider = provider;
+                return this;
+            }
+
+            /**
+             * <p>
              * The party who is billing and/or responsible for the claimed products or services.
              * </p>
              * 
@@ -3058,10 +3231,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new CareTeam(this);
             }
 
-            private Builder from(CareTeam careTeam) {
-                id = careTeam.id;
-                extension.addAll(careTeam.extension);
-                modifierExtension.addAll(careTeam.modifierExtension);
+            protected Builder from(CareTeam careTeam) {
+                super.from(careTeam);
+                sequence = careTeam.sequence;
+                provider = careTeam.provider;
                 responsible = careTeam.responsible;
                 role = careTeam.role;
                 qualification = careTeam.qualification;
@@ -3246,33 +3419,23 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, category).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, CodeableConcept category) {
-            return new Builder(sequence, category).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept category) {
-            return new Builder(sequence, category);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.category(category);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final CodeableConcept category;
-
-            // optional
+            private PositiveInt sequence;
+            private CodeableConcept category;
             private CodeableConcept code;
             private Element timing;
             private Element value;
             private Coding reason;
-
-            private Builder(PositiveInt sequence, CodeableConcept category) {
-                super();
-                this.sequence = sequence;
-                this.category = category;
-            }
 
             /**
              * <p>
@@ -3393,6 +3556,38 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify supporting information entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Information instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The general class of the information supplied: information; exception; accident, employment; onset, etc.
+             * </p>
+             * 
+             * @param category
+             *     Classification of the supplied information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder category(CodeableConcept category) {
+                this.category = category;
+                return this;
+            }
+
+            /**
+             * <p>
              * System and code pertaining to the specific information regarding special conditions relating to the setting, treatment 
              * or patient for which care is sought.
              * </p>
@@ -3462,10 +3657,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new SupportingInfo(this);
             }
 
-            private Builder from(SupportingInfo supportingInfo) {
-                id = supportingInfo.id;
-                extension.addAll(supportingInfo.extension);
-                modifierExtension.addAll(supportingInfo.modifierExtension);
+            protected Builder from(SupportingInfo supportingInfo) {
+                super.from(supportingInfo);
+                sequence = supportingInfo.sequence;
+                category = supportingInfo.category;
                 code = supportingInfo.code;
                 timing = supportingInfo.timing;
                 value = supportingInfo.value;
@@ -3631,32 +3826,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, diagnosis).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, Element diagnosis) {
-            return new Builder(sequence, diagnosis).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element diagnosis) {
-            return new Builder(sequence, diagnosis);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.diagnosis(diagnosis);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final Element diagnosis;
-
-            // optional
+            private PositiveInt sequence;
+            private Element diagnosis;
             private List<CodeableConcept> type = new ArrayList<>();
             private CodeableConcept onAdmission;
             private CodeableConcept packageCode;
-
-            private Builder(PositiveInt sequence, Element diagnosis) {
-                super();
-                this.sequence = sequence;
-                this.diagnosis = diagnosis;
-            }
 
             /**
              * <p>
@@ -3777,6 +3962,38 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify diagnosis entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Diagnosis instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
+             * </p>
+             * 
+             * @param diagnosis
+             *     Nature of illness or problem
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder diagnosis(Element diagnosis) {
+                this.diagnosis = diagnosis;
+                return this;
+            }
+
+            /**
+             * <p>
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
@@ -3853,10 +4070,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private Builder from(Diagnosis diagnosis) {
-                id = diagnosis.id;
-                extension.addAll(diagnosis.extension);
-                modifierExtension.addAll(diagnosis.modifierExtension);
+            protected Builder from(Diagnosis diagnosis) {
+                super.from(diagnosis);
+                sequence = diagnosis.sequence;
+                this.diagnosis = diagnosis.diagnosis;
                 type.addAll(diagnosis.type);
                 onAdmission = diagnosis.onAdmission;
                 packageCode = diagnosis.packageCode;
@@ -4020,32 +4237,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, procedure).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, Element procedure) {
-            return new Builder(sequence, procedure).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element procedure) {
-            return new Builder(sequence, procedure);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.procedure(procedure);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final Element procedure;
-
-            // optional
+            private PositiveInt sequence;
             private List<CodeableConcept> type = new ArrayList<>();
             private DateTime date;
+            private Element procedure;
             private List<Reference> udi = new ArrayList<>();
-
-            private Builder(PositiveInt sequence, Element procedure) {
-                super();
-                this.sequence = sequence;
-                this.procedure = procedure;
-            }
 
             /**
              * <p>
@@ -4166,6 +4373,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify procedure entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Procedure instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
              * When the condition was observed or the relative ranking.
              * </p>
              * <p>
@@ -4222,6 +4445,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * The code or reference to a Procedure resource which identifies the clinical intervention performed.
+             * </p>
+             * 
+             * @param procedure
+             *     Specific clinical procedure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder procedure(Element procedure) {
+                this.procedure = procedure;
+                return this;
+            }
+
+            /**
+             * <p>
              * Unique Device Identifiers associated with this line item.
              * </p>
              * <p>
@@ -4265,12 +4504,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Procedure(this);
             }
 
-            private Builder from(Procedure procedure) {
-                id = procedure.id;
-                extension.addAll(procedure.extension);
-                modifierExtension.addAll(procedure.modifierExtension);
+            protected Builder from(Procedure procedure) {
+                super.from(procedure);
+                sequence = procedure.sequence;
                 type.addAll(procedure.type);
                 date = procedure.date;
+                this.procedure = procedure.procedure;
                 udi.addAll(procedure.udi);
                 return this;
             }
@@ -4398,30 +4637,20 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(focal, coverage).from(this);
-        }
-
-        public Builder toBuilder(Boolean focal, Reference coverage) {
-            return new Builder(focal, coverage).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean focal, Reference coverage) {
-            return new Builder(focal, coverage);
+            Builder builder = new Builder();
+            builder.focal(focal);
+            builder.coverage(coverage);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean focal;
-            private final Reference coverage;
-
-            // optional
+            private Boolean focal;
+            private Reference coverage;
             private List<String> preAuthRef = new ArrayList<>();
-
-            private Builder(Boolean focal, Reference coverage) {
-                super();
-                this.focal = focal;
-                this.coverage = coverage;
-            }
 
             /**
              * <p>
@@ -4542,6 +4771,39 @@ public class ExplanationOfBenefit extends DomainResource {
 
             /**
              * <p>
+             * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
+             * </p>
+             * 
+             * @param focal
+             *     Coverage to be used for adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(Boolean focal) {
+                this.focal = focal;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
+             * will use these details to locate the patient's actual coverage within the insurer's information system.
+             * </p>
+             * 
+             * @param coverage
+             *     Insurance information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder coverage(Reference coverage) {
+                this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * <p>
              * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
              * services or products related to the prior authorization.
              * </p>
@@ -4587,10 +4849,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Insurance(this);
             }
 
-            private Builder from(Insurance insurance) {
-                id = insurance.id;
-                extension.addAll(insurance.extension);
-                modifierExtension.addAll(insurance.modifierExtension);
+            protected Builder from(Insurance insurance) {
+                super.from(insurance);
+                focal = insurance.focal;
+                coverage = insurance.coverage;
                 preAuthRef.addAll(insurance.preAuthRef);
                 return this;
             }
@@ -4721,18 +4983,14 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Date date;
             private CodeableConcept type;
             private Element location;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4905,10 +5163,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Accident(this);
             }
 
-            private Builder from(Accident accident) {
-                id = accident.id;
-                extension.addAll(accident.extension);
-                modifierExtension.addAll(accident.modifierExtension);
+            protected Builder from(Accident accident) {
+                super.from(accident);
                 date = accident.date;
                 type = accident.type;
                 location = accident.location;
@@ -5401,29 +5657,25 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, productOrService).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
-            return new Builder(sequence, productOrService).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-            return new Builder(sequence, productOrService);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.productOrService(productOrService);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final CodeableConcept productOrService;
-
-            // optional
+            private PositiveInt sequence;
             private List<PositiveInt> careTeamSequence = new ArrayList<>();
             private List<PositiveInt> diagnosisSequence = new ArrayList<>();
             private List<PositiveInt> procedureSequence = new ArrayList<>();
             private List<PositiveInt> informationSequence = new ArrayList<>();
             private CodeableConcept revenue;
             private CodeableConcept category;
+            private CodeableConcept productOrService;
             private List<CodeableConcept> modifier = new ArrayList<>();
             private List<CodeableConcept> programCode = new ArrayList<>();
             private Element serviced;
@@ -5439,12 +5691,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
-
-            private Builder(PositiveInt sequence, CodeableConcept productOrService) {
-                super();
-                this.sequence = sequence;
-                this.productOrService = productOrService;
-            }
 
             /**
              * <p>
@@ -5561,6 +5807,22 @@ public class ExplanationOfBenefit extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * A number to uniquely identify item entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Item instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
             }
 
             /**
@@ -5752,6 +6014,23 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder category(CodeableConcept category) {
                 this.category = category;
+                return this;
+            }
+
+            /**
+             * <p>
+             * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+             * product, service, drug or other billing code for the item.
+             * </p>
+             * 
+             * @param productOrService
+             *     Billing, service, product, or drug code
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder productOrService(CodeableConcept productOrService) {
+                this.productOrService = productOrService;
                 return this;
             }
 
@@ -6196,16 +6475,16 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
+                sequence = item.sequence;
                 careTeamSequence.addAll(item.careTeamSequence);
                 diagnosisSequence.addAll(item.diagnosisSequence);
                 procedureSequence.addAll(item.procedureSequence);
                 informationSequence.addAll(item.informationSequence);
                 revenue = item.revenue;
                 category = item.category;
+                productOrService = item.productOrService;
                 modifier.addAll(item.modifier);
                 programCode.addAll(item.programCode);
                 serviced = item.serviced;
@@ -6365,30 +6644,20 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(category).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept category) {
-                return new Builder(category).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept category) {
-                return new Builder(category);
+                Builder builder = new Builder();
+                builder.category(category);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept category;
-
-                // optional
+                private CodeableConcept category;
                 private CodeableConcept reason;
                 private Money amount;
                 private Decimal value;
-
-                private Builder(CodeableConcept category) {
-                    super();
-                    this.category = category;
-                }
 
                 /**
                  * <p>
@@ -6509,6 +6778,24 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 /**
                  * <p>
+                 * A code to indicate the information type of this adjudication record. Information types may include: the value 
+                 * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
+                 * for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
+                 * </p>
+                 * 
+                 * @param category
+                 *     Type of adjudication information
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder category(CodeableConcept category) {
+                    this.category = category;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
                  * </p>
                  * 
@@ -6560,10 +6847,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Adjudication(this);
                 }
 
-                private Builder from(Adjudication adjudication) {
-                    id = adjudication.id;
-                    extension.addAll(adjudication.extension);
-                    modifierExtension.addAll(adjudication.modifierExtension);
+                protected Builder from(Adjudication adjudication) {
+                    super.from(adjudication);
+                    category = adjudication.category;
                     reason = adjudication.reason;
                     amount = adjudication.amount;
                     value = adjudication.value;
@@ -6892,25 +7178,21 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(sequence, productOrService).from(this);
-            }
-
-            public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
-                return new Builder(sequence, productOrService).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                return new Builder(sequence, productOrService);
+                Builder builder = new Builder();
+                builder.sequence(sequence);
+                builder.productOrService(productOrService);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final PositiveInt sequence;
-                private final CodeableConcept productOrService;
-
-                // optional
+                private PositiveInt sequence;
                 private CodeableConcept revenue;
                 private CodeableConcept category;
+                private CodeableConcept productOrService;
                 private List<CodeableConcept> modifier = new ArrayList<>();
                 private List<CodeableConcept> programCode = new ArrayList<>();
                 private Quantity quantity;
@@ -6921,12 +7203,6 @@ public class ExplanationOfBenefit extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
-
-                private Builder(PositiveInt sequence, CodeableConcept productOrService) {
-                    super();
-                    this.sequence = sequence;
-                    this.productOrService = productOrService;
-                }
 
                 /**
                  * <p>
@@ -7047,6 +7323,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 /**
                  * <p>
+                 * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
+                 * </p>
+                 * 
+                 * @param sequence
+                 *     Product or service provided
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder sequence(PositiveInt sequence) {
+                    this.sequence = sequence;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The type of revenue or cost center providing the product and/or service.
                  * </p>
                  * 
@@ -7074,6 +7366,23 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 public Builder category(CodeableConcept category) {
                     this.category = category;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                 * product, service, drug or other billing code for the item.
+                 * </p>
+                 * 
+                 * @param productOrService
+                 *     Billing, service, product, or drug code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder productOrService(CodeableConcept productOrService) {
+                    this.productOrService = productOrService;
                     return this;
                 }
 
@@ -7388,12 +7697,12 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
+                    sequence = detail.sequence;
                     revenue = detail.revenue;
                     category = detail.category;
+                    productOrService = detail.productOrService;
                     modifier.addAll(detail.modifier);
                     programCode.addAll(detail.programCode);
                     quantity = detail.quantity;
@@ -7710,25 +8019,21 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(sequence, productOrService).from(this);
-                }
-
-                public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
-                    return new Builder(sequence, productOrService).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                    return new Builder(sequence, productOrService);
+                    Builder builder = new Builder();
+                    builder.sequence(sequence);
+                    builder.productOrService(productOrService);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final PositiveInt sequence;
-                    private final CodeableConcept productOrService;
-
-                    // optional
+                    private PositiveInt sequence;
                     private CodeableConcept revenue;
                     private CodeableConcept category;
+                    private CodeableConcept productOrService;
                     private List<CodeableConcept> modifier = new ArrayList<>();
                     private List<CodeableConcept> programCode = new ArrayList<>();
                     private Quantity quantity;
@@ -7738,12 +8043,6 @@ public class ExplanationOfBenefit extends DomainResource {
                     private List<Reference> udi = new ArrayList<>();
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
-
-                    private Builder(PositiveInt sequence, CodeableConcept productOrService) {
-                        super();
-                        this.sequence = sequence;
-                        this.productOrService = productOrService;
-                    }
 
                     /**
                      * <p>
@@ -7864,6 +8163,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
                     /**
                      * <p>
+                     * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
+                     * </p>
+                     * 
+                     * @param sequence
+                     *     Product or service provided
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder sequence(PositiveInt sequence) {
+                        this.sequence = sequence;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * The type of revenue or cost center providing the product and/or service.
                      * </p>
                      * 
@@ -7891,6 +8206,23 @@ public class ExplanationOfBenefit extends DomainResource {
                      */
                     public Builder category(CodeableConcept category) {
                         this.category = category;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                     * product, service, drug or other billing code for the item.
+                     * </p>
+                     * 
+                     * @param productOrService
+                     *     Billing, service, product, or drug code
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder productOrService(CodeableConcept productOrService) {
+                        this.productOrService = productOrService;
                         return this;
                     }
 
@@ -8165,12 +8497,12 @@ public class ExplanationOfBenefit extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private Builder from(SubDetail subDetail) {
-                        id = subDetail.id;
-                        extension.addAll(subDetail.extension);
-                        modifierExtension.addAll(subDetail.modifierExtension);
+                    protected Builder from(SubDetail subDetail) {
+                        super.from(subDetail);
+                        sequence = subDetail.sequence;
                         revenue = subDetail.revenue;
                         category = subDetail.category;
+                        productOrService = subDetail.productOrService;
                         modifier.addAll(subDetail.modifier);
                         programCode.addAll(subDetail.programCode);
                         quantity = subDetail.quantity;
@@ -8580,26 +8912,21 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(productOrService).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept productOrService) {
-            return new Builder(productOrService).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept productOrService) {
-            return new Builder(productOrService);
+            Builder builder = new Builder();
+            builder.productOrService(productOrService);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept productOrService;
-
-            // optional
             private List<PositiveInt> itemSequence = new ArrayList<>();
             private List<PositiveInt> detailSequence = new ArrayList<>();
             private List<PositiveInt> subDetailSequence = new ArrayList<>();
             private List<Reference> provider = new ArrayList<>();
+            private CodeableConcept productOrService;
             private List<CodeableConcept> modifier = new ArrayList<>();
             private List<CodeableConcept> programCode = new ArrayList<>();
             private Element serviced;
@@ -8613,11 +8940,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
-
-            private Builder(CodeableConcept productOrService) {
-                super();
-                this.productOrService = productOrService;
-            }
 
             /**
              * <p>
@@ -8895,6 +9217,23 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder provider(Collection<Reference> provider) {
                 this.provider = new ArrayList<>(provider);
+                return this;
+            }
+
+            /**
+             * <p>
+             * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+             * product, service, drug or other billing code for the item.
+             * </p>
+             * 
+             * @param productOrService
+             *     Billing, service, product, or drug code
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder productOrService(CodeableConcept productOrService) {
+                this.productOrService = productOrService;
                 return this;
             }
 
@@ -9257,14 +9596,13 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new AddItem(this);
             }
 
-            private Builder from(AddItem addItem) {
-                id = addItem.id;
-                extension.addAll(addItem.extension);
-                modifierExtension.addAll(addItem.modifierExtension);
+            protected Builder from(AddItem addItem) {
+                super.from(addItem);
                 itemSequence.addAll(addItem.itemSequence);
                 detailSequence.addAll(addItem.detailSequence);
                 subDetailSequence.addAll(addItem.subDetailSequence);
                 provider.addAll(addItem.provider);
+                productOrService = addItem.productOrService;
                 modifier.addAll(addItem.modifier);
                 programCode.addAll(addItem.programCode);
                 serviced = addItem.serviced;
@@ -9512,22 +9850,17 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(productOrService).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept productOrService) {
-                return new Builder(productOrService).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept productOrService) {
-                return new Builder(productOrService);
+                Builder builder = new Builder();
+                builder.productOrService(productOrService);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept productOrService;
-
-                // optional
+                private CodeableConcept productOrService;
                 private List<CodeableConcept> modifier = new ArrayList<>();
                 private Quantity quantity;
                 private Money unitPrice;
@@ -9536,11 +9869,6 @@ public class ExplanationOfBenefit extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
-
-                private Builder(CodeableConcept productOrService) {
-                    super();
-                    this.productOrService = productOrService;
-                }
 
                 /**
                  * <p>
@@ -9657,6 +9985,23 @@ public class ExplanationOfBenefit extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * <p>
+                 * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                 * product, service, drug or other billing code for the item.
+                 * </p>
+                 * 
+                 * @param productOrService
+                 *     Billing, service, product, or drug code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder productOrService(CodeableConcept productOrService) {
+                    this.productOrService = productOrService;
+                    return this;
                 }
 
                 /**
@@ -9890,10 +10235,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
+                    productOrService = detail.productOrService;
                     modifier.addAll(detail.modifier);
                     quantity = detail.quantity;
                     unitPrice = detail.unitPrice;
@@ -10118,22 +10462,17 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(productOrService).from(this);
-                }
-
-                public Builder toBuilder(CodeableConcept productOrService) {
-                    return new Builder(productOrService).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(CodeableConcept productOrService) {
-                    return new Builder(productOrService);
+                    Builder builder = new Builder();
+                    builder.productOrService(productOrService);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final CodeableConcept productOrService;
-
-                    // optional
+                    private CodeableConcept productOrService;
                     private List<CodeableConcept> modifier = new ArrayList<>();
                     private Quantity quantity;
                     private Money unitPrice;
@@ -10141,11 +10480,6 @@ public class ExplanationOfBenefit extends DomainResource {
                     private Money net;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
-
-                    private Builder(CodeableConcept productOrService) {
-                        super();
-                        this.productOrService = productOrService;
-                    }
 
                     /**
                      * <p>
@@ -10262,6 +10596,23 @@ public class ExplanationOfBenefit extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * <p>
+                     * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
+                     * product, service, drug or other billing code for the item.
+                     * </p>
+                     * 
+                     * @param productOrService
+                     *     Billing, service, product, or drug code
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder productOrService(CodeableConcept productOrService) {
+                        this.productOrService = productOrService;
+                        return this;
                     }
 
                     /**
@@ -10455,10 +10806,9 @@ public class ExplanationOfBenefit extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private Builder from(SubDetail subDetail) {
-                        id = subDetail.id;
-                        extension.addAll(subDetail.extension);
-                        modifierExtension.addAll(subDetail.modifierExtension);
+                    protected Builder from(SubDetail subDetail) {
+                        super.from(subDetail);
+                        productOrService = subDetail.productOrService;
                         modifier.addAll(subDetail.modifier);
                         quantity = subDetail.quantity;
                         unitPrice = subDetail.unitPrice;
@@ -10576,27 +10926,19 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(category, amount).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept category, Money amount) {
-            return new Builder(category, amount).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept category, Money amount) {
-            return new Builder(category, amount);
+            Builder builder = new Builder();
+            builder.category(category);
+            builder.amount(amount);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept category;
-            private final Money amount;
-
-            private Builder(CodeableConcept category, Money amount) {
-                super();
-                this.category = category;
-                this.amount = amount;
-            }
+            private CodeableConcept category;
+            private Money amount;
 
             /**
              * <p>
@@ -10715,15 +11057,49 @@ public class ExplanationOfBenefit extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * A code to indicate the information type of this adjudication record. Information types may include: the value 
+             * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
+             * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
+             * </p>
+             * 
+             * @param category
+             *     Type of adjudication information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder category(CodeableConcept category) {
+                this.category = category;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Monetary total amount associated with the category.
+             * </p>
+             * 
+             * @param amount
+             *     Financial total for the category
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder amount(Money amount) {
+                this.amount = amount;
+                return this;
+            }
+
             @Override
             public Total build() {
                 return new Total(this);
             }
 
-            private Builder from(Total total) {
-                id = total.id;
-                extension.addAll(total.extension);
-                modifierExtension.addAll(total.modifierExtension);
+            protected Builder from(Total total) {
+                super.from(total);
+                category = total.category;
+                amount = total.amount;
                 return this;
             }
         }
@@ -10907,21 +11283,17 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Money adjustment;
             private CodeableConcept adjustmentReason;
             private Date date;
             private Money amount;
             private Identifier identifier;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -11142,10 +11514,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Payment(this);
             }
 
-            private Builder from(Payment payment) {
-                id = payment.id;
-                extension.addAll(payment.extension);
-                modifierExtension.addAll(payment.modifierExtension);
+            protected Builder from(Payment payment) {
+                super.from(payment);
                 type = payment.type;
                 adjustment = payment.adjustment;
                 adjustmentReason = payment.adjustmentReason;
@@ -11298,19 +11668,15 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private PositiveInt number;
             private NoteType type;
             private String text;
             private CodeableConcept language;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -11498,10 +11864,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new ProcessNote(this);
             }
 
-            private Builder from(ProcessNote processNote) {
-                id = processNote.id;
-                extension.addAll(processNote.extension);
-                modifierExtension.addAll(processNote.modifierExtension);
+            protected Builder from(ProcessNote processNote) {
+                super.from(processNote);
                 number = processNote.number;
                 type = processNote.type;
                 text = processNote.text;
@@ -11721,22 +12085,17 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(category).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept category) {
-            return new Builder(category).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept category) {
-            return new Builder(category);
+            Builder builder = new Builder();
+            builder.category(category);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept category;
-
-            // optional
+            private CodeableConcept category;
             private Boolean excluded;
             private String name;
             private String description;
@@ -11744,11 +12103,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private CodeableConcept unit;
             private CodeableConcept term;
             private List<Financial> financial = new ArrayList<>();
-
-            private Builder(CodeableConcept category) {
-                super();
-                this.category = category;
-            }
 
             /**
              * <p>
@@ -11865,6 +12219,22 @@ public class ExplanationOfBenefit extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Code to identify the general type of benefits under which products and services are provided.
+             * </p>
+             * 
+             * @param category
+             *     Benefit classification
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder category(CodeableConcept category) {
+                this.category = category;
+                return this;
             }
 
             /**
@@ -12009,10 +12379,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new BenefitBalance(this);
             }
 
-            private Builder from(BenefitBalance benefitBalance) {
-                id = benefitBalance.id;
-                extension.addAll(benefitBalance.extension);
-                modifierExtension.addAll(benefitBalance.modifierExtension);
+            protected Builder from(BenefitBalance benefitBalance) {
+                super.from(benefitBalance);
+                category = benefitBalance.category;
                 excluded = benefitBalance.excluded;
                 name = benefitBalance.name;
                 description = benefitBalance.description;
@@ -12143,29 +12512,19 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept type;
-
-                // optional
+                private CodeableConcept type;
                 private Element allowed;
                 private Element used;
-
-                private Builder(CodeableConcept type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -12286,6 +12645,22 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 /**
                  * <p>
+                 * Classification of benefit being provided.
+                 * </p>
+                 * 
+                 * @param type
+                 *     Benefit classification
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The quantity of the benefit which is permitted under the coverage.
                  * </p>
                  * 
@@ -12321,10 +12696,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Financial(this);
                 }
 
-                private Builder from(Financial financial) {
-                    id = financial.id;
-                    extension.addAll(financial.extension);
-                    modifierExtension.addAll(financial.modifierExtension);
+                protected Builder from(Financial financial) {
+                    super.from(financial);
+                    type = financial.type;
                     allowed = financial.allowed;
                     used = financial.used;
                     return this;

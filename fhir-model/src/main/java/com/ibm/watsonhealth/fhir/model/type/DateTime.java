@@ -128,16 +128,12 @@ public class DateTime extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private TemporalAccessor value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -225,9 +221,8 @@ public class DateTime extends Element {
             return new DateTime(this);
         }
 
-        private Builder from(DateTime dateTime) {
-            id = dateTime.id;
-            extension.addAll(dateTime.extension);
+        protected Builder from(DateTime dateTime) {
+            super.from(dateTime);
             value = dateTime.value;
             return this;
         }

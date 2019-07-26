@@ -564,11 +564,11 @@ public class Device extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Reference definition;
         private List<UdiCarrier> udiCarrier = new ArrayList<>();
@@ -595,10 +595,6 @@ public class Device extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> safety = new ArrayList<>();
         private Reference parent;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1500,15 +1496,8 @@ public class Device extends DomainResource {
             return new Device(this);
         }
 
-        private Builder from(Device device) {
-            id = device.id;
-            meta = device.meta;
-            implicitRules = device.implicitRules;
-            language = device.language;
-            text = device.text;
-            contained.addAll(device.contained);
-            extension.addAll(device.extension);
-            modifierExtension.addAll(device.modifierExtension);
+        protected Builder from(Device device) {
+            super.from(device);
             identifier.addAll(device.identifier);
             definition = device.definition;
             udiCarrier.addAll(device.udiCarrier);
@@ -1732,21 +1721,17 @@ public class Device extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String deviceIdentifier;
             private Uri issuer;
             private Uri jurisdiction;
             private Base64Binary carrierAIDC;
             private String carrierHRF;
             private UDIEntryType entryType;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1980,10 +1965,8 @@ public class Device extends DomainResource {
                 return new UdiCarrier(this);
             }
 
-            private Builder from(UdiCarrier udiCarrier) {
-                id = udiCarrier.id;
-                extension.addAll(udiCarrier.extension);
-                modifierExtension.addAll(udiCarrier.modifierExtension);
+            protected Builder from(UdiCarrier udiCarrier) {
+                super.from(udiCarrier);
                 deviceIdentifier = udiCarrier.deviceIdentifier;
                 issuer = udiCarrier.issuer;
                 jurisdiction = udiCarrier.jurisdiction;
@@ -2099,27 +2082,19 @@ public class Device extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name, type).from(this);
-        }
-
-        public Builder toBuilder(String name, DeviceNameType type) {
-            return new Builder(name, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name, DeviceNameType type) {
-            return new Builder(name, type);
+            Builder builder = new Builder();
+            builder.name(name);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-            private final DeviceNameType type;
-
-            private Builder(String name, DeviceNameType type) {
-                super();
-                this.name = name;
-                this.type = type;
-            }
+            private String name;
+            private DeviceNameType type;
 
             /**
              * <p>
@@ -2238,15 +2213,48 @@ public class Device extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The name of the device.
+             * </p>
+             * 
+             * @param name
+             *     The name of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The type of deviceName.
+             * UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
+             * </p>
+             * 
+             * @param type
+             *     udi-label-name | user-friendly-name | patient-reported-name | manufacturer-name | model-name | other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(DeviceNameType type) {
+                this.type = type;
+                return this;
+            }
+
             @Override
             public DeviceName build() {
                 return new DeviceName(this);
             }
 
-            private Builder from(DeviceName deviceName) {
-                id = deviceName.id;
-                extension.addAll(deviceName.extension);
-                modifierExtension.addAll(deviceName.modifierExtension);
+            protected Builder from(DeviceName deviceName) {
+                super.from(deviceName);
+                name = deviceName.name;
+                type = deviceName.type;
                 return this;
             }
         }
@@ -2354,28 +2362,18 @@ public class Device extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(systemType).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept systemType) {
-            return new Builder(systemType).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept systemType) {
-            return new Builder(systemType);
+            Builder builder = new Builder();
+            builder.systemType(systemType);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept systemType;
-
-            // optional
+            private CodeableConcept systemType;
             private String version;
-
-            private Builder(CodeableConcept systemType) {
-                super();
-                this.systemType = systemType;
-            }
 
             /**
              * <p>
@@ -2496,6 +2494,22 @@ public class Device extends DomainResource {
 
             /**
              * <p>
+             * The standard that is used to operate and communicate.
+             * </p>
+             * 
+             * @param systemType
+             *     The standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder systemType(CodeableConcept systemType) {
+                this.systemType = systemType;
+                return this;
+            }
+
+            /**
+             * <p>
              * The version of the standard that is used to operate and communicate.
              * </p>
              * 
@@ -2515,10 +2529,9 @@ public class Device extends DomainResource {
                 return new Specialization(this);
             }
 
-            private Builder from(Specialization specialization) {
-                id = specialization.id;
-                extension.addAll(specialization.extension);
-                modifierExtension.addAll(specialization.modifierExtension);
+            protected Builder from(Specialization specialization) {
+                super.from(specialization);
+                systemType = specialization.systemType;
                 version = specialization.version;
                 return this;
             }
@@ -2644,29 +2657,19 @@ public class Device extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(value).from(this);
-        }
-
-        public Builder toBuilder(String value) {
-            return new Builder(value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String value) {
-            return new Builder(value);
+            Builder builder = new Builder();
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String value;
-
-            // optional
             private CodeableConcept type;
             private Identifier component;
-
-            private Builder(String value) {
-                super();
-                this.value = value;
-            }
+            private String value;
 
             /**
              * <p>
@@ -2817,17 +2820,32 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The version text.
+             * </p>
+             * 
+             * @param value
+             *     The version text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(String value) {
+                this.value = value;
+                return this;
+            }
+
             @Override
             public Version build() {
                 return new Version(this);
             }
 
-            private Builder from(Version version) {
-                id = version.id;
-                extension.addAll(version.extension);
-                modifierExtension.addAll(version.modifierExtension);
+            protected Builder from(Version version) {
+                super.from(version);
                 type = version.type;
                 component = version.component;
+                value = version.value;
                 return this;
             }
         }
@@ -2952,29 +2970,19 @@ public class Device extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
+            private CodeableConcept type;
             private List<Quantity> valueQuantity = new ArrayList<>();
             private List<CodeableConcept> valueCode = new ArrayList<>();
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -3095,6 +3103,22 @@ public class Device extends DomainResource {
 
             /**
              * <p>
+             * Code that specifies the property DeviceDefinitionPropetyCode (Extensible).
+             * </p>
+             * 
+             * @param type
+             *     Code that specifies the property DeviceDefinitionPropetyCode (Extensible)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * Property value as a quantity.
              * </p>
              * <p>
@@ -3178,10 +3202,9 @@ public class Device extends DomainResource {
                 return new Property(this);
             }
 
-            private Builder from(Property property) {
-                id = property.id;
-                extension.addAll(property.extension);
-                modifierExtension.addAll(property.modifierExtension);
+            protected Builder from(Property property) {
+                super.from(property);
+                type = property.type;
                 valueQuantity.addAll(property.valueQuantity);
                 valueCode.addAll(property.valueCode);
                 return this;

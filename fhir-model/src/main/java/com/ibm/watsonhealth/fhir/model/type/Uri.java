@@ -116,16 +116,12 @@ public class Uri extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         protected java.lang.String value;
-
-        protected Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -208,9 +204,8 @@ public class Uri extends Element {
             return new Uri(this);
         }
 
-        private Builder from(Uri uri) {
-            id = uri.id;
-            extension.addAll(uri.extension);
+        protected Builder from(Uri uri) {
+            super.from(uri);
             value = uri.value;
             return this;
         }

@@ -314,37 +314,27 @@ public class QuestionnaireResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(QuestionnaireResponseStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(QuestionnaireResponseStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final QuestionnaireResponseStatus status;
-
-        // optional
         private Identifier identifier;
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
         private Canonical questionnaire;
+        private QuestionnaireResponseStatus status;
         private Reference subject;
         private Reference encounter;
         private DateTime authored;
         private Reference author;
         private Reference source;
         private List<Item> item = new ArrayList<>();
-
-        private Builder(QuestionnaireResponseStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -690,6 +680,22 @@ public class QuestionnaireResponse extends DomainResource {
 
         /**
          * <p>
+         * The position of the questionnaire response within its overall lifecycle.
+         * </p>
+         * 
+         * @param status
+         *     in-progress | completed | amended | entered-in-error | stopped
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(QuestionnaireResponseStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The subject of the questionnaire response. This could be a patient, organization, practitioner, device, etc. This is 
          * who/what the answers apply to, but is not necessarily the source of information.
          * </p>
@@ -815,19 +821,13 @@ public class QuestionnaireResponse extends DomainResource {
             return new QuestionnaireResponse(this);
         }
 
-        private Builder from(QuestionnaireResponse questionnaireResponse) {
-            id = questionnaireResponse.id;
-            meta = questionnaireResponse.meta;
-            implicitRules = questionnaireResponse.implicitRules;
-            language = questionnaireResponse.language;
-            text = questionnaireResponse.text;
-            contained.addAll(questionnaireResponse.contained);
-            extension.addAll(questionnaireResponse.extension);
-            modifierExtension.addAll(questionnaireResponse.modifierExtension);
+        protected Builder from(QuestionnaireResponse questionnaireResponse) {
+            super.from(questionnaireResponse);
             identifier = questionnaireResponse.identifier;
             basedOn.addAll(questionnaireResponse.basedOn);
             partOf.addAll(questionnaireResponse.partOf);
             questionnaire = questionnaireResponse.questionnaire;
+            status = questionnaireResponse.status;
             subject = questionnaireResponse.subject;
             encounter = questionnaireResponse.encounter;
             authored = questionnaireResponse.authored;
@@ -993,31 +993,21 @@ public class QuestionnaireResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(linkId).from(this);
-        }
-
-        public Builder toBuilder(String linkId) {
-            return new Builder(linkId).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String linkId) {
-            return new Builder(linkId);
+            Builder builder = new Builder();
+            builder.linkId(linkId);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String linkId;
-
-            // optional
+            private String linkId;
             private Uri definition;
             private String text;
             private List<Answer> answer = new ArrayList<>();
             private List<QuestionnaireResponse.Item> item = new ArrayList<>();
-
-            private Builder(String linkId) {
-                super();
-                this.linkId = linkId;
-            }
 
             /**
              * <p>
@@ -1138,6 +1128,22 @@ public class QuestionnaireResponse extends DomainResource {
 
             /**
              * <p>
+             * The item from the Questionnaire that corresponds to this item in the QuestionnaireResponse resource.
+             * </p>
+             * 
+             * @param linkId
+             *     Pointer to specific item from Questionnaire
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder linkId(String linkId) {
+                this.linkId = linkId;
+                return this;
+            }
+
+            /**
+             * <p>
              * A reference to an [ElementDefinition](elementdefinition.html) that provides the details for the item.
              * </p>
              * 
@@ -1253,10 +1259,9 @@ public class QuestionnaireResponse extends DomainResource {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
+                linkId = item.linkId;
                 definition = item.definition;
                 text = item.text;
                 answer.addAll(item.answer);
@@ -1370,17 +1375,13 @@ public class QuestionnaireResponse extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Element value;
                 private List<QuestionnaireResponse.Item> item = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1560,10 +1561,8 @@ public class QuestionnaireResponse extends DomainResource {
                     return new Answer(this);
                 }
 
-                private Builder from(Answer answer) {
-                    id = answer.id;
-                    extension.addAll(answer.extension);
-                    modifierExtension.addAll(answer.modifierExtension);
+                protected Builder from(Answer answer) {
+                    super.from(answer);
                     value = answer.value;
                     item.addAll(answer.item);
                     return this;

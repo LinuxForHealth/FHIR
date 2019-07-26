@@ -182,20 +182,16 @@ public class Quantity extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         protected Decimal value;
         protected QuantityComparator comparator;
         protected String unit;
         protected Uri system;
         protected Code code;
-
-        protected Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -344,9 +340,8 @@ public class Quantity extends Element {
             return new Quantity(this);
         }
 
-        private Builder from(Quantity quantity) {
-            id = quantity.id;
-            extension.addAll(quantity.extension);
+        protected Builder from(Quantity quantity) {
+            super.from(quantity);
             value = quantity.value;
             comparator = quantity.comparator;
             unit = quantity.unit;

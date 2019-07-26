@@ -452,32 +452,30 @@ public class MedicationAdministration extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, medication, subject, effective).from(this);
-    }
-
-    public Builder toBuilder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
-        return new Builder(status, medication, subject, effective).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
-        return new Builder(status, medication, subject, effective);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.medication(medication);
+        builder.subject(subject);
+        builder.effective(effective);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MedicationAdministrationStatus status;
-        private final Element medication;
-        private final Reference subject;
-        private final Element effective;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Uri> instantiates = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private MedicationAdministrationStatus status;
         private List<CodeableConcept> statusReason = new ArrayList<>();
         private CodeableConcept category;
+        private Element medication;
+        private Reference subject;
         private Reference context;
         private List<Reference> supportingInformation = new ArrayList<>();
+        private Element effective;
         private List<Performer> performer = new ArrayList<>();
         private List<CodeableConcept> reasonCode = new ArrayList<>();
         private List<Reference> reasonReference = new ArrayList<>();
@@ -486,14 +484,6 @@ public class MedicationAdministration extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private Dosage dosage;
         private List<Reference> eventHistory = new ArrayList<>();
-
-        private Builder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
-            super();
-            this.status = status;
-            this.medication = medication;
-            this.subject = subject;
-            this.effective = effective;
-        }
 
         /**
          * <p>
@@ -849,6 +839,24 @@ public class MedicationAdministration extends DomainResource {
 
         /**
          * <p>
+         * Will generally be set to show that the administration has been completed. For some long running administrations such 
+         * as infusions, it is possible for an administration to be started but not completed or it may be paused while some 
+         * other process is under way.
+         * </p>
+         * 
+         * @param status
+         *     in-progress | not-done | on-hold | completed | entered-in-error | stopped | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MedicationAdministrationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code indicating why the administration was not performed.
          * </p>
          * <p>
@@ -900,6 +908,39 @@ public class MedicationAdministration extends DomainResource {
          */
         public Builder category(CodeableConcept category) {
             this.category = category;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the medication that was administered. This is either a link to a resource representing the details of the 
+         * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
+         * </p>
+         * 
+         * @param medication
+         *     What was administered
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder medication(Element medication) {
+            this.medication = medication;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The person or animal or group receiving the medication.
+         * </p>
+         * 
+         * @param subject
+         *     Who received medication
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -957,6 +998,24 @@ public class MedicationAdministration extends DomainResource {
          */
         public Builder supportingInformation(Collection<Reference> supportingInformation) {
             this.supportingInformation = new ArrayList<>(supportingInformation);
+            return this;
+        }
+
+        /**
+         * <p>
+         * A specific date/time or interval of time during which the administration took place (or did not take place, when the 
+         * 'notGiven' attribute is true). For many administrations, such as swallowing a tablet the use of dateTime is more 
+         * appropriate.
+         * </p>
+         * 
+         * @param effective
+         *     Start and end time of administration
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder effective(Element effective) {
+            this.effective = effective;
             return this;
         }
 
@@ -1237,22 +1296,19 @@ public class MedicationAdministration extends DomainResource {
             return new MedicationAdministration(this);
         }
 
-        private Builder from(MedicationAdministration medicationAdministration) {
-            id = medicationAdministration.id;
-            meta = medicationAdministration.meta;
-            implicitRules = medicationAdministration.implicitRules;
-            language = medicationAdministration.language;
-            text = medicationAdministration.text;
-            contained.addAll(medicationAdministration.contained);
-            extension.addAll(medicationAdministration.extension);
-            modifierExtension.addAll(medicationAdministration.modifierExtension);
+        protected Builder from(MedicationAdministration medicationAdministration) {
+            super.from(medicationAdministration);
             identifier.addAll(medicationAdministration.identifier);
             instantiates.addAll(medicationAdministration.instantiates);
             partOf.addAll(medicationAdministration.partOf);
+            status = medicationAdministration.status;
             statusReason.addAll(medicationAdministration.statusReason);
             category = medicationAdministration.category;
+            medication = medicationAdministration.medication;
+            subject = medicationAdministration.subject;
             context = medicationAdministration.context;
             supportingInformation.addAll(medicationAdministration.supportingInformation);
+            effective = medicationAdministration.effective;
             performer.addAll(medicationAdministration.performer);
             reasonCode.addAll(medicationAdministration.reasonCode);
             reasonReference.addAll(medicationAdministration.reasonReference);
@@ -1366,28 +1422,18 @@ public class MedicationAdministration extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept function;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
+            private Reference actor;
 
             /**
              * <p>
@@ -1522,16 +1568,31 @@ public class MedicationAdministration extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Indicates who or what performed the medication administration.
+             * </p>
+             * 
+             * @param actor
+             *     Who performed the medication administration
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
             @Override
             public Performer build() {
                 return new Performer(this);
             }
 
-            private Builder from(Performer performer) {
-                id = performer.id;
-                extension.addAll(performer.extension);
-                modifierExtension.addAll(performer.modifierExtension);
+            protected Builder from(Performer performer) {
+                super.from(performer);
                 function = performer.function;
+                actor = performer.actor;
                 return this;
             }
         }
@@ -1724,21 +1785,17 @@ The dosage instructions should reflect the
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String text;
             private CodeableConcept site;
             private CodeableConcept route;
             private CodeableConcept method;
             private Quantity dose;
             private Element rate;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1968,10 +2025,8 @@ The dosage instructions should reflect the
                 return new Dosage(this);
             }
 
-            private Builder from(Dosage dosage) {
-                id = dosage.id;
-                extension.addAll(dosage.extension);
-                modifierExtension.addAll(dosage.modifierExtension);
+            protected Builder from(Dosage dosage) {
+                super.from(dosage);
                 text = dosage.text;
                 site = dosage.site;
                 route = dosage.route;

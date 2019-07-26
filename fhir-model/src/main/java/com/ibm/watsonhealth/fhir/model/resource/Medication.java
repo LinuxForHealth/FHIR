@@ -254,11 +254,11 @@ public class Medication extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private CodeableConcept code;
         private MedicationStatus status;
@@ -267,10 +267,6 @@ public class Medication extends DomainResource {
         private Ratio amount;
         private List<Ingredient> ingredient = new ArrayList<>();
         private Batch batch;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -684,15 +680,8 @@ public class Medication extends DomainResource {
             return new Medication(this);
         }
 
-        private Builder from(Medication medication) {
-            id = medication.id;
-            meta = medication.meta;
-            implicitRules = medication.implicitRules;
-            language = medication.language;
-            text = medication.text;
-            contained.addAll(medication.contained);
-            extension.addAll(medication.extension);
-            modifierExtension.addAll(medication.modifierExtension);
+        protected Builder from(Medication medication) {
+            super.from(medication);
             identifier.addAll(medication.identifier);
             code = medication.code;
             status = medication.status;
@@ -825,29 +814,19 @@ public class Medication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(item).from(this);
-        }
-
-        public Builder toBuilder(Element item) {
-            return new Builder(item).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Element item) {
-            return new Builder(item);
+            Builder builder = new Builder();
+            builder.item(item);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Element item;
-
-            // optional
+            private Element item;
             private Boolean isActive;
             private Ratio strength;
-
-            private Builder(Element item) {
-                super();
-                this.item = item;
-            }
 
             /**
              * <p>
@@ -968,6 +947,22 @@ public class Medication extends DomainResource {
 
             /**
              * <p>
+             * The actual ingredient - either a substance (simple ingredient) or another medication of a medication.
+             * </p>
+             * 
+             * @param item
+             *     The actual ingredient or content
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(Element item) {
+                this.item = item;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indication of whether this ingredient affects the therapeutic action of the drug.
              * </p>
              * 
@@ -1004,10 +999,9 @@ public class Medication extends DomainResource {
                 return new Ingredient(this);
             }
 
-            private Builder from(Ingredient ingredient) {
-                id = ingredient.id;
-                extension.addAll(ingredient.extension);
-                modifierExtension.addAll(ingredient.modifierExtension);
+            protected Builder from(Ingredient ingredient) {
+                super.from(ingredient);
+                item = ingredient.item;
                 isActive = ingredient.isActive;
                 strength = ingredient.strength;
                 return this;
@@ -1120,17 +1114,13 @@ public class Medication extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String lotNumber;
             private DateTime expirationDate;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1286,10 +1276,8 @@ public class Medication extends DomainResource {
                 return new Batch(this);
             }
 
-            private Builder from(Batch batch) {
-                id = batch.id;
-                extension.addAll(batch.extension);
-                modifierExtension.addAll(batch.modifierExtension);
+            protected Builder from(Batch batch) {
+                super.from(batch);
                 lotNumber = batch.lotNumber;
                 expirationDate = batch.expirationDate;
                 return this;

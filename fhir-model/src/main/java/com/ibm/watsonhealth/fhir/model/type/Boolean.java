@@ -114,16 +114,12 @@ public class Boolean extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private java.lang.Boolean value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -211,9 +207,8 @@ public class Boolean extends Element {
             return new Boolean(this);
         }
 
-        private Builder from(Boolean _boolean) {
-            id = _boolean.id;
-            extension.addAll(_boolean.extension);
+        protected Builder from(Boolean _boolean) {
+            super.from(_boolean);
             value = _boolean.value;
             return this;
         }

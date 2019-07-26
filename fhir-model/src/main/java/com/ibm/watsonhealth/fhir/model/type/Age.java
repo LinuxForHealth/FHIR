@@ -99,14 +99,11 @@ public class Age extends Quantity {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Quantity.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
@@ -254,14 +251,8 @@ public class Age extends Quantity {
             return new Age(this);
         }
 
-        private Builder from(Age age) {
-            id = age.id;
-            extension.addAll(age.extension);
-            value = age.value;
-            comparator = age.comparator;
-            unit = age.unit;
-            system = age.system;
-            code = age.code;
+        protected Builder from(Age age) {
+            super.from(age);
             return this;
         }
     }

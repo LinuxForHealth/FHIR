@@ -117,16 +117,12 @@ public class String extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         protected java.lang.String value;
-
-        protected Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -209,9 +205,8 @@ public class String extends Element {
             return new String(this);
         }
 
-        private Builder from(String string) {
-            id = string.id;
-            extension.addAll(string.extension);
+        protected Builder from(String string) {
+            super.from(string);
             value = string.value;
             return this;
         }

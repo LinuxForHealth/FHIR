@@ -125,17 +125,13 @@ public class Range extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Quantity low;
         private Quantity high;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -235,9 +231,8 @@ public class Range extends Element {
             return new Range(this);
         }
 
-        private Builder from(Range range) {
-            id = range.id;
-            extension.addAll(range.extension);
+        protected Builder from(Range range) {
+            super.from(range);
             low = range.low;
             high = range.high;
             return this;

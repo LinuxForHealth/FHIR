@@ -312,39 +312,29 @@ public class EpisodeOfCare extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, patient).from(this);
-    }
-
-    public Builder toBuilder(EpisodeOfCareStatus status, Reference patient) {
-        return new Builder(status, patient).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(EpisodeOfCareStatus status, Reference patient) {
-        return new Builder(status, patient);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.patient(patient);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final EpisodeOfCareStatus status;
-        private final Reference patient;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private EpisodeOfCareStatus status;
         private List<StatusHistory> statusHistory = new ArrayList<>();
         private List<CodeableConcept> type = new ArrayList<>();
         private List<Diagnosis> diagnosis = new ArrayList<>();
+        private Reference patient;
         private Reference managingOrganization;
         private Period period;
         private List<Reference> referralRequest = new ArrayList<>();
         private Reference careManager;
         private List<Reference> team = new ArrayList<>();
         private List<Reference> account = new ArrayList<>();
-
-        private Builder(EpisodeOfCareStatus status, Reference patient) {
-            super();
-            this.status = status;
-            this.patient = patient;
-        }
 
         /**
          * <p>
@@ -616,6 +606,22 @@ public class EpisodeOfCare extends DomainResource {
 
         /**
          * <p>
+         * planned | waitlist | active | onhold | finished | cancelled.
+         * </p>
+         * 
+         * @param status
+         *     planned | waitlist | active | onhold | finished | cancelled | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(EpisodeOfCareStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
          * resource).
          * </p>
@@ -733,6 +739,22 @@ public class EpisodeOfCare extends DomainResource {
          */
         public Builder diagnosis(Collection<Diagnosis> diagnosis) {
             this.diagnosis = new ArrayList<>(diagnosis);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient who is the focus of this episode of care.
+         * </p>
+         * 
+         * @param patient
+         *     The patient who is the focus of this episode of care
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
             return this;
         }
 
@@ -909,19 +931,14 @@ public class EpisodeOfCare extends DomainResource {
             return new EpisodeOfCare(this);
         }
 
-        private Builder from(EpisodeOfCare episodeOfCare) {
-            id = episodeOfCare.id;
-            meta = episodeOfCare.meta;
-            implicitRules = episodeOfCare.implicitRules;
-            language = episodeOfCare.language;
-            text = episodeOfCare.text;
-            contained.addAll(episodeOfCare.contained);
-            extension.addAll(episodeOfCare.extension);
-            modifierExtension.addAll(episodeOfCare.modifierExtension);
+        protected Builder from(EpisodeOfCare episodeOfCare) {
+            super.from(episodeOfCare);
             identifier.addAll(episodeOfCare.identifier);
+            status = episodeOfCare.status;
             statusHistory.addAll(episodeOfCare.statusHistory);
             type.addAll(episodeOfCare.type);
             diagnosis.addAll(episodeOfCare.diagnosis);
+            patient = episodeOfCare.patient;
             managingOrganization = episodeOfCare.managingOrganization;
             period = episodeOfCare.period;
             referralRequest.addAll(episodeOfCare.referralRequest);
@@ -1034,27 +1051,19 @@ public class EpisodeOfCare extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(status, period).from(this);
-        }
-
-        public Builder toBuilder(EpisodeOfCareStatus status, Period period) {
-            return new Builder(status, period).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(EpisodeOfCareStatus status, Period period) {
-            return new Builder(status, period);
+            Builder builder = new Builder();
+            builder.status(status);
+            builder.period(period);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final EpisodeOfCareStatus status;
-            private final Period period;
-
-            private Builder(EpisodeOfCareStatus status, Period period) {
-                super();
-                this.status = status;
-                this.period = period;
-            }
+            private EpisodeOfCareStatus status;
+            private Period period;
 
             /**
              * <p>
@@ -1173,15 +1182,47 @@ public class EpisodeOfCare extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * planned | waitlist | active | onhold | finished | cancelled.
+             * </p>
+             * 
+             * @param status
+             *     planned | waitlist | active | onhold | finished | cancelled | entered-in-error
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder status(EpisodeOfCareStatus status) {
+                this.status = status;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The period during this EpisodeOfCare that the specific status applied.
+             * </p>
+             * 
+             * @param period
+             *     Duration the EpisodeOfCare was in the specified status
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder period(Period period) {
+                this.period = period;
+                return this;
+            }
+
             @Override
             public StatusHistory build() {
                 return new StatusHistory(this);
             }
 
-            private Builder from(StatusHistory statusHistory) {
-                id = statusHistory.id;
-                extension.addAll(statusHistory.extension);
-                modifierExtension.addAll(statusHistory.modifierExtension);
+            protected Builder from(StatusHistory statusHistory) {
+                super.from(statusHistory);
+                status = statusHistory.status;
+                period = statusHistory.period;
                 return this;
             }
         }
@@ -1306,29 +1347,19 @@ public class EpisodeOfCare extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(condition).from(this);
-        }
-
-        public Builder toBuilder(Reference condition) {
-            return new Builder(condition).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference condition) {
-            return new Builder(condition);
+            Builder builder = new Builder();
+            builder.condition(condition);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference condition;
-
-            // optional
+            private Reference condition;
             private CodeableConcept role;
             private PositiveInt rank;
-
-            private Builder(Reference condition) {
-                super();
-                this.condition = condition;
-            }
 
             /**
              * <p>
@@ -1449,6 +1480,22 @@ public class EpisodeOfCare extends DomainResource {
 
             /**
              * <p>
+             * A list of conditions/problems/diagnoses that this episode of care is intended to be providing care for.
+             * </p>
+             * 
+             * @param condition
+             *     Conditions/problems/diagnoses this episode of care is for
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder condition(Reference condition) {
+                this.condition = condition;
+                return this;
+            }
+
+            /**
+             * <p>
              * Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …).
              * </p>
              * 
@@ -1484,10 +1531,9 @@ public class EpisodeOfCare extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private Builder from(Diagnosis diagnosis) {
-                id = diagnosis.id;
-                extension.addAll(diagnosis.extension);
-                modifierExtension.addAll(diagnosis.modifierExtension);
+            protected Builder from(Diagnosis diagnosis) {
+                super.from(diagnosis);
+                condition = diagnosis.condition;
                 role = diagnosis.role;
                 rank = diagnosis.rank;
                 return this;

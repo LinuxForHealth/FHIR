@@ -530,24 +530,18 @@ public class DeviceRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(intent, code, subject).from(this);
-    }
-
-    public Builder toBuilder(RequestIntent intent, Element code, Reference subject) {
-        return new Builder(intent, code, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(RequestIntent intent, Element code, Reference subject) {
-        return new Builder(intent, code, subject);
+        Builder builder = new Builder();
+        builder.intent(intent);
+        builder.code(code);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final RequestIntent intent;
-        private final Element code;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
@@ -555,8 +549,11 @@ public class DeviceRequest extends DomainResource {
         private List<Reference> priorRequest = new ArrayList<>();
         private Identifier groupIdentifier;
         private DeviceRequestStatus status;
+        private RequestIntent intent;
         private RequestPriority priority;
+        private Element code;
         private List<Parameter> parameter = new ArrayList<>();
+        private Reference subject;
         private Reference encounter;
         private Element occurrence;
         private DateTime authoredOn;
@@ -569,13 +566,6 @@ public class DeviceRequest extends DomainResource {
         private List<Reference> supportingInfo = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Reference> relevantHistory = new ArrayList<>();
-
-        private Builder(RequestIntent intent, Element code, Reference subject) {
-            super();
-            this.intent = intent;
-            this.code = code;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -1041,6 +1031,22 @@ public class DeviceRequest extends DomainResource {
 
         /**
          * <p>
+         * Whether the request is a proposal, plan, an original order or a reflex order.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | original-order | encoded | reflex-order
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(RequestIntent intent) {
+            this.intent = intent;
+            return this;
+        }
+
+        /**
+         * <p>
          * Indicates how quickly the {{title}} should be addressed with respect to other requests.
          * </p>
          * 
@@ -1052,6 +1058,22 @@ public class DeviceRequest extends DomainResource {
          */
         public Builder priority(RequestPriority priority) {
             this.priority = priority;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The details of the device to be used.
+         * </p>
+         * 
+         * @param code
+         *     Device requested
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(Element code) {
+            this.code = code;
             return this;
         }
 
@@ -1092,6 +1114,22 @@ public class DeviceRequest extends DomainResource {
          */
         public Builder parameter(Collection<Parameter> parameter) {
             this.parameter = new ArrayList<>(parameter);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient who will use the device.
+         * </p>
+         * 
+         * @param subject
+         *     Focus of request
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1444,15 +1482,8 @@ public class DeviceRequest extends DomainResource {
             return new DeviceRequest(this);
         }
 
-        private Builder from(DeviceRequest deviceRequest) {
-            id = deviceRequest.id;
-            meta = deviceRequest.meta;
-            implicitRules = deviceRequest.implicitRules;
-            language = deviceRequest.language;
-            text = deviceRequest.text;
-            contained.addAll(deviceRequest.contained);
-            extension.addAll(deviceRequest.extension);
-            modifierExtension.addAll(deviceRequest.modifierExtension);
+        protected Builder from(DeviceRequest deviceRequest) {
+            super.from(deviceRequest);
             identifier.addAll(deviceRequest.identifier);
             instantiatesCanonical.addAll(deviceRequest.instantiatesCanonical);
             instantiatesUri.addAll(deviceRequest.instantiatesUri);
@@ -1460,8 +1491,11 @@ public class DeviceRequest extends DomainResource {
             priorRequest.addAll(deviceRequest.priorRequest);
             groupIdentifier = deviceRequest.groupIdentifier;
             status = deviceRequest.status;
+            intent = deviceRequest.intent;
             priority = deviceRequest.priority;
+            code = deviceRequest.code;
             parameter.addAll(deviceRequest.parameter);
+            subject = deviceRequest.subject;
             encounter = deviceRequest.encounter;
             occurrence = deviceRequest.occurrence;
             authoredOn = deviceRequest.authoredOn;
@@ -1583,17 +1617,13 @@ public class DeviceRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private Element value;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1749,10 +1779,8 @@ public class DeviceRequest extends DomainResource {
                 return new Parameter(this);
             }
 
-            private Builder from(Parameter parameter) {
-                id = parameter.id;
-                extension.addAll(parameter.extension);
-                modifierExtension.addAll(parameter.modifierExtension);
+            protected Builder from(Parameter parameter) {
+                super.from(parameter);
                 code = parameter.code;
                 value = parameter.value;
                 return this;

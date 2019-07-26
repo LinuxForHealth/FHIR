@@ -768,30 +768,27 @@ public class StructureDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, name, status, kind, _abstract, type).from(this);
-    }
-
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
-        return new Builder(url, name, status, kind, _abstract, type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
-        return new Builder(url, name, status, kind, _abstract, type);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.name(name);
+        builder.status(status);
+        builder.kind(kind);
+        builder._abstract(_abstract);
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final String name;
-        private final PublicationStatus status;
-        private final StructureDefinitionKind kind;
-        private final Boolean _abstract;
-        private final Uri type;
-
-        // optional
+        private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
+        private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -804,22 +801,15 @@ public class StructureDefinition extends DomainResource {
         private List<Coding> keyword = new ArrayList<>();
         private FHIRVersion fhirVersion;
         private List<Mapping> mapping = new ArrayList<>();
+        private StructureDefinitionKind kind;
+        private Boolean _abstract;
         private List<Context> context = new ArrayList<>();
         private List<String> contextInvariant = new ArrayList<>();
+        private Uri type;
         private Canonical baseDefinition;
         private TypeDerivationRule derivation;
         private Snapshot snapshot;
         private Differential differential;
-
-        private Builder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
-            super();
-            this.url = url;
-            this.name = name;
-            this.status = status;
-            this.kind = kind;
-            this._abstract = _abstract;
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -1049,6 +1039,26 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this structure definition when it is referenced in a specification, model, 
+         * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+         * address at which at which an authoritative instance of this structure definition is (or will be) published. This URL 
+         * can be the target of a canonical reference. It SHALL remain the same when the structure definition is stored on 
+         * different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this structure definition, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
@@ -1110,6 +1120,23 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * <p>
+         * A natural language name identifying the structure definition. This name should be usable as an identifier for the 
+         * module by machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this structure definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
          * A short, descriptive, user-friendly title for the structure definition.
          * </p>
          * 
@@ -1121,6 +1148,22 @@ public class StructureDefinition extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this structure definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1449,6 +1492,39 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * <p>
+         * Defines the kind of structure that this definition is describing.
+         * </p>
+         * 
+         * @param kind
+         *     primitive-type | complex-type | resource | logical
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder kind(StructureDefinitionKind kind) {
+            this.kind = kind;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Whether structure this definition describes is abstract or not - that is, whether the structure is not intended to be 
+         * instantiated. For Resources and Data types, abstract types will never be exchanged between systems.
+         * </p>
+         * 
+         * @param _abstract
+         *     Whether the structure is abstract
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder _abstract(Boolean _abstract) {
+            this._abstract = _abstract;
+            return this;
+        }
+
+        /**
+         * <p>
          * Identifies the types of resource or data type elements to which the extension can be applied.
          * </p>
          * <p>
@@ -1531,6 +1607,26 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * <p>
+         * The type this structure describes. If the derivation kind is 'specialization' then this is the master definition for a 
+         * type, and there is always one of these (a data type, an extension, a resource, including abstract ones). Otherwise the 
+         * structure definition is a constraint on the stated type (and in this case, the type cannot be an abstract type). 
+         * References are URLs that are relative to http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http:
+         * //hl7.org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
+         * </p>
+         * 
+         * @param type
+         *     Type defined or constrained by this structure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(Uri type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * An absolute URI that is the base structure from which this type is derived, either by specialization or constraint.
          * </p>
          * 
@@ -1599,18 +1695,14 @@ public class StructureDefinition extends DomainResource {
             return new StructureDefinition(this);
         }
 
-        private Builder from(StructureDefinition structureDefinition) {
-            id = structureDefinition.id;
-            meta = structureDefinition.meta;
-            implicitRules = structureDefinition.implicitRules;
-            language = structureDefinition.language;
-            text = structureDefinition.text;
-            contained.addAll(structureDefinition.contained);
-            extension.addAll(structureDefinition.extension);
-            modifierExtension.addAll(structureDefinition.modifierExtension);
+        protected Builder from(StructureDefinition structureDefinition) {
+            super.from(structureDefinition);
+            url = structureDefinition.url;
             identifier.addAll(structureDefinition.identifier);
             version = structureDefinition.version;
+            name = structureDefinition.name;
             title = structureDefinition.title;
+            status = structureDefinition.status;
             experimental = structureDefinition.experimental;
             date = structureDefinition.date;
             publisher = structureDefinition.publisher;
@@ -1623,8 +1715,11 @@ public class StructureDefinition extends DomainResource {
             keyword.addAll(structureDefinition.keyword);
             fhirVersion = structureDefinition.fhirVersion;
             mapping.addAll(structureDefinition.mapping);
+            kind = structureDefinition.kind;
+            _abstract = structureDefinition._abstract;
             context.addAll(structureDefinition.context);
             contextInvariant.addAll(structureDefinition.contextInvariant);
+            type = structureDefinition.type;
             baseDefinition = structureDefinition.baseDefinition;
             derivation = structureDefinition.derivation;
             snapshot = structureDefinition.snapshot;
@@ -1770,30 +1865,20 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(identity).from(this);
-        }
-
-        public Builder toBuilder(Id identity) {
-            return new Builder(identity).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id identity) {
-            return new Builder(identity);
+            Builder builder = new Builder();
+            builder.identity(identity);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id identity;
-
-            // optional
+            private Id identity;
             private Uri uri;
             private String name;
             private String comment;
-
-            private Builder(Id identity) {
-                super();
-                this.identity = identity;
-            }
 
             /**
              * <p>
@@ -1914,6 +1999,22 @@ public class StructureDefinition extends DomainResource {
 
             /**
              * <p>
+             * An Internal id that is used to identify this mapping set when specific mappings are made.
+             * </p>
+             * 
+             * @param identity
+             *     Internal id when this mapping is used
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder identity(Id identity) {
+                this.identity = identity;
+                return this;
+            }
+
+            /**
+             * <p>
              * An absolute URI that identifies the specification that this mapping is expressed to.
              * </p>
              * 
@@ -1965,10 +2066,9 @@ public class StructureDefinition extends DomainResource {
                 return new Mapping(this);
             }
 
-            private Builder from(Mapping mapping) {
-                id = mapping.id;
-                extension.addAll(mapping.extension);
-                modifierExtension.addAll(mapping.modifierExtension);
+            protected Builder from(Mapping mapping) {
+                super.from(mapping);
+                identity = mapping.identity;
                 uri = mapping.uri;
                 name = mapping.name;
                 comment = mapping.comment;
@@ -2078,27 +2178,19 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, expression).from(this);
-        }
-
-        public Builder toBuilder(ExtensionContextType type, String expression) {
-            return new Builder(type, expression).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ExtensionContextType type, String expression) {
-            return new Builder(type, expression);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.expression(expression);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ExtensionContextType type;
-            private final String expression;
-
-            private Builder(ExtensionContextType type, String expression) {
-                super();
-                this.type = type;
-                this.expression = expression;
-            }
+            private ExtensionContextType type;
+            private String expression;
 
             /**
              * <p>
@@ -2217,15 +2309,47 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Defines how to interpret the expression that defines what the context of the extension is.
+             * </p>
+             * 
+             * @param type
+             *     fhirpath | element | extension
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(ExtensionContextType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * An expression that defines where an extension can be used in resources.
+             * </p>
+             * 
+             * @param expression
+             *     Where the extension can be used in instances
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(String expression) {
+                this.expression = expression;
+                return this;
+            }
+
             @Override
             public Context build() {
                 return new Context(this);
             }
 
-            private Builder from(Context context) {
-                id = context.id;
-                extension.addAll(context.extension);
-                modifierExtension.addAll(context.modifierExtension);
+            protected Builder from(Context context) {
+                super.from(context);
+                type = context.type;
+                expression = context.expression;
                 return this;
             }
         }
@@ -2315,25 +2439,17 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(element).from(this);
-        }
-
-        public Builder toBuilder(Collection<ElementDefinition> element) {
-            return new Builder(element).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<ElementDefinition> element) {
-            return new Builder(element);
+            Builder builder = new Builder();
+            builder.element(element);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<ElementDefinition> element;
-
-            private Builder(Collection<ElementDefinition> element) {
-                super();
-                this.element = new ArrayList<>(element);
-            }
+            private List<ElementDefinition> element = new ArrayList<>();
 
             /**
              * <p>
@@ -2452,15 +2568,54 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(ElementDefinition... element) {
+                for (ElementDefinition value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(Collection<ElementDefinition> element) {
+                this.element = new ArrayList<>(element);
+                return this;
+            }
+
             @Override
             public Snapshot build() {
                 return new Snapshot(this);
             }
 
-            private Builder from(Snapshot snapshot) {
-                id = snapshot.id;
-                extension.addAll(snapshot.extension);
-                modifierExtension.addAll(snapshot.modifierExtension);
+            protected Builder from(Snapshot snapshot) {
+                super.from(snapshot);
+                element.addAll(snapshot.element);
                 return this;
             }
         }
@@ -2549,25 +2704,17 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(element).from(this);
-        }
-
-        public Builder toBuilder(Collection<ElementDefinition> element) {
-            return new Builder(element).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<ElementDefinition> element) {
-            return new Builder(element);
+            Builder builder = new Builder();
+            builder.element(element);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<ElementDefinition> element;
-
-            private Builder(Collection<ElementDefinition> element) {
-                super();
-                this.element = new ArrayList<>(element);
-            }
+            private List<ElementDefinition> element = new ArrayList<>();
 
             /**
              * <p>
@@ -2686,15 +2833,54 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(ElementDefinition... element) {
+                for (ElementDefinition value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder element(Collection<ElementDefinition> element) {
+                this.element = new ArrayList<>(element);
+                return this;
+            }
+
             @Override
             public Differential build() {
                 return new Differential(this);
             }
 
-            private Builder from(Differential differential) {
-                id = differential.id;
-                extension.addAll(differential.extension);
-                modifierExtension.addAll(differential.modifierExtension);
+            protected Builder from(Differential differential) {
+                super.from(differential);
+                element.addAll(differential.element);
                 return this;
             }
         }

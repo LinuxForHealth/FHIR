@@ -376,25 +376,22 @@ public class Consent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, scope, category).from(this);
-    }
-
-    public Builder toBuilder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
-        return new Builder(status, scope, category).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
-        return new Builder(status, scope, category);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.scope(scope);
+        builder.category(category);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ConsentState status;
-        private final CodeableConcept scope;
-        private final List<CodeableConcept> category;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ConsentState status;
+        private CodeableConcept scope;
+        private List<CodeableConcept> category = new ArrayList<>();
         private Reference patient;
         private DateTime dateTime;
         private List<Reference> performer = new ArrayList<>();
@@ -404,13 +401,6 @@ public class Consent extends DomainResource {
         private CodeableConcept policyRule;
         private List<Verification> verification = new ArrayList<>();
         private Provision provision;
-
-        private Builder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
-            super();
-            this.status = status;
-            this.scope = scope;
-            this.category = new ArrayList<>(category);
-        }
 
         /**
          * <p>
@@ -680,6 +670,80 @@ public class Consent extends DomainResource {
 
         /**
          * <p>
+         * Indicates the current state of this consent.
+         * </p>
+         * 
+         * @param status
+         *     draft | proposed | active | rejected | inactive | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ConsentState status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A selector of the type of consent being presented: ADR, Privacy, Treatment, Research. This list is now extensible.
+         * </p>
+         * 
+         * @param scope
+         *     Which of the four areas this resource covers (extensible)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder scope(CodeableConcept scope) {
+            this.scope = scope;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
+         * consent statements.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param category
+         *     Classification of the consent statement - for indexing/retrieval
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder category(CodeableConcept... category) {
+            for (CodeableConcept value : category) {
+                this.category.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
+         * consent statements.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param category
+         *     Classification of the consent statement - for indexing/retrieval
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder category(Collection<CodeableConcept> category) {
+            this.category = new ArrayList<>(category);
+            return this;
+        }
+
+        /**
+         * <p>
          * The patient/healthcare consumer to whom this consent applies.
          * </p>
          * 
@@ -933,16 +997,12 @@ public class Consent extends DomainResource {
             return new Consent(this);
         }
 
-        private Builder from(Consent consent) {
-            id = consent.id;
-            meta = consent.meta;
-            implicitRules = consent.implicitRules;
-            language = consent.language;
-            text = consent.text;
-            contained.addAll(consent.contained);
-            extension.addAll(consent.extension);
-            modifierExtension.addAll(consent.modifierExtension);
+        protected Builder from(Consent consent) {
+            super.from(consent);
             identifier.addAll(consent.identifier);
+            status = consent.status;
+            scope = consent.scope;
+            category.addAll(consent.category);
             patient = consent.patient;
             dateTime = consent.dateTime;
             performer.addAll(consent.performer);
@@ -1064,17 +1124,13 @@ public class Consent extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Uri authority;
             private Uri uri;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1232,10 +1288,8 @@ public class Consent extends DomainResource {
                 return new Policy(this);
             }
 
-            private Builder from(Policy policy) {
-                id = policy.id;
-                extension.addAll(policy.extension);
-                modifierExtension.addAll(policy.modifierExtension);
+            protected Builder from(Policy policy) {
+                super.from(policy);
                 authority = policy.authority;
                 uri = policy.uri;
                 return this;
@@ -1363,29 +1417,19 @@ public class Consent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(verified).from(this);
-        }
-
-        public Builder toBuilder(Boolean verified) {
-            return new Builder(verified).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Boolean verified) {
-            return new Builder(verified);
+            Builder builder = new Builder();
+            builder.verified(verified);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Boolean verified;
-
-            // optional
+            private Boolean verified;
             private Reference verifiedWith;
             private DateTime verificationDate;
-
-            private Builder(Boolean verified) {
-                super();
-                this.verified = verified;
-            }
 
             /**
              * <p>
@@ -1506,6 +1550,22 @@ public class Consent extends DomainResource {
 
             /**
              * <p>
+             * Has the instruction been verified.
+             * </p>
+             * 
+             * @param verified
+             *     Has been verified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder verified(Boolean verified) {
+                this.verified = verified;
+                return this;
+            }
+
+            /**
+             * <p>
              * Who verified the instruction (Patient, Relative or other Authorized Person).
              * </p>
              * 
@@ -1541,10 +1601,9 @@ public class Consent extends DomainResource {
                 return new Verification(this);
             }
 
-            private Builder from(Verification verification) {
-                id = verification.id;
-                extension.addAll(verification.extension);
-                modifierExtension.addAll(verification.modifierExtension);
+            protected Builder from(Verification verification) {
+                super.from(verification);
+                verified = verification.verified;
                 verifiedWith = verification.verifiedWith;
                 verificationDate = verification.verificationDate;
                 return this;
@@ -1823,11 +1882,11 @@ public class Consent extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private ConsentProvisionType type;
             private Period period;
             private List<Actor> actor = new ArrayList<>();
@@ -1839,10 +1898,6 @@ public class Consent extends DomainResource {
             private Period dataPeriod;
             private List<Data> data = new ArrayList<>();
             private List<Consent.Provision> provision = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2341,10 +2396,8 @@ public class Consent extends DomainResource {
                 return new Provision(this);
             }
 
-            private Builder from(Provision provision) {
-                id = provision.id;
-                extension.addAll(provision.extension);
-                modifierExtension.addAll(provision.modifierExtension);
+            protected Builder from(Provision provision) {
+                super.from(provision);
                 type = provision.type;
                 period = provision.period;
                 actor.addAll(provision.actor);
@@ -2463,27 +2516,19 @@ public class Consent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(role, reference).from(this);
-            }
-
-            public Builder toBuilder(CodeableConcept role, Reference reference) {
-                return new Builder(role, reference).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CodeableConcept role, Reference reference) {
-                return new Builder(role, reference);
+                Builder builder = new Builder();
+                builder.role(role);
+                builder.reference(reference);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CodeableConcept role;
-                private final Reference reference;
-
-                private Builder(CodeableConcept role, Reference reference) {
-                    super();
-                    this.role = role;
-                    this.reference = reference;
-                }
+                private CodeableConcept role;
+                private Reference reference;
 
                 /**
                  * <p>
@@ -2602,15 +2647,48 @@ public class Consent extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * How the individual is involved in the resources content that is described in the exception.
+                 * </p>
+                 * 
+                 * @param role
+                 *     How the actor is involved
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder role(CodeableConcept role) {
+                    this.role = role;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some 
+                 * property they share (e.g. 'admitting officers').
+                 * </p>
+                 * 
+                 * @param reference
+                 *     Resource for the actor (or group, by role)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reference(Reference reference) {
+                    this.reference = reference;
+                    return this;
+                }
+
                 @Override
                 public Actor build() {
                     return new Actor(this);
                 }
 
-                private Builder from(Actor actor) {
-                    id = actor.id;
-                    extension.addAll(actor.extension);
-                    modifierExtension.addAll(actor.modifierExtension);
+                protected Builder from(Actor actor) {
+                    super.from(actor);
+                    role = actor.role;
+                    reference = actor.reference;
                     return this;
                 }
             }
@@ -2717,27 +2795,19 @@ public class Consent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(meaning, reference).from(this);
-            }
-
-            public Builder toBuilder(ConsentDataMeaning meaning, Reference reference) {
-                return new Builder(meaning, reference).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ConsentDataMeaning meaning, Reference reference) {
-                return new Builder(meaning, reference);
+                Builder builder = new Builder();
+                builder.meaning(meaning);
+                builder.reference(reference);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ConsentDataMeaning meaning;
-                private final Reference reference;
-
-                private Builder(ConsentDataMeaning meaning, Reference reference) {
-                    super();
-                    this.meaning = meaning;
-                    this.reference = reference;
-                }
+                private ConsentDataMeaning meaning;
+                private Reference reference;
 
                 /**
                  * <p>
@@ -2856,15 +2926,47 @@ public class Consent extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * How the resource reference is interpreted when testing consent restrictions.
+                 * </p>
+                 * 
+                 * @param meaning
+                 *     instance | related | dependents | authoredby
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder meaning(ConsentDataMeaning meaning) {
+                    this.meaning = meaning;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * A reference to a specific resource that defines which resources are covered by this consent.
+                 * </p>
+                 * 
+                 * @param reference
+                 *     The actual data reference
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reference(Reference reference) {
+                    this.reference = reference;
+                    return this;
+                }
+
                 @Override
                 public Data build() {
                     return new Data(this);
                 }
 
-                private Builder from(Data data) {
-                    id = data.id;
-                    extension.addAll(data.extension);
-                    modifierExtension.addAll(data.modifierExtension);
+                protected Builder from(Data data) {
+                    super.from(data);
+                    meaning = data.meaning;
+                    reference = data.reference;
                     return this;
                 }
             }

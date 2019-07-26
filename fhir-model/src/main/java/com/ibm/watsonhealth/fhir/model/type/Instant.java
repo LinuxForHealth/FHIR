@@ -127,16 +127,12 @@ public class Instant extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private ZonedDateTime value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -224,9 +220,8 @@ public class Instant extends Element {
             return new Instant(this);
         }
 
-        private Builder from(Instant instant) {
-            id = instant.id;
-            extension.addAll(instant.extension);
+        protected Builder from(Instant instant) {
+            super.from(instant);
             value = instant.value;
             return this;
         }

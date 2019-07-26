@@ -300,11 +300,11 @@ public class SupplyDelivery extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
@@ -316,10 +316,6 @@ public class SupplyDelivery extends DomainResource {
         private Reference supplier;
         private Reference destination;
         private List<Reference> receiver = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -825,15 +821,8 @@ public class SupplyDelivery extends DomainResource {
             return new SupplyDelivery(this);
         }
 
-        private Builder from(SupplyDelivery supplyDelivery) {
-            id = supplyDelivery.id;
-            meta = supplyDelivery.meta;
-            implicitRules = supplyDelivery.implicitRules;
-            language = supplyDelivery.language;
-            text = supplyDelivery.text;
-            contained.addAll(supplyDelivery.contained);
-            extension.addAll(supplyDelivery.extension);
-            modifierExtension.addAll(supplyDelivery.modifierExtension);
+        protected Builder from(SupplyDelivery supplyDelivery) {
+            super.from(supplyDelivery);
             identifier.addAll(supplyDelivery.identifier);
             basedOn.addAll(supplyDelivery.basedOn);
             partOf.addAll(supplyDelivery.partOf);
@@ -955,17 +944,13 @@ public class SupplyDelivery extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Quantity quantity;
             private Element item;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1122,10 +1107,8 @@ public class SupplyDelivery extends DomainResource {
                 return new SuppliedItem(this);
             }
 
-            private Builder from(SuppliedItem suppliedItem) {
-                id = suppliedItem.id;
-                extension.addAll(suppliedItem.extension);
-                modifierExtension.addAll(suppliedItem.modifierExtension);
+            protected Builder from(SuppliedItem suppliedItem) {
+                super.from(suppliedItem);
                 quantity = suppliedItem.quantity;
                 item = suppliedItem.item;
                 return this;

@@ -289,11 +289,11 @@ Work addresses are not typically
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private List<HumanName> name = new ArrayList<>();
@@ -304,10 +304,6 @@ Work addresses are not typically
         private List<Attachment> photo = new ArrayList<>();
         private List<Qualification> qualification = new ArrayList<>();
         private List<CodeableConcept> communication = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -877,15 +873,8 @@ Work addresses are not typically
             return new Practitioner(this);
         }
 
-        private Builder from(Practitioner practitioner) {
-            id = practitioner.id;
-            meta = practitioner.meta;
-            implicitRules = practitioner.implicitRules;
-            language = practitioner.language;
-            text = practitioner.text;
-            contained.addAll(practitioner.contained);
-            extension.addAll(practitioner.extension);
-            modifierExtension.addAll(practitioner.modifierExtension);
+        protected Builder from(Practitioner practitioner) {
+            super.from(practitioner);
             identifier.addAll(practitioner.identifier);
             active = practitioner.active;
             name.addAll(practitioner.name);
@@ -1039,30 +1028,20 @@ Work addresses are not typically
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
             private List<Identifier> identifier = new ArrayList<>();
+            private CodeableConcept code;
             private Period period;
             private Reference issuer;
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1223,6 +1202,22 @@ Work addresses are not typically
 
             /**
              * <p>
+             * Coded representation of the qualification.
+             * </p>
+             * 
+             * @param code
+             *     Coded representation of the qualification
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * Period during which the qualification is valid.
              * </p>
              * 
@@ -1258,11 +1253,10 @@ Work addresses are not typically
                 return new Qualification(this);
             }
 
-            private Builder from(Qualification qualification) {
-                id = qualification.id;
-                extension.addAll(qualification.extension);
-                modifierExtension.addAll(qualification.modifierExtension);
+            protected Builder from(Qualification qualification) {
+                super.from(qualification);
                 identifier.addAll(qualification.identifier);
+                code = qualification.code;
                 period = qualification.period;
                 issuer = qualification.issuer;
                 return this;

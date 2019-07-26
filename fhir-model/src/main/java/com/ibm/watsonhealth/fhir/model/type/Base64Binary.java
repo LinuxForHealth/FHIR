@@ -105,16 +105,12 @@ public class Base64Binary extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private byte[] value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -202,9 +198,8 @@ public class Base64Binary extends Element {
             return new Base64Binary(this);
         }
 
-        private Builder from(Base64Binary base64Binary) {
-            id = base64Binary.id;
-            extension.addAll(base64Binary.extension);
+        protected Builder from(Base64Binary base64Binary) {
+            super.from(base64Binary);
             value = base64Binary.value;
             return this;
         }

@@ -272,11 +272,11 @@ public class Address extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private AddressUse use;
         private AddressType type;
         private String text;
@@ -287,10 +287,6 @@ public class Address extends Element {
         private String postalCode;
         private String country;
         private Period period;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -547,9 +543,8 @@ public class Address extends Element {
             return new Address(this);
         }
 
-        private Builder from(Address address) {
-            id = address.id;
-            extension.addAll(address.extension);
+        protected Builder from(Address address) {
+            super.from(address);
             use = address.use;
             type = address.type;
             text = address.text;

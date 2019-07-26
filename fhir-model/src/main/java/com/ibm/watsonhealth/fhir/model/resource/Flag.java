@@ -242,36 +242,26 @@ public class Flag extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, code, subject).from(this);
-    }
-
-    public Builder toBuilder(FlagStatus status, CodeableConcept code, Reference subject) {
-        return new Builder(status, code, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(FlagStatus status, CodeableConcept code, Reference subject) {
-        return new Builder(status, code, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.code(code);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final FlagStatus status;
-        private final CodeableConcept code;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private FlagStatus status;
         private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
+        private Reference subject;
         private Period period;
         private Reference encounter;
         private Reference author;
-
-        private Builder(FlagStatus status, CodeableConcept code, Reference subject) {
-            super();
-            this.status = status;
-            this.code = code;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -543,6 +533,22 @@ public class Flag extends DomainResource {
 
         /**
          * <p>
+         * Supports basic workflow.
+         * </p>
+         * 
+         * @param status
+         *     active | inactive | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(FlagStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Allows a flag to be divided into different categories like clinical, administrative etc. Intended to be used as a 
          * means of filtering which flags are displayed to particular user or in a given context.
          * </p>
@@ -580,6 +586,38 @@ public class Flag extends DomainResource {
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The coded value or textual component of the flag to display to the user.
+         * </p>
+         * 
+         * @param code
+         *     Coded or textual message to display to user
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient, location, group, organization, or practitioner etc. this is about record this flag is associated with.
+         * </p>
+         * 
+         * @param subject
+         *     Who/What is flag about?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -637,17 +675,13 @@ public class Flag extends DomainResource {
             return new Flag(this);
         }
 
-        private Builder from(Flag flag) {
-            id = flag.id;
-            meta = flag.meta;
-            implicitRules = flag.implicitRules;
-            language = flag.language;
-            text = flag.text;
-            contained.addAll(flag.contained);
-            extension.addAll(flag.extension);
-            modifierExtension.addAll(flag.modifierExtension);
+        protected Builder from(Flag flag) {
+            super.from(flag);
             identifier.addAll(flag.identifier);
+            status = flag.status;
             category.addAll(flag.category);
+            code = flag.code;
+            subject = flag.subject;
             period = flag.period;
             encounter = flag.encounter;
             author = flag.author;

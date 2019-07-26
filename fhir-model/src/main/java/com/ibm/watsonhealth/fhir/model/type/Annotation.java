@@ -131,29 +131,19 @@ public class Annotation extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(text).from(this);
-    }
-
-    public Builder toBuilder(Markdown text) {
-        return new Builder(text).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Markdown text) {
-        return new Builder(text);
+        Builder builder = new Builder();
+        builder.text(text);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final Markdown text;
-
-        // optional
         private Element author;
         private DateTime time;
-
-        private Builder(Markdown text) {
-            super();
-            this.text = text;
-        }
+        private Markdown text;
 
         /**
          * <p>
@@ -248,16 +238,32 @@ public class Annotation extends Element {
             return this;
         }
 
+        /**
+         * <p>
+         * The text of the annotation in markdown format.
+         * </p>
+         * 
+         * @param text
+         *     The annotation - text content (as markdown)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder text(Markdown text) {
+            this.text = text;
+            return this;
+        }
+
         @Override
         public Annotation build() {
             return new Annotation(this);
         }
 
-        private Builder from(Annotation annotation) {
-            id = annotation.id;
-            extension.addAll(annotation.extension);
+        protected Builder from(Annotation annotation) {
+            super.from(annotation);
             author = annotation.author;
             time = annotation.time;
+            text = annotation.text;
             return this;
         }
     }

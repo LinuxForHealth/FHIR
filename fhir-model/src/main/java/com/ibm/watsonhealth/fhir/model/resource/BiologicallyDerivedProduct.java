@@ -306,11 +306,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private BiologicallyDerivedProductCategory productCategory;
         private CodeableConcept productCode;
@@ -322,10 +322,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private List<Processing> processing = new ArrayList<>();
         private Manipulation manipulation;
         private List<Storage> storage = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -861,15 +857,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
             return new BiologicallyDerivedProduct(this);
         }
 
-        private Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
-            id = biologicallyDerivedProduct.id;
-            meta = biologicallyDerivedProduct.meta;
-            implicitRules = biologicallyDerivedProduct.implicitRules;
-            language = biologicallyDerivedProduct.language;
-            text = biologicallyDerivedProduct.text;
-            contained.addAll(biologicallyDerivedProduct.contained);
-            extension.addAll(biologicallyDerivedProduct.extension);
-            modifierExtension.addAll(biologicallyDerivedProduct.modifierExtension);
+        protected Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
+            super.from(biologicallyDerivedProduct);
             identifier.addAll(biologicallyDerivedProduct.identifier);
             productCategory = biologicallyDerivedProduct.productCategory;
             productCode = biologicallyDerivedProduct.productCode;
@@ -1009,18 +998,14 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Reference collector;
             private Reference source;
             private Element collected;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1193,10 +1178,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Collection(this);
             }
 
-            private Builder from(Collection collection) {
-                id = collection.id;
-                extension.addAll(collection.extension);
-                modifierExtension.addAll(collection.modifierExtension);
+            protected Builder from(Collection collection) {
+                super.from(collection);
                 collector = collection.collector;
                 source = collection.source;
                 collected = collection.collected;
@@ -1347,19 +1330,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private CodeableConcept procedure;
             private Reference additive;
             private Element time;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1547,10 +1526,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Processing(this);
             }
 
-            private Builder from(Processing processing) {
-                id = processing.id;
-                extension.addAll(processing.extension);
-                modifierExtension.addAll(processing.modifierExtension);
+            protected Builder from(Processing processing) {
+                super.from(processing);
                 description = processing.description;
                 procedure = processing.procedure;
                 additive = processing.additive;
@@ -1666,17 +1643,13 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private Element time;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1832,10 +1805,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Manipulation(this);
             }
 
-            private Builder from(Manipulation manipulation) {
-                id = manipulation.id;
-                extension.addAll(manipulation.extension);
-                modifierExtension.addAll(manipulation.modifierExtension);
+            protected Builder from(Manipulation manipulation) {
+                super.from(manipulation);
                 description = manipulation.description;
                 time = manipulation.time;
                 return this;
@@ -1984,19 +1955,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private Decimal temperature;
             private BiologicallyDerivedProductStorageScale scale;
             private Period duration;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2184,10 +2151,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Storage(this);
             }
 
-            private Builder from(Storage storage) {
-                id = storage.id;
-                extension.addAll(storage.extension);
-                modifierExtension.addAll(storage.modifierExtension);
+            protected Builder from(Storage storage) {
+                super.from(storage);
                 description = storage.description;
                 temperature = storage.temperature;
                 scale = storage.scale;

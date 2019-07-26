@@ -365,44 +365,34 @@ public class PaymentReconciliation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, created, paymentDate, paymentAmount).from(this);
-    }
-
-    public Builder toBuilder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
-        return new Builder(status, created, paymentDate, paymentAmount).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
-        return new Builder(status, created, paymentDate, paymentAmount);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.created(created);
+        builder.paymentDate(paymentDate);
+        builder.paymentAmount(paymentAmount);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PaymentReconciliationStatus status;
-        private final DateTime created;
-        private final Date paymentDate;
-        private final Money paymentAmount;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private PaymentReconciliationStatus status;
         private Period period;
+        private DateTime created;
         private Reference paymentIssuer;
         private Reference request;
         private Reference requestor;
         private RemittanceOutcome outcome;
         private String disposition;
+        private Date paymentDate;
+        private Money paymentAmount;
         private Identifier paymentIdentifier;
         private List<Detail> detail = new ArrayList<>();
         private CodeableConcept formCode;
         private List<ProcessNote> processNote = new ArrayList<>();
-
-        private Builder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
-            super();
-            this.status = status;
-            this.created = created;
-            this.paymentDate = paymentDate;
-            this.paymentAmount = paymentAmount;
-        }
 
         /**
          * <p>
@@ -672,6 +662,22 @@ public class PaymentReconciliation extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PaymentReconciliationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The period of time for which payments have been gathered into this bulk payment for settlement.
          * </p>
          * 
@@ -683,6 +689,22 @@ public class PaymentReconciliation extends DomainResource {
          */
         public Builder period(Period period) {
             this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date when the resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
             return this;
         }
 
@@ -763,6 +785,38 @@ public class PaymentReconciliation extends DomainResource {
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date of payment as indicated on the financial instrument.
+         * </p>
+         * 
+         * @param paymentDate
+         *     When payment issued
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder paymentDate(Date paymentDate) {
+            this.paymentDate = paymentDate;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Total payment amount as indicated on the financial instrument.
+         * </p>
+         * 
+         * @param paymentAmount
+         *     Total amount of Payment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder paymentAmount(Money paymentAmount) {
+            this.paymentAmount = paymentAmount;
             return this;
         }
 
@@ -883,22 +937,19 @@ public class PaymentReconciliation extends DomainResource {
             return new PaymentReconciliation(this);
         }
 
-        private Builder from(PaymentReconciliation paymentReconciliation) {
-            id = paymentReconciliation.id;
-            meta = paymentReconciliation.meta;
-            implicitRules = paymentReconciliation.implicitRules;
-            language = paymentReconciliation.language;
-            text = paymentReconciliation.text;
-            contained.addAll(paymentReconciliation.contained);
-            extension.addAll(paymentReconciliation.extension);
-            modifierExtension.addAll(paymentReconciliation.modifierExtension);
+        protected Builder from(PaymentReconciliation paymentReconciliation) {
+            super.from(paymentReconciliation);
             identifier.addAll(paymentReconciliation.identifier);
+            status = paymentReconciliation.status;
             period = paymentReconciliation.period;
+            created = paymentReconciliation.created;
             paymentIssuer = paymentReconciliation.paymentIssuer;
             request = paymentReconciliation.request;
             requestor = paymentReconciliation.requestor;
             outcome = paymentReconciliation.outcome;
             disposition = paymentReconciliation.disposition;
+            paymentDate = paymentReconciliation.paymentDate;
+            paymentAmount = paymentReconciliation.paymentAmount;
             paymentIdentifier = paymentReconciliation.paymentIdentifier;
             detail.addAll(paymentReconciliation.detail);
             formCode = paymentReconciliation.formCode;
@@ -1152,24 +1203,19 @@ public class PaymentReconciliation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept type;
-
-            // optional
             private Identifier identifier;
             private Identifier predecessor;
+            private CodeableConcept type;
             private Reference request;
             private Reference submitter;
             private Reference response;
@@ -1177,11 +1223,6 @@ public class PaymentReconciliation extends DomainResource {
             private Reference responsible;
             private Reference payee;
             private Money amount;
-
-            private Builder(CodeableConcept type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -1334,6 +1375,22 @@ public class PaymentReconciliation extends DomainResource {
 
             /**
              * <p>
+             * Code to indicate the nature of the payment.
+             * </p>
+             * 
+             * @param type
+             *     Category of payment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * A resource, such as a Claim, the evaluation of which could lead to payment.
              * </p>
              * 
@@ -1449,12 +1506,11 @@ public class PaymentReconciliation extends DomainResource {
                 return new Detail(this);
             }
 
-            private Builder from(Detail detail) {
-                id = detail.id;
-                extension.addAll(detail.extension);
-                modifierExtension.addAll(detail.modifierExtension);
+            protected Builder from(Detail detail) {
+                super.from(detail);
                 identifier = detail.identifier;
                 predecessor = detail.predecessor;
+                type = detail.type;
                 request = detail.request;
                 submitter = detail.submitter;
                 response = detail.response;
@@ -1572,17 +1628,13 @@ public class PaymentReconciliation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private NoteType type;
             private String text;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1738,10 +1790,8 @@ public class PaymentReconciliation extends DomainResource {
                 return new ProcessNote(this);
             }
 
-            private Builder from(ProcessNote processNote) {
-                id = processNote.id;
-                extension.addAll(processNote.extension);
-                modifierExtension.addAll(processNote.modifierExtension);
+            protected Builder from(ProcessNote processNote) {
+                super.from(processNote);
                 type = processNote.type;
                 text = processNote.text;
                 return this;

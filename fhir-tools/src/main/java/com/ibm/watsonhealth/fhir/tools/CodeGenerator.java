@@ -7,6 +7,8 @@
 package com.ibm.watsonhealth.fhir.tools;
 
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._new;
+import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.var;
+
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._this;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.args;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.implementsInterfaces;
@@ -487,24 +489,9 @@ public class CodeGenerator {
         String visibility = nested ? "private" : visibility(structureDefinition);
         
         int fieldCount = 0;
-        List<JsonObject> requiredElementDefinitions = elementDefinitions.stream().filter(o -> isRequired(o) && o.getString("path").equals(o.getJsonObject("base").getString("path"))).collect(Collectors.toList());
-        if (!requiredElementDefinitions.isEmpty()) {
-            cb.comment("required");
-            for (JsonObject elementDefinition : requiredElementDefinitions) {
-                String fieldName = getFieldName(elementDefinition, path);
-                String fieldType = getFieldType(structureDefinition, elementDefinition);
-                cb.field(mods(visibility, "final"), fieldType, fieldName);
-                fieldCount++;
-            }
-        }
-        
-        List<JsonObject> optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o) && o.getString("path").equals(o.getJsonObject("base").getString("path"))).collect(Collectors.toList());
-        if (!optionalElementDefinitions.isEmpty()) {
-            if (fieldCount > 0) {
-                cb.newLine();
-            }
-            cb.comment("optional");
-            for (JsonObject elementDefinition : optionalElementDefinitions) {
+        List<JsonObject> declaredElementDefinitions = elementDefinitions.stream().filter(o -> o.getString("path").equals(o.getJsonObject("base").getString("path"))).collect(Collectors.toList());
+        if (!declaredElementDefinitions.isEmpty()) {
+            for (JsonObject elementDefinition : declaredElementDefinitions) {
                 String fieldName = getFieldName(elementDefinition, path);
                 String fieldType = getFieldType(structureDefinition, elementDefinition);
                 String init = null;
@@ -520,34 +507,13 @@ public class CodeGenerator {
             cb.newLine();
         }
         
-        List<String> params = new ArrayList<>();
-        List<String> args = new ArrayList<>();
-        
-        requiredElementDefinitions = elementDefinitions.stream().filter(o -> isRequired(o)).collect(Collectors.toList());
-        for (JsonObject elementDefinition : requiredElementDefinitions) {
-            String fieldName = getFieldName(elementDefinition, path);
-            String fieldType = getFieldType(structureDefinition, elementDefinition);
-            String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
-            if (containsBackboneElement(structureDefinition, "collection")) {
-                paramType = "java.util." + paramType;
-            }
-            params.add(paramType + " " + fieldName);
-            args.add(fieldName);
+        if (isAbstract(structureDefinition)) {
+            cb.constructor(mods("protected"), "Builder")
+                ._super()
+            .end().newLine();
         }
                 
-        cb.constructor(mods(visibility), "Builder", params)._super();
-        for (JsonObject elementDefinition : requiredElementDefinitions) {
-            String fieldName = getFieldName(elementDefinition, path);
-            if (isRepeating(elementDefinition)) {
-                cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
-            } else {
-                cb.assign(_this(fieldName), fieldName);
-            }
-        }
-        cb.end().newLine();
-        
-        optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
-        for (JsonObject elementDefinition : optionalElementDefinitions) {
+        for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
             boolean declaredBy = elementDefinition.getString("path").equals(basePath);
             
@@ -690,24 +656,25 @@ public class CodeGenerator {
             paramName = "_" + paramName;
         }
         
-        if (!isAbstract(structureDefinition)) {
-            cb.newLine();
-            cb.method(mods("private"), "Builder", "from", params(param(className, paramName)));
-            for (JsonObject elementDefinition : optionalElementDefinitions) {                
-                String fieldName = getFieldName(elementDefinition, path);
-                String prefix = "";
-                if (fieldName.equals(paramName)) {
-                    prefix = "this.";
-                }
-                if (isRepeating(elementDefinition)) {
-                    cb.invoke(prefix + fieldName, "addAll", args(paramName + "." + fieldName));
-                } else {
-                    cb.assign(prefix + fieldName, paramName + "." + fieldName);
-                }
-            }
-            cb._return("this");
-            cb.end();
+        cb.newLine();
+        cb.method(mods("protected"), "Builder", "from", params(param(className, paramName)));
+        if (!isAbstract(structureDefinition) || "DomainResource".equals(className)) {
+            cb.invoke("super.from", args(paramName));
         }
+        for (JsonObject elementDefinition : declaredElementDefinitions) {                
+            String fieldName = getFieldName(elementDefinition, path);
+            String prefix = "";
+            if (fieldName.equals(paramName)) {
+                prefix = "this.";
+            }
+            if (isRepeating(elementDefinition)) {
+                cb.invoke(prefix + fieldName, "addAll", args(paramName + "." + fieldName));
+            } else {
+                cb.assign(prefix + fieldName, paramName + "." + fieldName);
+            }
+        }
+        cb._return("this");
+        cb.end();
         
         cb._end();
     }
@@ -972,37 +939,35 @@ public class CodeGenerator {
 
             List<JsonObject> requiredElementDefinitions = elementDefinitions.stream().filter(o -> isRequired(o)).collect(Collectors.toList());
 
-            for (JsonObject elementDefinition : requiredElementDefinitions) {
-                String fieldName = getFieldName(elementDefinition, path);
-                String fieldType = getFieldType(structureDefinition, elementDefinition);
-                String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
-                if (containsBackboneElement(structureDefinition, "collection")) {
-                    paramType = "java.util." + paramType;
-                }
-                params.add(paramType + " " + fieldName);
-                args.add(fieldName);
-            }
-            
             if (isAbstract(structureDefinition)) {
                 if (!"Resource".equals(className) && !"Element".equals(className)) {
                     cb.override();
                 }
                 cb.abstractMethod(mods("public", "abstract"), "Builder", "toBuilder").newLine();
             } else {
-                cb.override();
-                cb.method(mods("public"), "Builder", "toBuilder")
-                    ._return(_new("Builder", args) + ".from(this)")
-                .end().newLine();
-                
-                if (!params.isEmpty()) {
-                    cb.method(mods("public"), "Builder", "toBuilder", params)
-                        ._return(_new("Builder", args) + ".from(this)")
-                    .end().newLine();
+                for (JsonObject elementDefinition : requiredElementDefinitions) {
+                    String fieldName = getFieldName(elementDefinition, path);
+                    String fieldType = getFieldType(structureDefinition, elementDefinition);
+                    String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
+                    if (containsBackboneElement(structureDefinition, "collection")) {
+                        paramType = "java.util." + paramType;
+                    }
+                    params.add(paramType + " " + fieldName);
+                    args.add(fieldName);
                 }
                 
-                cb.method(mods("public", "static"), "Builder", "builder", params)
-                    ._return(_new("Builder", args))
+                cb.override();
+                cb.method(mods("public"), "Builder", "toBuilder")
+                    ._return(_new("Builder") + ".from(this)")
                 .end().newLine();
+                
+                cb.method(mods("public", "static"), "Builder", "builder", params);
+                    cb.assign(var("Builder", "builder"), _new("Builder"));
+                    for (String arg : args) {
+                        cb.invoke("builder", arg, args(arg));
+                    }
+                    cb._return("builder");
+                cb.end().newLine();
             }
             
             generateBuilderClass(structureDefinition, className, path, cb, nested);

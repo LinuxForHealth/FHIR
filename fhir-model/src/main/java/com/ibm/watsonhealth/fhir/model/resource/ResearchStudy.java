@@ -529,26 +529,21 @@ public class ResearchStudy extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(ResearchStudyStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ResearchStudyStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ResearchStudyStatus status;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private String title;
         private List<Reference> protocol = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private ResearchStudyStatus status;
         private CodeableConcept primaryPurposeType;
         private CodeableConcept phase;
         private List<CodeableConcept> category = new ArrayList<>();
@@ -568,11 +563,6 @@ public class ResearchStudy extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<Arm> arm = new ArrayList<>();
         private List<Objective> objective = new ArrayList<>();
-
-        private Builder(ResearchStudyStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -933,6 +923,23 @@ public class ResearchStudy extends DomainResource {
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The current state of the study.
+         * </p>
+         * 
+         * @param status
+         *     active | administratively-completed | approved | closed-to-accrual | closed-to-accrual-and-intervention | completed | 
+         *     disapproved | in-review | temporarily-closed-to-accrual | temporarily-closed-to-accrual-and-intervention | withdrawn
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ResearchStudyStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1549,19 +1556,13 @@ public class ResearchStudy extends DomainResource {
             return new ResearchStudy(this);
         }
 
-        private Builder from(ResearchStudy researchStudy) {
-            id = researchStudy.id;
-            meta = researchStudy.meta;
-            implicitRules = researchStudy.implicitRules;
-            language = researchStudy.language;
-            text = researchStudy.text;
-            contained.addAll(researchStudy.contained);
-            extension.addAll(researchStudy.extension);
-            modifierExtension.addAll(researchStudy.modifierExtension);
+        protected Builder from(ResearchStudy researchStudy) {
+            super.from(researchStudy);
             identifier.addAll(researchStudy.identifier);
             title = researchStudy.title;
             protocol.addAll(researchStudy.protocol);
             partOf.addAll(researchStudy.partOf);
+            status = researchStudy.status;
             primaryPurposeType = researchStudy.primaryPurposeType;
             phase = researchStudy.phase;
             category.addAll(researchStudy.category);
@@ -1705,29 +1706,19 @@ public class ResearchStudy extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private CodeableConcept type;
             private String description;
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -1848,6 +1839,22 @@ public class ResearchStudy extends DomainResource {
 
             /**
              * <p>
+             * Unique, human-readable label for this arm of the study.
+             * </p>
+             * 
+             * @param name
+             *     Label for study arm
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
              * Categorization of study arm, e.g. experimental, active comparator, placebo comparater.
              * </p>
              * 
@@ -1883,10 +1890,9 @@ public class ResearchStudy extends DomainResource {
                 return new Arm(this);
             }
 
-            private Builder from(Arm arm) {
-                id = arm.id;
-                extension.addAll(arm.extension);
-                modifierExtension.addAll(arm.modifierExtension);
+            protected Builder from(Arm arm) {
+                super.from(arm);
+                name = arm.name;
                 type = arm.type;
                 description = arm.description;
                 return this;
@@ -2000,17 +2006,13 @@ public class ResearchStudy extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String name;
             private CodeableConcept type;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2166,10 +2168,8 @@ public class ResearchStudy extends DomainResource {
                 return new Objective(this);
             }
 
-            private Builder from(Objective objective) {
-                id = objective.id;
-                extension.addAll(objective.extension);
-                modifierExtension.addAll(objective.modifierExtension);
+            protected Builder from(Objective objective) {
+                super.from(objective);
                 name = objective.name;
                 type = objective.type;
                 return this;

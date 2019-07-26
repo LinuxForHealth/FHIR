@@ -79,14 +79,11 @@ public class Url extends Uri {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Uri.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -168,10 +165,8 @@ public class Url extends Uri {
             return new Url(this);
         }
 
-        private Builder from(Url url) {
-            id = url.id;
-            extension.addAll(url.extension);
-            value = url.value;
+        protected Builder from(Url url) {
+            super.from(url);
             return this;
         }
     }

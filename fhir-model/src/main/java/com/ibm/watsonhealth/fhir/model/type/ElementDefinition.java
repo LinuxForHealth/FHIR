@@ -898,22 +898,17 @@ public class ElementDefinition extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(path).from(this);
-    }
-
-    public Builder toBuilder(String path) {
-        return new Builder(path).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(String path) {
-        return new Builder(path);
+        Builder builder = new Builder();
+        builder.path(path);
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // required
-        private final String path;
-
-        // optional
+        private String path;
         private List<PropertyRepresentation> representation = new ArrayList<>();
         private String sliceName;
         private Boolean sliceIsConstraining;
@@ -947,11 +942,6 @@ public class ElementDefinition extends BackboneElement {
         private Boolean isSummary;
         private Binding binding;
         private List<Mapping> mapping = new ArrayList<>();
-
-        private Builder(String path) {
-            super();
-            this.path = path;
-        }
 
         /**
          * <p>
@@ -1068,6 +1058,23 @@ public class ElementDefinition extends BackboneElement {
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
             return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * <p>
+         * The path identifies the element and is expressed as a "."-separated list of ancestor elements, beginning with the name 
+         * of the resource or extension.
+         * </p>
+         * 
+         * @param path
+         *     Path of the element in the hierarchy of elements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder path(String path) {
+            this.path = path;
+            return this;
         }
 
         /**
@@ -1849,10 +1856,9 @@ public class ElementDefinition extends BackboneElement {
             return new ElementDefinition(this);
         }
 
-        private Builder from(ElementDefinition elementDefinition) {
-            id = elementDefinition.id;
-            extension.addAll(elementDefinition.extension);
-            modifierExtension.addAll(elementDefinition.modifierExtension);
+        protected Builder from(ElementDefinition elementDefinition) {
+            super.from(elementDefinition);
+            path = elementDefinition.path;
             representation.addAll(elementDefinition.representation);
             sliceName = elementDefinition.sliceName;
             sliceIsConstraining = elementDefinition.sliceIsConstraining;
@@ -2035,30 +2041,20 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(rules).from(this);
-        }
-
-        public Builder toBuilder(SlicingRules rules) {
-            return new Builder(rules).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(SlicingRules rules) {
-            return new Builder(rules);
+            Builder builder = new Builder();
+            builder.rules(rules);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final SlicingRules rules;
-
-            // optional
             private List<Discriminator> discriminator = new ArrayList<>();
             private String description;
             private Boolean ordered;
-
-            private Builder(SlicingRules rules) {
-                super();
-                this.rules = rules;
-            }
+            private SlicingRules rules;
 
             /**
              * <p>
@@ -2250,18 +2246,34 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * <p>
+             * Whether additional slices are allowed or not. When the slices are ordered, profile authors can also say that 
+             * additional slices are only allowed at the end.
+             * </p>
+             * 
+             * @param rules
+             *     closed | open | openAtEnd
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder rules(SlicingRules rules) {
+                this.rules = rules;
+                return this;
+            }
+
             @Override
             public Slicing build() {
                 return new Slicing(this);
             }
 
-            private Builder from(Slicing slicing) {
-                id = slicing.id;
-                extension.addAll(slicing.extension);
-                modifierExtension.addAll(slicing.modifierExtension);
+            protected Builder from(Slicing slicing) {
+                super.from(slicing);
                 discriminator.addAll(slicing.discriminator);
                 description = slicing.description;
                 ordered = slicing.ordered;
+                rules = slicing.rules;
                 return this;
             }
         }
@@ -2370,27 +2382,19 @@ public class ElementDefinition extends BackboneElement {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type, path).from(this);
-            }
-
-            public Builder toBuilder(DiscriminatorType type, String path) {
-                return new Builder(type, path).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(DiscriminatorType type, String path) {
-                return new Builder(type, path);
+                Builder builder = new Builder();
+                builder.type(type);
+                builder.path(path);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final DiscriminatorType type;
-                private final String path;
-
-                private Builder(DiscriminatorType type, String path) {
-                    super();
-                    this.type = type;
-                    this.path = path;
-                }
+                private DiscriminatorType type;
+                private String path;
 
                 /**
                  * <p>
@@ -2505,15 +2509,48 @@ public class ElementDefinition extends BackboneElement {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * How the element value is interpreted when discrimination is evaluated.
+                 * </p>
+                 * 
+                 * @param type
+                 *     value | exists | pattern | type | profile
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(DiscriminatorType type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * A FHIRPath expression, using [the simple subset of FHIRPath](fhirpath.html#simple), that is used to identify the 
+                 * element on which discrimination is based.
+                 * </p>
+                 * 
+                 * @param path
+                 *     Path to element value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder path(String path) {
+                    this.path = path;
+                    return this;
+                }
+
                 @Override
                 public Discriminator build() {
                     return new Discriminator(this);
                 }
 
-                private Builder from(Discriminator discriminator) {
-                    id = discriminator.id;
-                    extension.addAll(discriminator.extension);
-                    modifierExtension.addAll(discriminator.modifierExtension);
+                protected Builder from(Discriminator discriminator) {
+                    super.from(discriminator);
+                    type = discriminator.type;
+                    path = discriminator.path;
                     return this;
                 }
             }
@@ -2645,29 +2682,21 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(path, min, max).from(this);
-        }
-
-        public Builder toBuilder(String path, UnsignedInt min, String max) {
-            return new Builder(path, min, max).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String path, UnsignedInt min, String max) {
-            return new Builder(path, min, max);
+            Builder builder = new Builder();
+            builder.path(path);
+            builder.min(min);
+            builder.max(max);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String path;
-            private final UnsignedInt min;
-            private final String max;
-
-            private Builder(String path, UnsignedInt min, String max) {
-                super();
-                this.path = path;
-                this.min = min;
-                this.max = max;
-            }
+            private String path;
+            private UnsignedInt min;
+            private String max;
 
             /**
              * <p>
@@ -2782,15 +2811,66 @@ public class ElementDefinition extends BackboneElement {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The Path that identifies the base element - this matches the ElementDefinition.path for that element. Across FHIR, 
+             * there is only one base definition of any element - that is, an element definition on a [StructureDefinition]
+             * (structuredefinition.html#) without a StructureDefinition.base.
+             * </p>
+             * 
+             * @param path
+             *     Path that identifies the base element
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(String path) {
+                this.path = path;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Minimum cardinality of the base element identified by the path.
+             * </p>
+             * 
+             * @param min
+             *     Min cardinality of the base element
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder min(UnsignedInt min) {
+                this.min = min;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Maximum cardinality of the base element identified by the path.
+             * </p>
+             * 
+             * @param max
+             *     Max cardinality of the base element
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder max(String max) {
+                this.max = max;
+                return this;
+            }
+
             @Override
             public Base build() {
                 return new Base(this);
             }
 
-            private Builder from(Base base) {
-                id = base.id;
-                extension.addAll(base.extension);
-                modifierExtension.addAll(base.modifierExtension);
+            protected Builder from(Base base) {
+                super.from(base);
+                path = base.path;
+                min = base.min;
+                max = base.max;
                 return this;
             }
         }
@@ -2962,31 +3042,21 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(Uri code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Uri code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Uri code;
-
-            // optional
+            private Uri code;
             private List<Canonical> profile = new ArrayList<>();
             private List<Canonical> targetProfile = new ArrayList<>();
             private List<AggregationMode> aggregation = new ArrayList<>();
             private ReferenceVersionRules versioning;
-
-            private Builder(Uri code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -3099,6 +3169,24 @@ public class ElementDefinition extends BackboneElement {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * URL of Data type or Resource that is a(or the) type used for this element. References are URLs that are relative to 
+             * http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http://hl7.
+             * org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
+             * </p>
+             * 
+             * @param code
+             *     Data type or Resource (reference to definition)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(Uri code) {
+                this.code = code;
+                return this;
             }
 
             /**
@@ -3260,10 +3348,9 @@ public class ElementDefinition extends BackboneElement {
                 return new Type(this);
             }
 
-            private Builder from(Type type) {
-                id = type.id;
-                extension.addAll(type.extension);
-                modifierExtension.addAll(type.modifierExtension);
+            protected Builder from(Type type) {
+                super.from(type);
+                code = type.code;
                 profile.addAll(type.profile);
                 targetProfile.addAll(type.targetProfile);
                 aggregation.addAll(type.aggregation);
@@ -3374,27 +3461,19 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(label, value).from(this);
-        }
-
-        public Builder toBuilder(String label, Element value) {
-            return new Builder(label, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String label, Element value) {
-            return new Builder(label, value);
+            Builder builder = new Builder();
+            builder.label(label);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String label;
-            private final Element value;
-
-            private Builder(String label, Element value) {
-                super();
-                this.label = label;
-                this.value = value;
-            }
+            private String label;
+            private Element value;
 
             /**
              * <p>
@@ -3509,15 +3588,47 @@ public class ElementDefinition extends BackboneElement {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Describes the purpose of this example amoung the set of examples.
+             * </p>
+             * 
+             * @param label
+             *     Describes the purpose of this example
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder label(String label) {
+                this.label = label;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The actual value for the element, which must be one of the types allowed for this element.
+             * </p>
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
             @Override
             public Example build() {
                 return new Example(this);
             }
 
-            private Builder from(Example example) {
-                id = example.id;
-                extension.addAll(example.extension);
-                modifierExtension.addAll(example.modifierExtension);
+            protected Builder from(Example example) {
+                super.from(example);
+                label = example.label;
+                value = example.value;
                 return this;
             }
         }
@@ -3716,35 +3827,25 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(key, severity, human).from(this);
-        }
-
-        public Builder toBuilder(Id key, ConstraintSeverity severity, String human) {
-            return new Builder(key, severity, human).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id key, ConstraintSeverity severity, String human) {
-            return new Builder(key, severity, human);
+            Builder builder = new Builder();
+            builder.key(key);
+            builder.severity(severity);
+            builder.human(human);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id key;
-            private final ConstraintSeverity severity;
-            private final String human;
-
-            // optional
+            private Id key;
             private String requirements;
+            private ConstraintSeverity severity;
+            private String human;
             private String expression;
             private String xpath;
             private Canonical source;
-
-            private Builder(Id key, ConstraintSeverity severity, String human) {
-                super();
-                this.key = key;
-                this.severity = severity;
-                this.human = human;
-            }
 
             /**
              * <p>
@@ -3861,6 +3962,23 @@ public class ElementDefinition extends BackboneElement {
 
             /**
              * <p>
+             * Allows identification of which elements have their cardinalities impacted by the constraint. Will not be referenced 
+             * for constraints that do not affect cardinality.
+             * </p>
+             * 
+             * @param key
+             *     Target of 'condition' reference above
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder key(Id key) {
+                this.key = key;
+                return this;
+            }
+
+            /**
+             * <p>
              * Description of why this constraint is necessary or appropriate.
              * </p>
              * 
@@ -3872,6 +3990,38 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder requirements(String requirements) {
                 this.requirements = requirements;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Identifies the impact constraint violation has on the conformance of the instance.
+             * </p>
+             * 
+             * @param severity
+             *     error | warning
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder severity(ConstraintSeverity severity) {
+                this.severity = severity;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
+             * </p>
+             * 
+             * @param human
+             *     Human description of constraint
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder human(String human) {
+                this.human = human;
                 return this;
             }
 
@@ -3928,11 +4078,12 @@ public class ElementDefinition extends BackboneElement {
                 return new Constraint(this);
             }
 
-            private Builder from(Constraint constraint) {
-                id = constraint.id;
-                extension.addAll(constraint.extension);
-                modifierExtension.addAll(constraint.modifierExtension);
+            protected Builder from(Constraint constraint) {
+                super.from(constraint);
+                key = constraint.key;
                 requirements = constraint.requirements;
+                severity = constraint.severity;
+                human = constraint.human;
                 expression = constraint.expression;
                 xpath = constraint.xpath;
                 source = constraint.source;
@@ -4062,29 +4213,19 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(strength).from(this);
-        }
-
-        public Builder toBuilder(BindingStrength strength) {
-            return new Builder(strength).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(BindingStrength strength) {
-            return new Builder(strength);
+            Builder builder = new Builder();
+            builder.strength(strength);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final BindingStrength strength;
-
-            // optional
+            private BindingStrength strength;
             private String description;
             private Canonical valueSet;
-
-            private Builder(BindingStrength strength) {
-                super();
-                this.strength = strength;
-            }
 
             /**
              * <p>
@@ -4201,6 +4342,23 @@ public class ElementDefinition extends BackboneElement {
 
             /**
              * <p>
+             * Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the 
+             * provided value set must be adhered to in the instances.
+             * </p>
+             * 
+             * @param strength
+             *     required | extensible | preferred | example
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder strength(BindingStrength strength) {
+                this.strength = strength;
+                return this;
+            }
+
+            /**
+             * <p>
              * Describes the intended use of this particular set of codes.
              * </p>
              * 
@@ -4236,10 +4394,9 @@ public class ElementDefinition extends BackboneElement {
                 return new Binding(this);
             }
 
-            private Builder from(Binding binding) {
-                id = binding.id;
-                extension.addAll(binding.extension);
-                modifierExtension.addAll(binding.modifierExtension);
+            protected Builder from(Binding binding) {
+                super.from(binding);
+                strength = binding.strength;
                 description = binding.description;
                 valueSet = binding.valueSet;
                 return this;
@@ -4384,31 +4541,21 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(identity, map).from(this);
-        }
-
-        public Builder toBuilder(Id identity, String map) {
-            return new Builder(identity, map).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id identity, String map) {
-            return new Builder(identity, map);
+            Builder builder = new Builder();
+            builder.identity(identity);
+            builder.map(map);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id identity;
-            private final String map;
-
-            // optional
+            private Id identity;
             private Code language;
+            private String map;
             private String comment;
-
-            private Builder(Id identity, String map) {
-                super();
-                this.identity = identity;
-                this.map = map;
-            }
 
             /**
              * <p>
@@ -4525,6 +4672,22 @@ public class ElementDefinition extends BackboneElement {
 
             /**
              * <p>
+             * An internal reference to the definition of a mapping.
+             * </p>
+             * 
+             * @param identity
+             *     Reference to mapping declaration
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder identity(Id identity) {
+                this.identity = identity;
+                return this;
+            }
+
+            /**
+             * <p>
              * Identifies the computable language in which mapping.map is expressed.
              * </p>
              * 
@@ -4536,6 +4699,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder language(Code language) {
                 this.language = language;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Expresses what part of the target specification corresponds to this element.
+             * </p>
+             * 
+             * @param map
+             *     Details of the mapping
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder map(String map) {
+                this.map = map;
                 return this;
             }
 
@@ -4560,11 +4739,11 @@ public class ElementDefinition extends BackboneElement {
                 return new Mapping(this);
             }
 
-            private Builder from(Mapping mapping) {
-                id = mapping.id;
-                extension.addAll(mapping.extension);
-                modifierExtension.addAll(mapping.modifierExtension);
+            protected Builder from(Mapping mapping) {
+                super.from(mapping);
+                identity = mapping.identity;
                 language = mapping.language;
+                map = mapping.map;
                 comment = mapping.comment;
                 return this;
             }

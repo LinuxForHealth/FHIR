@@ -600,31 +600,27 @@ public class Procedure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, subject).from(this);
-    }
-
-    public Builder toBuilder(ProcedureStatus status, Reference subject) {
-        return new Builder(status, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ProcedureStatus status, Reference subject) {
-        return new Builder(status, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ProcedureStatus status;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private ProcedureStatus status;
         private CodeableConcept statusReason;
         private CodeableConcept category;
         private CodeableConcept code;
+        private Reference subject;
         private Reference encounter;
         private Element performed;
         private Reference recorder;
@@ -643,12 +639,6 @@ public class Procedure extends DomainResource {
         private List<FocalDevice> focalDevice = new ArrayList<>();
         private List<Reference> usedReference = new ArrayList<>();
         private List<CodeableConcept> usedCode = new ArrayList<>();
-
-        private Builder(ProcedureStatus status, Reference subject) {
-            super();
-            this.status = status;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -1084,6 +1074,22 @@ public class Procedure extends DomainResource {
 
         /**
          * <p>
+         * A code specifying the state of the procedure. Generally, this will be the in-progress or completed state.
+         * </p>
+         * 
+         * @param status
+         *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ProcedureStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Captures the reason for the current state of the procedure.
          * </p>
          * 
@@ -1128,6 +1134,22 @@ public class Procedure extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The person, animal or group on which the procedure was performed.
+         * </p>
+         * 
+         * @param subject
+         *     Who the procedure was performed on
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1726,23 +1748,18 @@ public class Procedure extends DomainResource {
             return new Procedure(this);
         }
 
-        private Builder from(Procedure procedure) {
-            id = procedure.id;
-            meta = procedure.meta;
-            implicitRules = procedure.implicitRules;
-            language = procedure.language;
-            text = procedure.text;
-            contained.addAll(procedure.contained);
-            extension.addAll(procedure.extension);
-            modifierExtension.addAll(procedure.modifierExtension);
+        protected Builder from(Procedure procedure) {
+            super.from(procedure);
             identifier.addAll(procedure.identifier);
             instantiatesCanonical.addAll(procedure.instantiatesCanonical);
             instantiatesUri.addAll(procedure.instantiatesUri);
             basedOn.addAll(procedure.basedOn);
             partOf.addAll(procedure.partOf);
+            status = procedure.status;
             statusReason = procedure.statusReason;
             category = procedure.category;
             code = procedure.code;
+            subject = procedure.subject;
             encounter = procedure.encounter;
             performed = procedure.performed;
             recorder = procedure.recorder;
@@ -1885,29 +1902,19 @@ public class Procedure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept function;
+            private Reference actor;
             private Reference onBehalfOf;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
 
             /**
              * <p>
@@ -2045,6 +2052,22 @@ public class Procedure extends DomainResource {
 
             /**
              * <p>
+             * The practitioner who was involved in the procedure.
+             * </p>
+             * 
+             * @param actor
+             *     The reference to the practitioner
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
+            /**
+             * <p>
              * The organization the device or practitioner was acting on behalf of.
              * </p>
              * 
@@ -2064,11 +2087,10 @@ public class Procedure extends DomainResource {
                 return new Performer(this);
             }
 
-            private Builder from(Performer performer) {
-                id = performer.id;
-                extension.addAll(performer.extension);
-                modifierExtension.addAll(performer.modifierExtension);
+            protected Builder from(Performer performer) {
+                super.from(performer);
                 function = performer.function;
+                actor = performer.actor;
                 onBehalfOf = performer.onBehalfOf;
                 return this;
             }
@@ -2177,28 +2199,18 @@ public class Procedure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(manipulated).from(this);
-        }
-
-        public Builder toBuilder(Reference manipulated) {
-            return new Builder(manipulated).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference manipulated) {
-            return new Builder(manipulated);
+            Builder builder = new Builder();
+            builder.manipulated(manipulated);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference manipulated;
-
-            // optional
             private CodeableConcept action;
-
-            private Builder(Reference manipulated) {
-                super();
-                this.manipulated = manipulated;
-            }
+            private Reference manipulated;
 
             /**
              * <p>
@@ -2333,16 +2345,31 @@ public class Procedure extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The device that was manipulated (changed) during the procedure.
+             * </p>
+             * 
+             * @param manipulated
+             *     Device that was changed
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder manipulated(Reference manipulated) {
+                this.manipulated = manipulated;
+                return this;
+            }
+
             @Override
             public FocalDevice build() {
                 return new FocalDevice(this);
             }
 
-            private Builder from(FocalDevice focalDevice) {
-                id = focalDevice.id;
-                extension.addAll(focalDevice.extension);
-                modifierExtension.addAll(focalDevice.modifierExtension);
+            protected Builder from(FocalDevice focalDevice) {
+                super.from(focalDevice);
                 action = focalDevice.action;
+                manipulated = focalDevice.manipulated;
                 return this;
             }
         }

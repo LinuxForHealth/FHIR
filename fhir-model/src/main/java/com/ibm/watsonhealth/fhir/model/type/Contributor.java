@@ -135,30 +135,20 @@ public class Contributor extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, name).from(this);
-    }
-
-    public Builder toBuilder(ContributorType type, String name) {
-        return new Builder(type, name).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ContributorType type, String name) {
-        return new Builder(type, name);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.name(name);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final ContributorType type;
-        private final String name;
-
-        // optional
+        private ContributorType type;
+        private String name;
         private List<ContactDetail> contact = new ArrayList<>();
-
-        private Builder(ContributorType type, String name) {
-            super();
-            this.type = type;
-            this.name = name;
-        }
 
         /**
          * <p>
@@ -223,6 +213,38 @@ public class Contributor extends Element {
 
         /**
          * <p>
+         * The type of contributor.
+         * </p>
+         * 
+         * @param type
+         *     author | editor | reviewer | endorser
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(ContributorType type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The name of the individual or organization responsible for the contribution.
+         * </p>
+         * 
+         * @param name
+         *     Who contributed the content
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
          * Contact details to assist a user in finding and communicating with the contributor.
          * </p>
          * <p>
@@ -266,9 +288,10 @@ public class Contributor extends Element {
             return new Contributor(this);
         }
 
-        private Builder from(Contributor contributor) {
-            id = contributor.id;
-            extension.addAll(contributor.extension);
+        protected Builder from(Contributor contributor) {
+            super.from(contributor);
+            type = contributor.type;
+            name = contributor.name;
             contact.addAll(contributor.contact);
             return this;
         }

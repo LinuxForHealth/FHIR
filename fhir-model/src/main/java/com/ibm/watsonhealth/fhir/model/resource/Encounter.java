@@ -515,25 +515,21 @@ public class Encounter extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, clazz).from(this);
-    }
-
-    public Builder toBuilder(EncounterStatus status, Coding clazz) {
-        return new Builder(status, clazz).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(EncounterStatus status, Coding clazz) {
-        return new Builder(status, clazz);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.clazz(clazz);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final EncounterStatus status;
-        private final Coding clazz;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private EncounterStatus status;
         private List<StatusHistory> statusHistory = new ArrayList<>();
+        private Coding clazz;
         private List<ClassHistory> classHistory = new ArrayList<>();
         private List<CodeableConcept> type = new ArrayList<>();
         private CodeableConcept serviceType;
@@ -553,12 +549,6 @@ public class Encounter extends DomainResource {
         private List<Location> location = new ArrayList<>();
         private Reference serviceProvider;
         private Reference partOf;
-
-        private Builder(EncounterStatus status, Coding clazz) {
-            super();
-            this.status = status;
-            this.clazz = clazz;
-        }
 
         /**
          * <p>
@@ -828,6 +818,22 @@ public class Encounter extends DomainResource {
 
         /**
          * <p>
+         * planned | arrived | triaged | in-progress | onleave | finished | cancelled +.
+         * </p>
+         * 
+         * @param status
+         *     planned | arrived | triaged | in-progress | onleave | finished | cancelled +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(EncounterStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The status history permits the encounter resource to contain the status history without needing to read through the 
          * historical versions of the resource, or even have the server store them.
          * </p>
@@ -865,6 +871,23 @@ public class Encounter extends DomainResource {
          */
         public Builder statusHistory(Collection<StatusHistory> statusHistory) {
             this.statusHistory = new ArrayList<>(statusHistory);
+            return this;
+        }
+
+        /**
+         * <p>
+         * Concepts representing classification of patient encounter such as ambulatory (outpatient), inpatient, emergency, home 
+         * health or others due to local variations.
+         * </p>
+         * 
+         * @param clazz
+         *     Classification of patient encounter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder clazz(Coding clazz) {
+            this.clazz = clazz;
             return this;
         }
 
@@ -1464,17 +1487,12 @@ public class Encounter extends DomainResource {
             return new Encounter(this);
         }
 
-        private Builder from(Encounter encounter) {
-            id = encounter.id;
-            meta = encounter.meta;
-            implicitRules = encounter.implicitRules;
-            language = encounter.language;
-            text = encounter.text;
-            contained.addAll(encounter.contained);
-            extension.addAll(encounter.extension);
-            modifierExtension.addAll(encounter.modifierExtension);
+        protected Builder from(Encounter encounter) {
+            super.from(encounter);
             identifier.addAll(encounter.identifier);
+            status = encounter.status;
             statusHistory.addAll(encounter.statusHistory);
+            clazz = encounter.clazz;
             classHistory.addAll(encounter.classHistory);
             type.addAll(encounter.type);
             serviceType = encounter.serviceType;
@@ -1600,27 +1618,19 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(status, period).from(this);
-        }
-
-        public Builder toBuilder(EncounterStatus status, Period period) {
-            return new Builder(status, period).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(EncounterStatus status, Period period) {
-            return new Builder(status, period);
+            Builder builder = new Builder();
+            builder.status(status);
+            builder.period(period);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final EncounterStatus status;
-            private final Period period;
-
-            private Builder(EncounterStatus status, Period period) {
-                super();
-                this.status = status;
-                this.period = period;
-            }
+            private EncounterStatus status;
+            private Period period;
 
             /**
              * <p>
@@ -1739,15 +1749,47 @@ public class Encounter extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * planned | arrived | triaged | in-progress | onleave | finished | cancelled +.
+             * </p>
+             * 
+             * @param status
+             *     planned | arrived | triaged | in-progress | onleave | finished | cancelled +
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder status(EncounterStatus status) {
+                this.status = status;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The time that the episode was in the specified status.
+             * </p>
+             * 
+             * @param period
+             *     The time that the episode was in the specified status
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder period(Period period) {
+                this.period = period;
+                return this;
+            }
+
             @Override
             public StatusHistory build() {
                 return new StatusHistory(this);
             }
 
-            private Builder from(StatusHistory statusHistory) {
-                id = statusHistory.id;
-                extension.addAll(statusHistory.extension);
-                modifierExtension.addAll(statusHistory.modifierExtension);
+            protected Builder from(StatusHistory statusHistory) {
+                super.from(statusHistory);
+                status = statusHistory.status;
+                period = statusHistory.period;
                 return this;
             }
         }
@@ -1858,27 +1900,19 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(clazz, period).from(this);
-        }
-
-        public Builder toBuilder(Coding clazz, Period period) {
-            return new Builder(clazz, period).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Coding clazz, Period period) {
-            return new Builder(clazz, period);
+            Builder builder = new Builder();
+            builder.clazz(clazz);
+            builder.period(period);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Coding clazz;
-            private final Period period;
-
-            private Builder(Coding clazz, Period period) {
-                super();
-                this.clazz = clazz;
-                this.period = period;
-            }
+            private Coding clazz;
+            private Period period;
 
             /**
              * <p>
@@ -1997,15 +2031,47 @@ public class Encounter extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * inpatient | outpatient | ambulatory | emergency +.
+             * </p>
+             * 
+             * @param clazz
+             *     inpatient | outpatient | ambulatory | emergency +
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder clazz(Coding clazz) {
+                this.clazz = clazz;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The time that the episode was in the specified class.
+             * </p>
+             * 
+             * @param period
+             *     The time that the episode was in the specified class
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder period(Period period) {
+                this.period = period;
+                return this;
+            }
+
             @Override
             public ClassHistory build() {
                 return new ClassHistory(this);
             }
 
-            private Builder from(ClassHistory classHistory) {
-                id = classHistory.id;
-                extension.addAll(classHistory.extension);
-                modifierExtension.addAll(classHistory.modifierExtension);
+            protected Builder from(ClassHistory classHistory) {
+                super.from(classHistory);
+                clazz = classHistory.clazz;
+                period = classHistory.period;
                 return this;
             }
         }
@@ -2135,18 +2201,14 @@ public class Encounter extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> type = new ArrayList<>();
             private Period period;
             private Reference individual;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2343,10 +2405,8 @@ public class Encounter extends DomainResource {
                 return new Participant(this);
             }
 
-            private Builder from(Participant participant) {
-                id = participant.id;
-                extension.addAll(participant.extension);
-                modifierExtension.addAll(participant.modifierExtension);
+            protected Builder from(Participant participant) {
+                super.from(participant);
                 type.addAll(participant.type);
                 period = participant.period;
                 individual = participant.individual;
@@ -2476,29 +2536,19 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(condition).from(this);
-        }
-
-        public Builder toBuilder(Reference condition) {
-            return new Builder(condition).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference condition) {
-            return new Builder(condition);
+            Builder builder = new Builder();
+            builder.condition(condition);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference condition;
-
-            // optional
+            private Reference condition;
             private CodeableConcept use;
             private PositiveInt rank;
-
-            private Builder(Reference condition) {
-                super();
-                this.condition = condition;
-            }
 
             /**
              * <p>
@@ -2619,6 +2669,24 @@ public class Encounter extends DomainResource {
 
             /**
              * <p>
+             * Reason the encounter takes place, as specified using information from another resource. For admissions, this is the 
+             * admission diagnosis. The indication will typically be a Condition (with other resources referenced in the evidence.
+             * detail), or a Procedure.
+             * </p>
+             * 
+             * @param condition
+             *     The diagnosis or procedure relevant to the encounter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder condition(Reference condition) {
+                this.condition = condition;
+                return this;
+            }
+
+            /**
+             * <p>
              * Role that this diagnosis has within the encounter (e.g. admission, billing, discharge …).
              * </p>
              * 
@@ -2654,10 +2722,9 @@ public class Encounter extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private Builder from(Diagnosis diagnosis) {
-                id = diagnosis.id;
-                extension.addAll(diagnosis.extension);
-                modifierExtension.addAll(diagnosis.modifierExtension);
+            protected Builder from(Diagnosis diagnosis) {
+                super.from(diagnosis);
+                condition = diagnosis.condition;
                 use = diagnosis.use;
                 rank = diagnosis.rank;
                 return this;
@@ -2897,11 +2964,11 @@ public class Encounter extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Identifier preAdmissionIdentifier;
             private Reference origin;
             private CodeableConcept admitSource;
@@ -2911,10 +2978,6 @@ public class Encounter extends DomainResource {
             private List<CodeableConcept> specialArrangement = new ArrayList<>();
             private Reference destination;
             private CodeableConcept dischargeDisposition;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3257,10 +3320,8 @@ public class Encounter extends DomainResource {
                 return new Hospitalization(this);
             }
 
-            private Builder from(Hospitalization hospitalization) {
-                id = hospitalization.id;
-                extension.addAll(hospitalization.extension);
-                modifierExtension.addAll(hospitalization.modifierExtension);
+            protected Builder from(Hospitalization hospitalization) {
+                super.from(hospitalization);
                 preAdmissionIdentifier = hospitalization.preAdmissionIdentifier;
                 origin = hospitalization.origin;
                 admitSource = hospitalization.admitSource;
@@ -3414,30 +3475,20 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(location).from(this);
-        }
-
-        public Builder toBuilder(Reference location) {
-            return new Builder(location).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference location) {
-            return new Builder(location);
+            Builder builder = new Builder();
+            builder.location(location);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference location;
-
-            // optional
+            private Reference location;
             private EncounterLocationStatus status;
             private CodeableConcept physicalType;
             private Period period;
-
-            private Builder(Reference location) {
-                super();
-                this.location = location;
-            }
 
             /**
              * <p>
@@ -3558,6 +3609,22 @@ public class Encounter extends DomainResource {
 
             /**
              * <p>
+             * The location where the encounter takes place.
+             * </p>
+             * 
+             * @param location
+             *     Location the encounter takes place
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder location(Reference location) {
+                this.location = location;
+                return this;
+            }
+
+            /**
+             * <p>
              * The status of the participants' presence at the specified location during the period specified. If the participant is 
              * no longer at the location, then the period will have an end date/time.
              * </p>
@@ -3611,10 +3678,9 @@ public class Encounter extends DomainResource {
                 return new Location(this);
             }
 
-            private Builder from(Location location) {
-                id = location.id;
-                extension.addAll(location.extension);
-                modifierExtension.addAll(location.modifierExtension);
+            protected Builder from(Location location) {
+                super.from(location);
+                this.location = location.location;
                 status = location.status;
                 physicalType = location.physicalType;
                 period = location.period;

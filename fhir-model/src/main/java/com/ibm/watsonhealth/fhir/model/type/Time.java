@@ -112,16 +112,12 @@ public class Time extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private LocalTime value;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -209,9 +205,8 @@ public class Time extends Element {
             return new Time(this);
         }
 
-        private Builder from(Time time) {
-            id = time.id;
-            extension.addAll(time.extension);
+        protected Builder from(Time time) {
+            super.from(time);
             value = time.value;
             return this;
         }

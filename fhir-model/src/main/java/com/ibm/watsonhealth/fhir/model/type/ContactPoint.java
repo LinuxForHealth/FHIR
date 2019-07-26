@@ -184,20 +184,16 @@ public class ContactPoint extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private ContactPointSystem system;
         private String value;
         private ContactPointUse use;
         private PositiveInt rank;
         private Period period;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -347,9 +343,8 @@ public class ContactPoint extends Element {
             return new ContactPoint(this);
         }
 
-        private Builder from(ContactPoint contactPoint) {
-            id = contactPoint.id;
-            extension.addAll(contactPoint.extension);
+        protected Builder from(ContactPoint contactPoint) {
+            super.from(contactPoint);
             system = contactPoint.system;
             value = contactPoint.value;
             use = contactPoint.use;

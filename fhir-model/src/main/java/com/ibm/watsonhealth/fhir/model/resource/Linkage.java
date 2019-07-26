@@ -163,29 +163,19 @@ public class Linkage extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(item).from(this);
-    }
-
-    public Builder toBuilder(Collection<Item> item) {
-        return new Builder(item).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Collection<Item> item) {
-        return new Builder(item);
+        Builder builder = new Builder();
+        builder.item(item);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final List<Item> item;
-
-        // optional
         private Boolean active;
         private Reference author;
-
-        private Builder(Collection<Item> item) {
-            super();
-            this.item = new ArrayList<>(item);
-        }
+        private List<Item> item = new ArrayList<>();
 
         /**
          * <p>
@@ -446,22 +436,58 @@ public class Linkage extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
+         * be evaluated within the collection of linked items.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param item
+         *     Item to be linked
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder item(Item... item) {
+            for (Item value : item) {
+                this.item.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
+         * be evaluated within the collection of linked items.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param item
+         *     Item to be linked
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder item(Collection<Item> item) {
+            this.item = new ArrayList<>(item);
+            return this;
+        }
+
         @Override
         public Linkage build() {
             return new Linkage(this);
         }
 
-        private Builder from(Linkage linkage) {
-            id = linkage.id;
-            meta = linkage.meta;
-            implicitRules = linkage.implicitRules;
-            language = linkage.language;
-            text = linkage.text;
-            contained.addAll(linkage.contained);
-            extension.addAll(linkage.extension);
-            modifierExtension.addAll(linkage.modifierExtension);
+        protected Builder from(Linkage linkage) {
+            super.from(linkage);
             active = linkage.active;
             author = linkage.author;
+            item.addAll(linkage.item);
             return this;
         }
     }
@@ -569,27 +595,19 @@ public class Linkage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, resource).from(this);
-        }
-
-        public Builder toBuilder(LinkageType type, Reference resource) {
-            return new Builder(type, resource).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(LinkageType type, Reference resource) {
-            return new Builder(type, resource);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.resource(resource);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final LinkageType type;
-            private final Reference resource;
-
-            private Builder(LinkageType type, Reference resource) {
-                super();
-                this.type = type;
-                this.resource = resource;
-            }
+            private LinkageType type;
+            private Reference resource;
 
             /**
              * <p>
@@ -708,15 +726,48 @@ public class Linkage extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Distinguishes which item is "source of truth" (if any) and which items are no longer considered to be current 
+             * representations.
+             * </p>
+             * 
+             * @param type
+             *     source | alternate | historical
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(LinkageType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The resource instance being linked as part of the group.
+             * </p>
+             * 
+             * @param resource
+             *     Resource being linked
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resource(Reference resource) {
+                this.resource = resource;
+                return this;
+            }
+
             @Override
             public Item build() {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
+                type = item.type;
+                resource = item.resource;
                 return this;
             }
         }

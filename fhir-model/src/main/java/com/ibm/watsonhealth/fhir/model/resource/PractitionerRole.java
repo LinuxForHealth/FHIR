@@ -352,11 +352,11 @@ public class PractitionerRole extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private Period period;
@@ -371,10 +371,6 @@ public class PractitionerRole extends DomainResource {
         private List<NotAvailable> notAvailable = new ArrayList<>();
         private String availabilityExceptions;
         private List<Reference> endpoint = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1048,15 +1044,8 @@ public class PractitionerRole extends DomainResource {
             return new PractitionerRole(this);
         }
 
-        private Builder from(PractitionerRole practitionerRole) {
-            id = practitionerRole.id;
-            meta = practitionerRole.meta;
-            implicitRules = practitionerRole.implicitRules;
-            language = practitionerRole.language;
-            text = practitionerRole.text;
-            contained.addAll(practitionerRole.contained);
-            extension.addAll(practitionerRole.extension);
-            modifierExtension.addAll(practitionerRole.modifierExtension);
+        protected Builder from(PractitionerRole practitionerRole) {
+            super.from(practitionerRole);
             identifier.addAll(practitionerRole.identifier);
             active = practitionerRole.active;
             period = practitionerRole.period;
@@ -1216,19 +1205,15 @@ public class PractitionerRole extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<DaysOfWeek> daysOfWeek = new ArrayList<>();
             private Boolean allDay;
             private Time availableStartTime;
             private Time availableEndTime;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1440,10 +1425,8 @@ public class PractitionerRole extends DomainResource {
                 return new AvailableTime(this);
             }
 
-            private Builder from(AvailableTime availableTime) {
-                id = availableTime.id;
-                extension.addAll(availableTime.extension);
-                modifierExtension.addAll(availableTime.modifierExtension);
+            protected Builder from(AvailableTime availableTime) {
+                super.from(availableTime);
                 daysOfWeek.addAll(availableTime.daysOfWeek);
                 allDay = availableTime.allDay;
                 availableStartTime = availableTime.availableStartTime;
@@ -1554,28 +1537,18 @@ public class PractitionerRole extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(description).from(this);
-        }
-
-        public Builder toBuilder(String description) {
-            return new Builder(description).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String description) {
-            return new Builder(description);
+            Builder builder = new Builder();
+            builder.description(description);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String description;
-
-            // optional
+            private String description;
             private Period during;
-
-            private Builder(String description) {
-                super();
-                this.description = description;
-            }
 
             /**
              * <p>
@@ -1696,6 +1669,22 @@ public class PractitionerRole extends DomainResource {
 
             /**
              * <p>
+             * The reason that can be presented to the user as to why this time is not available.
+             * </p>
+             * 
+             * @param description
+             *     Reason presented to the user explaining why time not available
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(String description) {
+                this.description = description;
+                return this;
+            }
+
+            /**
+             * <p>
              * Service is not available (seasonally or for a public holiday) from this date.
              * </p>
              * 
@@ -1715,10 +1704,9 @@ public class PractitionerRole extends DomainResource {
                 return new NotAvailable(this);
             }
 
-            private Builder from(NotAvailable notAvailable) {
-                id = notAvailable.id;
-                extension.addAll(notAvailable.extension);
-                modifierExtension.addAll(notAvailable.modifierExtension);
+            protected Builder from(NotAvailable notAvailable) {
+                super.from(notAvailable);
+                description = notAvailable.description;
                 during = notAvailable.during;
                 return this;
             }

@@ -317,23 +317,18 @@ public class DetectedIssue extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(DetectedIssueStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(DetectedIssueStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final DetectedIssueStatus status;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private DetectedIssueStatus status;
         private CodeableConcept code;
         private DetectedIssueSeverity severity;
         private Reference patient;
@@ -344,11 +339,6 @@ public class DetectedIssue extends DomainResource {
         private String detail;
         private Uri reference;
         private List<Mitigation> mitigation = new ArrayList<>();
-
-        private Builder(DetectedIssueStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -618,6 +608,22 @@ public class DetectedIssue extends DomainResource {
 
         /**
          * <p>
+         * Indicates the status of the detected issue.
+         * </p>
+         * 
+         * @param status
+         *     registered | preliminary | final | amended +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(DetectedIssueStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Identifies the general type of issue identified.
          * </p>
          * 
@@ -860,16 +866,10 @@ public class DetectedIssue extends DomainResource {
             return new DetectedIssue(this);
         }
 
-        private Builder from(DetectedIssue detectedIssue) {
-            id = detectedIssue.id;
-            meta = detectedIssue.meta;
-            implicitRules = detectedIssue.implicitRules;
-            language = detectedIssue.language;
-            text = detectedIssue.text;
-            contained.addAll(detectedIssue.contained);
-            extension.addAll(detectedIssue.extension);
-            modifierExtension.addAll(detectedIssue.modifierExtension);
+        protected Builder from(DetectedIssue detectedIssue) {
+            super.from(detectedIssue);
             identifier.addAll(detectedIssue.identifier);
+            status = detectedIssue.status;
             code = detectedIssue.code;
             severity = detectedIssue.severity;
             patient = detectedIssue.patient;
@@ -990,17 +990,13 @@ public class DetectedIssue extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> code = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1204,10 +1200,8 @@ public class DetectedIssue extends DomainResource {
                 return new Evidence(this);
             }
 
-            private Builder from(Evidence evidence) {
-                id = evidence.id;
-                extension.addAll(evidence.extension);
-                modifierExtension.addAll(evidence.modifierExtension);
+            protected Builder from(Evidence evidence) {
+                super.from(evidence);
                 code.addAll(evidence.code);
                 detail.addAll(evidence.detail);
                 return this;
@@ -1337,29 +1331,19 @@ public class DetectedIssue extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(action).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept action) {
-            return new Builder(action).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept action) {
-            return new Builder(action);
+            Builder builder = new Builder();
+            builder.action(action);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept action;
-
-            // optional
+            private CodeableConcept action;
             private DateTime date;
             private Reference author;
-
-            private Builder(CodeableConcept action) {
-                super();
-                this.action = action;
-            }
 
             /**
              * <p>
@@ -1480,6 +1464,23 @@ public class DetectedIssue extends DomainResource {
 
             /**
              * <p>
+             * Describes the action that was taken or the observation that was made that reduces/eliminates the risk associated with 
+             * the identified issue.
+             * </p>
+             * 
+             * @param action
+             *     What mitigation?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder action(CodeableConcept action) {
+                this.action = action;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates when the mitigating action was documented.
              * </p>
              * 
@@ -1515,10 +1516,9 @@ public class DetectedIssue extends DomainResource {
                 return new Mitigation(this);
             }
 
-            private Builder from(Mitigation mitigation) {
-                id = mitigation.id;
-                extension.addAll(mitigation.extension);
-                modifierExtension.addAll(mitigation.modifierExtension);
+            protected Builder from(Mitigation mitigation) {
+                super.from(mitigation);
+                action = mitigation.action;
                 date = mitigation.date;
                 author = mitigation.author;
                 return this;

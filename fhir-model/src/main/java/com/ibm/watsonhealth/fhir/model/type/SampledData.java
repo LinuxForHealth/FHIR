@@ -209,35 +209,25 @@ public class SampledData extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(origin, period, dimensions).from(this);
-    }
-
-    public Builder toBuilder(Quantity origin, Decimal period, PositiveInt dimensions) {
-        return new Builder(origin, period, dimensions).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Quantity origin, Decimal period, PositiveInt dimensions) {
-        return new Builder(origin, period, dimensions);
+        Builder builder = new Builder();
+        builder.origin(origin);
+        builder.period(period);
+        builder.dimensions(dimensions);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final Quantity origin;
-        private final Decimal period;
-        private final PositiveInt dimensions;
-
-        // optional
+        private Quantity origin;
+        private Decimal period;
         private Decimal factor;
         private Decimal lowerLimit;
         private Decimal upperLimit;
+        private PositiveInt dimensions;
         private String data;
-
-        private Builder(Quantity origin, Decimal period, PositiveInt dimensions) {
-            super();
-            this.origin = origin;
-            this.period = period;
-            this.dimensions = dimensions;
-        }
 
         /**
          * <p>
@@ -302,6 +292,39 @@ public class SampledData extends Element {
 
         /**
          * <p>
+         * The base quantity that a measured value of zero represents. In addition, this provides the units of the entire 
+         * measurement series.
+         * </p>
+         * 
+         * @param origin
+         *     Zero value and units
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder origin(Quantity origin) {
+            this.origin = origin;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The length of time between sampling times, measured in milliseconds.
+         * </p>
+         * 
+         * @param period
+         *     Number of milliseconds between samples
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder period(Decimal period) {
+            this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
          * A correction factor that is applied to the sampled data points before they are added to the origin.
          * </p>
          * 
@@ -352,6 +375,23 @@ public class SampledData extends Element {
 
         /**
          * <p>
+         * The number of sample points at each time point. If this value is greater than one, then the dimensions will be 
+         * interlaced - all the sample points for a point in time will be recorded at once.
+         * </p>
+         * 
+         * @param dimensions
+         *     Number of sample points at each time point
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder dimensions(PositiveInt dimensions) {
+            this.dimensions = dimensions;
+            return this;
+        }
+
+        /**
+         * <p>
          * A series of data points which are decimal values separated by a single space (character u20). The special values "E" 
          * (error), "L" (below detection limit) and "U" (above detection limit) can also be used in place of a decimal value.
          * </p>
@@ -372,12 +412,14 @@ public class SampledData extends Element {
             return new SampledData(this);
         }
 
-        private Builder from(SampledData sampledData) {
-            id = sampledData.id;
-            extension.addAll(sampledData.extension);
+        protected Builder from(SampledData sampledData) {
+            super.from(sampledData);
+            origin = sampledData.origin;
+            period = sampledData.period;
             factor = sampledData.factor;
             lowerLimit = sampledData.lowerLimit;
             upperLimit = sampledData.upperLimit;
+            dimensions = sampledData.dimensions;
             data = sampledData.data;
             return this;
         }

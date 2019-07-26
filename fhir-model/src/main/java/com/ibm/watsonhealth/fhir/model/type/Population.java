@@ -156,19 +156,15 @@ public class Population extends BackboneElement {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // optional
         private Element age;
         private CodeableConcept gender;
         private CodeableConcept race;
         private CodeableConcept physiologicalCondition;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -356,10 +352,8 @@ public class Population extends BackboneElement {
             return new Population(this);
         }
 
-        private Builder from(Population population) {
-            id = population.id;
-            extension.addAll(population.extension);
-            modifierExtension.addAll(population.modifierExtension);
+        protected Builder from(Population population) {
+            super.from(population);
             age = population.age;
             gender = population.gender;
             race = population.race;

@@ -944,28 +944,23 @@ public class ActivityDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private String subtitle;
+        private PublicationStatus status;
         private Boolean experimental;
         private Element subject;
         private DateTime date;
@@ -1005,11 +1000,6 @@ public class ActivityDefinition extends DomainResource {
         private List<Reference> observationResultRequirement = new ArrayList<>();
         private Canonical transform;
         private List<DynamicValue> dynamicValue = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -1367,6 +1357,22 @@ public class ActivityDefinition extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this activity definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -2428,21 +2434,15 @@ public class ActivityDefinition extends DomainResource {
             return new ActivityDefinition(this);
         }
 
-        private Builder from(ActivityDefinition activityDefinition) {
-            id = activityDefinition.id;
-            meta = activityDefinition.meta;
-            implicitRules = activityDefinition.implicitRules;
-            language = activityDefinition.language;
-            text = activityDefinition.text;
-            contained.addAll(activityDefinition.contained);
-            extension.addAll(activityDefinition.extension);
-            modifierExtension.addAll(activityDefinition.modifierExtension);
+        protected Builder from(ActivityDefinition activityDefinition) {
+            super.from(activityDefinition);
             url = activityDefinition.url;
             identifier.addAll(activityDefinition.identifier);
             version = activityDefinition.version;
             name = activityDefinition.name;
             title = activityDefinition.title;
             subtitle = activityDefinition.subtitle;
+            status = activityDefinition.status;
             experimental = activityDefinition.experimental;
             subject = activityDefinition.subject;
             date = activityDefinition.date;
@@ -2587,28 +2587,18 @@ public class ActivityDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(ActivityParticipantType type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ActivityParticipantType type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ActivityParticipantType type;
-
-            // optional
+            private ActivityParticipantType type;
             private CodeableConcept role;
-
-            private Builder(ActivityParticipantType type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -2729,6 +2719,22 @@ public class ActivityDefinition extends DomainResource {
 
             /**
              * <p>
+             * The type of participant in the action.
+             * </p>
+             * 
+             * @param type
+             *     patient | practitioner | related-person | device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(ActivityParticipantType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * The role the participant should play in performing the described action.
              * </p>
              * 
@@ -2748,10 +2754,9 @@ public class ActivityDefinition extends DomainResource {
                 return new Participant(this);
             }
 
-            private Builder from(Participant participant) {
-                id = participant.id;
-                extension.addAll(participant.extension);
-                modifierExtension.addAll(participant.modifierExtension);
+            protected Builder from(Participant participant) {
+                super.from(participant);
+                type = participant.type;
                 role = participant.role;
                 return this;
             }
@@ -2865,27 +2870,19 @@ public class ActivityDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(path, expression).from(this);
-        }
-
-        public Builder toBuilder(String path, Expression expression) {
-            return new Builder(path, expression).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String path, Expression expression) {
-            return new Builder(path, expression);
+            Builder builder = new Builder();
+            builder.path(path);
+            builder.expression(expression);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String path;
-            private final Expression expression;
-
-            private Builder(String path, Expression expression) {
-                super();
-                this.path = path;
-                this.expression = expression;
-            }
+            private String path;
+            private Expression expression;
 
             /**
              * <p>
@@ -3004,15 +3001,51 @@ public class ActivityDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The path to the element to be customized. This is the path on the resource that will hold the result of the 
+             * calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type 
+             * of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of 
+             * functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to 
+             * traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).
+             * </p>
+             * 
+             * @param path
+             *     The path to the element to be set dynamically
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(String path) {
+                this.path = path;
+                return this;
+            }
+
+            /**
+             * <p>
+             * An expression specifying the value of the customized element.
+             * </p>
+             * 
+             * @param expression
+             *     An expression that provides the dynamic value for the customization
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(Expression expression) {
+                this.expression = expression;
+                return this;
+            }
+
             @Override
             public DynamicValue build() {
                 return new DynamicValue(this);
             }
 
-            private Builder from(DynamicValue dynamicValue) {
-                id = dynamicValue.id;
-                extension.addAll(dynamicValue.extension);
-                modifierExtension.addAll(dynamicValue.modifierExtension);
+            protected Builder from(DynamicValue dynamicValue) {
+                super.from(dynamicValue);
+                path = dynamicValue.path;
+                expression = dynamicValue.expression;
                 return this;
             }
         }

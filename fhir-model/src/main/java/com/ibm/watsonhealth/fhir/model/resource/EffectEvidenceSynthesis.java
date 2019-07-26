@@ -702,31 +702,26 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, population, exposure, exposureAlternative, outcome).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
-        return new Builder(status, population, exposure, exposureAlternative, outcome).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
-        return new Builder(status, population, exposure, exposureAlternative, outcome);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.population(population);
+        builder.exposure(exposure);
+        builder.exposureAlternative(exposureAlternative);
+        builder.outcome(outcome);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final Reference population;
-        private final Reference exposure;
-        private final Reference exposureAlternative;
-        private final Reference outcome;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
@@ -746,19 +741,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private CodeableConcept synthesisType;
         private CodeableConcept studyType;
+        private Reference population;
+        private Reference exposure;
+        private Reference exposureAlternative;
+        private Reference outcome;
         private SampleSize sampleSize;
         private List<ResultsByExposure> resultsByExposure = new ArrayList<>();
         private List<EffectEstimate> effectEstimate = new ArrayList<>();
         private List<Certainty> certainty = new ArrayList<>();
-
-        private Builder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
-            super();
-            this.status = status;
-            this.population = population;
-            this.exposure = exposure;
-            this.exposureAlternative = exposureAlternative;
-            this.outcome = outcome;
-        }
 
         /**
          * <p>
@@ -1097,6 +1087,22 @@ public class EffectEvidenceSynthesis extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this effect evidence synthesis. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1657,6 +1663,70 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         /**
          * <p>
+         * A reference to a EvidenceVariable resource that defines the population for the research.
+         * </p>
+         * 
+         * @param population
+         *     What population?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder population(Reference population) {
+            this.population = population;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to a EvidenceVariable resource that defines the exposure for the research.
+         * </p>
+         * 
+         * @param exposure
+         *     What exposure?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder exposure(Reference exposure) {
+            this.exposure = exposure;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to a EvidenceVariable resource that defines the comparison exposure for the research.
+         * </p>
+         * 
+         * @param exposureAlternative
+         *     What comparison exposure?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder exposureAlternative(Reference exposureAlternative) {
+            this.exposureAlternative = exposureAlternative;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to a EvidenceVariable resomece that defines the outcome for the research.
+         * </p>
+         * 
+         * @param outcome
+         *     What outcome?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder outcome(Reference outcome) {
+            this.outcome = outcome;
+            return this;
+        }
+
+        /**
+         * <p>
          * A description of the size of the sample involved in the synthesis.
          * </p>
          * 
@@ -1796,20 +1866,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
             return new EffectEvidenceSynthesis(this);
         }
 
-        private Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
-            id = effectEvidenceSynthesis.id;
-            meta = effectEvidenceSynthesis.meta;
-            implicitRules = effectEvidenceSynthesis.implicitRules;
-            language = effectEvidenceSynthesis.language;
-            text = effectEvidenceSynthesis.text;
-            contained.addAll(effectEvidenceSynthesis.contained);
-            extension.addAll(effectEvidenceSynthesis.extension);
-            modifierExtension.addAll(effectEvidenceSynthesis.modifierExtension);
+        protected Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
+            super.from(effectEvidenceSynthesis);
             url = effectEvidenceSynthesis.url;
             identifier.addAll(effectEvidenceSynthesis.identifier);
             version = effectEvidenceSynthesis.version;
             name = effectEvidenceSynthesis.name;
             title = effectEvidenceSynthesis.title;
+            status = effectEvidenceSynthesis.status;
             date = effectEvidenceSynthesis.date;
             publisher = effectEvidenceSynthesis.publisher;
             contact.addAll(effectEvidenceSynthesis.contact);
@@ -1829,6 +1893,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
             relatedArtifact.addAll(effectEvidenceSynthesis.relatedArtifact);
             synthesisType = effectEvidenceSynthesis.synthesisType;
             studyType = effectEvidenceSynthesis.studyType;
+            population = effectEvidenceSynthesis.population;
+            exposure = effectEvidenceSynthesis.exposure;
+            exposureAlternative = effectEvidenceSynthesis.exposureAlternative;
+            outcome = effectEvidenceSynthesis.outcome;
             sampleSize = effectEvidenceSynthesis.sampleSize;
             resultsByExposure.addAll(effectEvidenceSynthesis.resultsByExposure);
             effectEstimate.addAll(effectEvidenceSynthesis.effectEstimate);
@@ -1960,18 +2028,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private Integer numberOfStudies;
             private Integer numberOfParticipants;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2143,10 +2207,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new SampleSize(this);
             }
 
-            private Builder from(SampleSize sampleSize) {
-                id = sampleSize.id;
-                extension.addAll(sampleSize.extension);
-                modifierExtension.addAll(sampleSize.modifierExtension);
+            protected Builder from(SampleSize sampleSize) {
+                super.from(sampleSize);
                 description = sampleSize.description;
                 numberOfStudies = sampleSize.numberOfStudies;
                 numberOfParticipants = sampleSize.numberOfParticipants;
@@ -2292,30 +2354,20 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(riskEvidenceSynthesis).from(this);
-        }
-
-        public Builder toBuilder(Reference riskEvidenceSynthesis) {
-            return new Builder(riskEvidenceSynthesis).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference riskEvidenceSynthesis) {
-            return new Builder(riskEvidenceSynthesis);
+            Builder builder = new Builder();
+            builder.riskEvidenceSynthesis(riskEvidenceSynthesis);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference riskEvidenceSynthesis;
-
-            // optional
             private String description;
             private ExposureState exposureState;
             private CodeableConcept variantState;
-
-            private Builder(Reference riskEvidenceSynthesis) {
-                super();
-                this.riskEvidenceSynthesis = riskEvidenceSynthesis;
-            }
+            private Reference riskEvidenceSynthesis;
 
             /**
              * <p>
@@ -2482,18 +2534,33 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Reference to a RiskEvidenceSynthesis resource.
+             * </p>
+             * 
+             * @param riskEvidenceSynthesis
+             *     Risk evidence synthesis
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder riskEvidenceSynthesis(Reference riskEvidenceSynthesis) {
+                this.riskEvidenceSynthesis = riskEvidenceSynthesis;
+                return this;
+            }
+
             @Override
             public ResultsByExposure build() {
                 return new ResultsByExposure(this);
             }
 
-            private Builder from(ResultsByExposure resultsByExposure) {
-                id = resultsByExposure.id;
-                extension.addAll(resultsByExposure.extension);
-                modifierExtension.addAll(resultsByExposure.modifierExtension);
+            protected Builder from(ResultsByExposure resultsByExposure) {
+                super.from(resultsByExposure);
                 description = resultsByExposure.description;
                 exposureState = resultsByExposure.exposureState;
                 variantState = resultsByExposure.variantState;
+                riskEvidenceSynthesis = resultsByExposure.riskEvidenceSynthesis;
                 return this;
             }
         }
@@ -2676,21 +2743,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private CodeableConcept type;
             private CodeableConcept variantState;
             private Decimal value;
             private CodeableConcept unitOfMeasure;
             private List<PrecisionEstimate> precisionEstimate = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2934,10 +2997,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new EffectEstimate(this);
             }
 
-            private Builder from(EffectEstimate effectEstimate) {
-                id = effectEstimate.id;
-                extension.addAll(effectEstimate.extension);
-                modifierExtension.addAll(effectEstimate.modifierExtension);
+            protected Builder from(EffectEstimate effectEstimate) {
+                super.from(effectEstimate);
                 description = effectEstimate.description;
                 type = effectEstimate.type;
                 variantState = effectEstimate.variantState;
@@ -3089,19 +3150,15 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept type;
                 private Decimal level;
                 private Decimal from;
                 private Decimal to;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3289,10 +3346,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     return new PrecisionEstimate(this);
                 }
 
-                private Builder from(PrecisionEstimate precisionEstimate) {
-                    id = precisionEstimate.id;
-                    extension.addAll(precisionEstimate.extension);
-                    modifierExtension.addAll(precisionEstimate.modifierExtension);
+                protected Builder from(PrecisionEstimate precisionEstimate) {
+                    super.from(precisionEstimate);
                     type = precisionEstimate.type;
                     level = precisionEstimate.level;
                     from = precisionEstimate.from;
@@ -3426,18 +3481,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> rating = new ArrayList<>();
             private List<Annotation> note = new ArrayList<>();
             private List<CertaintySubcomponent> certaintySubcomponent = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3681,10 +3732,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new Certainty(this);
             }
 
-            private Builder from(Certainty certainty) {
-                id = certainty.id;
-                extension.addAll(certainty.extension);
-                modifierExtension.addAll(certainty.modifierExtension);
+            protected Builder from(Certainty certainty) {
+                super.from(certainty);
                 rating.addAll(certainty.rating);
                 note.addAll(certainty.note);
                 certaintySubcomponent.addAll(certainty.certaintySubcomponent);
@@ -3815,18 +3864,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept type;
                 private List<CodeableConcept> rating = new ArrayList<>();
                 private List<Annotation> note = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4046,10 +4091,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     return new CertaintySubcomponent(this);
                 }
 
-                private Builder from(CertaintySubcomponent certaintySubcomponent) {
-                    id = certaintySubcomponent.id;
-                    extension.addAll(certaintySubcomponent.extension);
-                    modifierExtension.addAll(certaintySubcomponent.modifierExtension);
+                protected Builder from(CertaintySubcomponent certaintySubcomponent) {
+                    super.from(certaintySubcomponent);
                     type = certaintySubcomponent.type;
                     rating.addAll(certaintySubcomponent.rating);
                     note.addAll(certaintySubcomponent.note);

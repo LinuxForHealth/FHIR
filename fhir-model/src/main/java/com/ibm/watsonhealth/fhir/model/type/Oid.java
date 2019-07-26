@@ -79,14 +79,11 @@ public class Oid extends Uri {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Uri.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -168,10 +165,8 @@ public class Oid extends Uri {
             return new Oid(this);
         }
 
-        private Builder from(Oid oid) {
-            id = oid.id;
-            extension.addAll(oid.extension);
-            value = oid.value;
+        protected Builder from(Oid oid) {
+            super.from(oid);
             return this;
         }
     }

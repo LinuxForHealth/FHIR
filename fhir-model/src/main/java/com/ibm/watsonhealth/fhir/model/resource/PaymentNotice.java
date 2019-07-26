@@ -310,42 +310,32 @@ public class PaymentNotice extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, created, payment, recipient, amount).from(this);
-    }
-
-    public Builder toBuilder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
-        return new Builder(status, created, payment, recipient, amount).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
-        return new Builder(status, created, payment, recipient, amount);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.created(created);
+        builder.payment(payment);
+        builder.recipient(recipient);
+        builder.amount(amount);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PaymentNoticeStatus status;
-        private final DateTime created;
-        private final Reference payment;
-        private final Reference recipient;
-        private final Money amount;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private PaymentNoticeStatus status;
         private Reference request;
         private Reference response;
+        private DateTime created;
         private Reference provider;
+        private Reference payment;
         private Date paymentDate;
         private Reference payee;
+        private Reference recipient;
+        private Money amount;
         private CodeableConcept paymentStatus;
-
-        private Builder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
-            super();
-            this.status = status;
-            this.created = created;
-            this.payment = payment;
-            this.recipient = recipient;
-            this.amount = amount;
-        }
 
         /**
          * <p>
@@ -615,6 +605,22 @@ public class PaymentNotice extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PaymentNoticeStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Reference of resource for which payment is being made.
          * </p>
          * 
@@ -647,6 +653,22 @@ public class PaymentNotice extends DomainResource {
 
         /**
          * <p>
+         * The date when this resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        /**
+         * <p>
          * The practitioner who is responsible for the services rendered to the patient.
          * </p>
          * 
@@ -658,6 +680,22 @@ public class PaymentNotice extends DomainResource {
          */
         public Builder provider(Reference provider) {
             this.provider = provider;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A reference to the payment which is the subject of this notice.
+         * </p>
+         * 
+         * @param payment
+         *     Payment reference
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder payment(Reference payment) {
+            this.payment = payment;
             return this;
         }
 
@@ -695,6 +733,38 @@ public class PaymentNotice extends DomainResource {
 
         /**
          * <p>
+         * The party who is notified of the payment status.
+         * </p>
+         * 
+         * @param recipient
+         *     Party being notified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recipient(Reference recipient) {
+            this.recipient = recipient;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The amount sent to the payee.
+         * </p>
+         * 
+         * @param amount
+         *     Monetary amount of the payment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder amount(Money amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code indicating whether payment has been sent or cleared.
          * </p>
          * 
@@ -714,21 +784,19 @@ public class PaymentNotice extends DomainResource {
             return new PaymentNotice(this);
         }
 
-        private Builder from(PaymentNotice paymentNotice) {
-            id = paymentNotice.id;
-            meta = paymentNotice.meta;
-            implicitRules = paymentNotice.implicitRules;
-            language = paymentNotice.language;
-            text = paymentNotice.text;
-            contained.addAll(paymentNotice.contained);
-            extension.addAll(paymentNotice.extension);
-            modifierExtension.addAll(paymentNotice.modifierExtension);
+        protected Builder from(PaymentNotice paymentNotice) {
+            super.from(paymentNotice);
             identifier.addAll(paymentNotice.identifier);
+            status = paymentNotice.status;
             request = paymentNotice.request;
             response = paymentNotice.response;
+            created = paymentNotice.created;
             provider = paymentNotice.provider;
+            payment = paymentNotice.payment;
             paymentDate = paymentNotice.paymentDate;
             payee = paymentNotice.payee;
+            recipient = paymentNotice.recipient;
+            amount = paymentNotice.amount;
             paymentStatus = paymentNotice.paymentStatus;
             return this;
         }

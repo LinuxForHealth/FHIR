@@ -427,26 +427,22 @@ public class DiagnosticReport extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, code).from(this);
-    }
-
-    public Builder toBuilder(DiagnosticReportStatus status, CodeableConcept code) {
-        return new Builder(status, code).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(DiagnosticReportStatus status, CodeableConcept code) {
-        return new Builder(status, code);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.code(code);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final DiagnosticReportStatus status;
-        private final CodeableConcept code;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
+        private DiagnosticReportStatus status;
         private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
         private Reference subject;
         private Reference encounter;
         private Element effective;
@@ -460,12 +456,6 @@ public class DiagnosticReport extends DomainResource {
         private String conclusion;
         private List<CodeableConcept> conclusionCode = new ArrayList<>();
         private List<Attachment> presentedForm = new ArrayList<>();
-
-        private Builder(DiagnosticReportStatus status, CodeableConcept code) {
-            super();
-            this.status = status;
-            this.code = code;
-        }
 
         /**
          * <p>
@@ -775,6 +765,22 @@ public class DiagnosticReport extends DomainResource {
 
         /**
          * <p>
+         * The status of the diagnostic report.
+         * </p>
+         * 
+         * @param status
+         *     registered | partial | preliminary | final +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(DiagnosticReportStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * </p>
@@ -812,6 +818,22 @@ public class DiagnosticReport extends DomainResource {
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
+            return this;
+        }
+
+        /**
+         * <p>
+         * A code or name that describes this diagnostic report.
+         * </p>
+         * 
+         * @param code
+         *     Name/Code for this diagnostic report
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
             return this;
         }
 
@@ -1232,18 +1254,13 @@ public class DiagnosticReport extends DomainResource {
             return new DiagnosticReport(this);
         }
 
-        private Builder from(DiagnosticReport diagnosticReport) {
-            id = diagnosticReport.id;
-            meta = diagnosticReport.meta;
-            implicitRules = diagnosticReport.implicitRules;
-            language = diagnosticReport.language;
-            text = diagnosticReport.text;
-            contained.addAll(diagnosticReport.contained);
-            extension.addAll(diagnosticReport.extension);
-            modifierExtension.addAll(diagnosticReport.modifierExtension);
+        protected Builder from(DiagnosticReport diagnosticReport) {
+            super.from(diagnosticReport);
             identifier.addAll(diagnosticReport.identifier);
             basedOn.addAll(diagnosticReport.basedOn);
+            status = diagnosticReport.status;
             category.addAll(diagnosticReport.category);
+            code = diagnosticReport.code;
             subject = diagnosticReport.subject;
             encounter = diagnosticReport.encounter;
             effective = diagnosticReport.effective;
@@ -1364,28 +1381,18 @@ public class DiagnosticReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(link).from(this);
-        }
-
-        public Builder toBuilder(Reference link) {
-            return new Builder(link).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference link) {
-            return new Builder(link);
+            Builder builder = new Builder();
+            builder.link(link);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference link;
-
-            // optional
             private String comment;
-
-            private Builder(Reference link) {
-                super();
-                this.link = link;
-            }
+            private Reference link;
 
             /**
              * <p>
@@ -1521,16 +1528,31 @@ public class DiagnosticReport extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Reference to the image source.
+             * </p>
+             * 
+             * @param link
+             *     Reference to the image source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder link(Reference link) {
+                this.link = link;
+                return this;
+            }
+
             @Override
             public Media build() {
                 return new Media(this);
             }
 
-            private Builder from(Media media) {
-                id = media.id;
-                extension.addAll(media.extension);
-                modifierExtension.addAll(media.modifierExtension);
+            protected Builder from(Media media) {
+                super.from(media);
                 comment = media.comment;
+                link = media.link;
                 return this;
             }
         }

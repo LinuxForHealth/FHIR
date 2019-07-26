@@ -347,11 +347,11 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private CodeableConcept sourceMaterialClass;
         private CodeableConcept sourceMaterialType;
         private CodeableConcept sourceMaterialState;
@@ -365,10 +365,6 @@ public class SubstanceSourceMaterial extends DomainResource {
         private List<FractionDescription> fractionDescription = new ArrayList<>();
         private Organism organism;
         private List<PartDescription> partDescription = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -993,15 +989,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             return new SubstanceSourceMaterial(this);
         }
 
-        private Builder from(SubstanceSourceMaterial substanceSourceMaterial) {
-            id = substanceSourceMaterial.id;
-            meta = substanceSourceMaterial.meta;
-            implicitRules = substanceSourceMaterial.implicitRules;
-            language = substanceSourceMaterial.language;
-            text = substanceSourceMaterial.text;
-            contained.addAll(substanceSourceMaterial.contained);
-            extension.addAll(substanceSourceMaterial.extension);
-            modifierExtension.addAll(substanceSourceMaterial.modifierExtension);
+        protected Builder from(SubstanceSourceMaterial substanceSourceMaterial) {
+            super.from(substanceSourceMaterial);
             sourceMaterialClass = substanceSourceMaterial.sourceMaterialClass;
             sourceMaterialType = substanceSourceMaterial.sourceMaterialType;
             sourceMaterialState = substanceSourceMaterial.sourceMaterialState;
@@ -1130,17 +1119,13 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String fraction;
             private CodeableConcept materialType;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1298,10 +1283,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new FractionDescription(this);
             }
 
-            private Builder from(FractionDescription fractionDescription) {
-                id = fractionDescription.id;
-                extension.addAll(fractionDescription.extension);
-                modifierExtension.addAll(fractionDescription.modifierExtension);
+            protected Builder from(FractionDescription fractionDescription) {
+                super.from(fractionDescription);
                 fraction = fractionDescription.fraction;
                 materialType = fractionDescription.materialType;
                 return this;
@@ -1527,11 +1510,11 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept family;
             private CodeableConcept genus;
             private CodeableConcept species;
@@ -1540,10 +1523,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             private List<Author> author = new ArrayList<>();
             private Hybrid hybrid;
             private OrganismGeneral organismGeneral;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1825,10 +1804,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new Organism(this);
             }
 
-            private Builder from(Organism organism) {
-                id = organism.id;
-                extension.addAll(organism.extension);
-                modifierExtension.addAll(organism.modifierExtension);
+            protected Builder from(Organism organism) {
+                super.from(organism);
                 family = organism.family;
                 genus = organism.genus;
                 species = organism.species;
@@ -1950,17 +1927,13 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept authorType;
                 private String authorDescription;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2123,10 +2096,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new Author(this);
                 }
 
-                private Builder from(Author author) {
-                    id = author.id;
-                    extension.addAll(author.extension);
-                    modifierExtension.addAll(author.modifierExtension);
+                protected Builder from(Author author) {
+                    super.from(author);
                     authorType = author.authorType;
                     authorDescription = author.authorDescription;
                     return this;
@@ -2297,20 +2268,16 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private String maternalOrganismId;
                 private String maternalOrganismName;
                 private String paternalOrganismId;
                 private String paternalOrganismName;
                 private CodeableConcept hybridType;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2522,10 +2489,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new Hybrid(this);
                 }
 
-                private Builder from(Hybrid hybrid) {
-                    id = hybrid.id;
-                    extension.addAll(hybrid.extension);
-                    modifierExtension.addAll(hybrid.modifierExtension);
+                protected Builder from(Hybrid hybrid) {
+                    super.from(hybrid);
                     maternalOrganismId = hybrid.maternalOrganismId;
                     maternalOrganismName = hybrid.maternalOrganismName;
                     paternalOrganismId = hybrid.paternalOrganismId;
@@ -2677,19 +2642,15 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept kingdom;
                 private CodeableConcept phylum;
                 private CodeableConcept clazz;
                 private CodeableConcept order;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2877,10 +2838,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new OrganismGeneral(this);
                 }
 
-                private Builder from(OrganismGeneral organismGeneral) {
-                    id = organismGeneral.id;
-                    extension.addAll(organismGeneral.extension);
-                    modifierExtension.addAll(organismGeneral.modifierExtension);
+                protected Builder from(OrganismGeneral organismGeneral) {
+                    super.from(organismGeneral);
                     kingdom = organismGeneral.kingdom;
                     phylum = organismGeneral.phylum;
                     clazz = organismGeneral.clazz;
@@ -2997,17 +2956,13 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept part;
             private CodeableConcept partLocation;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -3165,10 +3120,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new PartDescription(this);
             }
 
-            private Builder from(PartDescription partDescription) {
-                id = partDescription.id;
-                extension.addAll(partDescription.extension);
-                modifierExtension.addAll(partDescription.modifierExtension);
+            protected Builder from(PartDescription partDescription) {
+                super.from(partDescription);
                 part = partDescription.part;
                 partLocation = partDescription.partLocation;
                 return this;

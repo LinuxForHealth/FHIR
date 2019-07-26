@@ -565,27 +565,23 @@ public class Observation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, code).from(this);
-    }
-
-    public Builder toBuilder(ObservationStatus status, CodeableConcept code) {
-        return new Builder(status, code).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ObservationStatus status, CodeableConcept code) {
-        return new Builder(status, code);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.code(code);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ObservationStatus status;
-        private final CodeableConcept code;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private ObservationStatus status;
         private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
         private Reference subject;
         private List<Reference> focus = new ArrayList<>();
         private Reference encounter;
@@ -604,12 +600,6 @@ public class Observation extends DomainResource {
         private List<Reference> hasMember = new ArrayList<>();
         private List<Reference> derivedFrom = new ArrayList<>();
         private List<Component> component = new ArrayList<>();
-
-        private Builder(ObservationStatus status, CodeableConcept code) {
-            super();
-            this.status = status;
-            this.code = code;
-        }
 
         /**
          * <p>
@@ -963,6 +953,22 @@ public class Observation extends DomainResource {
 
         /**
          * <p>
+         * The status of the result value.
+         * </p>
+         * 
+         * @param status
+         *     registered | preliminary | final | amended +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ObservationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code that classifies the general type of observation being made.
          * </p>
          * <p>
@@ -998,6 +1004,22 @@ public class Observation extends DomainResource {
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
+            return this;
+        }
+
+        /**
+         * <p>
+         * Describes what was observed. Sometimes this is called the observation "name".
+         * </p>
+         * 
+         * @param code
+         *     Type of observation (code / type)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
             return this;
         }
 
@@ -1513,19 +1535,14 @@ public class Observation extends DomainResource {
             return new Observation(this);
         }
 
-        private Builder from(Observation observation) {
-            id = observation.id;
-            meta = observation.meta;
-            implicitRules = observation.implicitRules;
-            language = observation.language;
-            text = observation.text;
-            contained.addAll(observation.contained);
-            extension.addAll(observation.extension);
-            modifierExtension.addAll(observation.modifierExtension);
+        protected Builder from(Observation observation) {
+            super.from(observation);
             identifier.addAll(observation.identifier);
             basedOn.addAll(observation.basedOn);
             partOf.addAll(observation.partOf);
+            status = observation.status;
             category.addAll(observation.category);
+            code = observation.code;
             subject = observation.subject;
             focus.addAll(observation.focus);
             encounter = observation.encounter;
@@ -1737,21 +1754,17 @@ public class Observation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Quantity low;
             private Quantity high;
             private CodeableConcept type;
             private List<CodeableConcept> appliesTo = new ArrayList<>();
             private Range age;
             private String text;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2008,10 +2021,8 @@ public class Observation extends DomainResource {
                 return new ReferenceRange(this);
             }
 
-            private Builder from(ReferenceRange referenceRange) {
-                id = referenceRange.id;
-                extension.addAll(referenceRange.extension);
-                modifierExtension.addAll(referenceRange.modifierExtension);
+            protected Builder from(ReferenceRange referenceRange) {
+                super.from(referenceRange);
                 low = referenceRange.low;
                 high = referenceRange.high;
                 type = referenceRange.type;
@@ -2180,31 +2191,21 @@ public class Observation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
+            private CodeableConcept code;
             private Element value;
             private CodeableConcept dataAbsentReason;
             private List<CodeableConcept> interpretation = new ArrayList<>();
             private List<Observation.ReferenceRange> referenceRange = new ArrayList<>();
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -2325,6 +2326,22 @@ public class Observation extends DomainResource {
 
             /**
              * <p>
+             * Describes what was observed. Sometimes this is called the observation "code".
+             * </p>
+             * 
+             * @param code
+             *     Type of component observation (code / type)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * The information determined as a result of making the observation, if the information has a simple value.
              * </p>
              * 
@@ -2440,10 +2457,9 @@ public class Observation extends DomainResource {
                 return new Component(this);
             }
 
-            private Builder from(Component component) {
-                id = component.id;
-                extension.addAll(component.extension);
-                modifierExtension.addAll(component.modifierExtension);
+            protected Builder from(Component component) {
+                super.from(component);
+                code = component.code;
                 value = component.value;
                 dataAbsentReason = component.dataAbsentReason;
                 interpretation.addAll(component.interpretation);

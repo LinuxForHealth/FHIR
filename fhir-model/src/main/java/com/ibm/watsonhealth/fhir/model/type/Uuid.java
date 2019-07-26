@@ -79,14 +79,11 @@ public class Uuid extends Uri {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Uri.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -168,10 +165,8 @@ public class Uuid extends Uri {
             return new Uuid(this);
         }
 
-        private Builder from(Uuid uuid) {
-            id = uuid.id;
-            extension.addAll(uuid.extension);
-            value = uuid.value;
+        protected Builder from(Uuid uuid) {
+            super.from(uuid);
             return this;
         }
     }

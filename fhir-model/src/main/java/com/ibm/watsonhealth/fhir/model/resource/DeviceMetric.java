@@ -291,37 +291,27 @@ public class DeviceMetric extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type, category).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept type, DeviceMetricCategory category) {
-        return new Builder(type, category).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept type, DeviceMetricCategory category) {
-        return new Builder(type, category);
+        Builder builder = new Builder();
+        builder.type(type);
+        builder.category(category);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept type;
-        private final DeviceMetricCategory category;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private CodeableConcept type;
         private CodeableConcept unit;
         private Reference source;
         private Reference parent;
         private DeviceMetricOperationalStatus operationalStatus;
         private DeviceMetricColor color;
+        private DeviceMetricCategory category;
         private Timing measurementPeriod;
         private List<Calibration> calibration = new ArrayList<>();
-
-        private Builder(CodeableConcept type, DeviceMetricCategory category) {
-            super();
-            this.type = type;
-            this.category = category;
-        }
 
         /**
          * <p>
@@ -593,6 +583,22 @@ public class DeviceMetric extends DomainResource {
 
         /**
          * <p>
+         * Describes the type of the metric. For example: Heart Rate, PEEP Setting, etc.
+         * </p>
+         * 
+         * @param type
+         *     Identity of metric, for example Heart Rate or PEEP Setting
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(CodeableConcept type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * Describes the unit that an observed value determined for this metric will have. For example: Percent, Seconds, etc.
          * </p>
          * 
@@ -679,6 +685,23 @@ public class DeviceMetric extends DomainResource {
 
         /**
          * <p>
+         * Indicates the category of the observation generation process. A DeviceMetric can be for example a setting, 
+         * measurement, or calculation.
+         * </p>
+         * 
+         * @param category
+         *     measurement | setting | calculation | unspecified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder category(DeviceMetricCategory category) {
+            this.category = category;
+            return this;
+        }
+
+        /**
+         * <p>
          * Describes the measurement repetition time. This is not necessarily the same as the update period. The measurement 
          * repetition time can range from milliseconds up to hours. An example for a measurement repetition time in the range of 
          * milliseconds is the sampling rate of an ECG. An example for a measurement repetition time in the range of hours is a 
@@ -742,21 +765,16 @@ public class DeviceMetric extends DomainResource {
             return new DeviceMetric(this);
         }
 
-        private Builder from(DeviceMetric deviceMetric) {
-            id = deviceMetric.id;
-            meta = deviceMetric.meta;
-            implicitRules = deviceMetric.implicitRules;
-            language = deviceMetric.language;
-            text = deviceMetric.text;
-            contained.addAll(deviceMetric.contained);
-            extension.addAll(deviceMetric.extension);
-            modifierExtension.addAll(deviceMetric.modifierExtension);
+        protected Builder from(DeviceMetric deviceMetric) {
+            super.from(deviceMetric);
             identifier.addAll(deviceMetric.identifier);
+            type = deviceMetric.type;
             unit = deviceMetric.unit;
             source = deviceMetric.source;
             parent = deviceMetric.parent;
             operationalStatus = deviceMetric.operationalStatus;
             color = deviceMetric.color;
+            category = deviceMetric.category;
             measurementPeriod = deviceMetric.measurementPeriod;
             calibration.addAll(deviceMetric.calibration);
             return this;
@@ -886,18 +904,14 @@ public class DeviceMetric extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private DeviceMetricCalibrationType type;
             private DeviceMetricCalibrationState state;
             private Instant time;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1069,10 +1083,8 @@ public class DeviceMetric extends DomainResource {
                 return new Calibration(this);
             }
 
-            private Builder from(Calibration calibration) {
-                id = calibration.id;
-                extension.addAll(calibration.extension);
-                modifierExtension.addAll(calibration.modifierExtension);
+            protected Builder from(Calibration calibration) {
+                super.from(calibration);
                 type = calibration.type;
                 state = calibration.state;
                 time = calibration.time;

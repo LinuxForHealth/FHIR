@@ -530,11 +530,11 @@ public class HealthcareService extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private Reference providedBy;
@@ -559,10 +559,6 @@ public class HealthcareService extends DomainResource {
         private List<NotAvailable> notAvailable = new ArrayList<>();
         private String availabilityExceptions;
         private List<Reference> endpoint = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1574,15 +1570,8 @@ public class HealthcareService extends DomainResource {
             return new HealthcareService(this);
         }
 
-        private Builder from(HealthcareService healthcareService) {
-            id = healthcareService.id;
-            meta = healthcareService.meta;
-            implicitRules = healthcareService.implicitRules;
-            language = healthcareService.language;
-            text = healthcareService.text;
-            contained.addAll(healthcareService.contained);
-            extension.addAll(healthcareService.extension);
-            modifierExtension.addAll(healthcareService.modifierExtension);
+        protected Builder from(HealthcareService healthcareService) {
+            super.from(healthcareService);
             identifier.addAll(healthcareService.identifier);
             active = healthcareService.active;
             providedBy = healthcareService.providedBy;
@@ -1716,17 +1705,13 @@ public class HealthcareService extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private Markdown comment;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1882,10 +1867,8 @@ public class HealthcareService extends DomainResource {
                 return new Eligibility(this);
             }
 
-            private Builder from(Eligibility eligibility) {
-                id = eligibility.id;
-                extension.addAll(eligibility.extension);
-                modifierExtension.addAll(eligibility.modifierExtension);
+            protected Builder from(Eligibility eligibility) {
+                super.from(eligibility);
                 code = eligibility.code;
                 comment = eligibility.comment;
                 return this;
@@ -2034,19 +2017,15 @@ public class HealthcareService extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<DaysOfWeek> daysOfWeek = new ArrayList<>();
             private Boolean allDay;
             private Time availableStartTime;
             private Time availableEndTime;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2258,10 +2237,8 @@ public class HealthcareService extends DomainResource {
                 return new AvailableTime(this);
             }
 
-            private Builder from(AvailableTime availableTime) {
-                id = availableTime.id;
-                extension.addAll(availableTime.extension);
-                modifierExtension.addAll(availableTime.modifierExtension);
+            protected Builder from(AvailableTime availableTime) {
+                super.from(availableTime);
                 daysOfWeek.addAll(availableTime.daysOfWeek);
                 allDay = availableTime.allDay;
                 availableStartTime = availableTime.availableStartTime;
@@ -2372,28 +2349,18 @@ public class HealthcareService extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(description).from(this);
-        }
-
-        public Builder toBuilder(String description) {
-            return new Builder(description).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String description) {
-            return new Builder(description);
+            Builder builder = new Builder();
+            builder.description(description);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String description;
-
-            // optional
+            private String description;
             private Period during;
-
-            private Builder(String description) {
-                super();
-                this.description = description;
-            }
 
             /**
              * <p>
@@ -2514,6 +2481,22 @@ public class HealthcareService extends DomainResource {
 
             /**
              * <p>
+             * The reason that can be presented to the user as to why this time is not available.
+             * </p>
+             * 
+             * @param description
+             *     Reason presented to the user explaining why time not available
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(String description) {
+                this.description = description;
+                return this;
+            }
+
+            /**
+             * <p>
              * Service is not available (seasonally or for a public holiday) from this date.
              * </p>
              * 
@@ -2533,10 +2516,9 @@ public class HealthcareService extends DomainResource {
                 return new NotAvailable(this);
             }
 
-            private Builder from(NotAvailable notAvailable) {
-                id = notAvailable.id;
-                extension.addAll(notAvailable.extension);
-                modifierExtension.addAll(notAvailable.modifierExtension);
+            protected Builder from(NotAvailable notAvailable) {
+                super.from(notAvailable);
+                description = notAvailable.description;
                 during = notAvailable.during;
                 return this;
             }

@@ -302,11 +302,11 @@ public class ProdCharacteristic extends BackboneElement {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // optional
         private Quantity height;
         private Quantity width;
         private Quantity depth;
@@ -318,10 +318,6 @@ public class ProdCharacteristic extends BackboneElement {
         private List<String> imprint = new ArrayList<>();
         private List<Attachment> image = new ArrayList<>();
         private CodeableConcept scoring;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -729,10 +725,8 @@ public class ProdCharacteristic extends BackboneElement {
             return new ProdCharacteristic(this);
         }
 
-        private Builder from(ProdCharacteristic prodCharacteristic) {
-            id = prodCharacteristic.id;
-            extension.addAll(prodCharacteristic.extension);
-            modifierExtension.addAll(prodCharacteristic.modifierExtension);
+        protected Builder from(ProdCharacteristic prodCharacteristic) {
+            super.from(prodCharacteristic);
             height = prodCharacteristic.height;
             width = prodCharacteristic.width;
             depth = prodCharacteristic.depth;

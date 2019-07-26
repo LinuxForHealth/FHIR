@@ -499,28 +499,25 @@ public class ImplementationGuide extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, name, status, packageId, fhirVersion).from(this);
-    }
-
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
-        return new Builder(url, name, status, packageId, fhirVersion).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
-        return new Builder(url, name, status, packageId, fhirVersion);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.name(name);
+        builder.status(status);
+        builder.packageId(packageId);
+        builder.fhirVersion(fhirVersion);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final String name;
-        private final PublicationStatus status;
-        private final Id packageId;
-        private final List<FHIRVersion> fhirVersion;
-
-        // optional
+        private Uri url;
         private String version;
+        private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -529,20 +526,13 @@ public class ImplementationGuide extends DomainResource {
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown copyright;
+        private Id packageId;
         private SPDXLicense license;
+        private List<FHIRVersion> fhirVersion = new ArrayList<>();
         private List<DependsOn> dependsOn = new ArrayList<>();
         private List<Global> global = new ArrayList<>();
         private Definition definition;
         private Manifest manifest;
-
-        private Builder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
-            super();
-            this.url = url;
-            this.name = name;
-            this.status = status;
-            this.packageId = packageId;
-            this.fhirVersion = new ArrayList<>(fhirVersion);
-        }
 
         /**
          * <p>
@@ -772,6 +762,26 @@ public class ImplementationGuide extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this implementation guide when it is referenced in a specification, model, 
+         * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+         * address at which at which an authoritative instance of this implementation guide is (or will be) published. This URL 
+         * can be the target of a canonical reference. It SHALL remain the same when the implementation guide is stored on 
+         * different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this implementation guide, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * The identifier that is used to identify this version of the implementation guide when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the implementation guide author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -791,6 +801,23 @@ public class ImplementationGuide extends DomainResource {
 
         /**
          * <p>
+         * A natural language name identifying the implementation guide. This name should be usable as an identifier for the 
+         * module by machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this implementation guide (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
          * A short, descriptive, user-friendly title for the implementation guide.
          * </p>
          * 
@@ -802,6 +829,22 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this implementation guide. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1015,6 +1058,24 @@ public class ImplementationGuide extends DomainResource {
 
         /**
          * <p>
+         * The NPM package name for this Implementation Guide, used in the NPM package distribution, which is the primary 
+         * mechanism by which FHIR based tooling manages IG dependencies. This value must be globally unique, and should be 
+         * assigned with care.
+         * </p>
+         * 
+         * @param packageId
+         *     NPM Package name for IG
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder packageId(Id packageId) {
+            this.packageId = packageId;
+            return this;
+        }
+
+        /**
+         * <p>
          * The license that applies to this Implementation Guide, using an SPDX license code, or 'not-open-source'.
          * </p>
          * 
@@ -1026,6 +1087,50 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder license(SPDXLicense license) {
             this.license = license;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
+         * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
+         * [minor], which is 4.0.0. for this version.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param fhirVersion
+         *     FHIR Version(s) this Implementation Guide targets
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder fhirVersion(FHIRVersion... fhirVersion) {
+            for (FHIRVersion value : fhirVersion) {
+                this.fhirVersion.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
+         * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
+         * [minor], which is 4.0.0. for this version.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param fhirVersion
+         *     FHIR Version(s) this Implementation Guide targets
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder fhirVersion(Collection<FHIRVersion> fhirVersion) {
+            this.fhirVersion = new ArrayList<>(fhirVersion);
             return this;
         }
 
@@ -1148,17 +1253,13 @@ public class ImplementationGuide extends DomainResource {
             return new ImplementationGuide(this);
         }
 
-        private Builder from(ImplementationGuide implementationGuide) {
-            id = implementationGuide.id;
-            meta = implementationGuide.meta;
-            implicitRules = implementationGuide.implicitRules;
-            language = implementationGuide.language;
-            text = implementationGuide.text;
-            contained.addAll(implementationGuide.contained);
-            extension.addAll(implementationGuide.extension);
-            modifierExtension.addAll(implementationGuide.modifierExtension);
+        protected Builder from(ImplementationGuide implementationGuide) {
+            super.from(implementationGuide);
+            url = implementationGuide.url;
             version = implementationGuide.version;
+            name = implementationGuide.name;
             title = implementationGuide.title;
+            status = implementationGuide.status;
             experimental = implementationGuide.experimental;
             date = implementationGuide.date;
             publisher = implementationGuide.publisher;
@@ -1167,7 +1268,9 @@ public class ImplementationGuide extends DomainResource {
             useContext.addAll(implementationGuide.useContext);
             jurisdiction.addAll(implementationGuide.jurisdiction);
             copyright = implementationGuide.copyright;
+            packageId = implementationGuide.packageId;
             license = implementationGuide.license;
+            fhirVersion.addAll(implementationGuide.fhirVersion);
             dependsOn.addAll(implementationGuide.dependsOn);
             global.addAll(implementationGuide.global);
             definition = implementationGuide.definition;
@@ -1296,29 +1399,19 @@ public class ImplementationGuide extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(uri).from(this);
-        }
-
-        public Builder toBuilder(Canonical uri) {
-            return new Builder(uri).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Canonical uri) {
-            return new Builder(uri);
+            Builder builder = new Builder();
+            builder.uri(uri);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Canonical uri;
-
-            // optional
+            private Canonical uri;
             private Id packageId;
             private String version;
-
-            private Builder(Canonical uri) {
-                super();
-                this.uri = uri;
-            }
 
             /**
              * <p>
@@ -1439,6 +1532,22 @@ public class ImplementationGuide extends DomainResource {
 
             /**
              * <p>
+             * A canonical reference to the Implementation guide for the dependency.
+             * </p>
+             * 
+             * @param uri
+             *     Identity of the IG that this depends on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder uri(Canonical uri) {
+                this.uri = uri;
+                return this;
+            }
+
+            /**
+             * <p>
              * The NPM package name for the Implementation Guide that this IG depends on.
              * </p>
              * 
@@ -1474,10 +1583,9 @@ public class ImplementationGuide extends DomainResource {
                 return new DependsOn(this);
             }
 
-            private Builder from(DependsOn dependsOn) {
-                id = dependsOn.id;
-                extension.addAll(dependsOn.extension);
-                modifierExtension.addAll(dependsOn.modifierExtension);
+            protected Builder from(DependsOn dependsOn) {
+                super.from(dependsOn);
+                uri = dependsOn.uri;
                 packageId = dependsOn.packageId;
                 version = dependsOn.version;
                 return this;
@@ -1586,27 +1694,19 @@ public class ImplementationGuide extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type, profile).from(this);
-        }
-
-        public Builder toBuilder(ResourceType type, Canonical profile) {
-            return new Builder(type, profile).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ResourceType type, Canonical profile) {
-            return new Builder(type, profile);
+            Builder builder = new Builder();
+            builder.type(type);
+            builder.profile(profile);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ResourceType type;
-            private final Canonical profile;
-
-            private Builder(ResourceType type, Canonical profile) {
-                super();
-                this.type = type;
-                this.profile = profile;
-            }
+            private ResourceType type;
+            private Canonical profile;
 
             /**
              * <p>
@@ -1725,15 +1825,47 @@ public class ImplementationGuide extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The type of resource that all instances must conform to.
+             * </p>
+             * 
+             * @param type
+             *     Type this profile applies to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(ResourceType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
+             * A reference to the profile that all instances must conform to.
+             * </p>
+             * 
+             * @param profile
+             *     Profile that all resources must conform to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder profile(Canonical profile) {
+                this.profile = profile;
+                return this;
+            }
+
             @Override
             public Global build() {
                 return new Global(this);
             }
 
-            private Builder from(Global global) {
-                id = global.id;
-                extension.addAll(global.extension);
-                modifierExtension.addAll(global.modifierExtension);
+            protected Builder from(Global global) {
+                super.from(global);
+                type = global.type;
+                profile = global.profile;
                 return this;
             }
         }
@@ -1896,31 +2028,21 @@ public class ImplementationGuide extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(resource).from(this);
-        }
-
-        public Builder toBuilder(Collection<Resource> resource) {
-            return new Builder(resource).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Resource> resource) {
-            return new Builder(resource);
+            Builder builder = new Builder();
+            builder.resource(resource);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Resource> resource;
-
-            // optional
             private List<Grouping> grouping = new ArrayList<>();
+            private List<Resource> resource = new ArrayList<>();
             private Page page;
             private List<Parameter> parameter = new ArrayList<>();
             private List<Template> template = new ArrayList<>();
-
-            private Builder(Collection<Resource> resource) {
-                super();
-                this.resource = new ArrayList<>(resource);
-            }
 
             /**
              * <p>
@@ -2081,6 +2203,50 @@ public class ImplementationGuide extends DomainResource {
 
             /**
              * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resource(Resource... resource) {
+                for (Resource value : resource) {
+                    this.resource.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resource(Collection<Resource> resource) {
+                this.resource = new ArrayList<>(resource);
+                return this;
+            }
+
+            /**
+             * <p>
              * A page / section in the implementation guide. The root page is the implementation guide home page.
              * </p>
              * 
@@ -2180,11 +2346,10 @@ public class ImplementationGuide extends DomainResource {
                 return new Definition(this);
             }
 
-            private Builder from(Definition definition) {
-                id = definition.id;
-                extension.addAll(definition.extension);
-                modifierExtension.addAll(definition.modifierExtension);
+            protected Builder from(Definition definition) {
+                super.from(definition);
                 grouping.addAll(definition.grouping);
+                resource.addAll(definition.resource);
                 page = definition.page;
                 parameter.addAll(definition.parameter);
                 template.addAll(definition.template);
@@ -2293,28 +2458,18 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name).from(this);
-            }
-
-            public Builder toBuilder(String name) {
-                return new Builder(name).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String name) {
-                return new Builder(name);
+                Builder builder = new Builder();
+                builder.name(name);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String name;
-
-                // optional
+                private String name;
                 private String description;
-
-                private Builder(String name) {
-                    super();
-                    this.name = name;
-                }
 
                 /**
                  * <p>
@@ -2435,6 +2590,22 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * The human-readable title to display for the package of resources when rendering the implementation guide.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Descriptive name for the package
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(String name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Human readable text describing the package.
                  * </p>
                  * 
@@ -2454,10 +2625,9 @@ public class ImplementationGuide extends DomainResource {
                     return new Grouping(this);
                 }
 
-                private Builder from(Grouping grouping) {
-                    id = grouping.id;
-                    extension.addAll(grouping.extension);
-                    modifierExtension.addAll(grouping.modifierExtension);
+                protected Builder from(Grouping grouping) {
+                    super.from(grouping);
+                    name = grouping.name;
                     description = grouping.description;
                     return this;
                 }
@@ -2642,32 +2812,22 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(reference).from(this);
-            }
-
-            public Builder toBuilder(Reference reference) {
-                return new Builder(reference).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Reference reference) {
-                return new Builder(reference);
+                Builder builder = new Builder();
+                builder.reference(reference);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Reference reference;
-
-                // optional
+                private Reference reference;
                 private List<FHIRVersion> fhirVersion = new ArrayList<>();
                 private String name;
                 private String description;
                 private Element example;
                 private Id groupingId;
-
-                private Builder(Reference reference) {
-                    super();
-                    this.reference = reference;
-                }
 
                 /**
                  * <p>
@@ -2788,6 +2948,22 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * Where this resource is found.
+                 * </p>
+                 * 
+                 * @param reference
+                 *     Location of the resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reference(Reference reference) {
+                    this.reference = reference;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * </p>
@@ -2899,10 +3075,9 @@ public class ImplementationGuide extends DomainResource {
                     return new Resource(this);
                 }
 
-                private Builder from(Resource resource) {
-                    id = resource.id;
-                    extension.addAll(resource.extension);
-                    modifierExtension.addAll(resource.modifierExtension);
+                protected Builder from(Resource resource) {
+                    super.from(resource);
+                    reference = resource.reference;
                     fhirVersion.addAll(resource.fhirVersion);
                     name = resource.name;
                     description = resource.description;
@@ -3050,32 +3225,22 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name, title, generation).from(this);
-            }
-
-            public Builder toBuilder(Element name, String title, GuidePageGeneration generation) {
-                return new Builder(name, title, generation).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Element name, String title, GuidePageGeneration generation) {
-                return new Builder(name, title, generation);
+                Builder builder = new Builder();
+                builder.name(name);
+                builder.title(title);
+                builder.generation(generation);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Element name;
-                private final String title;
-                private final GuidePageGeneration generation;
-
-                // optional
+                private Element name;
+                private String title;
+                private GuidePageGeneration generation;
                 private List<ImplementationGuide.Definition.Page> page = new ArrayList<>();
-
-                private Builder(Element name, String title, GuidePageGeneration generation) {
-                    super();
-                    this.name = name;
-                    this.title = title;
-                    this.generation = generation;
-                }
 
                 /**
                  * <p>
@@ -3196,6 +3361,54 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * The source address for the page.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Where to find that page
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(Element name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * A short title used to represent this page in navigational structures such as table of contents, bread crumbs, etc.
+                 * </p>
+                 * 
+                 * @param title
+                 *     Short title shown for navigational assistance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder title(String title) {
+                    this.title = title;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * A code that indicates how the page is generated.
+                 * </p>
+                 * 
+                 * @param generation
+                 *     html | markdown | xml | generated
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder generation(GuidePageGeneration generation) {
+                    this.generation = generation;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Nested Pages/Sections under this page.
                  * </p>
                  * <p>
@@ -3239,10 +3452,11 @@ public class ImplementationGuide extends DomainResource {
                     return new Page(this);
                 }
 
-                private Builder from(Page page) {
-                    id = page.id;
-                    extension.addAll(page.extension);
-                    modifierExtension.addAll(page.modifierExtension);
+                protected Builder from(Page page) {
+                    super.from(page);
+                    name = page.name;
+                    title = page.title;
+                    generation = page.generation;
                     this.page.addAll(page.page);
                     return this;
                 }
@@ -3351,27 +3565,19 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code, value).from(this);
-            }
-
-            public Builder toBuilder(GuideParameterCode code, String value) {
-                return new Builder(code, value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(GuideParameterCode code, String value) {
-                return new Builder(code, value);
+                Builder builder = new Builder();
+                builder.code(code);
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final GuideParameterCode code;
-                private final String value;
-
-                private Builder(GuideParameterCode code, String value) {
-                    super();
-                    this.code = code;
-                    this.value = value;
-                }
+                private GuideParameterCode code;
+                private String value;
 
                 /**
                  * <p>
@@ -3490,15 +3696,49 @@ public class ImplementationGuide extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * apply | path-resource | path-pages | path-tx-cache | expansion-parameter | rule-broken-links | generate-xml | generate-
+                 * json | generate-turtle | html-template.
+                 * </p>
+                 * 
+                 * @param code
+                 *     apply | path-resource | path-pages | path-tx-cache | expansion-parameter | rule-broken-links | generate-xml | generate-
+                 *     json | generate-turtle | html-template
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(GuideParameterCode code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Value for named type.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Value for named type
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(String value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public Parameter build() {
                     return new Parameter(this);
                 }
 
-                private Builder from(Parameter parameter) {
-                    id = parameter.id;
-                    extension.addAll(parameter.extension);
-                    modifierExtension.addAll(parameter.modifierExtension);
+                protected Builder from(Parameter parameter) {
+                    super.from(parameter);
+                    code = parameter.code;
+                    value = parameter.value;
                     return this;
                 }
             }
@@ -3623,30 +3863,20 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code, source).from(this);
-            }
-
-            public Builder toBuilder(Code code, String source) {
-                return new Builder(code, source).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Code code, String source) {
-                return new Builder(code, source);
+                Builder builder = new Builder();
+                builder.code(code);
+                builder.source(source);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Code code;
-                private final String source;
-
-                // optional
+                private Code code;
+                private String source;
                 private String scope;
-
-                private Builder(Code code, String source) {
-                    super();
-                    this.code = code;
-                    this.source = source;
-                }
 
                 /**
                  * <p>
@@ -3767,6 +3997,38 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * Type of template specified.
+                 * </p>
+                 * 
+                 * @param code
+                 *     Type of template specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(Code code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The source location for the template.
+                 * </p>
+                 * 
+                 * @param source
+                 *     The source location for the template
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder source(String source) {
+                    this.source = source;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The scope in which the template applies.
                  * </p>
                  * 
@@ -3786,10 +4048,10 @@ public class ImplementationGuide extends DomainResource {
                     return new Template(this);
                 }
 
-                private Builder from(Template template) {
-                    id = template.id;
-                    extension.addAll(template.extension);
-                    modifierExtension.addAll(template.modifierExtension);
+                protected Builder from(Template template) {
+                    super.from(template);
+                    code = template.code;
+                    source = template.source;
                     scope = template.scope;
                     return this;
                 }
@@ -3955,31 +4217,21 @@ public class ImplementationGuide extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(resource).from(this);
-        }
-
-        public Builder toBuilder(Collection<Resource> resource) {
-            return new Builder(resource).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Collection<Resource> resource) {
-            return new Builder(resource);
+            Builder builder = new Builder();
+            builder.resource(resource);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final List<Resource> resource;
-
-            // optional
             private Url rendering;
+            private List<Resource> resource = new ArrayList<>();
             private List<Page> page = new ArrayList<>();
             private List<String> image = new ArrayList<>();
             private List<String> other = new ArrayList<>();
-
-            private Builder(Collection<Resource> resource) {
-                super();
-                this.resource = new ArrayList<>(resource);
-            }
 
             /**
              * <p>
@@ -4116,6 +4368,50 @@ public class ImplementationGuide extends DomainResource {
 
             /**
              * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resource(Resource... resource) {
+                for (Resource value : resource) {
+                    this.resource.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resource(Collection<Resource> resource) {
+                this.resource = new ArrayList<>(resource);
+                return this;
+            }
+
+            /**
+             * <p>
              * Information about a page within the IG.
              * </p>
              * <p>
@@ -4241,11 +4537,10 @@ public class ImplementationGuide extends DomainResource {
                 return new Manifest(this);
             }
 
-            private Builder from(Manifest manifest) {
-                id = manifest.id;
-                extension.addAll(manifest.extension);
-                modifierExtension.addAll(manifest.modifierExtension);
+            protected Builder from(Manifest manifest) {
+                super.from(manifest);
                 rendering = manifest.rendering;
+                resource.addAll(manifest.resource);
                 page.addAll(manifest.page);
                 image.addAll(manifest.image);
                 other.addAll(manifest.other);
@@ -4375,29 +4670,19 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(reference).from(this);
-            }
-
-            public Builder toBuilder(Reference reference) {
-                return new Builder(reference).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Reference reference) {
-                return new Builder(reference);
+                Builder builder = new Builder();
+                builder.reference(reference);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Reference reference;
-
-                // optional
+                private Reference reference;
                 private Element example;
                 private Url relativePath;
-
-                private Builder(Reference reference) {
-                    super();
-                    this.reference = reference;
-                }
 
                 /**
                  * <p>
@@ -4518,6 +4803,22 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * Where this resource is found.
+                 * </p>
+                 * 
+                 * @param reference
+                 *     Location of the resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reference(Reference reference) {
+                    this.reference = reference;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
                  * example is an example of the specified profile.
                  * </p>
@@ -4554,10 +4855,9 @@ public class ImplementationGuide extends DomainResource {
                     return new Resource(this);
                 }
 
-                private Builder from(Resource resource) {
-                    id = resource.id;
-                    extension.addAll(resource.extension);
-                    modifierExtension.addAll(resource.modifierExtension);
+                protected Builder from(Resource resource) {
+                    super.from(resource);
+                    reference = resource.reference;
                     example = resource.example;
                     relativePath = resource.relativePath;
                     return this;
@@ -4684,29 +4984,19 @@ public class ImplementationGuide extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name).from(this);
-            }
-
-            public Builder toBuilder(String name) {
-                return new Builder(name).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String name) {
-                return new Builder(name);
+                Builder builder = new Builder();
+                builder.name(name);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String name;
-
-                // optional
+                private String name;
                 private String title;
                 private List<String> anchor = new ArrayList<>();
-
-                private Builder(String name) {
-                    super();
-                    this.name = name;
-                }
 
                 /**
                  * <p>
@@ -4827,6 +5117,22 @@ public class ImplementationGuide extends DomainResource {
 
                 /**
                  * <p>
+                 * Relative path to the page.
+                 * </p>
+                 * 
+                 * @param name
+                 *     HTML page name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(String name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Label for the page intended for human display.
                  * </p>
                  * 
@@ -4886,10 +5192,9 @@ public class ImplementationGuide extends DomainResource {
                     return new Page(this);
                 }
 
-                private Builder from(Page page) {
-                    id = page.id;
-                    extension.addAll(page.extension);
-                    modifierExtension.addAll(page.modifierExtension);
+                protected Builder from(Page page) {
+                    super.from(page);
+                    name = page.name;
                     title = page.title;
                     anchor.addAll(page.anchor);
                     return this;

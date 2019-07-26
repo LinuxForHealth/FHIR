@@ -317,24 +317,19 @@ public class RelatedPerson extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(patient).from(this);
-    }
-
-    public Builder toBuilder(Reference patient) {
-        return new Builder(patient).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Reference patient) {
-        return new Builder(patient);
+        Builder builder = new Builder();
+        builder.patient(patient);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Reference patient;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
+        private Reference patient;
         private List<CodeableConcept> relationship = new ArrayList<>();
         private List<HumanName> name = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
@@ -344,11 +339,6 @@ public class RelatedPerson extends DomainResource {
         private List<Attachment> photo = new ArrayList<>();
         private Period period;
         private List<Communication> communication = new ArrayList<>();
-
-        private Builder(Reference patient) {
-            super();
-            this.patient = patient;
-        }
 
         /**
          * <p>
@@ -629,6 +619,22 @@ public class RelatedPerson extends DomainResource {
          */
         public Builder active(Boolean active) {
             this.active = active;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient this person is related to.
+         * </p>
+         * 
+         * @param patient
+         *     The patient this person is related to
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
             return this;
         }
 
@@ -927,17 +933,11 @@ public class RelatedPerson extends DomainResource {
             return new RelatedPerson(this);
         }
 
-        private Builder from(RelatedPerson relatedPerson) {
-            id = relatedPerson.id;
-            meta = relatedPerson.meta;
-            implicitRules = relatedPerson.implicitRules;
-            language = relatedPerson.language;
-            text = relatedPerson.text;
-            contained.addAll(relatedPerson.contained);
-            extension.addAll(relatedPerson.extension);
-            modifierExtension.addAll(relatedPerson.modifierExtension);
+        protected Builder from(RelatedPerson relatedPerson) {
+            super.from(relatedPerson);
             identifier.addAll(relatedPerson.identifier);
             active = relatedPerson.active;
+            patient = relatedPerson.patient;
             relationship.addAll(relatedPerson.relationship);
             name.addAll(relatedPerson.name);
             telecom.addAll(relatedPerson.telecom);
@@ -1054,28 +1054,18 @@ public class RelatedPerson extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(language).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept language) {
-            return new Builder(language).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept language) {
-            return new Builder(language);
+            Builder builder = new Builder();
+            builder.language(language);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept language;
-
-            // optional
+            private CodeableConcept language;
             private Boolean preferred;
-
-            private Builder(CodeableConcept language) {
-                super();
-                this.language = language;
-            }
 
             /**
              * <p>
@@ -1196,6 +1186,24 @@ public class RelatedPerson extends DomainResource {
 
             /**
              * <p>
+             * The ISO-639-1 alpha 2 code in lower case for the language, optionally followed by a hyphen and the ISO-3166-1 alpha 2 
+             * code for the region in upper case; e.g. "en" for English, or "en-US" for American English versus "en-EN" for England 
+             * English.
+             * </p>
+             * 
+             * @param language
+             *     The language which can be used to communicate with the patient about his or her health
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder language(CodeableConcept language) {
+                this.language = language;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
              * </p>
              * 
@@ -1215,10 +1223,9 @@ public class RelatedPerson extends DomainResource {
                 return new Communication(this);
             }
 
-            private Builder from(Communication communication) {
-                id = communication.id;
-                extension.addAll(communication.extension);
-                modifierExtension.addAll(communication.modifierExtension);
+            protected Builder from(Communication communication) {
+                super.from(communication);
+                language = communication.language;
                 preferred = communication.preferred;
                 return this;
             }

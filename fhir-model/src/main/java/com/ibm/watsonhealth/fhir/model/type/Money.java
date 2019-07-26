@@ -117,17 +117,13 @@ public class Money extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private Decimal value;
         private Code currency;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -227,9 +223,8 @@ public class Money extends Element {
             return new Money(this);
         }
 
-        private Builder from(Money money) {
-            id = money.id;
-            extension.addAll(money.extension);
+        protected Builder from(Money money) {
+            super.from(money);
             value = money.value;
             currency = money.currency;
             return this;

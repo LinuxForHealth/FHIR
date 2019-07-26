@@ -596,28 +596,23 @@ public class CodeSystem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, content).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, CodeSystemContentMode content) {
-        return new Builder(status, content).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, CodeSystemContentMode content) {
-        return new Builder(status, content);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.content(content);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final CodeSystemContentMode content;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -632,17 +627,12 @@ public class CodeSystem extends DomainResource {
         private CodeSystemHierarchyMeaning hierarchyMeaning;
         private Boolean compositional;
         private Boolean versionNeeded;
+        private CodeSystemContentMode content;
         private Canonical supplements;
         private UnsignedInt count;
         private List<Filter> filter = new ArrayList<>();
         private List<Property> property = new ArrayList<>();
         private List<Concept> concept = new ArrayList<>();
-
-        private Builder(PublicationStatus status, CodeSystemContentMode content) {
-            super();
-            this.status = status;
-            this.content = content;
-        }
 
         /**
          * <p>
@@ -987,6 +977,22 @@ public class CodeSystem extends DomainResource {
 
         /**
          * <p>
+         * The date (and optionally time) when the code system resource was created or revised.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this code system is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * </p>
@@ -1292,6 +1298,23 @@ public class CodeSystem extends DomainResource {
 
         /**
          * <p>
+         * The extent of the content of the code system (the concepts and codes it defines) are represented in this resource 
+         * instance.
+         * </p>
+         * 
+         * @param content
+         *     not-present | example | fragment | complete | supplement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(CodeSystemContentMode content) {
+            this.content = content;
+            return this;
+        }
+
+        /**
+         * <p>
          * The canonical URL of the code system that this code system supplement is adding designations and properties to.
          * </p>
          * 
@@ -1450,20 +1473,14 @@ public class CodeSystem extends DomainResource {
             return new CodeSystem(this);
         }
 
-        private Builder from(CodeSystem codeSystem) {
-            id = codeSystem.id;
-            meta = codeSystem.meta;
-            implicitRules = codeSystem.implicitRules;
-            language = codeSystem.language;
-            text = codeSystem.text;
-            contained.addAll(codeSystem.contained);
-            extension.addAll(codeSystem.extension);
-            modifierExtension.addAll(codeSystem.modifierExtension);
+        protected Builder from(CodeSystem codeSystem) {
+            super.from(codeSystem);
             url = codeSystem.url;
             identifier.addAll(codeSystem.identifier);
             version = codeSystem.version;
             name = codeSystem.name;
             title = codeSystem.title;
+            status = codeSystem.status;
             experimental = codeSystem.experimental;
             date = codeSystem.date;
             publisher = codeSystem.publisher;
@@ -1478,6 +1495,7 @@ public class CodeSystem extends DomainResource {
             hierarchyMeaning = codeSystem.hierarchyMeaning;
             compositional = codeSystem.compositional;
             versionNeeded = codeSystem.versionNeeded;
+            content = codeSystem.content;
             supplements = codeSystem.supplements;
             count = codeSystem.count;
             filter.addAll(codeSystem.filter);
@@ -1624,32 +1642,22 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, operator, value).from(this);
-        }
-
-        public Builder toBuilder(Code code, Collection<FilterOperator> operator, String value) {
-            return new Builder(code, operator, value).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Code code, Collection<FilterOperator> operator, String value) {
-            return new Builder(code, operator, value);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.operator(operator);
+            builder.value(value);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Code code;
-            private final List<FilterOperator> operator;
-            private final String value;
-
-            // optional
+            private Code code;
             private String description;
-
-            private Builder(Code code, Collection<FilterOperator> operator, String value) {
-                super();
-                this.code = code;
-                this.operator = new ArrayList<>(operator);
-                this.value = value;
-            }
+            private List<FilterOperator> operator = new ArrayList<>();
+            private String value;
 
             /**
              * <p>
@@ -1770,6 +1778,22 @@ public class CodeSystem extends DomainResource {
 
             /**
              * <p>
+             * The code that identifies this filter when it is used as a filter in [ValueSet](valueset.html#).compose.include.filter.
+             * </p>
+             * 
+             * @param code
+             *     Code that identifies the filter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(Code code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * A description of how or why the filter is used.
              * </p>
              * 
@@ -1784,16 +1808,73 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A list of operators that can be used with the filter.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param operator
+             *     Operators that can be used with filter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder operator(FilterOperator... operator) {
+                for (FilterOperator value : operator) {
+                    this.operator.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A list of operators that can be used with the filter.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param operator
+             *     Operators that can be used with filter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder operator(Collection<FilterOperator> operator) {
+                this.operator = new ArrayList<>(operator);
+                return this;
+            }
+
+            /**
+             * <p>
+             * A description of what the value for the filter should be.
+             * </p>
+             * 
+             * @param value
+             *     What to use for the value
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(String value) {
+                this.value = value;
+                return this;
+            }
+
             @Override
             public Filter build() {
                 return new Filter(this);
             }
 
-            private Builder from(Filter filter) {
-                id = filter.id;
-                extension.addAll(filter.extension);
-                modifierExtension.addAll(filter.modifierExtension);
+            protected Builder from(Filter filter) {
+                super.from(filter);
+                code = filter.code;
                 description = filter.description;
+                operator.addAll(filter.operator);
+                value = filter.value;
                 return this;
             }
         }
@@ -1939,31 +2020,21 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code, type).from(this);
-        }
-
-        public Builder toBuilder(Code code, PropertyType type) {
-            return new Builder(code, type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Code code, PropertyType type) {
-            return new Builder(code, type);
+            Builder builder = new Builder();
+            builder.code(code);
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Code code;
-            private final PropertyType type;
-
-            // optional
+            private Code code;
             private Uri uri;
             private String description;
-
-            private Builder(Code code, PropertyType type) {
-                super();
-                this.code = code;
-                this.type = type;
-            }
+            private PropertyType type;
 
             /**
              * <p>
@@ -2084,6 +2155,23 @@ public class CodeSystem extends DomainResource {
 
             /**
              * <p>
+             * A code that is used to identify the property. The code is used internally (in CodeSystem.concept.property.code) and 
+             * also externally, such as in property filters.
+             * </p>
+             * 
+             * @param code
+             *     Identifies the property on the concepts, and when referred to in operations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(Code code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * Reference to the formal meaning of the property. One possible source of meaning is the [Concept Properties](codesystem-
              * concept-properties.html) code system.
              * </p>
@@ -2115,17 +2203,34 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The type of the property value. Properties of type "code" contain a code defined by the code system (e.g. a reference 
+             * to another defined concept).
+             * </p>
+             * 
+             * @param type
+             *     code | Coding | string | integer | boolean | dateTime | decimal
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(PropertyType type) {
+                this.type = type;
+                return this;
+            }
+
             @Override
             public Property build() {
                 return new Property(this);
             }
 
-            private Builder from(Property property) {
-                id = property.id;
-                extension.addAll(property.extension);
-                modifierExtension.addAll(property.modifierExtension);
+            protected Builder from(Property property) {
+                super.from(property);
+                code = property.code;
                 uri = property.uri;
                 description = property.description;
+                type = property.type;
                 return this;
             }
         }
@@ -2309,32 +2414,22 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(Code code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Code code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Code code;
-
-            // optional
+            private Code code;
             private String display;
             private String definition;
             private List<Designation> designation = new ArrayList<>();
             private List<Property> property = new ArrayList<>();
             private List<CodeSystem.Concept> concept = new ArrayList<>();
-
-            private Builder(Code code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -2451,6 +2546,22 @@ public class CodeSystem extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * A code - a text symbol - that uniquely identifies the concept within the code system.
+             * </p>
+             * 
+             * @param code
+             *     Code that identifies concept
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(Code code) {
+                this.code = code;
+                return this;
             }
 
             /**
@@ -2616,10 +2727,9 @@ public class CodeSystem extends DomainResource {
                 return new Concept(this);
             }
 
-            private Builder from(Concept concept) {
-                id = concept.id;
-                extension.addAll(concept.extension);
-                modifierExtension.addAll(concept.modifierExtension);
+            protected Builder from(Concept concept) {
+                super.from(concept);
+                code = concept.code;
                 display = concept.display;
                 definition = concept.definition;
                 designation.addAll(concept.designation);
@@ -2749,29 +2859,19 @@ public class CodeSystem extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(value).from(this);
-            }
-
-            public Builder toBuilder(String value) {
-                return new Builder(value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(String value) {
-                return new Builder(value);
+                Builder builder = new Builder();
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final String value;
-
-                // optional
                 private Code language;
                 private Coding use;
-
-                private Builder(String value) {
-                    super();
-                    this.value = value;
-                }
+                private String value;
 
                 /**
                  * <p>
@@ -2922,17 +3022,32 @@ public class CodeSystem extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * <p>
+                 * The text value for this designation.
+                 * </p>
+                 * 
+                 * @param value
+                 *     The text value for this designation
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(String value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public Designation build() {
                     return new Designation(this);
                 }
 
-                private Builder from(Designation designation) {
-                    id = designation.id;
-                    extension.addAll(designation.extension);
-                    modifierExtension.addAll(designation.modifierExtension);
+                protected Builder from(Designation designation) {
+                    super.from(designation);
                     language = designation.language;
                     use = designation.use;
+                    value = designation.value;
                     return this;
                 }
             }
@@ -3039,27 +3154,19 @@ public class CodeSystem extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code, value).from(this);
-            }
-
-            public Builder toBuilder(Code code, Element value) {
-                return new Builder(code, value).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Code code, Element value) {
-                return new Builder(code, value);
+                Builder builder = new Builder();
+                builder.code(code);
+                builder.value(value);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Code code;
-                private final Element value;
-
-                private Builder(Code code, Element value) {
-                    super();
-                    this.code = code;
-                    this.value = value;
-                }
+                private Code code;
+                private Element value;
 
                 /**
                  * <p>
@@ -3178,15 +3285,47 @@ public class CodeSystem extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * A code that is a reference to CodeSystem.property.code.
+                 * </p>
+                 * 
+                 * @param code
+                 *     Reference to CodeSystem.property.code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(Code code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The value of this property.
+                 * </p>
+                 * 
+                 * @param value
+                 *     Value of the property for this concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(Element value) {
+                    this.value = value;
+                    return this;
+                }
+
                 @Override
                 public Property build() {
                     return new Property(this);
                 }
 
-                private Builder from(Property property) {
-                    id = property.id;
-                    extension.addAll(property.extension);
-                    modifierExtension.addAll(property.modifierExtension);
+                protected Builder from(Property property) {
+                    super.from(property);
+                    code = property.code;
+                    value = property.value;
                     return this;
                 }
             }

@@ -177,31 +177,21 @@ public class Expression extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(language).from(this);
-    }
-
-    public Builder toBuilder(Code language) {
-        return new Builder(language).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Code language) {
-        return new Builder(language);
+        Builder builder = new Builder();
+        builder.language(language);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final Code language;
-
-        // optional
         private String description;
         private Id name;
+        private Code language;
         private String expression;
         private Uri reference;
-
-        private Builder(Code language) {
-            super();
-            this.language = language;
-        }
 
         /**
          * <p>
@@ -299,6 +289,22 @@ public class Expression extends Element {
 
         /**
          * <p>
+         * The media type of the language for the expression.
+         * </p>
+         * 
+         * @param language
+         *     text/cql | text/fhirpath | application/x-fhir-query | etc.
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder language(Code language) {
+            this.language = language;
+            return this;
+        }
+
+        /**
+         * <p>
          * An expression in the specified language that returns a value.
          * </p>
          * 
@@ -334,11 +340,11 @@ public class Expression extends Element {
             return new Expression(this);
         }
 
-        private Builder from(Expression expression) {
-            id = expression.id;
-            extension.addAll(expression.extension);
+        protected Builder from(Expression expression) {
+            super.from(expression);
             description = expression.description;
             name = expression.name;
+            language = expression.language;
             this.expression = expression.expression;
             reference = expression.reference;
             return this;

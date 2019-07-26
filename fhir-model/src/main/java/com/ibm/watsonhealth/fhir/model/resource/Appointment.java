@@ -534,24 +534,19 @@ public class Appointment extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, participant).from(this);
-    }
-
-    public Builder toBuilder(AppointmentStatus status, Collection<Participant> participant) {
-        return new Builder(status, participant).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(AppointmentStatus status, Collection<Participant> participant) {
-        return new Builder(status, participant);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.participant(participant);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final AppointmentStatus status;
-        private final List<Participant> participant;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private AppointmentStatus status;
         private CodeableConcept cancelationReason;
         private List<CodeableConcept> serviceCategory = new ArrayList<>();
         private List<CodeableConcept> serviceType = new ArrayList<>();
@@ -570,13 +565,8 @@ public class Appointment extends DomainResource {
         private String comment;
         private String patientInstruction;
         private List<Reference> basedOn = new ArrayList<>();
+        private List<Participant> participant = new ArrayList<>();
         private List<Period> requestedPeriod = new ArrayList<>();
-
-        private Builder(AppointmentStatus status, Collection<Participant> participant) {
-            super();
-            this.status = status;
-            this.participant = new ArrayList<>(participant);
-        }
 
         /**
          * <p>
@@ -845,6 +835,23 @@ public class Appointment extends DomainResource {
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The overall status of the Appointment. Each of the participants has their own participation status which indicates 
+         * their involvement in the process, however this status indicates the shared status.
+         * </p>
+         * 
+         * @param status
+         *     proposed | pending | booked | arrived | fulfilled | cancelled | noshow | entered-in-error | checked-in | waitlist
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(AppointmentStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1343,6 +1350,46 @@ public class Appointment extends DomainResource {
 
         /**
          * <p>
+         * List of participants involved in the appointment.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param participant
+         *     Participants involved in appointment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder participant(Participant... participant) {
+            for (Participant value : participant) {
+                this.participant.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * List of participants involved in the appointment.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param participant
+         *     Participants involved in appointment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder participant(Collection<Participant> participant) {
+            this.participant = new ArrayList<>(participant);
+            return this;
+        }
+
+        /**
+         * <p>
          * A set of date ranges (potentially including times) that the appointment is preferred to be scheduled within.
          * </p>
          * <p>
@@ -1396,16 +1443,10 @@ public class Appointment extends DomainResource {
             return new Appointment(this);
         }
 
-        private Builder from(Appointment appointment) {
-            id = appointment.id;
-            meta = appointment.meta;
-            implicitRules = appointment.implicitRules;
-            language = appointment.language;
-            text = appointment.text;
-            contained.addAll(appointment.contained);
-            extension.addAll(appointment.extension);
-            modifierExtension.addAll(appointment.modifierExtension);
+        protected Builder from(Appointment appointment) {
+            super.from(appointment);
             identifier.addAll(appointment.identifier);
+            status = appointment.status;
             cancelationReason = appointment.cancelationReason;
             serviceCategory.addAll(appointment.serviceCategory);
             serviceType.addAll(appointment.serviceType);
@@ -1424,6 +1465,7 @@ public class Appointment extends DomainResource {
             comment = appointment.comment;
             patientInstruction = appointment.patientInstruction;
             basedOn.addAll(appointment.basedOn);
+            participant.addAll(appointment.participant);
             requestedPeriod.addAll(appointment.requestedPeriod);
             return this;
         }
@@ -1585,31 +1627,21 @@ public class Appointment extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(status).from(this);
-        }
-
-        public Builder toBuilder(ParticipationStatus status) {
-            return new Builder(status).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(ParticipationStatus status) {
-            return new Builder(status);
+            Builder builder = new Builder();
+            builder.status(status);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final ParticipationStatus status;
-
-            // optional
             private List<CodeableConcept> type = new ArrayList<>();
             private Reference actor;
             private ParticipantRequired required;
+            private ParticipationStatus status;
             private Period period;
-
-            private Builder(ParticipationStatus status) {
-                super();
-                this.status = status;
-            }
 
             /**
              * <p>
@@ -1803,6 +1835,22 @@ public class Appointment extends DomainResource {
 
             /**
              * <p>
+             * Participation status of the actor.
+             * </p>
+             * 
+             * @param status
+             *     accepted | declined | tentative | needs-action
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder status(ParticipationStatus status) {
+                this.status = status;
+                return this;
+            }
+
+            /**
+             * <p>
              * Participation period of the actor.
              * </p>
              * 
@@ -1822,13 +1870,12 @@ public class Appointment extends DomainResource {
                 return new Participant(this);
             }
 
-            private Builder from(Participant participant) {
-                id = participant.id;
-                extension.addAll(participant.extension);
-                modifierExtension.addAll(participant.modifierExtension);
+            protected Builder from(Participant participant) {
+                super.from(participant);
                 type.addAll(participant.type);
                 actor = participant.actor;
                 required = participant.required;
+                status = participant.status;
                 period = participant.period;
                 return this;
             }

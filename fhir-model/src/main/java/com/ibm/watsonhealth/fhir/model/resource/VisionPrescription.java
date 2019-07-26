@@ -249,39 +249,29 @@ public class VisionPrescription extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
-    }
-
-    public Builder toBuilder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
-        return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
-        return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.created(created);
+        builder.patient(patient);
+        builder.dateWritten(dateWritten);
+        builder.prescriber(prescriber);
+        builder.lensSpecification(lensSpecification);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final VisionStatus status;
-        private final DateTime created;
-        private final Reference patient;
-        private final DateTime dateWritten;
-        private final Reference prescriber;
-        private final List<LensSpecification> lensSpecification;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private VisionStatus status;
+        private DateTime created;
+        private Reference patient;
         private Reference encounter;
-
-        private Builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
-            super();
-            this.status = status;
-            this.created = created;
-            this.patient = patient;
-            this.dateWritten = dateWritten;
-            this.prescriber = prescriber;
-            this.lensSpecification = new ArrayList<>(lensSpecification);
-        }
+        private DateTime dateWritten;
+        private Reference prescriber;
+        private List<LensSpecification> lensSpecification = new ArrayList<>();
 
         /**
          * <p>
@@ -551,6 +541,54 @@ public class VisionPrescription extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(VisionStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date this resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Response creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A resource reference to the person to whom the vision prescription applies.
+         * </p>
+         * 
+         * @param patient
+         *     Who prescription is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
          * A reference to a resource that identifies the particular occurrence of contact between patient and health care 
          * provider during which the prescription was issued.
          * </p>
@@ -566,22 +604,95 @@ public class VisionPrescription extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * The date (and perhaps time) when the prescription was written.
+         * </p>
+         * 
+         * @param dateWritten
+         *     When prescription was authorized
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder dateWritten(DateTime dateWritten) {
+            this.dateWritten = dateWritten;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The healthcare professional responsible for authorizing the prescription.
+         * </p>
+         * 
+         * @param prescriber
+         *     Who authorized the vision prescription
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder prescriber(Reference prescriber) {
+            this.prescriber = prescriber;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
+         * certified professionals.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param lensSpecification
+         *     Vision lens authorization
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lensSpecification(LensSpecification... lensSpecification) {
+            for (LensSpecification value : lensSpecification) {
+                this.lensSpecification.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
+         * certified professionals.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param lensSpecification
+         *     Vision lens authorization
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lensSpecification(Collection<LensSpecification> lensSpecification) {
+            this.lensSpecification = new ArrayList<>(lensSpecification);
+            return this;
+        }
+
         @Override
         public VisionPrescription build() {
             return new VisionPrescription(this);
         }
 
-        private Builder from(VisionPrescription visionPrescription) {
-            id = visionPrescription.id;
-            meta = visionPrescription.meta;
-            implicitRules = visionPrescription.implicitRules;
-            language = visionPrescription.language;
-            text = visionPrescription.text;
-            contained.addAll(visionPrescription.contained);
-            extension.addAll(visionPrescription.extension);
-            modifierExtension.addAll(visionPrescription.modifierExtension);
+        protected Builder from(VisionPrescription visionPrescription) {
+            super.from(visionPrescription);
             identifier.addAll(visionPrescription.identifier);
+            status = visionPrescription.status;
+            created = visionPrescription.created;
+            patient = visionPrescription.patient;
             encounter = visionPrescription.encounter;
+            dateWritten = visionPrescription.dateWritten;
+            prescriber = visionPrescription.prescriber;
+            lensSpecification.addAll(visionPrescription.lensSpecification);
             return this;
         }
     }
@@ -904,23 +1015,19 @@ public class VisionPrescription extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(product, eye).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept product, VisionEyes eye) {
-            return new Builder(product, eye).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept product, VisionEyes eye) {
-            return new Builder(product, eye);
+            Builder builder = new Builder();
+            builder.product(product);
+            builder.eye(eye);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept product;
-            private final VisionEyes eye;
-
-            // optional
+            private CodeableConcept product;
+            private VisionEyes eye;
             private Decimal sphere;
             private Decimal cylinder;
             private Integer axis;
@@ -933,12 +1040,6 @@ public class VisionPrescription extends DomainResource {
             private String color;
             private String brand;
             private List<Annotation> note = new ArrayList<>();
-
-            private Builder(CodeableConcept product, VisionEyes eye) {
-                super();
-                this.product = product;
-                this.eye = eye;
-            }
 
             /**
              * <p>
@@ -1055,6 +1156,38 @@ public class VisionPrescription extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Identifies the type of vision correction product which is required for the patient.
+             * </p>
+             * 
+             * @param product
+             *     Product to be supplied
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder product(CodeableConcept product) {
+                this.product = product;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The eye for which the lens specification applies.
+             * </p>
+             * 
+             * @param eye
+             *     right | left
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder eye(VisionEyes eye) {
+                this.eye = eye;
+                return this;
             }
 
             /**
@@ -1302,10 +1435,10 @@ public class VisionPrescription extends DomainResource {
                 return new LensSpecification(this);
             }
 
-            private Builder from(LensSpecification lensSpecification) {
-                id = lensSpecification.id;
-                extension.addAll(lensSpecification.extension);
-                modifierExtension.addAll(lensSpecification.modifierExtension);
+            protected Builder from(LensSpecification lensSpecification) {
+                super.from(lensSpecification);
+                product = lensSpecification.product;
+                eye = lensSpecification.eye;
                 sphere = lensSpecification.sphere;
                 cylinder = lensSpecification.cylinder;
                 axis = lensSpecification.axis;
@@ -1423,27 +1556,19 @@ public class VisionPrescription extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(amount, base).from(this);
-            }
-
-            public Builder toBuilder(Decimal amount, VisionBase base) {
-                return new Builder(amount, base).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Decimal amount, VisionBase base) {
-                return new Builder(amount, base);
+                Builder builder = new Builder();
+                builder.amount(amount);
+                builder.base(base);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Decimal amount;
-                private final VisionBase base;
-
-                private Builder(Decimal amount, VisionBase base) {
-                    super();
-                    this.amount = amount;
-                    this.base = base;
-                }
+                private Decimal amount;
+                private VisionBase base;
 
                 /**
                  * <p>
@@ -1562,15 +1687,47 @@ public class VisionPrescription extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * Amount of prism to compensate for eye alignment in fractional units.
+                 * </p>
+                 * 
+                 * @param amount
+                 *     Amount of adjustment
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder amount(Decimal amount) {
+                    this.amount = amount;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The relative base, or reference lens edge, for the prism.
+                 * </p>
+                 * 
+                 * @param base
+                 *     up | down | in | out
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder base(VisionBase base) {
+                    this.base = base;
+                    return this;
+                }
+
                 @Override
                 public Prism build() {
                     return new Prism(this);
                 }
 
-                private Builder from(Prism prism) {
-                    id = prism.id;
-                    extension.addAll(prism.extension);
-                    modifierExtension.addAll(prism.modifierExtension);
+                protected Builder from(Prism prism) {
+                    super.from(prism);
+                    amount = prism.amount;
+                    base = prism.base;
                     return this;
                 }
             }

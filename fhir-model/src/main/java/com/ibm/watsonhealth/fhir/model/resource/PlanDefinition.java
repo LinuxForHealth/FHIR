@@ -690,22 +690,16 @@ public class PlanDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
@@ -713,6 +707,7 @@ public class PlanDefinition extends DomainResource {
         private String title;
         private String subtitle;
         private CodeableConcept type;
+        private PublicationStatus status;
         private Boolean experimental;
         private Element subject;
         private DateTime date;
@@ -736,11 +731,6 @@ public class PlanDefinition extends DomainResource {
         private List<Canonical> library = new ArrayList<>();
         private List<Goal> goal = new ArrayList<>();
         private List<Action> action = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -1114,6 +1104,22 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this plan definition. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1792,15 +1798,8 @@ public class PlanDefinition extends DomainResource {
             return new PlanDefinition(this);
         }
 
-        private Builder from(PlanDefinition planDefinition) {
-            id = planDefinition.id;
-            meta = planDefinition.meta;
-            implicitRules = planDefinition.implicitRules;
-            language = planDefinition.language;
-            text = planDefinition.text;
-            contained.addAll(planDefinition.contained);
-            extension.addAll(planDefinition.extension);
-            modifierExtension.addAll(planDefinition.modifierExtension);
+        protected Builder from(PlanDefinition planDefinition) {
+            super.from(planDefinition);
             url = planDefinition.url;
             identifier.addAll(planDefinition.identifier);
             version = planDefinition.version;
@@ -1808,6 +1807,7 @@ public class PlanDefinition extends DomainResource {
             title = planDefinition.title;
             subtitle = planDefinition.subtitle;
             type = planDefinition.type;
+            status = planDefinition.status;
             experimental = planDefinition.experimental;
             subject = planDefinition.subject;
             date = planDefinition.date;
@@ -2029,33 +2029,23 @@ public class PlanDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(description).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept description) {
-            return new Builder(description).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept description) {
-            return new Builder(description);
+            Builder builder = new Builder();
+            builder.description(description);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept description;
-
-            // optional
             private CodeableConcept category;
+            private CodeableConcept description;
             private CodeableConcept priority;
             private CodeableConcept start;
             private List<CodeableConcept> addresses = new ArrayList<>();
             private List<RelatedArtifact> documentation = new ArrayList<>();
             private List<Target> target = new ArrayList<>();
-
-            private Builder(CodeableConcept description) {
-                super();
-                this.description = description;
-            }
 
             /**
              * <p>
@@ -2187,6 +2177,23 @@ public class PlanDefinition extends DomainResource {
              */
             public Builder category(CodeableConcept category) {
                 this.category = category;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Human-readable and/or coded description of a specific desired objective of care, such as "control blood pressure" or 
+             * "negotiate an obstacle course" or "dance with child at wedding".
+             * </p>
+             * 
+             * @param description
+             *     Code or text describing the goal
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(CodeableConcept description) {
+                this.description = description;
                 return this;
             }
 
@@ -2349,11 +2356,10 @@ public class PlanDefinition extends DomainResource {
                 return new Goal(this);
             }
 
-            private Builder from(Goal goal) {
-                id = goal.id;
-                extension.addAll(goal.extension);
-                modifierExtension.addAll(goal.modifierExtension);
+            protected Builder from(Goal goal) {
+                super.from(goal);
                 category = goal.category;
+                description = goal.description;
                 priority = goal.priority;
                 start = goal.start;
                 addresses.addAll(goal.addresses);
@@ -2489,18 +2495,14 @@ public class PlanDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept measure;
                 private Element detail;
                 private Duration due;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2675,10 +2677,8 @@ public class PlanDefinition extends DomainResource {
                     return new Target(this);
                 }
 
-                private Builder from(Target target) {
-                    id = target.id;
-                    extension.addAll(target.extension);
-                    modifierExtension.addAll(target.modifierExtension);
+                protected Builder from(Target target) {
+                    super.from(target);
                     measure = target.measure;
                     detail = target.detail;
                     due = target.due;
@@ -3253,11 +3253,11 @@ public class PlanDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String prefix;
             private String title;
             private String description;
@@ -3285,10 +3285,6 @@ public class PlanDefinition extends DomainResource {
             private Canonical transform;
             private List<DynamicValue> dynamicValue = new ArrayList<>();
             private List<PlanDefinition.Action> action = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4149,10 +4145,8 @@ public class PlanDefinition extends DomainResource {
                 return new Action(this);
             }
 
-            private Builder from(Action action) {
-                id = action.id;
-                extension.addAll(action.extension);
-                modifierExtension.addAll(action.modifierExtension);
+            protected Builder from(Action action) {
+                super.from(action);
                 prefix = action.prefix;
                 title = action.title;
                 description = action.description;
@@ -4285,28 +4279,18 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(kind).from(this);
-            }
-
-            public Builder toBuilder(ActionConditionKind kind) {
-                return new Builder(kind).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ActionConditionKind kind) {
-                return new Builder(kind);
+                Builder builder = new Builder();
+                builder.kind(kind);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ActionConditionKind kind;
-
-                // optional
+                private ActionConditionKind kind;
                 private Expression expression;
-
-                private Builder(ActionConditionKind kind) {
-                    super();
-                    this.kind = kind;
-                }
 
                 /**
                  * <p>
@@ -4427,6 +4411,22 @@ public class PlanDefinition extends DomainResource {
 
                 /**
                  * <p>
+                 * The kind of condition.
+                 * </p>
+                 * 
+                 * @param kind
+                 *     applicability | start | stop
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder kind(ActionConditionKind kind) {
+                    this.kind = kind;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * An expression that returns true or false, indicating whether the condition is satisfied.
                  * </p>
                  * 
@@ -4446,10 +4446,9 @@ public class PlanDefinition extends DomainResource {
                     return new Condition(this);
                 }
 
-                private Builder from(Condition condition) {
-                    id = condition.id;
-                    extension.addAll(condition.extension);
-                    modifierExtension.addAll(condition.modifierExtension);
+                protected Builder from(Condition condition) {
+                    super.from(condition);
+                    kind = condition.kind;
                     expression = condition.expression;
                     return this;
                 }
@@ -4575,30 +4574,20 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(actionId, relationship).from(this);
-            }
-
-            public Builder toBuilder(Id actionId, ActionRelationshipType relationship) {
-                return new Builder(actionId, relationship).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Id actionId, ActionRelationshipType relationship) {
-                return new Builder(actionId, relationship);
+                Builder builder = new Builder();
+                builder.actionId(actionId);
+                builder.relationship(relationship);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Id actionId;
-                private final ActionRelationshipType relationship;
-
-                // optional
+                private Id actionId;
+                private ActionRelationshipType relationship;
                 private Element offset;
-
-                private Builder(Id actionId, ActionRelationshipType relationship) {
-                    super();
-                    this.actionId = actionId;
-                    this.relationship = relationship;
-                }
 
                 /**
                  * <p>
@@ -4719,6 +4708,39 @@ public class PlanDefinition extends DomainResource {
 
                 /**
                  * <p>
+                 * The element id of the related action.
+                 * </p>
+                 * 
+                 * @param actionId
+                 *     What action is this related to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder actionId(Id actionId) {
+                    this.actionId = actionId;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The relationship of this action to the related action.
+                 * </p>
+                 * 
+                 * @param relationship
+                 *     before-start | before | before-end | concurrent-with-start | concurrent | concurrent-with-end | after-start | after | 
+                 *     after-end
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder relationship(ActionRelationshipType relationship) {
+                    this.relationship = relationship;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
                  * </p>
                  * 
@@ -4738,10 +4760,10 @@ public class PlanDefinition extends DomainResource {
                     return new RelatedAction(this);
                 }
 
-                private Builder from(RelatedAction relatedAction) {
-                    id = relatedAction.id;
-                    extension.addAll(relatedAction.extension);
-                    modifierExtension.addAll(relatedAction.modifierExtension);
+                protected Builder from(RelatedAction relatedAction) {
+                    super.from(relatedAction);
+                    actionId = relatedAction.actionId;
+                    relationship = relatedAction.relationship;
                     offset = relatedAction.offset;
                     return this;
                 }
@@ -4849,28 +4871,18 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(ActionParticipantType type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ActionParticipantType type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ActionParticipantType type;
-
-                // optional
+                private ActionParticipantType type;
                 private CodeableConcept role;
-
-                private Builder(ActionParticipantType type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -4991,6 +5003,22 @@ public class PlanDefinition extends DomainResource {
 
                 /**
                  * <p>
+                 * The type of participant in the action.
+                 * </p>
+                 * 
+                 * @param type
+                 *     patient | practitioner | related-person | device
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(ActionParticipantType type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The role the participant should play in performing the described action.
                  * </p>
                  * 
@@ -5010,10 +5038,9 @@ public class PlanDefinition extends DomainResource {
                     return new Participant(this);
                 }
 
-                private Builder from(Participant participant) {
-                    id = participant.id;
-                    extension.addAll(participant.extension);
-                    modifierExtension.addAll(participant.modifierExtension);
+                protected Builder from(Participant participant) {
+                    super.from(participant);
+                    type = participant.type;
                     role = participant.role;
                     return this;
                 }
@@ -5131,17 +5158,13 @@ public class PlanDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private String path;
                 private Expression expression;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -5301,10 +5324,8 @@ public class PlanDefinition extends DomainResource {
                     return new DynamicValue(this);
                 }
 
-                private Builder from(DynamicValue dynamicValue) {
-                    id = dynamicValue.id;
-                    extension.addAll(dynamicValue.extension);
-                    modifierExtension.addAll(dynamicValue.modifierExtension);
+                protected Builder from(DynamicValue dynamicValue) {
+                    super.from(dynamicValue);
                     path = dynamicValue.path;
                     expression = dynamicValue.expression;
                     return this;

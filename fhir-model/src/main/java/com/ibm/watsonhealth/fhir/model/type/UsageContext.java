@@ -116,27 +116,19 @@ public class UsageContext extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(code, value).from(this);
-    }
-
-    public Builder toBuilder(Coding code, Element value) {
-        return new Builder(code, value).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Coding code, Element value) {
-        return new Builder(code, value);
+        Builder builder = new Builder();
+        builder.code(code);
+        builder.value(value);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final Coding code;
-        private final Element value;
-
-        private Builder(Coding code, Element value) {
-            super();
-            this.code = code;
-            this.value = value;
-        }
+        private Coding code;
+        private Element value;
 
         /**
          * <p>
@@ -199,14 +191,48 @@ public class UsageContext extends Element {
             return (Builder) super.extension(extension);
         }
 
+        /**
+         * <p>
+         * A code that identifies the type of context being specified by this usage context.
+         * </p>
+         * 
+         * @param code
+         *     Type of context being specified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(Coding code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A value that defines the context specified in this context of use. The interpretation of the value is defined by the 
+         * code.
+         * </p>
+         * 
+         * @param value
+         *     Value that defines the context
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Element value) {
+            this.value = value;
+            return this;
+        }
+
         @Override
         public UsageContext build() {
             return new UsageContext(this);
         }
 
-        private Builder from(UsageContext usageContext) {
-            id = usageContext.id;
-            extension.addAll(usageContext.extension);
+        protected Builder from(UsageContext usageContext) {
+            super.from(usageContext);
+            code = usageContext.code;
+            value = usageContext.value;
             return this;
         }
     }

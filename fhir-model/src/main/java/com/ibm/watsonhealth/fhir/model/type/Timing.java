@@ -216,18 +216,14 @@ public class Timing extends BackboneElement {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends BackboneElement.Builder {
-        // optional
         private List<DateTime> event = new ArrayList<>();
         private Repeat repeat;
         private CodeableConcept code;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -427,10 +423,8 @@ public class Timing extends BackboneElement {
             return new Timing(this);
         }
 
-        private Builder from(Timing timing) {
-            id = timing.id;
-            extension.addAll(timing.extension);
-            modifierExtension.addAll(timing.modifierExtension);
+        protected Builder from(Timing timing) {
+            super.from(timing);
             event.addAll(timing.event);
             repeat = timing.repeat;
             code = timing.code;
@@ -788,11 +782,11 @@ public class Timing extends BackboneElement {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Element bounds;
             private PositiveInt count;
             private PositiveInt countMax;
@@ -808,10 +802,6 @@ public class Timing extends BackboneElement {
             private List<Time> timeOfDay = new ArrayList<>();
             private List<EventTiming> when = new ArrayList<>();
             private UnsignedInt offset;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1255,10 +1245,8 @@ public class Timing extends BackboneElement {
                 return new Repeat(this);
             }
 
-            private Builder from(Repeat repeat) {
-                id = repeat.id;
-                extension.addAll(repeat.extension);
-                modifierExtension.addAll(repeat.modifierExtension);
+            protected Builder from(Repeat repeat) {
+                super.from(repeat);
                 bounds = repeat.bounds;
                 count = repeat.count;
                 countMax = repeat.countMax;

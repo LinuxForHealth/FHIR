@@ -195,20 +195,16 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private String comment;
         private List<Gene> gene = new ArrayList<>();
         private List<GeneElement> geneElement = new ArrayList<>();
         private List<Classification> classification = new ArrayList<>();
         private List<Target> target = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -617,15 +613,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             return new SubstanceReferenceInformation(this);
         }
 
-        private Builder from(SubstanceReferenceInformation substanceReferenceInformation) {
-            id = substanceReferenceInformation.id;
-            meta = substanceReferenceInformation.meta;
-            implicitRules = substanceReferenceInformation.implicitRules;
-            language = substanceReferenceInformation.language;
-            text = substanceReferenceInformation.text;
-            contained.addAll(substanceReferenceInformation.contained);
-            extension.addAll(substanceReferenceInformation.extension);
-            modifierExtension.addAll(substanceReferenceInformation.modifierExtension);
+        protected Builder from(SubstanceReferenceInformation substanceReferenceInformation) {
+            super.from(substanceReferenceInformation);
             comment = substanceReferenceInformation.comment;
             gene.addAll(substanceReferenceInformation.gene);
             geneElement.addAll(substanceReferenceInformation.geneElement);
@@ -758,18 +747,14 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept geneSequenceOrigin;
             private CodeableConcept gene;
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -965,10 +950,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Gene(this);
             }
 
-            private Builder from(Gene gene) {
-                id = gene.id;
-                extension.addAll(gene.extension);
-                modifierExtension.addAll(gene.modifierExtension);
+            protected Builder from(Gene gene) {
+                super.from(gene);
                 geneSequenceOrigin = gene.geneSequenceOrigin;
                 this.gene = gene.gene;
                 source.addAll(gene.source);
@@ -1100,18 +1083,14 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept type;
             private Identifier element;
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1307,10 +1286,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new GeneElement(this);
             }
 
-            private Builder from(GeneElement geneElement) {
-                id = geneElement.id;
-                extension.addAll(geneElement.extension);
-                modifierExtension.addAll(geneElement.modifierExtension);
+            protected Builder from(GeneElement geneElement) {
+                super.from(geneElement);
                 type = geneElement.type;
                 element = geneElement.element;
                 source.addAll(geneElement.source);
@@ -1460,19 +1437,15 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept domain;
             private CodeableConcept classification;
             private List<CodeableConcept> subtype = new ArrayList<>();
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1708,10 +1681,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Classification(this);
             }
 
-            private Builder from(Classification classification) {
-                id = classification.id;
-                extension.addAll(classification.extension);
-                modifierExtension.addAll(classification.modifierExtension);
+            protected Builder from(Classification classification) {
+                super.from(classification);
                 domain = classification.domain;
                 this.classification = classification.classification;
                 subtype.addAll(classification.subtype);
@@ -1934,11 +1905,11 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Identifier target;
             private CodeableConcept type;
             private CodeableConcept interaction;
@@ -1947,10 +1918,6 @@ public class SubstanceReferenceInformation extends DomainResource {
             private Element amount;
             private CodeableConcept amountType;
             private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2226,10 +2193,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Target(this);
             }
 
-            private Builder from(Target target) {
-                id = target.id;
-                extension.addAll(target.extension);
-                modifierExtension.addAll(target.modifierExtension);
+            protected Builder from(Target target) {
+                super.from(target);
                 this.target = target.target;
                 type = target.type;
                 interaction = target.interaction;

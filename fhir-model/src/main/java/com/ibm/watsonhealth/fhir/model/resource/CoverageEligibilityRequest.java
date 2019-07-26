@@ -357,44 +357,34 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, purpose, patient, created, insurer).from(this);
-    }
-
-    public Builder toBuilder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
-        return new Builder(status, purpose, patient, created, insurer).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
-        return new Builder(status, purpose, patient, created, insurer);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.purpose(purpose);
+        builder.patient(patient);
+        builder.created(created);
+        builder.insurer(insurer);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final EligibilityRequestStatus status;
-        private final List<EligibilityRequestPurpose> purpose;
-        private final Reference patient;
-        private final DateTime created;
-        private final Reference insurer;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private EligibilityRequestStatus status;
         private CodeableConcept priority;
+        private List<EligibilityRequestPurpose> purpose = new ArrayList<>();
+        private Reference patient;
         private Element serviced;
+        private DateTime created;
         private Reference enterer;
         private Reference provider;
+        private Reference insurer;
         private Reference facility;
         private List<SupportingInfo> supportingInfo = new ArrayList<>();
         private List<Insurance> insurance = new ArrayList<>();
         private List<Item> item = new ArrayList<>();
-
-        private Builder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
-            super();
-            this.status = status;
-            this.purpose = new ArrayList<>(purpose);
-            this.patient = patient;
-            this.created = created;
-            this.insurer = insurer;
-        }
 
         /**
          * <p>
@@ -664,6 +654,22 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * <p>
+         * The status of the resource instance.
+         * </p>
+         * 
+         * @param status
+         *     active | cancelled | draft | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(EligibilityRequestStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * When the requestor expects the processor to complete processing.
          * </p>
          * 
@@ -680,6 +686,66 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder purpose(EligibilityRequestPurpose... purpose) {
+            for (EligibilityRequestPurpose value : purpose) {
+                this.purpose.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder purpose(Collection<EligibilityRequestPurpose> purpose) {
+            this.purpose = new ArrayList<>(purpose);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The party who is the beneficiary of the supplied coverage and for whom eligibility is sought.
+         * </p>
+         * 
+         * @param patient
+         *     Intended recipient of products and services
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
+            return this;
+        }
+
+        /**
+         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
          * </p>
          * 
@@ -691,6 +757,22 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public Builder serviced(Element serviced) {
             this.serviced = serviced;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date when this resource was created.
+         * </p>
+         * 
+         * @param created
+         *     Creation date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(DateTime created) {
+            this.created = created;
             return this;
         }
 
@@ -723,6 +805,22 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public Builder provider(Reference provider) {
             this.provider = provider;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The Insurer who issued the coverage in question and is the recipient of the request.
+         * </p>
+         * 
+         * @param insurer
+         *     Coverage issuer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder insurer(Reference insurer) {
+            this.insurer = insurer;
             return this;
         }
 
@@ -871,20 +969,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             return new CoverageEligibilityRequest(this);
         }
 
-        private Builder from(CoverageEligibilityRequest coverageEligibilityRequest) {
-            id = coverageEligibilityRequest.id;
-            meta = coverageEligibilityRequest.meta;
-            implicitRules = coverageEligibilityRequest.implicitRules;
-            language = coverageEligibilityRequest.language;
-            text = coverageEligibilityRequest.text;
-            contained.addAll(coverageEligibilityRequest.contained);
-            extension.addAll(coverageEligibilityRequest.extension);
-            modifierExtension.addAll(coverageEligibilityRequest.modifierExtension);
+        protected Builder from(CoverageEligibilityRequest coverageEligibilityRequest) {
+            super.from(coverageEligibilityRequest);
             identifier.addAll(coverageEligibilityRequest.identifier);
+            status = coverageEligibilityRequest.status;
             priority = coverageEligibilityRequest.priority;
+            purpose.addAll(coverageEligibilityRequest.purpose);
+            patient = coverageEligibilityRequest.patient;
             serviced = coverageEligibilityRequest.serviced;
+            created = coverageEligibilityRequest.created;
             enterer = coverageEligibilityRequest.enterer;
             provider = coverageEligibilityRequest.provider;
+            insurer = coverageEligibilityRequest.insurer;
             facility = coverageEligibilityRequest.facility;
             supportingInfo.addAll(coverageEligibilityRequest.supportingInfo);
             insurance.addAll(coverageEligibilityRequest.insurance);
@@ -1014,30 +1110,20 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(sequence, information).from(this);
-        }
-
-        public Builder toBuilder(PositiveInt sequence, Reference information) {
-            return new Builder(sequence, information).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Reference information) {
-            return new Builder(sequence, information);
+            Builder builder = new Builder();
+            builder.sequence(sequence);
+            builder.information(information);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final PositiveInt sequence;
-            private final Reference information;
-
-            // optional
+            private PositiveInt sequence;
+            private Reference information;
             private Boolean appliesToAll;
-
-            private Builder(PositiveInt sequence, Reference information) {
-                super();
-                this.sequence = sequence;
-                this.information = information;
-            }
 
             /**
              * <p>
@@ -1158,6 +1244,39 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             /**
              * <p>
+             * A number to uniquely identify supporting information entries.
+             * </p>
+             * 
+             * @param sequence
+             *     Information instance identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(PositiveInt sequence) {
+                this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * <p>
+             * Additional data or information such as resources, documents, images etc. including references to the data or the 
+             * actual inclusion of the data.
+             * </p>
+             * 
+             * @param information
+             *     Data to be provided
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder information(Reference information) {
+                this.information = information;
+                return this;
+            }
+
+            /**
+             * <p>
              * The supporting materials are applicable for all detail items, product/servce categories and specific billing codes.
              * </p>
              * 
@@ -1177,10 +1296,10 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new SupportingInfo(this);
             }
 
-            private Builder from(SupportingInfo supportingInfo) {
-                id = supportingInfo.id;
-                extension.addAll(supportingInfo.extension);
-                modifierExtension.addAll(supportingInfo.modifierExtension);
+            protected Builder from(SupportingInfo supportingInfo) {
+                super.from(supportingInfo);
+                sequence = supportingInfo.sequence;
+                information = supportingInfo.information;
                 appliesToAll = supportingInfo.appliesToAll;
                 return this;
             }
@@ -1307,29 +1426,19 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(coverage).from(this);
-        }
-
-        public Builder toBuilder(Reference coverage) {
-            return new Builder(coverage).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference coverage) {
-            return new Builder(coverage);
+            Builder builder = new Builder();
+            builder.coverage(coverage);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference coverage;
-
-            // optional
             private Boolean focal;
+            private Reference coverage;
             private String businessArrangement;
-
-            private Builder(Reference coverage) {
-                super();
-                this.coverage = coverage;
-            }
 
             /**
              * <p>
@@ -1466,6 +1575,23 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             /**
              * <p>
+             * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
+             * will use these details to locate the patient's actual coverage within the insurer's information system.
+             * </p>
+             * 
+             * @param coverage
+             *     Insurance information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder coverage(Reference coverage) {
+                this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * <p>
              * A business agreement number established between the provider and the insurer for special business processing purposes.
              * </p>
              * 
@@ -1485,11 +1611,10 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new Insurance(this);
             }
 
-            private Builder from(Insurance insurance) {
-                id = insurance.id;
-                extension.addAll(insurance.extension);
-                modifierExtension.addAll(insurance.modifierExtension);
+            protected Builder from(Insurance insurance) {
+                super.from(insurance);
                 focal = insurance.focal;
+                coverage = insurance.coverage;
                 businessArrangement = insurance.businessArrangement;
                 return this;
             }
@@ -1746,11 +1871,11 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<PositiveInt> supportingInfoSequence = new ArrayList<>();
             private CodeableConcept category;
             private CodeableConcept productOrService;
@@ -1761,10 +1886,6 @@ public class CoverageEligibilityRequest extends DomainResource {
             private Reference facility;
             private List<Diagnosis> diagnosis = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2144,10 +2265,8 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new Item(this);
             }
 
-            private Builder from(Item item) {
-                id = item.id;
-                extension.addAll(item.extension);
-                modifierExtension.addAll(item.modifierExtension);
+            protected Builder from(Item item) {
+                super.from(item);
                 supportingInfoSequence.addAll(item.supportingInfoSequence);
                 category = item.category;
                 productOrService = item.productOrService;
@@ -2249,16 +2368,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Element diagnosis;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -2398,10 +2513,8 @@ public class CoverageEligibilityRequest extends DomainResource {
                     return new Diagnosis(this);
                 }
 
-                private Builder from(Diagnosis diagnosis) {
-                    id = diagnosis.id;
-                    extension.addAll(diagnosis.extension);
-                    modifierExtension.addAll(diagnosis.modifierExtension);
+                protected Builder from(Diagnosis diagnosis) {
+                    super.from(diagnosis);
                     this.diagnosis = diagnosis.diagnosis;
                     return this;
                 }

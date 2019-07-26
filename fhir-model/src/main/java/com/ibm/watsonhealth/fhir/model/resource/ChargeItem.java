@@ -559,28 +559,25 @@ public class ChargeItem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, code, subject).from(this);
-    }
-
-    public Builder toBuilder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
-        return new Builder(status, code, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
-        return new Builder(status, code, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.code(code);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ChargeItemStatus status;
-        private final CodeableConcept code;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Uri> definitionUri = new ArrayList<>();
         private List<Canonical> definitionCanonical = new ArrayList<>();
+        private ChargeItemStatus status;
         private List<Reference> partOf = new ArrayList<>();
+        private CodeableConcept code;
+        private Reference subject;
         private Reference context;
         private Element occurrence;
         private List<Performer> performer = new ArrayList<>();
@@ -600,13 +597,6 @@ public class ChargeItem extends DomainResource {
         private List<Reference> account = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Reference> supportingInformation = new ArrayList<>();
-
-        private Builder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
-            super();
-            this.status = status;
-            this.code = code;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -956,6 +946,22 @@ public class ChargeItem extends DomainResource {
 
         /**
          * <p>
+         * The current state of the ChargeItem.
+         * </p>
+         * 
+         * @param status
+         *     planned | billable | not-billable | aborted | billed | entered-in-error | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ChargeItemStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * ChargeItems can be grouped to larger ChargeItems covering the whole set.
          * </p>
          * <p>
@@ -991,6 +997,38 @@ public class ChargeItem extends DomainResource {
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
+            return this;
+        }
+
+        /**
+         * <p>
+         * A code that identifies the charge, like a billing code.
+         * </p>
+         * 
+         * @param code
+         *     A code that identifies the charge, like a billing code
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The individual or set of individuals the action is being or was performed on.
+         * </p>
+         * 
+         * @param subject
+         *     Individual service was done for/to
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1472,19 +1510,15 @@ public class ChargeItem extends DomainResource {
             return new ChargeItem(this);
         }
 
-        private Builder from(ChargeItem chargeItem) {
-            id = chargeItem.id;
-            meta = chargeItem.meta;
-            implicitRules = chargeItem.implicitRules;
-            language = chargeItem.language;
-            text = chargeItem.text;
-            contained.addAll(chargeItem.contained);
-            extension.addAll(chargeItem.extension);
-            modifierExtension.addAll(chargeItem.modifierExtension);
+        protected Builder from(ChargeItem chargeItem) {
+            super.from(chargeItem);
             identifier.addAll(chargeItem.identifier);
             definitionUri.addAll(chargeItem.definitionUri);
             definitionCanonical.addAll(chargeItem.definitionCanonical);
+            status = chargeItem.status;
             partOf.addAll(chargeItem.partOf);
+            code = chargeItem.code;
+            subject = chargeItem.subject;
             context = chargeItem.context;
             occurrence = chargeItem.occurrence;
             performer.addAll(chargeItem.performer);
@@ -1609,28 +1643,18 @@ public class ChargeItem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(actor).from(this);
-        }
-
-        public Builder toBuilder(Reference actor) {
-            return new Builder(actor).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference actor) {
-            return new Builder(actor);
+            Builder builder = new Builder();
+            builder.actor(actor);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference actor;
-
-            // optional
             private CodeableConcept function;
-
-            private Builder(Reference actor) {
-                super();
-                this.actor = actor;
-            }
+            private Reference actor;
 
             /**
              * <p>
@@ -1765,16 +1789,31 @@ public class ChargeItem extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The device, practitioner, etc. who performed or participated in the service.
+             * </p>
+             * 
+             * @param actor
+             *     Individual who was performing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actor(Reference actor) {
+                this.actor = actor;
+                return this;
+            }
+
             @Override
             public Performer build() {
                 return new Performer(this);
             }
 
-            private Builder from(Performer performer) {
-                id = performer.id;
-                extension.addAll(performer.extension);
-                modifierExtension.addAll(performer.modifierExtension);
+            protected Builder from(Performer performer) {
+                super.from(performer);
                 function = performer.function;
+                actor = performer.actor;
                 return this;
             }
         }

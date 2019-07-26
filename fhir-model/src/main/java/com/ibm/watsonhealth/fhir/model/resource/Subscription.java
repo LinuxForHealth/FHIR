@@ -228,36 +228,26 @@ public class Subscription extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, reason, criteria, channel).from(this);
-    }
-
-    public Builder toBuilder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
-        return new Builder(status, reason, criteria, channel).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
-        return new Builder(status, reason, criteria, channel);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.reason(reason);
+        builder.criteria(criteria);
+        builder.channel(channel);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final SubscriptionStatus status;
-        private final String reason;
-        private final String criteria;
-        private final Channel channel;
-
-        // optional
+        private SubscriptionStatus status;
         private List<ContactPoint> contact = new ArrayList<>();
         private Instant end;
+        private String reason;
+        private String criteria;
         private String error;
-
-        private Builder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
-            super();
-            this.status = status;
-            this.reason = reason;
-            this.criteria = criteria;
-            this.channel = channel;
-        }
+        private Channel channel;
 
         /**
          * <p>
@@ -487,6 +477,22 @@ public class Subscription extends DomainResource {
 
         /**
          * <p>
+         * The status of the subscription, which marks the server state for managing the subscription.
+         * </p>
+         * 
+         * @param status
+         *     requested | active | error | off
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(SubscriptionStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * </p>
@@ -545,6 +551,38 @@ public class Subscription extends DomainResource {
 
         /**
          * <p>
+         * A description of why this subscription is defined.
+         * </p>
+         * 
+         * @param reason
+         *     Description of why this subscription was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder reason(String reason) {
+            this.reason = reason;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The rules that the server should use to determine when to generate notifications for this subscription.
+         * </p>
+         * 
+         * @param criteria
+         *     Rule for server push
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder criteria(String criteria) {
+            this.criteria = criteria;
+            return this;
+        }
+
+        /**
+         * <p>
          * A record of the last error that occurred when the server processed a notification.
          * </p>
          * 
@@ -559,23 +597,36 @@ public class Subscription extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Details where to send notifications when resources are received that meet the criteria.
+         * </p>
+         * 
+         * @param channel
+         *     The channel on which to report matches to the criteria
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder channel(Channel channel) {
+            this.channel = channel;
+            return this;
+        }
+
         @Override
         public Subscription build() {
             return new Subscription(this);
         }
 
-        private Builder from(Subscription subscription) {
-            id = subscription.id;
-            meta = subscription.meta;
-            implicitRules = subscription.implicitRules;
-            language = subscription.language;
-            text = subscription.text;
-            contained.addAll(subscription.contained);
-            extension.addAll(subscription.extension);
-            modifierExtension.addAll(subscription.modifierExtension);
+        protected Builder from(Subscription subscription) {
+            super.from(subscription);
+            status = subscription.status;
             contact.addAll(subscription.contact);
             end = subscription.end;
+            reason = subscription.reason;
+            criteria = subscription.criteria;
             error = subscription.error;
+            channel = subscription.channel;
             return this;
         }
     }
@@ -719,30 +770,20 @@ public class Subscription extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(SubscriptionChannelType type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(SubscriptionChannelType type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final SubscriptionChannelType type;
-
-            // optional
+            private SubscriptionChannelType type;
             private Url endpoint;
             private Code payload;
             private List<String> header = new ArrayList<>();
-
-            private Builder(SubscriptionChannelType type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -863,6 +904,22 @@ public class Subscription extends DomainResource {
 
             /**
              * <p>
+             * The type of channel to send notifications on.
+             * </p>
+             * 
+             * @param type
+             *     rest-hook | websocket | email | sms | message
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(SubscriptionChannelType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * The url that describes the actual end-point to send messages to.
              * </p>
              * 
@@ -940,10 +997,9 @@ public class Subscription extends DomainResource {
                 return new Channel(this);
             }
 
-            private Builder from(Channel channel) {
-                id = channel.id;
-                extension.addAll(channel.extension);
-                modifierExtension.addAll(channel.modifierExtension);
+            protected Builder from(Channel channel) {
+                super.from(channel);
+                type = channel.type;
                 endpoint = channel.endpoint;
                 payload = channel.payload;
                 header.addAll(channel.header);

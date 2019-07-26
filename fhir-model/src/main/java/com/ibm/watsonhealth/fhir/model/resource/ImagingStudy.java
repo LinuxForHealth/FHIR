@@ -461,25 +461,21 @@ public class ImagingStudy extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, subject).from(this);
-    }
-
-    public Builder toBuilder(ImagingStudyStatus status, Reference subject) {
-        return new Builder(status, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ImagingStudyStatus status, Reference subject) {
-        return new Builder(status, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ImagingStudyStatus status;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ImagingStudyStatus status;
         private List<Coding> modality = new ArrayList<>();
+        private Reference subject;
         private Reference encounter;
         private DateTime started;
         private List<Reference> basedOn = new ArrayList<>();
@@ -496,12 +492,6 @@ public class ImagingStudy extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private String description;
         private List<Series> series = new ArrayList<>();
-
-        private Builder(ImagingStudyStatus status, Reference subject) {
-            super();
-            this.status = status;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -771,6 +761,22 @@ public class ImagingStudy extends DomainResource {
 
         /**
          * <p>
+         * The current state of the ImagingStudy.
+         * </p>
+         * 
+         * @param status
+         *     registered | available | cancelled | entered-in-error | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ImagingStudyStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
          * 29 (value set OID 1.2.840.10008.6.1.19).
          * </p>
@@ -808,6 +814,22 @@ public class ImagingStudy extends DomainResource {
          */
         public Builder modality(Collection<Coding> modality) {
             this.modality = new ArrayList<>(modality);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The subject, typically a patient, of the imaging study.
+         * </p>
+         * 
+         * @param subject
+         *     Who or what is the subject of the study
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1277,17 +1299,12 @@ public class ImagingStudy extends DomainResource {
             return new ImagingStudy(this);
         }
 
-        private Builder from(ImagingStudy imagingStudy) {
-            id = imagingStudy.id;
-            meta = imagingStudy.meta;
-            implicitRules = imagingStudy.implicitRules;
-            language = imagingStudy.language;
-            text = imagingStudy.text;
-            contained.addAll(imagingStudy.contained);
-            extension.addAll(imagingStudy.extension);
-            modifierExtension.addAll(imagingStudy.modifierExtension);
+        protected Builder from(ImagingStudy imagingStudy) {
+            super.from(imagingStudy);
             identifier.addAll(imagingStudy.identifier);
+            status = imagingStudy.status;
             modality.addAll(imagingStudy.modality);
+            subject = imagingStudy.subject;
             encounter = imagingStudy.encounter;
             started = imagingStudy.started;
             basedOn.addAll(imagingStudy.basedOn);
@@ -1597,24 +1614,20 @@ public class ImagingStudy extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(uid, modality).from(this);
-        }
-
-        public Builder toBuilder(Id uid, Coding modality) {
-            return new Builder(uid, modality).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id uid, Coding modality) {
-            return new Builder(uid, modality);
+            Builder builder = new Builder();
+            builder.uid(uid);
+            builder.modality(modality);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id uid;
-            private final Coding modality;
-
-            // optional
+            private Id uid;
             private UnsignedInt number;
+            private Coding modality;
             private String description;
             private UnsignedInt numberOfInstances;
             private List<Reference> endpoint = new ArrayList<>();
@@ -1624,12 +1637,6 @@ public class ImagingStudy extends DomainResource {
             private DateTime started;
             private List<Performer> performer = new ArrayList<>();
             private List<Instance> instance = new ArrayList<>();
-
-            private Builder(Id uid, Coding modality) {
-                super();
-                this.uid = uid;
-                this.modality = modality;
-            }
 
             /**
              * <p>
@@ -1750,6 +1757,22 @@ public class ImagingStudy extends DomainResource {
 
             /**
              * <p>
+             * The DICOM Series Instance UID for the series.
+             * </p>
+             * 
+             * @param uid
+             *     DICOM Series Instance UID for the series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder uid(Id uid) {
+                this.uid = uid;
+                return this;
+            }
+
+            /**
+             * <p>
              * The numeric identifier of this series in the study.
              * </p>
              * 
@@ -1761,6 +1784,22 @@ public class ImagingStudy extends DomainResource {
              */
             public Builder number(UnsignedInt number) {
                 this.number = number;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The modality of this series sequence.
+             * </p>
+             * 
+             * @param modality
+             *     The modality of the instances in the series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder modality(Coding modality) {
+                this.modality = modality;
                 return this;
             }
 
@@ -2019,11 +2058,11 @@ public class ImagingStudy extends DomainResource {
                 return new Series(this);
             }
 
-            private Builder from(Series series) {
-                id = series.id;
-                extension.addAll(series.extension);
-                modifierExtension.addAll(series.modifierExtension);
+            protected Builder from(Series series) {
+                super.from(series);
+                uid = series.uid;
                 number = series.number;
+                modality = series.modality;
                 description = series.description;
                 numberOfInstances = series.numberOfInstances;
                 endpoint.addAll(series.endpoint);
@@ -2138,28 +2177,18 @@ public class ImagingStudy extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(actor).from(this);
-            }
-
-            public Builder toBuilder(Reference actor) {
-                return new Builder(actor).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Reference actor) {
-                return new Builder(actor);
+                Builder builder = new Builder();
+                builder.actor(actor);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Reference actor;
-
-                // optional
                 private CodeableConcept function;
-
-                private Builder(Reference actor) {
-                    super();
-                    this.actor = actor;
-                }
+                private Reference actor;
 
                 /**
                  * <p>
@@ -2294,16 +2323,31 @@ public class ImagingStudy extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * <p>
+                 * Indicates who or what performed the series.
+                 * </p>
+                 * 
+                 * @param actor
+                 *     Who performed the series
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder actor(Reference actor) {
+                    this.actor = actor;
+                    return this;
+                }
+
                 @Override
                 public Performer build() {
                     return new Performer(this);
                 }
 
-                private Builder from(Performer performer) {
-                    id = performer.id;
-                    extension.addAll(performer.extension);
-                    modifierExtension.addAll(performer.modifierExtension);
+                protected Builder from(Performer performer) {
+                    super.from(performer);
                     function = performer.function;
+                    actor = performer.actor;
                     return this;
                 }
             }
@@ -2446,31 +2490,21 @@ public class ImagingStudy extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(uid, sopClass).from(this);
-            }
-
-            public Builder toBuilder(Id uid, Coding sopClass) {
-                return new Builder(uid, sopClass).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Id uid, Coding sopClass) {
-                return new Builder(uid, sopClass);
+                Builder builder = new Builder();
+                builder.uid(uid);
+                builder.sopClass(sopClass);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Id uid;
-                private final Coding sopClass;
-
-                // optional
+                private Id uid;
+                private Coding sopClass;
                 private UnsignedInt number;
                 private String title;
-
-                private Builder(Id uid, Coding sopClass) {
-                    super();
-                    this.uid = uid;
-                    this.sopClass = sopClass;
-                }
 
                 /**
                  * <p>
@@ -2591,6 +2625,38 @@ public class ImagingStudy extends DomainResource {
 
                 /**
                  * <p>
+                 * The DICOM SOP Instance UID for this image or other DICOM content.
+                 * </p>
+                 * 
+                 * @param uid
+                 *     DICOM SOP Instance UID
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder uid(Id uid) {
+                    this.uid = uid;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * DICOM instance type.
+                 * </p>
+                 * 
+                 * @param sopClass
+                 *     DICOM class type
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder sopClass(Coding sopClass) {
+                    this.sopClass = sopClass;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The number of instance in the series.
                  * </p>
                  * 
@@ -2626,10 +2692,10 @@ public class ImagingStudy extends DomainResource {
                     return new Instance(this);
                 }
 
-                private Builder from(Instance instance) {
-                    id = instance.id;
-                    extension.addAll(instance.extension);
-                    modifierExtension.addAll(instance.modifierExtension);
+                protected Builder from(Instance instance) {
+                    super.from(instance);
+                    uid = instance.uid;
+                    sopClass = instance.sopClass;
                     number = instance.number;
                     title = instance.title;
                     return this;

@@ -206,34 +206,24 @@ public class ParameterDefinition extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(use, type).from(this);
-    }
-
-    public Builder toBuilder(ParameterUse use, FHIRAllTypes type) {
-        return new Builder(use, type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ParameterUse use, FHIRAllTypes type) {
-        return new Builder(use, type);
+        Builder builder = new Builder();
+        builder.use(use);
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final ParameterUse use;
-        private final FHIRAllTypes type;
-
-        // optional
         private Code name;
+        private ParameterUse use;
         private Integer min;
         private String max;
         private String documentation;
+        private FHIRAllTypes type;
         private Canonical profile;
-
-        private Builder(ParameterUse use, FHIRAllTypes type) {
-            super();
-            this.use = use;
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -314,6 +304,22 @@ public class ParameterDefinition extends Element {
 
         /**
          * <p>
+         * Whether the parameter is input or output for the module.
+         * </p>
+         * 
+         * @param use
+         *     in | out
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder use(ParameterUse use) {
+            this.use = use;
+            return this;
+        }
+
+        /**
+         * <p>
          * The minimum number of times this parameter SHALL appear in the request or response.
          * </p>
          * 
@@ -362,6 +368,22 @@ public class ParameterDefinition extends Element {
 
         /**
          * <p>
+         * The type of the parameter.
+         * </p>
+         * 
+         * @param type
+         *     What type of value
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(FHIRAllTypes type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
          * If specified, this indicates a profile that the input data must conform to, or that the output data will conform to.
          * </p>
          * 
@@ -381,13 +403,14 @@ public class ParameterDefinition extends Element {
             return new ParameterDefinition(this);
         }
 
-        private Builder from(ParameterDefinition parameterDefinition) {
-            id = parameterDefinition.id;
-            extension.addAll(parameterDefinition.extension);
+        protected Builder from(ParameterDefinition parameterDefinition) {
+            super.from(parameterDefinition);
             name = parameterDefinition.name;
+            use = parameterDefinition.use;
             min = parameterDefinition.min;
             max = parameterDefinition.max;
             documentation = parameterDefinition.documentation;
+            type = parameterDefinition.type;
             profile = parameterDefinition.profile;
             return this;
         }

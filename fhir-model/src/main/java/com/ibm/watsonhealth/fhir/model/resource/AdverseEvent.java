@@ -454,26 +454,22 @@ public class AdverseEvent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(actuality, subject).from(this);
-    }
-
-    public Builder toBuilder(AdverseEventActuality actuality, Reference subject) {
-        return new Builder(actuality, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(AdverseEventActuality actuality, Reference subject) {
-        return new Builder(actuality, subject);
+        Builder builder = new Builder();
+        builder.actuality(actuality);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final AdverseEventActuality actuality;
-        private final Reference subject;
-
-        // optional
         private Identifier identifier;
+        private AdverseEventActuality actuality;
         private List<CodeableConcept> category = new ArrayList<>();
         private CodeableConcept event;
+        private Reference subject;
         private Reference encounter;
         private DateTime date;
         private DateTime detected;
@@ -489,12 +485,6 @@ public class AdverseEvent extends DomainResource {
         private List<Reference> subjectMedicalHistory = new ArrayList<>();
         private List<Reference> referenceDocument = new ArrayList<>();
         private List<Reference> study = new ArrayList<>();
-
-        private Builder(AdverseEventActuality actuality, Reference subject) {
-            super();
-            this.actuality = actuality;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -741,6 +731,23 @@ public class AdverseEvent extends DomainResource {
 
         /**
          * <p>
+         * Whether the event actually happened, or just had the potential to. Note that this is independent of whether anyone was 
+         * affected or harmed or how severely.
+         * </p>
+         * 
+         * @param actuality
+         *     actual | potential
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actuality(AdverseEventActuality actuality) {
+            this.actuality = actuality;
+            return this;
+        }
+
+        /**
+         * <p>
          * The overall type of event, intended for search and filtering purposes.
          * </p>
          * <p>
@@ -796,6 +803,22 @@ public class AdverseEvent extends DomainResource {
          */
         public Builder event(CodeableConcept event) {
             this.event = event;
+            return this;
+        }
+
+        /**
+         * <p>
+         * This subject or group impacted by the event.
+         * </p>
+         * 
+         * @param subject
+         *     Subject impacted by event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1197,18 +1220,13 @@ public class AdverseEvent extends DomainResource {
             return new AdverseEvent(this);
         }
 
-        private Builder from(AdverseEvent adverseEvent) {
-            id = adverseEvent.id;
-            meta = adverseEvent.meta;
-            implicitRules = adverseEvent.implicitRules;
-            language = adverseEvent.language;
-            text = adverseEvent.text;
-            contained.addAll(adverseEvent.contained);
-            extension.addAll(adverseEvent.extension);
-            modifierExtension.addAll(adverseEvent.modifierExtension);
+        protected Builder from(AdverseEvent adverseEvent) {
+            super.from(adverseEvent);
             identifier = adverseEvent.identifier;
+            actuality = adverseEvent.actuality;
             category.addAll(adverseEvent.category);
             event = adverseEvent.event;
+            subject = adverseEvent.subject;
             encounter = adverseEvent.encounter;
             date = adverseEvent.date;
             detected = adverseEvent.detected;
@@ -1330,28 +1348,18 @@ public class AdverseEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(instance).from(this);
-        }
-
-        public Builder toBuilder(Reference instance) {
-            return new Builder(instance).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Reference instance) {
-            return new Builder(instance);
+            Builder builder = new Builder();
+            builder.instance(instance);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Reference instance;
-
-            // optional
+            private Reference instance;
             private List<Causality> causality = new ArrayList<>();
-
-            private Builder(Reference instance) {
-                super();
-                this.instance = instance;
-            }
 
             /**
              * <p>
@@ -1472,6 +1480,23 @@ public class AdverseEvent extends DomainResource {
 
             /**
              * <p>
+             * Identifies the actual instance of what caused the adverse event. May be a substance, medication, medication 
+             * administration, medication statement or a device.
+             * </p>
+             * 
+             * @param instance
+             *     Refers to the specific entity that caused the adverse event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder instance(Reference instance) {
+                this.instance = instance;
+                return this;
+            }
+
+            /**
+             * <p>
              * Information on the possible cause of the event.
              * </p>
              * <p>
@@ -1515,10 +1540,9 @@ public class AdverseEvent extends DomainResource {
                 return new SuspectEntity(this);
             }
 
-            private Builder from(SuspectEntity suspectEntity) {
-                id = suspectEntity.id;
-                extension.addAll(suspectEntity.extension);
-                modifierExtension.addAll(suspectEntity.modifierExtension);
+            protected Builder from(SuspectEntity suspectEntity) {
+                super.from(suspectEntity);
+                instance = suspectEntity.instance;
                 causality.addAll(suspectEntity.causality);
                 return this;
             }
@@ -1665,19 +1689,15 @@ public class AdverseEvent extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept assessment;
                 private String productRelatedness;
                 private Reference author;
                 private CodeableConcept method;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -1865,10 +1885,8 @@ public class AdverseEvent extends DomainResource {
                     return new Causality(this);
                 }
 
-                private Builder from(Causality causality) {
-                    id = causality.id;
-                    extension.addAll(causality.extension);
-                    modifierExtension.addAll(causality.modifierExtension);
+                protected Builder from(Causality causality) {
+                    super.from(causality);
                     assessment = causality.assessment;
                     productRelatedness = causality.productRelatedness;
                     author = causality.author;

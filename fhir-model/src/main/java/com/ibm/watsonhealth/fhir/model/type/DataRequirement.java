@@ -253,22 +253,17 @@ public class DataRequirement extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type).from(this);
-    }
-
-    public Builder toBuilder(FHIRAllTypes type) {
-        return new Builder(type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(FHIRAllTypes type) {
-        return new Builder(type);
+        Builder builder = new Builder();
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final FHIRAllTypes type;
-
-        // optional
+        private FHIRAllTypes type;
         private List<Canonical> profile = new ArrayList<>();
         private Element subject;
         private List<String> mustSupport = new ArrayList<>();
@@ -276,11 +271,6 @@ public class DataRequirement extends Element {
         private List<DateFilter> dateFilter = new ArrayList<>();
         private PositiveInt limit;
         private List<Sort> sort = new ArrayList<>();
-
-        private Builder(FHIRAllTypes type) {
-            super();
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -341,6 +331,23 @@ public class DataRequirement extends Element {
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * <p>
+         * The type of the required data, specified as the type name of a resource. For profiles, this value is set to the type 
+         * of the base resource of the profile.
+         * </p>
+         * 
+         * @param type
+         *     The type of the required data
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(FHIRAllTypes type) {
+            this.type = type;
+            return this;
         }
 
         /**
@@ -598,9 +605,9 @@ public class DataRequirement extends Element {
             return new DataRequirement(this);
         }
 
-        private Builder from(DataRequirement dataRequirement) {
-            id = dataRequirement.id;
-            extension.addAll(dataRequirement.extension);
+        protected Builder from(DataRequirement dataRequirement) {
+            super.from(dataRequirement);
+            type = dataRequirement.type;
             profile.addAll(dataRequirement.profile);
             subject = dataRequirement.subject;
             mustSupport.addAll(dataRequirement.mustSupport);
@@ -763,19 +770,15 @@ public class DataRequirement extends Element {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String path;
             private String searchParam;
             private Canonical valueSet;
             private List<Coding> code = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -994,10 +997,8 @@ public class DataRequirement extends Element {
                 return new CodeFilter(this);
             }
 
-            private Builder from(CodeFilter codeFilter) {
-                id = codeFilter.id;
-                extension.addAll(codeFilter.extension);
-                modifierExtension.addAll(codeFilter.modifierExtension);
+            protected Builder from(CodeFilter codeFilter) {
+                super.from(codeFilter);
                 path = codeFilter.path;
                 searchParam = codeFilter.searchParam;
                 valueSet = codeFilter.valueSet;
@@ -1139,18 +1140,14 @@ public class DataRequirement extends Element {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String path;
             private String searchParam;
             private Element value;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1326,10 +1323,8 @@ public class DataRequirement extends Element {
                 return new DateFilter(this);
             }
 
-            private Builder from(DateFilter dateFilter) {
-                id = dateFilter.id;
-                extension.addAll(dateFilter.extension);
-                modifierExtension.addAll(dateFilter.modifierExtension);
+            protected Builder from(DateFilter dateFilter) {
+                super.from(dateFilter);
                 path = dateFilter.path;
                 searchParam = dateFilter.searchParam;
                 value = dateFilter.value;
@@ -1441,27 +1436,19 @@ public class DataRequirement extends Element {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(path, direction).from(this);
-        }
-
-        public Builder toBuilder(String path, SortDirection direction) {
-            return new Builder(path, direction).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String path, SortDirection direction) {
-            return new Builder(path, direction);
+            Builder builder = new Builder();
+            builder.path(path);
+            builder.direction(direction);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String path;
-            private final SortDirection direction;
-
-            private Builder(String path, SortDirection direction) {
-                super();
-                this.path = path;
-                this.direction = direction;
-            }
+            private String path;
+            private SortDirection direction;
 
             /**
              * <p>
@@ -1576,15 +1563,49 @@ public class DataRequirement extends Element {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The attribute of the sort. The specified path must be resolvable from the type of the required data. The path is 
+             * allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality 
+             * sub-elements. Note that the index must be an integer constant.
+             * </p>
+             * 
+             * @param path
+             *     The name of the attribute to perform the sort
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(String path) {
+                this.path = path;
+                return this;
+            }
+
+            /**
+             * <p>
+             * The direction of the sort, ascending or descending.
+             * </p>
+             * 
+             * @param direction
+             *     ascending | descending
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder direction(SortDirection direction) {
+                this.direction = direction;
+                return this;
+            }
+
             @Override
             public Sort build() {
                 return new Sort(this);
             }
 
-            private Builder from(Sort sort) {
-                id = sort.id;
-                extension.addAll(sort.extension);
-                modifierExtension.addAll(sort.modifierExtension);
+            protected Builder from(Sort sort) {
+                super.from(sort);
+                path = sort.path;
+                direction = sort.direction;
                 return this;
             }
         }

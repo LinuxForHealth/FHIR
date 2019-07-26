@@ -190,21 +190,17 @@ public class Identifier extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private IdentifierUse use;
         private CodeableConcept type;
         private Uri system;
         private String value;
         private Period period;
         private Reference assigner;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -368,9 +364,8 @@ public class Identifier extends Element {
             return new Identifier(this);
         }
 
-        private Builder from(Identifier identifier) {
-            id = identifier.id;
-            extension.addAll(identifier.extension);
+        protected Builder from(Identifier identifier) {
+            super.from(identifier);
             use = identifier.use;
             type = identifier.type;
             system = identifier.system;

@@ -215,11 +215,11 @@ public class HumanName extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private NameUse use;
         private String text;
         private String family;
@@ -227,10 +227,6 @@ public class HumanName extends Element {
         private List<String> prefix = new ArrayList<>();
         private List<String> suffix = new ArrayList<>();
         private Period period;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -488,9 +484,8 @@ public class HumanName extends Element {
             return new HumanName(this);
         }
 
-        private Builder from(HumanName humanName) {
-            id = humanName.id;
-            extension.addAll(humanName.extension);
+        protected Builder from(HumanName humanName) {
+            super.from(humanName);
             use = humanName.use;
             text = humanName.text;
             family = humanName.family;

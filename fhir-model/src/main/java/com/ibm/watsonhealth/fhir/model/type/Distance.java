@@ -99,14 +99,11 @@ public class Distance extends Quantity {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Quantity.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
@@ -254,14 +251,8 @@ public class Distance extends Quantity {
             return new Distance(this);
         }
 
-        private Builder from(Distance distance) {
-            id = distance.id;
-            extension.addAll(distance.extension);
-            value = distance.value;
-            comparator = distance.comparator;
-            unit = distance.unit;
-            system = distance.system;
-            code = distance.code;
+        protected Builder from(Distance distance) {
+            super.from(distance);
             return this;
         }
     }

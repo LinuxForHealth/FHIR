@@ -121,17 +121,13 @@ public class CodeableConcept extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private List<Coding> coding = new ArrayList<>();
         private String text;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -256,9 +252,8 @@ public class CodeableConcept extends Element {
             return new CodeableConcept(this);
         }
 
-        private Builder from(CodeableConcept codeableConcept) {
-            id = codeableConcept.id;
-            extension.addAll(codeableConcept.extension);
+        protected Builder from(CodeableConcept codeableConcept) {
+            super.from(codeableConcept);
             coding.addAll(codeableConcept.coding);
             text = codeableConcept.text;
             return this;

@@ -497,28 +497,25 @@ public class StructureMap extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, name, status, group).from(this);
-    }
-
-    public Builder toBuilder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
-        return new Builder(url, name, status, group).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
-        return new Builder(url, name, status, group);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.name(name);
+        builder.status(status);
+        builder.group(group);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final String name;
-        private final PublicationStatus status;
-        private final List<Group> group;
-
-        // optional
+        private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
+        private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -530,14 +527,7 @@ public class StructureMap extends DomainResource {
         private Markdown copyright;
         private List<Structure> structure = new ArrayList<>();
         private List<Canonical> _import = new ArrayList<>();
-
-        private Builder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
-            super();
-            this.url = url;
-            this.name = name;
-            this.status = status;
-            this.group = new ArrayList<>(group);
-        }
+        private List<Group> group = new ArrayList<>();
 
         /**
          * <p>
@@ -767,6 +757,25 @@ public class StructureMap extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or 
+         * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
+         * which at which an authoritative instance of this structure map is (or will be) published. This URL can be the target 
+         * of a canonical reference. It SHALL remain the same when the structure map is stored on different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this structure map, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * </p>
@@ -828,6 +837,23 @@ public class StructureMap extends DomainResource {
 
         /**
          * <p>
+         * A natural language name identifying the structure map. This name should be usable as an identifier for the module by 
+         * machine processing applications such as code generation.
+         * </p>
+         * 
+         * @param name
+         *     Name for this structure map (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
          * A short, descriptive, user-friendly title for the structure map.
          * </p>
          * 
@@ -839,6 +865,22 @@ public class StructureMap extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this structure map. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1148,23 +1190,59 @@ public class StructureMap extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param group
+         *     Named sections for reader convenience
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder group(Group... group) {
+            for (Group value : group) {
+                this.group.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param group
+         *     Named sections for reader convenience
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder group(Collection<Group> group) {
+            this.group = new ArrayList<>(group);
+            return this;
+        }
+
         @Override
         public StructureMap build() {
             return new StructureMap(this);
         }
 
-        private Builder from(StructureMap structureMap) {
-            id = structureMap.id;
-            meta = structureMap.meta;
-            implicitRules = structureMap.implicitRules;
-            language = structureMap.language;
-            text = structureMap.text;
-            contained.addAll(structureMap.contained);
-            extension.addAll(structureMap.extension);
-            modifierExtension.addAll(structureMap.modifierExtension);
+        protected Builder from(StructureMap structureMap) {
+            super.from(structureMap);
+            url = structureMap.url;
             identifier.addAll(structureMap.identifier);
             version = structureMap.version;
+            name = structureMap.name;
             title = structureMap.title;
+            status = structureMap.status;
             experimental = structureMap.experimental;
             date = structureMap.date;
             publisher = structureMap.publisher;
@@ -1176,6 +1254,7 @@ public class StructureMap extends DomainResource {
             copyright = structureMap.copyright;
             structure.addAll(structureMap.structure);
             _import.addAll(structureMap._import);
+            group.addAll(structureMap.group);
             return this;
         }
     }
@@ -1318,31 +1397,21 @@ public class StructureMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(url, mode).from(this);
-        }
-
-        public Builder toBuilder(Canonical url, StructureMapModelMode mode) {
-            return new Builder(url, mode).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Canonical url, StructureMapModelMode mode) {
-            return new Builder(url, mode);
+            Builder builder = new Builder();
+            builder.url(url);
+            builder.mode(mode);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Canonical url;
-            private final StructureMapModelMode mode;
-
-            // optional
+            private Canonical url;
+            private StructureMapModelMode mode;
             private String alias;
             private String documentation;
-
-            private Builder(Canonical url, StructureMapModelMode mode) {
-                super();
-                this.url = url;
-                this.mode = mode;
-            }
 
             /**
              * <p>
@@ -1463,6 +1532,38 @@ public class StructureMap extends DomainResource {
 
             /**
              * <p>
+             * The canonical reference to the structure.
+             * </p>
+             * 
+             * @param url
+             *     Canonical reference to structure definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder url(Canonical url) {
+                this.url = url;
+                return this;
+            }
+
+            /**
+             * <p>
+             * How the referenced structure is used in this mapping.
+             * </p>
+             * 
+             * @param mode
+             *     source | queried | target | produced
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder mode(StructureMapModelMode mode) {
+                this.mode = mode;
+                return this;
+            }
+
+            /**
+             * <p>
              * The name used for this type in the map.
              * </p>
              * 
@@ -1498,10 +1599,10 @@ public class StructureMap extends DomainResource {
                 return new Structure(this);
             }
 
-            private Builder from(Structure structure) {
-                id = structure.id;
-                extension.addAll(structure.extension);
-                modifierExtension.addAll(structure.modifierExtension);
+            protected Builder from(Structure structure) {
+                super.from(structure);
+                url = structure.url;
+                mode = structure.mode;
                 alias = structure.alias;
                 documentation = structure.documentation;
                 return this;
@@ -1682,35 +1783,25 @@ public class StructureMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name, typeMode, input, rule).from(this);
-        }
-
-        public Builder toBuilder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
-            return new Builder(name, typeMode, input, rule).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
-            return new Builder(name, typeMode, input, rule);
+            Builder builder = new Builder();
+            builder.name(name);
+            builder.typeMode(typeMode);
+            builder.input(input);
+            builder.rule(rule);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Id name;
-            private final StructureMapGroupTypeMode typeMode;
-            private final List<Input> input;
-            private final List<Rule> rule;
-
-            // optional
+            private Id name;
             private Id _extends;
+            private StructureMapGroupTypeMode typeMode;
             private String documentation;
-
-            private Builder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
-                super();
-                this.name = name;
-                this.typeMode = typeMode;
-                this.input = new ArrayList<>(input);
-                this.rule = new ArrayList<>(rule);
-            }
+            private List<Input> input = new ArrayList<>();
+            private List<Rule> rule = new ArrayList<>();
 
             /**
              * <p>
@@ -1831,6 +1922,22 @@ public class StructureMap extends DomainResource {
 
             /**
              * <p>
+             * A unique name for the group for the convenience of human readers.
+             * </p>
+             * 
+             * @param name
+             *     Human-readable label
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(Id name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
              * Another group that this group adds rules to.
              * </p>
              * 
@@ -1842,6 +1949,22 @@ public class StructureMap extends DomainResource {
              */
             public Builder _extends(Id _extends) {
                 this._extends = _extends;
+                return this;
+            }
+
+            /**
+             * <p>
+             * If this is the default rule set to apply for the source type or this combination of types.
+             * </p>
+             * 
+             * @param typeMode
+             *     none | types | type-and-types
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder typeMode(StructureMapGroupTypeMode typeMode) {
+                this.typeMode = typeMode;
                 return this;
             }
 
@@ -1861,17 +1984,99 @@ public class StructureMap extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param input
+             *     Named instance provided when invoking the map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder input(Input... input) {
+                for (Input value : input) {
+                    this.input.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param input
+             *     Named instance provided when invoking the map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder input(Collection<Input> input) {
+                this.input = new ArrayList<>(input);
+                return this;
+            }
+
+            /**
+             * <p>
+             * Transform Rule from source to target.
+             * </p>
+             * <p>
+             * Adds new element(s) to existing list
+             * </p>
+             * 
+             * @param rule
+             *     Transform Rule from source to target
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder rule(Rule... rule) {
+                for (Rule value : rule) {
+                    this.rule.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Transform Rule from source to target.
+             * </p>
+             * <p>
+             * Replaces existing list with a new one containing elements from the Collection
+             * </p>
+             * 
+             * @param rule
+             *     Transform Rule from source to target
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder rule(Collection<Rule> rule) {
+                this.rule = new ArrayList<>(rule);
+                return this;
+            }
+
             @Override
             public Group build() {
                 return new Group(this);
             }
 
-            private Builder from(Group group) {
-                id = group.id;
-                extension.addAll(group.extension);
-                modifierExtension.addAll(group.modifierExtension);
+            protected Builder from(Group group) {
+                super.from(group);
+                name = group.name;
                 _extends = group._extends;
+                typeMode = group.typeMode;
                 documentation = group.documentation;
+                input.addAll(group.input);
+                rule.addAll(group.rule);
                 return this;
             }
         }
@@ -2013,31 +2218,21 @@ public class StructureMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name, mode).from(this);
-            }
-
-            public Builder toBuilder(Id name, StructureMapInputMode mode) {
-                return new Builder(name, mode).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Id name, StructureMapInputMode mode) {
-                return new Builder(name, mode);
+                Builder builder = new Builder();
+                builder.name(name);
+                builder.mode(mode);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Id name;
-                private final StructureMapInputMode mode;
-
-                // optional
+                private Id name;
                 private String type;
+                private StructureMapInputMode mode;
                 private String documentation;
-
-                private Builder(Id name, StructureMapInputMode mode) {
-                    super();
-                    this.name = name;
-                    this.mode = mode;
-                }
 
                 /**
                  * <p>
@@ -2158,6 +2353,22 @@ public class StructureMap extends DomainResource {
 
                 /**
                  * <p>
+                 * Name for this instance of data.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Name for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(Id name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Type for this instance of data.
                  * </p>
                  * 
@@ -2169,6 +2380,22 @@ public class StructureMap extends DomainResource {
                  */
                 public Builder type(String type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Mode for this instance of data.
+                 * </p>
+                 * 
+                 * @param mode
+                 *     source | target
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder mode(StructureMapInputMode mode) {
+                    this.mode = mode;
                     return this;
                 }
 
@@ -2193,11 +2420,11 @@ public class StructureMap extends DomainResource {
                     return new Input(this);
                 }
 
-                private Builder from(Input input) {
-                    id = input.id;
-                    extension.addAll(input.extension);
-                    modifierExtension.addAll(input.modifierExtension);
+                protected Builder from(Input input) {
+                    super.from(input);
+                    name = input.name;
                     type = input.type;
+                    mode = input.mode;
                     documentation = input.documentation;
                     return this;
                 }
@@ -2377,33 +2604,23 @@ public class StructureMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(name, source).from(this);
-            }
-
-            public Builder toBuilder(Id name, Collection<Source> source) {
-                return new Builder(name, source).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Id name, Collection<Source> source) {
-                return new Builder(name, source);
+                Builder builder = new Builder();
+                builder.name(name);
+                builder.source(source);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Id name;
-                private final List<Source> source;
-
-                // optional
+                private Id name;
+                private List<Source> source = new ArrayList<>();
                 private List<Target> target = new ArrayList<>();
                 private List<StructureMap.Group.Rule> rule = new ArrayList<>();
                 private List<Dependent> dependent = new ArrayList<>();
                 private String documentation;
-
-                private Builder(Id name, Collection<Source> source) {
-                    super();
-                    this.name = name;
-                    this.source = new ArrayList<>(source);
-                }
 
                 /**
                  * <p>
@@ -2520,6 +2737,62 @@ public class StructureMap extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * <p>
+                 * Name of the rule for internal references.
+                 * </p>
+                 * 
+                 * @param name
+                 *     Name of the rule for internal references
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(Id name) {
+                    this.name = name;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Source inputs to the mapping.
+                 * </p>
+                 * <p>
+                 * Adds new element(s) to existing list
+                 * </p>
+                 * 
+                 * @param source
+                 *     Source inputs to the mapping
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder source(Source... source) {
+                    for (Source value : source) {
+                        this.source.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Source inputs to the mapping.
+                 * </p>
+                 * <p>
+                 * Replaces existing list with a new one containing elements from the Collection
+                 * </p>
+                 * 
+                 * @param source
+                 *     Source inputs to the mapping
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder source(Collection<Source> source) {
+                    this.source = new ArrayList<>(source);
+                    return this;
                 }
 
                 /**
@@ -2663,10 +2936,10 @@ public class StructureMap extends DomainResource {
                     return new Rule(this);
                 }
 
-                private Builder from(Rule rule) {
-                    id = rule.id;
-                    extension.addAll(rule.extension);
-                    modifierExtension.addAll(rule.modifierExtension);
+                protected Builder from(Rule rule) {
+                    super.from(rule);
+                    name = rule.name;
+                    source.addAll(rule.source);
                     target.addAll(rule.target);
                     this.rule.addAll(rule.rule);
                     dependent.addAll(rule.dependent);
@@ -2941,22 +3214,17 @@ public class StructureMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(context).from(this);
-                }
-
-                public Builder toBuilder(Id context) {
-                    return new Builder(context).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Id context) {
-                    return new Builder(context);
+                    Builder builder = new Builder();
+                    builder.context(context);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Id context;
-
-                    // optional
+                    private Id context;
                     private Integer min;
                     private String max;
                     private String type;
@@ -2967,11 +3235,6 @@ public class StructureMap extends DomainResource {
                     private String condition;
                     private String check;
                     private String logMessage;
-
-                    private Builder(Id context) {
-                        super();
-                        this.context = context;
-                    }
 
                     /**
                      * <p>
@@ -3088,6 +3351,22 @@ public class StructureMap extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * <p>
+                     * Type or variable this rule applies to.
+                     * </p>
+                     * 
+                     * @param context
+                     *     Type or variable this rule applies to
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder context(Id context) {
+                        this.context = context;
+                        return this;
                     }
 
                     /**
@@ -3258,10 +3537,9 @@ public class StructureMap extends DomainResource {
                         return new Source(this);
                     }
 
-                    private Builder from(Source source) {
-                        id = source.id;
-                        extension.addAll(source.extension);
-                        modifierExtension.addAll(source.modifierExtension);
+                    protected Builder from(Source source) {
+                        super.from(source);
+                        context = source.context;
                         min = source.min;
                         max = source.max;
                         type = source.type;
@@ -3490,11 +3768,11 @@ public class StructureMap extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    return new Builder();
+                    Builder builder = new Builder();
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // optional
                     private Id context;
                     private StructureMapContextType contextType;
                     private String element;
@@ -3503,10 +3781,6 @@ public class StructureMap extends DomainResource {
                     private Id listRuleId;
                     private StructureMapTransform transform;
                     private List<Parameter> parameter = new ArrayList<>();
-
-                    private Builder() {
-                        super();
-                    }
 
                     /**
                      * <p>
@@ -3806,10 +4080,8 @@ public class StructureMap extends DomainResource {
                         return new Target(this);
                     }
 
-                    private Builder from(Target target) {
-                        id = target.id;
-                        extension.addAll(target.extension);
-                        modifierExtension.addAll(target.modifierExtension);
+                    protected Builder from(Target target) {
+                        super.from(target);
                         context = target.context;
                         contextType = target.contextType;
                         element = target.element;
@@ -3905,25 +4177,17 @@ public class StructureMap extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return new Builder(value).from(this);
-                    }
-
-                    public Builder toBuilder(Element value) {
-                        return new Builder(value).from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder(Element value) {
-                        return new Builder(value);
+                        Builder builder = new Builder();
+                        builder.value(value);
+                        return builder;
                     }
 
                     public static class Builder extends BackboneElement.Builder {
-                        // required
-                        private final Element value;
-
-                        private Builder(Element value) {
-                            super();
-                            this.value = value;
-                        }
+                        private Element value;
 
                         /**
                          * <p>
@@ -4042,15 +4306,30 @@ public class StructureMap extends DomainResource {
                             return (Builder) super.modifierExtension(modifierExtension);
                         }
 
+                        /**
+                         * <p>
+                         * Parameter value - variable or literal.
+                         * </p>
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(Element value) {
+                            this.value = value;
+                            return this;
+                        }
+
                         @Override
                         public Parameter build() {
                             return new Parameter(this);
                         }
 
-                        private Builder from(Parameter parameter) {
-                            id = parameter.id;
-                            extension.addAll(parameter.extension);
-                            modifierExtension.addAll(parameter.modifierExtension);
+                        protected Builder from(Parameter parameter) {
+                            super.from(parameter);
+                            value = parameter.value;
                             return this;
                         }
                     }
@@ -4158,27 +4437,19 @@ public class StructureMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(name, variable).from(this);
-                }
-
-                public Builder toBuilder(Id name, Collection<String> variable) {
-                    return new Builder(name, variable).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Id name, Collection<String> variable) {
-                    return new Builder(name, variable);
+                    Builder builder = new Builder();
+                    builder.name(name);
+                    builder.variable(variable);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Id name;
-                    private final List<String> variable;
-
-                    private Builder(Id name, Collection<String> variable) {
-                        super();
-                        this.name = name;
-                        this.variable = new ArrayList<>(variable);
-                    }
+                    private Id name;
+                    private List<String> variable = new ArrayList<>();
 
                     /**
                      * <p>
@@ -4297,15 +4568,71 @@ public class StructureMap extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Name of a rule or group to apply.
+                     * </p>
+                     * 
+                     * @param name
+                     *     Name of a rule or group to apply
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(Id name) {
+                        this.name = name;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Variable to pass to the rule or group.
+                     * </p>
+                     * <p>
+                     * Adds new element(s) to existing list
+                     * </p>
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder variable(String... variable) {
+                        for (String value : variable) {
+                            this.variable.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Variable to pass to the rule or group.
+                     * </p>
+                     * <p>
+                     * Replaces existing list with a new one containing elements from the Collection
+                     * </p>
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder variable(Collection<String> variable) {
+                        this.variable = new ArrayList<>(variable);
+                        return this;
+                    }
+
                     @Override
                     public Dependent build() {
                         return new Dependent(this);
                     }
 
-                    private Builder from(Dependent dependent) {
-                        id = dependent.id;
-                        extension.addAll(dependent.extension);
-                        modifierExtension.addAll(dependent.modifierExtension);
+                    protected Builder from(Dependent dependent) {
+                        super.from(dependent);
+                        name = dependent.name;
+                        variable.addAll(dependent.variable);
                         return this;
                     }
                 }

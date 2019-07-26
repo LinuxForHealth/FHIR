@@ -115,16 +115,12 @@ public class Integer extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         protected java.lang.Integer value;
-
-        protected Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -212,9 +208,8 @@ public class Integer extends Element {
             return new Integer(this);
         }
 
-        private Builder from(Integer integer) {
-            id = integer.id;
-            extension.addAll(integer.extension);
+        protected Builder from(Integer integer) {
+            super.from(integer);
             value = integer.value;
             return this;
         }

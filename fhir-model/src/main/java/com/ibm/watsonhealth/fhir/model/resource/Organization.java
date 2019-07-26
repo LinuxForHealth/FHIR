@@ -305,11 +305,11 @@ public class Organization extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private Boolean active;
         private List<CodeableConcept> type = new ArrayList<>();
@@ -320,10 +320,6 @@ public class Organization extends DomainResource {
         private Reference partOf;
         private List<Contact> contact = new ArrayList<>();
         private List<Reference> endpoint = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -884,15 +880,8 @@ public class Organization extends DomainResource {
             return new Organization(this);
         }
 
-        private Builder from(Organization organization) {
-            id = organization.id;
-            meta = organization.meta;
-            implicitRules = organization.implicitRules;
-            language = organization.language;
-            text = organization.text;
-            contained.addAll(organization.contained);
-            extension.addAll(organization.extension);
-            modifierExtension.addAll(organization.modifierExtension);
+        protected Builder from(Organization organization) {
+            super.from(organization);
             identifier.addAll(organization.identifier);
             active = organization.active;
             type.addAll(organization.type);
@@ -1048,19 +1037,15 @@ public class Organization extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept purpose;
             private HumanName name;
             private List<ContactPoint> telecom = new ArrayList<>();
             private Address address;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1272,10 +1257,8 @@ public class Organization extends DomainResource {
                 return new Contact(this);
             }
 
-            private Builder from(Contact contact) {
-                id = contact.id;
-                extension.addAll(contact.extension);
-                modifierExtension.addAll(contact.modifierExtension);
+            protected Builder from(Contact contact) {
+                super.from(contact);
                 purpose = contact.purpose;
                 name = contact.name;
                 telecom.addAll(contact.telecom);

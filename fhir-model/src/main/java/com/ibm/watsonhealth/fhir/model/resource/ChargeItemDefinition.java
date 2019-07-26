@@ -538,29 +538,25 @@ public class ChargeItemDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(url, status).from(this);
-    }
-
-    public Builder toBuilder(Uri url, PublicationStatus status) {
-        return new Builder(url, status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Uri url, PublicationStatus status) {
-        return new Builder(url, status);
+        Builder builder = new Builder();
+        builder.url(url);
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Uri url;
-        private final PublicationStatus status;
-
-        // optional
+        private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String title;
         private List<Uri> derivedFromUri = new ArrayList<>();
         private List<Canonical> partOf = new ArrayList<>();
         private List<Canonical> replaces = new ArrayList<>();
+        private PublicationStatus status;
         private Boolean experimental;
         private DateTime date;
         private String publisher;
@@ -576,12 +572,6 @@ public class ChargeItemDefinition extends DomainResource {
         private List<Reference> instance = new ArrayList<>();
         private List<Applicability> applicability = new ArrayList<>();
         private List<PropertyGroup> propertyGroup = new ArrayList<>();
-
-        private Builder(Uri url, PublicationStatus status) {
-            super();
-            this.url = url;
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -811,6 +801,26 @@ public class ChargeItemDefinition extends DomainResource {
 
         /**
          * <p>
+         * An absolute URI that is used to identify this charge item definition when it is referenced in a specification, model, 
+         * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+         * address at which at which an authoritative instance of this charge item definition is (or will be) published. This URL 
+         * can be the target of a canonical reference. It SHALL remain the same when the charge item definition is stored on 
+         * different servers.
+         * </p>
+         * 
+         * @param url
+         *     Canonical identifier for this charge item definition, represented as a URI (globally unique)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder url(Uri url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * <p>
          * A formal identifier that is used to identify this charge item definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * </p>
@@ -1010,6 +1020,22 @@ public class ChargeItemDefinition extends DomainResource {
          */
         public Builder replaces(Collection<Canonical> replaces) {
             this.replaces = new ArrayList<>(replaces);
+            return this;
+        }
+
+        /**
+         * <p>
+         * The current state of the ChargeItemDefinition.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1414,21 +1440,16 @@ public class ChargeItemDefinition extends DomainResource {
             return new ChargeItemDefinition(this);
         }
 
-        private Builder from(ChargeItemDefinition chargeItemDefinition) {
-            id = chargeItemDefinition.id;
-            meta = chargeItemDefinition.meta;
-            implicitRules = chargeItemDefinition.implicitRules;
-            language = chargeItemDefinition.language;
-            text = chargeItemDefinition.text;
-            contained.addAll(chargeItemDefinition.contained);
-            extension.addAll(chargeItemDefinition.extension);
-            modifierExtension.addAll(chargeItemDefinition.modifierExtension);
+        protected Builder from(ChargeItemDefinition chargeItemDefinition) {
+            super.from(chargeItemDefinition);
+            url = chargeItemDefinition.url;
             identifier.addAll(chargeItemDefinition.identifier);
             version = chargeItemDefinition.version;
             title = chargeItemDefinition.title;
             derivedFromUri.addAll(chargeItemDefinition.derivedFromUri);
             partOf.addAll(chargeItemDefinition.partOf);
             replaces.addAll(chargeItemDefinition.replaces);
+            status = chargeItemDefinition.status;
             experimental = chargeItemDefinition.experimental;
             date = chargeItemDefinition.date;
             publisher = chargeItemDefinition.publisher;
@@ -1574,18 +1595,14 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private String description;
             private String language;
             private String expression;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1760,10 +1777,8 @@ public class ChargeItemDefinition extends DomainResource {
                 return new Applicability(this);
             }
 
-            private Builder from(Applicability applicability) {
-                id = applicability.id;
-                extension.addAll(applicability.extension);
-                modifierExtension.addAll(applicability.modifierExtension);
+            protected Builder from(Applicability applicability) {
+                super.from(applicability);
                 description = applicability.description;
                 language = applicability.language;
                 expression = applicability.expression;
@@ -1881,17 +1896,13 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<ChargeItemDefinition.Applicability> applicability = new ArrayList<>();
             private List<PriceComponent> priceComponent = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2101,10 +2112,8 @@ public class ChargeItemDefinition extends DomainResource {
                 return new PropertyGroup(this);
             }
 
-            private Builder from(PropertyGroup propertyGroup) {
-                id = propertyGroup.id;
-                extension.addAll(propertyGroup.extension);
-                modifierExtension.addAll(propertyGroup.modifierExtension);
+            protected Builder from(PropertyGroup propertyGroup) {
+                super.from(propertyGroup);
                 applicability.addAll(propertyGroup.applicability);
                 priceComponent.addAll(propertyGroup.priceComponent);
                 return this;
@@ -2252,30 +2261,20 @@ public class ChargeItemDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(ChargeItemDefinitionPriceComponentType type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ChargeItemDefinitionPriceComponentType type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ChargeItemDefinitionPriceComponentType type;
-
-                // optional
+                private ChargeItemDefinitionPriceComponentType type;
                 private CodeableConcept code;
                 private Decimal factor;
                 private Money amount;
-
-                private Builder(ChargeItemDefinitionPriceComponentType type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -2396,6 +2395,22 @@ public class ChargeItemDefinition extends DomainResource {
 
                 /**
                  * <p>
+                 * This code identifies the type of the component.
+                 * </p>
+                 * 
+                 * @param type
+                 *     base | surcharge | deduction | discount | tax | informational
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(ChargeItemDefinitionPriceComponentType type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A code that identifies the component. Codes may be used to differentiate between kinds of taxes, surcharges, discounts 
                  * etc.
                  * </p>
@@ -2448,10 +2463,9 @@ public class ChargeItemDefinition extends DomainResource {
                     return new PriceComponent(this);
                 }
 
-                private Builder from(PriceComponent priceComponent) {
-                    id = priceComponent.id;
-                    extension.addAll(priceComponent.extension);
-                    modifierExtension.addAll(priceComponent.modifierExtension);
+                protected Builder from(PriceComponent priceComponent) {
+                    super.from(priceComponent);
+                    type = priceComponent.type;
                     code = priceComponent.code;
                     factor = priceComponent.factor;
                     amount = priceComponent.amount;

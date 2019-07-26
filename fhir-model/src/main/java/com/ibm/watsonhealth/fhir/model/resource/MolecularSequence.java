@@ -414,24 +414,19 @@ public class MolecularSequence extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(coordinateSystem).from(this);
-    }
-
-    public Builder toBuilder(Integer coordinateSystem) {
-        return new Builder(coordinateSystem).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Integer coordinateSystem) {
-        return new Builder(coordinateSystem);
+        Builder builder = new Builder();
+        builder.coordinateSystem(coordinateSystem);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Integer coordinateSystem;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private SequenceType type;
+        private Integer coordinateSystem;
         private Reference patient;
         private Reference specimen;
         private Reference device;
@@ -445,11 +440,6 @@ public class MolecularSequence extends DomainResource {
         private List<Repository> repository = new ArrayList<>();
         private List<Reference> pointer = new ArrayList<>();
         private List<StructureVariant> structureVariant = new ArrayList<>();
-
-        private Builder(Integer coordinateSystem) {
-            super();
-            this.coordinateSystem = coordinateSystem;
-        }
 
         /**
          * <p>
@@ -730,6 +720,24 @@ public class MolecularSequence extends DomainResource {
          */
         public Builder type(SequenceType type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Whether the sequence is numbered starting at 0 (0-based numbering or coordinates, inclusive start, exclusive end) or 
+         * starting at 1 (1-based numbering, inclusive start and inclusive end).
+         * </p>
+         * 
+         * @param coordinateSystem
+         *     Base number of coordinate system (0 for 0-based numbering or coordinates, inclusive start, exclusive end, 1 for 1-
+         *     based numbering, inclusive start, inclusive end)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder coordinateSystem(Integer coordinateSystem) {
+            this.coordinateSystem = coordinateSystem;
             return this;
         }
 
@@ -1078,17 +1086,11 @@ public class MolecularSequence extends DomainResource {
             return new MolecularSequence(this);
         }
 
-        private Builder from(MolecularSequence molecularSequence) {
-            id = molecularSequence.id;
-            meta = molecularSequence.meta;
-            implicitRules = molecularSequence.implicitRules;
-            language = molecularSequence.language;
-            text = molecularSequence.text;
-            contained.addAll(molecularSequence.contained);
-            extension.addAll(molecularSequence.extension);
-            modifierExtension.addAll(molecularSequence.modifierExtension);
+        protected Builder from(MolecularSequence molecularSequence) {
+            super.from(molecularSequence);
             identifier.addAll(molecularSequence.identifier);
             type = molecularSequence.type;
+            coordinateSystem = molecularSequence.coordinateSystem;
             patient = molecularSequence.patient;
             specimen = molecularSequence.specimen;
             device = molecularSequence.device;
@@ -1347,11 +1349,11 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept chromosome;
             private String genomeBuild;
             private OrientationType orientation;
@@ -1361,10 +1363,6 @@ public class MolecularSequence extends DomainResource {
             private StrandType strand;
             private Integer windowStart;
             private Integer windowEnd;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1642,10 +1640,8 @@ public class MolecularSequence extends DomainResource {
                 return new ReferenceSeq(this);
             }
 
-            private Builder from(ReferenceSeq referenceSeq) {
-                id = referenceSeq.id;
-                extension.addAll(referenceSeq.extension);
-                modifierExtension.addAll(referenceSeq.modifierExtension);
+            protected Builder from(ReferenceSeq referenceSeq) {
+                super.from(referenceSeq);
                 chromosome = referenceSeq.chromosome;
                 genomeBuild = referenceSeq.genomeBuild;
                 orientation = referenceSeq.orientation;
@@ -1852,21 +1848,17 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private Integer start;
             private Integer end;
             private String observedAllele;
             private String referenceAllele;
             private String cigar;
             private Reference variantPointer;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2098,10 +2090,8 @@ public class MolecularSequence extends DomainResource {
                 return new Variant(this);
             }
 
-            private Builder from(Variant variant) {
-                id = variant.id;
-                extension.addAll(variant.extension);
-                modifierExtension.addAll(variant.modifierExtension);
+            protected Builder from(Variant variant) {
+                super.from(variant);
                 start = variant.start;
                 end = variant.end;
                 observedAllele = variant.observedAllele;
@@ -2460,22 +2450,17 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(QualityType type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(QualityType type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final QualityType type;
-
-            // optional
+            private QualityType type;
             private CodeableConcept standardSequence;
             private Integer start;
             private Integer end;
@@ -2490,11 +2475,6 @@ public class MolecularSequence extends DomainResource {
             private Decimal recall;
             private Decimal fScore;
             private Roc roc;
-
-            private Builder(QualityType type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -2611,6 +2591,22 @@ public class MolecularSequence extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * INDEL / SNP / Undefined variant.
+             * </p>
+             * 
+             * @param type
+             *     indel | snp | unknown
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(QualityType type) {
+                this.type = type;
+                return this;
             }
 
             /**
@@ -2853,10 +2849,9 @@ public class MolecularSequence extends DomainResource {
                 return new Quality(this);
             }
 
-            private Builder from(Quality quality) {
-                id = quality.id;
-                extension.addAll(quality.extension);
-                modifierExtension.addAll(quality.modifierExtension);
+            protected Builder from(Quality quality) {
+                super.from(quality);
+                type = quality.type;
                 standardSequence = quality.standardSequence;
                 start = quality.start;
                 end = quality.end;
@@ -3070,11 +3065,11 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private List<Integer> score = new ArrayList<>();
                 private List<Integer> numTP = new ArrayList<>();
                 private List<Integer> numFP = new ArrayList<>();
@@ -3082,10 +3077,6 @@ public class MolecularSequence extends DomainResource {
                 private List<Decimal> precision = new ArrayList<>();
                 private List<Decimal> sensitivity = new ArrayList<>();
                 private List<Decimal> fMeasure = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3489,10 +3480,8 @@ public class MolecularSequence extends DomainResource {
                     return new Roc(this);
                 }
 
-                private Builder from(Roc roc) {
-                    id = roc.id;
-                    extension.addAll(roc.extension);
-                    modifierExtension.addAll(roc.modifierExtension);
+                protected Builder from(Roc roc) {
+                    super.from(roc);
                     score.addAll(roc.score);
                     numTP.addAll(roc.numTP);
                     numFP.addAll(roc.numFP);
@@ -3682,32 +3671,22 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(type).from(this);
-        }
-
-        public Builder toBuilder(RepositoryType type) {
-            return new Builder(type).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(RepositoryType type) {
-            return new Builder(type);
+            Builder builder = new Builder();
+            builder.type(type);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final RepositoryType type;
-
-            // optional
+            private RepositoryType type;
             private Uri url;
             private String name;
             private String datasetId;
             private String variantsetId;
             private String readsetId;
-
-            private Builder(RepositoryType type) {
-                super();
-                this.type = type;
-            }
 
             /**
              * <p>
@@ -3828,6 +3807,22 @@ public class MolecularSequence extends DomainResource {
 
             /**
              * <p>
+             * Click and see / RESTful API / Need login to see / RESTful API with authentication / Other ways to see resource.
+             * </p>
+             * 
+             * @param type
+             *     directlink | openapi | login | oauth | other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(RepositoryType type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * <p>
              * URI of an external repository which contains further details about the genetics data.
              * </p>
              * 
@@ -3913,10 +3908,9 @@ public class MolecularSequence extends DomainResource {
                 return new Repository(this);
             }
 
-            private Builder from(Repository repository) {
-                id = repository.id;
-                extension.addAll(repository.extension);
-                modifierExtension.addAll(repository.modifierExtension);
+            protected Builder from(Repository repository) {
+                super.from(repository);
+                type = repository.type;
                 url = repository.url;
                 name = repository.name;
                 datasetId = repository.datasetId;
@@ -4086,20 +4080,16 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept variantType;
             private Boolean exact;
             private Integer length;
             private Outer outer;
             private Inner inner;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -4303,10 +4293,8 @@ public class MolecularSequence extends DomainResource {
                 return new StructureVariant(this);
             }
 
-            private Builder from(StructureVariant structureVariant) {
-                id = structureVariant.id;
-                extension.addAll(structureVariant.extension);
-                modifierExtension.addAll(structureVariant.modifierExtension);
+            protected Builder from(StructureVariant structureVariant) {
+                super.from(structureVariant);
                 variantType = structureVariant.variantType;
                 exact = structureVariant.exact;
                 length = structureVariant.length;
@@ -4423,17 +4411,13 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Integer start;
                 private Integer end;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4591,10 +4575,8 @@ public class MolecularSequence extends DomainResource {
                     return new Outer(this);
                 }
 
-                private Builder from(Outer outer) {
-                    id = outer.id;
-                    extension.addAll(outer.extension);
-                    modifierExtension.addAll(outer.modifierExtension);
+                protected Builder from(Outer outer) {
+                    super.from(outer);
                     start = outer.start;
                     end = outer.end;
                     return this;
@@ -4709,17 +4691,13 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Integer start;
                 private Integer end;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -4877,10 +4855,8 @@ public class MolecularSequence extends DomainResource {
                     return new Inner(this);
                 }
 
-                private Builder from(Inner inner) {
-                    id = inner.id;
-                    extension.addAll(inner.extension);
-                    modifierExtension.addAll(inner.modifierExtension);
+                protected Builder from(Inner inner) {
+                    super.from(inner);
                     start = inner.start;
                     end = inner.end;
                     return this;

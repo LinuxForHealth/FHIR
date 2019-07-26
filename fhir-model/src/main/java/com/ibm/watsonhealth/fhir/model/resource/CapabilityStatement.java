@@ -664,31 +664,27 @@ public class CapabilityStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, date, kind, fhirVersion, format).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
-        return new Builder(status, date, kind, fhirVersion, format).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
-        return new Builder(status, date, kind, fhirVersion, format);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.date(date);
+        builder.kind(kind);
+        builder.fhirVersion(fhirVersion);
+        builder.format(format);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final DateTime date;
-        private final CapabilityStatementKind kind;
-        private final FHIRVersion fhirVersion;
-        private final List<Code> format;
-
-        // optional
         private Uri url;
         private String version;
         private String name;
         private String title;
+        private PublicationStatus status;
         private Boolean experimental;
+        private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
         private Markdown description;
@@ -696,24 +692,18 @@ public class CapabilityStatement extends DomainResource {
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown purpose;
         private Markdown copyright;
+        private CapabilityStatementKind kind;
         private List<Canonical> instantiates = new ArrayList<>();
         private List<Canonical> imports = new ArrayList<>();
         private Software software;
         private Implementation implementation;
+        private FHIRVersion fhirVersion;
+        private List<Code> format = new ArrayList<>();
         private List<Code> patchFormat = new ArrayList<>();
         private List<Canonical> implementationGuide = new ArrayList<>();
         private List<Rest> rest = new ArrayList<>();
         private List<Messaging> messaging = new ArrayList<>();
         private List<Document> document = new ArrayList<>();
-
-        private Builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
-            super();
-            this.status = status;
-            this.date = date;
-            this.kind = kind;
-            this.fhirVersion = fhirVersion;
-            this.format = new ArrayList<>(format);
-        }
 
         /**
          * <p>
@@ -1015,6 +1005,22 @@ public class CapabilityStatement extends DomainResource {
 
         /**
          * <p>
+         * The status of this capability statement. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A Boolean value to indicate that this capability statement is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * </p>
@@ -1027,6 +1033,24 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder experimental(Boolean experimental) {
             this.experimental = experimental;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The date (and optionally time) when the capability statement was published. The date must change when the business 
+         * version changes and it must change if the status code changes. In addition, it should change when the substantive 
+         * content of the capability statement changes.
+         * </p>
+         * 
+         * @param date
+         *     Date last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(DateTime date) {
+            this.date = date;
             return this;
         }
 
@@ -1223,6 +1247,23 @@ public class CapabilityStatement extends DomainResource {
 
         /**
          * <p>
+         * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
+         * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
+         * </p>
+         * 
+         * @param kind
+         *     instance | capability | requirements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder kind(CapabilityStatementKind kind) {
+            this.kind = kind;
+            return this;
+        }
+
+        /**
+         * <p>
          * Reference to a canonical URL of another CapabilityStatement that this software implements. This capability statement 
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
@@ -1340,6 +1381,63 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder implementation(Implementation implementation) {
             this.implementation = implementation;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR 
+         * version of the CapabilityStatement itself). There is no default value.
+         * </p>
+         * 
+         * @param fhirVersion
+         *     FHIR Version the system supports
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder fhirVersion(FHIRVersion fhirVersion) {
+            this.fhirVersion = fhirVersion;
+            return this;
+        }
+
+        /**
+         * <p>
+         * A list of the formats supported by this implementation using their content types.
+         * </p>
+         * <p>
+         * Adds new element(s) to existing list
+         * </p>
+         * 
+         * @param format
+         *     formats supported (xml | json | ttl | mime type)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder format(Code... format) {
+            for (Code value : format) {
+                this.format.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A list of the formats supported by this implementation using their content types.
+         * </p>
+         * <p>
+         * Replaces existing list with a new one containing elements from the Collection
+         * </p>
+         * 
+         * @param format
+         *     formats supported (xml | json | ttl | mime type)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder format(Collection<Code> format) {
+            this.format = new ArrayList<>(format);
             return this;
         }
 
@@ -1548,20 +1646,15 @@ public class CapabilityStatement extends DomainResource {
             return new CapabilityStatement(this);
         }
 
-        private Builder from(CapabilityStatement capabilityStatement) {
-            id = capabilityStatement.id;
-            meta = capabilityStatement.meta;
-            implicitRules = capabilityStatement.implicitRules;
-            language = capabilityStatement.language;
-            text = capabilityStatement.text;
-            contained.addAll(capabilityStatement.contained);
-            extension.addAll(capabilityStatement.extension);
-            modifierExtension.addAll(capabilityStatement.modifierExtension);
+        protected Builder from(CapabilityStatement capabilityStatement) {
+            super.from(capabilityStatement);
             url = capabilityStatement.url;
             version = capabilityStatement.version;
             name = capabilityStatement.name;
             title = capabilityStatement.title;
+            status = capabilityStatement.status;
             experimental = capabilityStatement.experimental;
+            date = capabilityStatement.date;
             publisher = capabilityStatement.publisher;
             contact.addAll(capabilityStatement.contact);
             description = capabilityStatement.description;
@@ -1569,10 +1662,13 @@ public class CapabilityStatement extends DomainResource {
             jurisdiction.addAll(capabilityStatement.jurisdiction);
             purpose = capabilityStatement.purpose;
             copyright = capabilityStatement.copyright;
+            kind = capabilityStatement.kind;
             instantiates.addAll(capabilityStatement.instantiates);
             imports.addAll(capabilityStatement.imports);
             software = capabilityStatement.software;
             implementation = capabilityStatement.implementation;
+            fhirVersion = capabilityStatement.fhirVersion;
+            format.addAll(capabilityStatement.format);
             patchFormat.addAll(capabilityStatement.patchFormat);
             implementationGuide.addAll(capabilityStatement.implementationGuide);
             rest.addAll(capabilityStatement.rest);
@@ -1702,29 +1798,19 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(name).from(this);
-        }
-
-        public Builder toBuilder(String name) {
-            return new Builder(name).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String name) {
-            return new Builder(name);
+            Builder builder = new Builder();
+            builder.name(name);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String name;
-
-            // optional
+            private String name;
             private String version;
             private DateTime releaseDate;
-
-            private Builder(String name) {
-                super();
-                this.name = name;
-            }
 
             /**
              * <p>
@@ -1845,6 +1931,22 @@ public class CapabilityStatement extends DomainResource {
 
             /**
              * <p>
+             * Name the software is known by.
+             * </p>
+             * 
+             * @param name
+             *     A name the software is known by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            /**
+             * <p>
              * The version identifier for the software covered by this statement.
              * </p>
              * 
@@ -1880,10 +1982,9 @@ public class CapabilityStatement extends DomainResource {
                 return new Software(this);
             }
 
-            private Builder from(Software software) {
-                id = software.id;
-                extension.addAll(software.extension);
-                modifierExtension.addAll(software.modifierExtension);
+            protected Builder from(Software software) {
+                super.from(software);
+                name = software.name;
                 version = software.version;
                 releaseDate = software.releaseDate;
                 return this;
@@ -2013,29 +2114,19 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(description).from(this);
-        }
-
-        public Builder toBuilder(String description) {
-            return new Builder(description).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(String description) {
-            return new Builder(description);
+            Builder builder = new Builder();
+            builder.description(description);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final String description;
-
-            // optional
+            private String description;
             private Url url;
             private Reference custodian;
-
-            private Builder(String description) {
-                super();
-                this.description = description;
-            }
 
             /**
              * <p>
@@ -2156,6 +2247,22 @@ public class CapabilityStatement extends DomainResource {
 
             /**
              * <p>
+             * Information about the specific installation that this capability statement relates to.
+             * </p>
+             * 
+             * @param description
+             *     Describes this specific instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(String description) {
+                this.description = description;
+                return this;
+            }
+
+            /**
+             * <p>
              * An absolute base URL for the implementation. This forms the base for REST interfaces as well as the mailbox and 
              * document interfaces.
              * </p>
@@ -2193,10 +2300,9 @@ public class CapabilityStatement extends DomainResource {
                 return new Implementation(this);
             }
 
-            private Builder from(Implementation implementation) {
-                id = implementation.id;
-                extension.addAll(implementation.extension);
-                modifierExtension.addAll(implementation.modifierExtension);
+            protected Builder from(Implementation implementation) {
+                super.from(implementation);
+                description = implementation.description;
                 url = implementation.url;
                 custodian = implementation.custodian;
                 return this;
@@ -2415,22 +2521,17 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(mode).from(this);
-        }
-
-        public Builder toBuilder(RestfulCapabilityMode mode) {
-            return new Builder(mode).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(RestfulCapabilityMode mode) {
-            return new Builder(mode);
+            Builder builder = new Builder();
+            builder.mode(mode);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final RestfulCapabilityMode mode;
-
-            // optional
+            private RestfulCapabilityMode mode;
             private Markdown documentation;
             private Security security;
             private List<Resource> resource = new ArrayList<>();
@@ -2438,11 +2539,6 @@ public class CapabilityStatement extends DomainResource {
             private List<CapabilityStatement.Rest.Resource.SearchParam> searchParam = new ArrayList<>();
             private List<CapabilityStatement.Rest.Resource.Operation> operation = new ArrayList<>();
             private List<Canonical> compartment = new ArrayList<>();
-
-            private Builder(RestfulCapabilityMode mode) {
-                super();
-                this.mode = mode;
-            }
 
             /**
              * <p>
@@ -2559,6 +2655,22 @@ public class CapabilityStatement extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * <p>
+             * Identifies whether this portion of the statement is describing the ability to initiate or receive restful operations.
+             * </p>
+             * 
+             * @param mode
+             *     client | server
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder mode(RestfulCapabilityMode mode) {
+                this.mode = mode;
+                return this;
             }
 
             /**
@@ -2802,10 +2914,9 @@ public class CapabilityStatement extends DomainResource {
                 return new Rest(this);
             }
 
-            private Builder from(Rest rest) {
-                id = rest.id;
-                extension.addAll(rest.extension);
-                modifierExtension.addAll(rest.modifierExtension);
+            protected Builder from(Rest rest) {
+                super.from(rest);
+                mode = rest.mode;
                 documentation = rest.documentation;
                 security = rest.security;
                 resource.addAll(rest.resource);
@@ -2940,18 +3051,14 @@ public class CapabilityStatement extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private Boolean cors;
                 private List<CodeableConcept> service = new ArrayList<>();
                 private Markdown description;
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3147,10 +3254,8 @@ public class CapabilityStatement extends DomainResource {
                     return new Security(this);
                 }
 
-                private Builder from(Security security) {
-                    id = security.id;
-                    extension.addAll(security.extension);
-                    modifierExtension.addAll(security.modifierExtension);
+                protected Builder from(Security security) {
+                    super.from(security);
                     cors = security.cors;
                     service.addAll(security.service);
                     description = security.description;
@@ -3543,22 +3648,17 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(type).from(this);
-            }
-
-            public Builder toBuilder(ResourceType type) {
-                return new Builder(type).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(ResourceType type) {
-                return new Builder(type);
+                Builder builder = new Builder();
+                builder.type(type);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final ResourceType type;
-
-                // optional
+                private ResourceType type;
                 private Canonical profile;
                 private List<Canonical> supportedProfile = new ArrayList<>();
                 private Markdown documentation;
@@ -3575,11 +3675,6 @@ public class CapabilityStatement extends DomainResource {
                 private List<String> searchRevInclude = new ArrayList<>();
                 private List<SearchParam> searchParam = new ArrayList<>();
                 private List<Operation> operation = new ArrayList<>();
-
-                private Builder(ResourceType type) {
-                    super();
-                    this.type = type;
-                }
 
                 /**
                  * <p>
@@ -3696,6 +3791,22 @@ public class CapabilityStatement extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * <p>
+                 * A type of resource exposed via the restful interface.
+                 * </p>
+                 * 
+                 * @param type
+                 *     A resource type that is supported
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(ResourceType type) {
+                    this.type = type;
+                    return this;
                 }
 
                 /**
@@ -4146,10 +4257,9 @@ public class CapabilityStatement extends DomainResource {
                     return new Resource(this);
                 }
 
-                private Builder from(Resource resource) {
-                    id = resource.id;
-                    extension.addAll(resource.extension);
-                    modifierExtension.addAll(resource.modifierExtension);
+                protected Builder from(Resource resource) {
+                    super.from(resource);
+                    type = resource.type;
                     profile = resource.profile;
                     supportedProfile.addAll(resource.supportedProfile);
                     documentation = resource.documentation;
@@ -4272,28 +4382,18 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(code).from(this);
-                }
-
-                public Builder toBuilder(TypeRestfulInteraction code) {
-                    return new Builder(code).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(TypeRestfulInteraction code) {
-                    return new Builder(code);
+                    Builder builder = new Builder();
+                    builder.code(code);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final TypeRestfulInteraction code;
-
-                    // optional
+                    private TypeRestfulInteraction code;
                     private Markdown documentation;
-
-                    private Builder(TypeRestfulInteraction code) {
-                        super();
-                        this.code = code;
-                    }
 
                     /**
                      * <p>
@@ -4414,6 +4514,22 @@ public class CapabilityStatement extends DomainResource {
 
                     /**
                      * <p>
+                     * Coded identifier of the operation, supported by the system resource.
+                     * </p>
+                     * 
+                     * @param code
+                     *     read | vread | update | patch | delete | history-instance | history-type | create | search-type
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder code(TypeRestfulInteraction code) {
+                        this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * Guidance specific to the implementation of this operation, such as 'delete is a logical delete' or 'updates are only 
                      * allowed with version id' or 'creates permitted from pre-authorized certificates only'.
                      * </p>
@@ -4434,10 +4550,9 @@ public class CapabilityStatement extends DomainResource {
                         return new Interaction(this);
                     }
 
-                    private Builder from(Interaction interaction) {
-                        id = interaction.id;
-                        extension.addAll(interaction.extension);
-                        modifierExtension.addAll(interaction.modifierExtension);
+                    protected Builder from(Interaction interaction) {
+                        super.from(interaction);
+                        code = interaction.code;
                         documentation = interaction.documentation;
                         return this;
                     }
@@ -4586,31 +4701,21 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(name, type).from(this);
-                }
-
-                public Builder toBuilder(String name, SearchParamType type) {
-                    return new Builder(name, type).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(String name, SearchParamType type) {
-                    return new Builder(name, type);
+                    Builder builder = new Builder();
+                    builder.name(name);
+                    builder.type(type);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final String name;
-                    private final SearchParamType type;
-
-                    // optional
+                    private String name;
                     private Canonical definition;
+                    private SearchParamType type;
                     private Markdown documentation;
-
-                    private Builder(String name, SearchParamType type) {
-                        super();
-                        this.name = name;
-                        this.type = type;
-                    }
 
                     /**
                      * <p>
@@ -4731,6 +4836,22 @@ public class CapabilityStatement extends DomainResource {
 
                     /**
                      * <p>
+                     * The name of the search parameter used in the interface.
+                     * </p>
+                     * 
+                     * @param name
+                     *     Name of search parameter
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(String name) {
+                        this.name = name;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be 
                      * confident of the meaning of the search parameter (a reference to [SearchParameter.url](searchparameter-definitions.
                      * html#SearchParameter.url)). This element SHALL be populated if the search parameter refers to a SearchParameter 
@@ -4745,6 +4866,22 @@ public class CapabilityStatement extends DomainResource {
                      */
                     public Builder definition(Canonical definition) {
                         this.definition = definition;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The type of value a search parameter refers to, and how the content is interpreted.
+                     * </p>
+                     * 
+                     * @param type
+                     *     number | date | string | token | reference | composite | quantity | uri | special
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder type(SearchParamType type) {
+                        this.type = type;
                         return this;
                     }
 
@@ -4770,11 +4907,11 @@ public class CapabilityStatement extends DomainResource {
                         return new SearchParam(this);
                     }
 
-                    private Builder from(SearchParam searchParam) {
-                        id = searchParam.id;
-                        extension.addAll(searchParam.extension);
-                        modifierExtension.addAll(searchParam.modifierExtension);
+                    protected Builder from(SearchParam searchParam) {
+                        super.from(searchParam);
+                        name = searchParam.name;
                         definition = searchParam.definition;
+                        type = searchParam.type;
                         documentation = searchParam.documentation;
                         return this;
                     }
@@ -4907,30 +5044,20 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(name, definition).from(this);
-                }
-
-                public Builder toBuilder(String name, Canonical definition) {
-                    return new Builder(name, definition).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(String name, Canonical definition) {
-                    return new Builder(name, definition);
+                    Builder builder = new Builder();
+                    builder.name(name);
+                    builder.definition(definition);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final String name;
-                    private final Canonical definition;
-
-                    // optional
+                    private String name;
+                    private Canonical definition;
                     private Markdown documentation;
-
-                    private Builder(String name, Canonical definition) {
-                        super();
-                        this.name = name;
-                        this.definition = definition;
-                    }
 
                     /**
                      * <p>
@@ -5051,6 +5178,43 @@ public class CapabilityStatement extends DomainResource {
 
                     /**
                      * <p>
+                     * The name of the operation or query. For an operation, this is the name prefixed with $ and used in the URL. For a 
+                     * query, this is the name used in the _query parameter when the query is called.
+                     * </p>
+                     * 
+                     * @param name
+                     *     Name by which the operation/query is invoked
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(String name) {
+                        this.name = name;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Where the formal definition can be found. If a server references the base definition of an Operation (i.e. from the 
+                     * specification itself such as ```http://hl7.org/fhir/OperationDefinition/ValueSet-expand```), that means it supports 
+                     * the full capabilities of the operation - e.g. both GET and POST invocation. If it only supports a subset, it must 
+                     * define its own custom [OperationDefinition](operationdefinition.html#) with a 'base' of the original 
+                     * OperationDefinition. The custom definition would describe the specific subset of functionality supported.
+                     * </p>
+                     * 
+                     * @param definition
+                     *     The defined operation/query
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder definition(Canonical definition) {
+                        this.definition = definition;
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * Documentation that describes anything special about the operation behavior, possibly detailing different behavior for 
                      * system, type and instance-level invocation of the operation.
                      * </p>
@@ -5071,10 +5235,10 @@ public class CapabilityStatement extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private Builder from(Operation operation) {
-                        id = operation.id;
-                        extension.addAll(operation.extension);
-                        modifierExtension.addAll(operation.modifierExtension);
+                    protected Builder from(Operation operation) {
+                        super.from(operation);
+                        name = operation.name;
+                        definition = operation.definition;
                         documentation = operation.documentation;
                         return this;
                     }
@@ -5184,28 +5348,18 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(code).from(this);
-            }
-
-            public Builder toBuilder(SystemRestfulInteraction code) {
-                return new Builder(code).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(SystemRestfulInteraction code) {
-                return new Builder(code);
+                Builder builder = new Builder();
+                builder.code(code);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final SystemRestfulInteraction code;
-
-                // optional
+                private SystemRestfulInteraction code;
                 private Markdown documentation;
-
-                private Builder(SystemRestfulInteraction code) {
-                    super();
-                    this.code = code;
-                }
 
                 /**
                  * <p>
@@ -5326,6 +5480,22 @@ public class CapabilityStatement extends DomainResource {
 
                 /**
                  * <p>
+                 * A coded identifier of the operation, supported by the system.
+                 * </p>
+                 * 
+                 * @param code
+                 *     transaction | batch | search-system | history-system
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(SystemRestfulInteraction code) {
+                    this.code = code;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Guidance specific to the implementation of this operation, such as limitations on the kind of transactions allowed, or 
                  * information about system wide search is implemented.
                  * </p>
@@ -5346,10 +5516,9 @@ public class CapabilityStatement extends DomainResource {
                     return new Interaction(this);
                 }
 
-                private Builder from(Interaction interaction) {
-                    id = interaction.id;
-                    extension.addAll(interaction.extension);
-                    modifierExtension.addAll(interaction.modifierExtension);
+                protected Builder from(Interaction interaction) {
+                    super.from(interaction);
+                    code = interaction.code;
                     documentation = interaction.documentation;
                     return this;
                 }
@@ -5500,19 +5669,15 @@ public class CapabilityStatement extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<Endpoint> endpoint = new ArrayList<>();
             private UnsignedInt reliableCache;
             private Markdown documentation;
             private List<SupportedMessage> supportedMessage = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -5750,10 +5915,8 @@ public class CapabilityStatement extends DomainResource {
                 return new Messaging(this);
             }
 
-            private Builder from(Messaging messaging) {
-                id = messaging.id;
-                extension.addAll(messaging.extension);
-                modifierExtension.addAll(messaging.modifierExtension);
+            protected Builder from(Messaging messaging) {
+                super.from(messaging);
                 endpoint.addAll(messaging.endpoint);
                 reliableCache = messaging.reliableCache;
                 documentation = messaging.documentation;
@@ -5864,27 +6027,19 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(protocol, address).from(this);
-            }
-
-            public Builder toBuilder(Coding protocol, Url address) {
-                return new Builder(protocol, address).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Coding protocol, Url address) {
-                return new Builder(protocol, address);
+                Builder builder = new Builder();
+                builder.protocol(protocol);
+                builder.address(address);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Coding protocol;
-                private final Url address;
-
-                private Builder(Coding protocol, Url address) {
-                    super();
-                    this.protocol = protocol;
-                    this.address = address;
-                }
+                private Coding protocol;
+                private Url address;
 
                 /**
                  * <p>
@@ -6003,15 +6158,48 @@ public class CapabilityStatement extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * A list of the messaging transport protocol(s) identifiers, supported by this endpoint.
+                 * </p>
+                 * 
+                 * @param protocol
+                 *     http | ftp | mllp +
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder protocol(Coding protocol) {
+                    this.protocol = protocol;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The network address of the endpoint. For solutions that do not use network addresses for routing, it can be just an 
+                 * identifier.
+                 * </p>
+                 * 
+                 * @param address
+                 *     Network address or identifier of the end-point
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder address(Url address) {
+                    this.address = address;
+                    return this;
+                }
+
                 @Override
                 public Endpoint build() {
                     return new Endpoint(this);
                 }
 
-                private Builder from(Endpoint endpoint) {
-                    id = endpoint.id;
-                    extension.addAll(endpoint.extension);
-                    modifierExtension.addAll(endpoint.modifierExtension);
+                protected Builder from(Endpoint endpoint) {
+                    super.from(endpoint);
+                    protocol = endpoint.protocol;
+                    address = endpoint.address;
                     return this;
                 }
             }
@@ -6118,27 +6306,19 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(mode, definition).from(this);
-            }
-
-            public Builder toBuilder(EventCapabilityMode mode, Canonical definition) {
-                return new Builder(mode, definition).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(EventCapabilityMode mode, Canonical definition) {
-                return new Builder(mode, definition);
+                Builder builder = new Builder();
+                builder.mode(mode);
+                builder.definition(definition);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final EventCapabilityMode mode;
-                private final Canonical definition;
-
-                private Builder(EventCapabilityMode mode, Canonical definition) {
-                    super();
-                    this.mode = mode;
-                    this.definition = definition;
-                }
+                private EventCapabilityMode mode;
+                private Canonical definition;
 
                 /**
                  * <p>
@@ -6257,15 +6437,47 @@ public class CapabilityStatement extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * The mode of this event declaration - whether application is sender or receiver.
+                 * </p>
+                 * 
+                 * @param mode
+                 *     sender | receiver
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder mode(EventCapabilityMode mode) {
+                    this.mode = mode;
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
+                 * </p>
+                 * 
+                 * @param definition
+                 *     Message supported by this system
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder definition(Canonical definition) {
+                    this.definition = definition;
+                    return this;
+                }
+
                 @Override
                 public SupportedMessage build() {
                     return new SupportedMessage(this);
                 }
 
-                private Builder from(SupportedMessage supportedMessage) {
-                    id = supportedMessage.id;
-                    extension.addAll(supportedMessage.extension);
-                    modifierExtension.addAll(supportedMessage.modifierExtension);
+                protected Builder from(SupportedMessage supportedMessage) {
+                    super.from(supportedMessage);
+                    mode = supportedMessage.mode;
+                    definition = supportedMessage.definition;
                     return this;
                 }
             }
@@ -6392,30 +6604,20 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(mode, profile).from(this);
-        }
-
-        public Builder toBuilder(DocumentMode mode, Canonical profile) {
-            return new Builder(mode, profile).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(DocumentMode mode, Canonical profile) {
-            return new Builder(mode, profile);
+            Builder builder = new Builder();
+            builder.mode(mode);
+            builder.profile(profile);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final DocumentMode mode;
-            private final Canonical profile;
-
-            // optional
+            private DocumentMode mode;
             private Markdown documentation;
-
-            private Builder(DocumentMode mode, Canonical profile) {
-                super();
-                this.mode = mode;
-                this.profile = profile;
-            }
+            private Canonical profile;
 
             /**
              * <p>
@@ -6536,6 +6738,22 @@ public class CapabilityStatement extends DomainResource {
 
             /**
              * <p>
+             * Mode of this document declaration - whether an application is a producer or consumer.
+             * </p>
+             * 
+             * @param mode
+             *     producer | consumer
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder mode(DocumentMode mode) {
+                this.mode = mode;
+                return this;
+            }
+
+            /**
+             * <p>
              * A description of how the application supports or uses the specified document profile. For example, when documents are 
              * created, what action is taken with consumed documents, etc.
              * </p>
@@ -6551,16 +6769,32 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A profile on the document Bundle that constrains which resources are present, and their contents.
+             * </p>
+             * 
+             * @param profile
+             *     Constraint on the resources used in the document
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder profile(Canonical profile) {
+                this.profile = profile;
+                return this;
+            }
+
             @Override
             public Document build() {
                 return new Document(this);
             }
 
-            private Builder from(Document document) {
-                id = document.id;
-                extension.addAll(document.extension);
-                modifierExtension.addAll(document.modifierExtension);
+            protected Builder from(Document document) {
+                super.from(document);
+                mode = document.mode;
                 documentation = document.documentation;
+                profile = document.profile;
                 return this;
             }
         }

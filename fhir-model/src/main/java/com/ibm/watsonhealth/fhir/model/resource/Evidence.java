@@ -616,23 +616,17 @@ public class Evidence extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, exposureBackground).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status, Reference exposureBackground) {
-        return new Builder(status, exposureBackground).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference exposureBackground) {
-        return new Builder(status, exposureBackground);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.exposureBackground(exposureBackground);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-        private final Reference exposureBackground;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
@@ -640,6 +634,7 @@ public class Evidence extends DomainResource {
         private String title;
         private String shortTitle;
         private String subtitle;
+        private PublicationStatus status;
         private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
@@ -657,14 +652,9 @@ public class Evidence extends DomainResource {
         private List<ContactDetail> reviewer = new ArrayList<>();
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
+        private Reference exposureBackground;
         private List<Reference> exposureVariant = new ArrayList<>();
         private List<Reference> outcome = new ArrayList<>();
-
-        private Builder(PublicationStatus status, Reference exposureBackground) {
-            super();
-            this.status = status;
-            this.exposureBackground = exposureBackground;
-        }
 
         /**
          * <p>
@@ -1038,6 +1028,22 @@ public class Evidence extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this evidence. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -1566,6 +1572,22 @@ public class Evidence extends DomainResource {
 
         /**
          * <p>
+         * A reference to a EvidenceVariable resource that defines the population for the research.
+         * </p>
+         * 
+         * @param exposureBackground
+         *     What population?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder exposureBackground(Reference exposureBackground) {
+            this.exposureBackground = exposureBackground;
+            return this;
+        }
+
+        /**
+         * <p>
          * A reference to a EvidenceVariable resource that defines the exposure for the research.
          * </p>
          * <p>
@@ -1649,15 +1671,8 @@ public class Evidence extends DomainResource {
             return new Evidence(this);
         }
 
-        private Builder from(Evidence evidence) {
-            id = evidence.id;
-            meta = evidence.meta;
-            implicitRules = evidence.implicitRules;
-            language = evidence.language;
-            text = evidence.text;
-            contained.addAll(evidence.contained);
-            extension.addAll(evidence.extension);
-            modifierExtension.addAll(evidence.modifierExtension);
+        protected Builder from(Evidence evidence) {
+            super.from(evidence);
             url = evidence.url;
             identifier.addAll(evidence.identifier);
             version = evidence.version;
@@ -1665,6 +1680,7 @@ public class Evidence extends DomainResource {
             title = evidence.title;
             shortTitle = evidence.shortTitle;
             subtitle = evidence.subtitle;
+            status = evidence.status;
             date = evidence.date;
             publisher = evidence.publisher;
             contact.addAll(evidence.contact);
@@ -1682,6 +1698,7 @@ public class Evidence extends DomainResource {
             reviewer.addAll(evidence.reviewer);
             endorser.addAll(evidence.endorser);
             relatedArtifact.addAll(evidence.relatedArtifact);
+            exposureBackground = evidence.exposureBackground;
             exposureVariant.addAll(evidence.exposureVariant);
             outcome.addAll(evidence.outcome);
             return this;

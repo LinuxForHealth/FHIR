@@ -79,14 +79,11 @@ public class Canonical extends Uri {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Uri.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -168,10 +165,8 @@ public class Canonical extends Uri {
             return new Canonical(this);
         }
 
-        private Builder from(Canonical canonical) {
-            id = canonical.id;
-            extension.addAll(canonical.extension);
-            value = canonical.value;
+        protected Builder from(Canonical canonical) {
+            super.from(canonical);
             return this;
         }
     }

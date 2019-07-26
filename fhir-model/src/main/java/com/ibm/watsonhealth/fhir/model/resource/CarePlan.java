@@ -522,33 +522,30 @@ public class CarePlan extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, intent, subject).from(this);
-    }
-
-    public Builder toBuilder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
-        return new Builder(status, intent, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
-        return new Builder(status, intent, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.intent(intent);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CarePlanStatus status;
-        private final CarePlanIntent intent;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> replaces = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private CarePlanStatus status;
+        private CarePlanIntent intent;
         private List<CodeableConcept> category = new ArrayList<>();
         private String title;
         private String description;
+        private Reference subject;
         private Reference encounter;
         private Period period;
         private DateTime created;
@@ -560,13 +557,6 @@ public class CarePlan extends DomainResource {
         private List<Reference> goal = new ArrayList<>();
         private List<Activity> activity = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
-            super();
-            this.status = status;
-            this.intent = intent;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -1042,6 +1032,39 @@ public class CarePlan extends DomainResource {
 
         /**
          * <p>
+         * Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | suspended | completed | entered-in-error | cancelled | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CarePlanStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates the level of authority/intentionality associated with the care plan and where the care plan fits into the 
+         * workflow chain.
+         * </p>
+         * 
+         * @param intent
+         *     proposal | plan | order | option
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intent(CarePlanIntent intent) {
+            this.intent = intent;
+            return this;
+        }
+
+        /**
+         * <p>
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * </p>
@@ -1111,6 +1134,22 @@ public class CarePlan extends DomainResource {
          */
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies the patient or group whose intended care is described by the plan.
+         * </p>
+         * 
+         * @param subject
+         *     Who the care plan is for
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1467,24 +1506,20 @@ public class CarePlan extends DomainResource {
             return new CarePlan(this);
         }
 
-        private Builder from(CarePlan carePlan) {
-            id = carePlan.id;
-            meta = carePlan.meta;
-            implicitRules = carePlan.implicitRules;
-            language = carePlan.language;
-            text = carePlan.text;
-            contained.addAll(carePlan.contained);
-            extension.addAll(carePlan.extension);
-            modifierExtension.addAll(carePlan.modifierExtension);
+        protected Builder from(CarePlan carePlan) {
+            super.from(carePlan);
             identifier.addAll(carePlan.identifier);
             instantiatesCanonical.addAll(carePlan.instantiatesCanonical);
             instantiatesUri.addAll(carePlan.instantiatesUri);
             basedOn.addAll(carePlan.basedOn);
             replaces.addAll(carePlan.replaces);
             partOf.addAll(carePlan.partOf);
+            status = carePlan.status;
+            intent = carePlan.intent;
             category.addAll(carePlan.category);
             title = carePlan.title;
             description = carePlan.description;
+            subject = carePlan.subject;
             encounter = carePlan.encounter;
             period = carePlan.period;
             created = carePlan.created;
@@ -1664,20 +1699,16 @@ public class CarePlan extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> outcomeCodeableConcept = new ArrayList<>();
             private List<Reference> outcomeReference = new ArrayList<>();
             private List<Annotation> progress = new ArrayList<>();
             private Reference reference;
             private Detail detail;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1960,10 +1991,8 @@ public class CarePlan extends DomainResource {
                 return new Activity(this);
             }
 
-            private Builder from(Activity activity) {
-                id = activity.id;
-                extension.addAll(activity.extension);
-                modifierExtension.addAll(activity.modifierExtension);
+            protected Builder from(Activity activity) {
+                super.from(activity);
                 outcomeCodeableConcept.addAll(activity.outcomeCodeableConcept);
                 outcomeReference.addAll(activity.outcomeReference);
                 progress.addAll(activity.progress);
@@ -2354,22 +2383,16 @@ public class CarePlan extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(status).from(this);
-            }
-
-            public Builder toBuilder(CarePlanActivityStatus status) {
-                return new Builder(status).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(CarePlanActivityStatus status) {
-                return new Builder(status);
+                Builder builder = new Builder();
+                builder.status(status);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final CarePlanActivityStatus status;
-
-                // optional
                 private CarePlanActivityKind kind;
                 private List<Canonical> instantiatesCanonical = new ArrayList<>();
                 private List<Uri> instantiatesUri = new ArrayList<>();
@@ -2377,6 +2400,7 @@ public class CarePlan extends DomainResource {
                 private List<CodeableConcept> reasonCode = new ArrayList<>();
                 private List<Reference> reasonReference = new ArrayList<>();
                 private List<Reference> goal = new ArrayList<>();
+                private CarePlanActivityStatus status;
                 private CodeableConcept statusReason;
                 private Boolean doNotPerform;
                 private Element scheduled;
@@ -2386,11 +2410,6 @@ public class CarePlan extends DomainResource {
                 private Quantity dailyAmount;
                 private Quantity quantity;
                 private String description;
-
-                private Builder(CarePlanActivityStatus status) {
-                    super();
-                    this.status = status;
-                }
 
                 /**
                  * <p>
@@ -2753,6 +2772,22 @@ public class CarePlan extends DomainResource {
 
                 /**
                  * <p>
+                 * Identifies what progress is being made for the specific activity.
+                 * </p>
+                 * 
+                 * @param status
+                 *     not-started | scheduled | in-progress | on-hold | completed | cancelled | stopped | unknown | entered-in-error
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder status(CarePlanActivityStatus status) {
+                    this.status = status;
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Provides reason why the activity isn't yet started, is on hold, was cancelled, etc.
                  * </p>
                  * 
@@ -2927,10 +2962,8 @@ public class CarePlan extends DomainResource {
                     return new Detail(this);
                 }
 
-                private Builder from(Detail detail) {
-                    id = detail.id;
-                    extension.addAll(detail.extension);
-                    modifierExtension.addAll(detail.modifierExtension);
+                protected Builder from(Detail detail) {
+                    super.from(detail);
                     kind = detail.kind;
                     instantiatesCanonical.addAll(detail.instantiatesCanonical);
                     instantiatesUri.addAll(detail.instantiatesUri);
@@ -2938,6 +2971,7 @@ public class CarePlan extends DomainResource {
                     reasonCode.addAll(detail.reasonCode);
                     reasonReference.addAll(detail.reasonReference);
                     goal.addAll(detail.goal);
+                    status = detail.status;
                     statusReason = detail.statusReason;
                     doNotPerform = detail.doNotPerform;
                     scheduled = detail.scheduled;

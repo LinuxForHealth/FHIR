@@ -96,7 +96,6 @@ public abstract class Resource extends AbstractVisitable {
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Resource> {
-        // optional
         protected Id id;
         protected Meta meta;
         protected Uri implicitRules;
@@ -175,5 +174,13 @@ public abstract class Resource extends AbstractVisitable {
 
         @Override
         public abstract Resource build();
+
+        protected Builder from(Resource resource) {
+            id = resource.id;
+            meta = resource.meta;
+            implicitRules = resource.implicitRules;
+            language = resource.language;
+            return this;
+        }
     }
 }

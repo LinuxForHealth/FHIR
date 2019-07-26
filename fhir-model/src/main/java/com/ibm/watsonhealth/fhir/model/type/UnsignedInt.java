@@ -87,14 +87,11 @@ public class UnsignedInt extends Integer {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Integer.Builder {
-        private Builder() {
-            super();
-        }
-
         /**
          * <p>
          * unique id for the element within a resource (for internal references)
@@ -180,10 +177,8 @@ public class UnsignedInt extends Integer {
             return new UnsignedInt(this);
         }
 
-        private Builder from(UnsignedInt unsignedInt) {
-            id = unsignedInt.id;
-            extension.addAll(unsignedInt.extension);
-            value = unsignedInt.value;
+        protected Builder from(UnsignedInt unsignedInt) {
+            super.from(unsignedInt);
             return this;
         }
     }

@@ -176,19 +176,15 @@ public class Reference extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private String reference;
         private Uri type;
         private Identifier identifier;
         private String display;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -335,9 +331,8 @@ public class Reference extends Element {
             return new Reference(this);
         }
 
-        private Builder from(Reference reference) {
-            id = reference.id;
-            extension.addAll(reference.extension);
+        protected Builder from(Reference reference) {
+            super.from(reference);
             this.reference = reference.reference;
             type = reference.type;
             identifier = reference.identifier;

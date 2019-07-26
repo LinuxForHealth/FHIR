@@ -127,17 +127,13 @@ public class Period extends Element {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // optional
         private DateTime start;
         private DateTime end;
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -239,9 +235,8 @@ public class Period extends Element {
             return new Period(this);
         }
 
-        private Builder from(Period period) {
-            id = period.id;
-            extension.addAll(period.extension);
+        protected Builder from(Period period) {
+            super.from(period);
             start = period.start;
             end = period.end;
             return this;

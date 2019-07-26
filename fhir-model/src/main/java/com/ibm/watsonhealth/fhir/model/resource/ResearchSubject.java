@@ -239,36 +239,26 @@ public class ResearchSubject extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, study, individual).from(this);
-    }
-
-    public Builder toBuilder(ResearchSubjectStatus status, Reference study, Reference individual) {
-        return new Builder(status, study, individual).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ResearchSubjectStatus status, Reference study, Reference individual) {
-        return new Builder(status, study, individual);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.study(study);
+        builder.individual(individual);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ResearchSubjectStatus status;
-        private final Reference study;
-        private final Reference individual;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ResearchSubjectStatus status;
         private Period period;
+        private Reference study;
+        private Reference individual;
         private String assignedArm;
         private String actualArm;
         private Reference consent;
-
-        private Builder(ResearchSubjectStatus status, Reference study, Reference individual) {
-            super();
-            this.status = status;
-            this.study = study;
-            this.individual = individual;
-        }
 
         /**
          * <p>
@@ -538,6 +528,23 @@ public class ResearchSubject extends DomainResource {
 
         /**
          * <p>
+         * The current state of the subject.
+         * </p>
+         * 
+         * @param status
+         *     candidate | eligible | follow-up | ineligible | not-registered | off-study | on-study | on-study-intervention | on-
+         *     study-observation | pending-on-study | potential-candidate | screening | withdrawn
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ResearchSubjectStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * The dates the subject began and ended their participation in the study.
          * </p>
          * 
@@ -549,6 +556,38 @@ public class ResearchSubject extends DomainResource {
          */
         public Builder period(Period period) {
             this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
+         * Reference to the study the subject is participating in.
+         * </p>
+         * 
+         * @param study
+         *     Study subject is part of
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder study(Reference study) {
+            this.study = study;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The record of the person or animal who is involved in the study.
+         * </p>
+         * 
+         * @param individual
+         *     Who is part of study
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder individual(Reference individual) {
+            this.individual = individual;
             return this;
         }
 
@@ -605,17 +644,13 @@ public class ResearchSubject extends DomainResource {
             return new ResearchSubject(this);
         }
 
-        private Builder from(ResearchSubject researchSubject) {
-            id = researchSubject.id;
-            meta = researchSubject.meta;
-            implicitRules = researchSubject.implicitRules;
-            language = researchSubject.language;
-            text = researchSubject.text;
-            contained.addAll(researchSubject.contained);
-            extension.addAll(researchSubject.extension);
-            modifierExtension.addAll(researchSubject.modifierExtension);
+        protected Builder from(ResearchSubject researchSubject) {
+            super.from(researchSubject);
             identifier.addAll(researchSubject.identifier);
+            status = researchSubject.status;
             period = researchSubject.period;
+            study = researchSubject.study;
+            individual = researchSubject.individual;
             assignedArm = researchSubject.assignedArm;
             actualArm = researchSubject.actualArm;
             consent = researchSubject.consent;

@@ -442,30 +442,27 @@ public class FamilyMemberHistory extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, patient, relationship).from(this);
-    }
-
-    public Builder toBuilder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
-        return new Builder(status, patient, relationship).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
-        return new Builder(status, patient, relationship);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.patient(patient);
+        builder.relationship(relationship);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final FamilyHistoryStatus status;
-        private final Reference patient;
-        private final CodeableConcept relationship;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Canonical> instantiatesCanonical = new ArrayList<>();
         private List<Uri> instantiatesUri = new ArrayList<>();
+        private FamilyHistoryStatus status;
         private CodeableConcept dataAbsentReason;
+        private Reference patient;
         private DateTime date;
         private String name;
+        private CodeableConcept relationship;
         private CodeableConcept sex;
         private Element born;
         private Element age;
@@ -475,13 +472,6 @@ public class FamilyMemberHistory extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Condition> condition = new ArrayList<>();
-
-        private Builder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
-            super();
-            this.status = status;
-            this.patient = patient;
-            this.relationship = relationship;
-        }
 
         /**
          * <p>
@@ -837,6 +827,22 @@ public class FamilyMemberHistory extends DomainResource {
 
         /**
          * <p>
+         * A code specifying the status of the record of the family history of a specific family member.
+         * </p>
+         * 
+         * @param status
+         *     partial | completed | entered-in-error | health-unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(FamilyHistoryStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Describes why the family member's history is not available.
          * </p>
          * 
@@ -848,6 +854,22 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder dataAbsentReason(CodeableConcept dataAbsentReason) {
             this.dataAbsentReason = dataAbsentReason;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The person who this history concerns.
+         * </p>
+         * 
+         * @param patient
+         *     Patient history is about
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patient(Reference patient) {
+            this.patient = patient;
             return this;
         }
 
@@ -880,6 +902,22 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The type of relationship this person has to the patient (father, mother, brother etc.).
+         * </p>
+         * 
+         * @param relationship
+         *     Relationship to the subject
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder relationship(CodeableConcept relationship) {
+            this.relationship = relationship;
             return this;
         }
 
@@ -1137,21 +1175,17 @@ public class FamilyMemberHistory extends DomainResource {
             return new FamilyMemberHistory(this);
         }
 
-        private Builder from(FamilyMemberHistory familyMemberHistory) {
-            id = familyMemberHistory.id;
-            meta = familyMemberHistory.meta;
-            implicitRules = familyMemberHistory.implicitRules;
-            language = familyMemberHistory.language;
-            text = familyMemberHistory.text;
-            contained.addAll(familyMemberHistory.contained);
-            extension.addAll(familyMemberHistory.extension);
-            modifierExtension.addAll(familyMemberHistory.modifierExtension);
+        protected Builder from(FamilyMemberHistory familyMemberHistory) {
+            super.from(familyMemberHistory);
             identifier.addAll(familyMemberHistory.identifier);
             instantiatesCanonical.addAll(familyMemberHistory.instantiatesCanonical);
             instantiatesUri.addAll(familyMemberHistory.instantiatesUri);
+            status = familyMemberHistory.status;
             dataAbsentReason = familyMemberHistory.dataAbsentReason;
+            patient = familyMemberHistory.patient;
             date = familyMemberHistory.date;
             name = familyMemberHistory.name;
+            relationship = familyMemberHistory.relationship;
             sex = familyMemberHistory.sex;
             born = familyMemberHistory.born;
             age = familyMemberHistory.age;
@@ -1326,31 +1360,21 @@ public class FamilyMemberHistory extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
+            private CodeableConcept code;
             private CodeableConcept outcome;
             private Boolean contributedToDeath;
             private Element onset;
             private List<Annotation> note = new ArrayList<>();
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1471,6 +1495,23 @@ public class FamilyMemberHistory extends DomainResource {
 
             /**
              * <p>
+             * The actual condition specified. Could be a coded condition (like MI or Diabetes) or a less specific string like 
+             * 'cancer' depending on how much is known about the condition and the capabilities of the creating system.
+             * </p>
+             * 
+             * @param code
+             *     Condition suffered by relation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * Indicates what happened following the condition. If the condition resulted in death, deceased date is captured on the 
              * relation.
              * </p>
@@ -1565,10 +1606,9 @@ public class FamilyMemberHistory extends DomainResource {
                 return new Condition(this);
             }
 
-            private Builder from(Condition condition) {
-                id = condition.id;
-                extension.addAll(condition.extension);
-                modifierExtension.addAll(condition.modifierExtension);
+            protected Builder from(Condition condition) {
+                super.from(condition);
+                code = condition.code;
                 outcome = condition.outcome;
                 contributedToDeath = condition.contributedToDeath;
                 onset = condition.onset;

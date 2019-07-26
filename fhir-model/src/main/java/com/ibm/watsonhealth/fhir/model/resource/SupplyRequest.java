@@ -369,27 +369,23 @@ public class SupplyRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(item, quantity).from(this);
-    }
-
-    public Builder toBuilder(Element item, Quantity quantity) {
-        return new Builder(item, quantity).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(Element item, Quantity quantity) {
-        return new Builder(item, quantity);
+        Builder builder = new Builder();
+        builder.item(item);
+        builder.quantity(quantity);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final Element item;
-        private final Quantity quantity;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private SupplyRequestStatus status;
         private CodeableConcept category;
         private RequestPriority priority;
+        private Element item;
+        private Quantity quantity;
         private List<Parameter> parameter = new ArrayList<>();
         private Element occurrence;
         private DateTime authoredOn;
@@ -399,12 +395,6 @@ public class SupplyRequest extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private Reference deliverFrom;
         private Reference deliverTo;
-
-        private Builder(Element item, Quantity quantity) {
-            super();
-            this.item = item;
-            this.quantity = quantity;
-        }
 
         /**
          * <p>
@@ -725,6 +715,39 @@ public class SupplyRequest extends DomainResource {
 
         /**
          * <p>
+         * The item that is requested to be supplied. This is either a link to a resource representing the details of the item or 
+         * a code that identifies the item from a known list.
+         * </p>
+         * 
+         * @param item
+         *     Medication, Substance, or Device requested to be supplied
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder item(Element item) {
+            this.item = item;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The amount that is being ordered of the indicated item.
+         * </p>
+         * 
+         * @param quantity
+         *     The requested amount of the item indicated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder quantity(Quantity quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        /**
+         * <p>
          * Specific parameters for the ordered item. For example, the size of the indicated item.
          * </p>
          * <p>
@@ -968,19 +991,14 @@ public class SupplyRequest extends DomainResource {
             return new SupplyRequest(this);
         }
 
-        private Builder from(SupplyRequest supplyRequest) {
-            id = supplyRequest.id;
-            meta = supplyRequest.meta;
-            implicitRules = supplyRequest.implicitRules;
-            language = supplyRequest.language;
-            text = supplyRequest.text;
-            contained.addAll(supplyRequest.contained);
-            extension.addAll(supplyRequest.extension);
-            modifierExtension.addAll(supplyRequest.modifierExtension);
+        protected Builder from(SupplyRequest supplyRequest) {
+            super.from(supplyRequest);
             identifier.addAll(supplyRequest.identifier);
             status = supplyRequest.status;
             category = supplyRequest.category;
             priority = supplyRequest.priority;
+            item = supplyRequest.item;
+            quantity = supplyRequest.quantity;
             parameter.addAll(supplyRequest.parameter);
             occurrence = supplyRequest.occurrence;
             authoredOn = supplyRequest.authoredOn;
@@ -1099,17 +1117,13 @@ public class SupplyRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private Element value;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1265,10 +1279,8 @@ public class SupplyRequest extends DomainResource {
                 return new Parameter(this);
             }
 
-            private Builder from(Parameter parameter) {
-                id = parameter.id;
-                extension.addAll(parameter.extension);
-                modifierExtension.addAll(parameter.modifierExtension);
+            protected Builder from(Parameter parameter) {
+                super.from(parameter);
                 code = parameter.code;
                 value = parameter.value;
                 return this;

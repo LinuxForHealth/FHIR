@@ -857,28 +857,23 @@ public class Measure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status).from(this);
-    }
-
-    public Builder toBuilder(PublicationStatus status) {
-        return new Builder(status).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
-        return new Builder(status);
+        Builder builder = new Builder();
+        builder.status(status);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final PublicationStatus status;
-
-        // optional
         private Uri url;
         private List<Identifier> identifier = new ArrayList<>();
         private String version;
         private String name;
         private String title;
         private String subtitle;
+        private PublicationStatus status;
         private Boolean experimental;
         private Element subject;
         private DateTime date;
@@ -913,11 +908,6 @@ public class Measure extends DomainResource {
         private Markdown guidance;
         private List<Group> group = new ArrayList<>();
         private List<SupplementalData> supplementalData = new ArrayList<>();
-
-        private Builder(PublicationStatus status) {
-            super();
-            this.status = status;
-        }
 
         /**
          * <p>
@@ -1274,6 +1264,22 @@ public class Measure extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The status of this measure. Enables tracking the life-cycle of the content.
+         * </p>
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
             return this;
         }
 
@@ -2186,21 +2192,15 @@ public class Measure extends DomainResource {
             return new Measure(this);
         }
 
-        private Builder from(Measure measure) {
-            id = measure.id;
-            meta = measure.meta;
-            implicitRules = measure.implicitRules;
-            language = measure.language;
-            text = measure.text;
-            contained.addAll(measure.contained);
-            extension.addAll(measure.extension);
-            modifierExtension.addAll(measure.modifierExtension);
+        protected Builder from(Measure measure) {
+            super.from(measure);
             url = measure.url;
             identifier.addAll(measure.identifier);
             version = measure.version;
             name = measure.name;
             title = measure.title;
             subtitle = measure.subtitle;
+            status = measure.status;
             experimental = measure.experimental;
             subject = measure.subject;
             date = measure.date;
@@ -2382,19 +2382,15 @@ public class Measure extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept code;
             private String description;
             private List<Population> population = new ArrayList<>();
             private List<Stratifier> stratifier = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -2633,10 +2629,8 @@ public class Measure extends DomainResource {
                 return new Group(this);
             }
 
-            private Builder from(Group group) {
-                id = group.id;
-                extension.addAll(group.extension);
-                modifierExtension.addAll(group.modifierExtension);
+            protected Builder from(Group group) {
+                super.from(group);
                 code = group.code;
                 description = group.description;
                 population.addAll(group.population);
@@ -2764,29 +2758,19 @@ public class Measure extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return new Builder(criteria).from(this);
-            }
-
-            public Builder toBuilder(Expression criteria) {
-                return new Builder(criteria).from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder(Expression criteria) {
-                return new Builder(criteria);
+                Builder builder = new Builder();
+                builder.criteria(criteria);
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // required
-                private final Expression criteria;
-
-                // optional
                 private CodeableConcept code;
                 private String description;
-
-                private Builder(Expression criteria) {
-                    super();
-                    this.criteria = criteria;
-                }
+                private Expression criteria;
 
                 /**
                  * <p>
@@ -2938,17 +2922,32 @@ public class Measure extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * <p>
+                 * An expression that specifies the criteria for the population, typically the name of an expression in a library.
+                 * </p>
+                 * 
+                 * @param criteria
+                 *     The criteria that defines this population
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder criteria(Expression criteria) {
+                    this.criteria = criteria;
+                    return this;
+                }
+
                 @Override
                 public Population build() {
                     return new Population(this);
                 }
 
-                private Builder from(Population population) {
-                    id = population.id;
-                    extension.addAll(population.extension);
-                    modifierExtension.addAll(population.modifierExtension);
+                protected Builder from(Population population) {
+                    super.from(population);
                     code = population.code;
                     description = population.description;
+                    criteria = population.criteria;
                     return this;
                 }
             }
@@ -3099,19 +3098,15 @@ public class Measure extends DomainResource {
             }
 
             public static Builder builder() {
-                return new Builder();
+                Builder builder = new Builder();
+                return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                // optional
                 private CodeableConcept code;
                 private String description;
                 private Expression criteria;
                 private List<Component> component = new ArrayList<>();
-
-                private Builder() {
-                    super();
-                }
 
                 /**
                  * <p>
@@ -3327,10 +3322,8 @@ public class Measure extends DomainResource {
                     return new Stratifier(this);
                 }
 
-                private Builder from(Stratifier stratifier) {
-                    id = stratifier.id;
-                    extension.addAll(stratifier.extension);
-                    modifierExtension.addAll(stratifier.modifierExtension);
+                protected Builder from(Stratifier stratifier) {
+                    super.from(stratifier);
                     code = stratifier.code;
                     description = stratifier.description;
                     criteria = stratifier.criteria;
@@ -3461,29 +3454,19 @@ public class Measure extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return new Builder(criteria).from(this);
-                }
-
-                public Builder toBuilder(Expression criteria) {
-                    return new Builder(criteria).from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder(Expression criteria) {
-                    return new Builder(criteria);
+                    Builder builder = new Builder();
+                    builder.criteria(criteria);
+                    return builder;
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    // required
-                    private final Expression criteria;
-
-                    // optional
                     private CodeableConcept code;
                     private String description;
-
-                    private Builder(Expression criteria) {
-                        super();
-                        this.criteria = criteria;
-                    }
+                    private Expression criteria;
 
                     /**
                      * <p>
@@ -3635,17 +3618,33 @@ public class Measure extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * <p>
+                     * An expression that specifies the criteria for this component of the stratifier. This is typically the name of an 
+                     * expression defined within a referenced library, but it may also be a path to a stratifier element.
+                     * </p>
+                     * 
+                     * @param criteria
+                     *     Component of how the measure should be stratified
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder criteria(Expression criteria) {
+                        this.criteria = criteria;
+                        return this;
+                    }
+
                     @Override
                     public Component build() {
                         return new Component(this);
                     }
 
-                    private Builder from(Component component) {
-                        id = component.id;
-                        extension.addAll(component.extension);
-                        modifierExtension.addAll(component.modifierExtension);
+                    protected Builder from(Component component) {
+                        super.from(component);
                         code = component.code;
                         description = component.description;
+                        criteria = component.criteria;
                         return this;
                     }
                 }
@@ -3797,30 +3796,20 @@ public class Measure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(criteria).from(this);
-        }
-
-        public Builder toBuilder(Expression criteria) {
-            return new Builder(criteria).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(Expression criteria) {
-            return new Builder(criteria);
+            Builder builder = new Builder();
+            builder.criteria(criteria);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final Expression criteria;
-
-            // optional
             private CodeableConcept code;
             private List<CodeableConcept> usage = new ArrayList<>();
             private String description;
-
-            private Builder(Expression criteria) {
-                super();
-                this.criteria = criteria;
-            }
+            private Expression criteria;
 
             /**
              * <p>
@@ -4017,18 +4006,35 @@ public class Measure extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * The criteria for the supplemental data. This is typically the name of a valid expression defined within a referenced 
+             * library, but it may also be a path to a specific data element. The criteria defines the data to be returned for this 
+             * element.
+             * </p>
+             * 
+             * @param criteria
+             *     Expression describing additional data to be reported
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder criteria(Expression criteria) {
+                this.criteria = criteria;
+                return this;
+            }
+
             @Override
             public SupplementalData build() {
                 return new SupplementalData(this);
             }
 
-            private Builder from(SupplementalData supplementalData) {
-                id = supplementalData.id;
-                extension.addAll(supplementalData.extension);
-                modifierExtension.addAll(supplementalData.modifierExtension);
+            protected Builder from(SupplementalData supplementalData) {
+                super.from(supplementalData);
                 code = supplementalData.code;
                 usage.addAll(supplementalData.usage);
                 description = supplementalData.description;
+                criteria = supplementalData.criteria;
                 return this;
             }
         }

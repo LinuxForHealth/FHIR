@@ -490,26 +490,21 @@ public class Media extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, content).from(this);
-    }
-
-    public Builder toBuilder(MediaStatus status, Attachment content) {
-        return new Builder(status, content).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(MediaStatus status, Attachment content) {
-        return new Builder(status, content);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.content(content);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final MediaStatus status;
-        private final Attachment content;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
         private List<Reference> partOf = new ArrayList<>();
+        private MediaStatus status;
         private CodeableConcept type;
         private CodeableConcept modality;
         private CodeableConcept view;
@@ -526,13 +521,8 @@ public class Media extends DomainResource {
         private PositiveInt width;
         private PositiveInt frames;
         private Decimal duration;
+        private Attachment content;
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(MediaStatus status, Attachment content) {
-            super();
-            this.status = status;
-            this.content = content;
-        }
 
         /**
          * <p>
@@ -884,6 +874,22 @@ public class Media extends DomainResource {
 
         /**
          * <p>
+         * The current state of the {{title}}.
+         * </p>
+         * 
+         * @param status
+         *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(MediaStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * A code that classifies whether the media is an image, video or audio recording or some other media category.
          * </p>
          * 
@@ -1167,6 +1173,22 @@ public class Media extends DomainResource {
 
         /**
          * <p>
+         * The actual content of the media - inline or by direct reference to the media source file.
+         * </p>
+         * 
+         * @param content
+         *     Actual Media - reference or data
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder content(Attachment content) {
+            this.content = content;
+            return this;
+        }
+
+        /**
+         * <p>
          * Comments made about the media by the performer, subject or other participants.
          * </p>
          * <p>
@@ -1210,18 +1232,12 @@ public class Media extends DomainResource {
             return new Media(this);
         }
 
-        private Builder from(Media media) {
-            id = media.id;
-            meta = media.meta;
-            implicitRules = media.implicitRules;
-            language = media.language;
-            text = media.text;
-            contained.addAll(media.contained);
-            extension.addAll(media.extension);
-            modifierExtension.addAll(media.modifierExtension);
+        protected Builder from(Media media) {
+            super.from(media);
             identifier.addAll(media.identifier);
             basedOn.addAll(media.basedOn);
             partOf.addAll(media.partOf);
+            status = media.status;
             type = media.type;
             modality = media.modality;
             view = media.view;
@@ -1238,6 +1254,7 @@ public class Media extends DomainResource {
             width = media.width;
             frames = media.frames;
             duration = media.duration;
+            content = media.content;
             note.addAll(media.note);
             return this;
         }

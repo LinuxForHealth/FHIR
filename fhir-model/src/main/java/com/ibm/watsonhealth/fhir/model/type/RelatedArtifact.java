@@ -206,33 +206,23 @@ public class RelatedArtifact extends Element {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(type).from(this);
-    }
-
-    public Builder toBuilder(RelatedArtifactType type) {
-        return new Builder(type).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(RelatedArtifactType type) {
-        return new Builder(type);
+        Builder builder = new Builder();
+        builder.type(type);
+        return builder;
     }
 
     public static class Builder extends Element.Builder {
-        // required
-        private final RelatedArtifactType type;
-
-        // optional
+        private RelatedArtifactType type;
         private String label;
         private String display;
         private Markdown citation;
         private Url url;
         private Attachment document;
         private Canonical resource;
-
-        private Builder(RelatedArtifactType type) {
-            super();
-            this.type = type;
-        }
 
         /**
          * <p>
@@ -293,6 +283,22 @@ public class RelatedArtifact extends Element {
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * <p>
+         * The type of relationship to the related artifact.
+         * </p>
+         * 
+         * @param type
+         *     documentation | justification | citation | predecessor | successor | derived-from | depends-on | composed-of
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(RelatedArtifactType type) {
+            this.type = type;
+            return this;
         }
 
         /**
@@ -398,9 +404,9 @@ public class RelatedArtifact extends Element {
             return new RelatedArtifact(this);
         }
 
-        private Builder from(RelatedArtifact relatedArtifact) {
-            id = relatedArtifact.id;
-            extension.addAll(relatedArtifact.extension);
+        protected Builder from(RelatedArtifact relatedArtifact) {
+            super.from(relatedArtifact);
+            type = relatedArtifact.type;
             label = relatedArtifact.label;
             display = relatedArtifact.display;
             citation = relatedArtifact.citation;

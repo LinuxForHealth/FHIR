@@ -332,41 +332,31 @@ public class DeviceUseStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, subject, device).from(this);
-    }
-
-    public Builder toBuilder(DeviceUseStatementStatus status, Reference subject, Reference device) {
-        return new Builder(status, subject, device).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(DeviceUseStatementStatus status, Reference subject, Reference device) {
-        return new Builder(status, subject, device);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.subject(subject);
+        builder.device(device);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final DeviceUseStatementStatus status;
-        private final Reference subject;
-        private final Reference device;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> basedOn = new ArrayList<>();
+        private DeviceUseStatementStatus status;
+        private Reference subject;
         private List<Reference> derivedFrom = new ArrayList<>();
         private Element timing;
         private DateTime recordedOn;
         private Reference source;
+        private Reference device;
         private List<CodeableConcept> reasonCode = new ArrayList<>();
         private List<Reference> reasonReference = new ArrayList<>();
         private CodeableConcept bodySite;
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(DeviceUseStatementStatus status, Reference subject, Reference device) {
-            super();
-            this.status = status;
-            this.subject = subject;
-            this.device = device;
-        }
 
         /**
          * <p>
@@ -676,6 +666,39 @@ public class DeviceUseStatement extends DomainResource {
 
         /**
          * <p>
+         * A code representing the patient or other source's judgment about the state of the device used that this statement is 
+         * about. Generally this will be active or completed.
+         * </p>
+         * 
+         * @param status
+         *     active | completed | entered-in-error +
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(DeviceUseStatementStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient who used the device.
+         * </p>
+         * 
+         * @param subject
+         *     Patient using device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        /**
+         * <p>
          * Allows linking the DeviceUseStatement to the underlying Request, or to other information that supports or is used to 
          * derive the DeviceUseStatement.
          * </p>
@@ -761,6 +784,22 @@ public class DeviceUseStatement extends DomainResource {
          */
         public Builder source(Reference source) {
             this.source = source;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The details of the device used.
+         * </p>
+         * 
+         * @param device
+         *     Reference to device used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder device(Reference device) {
+            this.device = device;
             return this;
         }
 
@@ -907,21 +946,17 @@ public class DeviceUseStatement extends DomainResource {
             return new DeviceUseStatement(this);
         }
 
-        private Builder from(DeviceUseStatement deviceUseStatement) {
-            id = deviceUseStatement.id;
-            meta = deviceUseStatement.meta;
-            implicitRules = deviceUseStatement.implicitRules;
-            language = deviceUseStatement.language;
-            text = deviceUseStatement.text;
-            contained.addAll(deviceUseStatement.contained);
-            extension.addAll(deviceUseStatement.extension);
-            modifierExtension.addAll(deviceUseStatement.modifierExtension);
+        protected Builder from(DeviceUseStatement deviceUseStatement) {
+            super.from(deviceUseStatement);
             identifier.addAll(deviceUseStatement.identifier);
             basedOn.addAll(deviceUseStatement.basedOn);
+            status = deviceUseStatement.status;
+            subject = deviceUseStatement.subject;
             derivedFrom.addAll(deviceUseStatement.derivedFrom);
             timing = deviceUseStatement.timing;
             recordedOn = deviceUseStatement.recordedOn;
             source = deviceUseStatement.source;
+            device = deviceUseStatement.device;
             reasonCode.addAll(deviceUseStatement.reasonCode);
             reasonReference.addAll(deviceUseStatement.reasonReference);
             bodySite = deviceUseStatement.bodySite;

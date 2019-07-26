@@ -145,7 +145,6 @@ public abstract class DomainResource extends Resource {
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends Resource.Builder {
-        // optional
         protected Narrative text;
         protected List<Resource> contained = new ArrayList<>();
         protected List<Extension> extension = new ArrayList<>();
@@ -389,5 +388,14 @@ public abstract class DomainResource extends Resource {
 
         @Override
         public abstract DomainResource build();
+
+        protected Builder from(DomainResource domainResource) {
+            super.from(domainResource);
+            text = domainResource.text;
+            contained.addAll(domainResource.contained);
+            extension.addAll(domainResource.extension);
+            modifierExtension.addAll(domainResource.modifierExtension);
+            return this;
+        }
     }
 }

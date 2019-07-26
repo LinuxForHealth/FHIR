@@ -343,11 +343,11 @@ public class CareTeam extends DomainResource {
     }
 
     public static Builder builder() {
-        return new Builder();
+        Builder builder = new Builder();
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
         private CareTeamStatus status;
         private List<CodeableConcept> category = new ArrayList<>();
@@ -361,10 +361,6 @@ public class CareTeam extends DomainResource {
         private List<Reference> managingOrganization = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder() {
-            super();
-        }
 
         /**
          * <p>
@@ -1001,15 +997,8 @@ public class CareTeam extends DomainResource {
             return new CareTeam(this);
         }
 
-        private Builder from(CareTeam careTeam) {
-            id = careTeam.id;
-            meta = careTeam.meta;
-            implicitRules = careTeam.implicitRules;
-            language = careTeam.language;
-            text = careTeam.text;
-            contained.addAll(careTeam.contained);
-            extension.addAll(careTeam.extension);
-            modifierExtension.addAll(careTeam.modifierExtension);
+        protected Builder from(CareTeam careTeam) {
+            super.from(careTeam);
             identifier.addAll(careTeam.identifier);
             status = careTeam.status;
             category.addAll(careTeam.category);
@@ -1169,19 +1158,15 @@ public class CareTeam extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private List<CodeableConcept> role = new ArrayList<>();
             private Reference member;
             private Reference onBehalfOf;
             private Period period;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1395,10 +1380,8 @@ public class CareTeam extends DomainResource {
                 return new Participant(this);
             }
 
-            private Builder from(Participant participant) {
-                id = participant.id;
-                extension.addAll(participant.extension);
-                modifierExtension.addAll(participant.modifierExtension);
+            protected Builder from(Participant participant) {
+                super.from(participant);
                 role.addAll(participant.role);
                 member = participant.member;
                 onBehalfOf = participant.onBehalfOf;

@@ -188,31 +188,21 @@ public class Basic extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(code).from(this);
-    }
-
-    public Builder toBuilder(CodeableConcept code) {
-        return new Builder(code).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
-        return new Builder(code);
+        Builder builder = new Builder();
+        builder.code(code);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final CodeableConcept code;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private CodeableConcept code;
         private Reference subject;
         private Date created;
         private Reference author;
-
-        private Builder(CodeableConcept code) {
-            super();
-            this.code = code;
-        }
 
         /**
          * <p>
@@ -482,6 +472,22 @@ public class Basic extends DomainResource {
 
         /**
          * <p>
+         * Identifies the 'type' of resource - equivalent to the resource name for other resources.
+         * </p>
+         * 
+         * @param code
+         *     Kind of Resource
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * <p>
          * Identifies the patient, practitioner, device or any other resource that is the "focus" of this resource.
          * </p>
          * 
@@ -533,16 +539,10 @@ public class Basic extends DomainResource {
             return new Basic(this);
         }
 
-        private Builder from(Basic basic) {
-            id = basic.id;
-            meta = basic.meta;
-            implicitRules = basic.implicitRules;
-            language = basic.language;
-            text = basic.text;
-            contained.addAll(basic.contained);
-            extension.addAll(basic.extension);
-            modifierExtension.addAll(basic.modifierExtension);
+        protected Builder from(Basic basic) {
+            super.from(basic);
             identifier.addAll(basic.identifier);
+            code = basic.code;
             subject = basic.subject;
             created = basic.created;
             author = basic.author;

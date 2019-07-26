@@ -461,27 +461,23 @@ public class ClinicalImpression extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        return new Builder(status, subject).from(this);
-    }
-
-    public Builder toBuilder(ClinicalImpressionStatus status, Reference subject) {
-        return new Builder(status, subject).from(this);
+        return new Builder().from(this);
     }
 
     public static Builder builder(ClinicalImpressionStatus status, Reference subject) {
-        return new Builder(status, subject);
+        Builder builder = new Builder();
+        builder.status(status);
+        builder.subject(subject);
+        return builder;
     }
 
     public static class Builder extends DomainResource.Builder {
-        // required
-        private final ClinicalImpressionStatus status;
-        private final Reference subject;
-
-        // optional
         private List<Identifier> identifier = new ArrayList<>();
+        private ClinicalImpressionStatus status;
         private CodeableConcept statusReason;
         private CodeableConcept code;
         private String description;
+        private Reference subject;
         private Reference encounter;
         private Element effective;
         private DateTime date;
@@ -496,12 +492,6 @@ public class ClinicalImpression extends DomainResource {
         private List<Reference> prognosisReference = new ArrayList<>();
         private List<Reference> supportingInfo = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
-
-        private Builder(ClinicalImpressionStatus status, Reference subject) {
-            super();
-            this.status = status;
-            this.subject = subject;
-        }
 
         /**
          * <p>
@@ -773,6 +763,22 @@ public class ClinicalImpression extends DomainResource {
 
         /**
          * <p>
+         * Identifies the workflow status of the assessment.
+         * </p>
+         * 
+         * @param status
+         *     draft | completed | entered-in-error
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(ClinicalImpressionStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * <p>
          * Captures the reason for the current state of the ClinicalImpression.
          * </p>
          * 
@@ -817,6 +823,22 @@ public class ClinicalImpression extends DomainResource {
          */
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The patient or group of individuals assessed as part of this record.
+         * </p>
+         * 
+         * @param subject
+         *     Patient or group assessed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subject(Reference subject) {
+            this.subject = subject;
             return this;
         }
 
@@ -1252,19 +1274,14 @@ public class ClinicalImpression extends DomainResource {
             return new ClinicalImpression(this);
         }
 
-        private Builder from(ClinicalImpression clinicalImpression) {
-            id = clinicalImpression.id;
-            meta = clinicalImpression.meta;
-            implicitRules = clinicalImpression.implicitRules;
-            language = clinicalImpression.language;
-            text = clinicalImpression.text;
-            contained.addAll(clinicalImpression.contained);
-            extension.addAll(clinicalImpression.extension);
-            modifierExtension.addAll(clinicalImpression.modifierExtension);
+        protected Builder from(ClinicalImpression clinicalImpression) {
+            super.from(clinicalImpression);
             identifier.addAll(clinicalImpression.identifier);
+            status = clinicalImpression.status;
             statusReason = clinicalImpression.statusReason;
             code = clinicalImpression.code;
             description = clinicalImpression.description;
+            subject = clinicalImpression.subject;
             encounter = clinicalImpression.encounter;
             effective = clinicalImpression.effective;
             date = clinicalImpression.date;
@@ -1388,28 +1405,18 @@ public class ClinicalImpression extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return new Builder(code).from(this);
-        }
-
-        public Builder toBuilder(CodeableConcept code) {
-            return new Builder(code).from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
-            return new Builder(code);
+            Builder builder = new Builder();
+            builder.code(code);
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // required
-            private final CodeableConcept code;
-
-            // optional
+            private CodeableConcept code;
             private List<Reference> item = new ArrayList<>();
-
-            private Builder(CodeableConcept code) {
-                super();
-                this.code = code;
-            }
 
             /**
              * <p>
@@ -1530,6 +1537,24 @@ public class ClinicalImpression extends DomainResource {
 
             /**
              * <p>
+             * A name/code for the group ("set") of investigations. Typically, this will be something like "signs", "symptoms", 
+             * "clinical", "diagnostic", but the list is not constrained, and others such groups such as 
+             * (exposure|family|travel|nutritional) history may be used.
+             * </p>
+             * 
+             * @param code
+             *     A name/code for the set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder code(CodeableConcept code) {
+                this.code = code;
+                return this;
+            }
+
+            /**
+             * <p>
              * A record of a specific investigation that was undertaken.
              * </p>
              * <p>
@@ -1573,10 +1598,9 @@ public class ClinicalImpression extends DomainResource {
                 return new Investigation(this);
             }
 
-            private Builder from(Investigation investigation) {
-                id = investigation.id;
-                extension.addAll(investigation.extension);
-                modifierExtension.addAll(investigation.modifierExtension);
+            protected Builder from(Investigation investigation) {
+                super.from(investigation);
+                code = investigation.code;
                 item.addAll(investigation.item);
                 return this;
             }
@@ -1706,18 +1730,14 @@ public class ClinicalImpression extends DomainResource {
         }
 
         public static Builder builder() {
-            return new Builder();
+            Builder builder = new Builder();
+            return builder;
         }
 
         public static class Builder extends BackboneElement.Builder {
-            // optional
             private CodeableConcept itemCodeableConcept;
             private Reference itemReference;
             private String basis;
-
-            private Builder() {
-                super();
-            }
 
             /**
              * <p>
@@ -1889,10 +1909,8 @@ public class ClinicalImpression extends DomainResource {
                 return new Finding(this);
             }
 
-            private Builder from(Finding finding) {
-                id = finding.id;
-                extension.addAll(finding.extension);
-                modifierExtension.addAll(finding.modifierExtension);
+            protected Builder from(Finding finding) {
+                super.from(finding);
                 itemCodeableConcept = finding.itemCodeableConcept;
                 itemReference = finding.itemReference;
                 basis = finding.basis;
