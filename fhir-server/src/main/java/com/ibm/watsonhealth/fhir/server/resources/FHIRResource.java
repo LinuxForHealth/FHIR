@@ -2411,8 +2411,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                         }
 
                         // Save the results of the operation in the bundle response field.
-                        
-                        Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(httpStatus)));                                           
+                        Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                        responseBuilder.status(string(Integer.toString(httpStatus)));
                         setBundleResponseStatus(response, httpStatus, requestDescription.toString(), initialTime);
           
                         responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(resource).response(responseBuilder.build()).build());
@@ -2448,7 +2448,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                             }
                             
-                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_OK)));                                           
+                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                            responseBuilder.status(string(Integer.toString(SC_OK)));
 
                             responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
 
@@ -2459,7 +2460,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                             Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, requestProperties, null);
                             
                             // Save the results of the operation in the bundle response field.
-                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_OK)));                                           
+                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                            responseBuilder.status(string(Integer.toString(SC_OK)));
                             
                             responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(searchResults).response(responseBuilder.build()).build());
 
@@ -2575,7 +2577,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                         throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
                     }
                 } catch (FHIRHttpException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(e.getHttpStatus().getStatusCode())));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                    responseBuilder.status(string(Integer.toString(e.getHttpStatus().getStatusCode())));
                     
                     responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
                     
@@ -2588,7 +2591,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                             .withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceNotFoundException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_NOT_FOUND)));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                    responseBuilder.status(string(Integer.toString(SC_NOT_FOUND)));
                     
                     responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
            
@@ -2600,7 +2604,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                             .withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_GONE)));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                    responseBuilder.status(string(Integer.toString(SC_GONE)));
                     
                     responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
            
@@ -2614,7 +2619,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 } catch (FHIROperationException e) {
                     Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
                     
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(status.getStatusCode())));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                    responseBuilder.status(string(Integer.toString(status.getStatusCode())));
                     
                     responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
                              
@@ -2892,8 +2898,9 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIROperationException {
-        Bundle.Entry.Response response = responseEntry.getResponse();        
-        Bundle.Entry.Response.Builder resBuilder = response.toBuilder(string(Integer.toString(httpStatus)));
+        Bundle.Entry.Response response = responseEntry.getResponse();
+        Bundle.Entry.Response.Builder resBuilder = response.toBuilder();
+        resBuilder.status(string(Integer.toString(httpStatus)));
         
         Bundle.Entry.Builder bundleEntryBuilder = responseEntry.toBuilder();
         
@@ -2956,7 +2963,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     com.ibm.watsonhealth.fhir.model.type.String status = com.ibm.watsonhealth.fhir.model.type.String.builder()
                             .extension(Extension.builder("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
                                     .value(Code.of("error")).build()).build();
-                    entry = entry.toBuilder().response(entry.getResponse().toBuilder(status).build()).build();                                
+                    entry = entry.toBuilder().response(entry.getResponse().toBuilder().status(status).build()).build();
                 }
                 toAdd.add(entry);
             }

@@ -228,14 +228,14 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
     private Condition buildCondition(String patientId, String fileName) throws Exception {
         Condition condition = readResource(Condition.class, fileName);
-        condition = condition.toBuilder(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
+        condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
         return condition;
     }
 
     private AllergyIntolerance buildAllergyIntolerance(String patientId, String fileName) throws Exception {
         AllergyIntolerance allergyIntolerance = readResource(AllergyIntolerance.class, fileName);
         allergyIntolerance = allergyIntolerance
-                .toBuilder(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
+                .toBuilder().patient(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
         return allergyIntolerance;
     }
 

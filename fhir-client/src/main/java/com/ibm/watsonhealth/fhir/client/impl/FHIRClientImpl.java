@@ -712,7 +712,7 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     private FHIRResponse _bundle(Bundle bundle, BundleType bundleType, FHIRRequestHeader... headers) throws Exception {
-        Bundle bundleNew = bundle.toBuilder(bundleType).build();
+        Bundle bundleNew = bundle.toBuilder().type(bundleType).build();
         
         WebTarget endpoint = getWebTarget();
         Entity<Bundle> entity = Entity.entity(bundleNew, getDefaultMimeType());

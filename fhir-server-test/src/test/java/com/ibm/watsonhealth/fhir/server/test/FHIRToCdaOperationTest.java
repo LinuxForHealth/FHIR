@@ -262,8 +262,14 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
                 authorList.addAll(composition.getAuthor());
                 authorList.add(Reference.builder().reference(string(uri.getValue())).build());
 
-                composition = composition.toBuilder(composition.getStatus(), composition.getType(),
-                        composition.getDate(), authorList, composition.getTitle()).build();
+                composition = composition.toBuilder()
+                        .status(composition.getStatus())
+                        .type(composition.getType())
+                        .date(composition.getDate())
+                        .author(authorList)
+                        .title(composition.getTitle())
+                        .build()
+                        ;
 
                 entry = entry.toBuilder().resource(composition).build();
             }
@@ -339,13 +345,13 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
 
     private Condition buildCondition(Uri patientUri, String fileName) throws Exception {
         Condition condition = readResource(Condition.class, fileName);
-        condition = condition.toBuilder(Reference.builder().reference(string(patientUri.getValue())).build()).build();
+        condition = condition.toBuilder().subject(Reference.builder().reference(string(patientUri.getValue())).build()).build();
         return condition;
     }
 
     private AllergyIntolerance buildAllergyIntolerance(Uri patientUri, String fileName) throws Exception {
         AllergyIntolerance allergyIntolerance = readResource(AllergyIntolerance.class, fileName);
-        allergyIntolerance.toBuilder(Reference.builder().reference(string(patientUri.getValue())).build()).build();
+        allergyIntolerance.toBuilder().patient(Reference.builder().reference(string(patientUri.getValue())).build()).build();
         return allergyIntolerance;
     }
 
