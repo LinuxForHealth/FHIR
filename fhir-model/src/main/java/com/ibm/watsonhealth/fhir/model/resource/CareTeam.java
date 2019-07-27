@@ -44,7 +44,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "CareTeam.participant",
     description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
-    expression = "onBehalfOf.exists() implies (member.resolve() is Practitioner)"
+    expression = "onBehalfOf.exists() implies (member.resolve() is Practitioner)",
+    modelChecked = true
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {

@@ -131,25 +131,27 @@ public class FHIRValidator {
                     }
                 }
                 
-                java.lang.String expr = constraint.expression();
-                Collection<FHIRPathNode> result = eval(expr, initialContext);
-                
-                if (hasPrimitiveValue(result)) {
-                    FHIRPathPrimitiveValue value = getPrimitiveValue(result);
-                    if (value.isBooleanValue() && value.asBooleanValue().isFalse()) {
-                        // constraint validation failed
-                        String level = constraint.level();
-                        IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-                        Issue issue = Issue.builder(severity, IssueType.INVARIANT)
-                                .location(string(path))
-                                .diagnostics(string(constraint.id() + ": " + constraint.description()))
-                                .build();
-                        issues.add(issue);
+                for (FHIRPathNode node : initialContext) {
+                    java.lang.String expr = constraint.expression();
+                    Collection<FHIRPathNode> result = eval(expr, node);
+                    
+                    if (hasPrimitiveValue(result)) {
+                        FHIRPathPrimitiveValue value = getPrimitiveValue(result);
+                        if (value.isBooleanValue() && value.asBooleanValue().isFalse()) {
+                            // constraint validation failed
+                            String level = constraint.level();
+                            IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                            Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                                    .location(string(path))
+                                    .diagnostics(string(constraint.id() + ": " + constraint.description()))
+                                    .build();
+                            issues.add(issue);
+                        }
                     }
-                }
-                
-                if (DEBUG) {
-                    System.out.println("    Evaluation result: " + result);
+                    
+                    if (DEBUG) {
+                        System.out.println("    Evaluation result: " + result);
+                    }
                 }
             } catch (Exception e) {
                 throw new Error(constraint.expression(), e);

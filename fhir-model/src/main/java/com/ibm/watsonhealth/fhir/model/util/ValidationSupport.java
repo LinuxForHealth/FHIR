@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.model.util;
 
 import java.io.StringReader;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;

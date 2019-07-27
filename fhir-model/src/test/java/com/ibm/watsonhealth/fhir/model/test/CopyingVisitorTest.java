@@ -12,7 +12,6 @@ import static org.testng.Assert.assertNotSame;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;

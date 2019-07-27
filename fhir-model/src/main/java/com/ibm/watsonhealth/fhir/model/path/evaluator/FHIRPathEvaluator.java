@@ -423,7 +423,7 @@ public class FHIRPathEvaluator {
                     // concatenation
                     result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
                 }
-            } else if ((hasPrimitiveValue(left) && right.isEmpty()) || (left.isEmpty() && hasPrimitiveValue(right)) && "&".equals(operator)) {
+            } else if (((hasPrimitiveValue(left) && right.isEmpty()) || (left.isEmpty() && hasPrimitiveValue(right))) && "&".equals(operator)) {
                 // concatenation where an empty collection is treated as an empty string
                 if (hasPrimitiveValue(left) && right.isEmpty()) {
                     FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
@@ -590,34 +590,56 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
+            String operator = ctx.getChild(1).getText();
+            
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            
+            if (!hasPrimitiveValue(left)) {
+                indentLevel--;
+                return empty();
+            }
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            
+            if (!leftValue.isBooleanValue()) {
+                indentLevel--;
+                return empty();
+            }
+            
+            if ("or".equals(operator) && leftValue.asBooleanValue().isTrue()) {
+                // short-circuit logic
+                indentLevel--;
+                return SINGLETON_TRUE;
+            }
+
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+            if (!hasPrimitiveValue(right)) {
                 indentLevel--;
-                return SINGLETON_FALSE;
+                return empty();
+            }
+            
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+
+            if (!rightValue.isBooleanValue()) {
+                indentLevel--;
+                return empty();
             }
             
             Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
-            String operator = ctx.getChild(1).getText();
-            
-            if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
-                switch (operator) {
-                case "or":
-                    if (leftValue.asBooleanValue().or(rightValue.asBooleanValue()).isTrue()) {
-                        result = SINGLETON_TRUE;
-                    }
-                    break;
-                case "xor":
-                    if (leftValue.asBooleanValue().xor(rightValue.asBooleanValue()).isTrue()) {
-                        result = SINGLETON_TRUE;
-                    }
-                    break;
+            switch (operator) {
+            case "or":
+                if (leftValue.asBooleanValue().or(rightValue.asBooleanValue()).isTrue()) {
+                    result = SINGLETON_TRUE;
                 }
+                break;
+            case "xor":
+                if (leftValue.asBooleanValue().xor(rightValue.asBooleanValue()).isTrue()) {
+                    result = SINGLETON_TRUE;
+                }
+                break;
             }
             
             indentLevel--;
@@ -633,22 +655,43 @@ public class FHIRPathEvaluator {
             indentLevel++;
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
-            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+            if (!hasPrimitiveValue(left)) {
+                indentLevel--;
+                return empty();
+            }
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            
+            if (!leftValue.isBooleanValue()) {
+                indentLevel--;
+                return empty();
+            }
+            
+            if (leftValue.asBooleanValue().isFalse()) {
+                // short-circuit logic
                 indentLevel--;
                 return SINGLETON_FALSE;
             }
             
-            Collection<FHIRPathNode> result = SINGLETON_FALSE;
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            if (!hasPrimitiveValue(right)) {
+                indentLevel--;
+                return empty();
+            }
+            
             FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
-            if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
-                if (leftValue.asBooleanValue().and(rightValue.asBooleanValue()).isTrue()) {
-                    result = SINGLETON_TRUE;
-                }
+            if (!rightValue.isBooleanValue()) {
+                indentLevel--;
+                return empty();
+            }
+            
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
+            
+            if (leftValue.asBooleanValue().and(rightValue.asBooleanValue()).isTrue()) {
+                result = SINGLETON_TRUE;
             }
             
             indentLevel--;

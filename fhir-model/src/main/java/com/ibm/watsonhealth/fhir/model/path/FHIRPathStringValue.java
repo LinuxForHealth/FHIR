@@ -60,6 +60,10 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         return stringValue(string.substring(start, length > string.length() ? string.length() : length));
     }
     
+    public boolean contains(FHIRPathStringValue substring) {
+        return string.contains(substring.string());
+    }
+    
     public int length() {
         return string.length();
     }

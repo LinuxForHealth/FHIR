@@ -35,19 +35,23 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (context.isEmpty()) {
+            return empty();
+        }
+        
         FHIRPathStringValue value = getStringValue(context);
         
         int start = getInteger(arguments.get(0));
-        int length = getInteger(arguments.get(1));
         
         if (start > value.length() - 1) {
             return empty();
         }
         
-        if (arguments.size() == 1) {
-            return singleton(value.substring(start));
+        if (arguments.size() == 2) {
+            int length = getInteger(arguments.get(1));
+            return singleton(value.substring(start, length));
         }
         
-        return singleton(value.substring(start, length));
+        return singleton(value.substring(start));        
     }
 }

@@ -114,7 +114,7 @@ public class CodeGenerator {
         "TriggerDefinition", 
         "UsageContext", 
         "Dosage");
-    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
+    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1", "ctm-1");
     private static final List<String> HEADER = readHeader();
     private static final List<String> FUNCTIONS = readFunctions();
 
@@ -1107,9 +1107,9 @@ public class CodeGenerator {
             Map<String, String> valueMap = new LinkedHashMap<>();
             valueMap.put("id", quote(key));
             valueMap.put("level", "error".equals(severity) ? quote("Rule") : quote("Warning"));
-            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace("div", "`div`")));
+            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace("div", "`div`").replace("contains", "`contains`").replace("[x]", "")));
             valueMap.put("description", quote(human.replace("\"", "\\\"")));
-            valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`")));
+            valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`").replace(".contains(", ".`contains`(")));
             if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
                 valueMap.put("modelChecked", "true");
             }

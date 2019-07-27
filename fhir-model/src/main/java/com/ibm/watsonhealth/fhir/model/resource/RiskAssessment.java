@@ -44,7 +44,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Constraint(
     id = "ras-1",
     level = "Rule",
-    location = "RiskAssessment.prediction.probability[x]",
+    location = "RiskAssessment.prediction.probability",
     description = "low and high must be percentages, if present",
     expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))"
 )
