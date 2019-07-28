@@ -31,6 +31,7 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.ReferenceAdaptingVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 
 public class CopyingVisitorTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -78,17 +79,15 @@ public class CopyingVisitorTest {
                 .generalPractitioner(providerRef)
                 .build();
         
-        testDeepCopy(patient);
+        testCopy(patient);
         testUpdateReferences(patient);
     }
 
-    static void testDeepCopy(Resource resource) throws FHIRGeneratorException {
-        DeepCopyingVisitor<Resource> visitor = new DeepCopyingVisitor<Resource>();
+    static void testCopy(Resource resource) throws FHIRGeneratorException {
+        CopyingVisitor<Resource> visitor = new CopyingVisitor<Resource>();
         resource.accept(visitor);
         Resource result = visitor.getResult();
         
-        assertNotSame(result, resource);
-
         StringWriter writer1 = new StringWriter();
         FHIRGenerator.generator(Format.JSON, true).generate(resource, writer1);
         StringWriter writer2 = new StringWriter();

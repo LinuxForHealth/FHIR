@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 
 /**
  * Exercise the examples driver, which will process each entry in the test
@@ -38,10 +38,11 @@ public class R4ExamplesTest {
 	}
     
     @Test
-    public void deepCopyTest() throws Exception {
-        driver.setProcessor(new DeepCopyProcessor(new DeepCopyingVisitor<Resource>()));
+    public void copyTest() throws Exception {
+        driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
         driver.processAllExamples();
     }
+    
     
     /**
      * Main method only used for driving ad-hoc testing
@@ -50,7 +51,7 @@ public class R4ExamplesTest {
     public static void main(String[] args) throws Exception {
         R4ExamplesTest self = new R4ExamplesTest();
         self.setup();
-        self.driver.setProcessor(new DeepCopyProcessor(new DeepCopyingVisitor<Resource>()));
+        self.driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
         self.driver.processExample("json/spec/measure-cms146-example.json", Expectation.OK);
     }
 }
