@@ -70,6 +70,7 @@ import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
@@ -127,6 +128,7 @@ import com.ibm.watsonhealth.fhir.server.exception.FHIRVirtualResourceTypeExcepti
 import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
 import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.IssueTypeToHttpStatusMapper;
+import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
@@ -2481,8 +2483,18 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                             // Convert any local references found within the resource to their
                             // corresponding external reference.
-                            // TODO
-                            processLocalReferences(resource, localRefMap);
+                            
+                            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+                            resource.accept(visitor);
+                            final String errorMsg = visitor.getErrorMsg();
+                            if (errorMsg != null) {    
+                                final String location = "<empty>";
+                                OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                                
+                                throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
+                            }
+                            resource = visitor.getResult();
+                            
 
                             // Perform the 'create' operation.
                             String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
@@ -2528,8 +2540,16 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Convert any local references found within the resource to their
                         // corresponding external reference.
-                        //TODO
-                        processLocalReferences(resource, localRefMap);
+                        ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+                        resource.accept(visitor);
+                        final String errorMsg = visitor.getErrorMsg();
+                        if (errorMsg != null) {    
+                            final String location = "<empty>";
+                            OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                            
+                            throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
+                        }
+                        resource = visitor.getResult();
 
                         // Perform the 'update' operation.
                         String ifMatchBundleValue = null;
@@ -2851,35 +2871,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         return localIdentifier;
     }
 
-    /**
-     * This method will look for all fields of type Reference within the specfied resource,
-     * and for each one that it finds it will check to see if it holds a local reference.
-     * If so, the appropriate external reference will be substituted for it.
-     * @param resource the resource whose local references will be updated
-     * @param localRefMap the Map containing the local-to-external identifier mappings
-     */
-    private void processLocalReferences(Resource resource, Map<String, String> localRefMap) throws Exception {
-        
-        
-        // Retrieve all fields of type Reference from the specified resource.
-        List<Reference> references = ReferenceFinder.getReferences(resource);
-        
-        
-        for (Reference ref : references) {
-            String refValue = ref.getReference().getValue();
-            if (refValue.startsWith(LOCAL_REF_PREFIX)) {
-                String externalRef = localRefMap.get(refValue);
-                if (externalRef == null) {
-                    String msg = "Local reference '" + refValue + "' is undefined in the request bundle.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
-                }
-                
-                //TODO After the Reference implementation become mutable, then uncomment this following line. 
-           //     ref.setReference(string(externalRef));
-                log.finer("Convert local ref '" + refValue + "' to external ref '" + externalRef + "'.");
-            }
-        }
-    }
 
     /**
      * This function will build an absolute URI from the specified base URI and relative URI.
