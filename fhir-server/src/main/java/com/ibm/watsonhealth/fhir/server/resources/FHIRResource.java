@@ -13,12 +13,12 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.StringWriter;
 import java.net.URI;
@@ -70,7 +70,6 @@ import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
@@ -87,7 +86,6 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
-import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.type.RestfulCapabilityMode;
 import com.ibm.watsonhealth.fhir.model.type.SystemRestfulInteraction;
@@ -95,7 +93,7 @@ import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.ReferenceFinder;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
@@ -117,9 +115,9 @@ import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInt
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRHttpException;
@@ -130,7 +128,6 @@ import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
-import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
 @Path("/")
 @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
