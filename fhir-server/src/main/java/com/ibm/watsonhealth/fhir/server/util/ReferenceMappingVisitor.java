@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 /**
@@ -22,7 +22,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
  * @author AlbertWang
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
-public class ReferenceMappingVisitor<T extends Visitable> extends DeepCopyingVisitor<T> {
+public class ReferenceMappingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     private static final Logger log = java.util.logging.Logger.getLogger(ReferenceMappingVisitor.class.getName());
     private Map<String, String> localRefMap;
     String errorMsg = null;
@@ -45,7 +45,8 @@ public class ReferenceMappingVisitor<T extends Visitable> extends DeepCopyingVis
                 if (externalRef == null) {
                     errorMsg += "Local reference '" + value + "' is undefined in the request bundle. ";
                 } else {
-                    ((Reference.Builder) builder).reference(string(externalRef));
+                    ((Reference.Builder) getBuilder()).reference(string(externalRef));
+                    markDirty();
                     log.finer("Convert local ref '" + value + "' to external ref '" + externalRef + "'.");
                 }
             }
