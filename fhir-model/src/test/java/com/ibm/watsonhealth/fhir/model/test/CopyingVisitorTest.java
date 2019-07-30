@@ -7,6 +7,8 @@
 package com.ibm.watsonhealth.fhir.model.test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotSame;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -27,6 +29,8 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
+import com.ibm.watsonhealth.fhir.model.visitor.ReferenceAdaptingVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 
 public class CopyingVisitorTest {
@@ -76,6 +80,7 @@ public class CopyingVisitorTest {
                 .build();
         
         testCopy(patient);
+        testUpdateReferences(patient);
     }
 
     static void testCopy(Resource resource) throws FHIRGeneratorException {
@@ -92,4 +97,22 @@ public class CopyingVisitorTest {
         assertEquals(result, resource);
     }
     
+    static void testUpdateReferences(Patient patient) throws FHIRGeneratorException {
+        ReferenceAdaptingVisitor<Patient> visitor = new ReferenceAdaptingVisitor<Patient>();
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+        
+        assertNotSame(result, patient);
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+        assertNotEquals(writer2.toString(), writer1.toString());
+        
+        System.out.println(writer1.toString());
+        System.out.println(writer2.toString());
+        
+        assertNotEquals(result, patient);
+    }
 }
