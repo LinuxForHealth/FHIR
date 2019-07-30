@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.spec.test.ResourceComparatorVisitor;
-import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.watsonhealth.fhir.persistence.util.SaltHash;

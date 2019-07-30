@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Properties;
 import org.testng.annotations.Test;
 
@@ -26,53 +24,16 @@ public class JDBCNormRedefineDerbyDB extends FHIRModelTestBase {
     public JDBCNormRedefineDerbyDB() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
     }
-    
-    /**
-     * Deletes the the passed file. If is is a directory, deletes the directory and all of its contents.
-     * 
-     * @throws IOException
-     */
-    private static void delete(File file) throws IOException {
-        if(file.isDirectory()) {
-
-            //directory is empty, then delete it
-            if(file.list().length==0) {
-                file.delete();
-            } else {
-                // list all the directory contents
-                String files[] = file.list();
-
-                for (String temp : files) {
-                    //construct the file structure
-                    File fileDelete = new File(file, temp);
-
-                    //recursive delete
-                    delete(fileDelete);
-                }
-
-                //check the directory again, if empty then delete it
-                if(file.list().length==0) {
-                    file.delete();
-                }
-            }
-        } 
-        else {
-            // if file exists, then delete it
-            file.delete();
-        }
-    }
 
     @Test(groups = { "jdbc-normalized" })
     public void bootstrapDatabase() throws Exception {
-        DerbyInitializer derbyInit;
+        System.out.println("bootstrapping database for jdbc-normalized test group");
+        
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
-            derbyInit = new DerbyInitializer(this.testProps);
-            try {
-                delete(new File("derby"));    //start clean for each test run
-            } 
-            catch(IOException e) {
-            }
+            DerbyInitializer derbyInit = new DerbyInitializer(this.testProps);
+            
+            // start clean at the beginning of the test run
             derbyInit.bootstrapDb(true);
         }
     }

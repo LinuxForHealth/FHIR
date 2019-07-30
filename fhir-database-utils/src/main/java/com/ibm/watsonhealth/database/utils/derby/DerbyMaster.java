@@ -200,7 +200,7 @@ public class DerbyMaster implements AutoCloseable {
             adapter.setDatabase(database);
 
             final String dropper = DERBY_TRANSLATOR.getUrl(properties) + ";drop=true";
-            logger.info("Dropping derby memory DB with: " + dropper);
+            logger.info("Dropping derby DB with: " + dropper);
             DriverManager.getConnection(dropper);
         }
         catch (SQLException x) {

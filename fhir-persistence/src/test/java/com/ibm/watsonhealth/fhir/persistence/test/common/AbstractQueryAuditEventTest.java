@@ -16,7 +16,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.AuditEvent;
-import com.ibm.watsonhealth.fhir.model.resource.Device;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
@@ -35,18 +34,10 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" } )
     public void testCreateAuditEvent() throws Exception {
-        AuditEvent auditEvt = readResource(AuditEvent.class, "auditevent-example-disclosure.canonical.json");
-
-        persistence.create(getDefaultPersistenceContext(), auditEvt);
-        assertNotNull(auditEvt);
-        assertNotNull(auditEvt.getId());
-        assertNotNull(auditEvt.getId().getValue());
-        assertNotNull(auditEvt.getMeta());
-        assertNotNull(auditEvt.getMeta().getVersionId().getValue());
-        assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
-        savedAuditEvent = auditEvt;
+        // TODO read example audit event created by the R4ExamplesDriver
+        // which should execute prior to this test
     }
     
     /**
@@ -56,16 +47,6 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateAuditEvent_patient() throws Exception {
-        AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_patient.json");
-
-        persistence.create(getDefaultPersistenceContext(), auditEvt);
-        assertNotNull(auditEvt);
-        assertNotNull(auditEvt.getId());
-        assertNotNull(auditEvt.getId().getValue());
-        assertNotNull(auditEvt.getMeta());
-        assertNotNull(auditEvt.getMeta().getVersionId().getValue());
-        assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
-        savedAuditEvent1 = auditEvt;
     }
     
     /**
@@ -75,16 +56,6 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateAuditEvent_participant_patient() throws Exception {
-        AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_participant_patient.json");
-
-        persistence.create(getDefaultPersistenceContext(), auditEvt);
-        assertNotNull(auditEvt);
-        assertNotNull(auditEvt.getId());
-        assertNotNull(auditEvt.getId().getValue());
-        assertNotNull(auditEvt.getMeta());
-        assertNotNull(auditEvt.getMeta().getVersionId().getValue());
-        assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
-        savedAuditEvent2 = auditEvt;
     }
     
     /**
@@ -94,15 +65,6 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateDeviceForAuditEvent() throws Exception {
-        Device device = readResource(Device.class, "Device_with_patient.json");
-
-        persistence.create(getDefaultPersistenceContext(), device);
-        assertNotNull(device);
-        assertNotNull(device.getId());
-        assertNotNull(device.getId().getValue());
-        assertNotNull(device.getMeta());
-        assertNotNull(device.getMeta().getVersionId().getValue());
-        assertEquals("1", device.getMeta().getVersionId().getValue());
     } 
     
     /**

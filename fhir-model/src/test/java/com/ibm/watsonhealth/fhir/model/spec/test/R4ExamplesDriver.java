@@ -36,6 +36,7 @@ public class R4ExamplesDriver {
     // All the examples which should pass validation
     private static final String ALL_FILE_INDEX = SPEC_DIR + "/all.txt";
     private static final String MINIMAL_FILE_INDEX = SPEC_DIR + "/minimal.txt";
+    private static final String SPEC_FILE_INDEX = SPEC_DIR + "/spec.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -49,7 +50,7 @@ public class R4ExamplesDriver {
     Exception firstException = null;
     
     public static enum TestType {
-        ALL, MINIMAL
+        ALL, MINIMAL, SPEC
     }
 
     /**
@@ -86,7 +87,20 @@ public class R4ExamplesDriver {
      * @throws Exception
      */
     public void processExamples(TestType testType) throws Exception {
-        final String filename = testType == TestType.ALL ? ALL_FILE_INDEX : MINIMAL_FILE_INDEX;
+        String filename;
+        switch (testType) {
+        case ALL: 
+            filename = ALL_FILE_INDEX;
+            break;
+        case MINIMAL: 
+            filename = MINIMAL_FILE_INDEX;
+            break;
+        case SPEC: 
+            filename = SPEC_FILE_INDEX;
+            break;
+        default:
+            throw new IllegalArgumentException("shouldn't be necessary");
+        }
         
         // reset the state just in case we are called more than once
         this.firstException = null;

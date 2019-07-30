@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeSuite;
 
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -30,8 +31,16 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     public R4JDBCExamplesTest() throws Exception {
     	this.properties = readTestProperties("test.normalized.properties");
     }
+    
+    @BeforeSuite
+    public void bootstrapAndLoad() {
+        System.out.println("Bootstrapping database:");
+        
+        
+        System.out.println("Processing examples:");
+    }
 	
-    @Test(groups = { "jdbc-normalized" })
+    @Test(groups = { "jdbc-seed" })
     public void perform() throws Exception {
     	
     	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
@@ -87,6 +96,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
 	@AfterClass
 	public void shutdown() throws Exception {
+	    System.out.println("Shutting down database");
 	    if (this.database != null) {
             this.database.close();
 	    }

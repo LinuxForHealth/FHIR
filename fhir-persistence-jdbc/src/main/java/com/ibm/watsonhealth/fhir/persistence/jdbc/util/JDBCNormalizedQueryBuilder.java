@@ -554,11 +554,13 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         Integer parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getName());
         if (parameterNameId == null) {
             parameterNameId = this.parameterDao.readParameterNameId(currentParm.getName());
-            this.parameterDao.addParameterNamesCacheCandidate(currentParm.getName(), parameterNameId);
+            if (parameterNameId != null) {
+                this.parameterDao.addParameterNamesCacheCandidate(currentParm.getName(), parameterNameId);
+            }
         }
         whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID")
                           .append(JDBCOperator.EQ.value())
-                          .append(parameterNameId)
+                          .append(nullCheck(parameterNameId))
                           .append(JDBCOperator.AND.value())
                           .append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
     }
@@ -1047,8 +1049,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (codeSystemId == null) {
                     codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+                    if (codeSystemId != null) {
+                        this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+                    }
                 }
+                // must be able to handle nulls
                 bindVariables.add(codeSystemId);
             }
             whereClauseSegment.append(RIGHT_PAREN);
@@ -1151,7 +1156,9 @@ CODE_REMOVED
                 systemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (systemId == null) {
                     systemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), systemId);
+                    if (systemId != null) {
+                        this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), systemId);
+                    }
                 }
                 whereClauseSegment.append(JDBCOperator.AND.value())
                                   .append(tableAlias + DOT).append(CODE_SYSTEM_ID)
@@ -1370,13 +1377,35 @@ CODE_REMOVED
         //(P1.PARAMETER_NAME_ID = x
         parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName);
         if (parameterNameId == null) {
+            // only try to read, not create
             parameterNameId = this.parameterDao.readParameterNameId(queryParmName);
-            this.parameterDao.addParameterNamesCacheCandidate(queryParmName, parameterNameId);
+            
+            if (parameterNameId != null) {
+                this.parameterDao.addParameterNamesCacheCandidate(queryParmName, parameterNameId);
+            }
         }
         whereClauseSegment.append(LEFT_PAREN);
-        whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=").append(parameterNameId);
+        whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=").append(nullCheck(parameterNameId));
 
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Use -1 in place of a null literal, otherwise return the literal value
+     * @param n
+     * @return
+     */
+    private String nullCheck(Integer n) {
+        return n == null ? "-1" : n.toString();
+    }
+
+    /**
+     * Use -1 in place of a null literal, otherwise return the literal value
+     * @param n
+     * @return
+     */
+    private String nullCheck(Long l) {
+        return l == null ? "-1" : l.toString();
     }
 
     /**

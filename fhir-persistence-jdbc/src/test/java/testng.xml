@@ -33,18 +33,26 @@
  -->            <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
         </classes>
     </test>
+    
+    <test name="RemoveDatabase">
+    </test>
 
     <test name="JDBCNormalizedTests">
         <groups>
             <run>
                 <include name="jdbc-normalized"></include>
+                <include name="jdbc-seed"></include>
             </run>
         </groups>
         <classes>
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest" />
+        </classes>
+    </test>
+</suite>
         
-<!--             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
+<!--             
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
@@ -75,7 +83,4 @@
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
             <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
- -->        </classes>
-    </test>
-
-</suite>
+ -->

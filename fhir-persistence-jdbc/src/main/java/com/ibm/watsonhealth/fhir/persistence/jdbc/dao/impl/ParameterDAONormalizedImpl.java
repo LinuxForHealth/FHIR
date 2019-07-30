@@ -7,10 +7,8 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Array;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Struct;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -55,14 +55,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     
     private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT = 512;
     private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS = 1024;
-    
-    private static final String SQL_READ_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
-    
-    private static final String SQL_READ_ALL_CODE_SYSTEMS = "SELECT CODE_SYSTEM_NAME, CODE_SYSTEM_ID FROM CODE_SYSTEMS";
-    
-    private static final String SQL_READ_PARAMETER_NAME = "CALL %s.add_parameter_name(?, ?)";
-    
-    private static final String SQL_READ_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
     
     private Map<String, Integer> newParameterNameIds = new HashMap<>();
         
@@ -120,7 +112,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                 parameterId = ParameterNamesCache.getParameterNameId(parameterName);
                 if (parameterId == null) {
                     acquiredFromCache = false;
-                    parameterId = this.readParameterNameId(parameterName);
+                    parameterId = this.readOrAddParameterNameId(parameterName);
                     this.addParameterNamesCacheCandidate(parameterName, parameterId);
                 }
                 else {
@@ -153,7 +145,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     if (tokenSystemId == null) {
                         acquiredFromCache = false;
                         tokenSystem = SQLParameterEncoder.encode(tokenSystem);
-                        tokenSystemId = this.readCodeSystemId(tokenSystem);
+                        tokenSystemId = this.readOrAddCodeSystemId(tokenSystem);
                         this.addCodeSystemsCacheCandidate(tokenSystem, tokenSystemId);
                     }
                     else {
@@ -197,41 +189,16 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         final String METHODNAME = "readAllSearchParameterNames";
         log.entering(CLASSNAME, METHODNAME);
                 
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet resultSet = null;
-        String parameterName;
-        int parameterId;
-        Map<String, Integer> parameterMap = new HashMap<>();
-        String errMsg = "Failure retrieving all Search Parameter names.";
-        long dbCallStartTime;
-        double dbCallDuration;
-                
+        Connection connection = null;        
         try {
             connection = this.getConnection();
-            dbCallStartTime = System.nanoTime();
-            stmt = connection.prepareStatement(SQL_READ_ALL_SEARCH_PARAMETER_NAMES);
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                    log.fine("DB read all search parameter names complete. executionTime=" + dbCallDuration + "ms");
-            }
-                 
-            resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                parameterName = resultSet.getString("PARAMETER_NAME");
-                parameterId = resultSet.getInt("PARAMETER_NAME_ID");
-                parameterMap.put(parameterName, parameterId);
-            }
-        }
-        catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            return pnd.readAllSearchParameterNames();
         }
         finally {
-            this.cleanup(stmt, connection);
+            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
-        return parameterMap;
     }
     
     @Override
@@ -239,41 +206,17 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllCodeSystems";
         log.entering(CLASSNAME, METHODNAME);
-                
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet resultSet = null;
-        String systemName;
-        int systemId;
-        Map<String, Integer> systemMap = new HashMap<>();
-        String errMsg = "Failure retrieving all code systems.";
-        long dbCallStartTime;
-        double dbCallDuration;
-                
+        
+        Connection connection = null;        
         try {
             connection = this.getConnection();
-            stmt = connection.prepareStatement(SQL_READ_ALL_CODE_SYSTEMS);
-            dbCallStartTime = System.nanoTime();
-            resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB read all code systems complete. executionTime=" + dbCallDuration + "ms");
-            }
-            while (resultSet.next()) {
-                systemName = resultSet.getString("CODE_SYSTEM_NAME");
-                systemId = resultSet.getInt("CODE_SYSTEM_ID");
-                systemMap.put(systemName, systemId);
-            }
-        }
-        catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            return csd.readAllCodeSystems();
         }
         finally {
-            this.cleanup(stmt, connection);
+            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
-        return systemMap;
     }
     
     /**
@@ -326,45 +269,21 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      *  
      */
     @Override
-    public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+    public Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final String METHODNAME = "readParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
         
         Connection connection = null;
-        CallableStatement stmt = null;
-        Integer parameterNameId = null;
-        String currentSchema;
-        String stmtString;
-        String errMsg = "Failure storing search parameter name id: name=" + parameterName;
-        long dbCallStartTime;
-        double dbCallDuration;
                 
         try {
             connection = this.getConnection();
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_READ_PARAMETER_NAME, currentSchema);
-            stmt = connection.prepareCall(stmtString); 
-            stmt.setString(1, parameterName);
-            stmt.registerOutParameter(2, Types.INTEGER);
-            dbCallStartTime = System.nanoTime();
-            stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                    log.fine("DB read/store parameter name id complete. executionTime=" + dbCallDuration + "ms");
-            }
-            parameterNameId = stmt.getInt(2);
+            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            return pnd.readOrAddParameterNameId(parameterName);
         }
-        catch(FHIRPersistenceDBConnectException e) {
-            throw e;
-        }
-        catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
-        } 
         finally {
-            this.cleanup(stmt, connection);
+            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        return parameterNameId;
     }
     
     /**
@@ -377,45 +296,20 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @throws FHIRPersistenceException
      */
     @Override
-    public Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
+    public Integer readOrAddCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
         final String METHODNAME = "storeCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
         
-        Connection connection = null;
-        CallableStatement stmt = null;
-        Integer systemId = null;
-        String currentSchema;
-        String stmtString;
-        String errMsg = "Failure storing system id: name=" + systemName;
-        long dbCallStartTime;
-        double dbCallDuration;
-                
+        Connection connection = null;        
         try {
             connection = this.getConnection();
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_READ_CODE_SYSTEM_ID, currentSchema);
-            stmt = connection.prepareCall(stmtString); 
-            stmt.setString(1, systemName);
-            stmt.registerOutParameter(2, Types.INTEGER);
-            dbCallStartTime = System.nanoTime();
-            stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                    log.fine("DB read code system id complete. executionTime=" + dbCallDuration + "ms");
-            }
-            systemId = stmt.getInt(2);
+            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            return csd.readOrAddCodeSystem(codeSystemName);
         }
-        catch(FHIRPersistenceDBConnectException e) {
-            throw e;
-        }
-        catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
-        } 
         finally {
-            this.cleanup(stmt, connection);
+            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        return systemId;
     }
 
     /**
@@ -498,7 +392,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             parameterNameId = ParameterNamesCache.getParameterNameId(parameterName);
             if (parameterNameId == null) {
                 acquiredFromCache = false;
-                parameterNameId = this.readParameterNameId(parameterName);
+                parameterNameId = this.readOrAddParameterNameId(parameterName);
                 this.addParameterNamesCacheCandidate(parameterName, parameterNameId);
             }
             else {
@@ -539,7 +433,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             if (codeSystemId == null) {
                 acquiredFromCache = false;
                 myCodeSystemName = SQLParameterEncoder.encode(myCodeSystemName);
-                codeSystemId = this.readCodeSystemId(myCodeSystemName);
+                codeSystemId = this.readOrAddCodeSystemId(myCodeSystemName);
                 this.addCodeSystemsCacheCandidate(myCodeSystemName, codeSystemId);
             }
             else {
@@ -820,6 +714,46 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             log.exiting(CLASSNAME, METHODNAME);
         }
         return sqlParmArray;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readParameterNameId(java.lang.String)
+     */
+    @Override
+    public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        final String METHODNAME = "readParameterNameId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
+            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            return pnd.readParameterNameId(parameterName);
+        }
+        finally {
+            this.cleanup(null, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readCodeSystemId(java.lang.String)
+     */
+    @Override
+    public Integer readCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        final String METHODNAME = "readCodeSystemId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
+            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            return csd.readCodeSystemId(codeSystemName);
+        }
+        finally {
+            this.cleanup(null, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
     }
      
 }

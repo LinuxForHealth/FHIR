@@ -163,6 +163,10 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                 dbUrl = this.getDbProps().getProperty(PROPERTY_DB_URL);
                 try {
                     connection = DriverManager.getConnection(dbUrl, this.getDbProps());
+
+                    // Most queries assume the current schema is set up properly
+                    String schemaName = this.getDbProps().getProperty("schemaName", "FHIRDATA");
+                    connection.setSchema(schemaName);
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failed to acquire DB connection. dbUrl=" + dbUrl, e);
                 }

@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Date;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.helper.SearchParameterHelper;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;

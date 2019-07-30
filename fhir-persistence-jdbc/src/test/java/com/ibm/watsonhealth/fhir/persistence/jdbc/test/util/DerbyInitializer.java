@@ -77,30 +77,54 @@ public class DerbyInitializer {
     }
     
     /**
+     * Get the name of the schema holding all the FHIR normalized resource tables
+     * @return
+     */
+    protected String getDataSchemaName() {
+        return dbProps.getProperty("schemaName", "FHIRDATA");
+    }
+    /**
      * Establishes a connection to fhirDB. Creates the database if necessary complete with tables indexes.
      * @throws FHIRPersistenceDBConnectException
      * @throws SQLException 
      */
     public void bootstrapDb(boolean reset) throws FHIRPersistenceDBConnectException, SQLException {
         final String adminSchemaName = "FHIR_ADMIN";
-        final String dataSchemaName = "FHIRDATA";
+        final String dataSchemaName = getDataSchemaName();
         
         if (reset) {
-            // wipes the disk content of the database
+            // wipes the disk content of the database. Hopefully there aren't any
+            // open connections at this point
             DerbyMaster.dropDatabase(DB_NAME);
         }
 
         // Inject the DB_NAME into the dbProps
         DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(dbProps);
         adapter.setDatabase(DB_NAME);
-
-        try (Connection connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(dbProps) + ";create=true")) {
-            connection.setAutoCommit(false);
-            DerbyBootstrapper.bootstrap(connection, adminSchemaName, dataSchemaName);
+        
+        // Only bootstrap the database if it is new
+        boolean exists;
+        try (Connection connection = getConnection()) {
+            exists = true;
         }
         catch (SQLException x) {
-            throw DERBY_TRANSLATOR.translate(x);
-        } 
+            exists = false;
+        }
+ 
+        if (exists) {
+            System.out.println("Existing database: skipping bootstrap");
+        }
+        else {
+            System.out.println("Bootstrapping database");
+            final String url = DERBY_TRANSLATOR.getUrl(dbProps);
+            try (Connection connection = DriverManager.getConnection(url + ";create=true")) {
+                connection.setAutoCommit(false);
+                DerbyBootstrapper.bootstrap(connection, adminSchemaName, dataSchemaName);
+            }
+            catch (SQLException x) {
+                throw DERBY_TRANSLATOR.translate(x);
+            } 
+        }
     }
 
     /**

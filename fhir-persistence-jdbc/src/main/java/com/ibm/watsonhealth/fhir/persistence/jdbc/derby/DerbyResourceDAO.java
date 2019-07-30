@@ -20,16 +20,18 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 
 /**
- * Because Derby lacks support for the array parameter types we use for the DB2
- * stored procedure call, we take a different tack. The original implementation
 CODE_REMOVED
- * query optimizer issues in DB2 resulting in significant concurrency issues. The
- * solution used arrays instead, but this deviates further from Derby.
+ * to pass the parameter list into the stored procedure, but this approach
+ * exposed some query optimizer issues in DB2 resulting in significant 
+ * concurrency problems (related to dynamic statistics collection and
+ * query compilation). The solution uses row type arrays instead, but these
+ * aren't supported in Derby.
  * 
- * Rather than messing around with creating a (Java) Derby stored procedure, we
- * can simply execute the necessary statements as a sequence of JDBC calls.
+ * For Derby, we take a different tack. Rather than messing around with a 
+ * (Java) Derby stored procedure, we can simply execute the necessary 
+ * statements as a sequence of JDBC calls. This also simplifies debugging.
+ * 
  * @author rarnold
- *
  */
 public class DerbyResourceDAO {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
@@ -66,6 +68,9 @@ public class DerbyResourceDAO {
      *   ...
      * This works because we never delete a logical_resource record, and so don't have to deal
      * with concurrency issues caused when deletes are mingled with inserts/updates
+     * 
+     * Note the execution flow aligns very closely with the DB2 stored procedure
+     * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
      * @param conn
      * @param tablePrefix
      * @param p_logical_id

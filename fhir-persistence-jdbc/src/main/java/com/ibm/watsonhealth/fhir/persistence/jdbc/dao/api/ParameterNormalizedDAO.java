@@ -50,13 +50,32 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
+    Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+
+    /**
+     * Read the id for the given parameter name, but do not create a new record if it doesn't exist.
+     * @param parameterName
+     * @return the id for the parameter name, or null not found
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException
+     */
     Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-    
+
     /**
      * Reads the id associated with the name of the passed code system name from the Code_Systems table. If the id for the passed system name is not present
      * in the database, an id is generated, persisted, and returned.
      * @param systemName - The name of a FHIR code system.
      * @return Integer - The id associated with the passed code system name.
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException
+     */
+    Integer readOrAddCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+
+    
+    /**
+     * Read the id for the given code system name, but do not create a new record if it doesn't exist.
+     * @param systemName
+     * @return Integer - The id associated with the passed code system name, or null if it doesn't exist
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */

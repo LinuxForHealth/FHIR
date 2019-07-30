@@ -36,11 +36,7 @@ import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     
-    private static final int EXIT_OK = 0; // validation was successful
-    private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
-    private static final int EXIT_RUNTIME_ERROR = 2; // programming error
-    private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
-    private static final double NANOS = 1e9;
+    private static final int EXIT_RUNTIME_ERROR = 1;
 
     // The persistence API
     protected FHIRPersistence persistence = null;
@@ -264,6 +260,7 @@ public class Main {
         }
         catch (Exception x) {
             logger.log(Level.SEVERE, x.getMessage(), x);
+            System.exit(EXIT_RUNTIME_ERROR);
         }
     }
 
