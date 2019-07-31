@@ -30,82 +30,11 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SimpleQuantity extends Quantity {
-    private final Decimal value;
-    private final QuantityComparator comparator;
-    private final String unit;
-    private final Uri system;
-    private final Code code;
-
     private volatile int hashCode;
 
     private SimpleQuantity(Builder builder) {
         super(builder);
-        value = builder.value;
-        comparator = builder.comparator;
-        unit = builder.unit;
-        system = builder.system;
-        code = builder.code;
         ValidationSupport.requireValueOrChildren(this);
-    }
-
-    /**
-     * <p>
-     * The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     * </p>
-     * 
-     * @return
-     *     An immutable object of type {@link Decimal}.
-     */
-    public Decimal getValue() {
-        return value;
-    }
-
-    /**
-     * <p>
-     * Not allowed to be used in this context
-     * </p>
-     * 
-     * @return
-     *     An immutable object of type {@link QuantityComparator}.
-     */
-    public QuantityComparator getComparator() {
-        return comparator;
-    }
-
-    /**
-     * <p>
-     * A human-readable form of the unit.
-     * </p>
-     * 
-     * @return
-     *     An immutable object of type {@link String}.
-     */
-    public String getUnit() {
-        return unit;
-    }
-
-    /**
-     * <p>
-     * The identification of the system that provides the coded form of the unit.
-     * </p>
-     * 
-     * @return
-     *     An immutable object of type {@link Uri}.
-     */
-    public Uri getSystem() {
-        return system;
-    }
-
-    /**
-     * <p>
-     * A computer processable form of the unit in some unit representation system.
-     * </p>
-     * 
-     * @return
-     *     An immutable object of type {@link Code}.
-     */
-    public Code getCode() {
-        return code;
     }
 
     @Override
@@ -175,12 +104,6 @@ public class SimpleQuantity extends Quantity {
     }
 
     public static class Builder extends Quantity.Builder {
-        private Decimal value;
-        private QuantityComparator comparator;
-        private String unit;
-        private Uri system;
-        private Code code;
-
         /**
          * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
@@ -253,9 +176,9 @@ public class SimpleQuantity extends Quantity {
          * @return
          *     A reference to this Builder instance
          */
+        @Override
         public Builder value(Decimal value) {
-            this.value = value;
-            return this;
+            return (Builder) super.value(value);
         }
 
         /**
@@ -269,9 +192,9 @@ public class SimpleQuantity extends Quantity {
          * @return
          *     A reference to this Builder instance
          */
+        @Override
         public Builder comparator(QuantityComparator comparator) {
-            this.comparator = comparator;
-            return this;
+            return (Builder) super.comparator(comparator);
         }
 
         /**
@@ -285,9 +208,9 @@ public class SimpleQuantity extends Quantity {
          * @return
          *     A reference to this Builder instance
          */
+        @Override
         public Builder unit(String unit) {
-            this.unit = unit;
-            return this;
+            return (Builder) super.unit(unit);
         }
 
         /**
@@ -301,9 +224,9 @@ public class SimpleQuantity extends Quantity {
          * @return
          *     A reference to this Builder instance
          */
+        @Override
         public Builder system(Uri system) {
-            this.system = system;
-            return this;
+            return (Builder) super.system(system);
         }
 
         /**
@@ -317,9 +240,9 @@ public class SimpleQuantity extends Quantity {
          * @return
          *     A reference to this Builder instance
          */
+        @Override
         public Builder code(Code code) {
-            this.code = code;
-            return this;
+            return (Builder) super.code(code);
         }
 
         @Override
@@ -329,11 +252,6 @@ public class SimpleQuantity extends Quantity {
 
         protected Builder from(SimpleQuantity simpleQuantity) {
             super.from(simpleQuantity);
-            value = simpleQuantity.value;
-            comparator = simpleQuantity.comparator;
-            unit = simpleQuantity.unit;
-            system = simpleQuantity.system;
-            code = simpleQuantity.code;
             return this;
         }
     }

@@ -490,6 +490,9 @@ public class CodeGenerator {
         
         int fieldCount = 0;
         List<JsonObject> declaredElementDefinitions = elementDefinitions.stream().filter(o -> o.getString("path").equals(o.getJsonObject("base").getString("path"))).collect(Collectors.toList());
+        if ("SimpleQuantity".equals(className)) {
+            declaredElementDefinitions = Collections.emptyList();
+        }
         if (!declaredElementDefinitions.isEmpty()) {
             for (JsonObject elementDefinition : declaredElementDefinitions) {
                 String fieldName = getFieldName(elementDefinition, path);
@@ -515,7 +518,7 @@ public class CodeGenerator {
                 
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath);
+            boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !"SimpleQuantity".equals(className);
             
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
@@ -804,6 +807,9 @@ public class CodeGenerator {
             }
 
             List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+            if ("SimpleQuantity".equals(className)) {
+                elementDefinitions = Collections.emptyList();
+            }
                         
             List<String> nestedPaths = new ArrayList<>();  
             
