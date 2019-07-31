@@ -12,6 +12,7 @@ import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerV
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.stringValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
@@ -159,7 +160,8 @@ public class FHIRPathEvaluator {
             ExpressionContext criteria = arguments.get(0);
             for (FHIRPathNode node : getCurrentContext()) {
                 pushContext(singleton(node));
-                if (isFalse(visit(criteria))) {
+                Collection<FHIRPathNode> result = visit(criteria);
+                if (!result.isEmpty() && isFalse(result)) {
                     popContext();
                     return SINGLETON_FALSE;
                 }
@@ -594,54 +596,47 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            String operator = ctx.getChild(1).getText();
+            Collection<FHIRPathNode> result = empty();
             
+            // evaluate left operand
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
+//          Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left)) {
-                indentLevel--;
-                return empty();
-            }
-            
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            
-            if (!leftValue.isBooleanValue()) {
-                indentLevel--;
-                return empty();
-            }
-            
-            if ("or".equals(operator) && leftValue.asBooleanValue().isTrue()) {
-                // short-circuit logic
-                indentLevel--;
-                return SINGLETON_TRUE;
-            }
-
-            Collection<FHIRPathNode> right = visit(ctx.expression(1));
-            
-            if (!hasPrimitiveValue(right)) {
-                indentLevel--;
-                return empty();
-            }
-            
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
-
-            if (!rightValue.isBooleanValue()) {
-                indentLevel--;
-                return empty();
-            }
-            
-            Collection<FHIRPathNode> result = SINGLETON_FALSE;
-            
+            String operator = ctx.getChild(1).getText();
             
             switch (operator) {
             case "or":
-                if (leftValue.asBooleanValue().or(rightValue.asBooleanValue()).isTrue()) {
+                // Returns false if both operands evaluate to false, true if either operand evaluates to true, and empty ({ }) otherwise:
+                if (evaluatesToBoolean(left) && isTrue(left)) {
+                    // short-circuit evaluation
+                    result = SINGLETON_TRUE;
+                } else {
+                    // evaluate right operand
+                    Collection<FHIRPathNode> right = visit(ctx.expression(1));
+                    if (evaluatesToBoolean(right) && isTrue(right)) {
+                        result = SINGLETON_TRUE;
+                    } else if (evaluatesToBoolean(left) && evaluatesToBoolean(right) && 
+                            isFalse(left) && isFalse(right)) {
+                        result = SINGLETON_FALSE;
+                    }
+                }
+                /*
+                if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
+                    result = (isTrue(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                } else if (evaluatesToBoolean(left) && isTrue(left)) {
+                    result = SINGLETON_TRUE;
+                } else if (evaluatesToBoolean(right) && isTrue(right)) {
                     result = SINGLETON_TRUE;
                 }
+                */
                 break;
             case "xor":
-                if (leftValue.asBooleanValue().xor(rightValue.asBooleanValue()).isTrue()) {
-                    result = SINGLETON_TRUE;
+                // evaluate right operand
+                Collection<FHIRPathNode> right = visit(ctx.expression(1));
+
+                // Returns true if exactly one of the operands evaluates to true, false if either both operands evaluate to true or both operands evaluate to false, and the empty collection ({ }) otherwise:
+                if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
+                    result = ((isTrue(left) || isTrue(right)) && !(isTrue(left) && isTrue(right))) ? SINGLETON_TRUE : SINGLETON_FALSE;
                 }
                 break;
             }
@@ -657,46 +652,36 @@ public class FHIRPathEvaluator {
         public Collection<FHIRPathNode> visitAndExpression(FHIRPathParser.AndExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
+
+            Collection<FHIRPathNode> result = empty(); 
             
+            // evaluate left operand
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
+//          Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left)) {
-                indentLevel--;
-                return empty();
+            // Returns true if both operands evaluate to true, false if either operand evaluates to false, and the empty collection ({ }) otherwise.
+            if (evaluatesToBoolean(left) && isFalse(left)) {
+                // short-circuit evaluation
+                result = SINGLETON_FALSE;
+            } else {
+                // evaluate right operand
+                Collection<FHIRPathNode> right = visit(ctx.expression(1));
+                if (evaluatesToBoolean(right) && isFalse(right)) {
+                    result = SINGLETON_FALSE;
+                } else if (evaluatesToBoolean(left) && evaluatesToBoolean(right) && 
+                        isTrue(left) && isTrue(right)) {
+                    result = SINGLETON_TRUE;
+                }
             }
-            
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            
-            if (!leftValue.isBooleanValue()) {
-                indentLevel--;
-                return empty();
+            /*
+            if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
+                result = (isTrue(left) && isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if (evaluatesToBoolean(left) && isFalse(left)) {
+                result = SINGLETON_FALSE;
+            } else if (evaluatesToBoolean(right) && isFalse(right)) {
+                result = SINGLETON_FALSE;
             }
-            
-            if (leftValue.asBooleanValue().isFalse()) {
-                // short-circuit logic
-                indentLevel--;
-                return SINGLETON_FALSE;
-            }
-            
-            Collection<FHIRPathNode> right = visit(ctx.expression(1));
-            
-            if (!hasPrimitiveValue(right)) {
-                indentLevel--;
-                return empty();
-            }
-            
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
-            
-            if (!rightValue.isBooleanValue()) {
-                indentLevel--;
-                return empty();
-            }
-            
-            Collection<FHIRPathNode> result = SINGLETON_FALSE;
-            
-            if (leftValue.asBooleanValue().and(rightValue.asBooleanValue()).isTrue()) {
-                result = SINGLETON_TRUE;
-            }
+            */
             
             indentLevel--;
             return result;
@@ -846,14 +831,17 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = SINGLETON_FALSE;
+            Collection<FHIRPathNode> result = empty();
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            // !left || right
-            if (isFalse(left) || isTrue(right)) {
-                return SINGLETON_TRUE;
+            // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
+            if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
+                // !left || right
+                result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
+                result = SINGLETON_TRUE;
             }
             
             indentLevel--;
@@ -1189,12 +1177,13 @@ public class FHIRPathEvaluator {
                 if (function == null) {
                     throw new IllegalArgumentException("Function: '" + functionName + "' not found");
                 }
-                if (arguments.size() < function.getMinArity() && arguments.size() > function.getMaxArity()) {
+                if (arguments.size() < function.getMinArity() || arguments.size() > function.getMaxArity()) {
                     throw unexpectedNumberOfArguments(arguments.size(), functionName);
                 }
-                // evaluate arguments: ExpressionContext -> Collection<FHIRPathNode>
-                List<Collection<FHIRPathNode>> args = arguments.stream().map(expressionContext -> visit(expressionContext)).collect(Collectors.toList());
-                result = function.apply(currentContext, args);
+                result = function.apply(currentContext, arguments.stream()
+                    // evaluate arguments: ExpressionContext -> Collection<FHIRPathNode>
+                    .map(expressionContext -> visit(expressionContext))
+                    .collect(Collectors.toList()));
                 break;
             }
                         

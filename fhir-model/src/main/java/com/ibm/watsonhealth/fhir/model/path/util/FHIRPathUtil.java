@@ -129,8 +129,15 @@ public final class FHIRPathUtil {
         return hasPrimitiveValue(nodes) && getPrimitiveValue(nodes).isStringValue();
     }
     
+    public static boolean evaluatesToBoolean(Collection<FHIRPathNode> nodes) {
+        return hasBooleanValue(nodes) || isSingleton(nodes);
+    }
+    
     public static boolean isTrue(Collection<FHIRPathNode> nodes) {
-        return (hasBooleanValue(nodes) && getBooleanValue(nodes).isTrue()) || (!hasBooleanValue(nodes) && isSingleton(nodes));
+        if (hasBooleanValue(nodes)) {
+            return getBooleanValue(nodes).isTrue();
+        }
+        return isSingleton(nodes);
     }
     
     public static boolean isFalse(Collection<FHIRPathNode> nodes) {
