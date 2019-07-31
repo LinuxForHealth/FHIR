@@ -8,13 +8,12 @@ package com.ibm.watsonhealth.fhir.model.path.function;
 
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getBooleanValue;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasBooleanValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isTrue;
 
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
 public class NotFunction extends FHIRPathAbstractFunction {
@@ -35,12 +34,9 @@ public class NotFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (hasBooleanValue(context)) {
-            FHIRPathBooleanValue value = getBooleanValue(context);
-            if (value.not().isTrue()) {
-                return SINGLETON_TRUE;
-            }
+        if (context.isEmpty()) {
+            return empty();
         }
-        return SINGLETON_FALSE;
+        return isTrue(context) ? SINGLETON_FALSE : SINGLETON_TRUE;
     }
 }

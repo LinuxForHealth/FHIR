@@ -109,6 +109,23 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     }
     
     @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        return other instanceof FHIRPathBooleanValue || 
+                other.getValue() instanceof FHIRPathBooleanValue;
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        if (other instanceof FHIRPathBooleanValue) {
+            return _boolean.compareTo(((FHIRPathBooleanValue) other)._boolean());
+        }
+        return _boolean.compareTo(((FHIRPathBooleanValue) other.getValue())._boolean());
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -116,11 +133,17 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof FHIRPathNode)) {
             return false;
         }
-        FHIRPathBooleanValue other = (FHIRPathBooleanValue) obj;
-        return Objects.equals(_boolean, other._boolean());
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (other instanceof FHIRPathBooleanValue) {
+            return Objects.equals(_boolean, ((FHIRPathBooleanValue) other)._boolean());
+        }
+        if (other.getValue() instanceof FHIRPathBooleanValue) {
+            return Objects.equals(_boolean, ((FHIRPathBooleanValue) other.getValue())._boolean());
+        }
+        return false;
     }
     
     @Override
@@ -131,18 +154,5 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public String toString() {
         return _boolean ? "'true'" : "'false'";
-    }
-    
-    @Override
-    public boolean isComparableTo(FHIRPathNode other) {
-        return other instanceof FHIRPathBooleanValue;
-    }
-    
-    @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        return _boolean.compareTo(((FHIRPathBooleanValue) other)._boolean());
     }
 }

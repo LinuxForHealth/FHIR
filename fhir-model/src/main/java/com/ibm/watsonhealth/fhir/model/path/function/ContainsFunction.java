@@ -10,12 +10,12 @@ import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.S
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
 
 public class ContainsFunction extends FHIRPathAbstractFunction {
     @Override
@@ -35,13 +35,9 @@ public class ContainsFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (context.isEmpty()) {
+        if (!hasStringValue(context)) {
             return empty();
         }
-                
-        FHIRPathStringValue string = getStringValue(context);
-        FHIRPathStringValue substring = getStringValue(arguments.get(0));
-        
-        return string.contains(substring) ? SINGLETON_TRUE : SINGLETON_FALSE;
+        return getStringValue(context).contains(getStringValue(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

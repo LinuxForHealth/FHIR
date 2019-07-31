@@ -115,18 +115,6 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     }
 
     @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        if (other instanceof FHIRPathQuantityNode) {
-            return decimal.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
-        }
-        FHIRPathNumberValue value = (FHIRPathNumberValue) other;
-        return decimal.compareTo(value.decimal());
-    }
-    
-    @Override
     public FHIRPathNumberValue negate() {
         return decimalValue(decimal.negate());
     }
@@ -144,11 +132,17 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof FHIRPathNode)) {
             return false;
         }
-        FHIRPathDecimalValue other = (FHIRPathDecimalValue) obj;
-        return Objects.equals(decimal, other.decimal());
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (other instanceof FHIRPathDecimalValue) {
+            return Objects.equals(decimal, ((FHIRPathDecimalValue) other).decimal());
+        }
+        if (other.getValue() instanceof FHIRPathDecimalValue) {
+            return Objects.equals(decimal, ((FHIRPathDecimalValue) other.getValue()).decimal());
+        }
+        return false;
     }
     
     @Override

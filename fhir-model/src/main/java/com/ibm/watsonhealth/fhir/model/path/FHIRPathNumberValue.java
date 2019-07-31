@@ -25,15 +25,6 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
     BigDecimal decimal();
     Integer integer();
     
-    @Override
-    default boolean isComparableTo(FHIRPathNode other) {
-        if (other instanceof FHIRPathQuantityNode) {
-            FHIRPathQuantityNode quantityNode = (FHIRPathQuantityNode) other;
-            return quantityNode.isComparableTo(this);
-        }
-        return other instanceof FHIRPathNumberValue;
-    }
-    
     default FHIRPathDecimalValue asDecimalValue() {
         return as(FHIRPathDecimalValue.class);
     }
@@ -58,4 +49,25 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
     FHIRPathNumberValue mod(FHIRPathNumberValue value);
     FHIRPathNumberValue negate();
     FHIRPathNumberValue plus();
+
+    @Override
+    default boolean isComparableTo(FHIRPathNode other) {
+        if (other instanceof FHIRPathQuantityNode) {
+            return ((FHIRPathQuantityNode) other).isComparableTo(this);
+        }
+        return other instanceof FHIRPathNumberValue || 
+                other.getValue() instanceof FHIRPathNumberValue;
+    }
+    
+    @Override
+    default int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        if (other instanceof FHIRPathQuantityNode) {
+            return decimal().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        }
+        FHIRPathNumberValue value = (FHIRPathNumberValue) ((other instanceof FHIRPathNumberValue) ? other : other.getValue());
+        return decimal().compareTo(value.decimal());
+    }
 }

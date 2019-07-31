@@ -8,7 +8,9 @@ package com.ibm.watsonhealth.fhir.model.path.function;
 
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +35,9 @@ public class EndsWithFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (!hasStringValue(context)) {
+            return empty();
+        }
         return getStringValue(context).startsWith(getStringValue(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

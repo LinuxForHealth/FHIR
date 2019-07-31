@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.S
 import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,7 @@ public class MatchesFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (context.isEmpty()) {
+        if (!hasStringValue(context)) {
             return empty();
         }
         

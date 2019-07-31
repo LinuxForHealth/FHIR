@@ -81,6 +81,11 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     }
     
     @Override
+    public int compareTo(FHIRPathNode node) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

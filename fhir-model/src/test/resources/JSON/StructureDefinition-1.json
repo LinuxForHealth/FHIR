@@ -1,0 +1,150 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "SDsutzo21W",
+    "meta": {
+        "versionId": "1PGhxdAPnd",
+        "lastUpdated": "2019-07-18T14:13:13.037-04:00",
+        "source": "ROn4L_BGfj"
+    },
+    "implicitRules": "busjap6QHt",
+    "language": "a0mwATFTqx",
+    "text": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ],
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "ZOHCoWGWL8",
+    "version": "dEIgqZSGqC",
+    "name": "tOr60UGYfK",
+    "title": "i1XyWFn7xW",
+    "status": "unknown",
+    "experimental": true,
+    "date": "2019-07-18T14:13:13.037-04:00",
+    "publisher": "cM2vJCafIU",
+    "description": "LQJO18HlCT",
+    "purpose": "_7hGSifiJt",
+    "copyright": "NjBhmoK1bz",
+    "fhirVersion": "1.4.0",
+    "kind": "complex-type",
+    "abstract": true,
+    "type": "lVs7mYZoKm",
+    "baseDefinition": "HrNHVYOfKB",
+    "derivation": "constraint",
+    "snapshot": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ],
+        "element": [
+            {
+                "path": "4c2EXYG3Iv",
+                "sliceName": "Nv30Pa8Eam",
+                "sliceIsConstraining": true,
+                "label": "l9i8Sh3it7",
+                "slicing": {
+                    "description": "gxURMAXvwr",
+                    "ordered": true,
+                    "rules": "closed"
+                },
+                "short": "o_GvvDqGs9",
+                "definition": "pPb7vnsUq4",
+                "comment": "WLH_PXCrQs",
+                "requirements": "tnPfS_RtCs",
+                "min": 2133654194,
+                "max": "cSSUyU149M",
+                "base": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ],
+                    "path": "vRME5a9lT5",
+                    "min": 1909949899,
+                    "max": "kXrCd1UAKB"
+                },
+                "contentReference": "B6wZ7eFgAq",
+                "defaultValueBase64Binary": "GnN7WgE=",
+                "meaningWhenMissing": "dqAdSRtws7",
+                "orderMeaning": "BL7K7iNqnQ",
+                "fixedBase64Binary": "A1QiISE=",
+                "patternBase64Binary": "Xkw5cT8=",
+                "minValueDate": "2019-07-18",
+                "maxValueDate": "2019-07-18",
+                "maxLength": 1822266010,
+                "mustSupport": true,
+                "isModifier": true,
+                "isModifierReason": "0_CXv4HCwf",
+                "isSummary": true,
+                "binding": {
+                    "strength": "required",
+                    "description": "oE0d8ztdoC",
+                    "valueSet": "hy6yTaGgja"
+                }
+            }
+        ]
+    },
+    "differential": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ],
+        "element": [
+            {
+                "path": "joHjDoBFJe",
+                "sliceName": "KO2yRU4Oaa",
+                "sliceIsConstraining": true,
+                "label": "0nd8_cHKnz",
+                "slicing": {
+                    "description": "XoPI57J5Hr",
+                    "ordered": true,
+                    "rules": "closed"
+                },
+                "short": "l8TeV9IQSE",
+                "definition": "F7iYiB0XEf",
+                "comment": "cY5HDfEO6R",
+                "requirements": "KWcNL212RV",
+                "min": 1203137963,
+                "max": "LCjKxAUKgK",
+                "base": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ],
+                    "path": "ilmTVDpGdg",
+                    "min": 526335457,
+                    "max": "NRSSyzfGK2"
+                },
+                "contentReference": "r79TGLtXST",
+                "defaultValueBase64Binary": "cSdGIF8=",
+                "meaningWhenMissing": "_gOfKsJ1Ba",
+                "orderMeaning": "Ep3v08g7rV",
+                "fixedBase64Binary": "dgVRRRM=",
+                "patternBase64Binary": "QUZECzM=",
+                "minValueDate": "2019-07-18",
+                "maxValueDate": "2019-07-18",
+                "maxLength": 548062865,
+                "mustSupport": true,
+                "isModifier": true,
+                "isModifierReason": "LtD20fL61X",
+                "isSummary": true,
+                "binding": {
+                    "strength": "extensible",
+                    "description": "N5xby5ccFB",
+                    "valueSet": "AQKIYsAxPR"
+                }
+            }
+        ]
+    }
+}

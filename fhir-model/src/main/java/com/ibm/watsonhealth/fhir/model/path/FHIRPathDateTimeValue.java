@@ -116,49 +116,6 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
     }
     
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        FHIRPathDateTimeValue other = (FHIRPathDateTimeValue) obj;
-        return Objects.equals(dateTime, other.dateTime);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(dateTime);
-    }
-    
-    @Override
-    public boolean isComparableTo(FHIRPathNode other) {
-        return other instanceof FHIRPathDateTimeValue;
-    }
-
-    @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        FHIRPathDateTimeValue value = (FHIRPathDateTimeValue) other;
-        if (dateTime instanceof Year || value.dateTime instanceof Year) {
-            return Year.from(dateTime).compareTo(Year.from(value.dateTime));
-        }
-        if (dateTime instanceof YearMonth || value.dateTime instanceof YearMonth) {
-            return YearMonth.from(dateTime).compareTo(YearMonth.from(value.dateTime));
-        }
-        if (dateTime instanceof LocalDate || value.dateTime instanceof LocalDate) {
-            return LocalDate.from(dateTime).compareTo(LocalDate.from(value.dateTime));
-        }
-        return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
-    }
-    
     public FHIRPathDateTimeValue add(FHIRPathQuantityNode quantityNode) {
         Temporal temporal = getTemporal(dateTime);
         TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
@@ -171,6 +128,62 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         return dateTimeValue(getTemporalAccessor(temporal.minus(temporalAmount), dateTime.getClass()));
     }
     
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        return other instanceof FHIRPathDateTimeValue || 
+                other.getValue() instanceof FHIRPathDateTimeValue;
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        if (other instanceof FHIRPathDateTimeValue) {
+            return compareTo((FHIRPathDateTimeValue) other);
+        }
+        return compareTo((FHIRPathDateTimeValue) other.getValue());
+    }
+
+    private int compareTo(FHIRPathDateTimeValue value) {
+        if (dateTime instanceof Year || value.dateTime instanceof Year) {
+            return Year.from(dateTime).compareTo(Year.from(value.dateTime));
+        }
+        if (dateTime instanceof YearMonth || value.dateTime instanceof YearMonth) {
+            return YearMonth.from(dateTime).compareTo(YearMonth.from(value.dateTime));
+        }
+        if (dateTime instanceof LocalDate || value.dateTime instanceof LocalDate) {
+            return LocalDate.from(dateTime).compareTo(LocalDate.from(value.dateTime));
+        }
+        return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof FHIRPathNode)) {
+            return false;
+        }
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (other instanceof FHIRPathDateTimeValue) {
+            return Objects.equals(dateTime, ((FHIRPathDateTimeValue) other).dateTime());
+        }
+        if (other.getValue() instanceof FHIRPathElementNode) {
+            return Objects.equals(dateTime, ((FHIRPathDateTimeValue) other.getValue()).dateTime());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dateTime);
+    }
+
     @Override
     public String toString() {
         return DATE_TIME_PARSER_FORMATTER.format(dateTime);

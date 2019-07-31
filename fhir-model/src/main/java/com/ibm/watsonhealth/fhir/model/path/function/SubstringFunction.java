@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.path.function;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -35,7 +36,7 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (context.isEmpty()) {
+        if (!hasStringValue(context)) {
             return empty();
         }
         
@@ -48,8 +49,7 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
         }
         
         if (arguments.size() == 2) {
-            int length = getInteger(arguments.get(1));
-            return singleton(value.substring(start, length));
+            return singleton(value.substring(start, getInteger(arguments.get(1))));
         }
         
         return singleton(value.substring(start));        

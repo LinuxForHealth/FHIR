@@ -48,11 +48,6 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     }
     
     @Override
-    public int compareTo(FHIRPathNode node) {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public Collection<FHIRPathNode> children() {
         return children;
     }

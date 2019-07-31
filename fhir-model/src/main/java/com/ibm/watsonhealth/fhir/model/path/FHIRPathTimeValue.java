@@ -114,6 +114,46 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         }
     }
     
+    public FHIRPathTimeValue add(FHIRPathQuantityNode quantityNode) {
+        Temporal temporal = getTemporal(time);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        return timeValue(temporal.plus(temporalAmount));
+    }
+
+    public FHIRPathTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+        Temporal temporal = getTemporal(time);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        return timeValue(temporal.minus(temporalAmount));
+    }
+
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        if (other instanceof FHIRPathTimeValue) {
+            return isComparableTo((FHIRPathTimeValue) other);
+        }
+        if (other.getValue() instanceof FHIRPathTimeValue) {
+            return isComparableTo((FHIRPathTimeValue) other.getValue());
+        }
+        return false;
+    }
+    
+    private boolean isComparableTo(FHIRPathTimeValue timeValue) {
+        return (time instanceof LocalTime && timeValue.time instanceof LocalTime) || 
+                (time instanceof OffsetTime && timeValue.time instanceof OffsetTime);
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        FHIRPathTimeValue timeValue = (FHIRPathTimeValue) ((other instanceof FHIRPathTimeValue) ? other : other.getValue());
+        if (time instanceof LocalTime) {
+            return LocalTime.from(time).compareTo(LocalTime.from(timeValue.time));
+        }
+        return OffsetTime.from(time).compareTo(OffsetTime.from(timeValue.time));
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -122,52 +162,24 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof FHIRPathNode)) {
             return false;
         }
-        FHIRPathTimeValue other = (FHIRPathTimeValue) obj;
-        return Objects.equals(time, other.time());
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(time);
-    }
-
-    @Override
-    public boolean isComparableTo(FHIRPathNode other) {
+        FHIRPathNode other = (FHIRPathNode) obj;
         if (other instanceof FHIRPathTimeValue) {
-            FHIRPathTimeValue timeValue = (FHIRPathTimeValue) other;
-            return (time instanceof LocalTime && timeValue.time instanceof LocalTime) || 
-                    (time instanceof OffsetTime && timeValue.time instanceof OffsetTime);
+            return Objects.equals(time, ((FHIRPathTimeValue) other).time());
+        }
+        if (other.getValue() instanceof FHIRPathTimeValue) {
+            return Objects.equals(time, ((FHIRPathTimeValue) other.getValue()).time());
         }
         return false;
     }
 
     @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        FHIRPathTimeValue timeValue = (FHIRPathTimeValue) other;
-        if (time instanceof LocalTime) {
-            return LocalTime.from(time).compareTo(LocalTime.from(timeValue.time));
-        }
-        return OffsetTime.from(time).compareTo(OffsetTime.from(timeValue.time));
+    public int hashCode() {
+        return Objects.hashCode(time);
     }
-    
-    public FHIRPathTimeValue add(FHIRPathQuantityNode quantityNode) {
-        Temporal temporal = getTemporal(time);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
-        return timeValue(temporal.plus(temporalAmount));
-    }
-    
-    public FHIRPathTimeValue subtract(FHIRPathQuantityNode quantityNode) {
-        Temporal temporal = getTemporal(time);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
-        return timeValue(temporal.minus(temporalAmount));
-    }
-    
+
     @Override
     public String toString() {
         return TIME_PARSER_FORMATTER.format(time);

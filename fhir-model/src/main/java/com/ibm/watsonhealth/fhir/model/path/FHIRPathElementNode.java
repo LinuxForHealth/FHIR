@@ -94,6 +94,30 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     }
     
     @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        if (hasValue()) {
+            if (other instanceof FHIRPathPrimitiveValue) {
+                return getValue().isComparableTo(other);
+            }
+            if (other.hasValue()) {
+                return getValue().isComparableTo(other.getValue());
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        if (other instanceof FHIRPathPrimitiveValue) {
+            return getValue().compareTo(other);
+        }
+        return getValue().compareTo(other.getValue());
+    }
+    
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -101,11 +125,22 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof FHIRPathNode)) {
             return false;
         }
-        FHIRPathElementNode other = (FHIRPathElementNode) obj;
-        return Objects.equals(element, other.element());
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (hasValue()) {
+            if (other instanceof FHIRPathPrimitiveValue) {
+                return getValue().equals((FHIRPathPrimitiveValue) other);
+            }
+            if (other.hasValue()) {
+                return getValue().equals(other.getValue());
+            }
+        }
+        if (other instanceof FHIRPathElementNode) {
+            return Objects.equals(element, ((FHIRPathElementNode) other).element());
+        }
+        return false;
     }
     
     @Override
@@ -115,7 +150,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     
     public String toString() {
         if (hasValue()) {
-            return type() + ": " + value.toString();
+            return "FHIRPathElementNode: [type: " + type() + ", value: " + value.toString() + "]";
         }
         return super.toString();
     }

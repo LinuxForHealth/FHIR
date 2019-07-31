@@ -7,8 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.validation;
 
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
@@ -20,7 +19,7 @@ import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
@@ -37,6 +36,9 @@ public class FHIRValidator {
     
     private FHIRValidator(FHIRPathTree tree) {
         this.tree = Objects.requireNonNull(tree);
+        if (!this.tree.getRoot().isResourceNode()) {
+            throw new IllegalStateException("Root must be a resource node");
+        }
     }
     
     public List<Issue> validate() throws FHIRValidationException {
@@ -51,10 +53,6 @@ public class FHIRValidator {
     
     public static FHIRValidator validator(FHIRPathTree tree) {
         return new FHIRValidator(tree);
-    }
-    
-    public static FHIRValidator validator(Element element) {
-        return new FHIRValidator(FHIRPathTree.tree(element));
     }
     
     public static FHIRValidator validator(Resource resource) {
@@ -80,7 +78,7 @@ public class FHIRValidator {
 
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-            validate(resource.getClass());            
+            validate(resource.getClass());
         }
 
         private List<Issue> getIssues() {
@@ -103,6 +101,37 @@ public class FHIRValidator {
             return constraints;
         }
 
+        private FHIRPathResourceNode getResourceNode(Class<?> type, FHIRPathNode node, String path) {
+            if (!Resource.class.isAssignableFrom(type)) {
+                // the constraint came from a data type
+                return (FHIRPathResourceNode) tree.getRoot();
+            }
+            
+            if (node.isResourceNode()) {
+                // the current context node is a resource node
+                return (FHIRPathResourceNode) node;
+            }
+            
+            node = tree.getNode(path);
+            if (node instanceof FHIRPathResourceNode) {
+                // the node at the current path is a resource node
+                return (FHIRPathResourceNode) node;
+            }
+            
+            int index = path.lastIndexOf(".");
+            while (index != -1) {
+                // move up in the tree to find the first ancestor that is a resource node
+                path = path.substring(0, index);
+                node = tree.getNode(path);
+                if (node instanceof FHIRPathResourceNode) {
+                    return (FHIRPathResourceNode) node;
+                }
+                index = path.lastIndexOf(".");
+            }
+            
+            return null;
+        }
+
         private void validate(Class<?> type) {
             List<Constraint> constraints = getConstraints(type);
             String path = getPath();
@@ -113,11 +142,11 @@ public class FHIRValidator {
                     }
                     continue;
                 }
-                validate(constraint, path);
+                validate(type, constraint, path);
             }
         }
 
-        private void validate(Constraint constraint, java.lang.String path) {
+        private void validate(Class<?> type, Constraint constraint, java.lang.String path) {
             try {
                 if (DEBUG) {
                     System.out.println("    Constraint: " + constraint);
@@ -130,23 +159,20 @@ public class FHIRValidator {
                         return;
                     }
                 }
-                
+                                                
                 for (FHIRPathNode node : initialContext) {
                     java.lang.String expr = constraint.expression();
-                    Collection<FHIRPathNode> result = eval(expr, node);
+                    Collection<FHIRPathNode> result = eval(expr, node, getResourceNode(type, node, path));
                     
-                    if (hasPrimitiveValue(result)) {
-                        FHIRPathPrimitiveValue value = getPrimitiveValue(result);
-                        if (value.isBooleanValue() && value.asBooleanValue().isFalse()) {
-                            // constraint validation failed
-                            String level = constraint.level();
-                            IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-                            Issue issue = Issue.builder(severity, IssueType.INVARIANT)
-                                    .location(string(path))
-                                    .diagnostics(string(constraint.id() + ": " + constraint.description()))
-                                    .build();
-                            issues.add(issue);
-                        }
+                    if (!result.isEmpty() && isFalse(result)) {
+                        // constraint validation failed
+                        String level = constraint.level();
+                        IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                        Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                                .location(string(path))
+                                .diagnostics(string(constraint.id() + ": " + constraint.description()))
+                                .build();
+                        issues.add(issue);
                     }
                     
                     if (DEBUG) {
@@ -154,7 +180,7 @@ public class FHIRValidator {
                     }
                 }
             } catch (Exception e) {
-                throw new Error(constraint.expression(), e);
+                throw new Error("expression: " + constraint.expression() + ", location: " + getPath(), e);
             }
         }
     }

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasValueAndUnit;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.math.BigDecimal;
@@ -83,38 +84,6 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         }
     }
     
-    @Override
-    public boolean isComparableTo(FHIRPathNode other) {
-        BigDecimal value = getQuantityValue();
-        if (other instanceof FHIRPathNumberValue) {
-            return value != null;
-        }
-        if (other instanceof FHIRPathQuantityNode) {
-            BigDecimal otherValue = ((FHIRPathQuantityNode) other).getQuantityValue();
-            
-            String unit = getQuantityUnit();
-            String otherUnit = ((FHIRPathQuantityNode) other).getQuantityUnit();
-            
-            return value != null && otherValue != null && 
-                    unit != null && otherUnit != null && 
-                    // units must be equal
-                    unit.equals(otherUnit);
-        }
-        return false;
-    }
-
-    @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        BigDecimal value = getQuantityValue();
-        if (other instanceof FHIRPathNumberValue) {
-            return value.compareTo(((FHIRPathNumberValue) other).decimal());
-        }
-        return value.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
-    }
-    
     public FHIRPathQuantityNode add(FHIRPathQuantityNode node) {
         Quantity quantity = Quantity.builder()
                 .value(Decimal.of(getQuantityValue().add(node.getQuantityValue())))
@@ -131,6 +100,36 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return FHIRPathQuantityNode.builder(quantity).build();
     }
     
+    @Override
+    public boolean isComparableTo(FHIRPathNode other) {
+        BigDecimal value = getQuantityValue();
+        if (other instanceof FHIRPathQuantityNode) {
+            return hasValueAndUnit(this) && 
+                    hasValueAndUnit((FHIRPathQuantityNode) other) && 
+                    // units must be equal
+                    getQuantityUnit().equals(((FHIRPathQuantityNode) other).getQuantityUnit());
+        }
+        if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+            return value != null;
+        }
+        return false;
+    }
+
+    @Override
+    public int compareTo(FHIRPathNode other) {
+        if (!isComparableTo(other)) {
+            throw new IllegalArgumentException();
+        }
+        BigDecimal value = getQuantityValue();
+        if (other instanceof FHIRPathNumberValue) {
+            return value.compareTo(((FHIRPathNumberValue) other).decimal());
+        }
+        if (other.getValue() instanceof FHIRPathNumberValue) {
+            return value.compareTo(((FHIRPathNumberValue) other.getValue()).decimal());
+        }
+        return value.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

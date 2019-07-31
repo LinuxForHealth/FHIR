@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -32,6 +34,9 @@ public class ReplaceFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (!hasStringValue(context)) {
+            return empty();
+        }
         return singleton(getStringValue(context).replace(getStringValue(arguments.get(0)), getStringValue(arguments.get(1))));
     }
 }

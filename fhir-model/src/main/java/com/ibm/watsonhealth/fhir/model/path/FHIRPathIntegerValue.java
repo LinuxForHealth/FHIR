@@ -132,21 +132,6 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
         }
         return integerValue(integer % node.asIntegerValue().integer());
     }
-
-    @Override
-    public int compareTo(FHIRPathNode other) {
-        if (!isComparableTo(other)) {
-            throw new IllegalArgumentException();
-        }
-        if (other instanceof FHIRPathQuantityNode) {
-            return decimal.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
-        }
-        FHIRPathNumberValue value = (FHIRPathNumberValue) other;
-        if (value.isDecimalValue()) {
-            return decimal.compareTo(value.asDecimalValue().decimal());
-        }
-        return integer.compareTo(value.asIntegerValue().integer());
-    }
     
     @Override
     public FHIRPathNumberValue negate() {
@@ -166,11 +151,17 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof FHIRPathNode)) {
             return false;
         }
-        FHIRPathIntegerValue other = (FHIRPathIntegerValue) obj;
-        return Objects.equals(integer, other.integer());
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (other instanceof FHIRPathIntegerValue) {
+            return Objects.equals(integer, ((FHIRPathIntegerValue) other).integer());
+        }
+        if (other.getValue() instanceof FHIRPathIntegerValue) {
+            return Objects.equals(integer, ((FHIRPathIntegerValue) other.getValue()).integer());
+        }
+        return false;
     }
     
     @Override
