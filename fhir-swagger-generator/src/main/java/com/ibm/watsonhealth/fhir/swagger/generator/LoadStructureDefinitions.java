@@ -19,8 +19,8 @@ import com.ibm.watsonhealth.fhir.model.format.Format;
 public class LoadStructureDefinitions {
     public static void main(String[] args) throws Exception {
         long start = System.currentTimeMillis();
-        InputStream stream = LoadStructureDefinitions.class.getClassLoader().getResourceAsStream("profiles-resources.xml");
-        Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
+        InputStream stream = LoadStructureDefinitions.class.getClassLoader().getResourceAsStream("profiles-resources.json");
+        Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, stream);
         int entryCount = 0;
         for (Entry entry : bundle.getEntry()) {
             if (entry.getResource() instanceof StructureDefinition) {
