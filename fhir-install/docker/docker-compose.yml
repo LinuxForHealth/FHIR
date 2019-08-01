@@ -28,7 +28,7 @@ services:
       interval: 30s
       timeout: 30s
       retries: 80
-      test: curl -v -f -k -u 'fhiruser:fhiruser' https://localhost:9443/fhir-server/api/v1/metadata
+      test: curl -v -f -k -u 'fhiruser:fhiruser' https://localhost:9443/fhir-server/api/v4/metadata
     ports:
       - 9080:9080
       - 9443:9443

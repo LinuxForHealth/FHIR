@@ -8,12 +8,15 @@ package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotSame;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.UUID;
+
+import javax.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -32,6 +35,7 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 
 public class ReferenceMappingVistorTest {
@@ -109,5 +113,18 @@ public class ReferenceMappingVistorTest {
 
         assertNotEquals(result, patient);
     }
-
+    
+    
+    @Test(enabled=true) 
+    public void testMeta() throws Exception {
+        boolean isTestGood = true;
+        FHIRResource fhirResource = new FHIRResource();
+        try {
+            Response Meta = fhirResource.metadata();
+        }catch (Exception ex) {
+            isTestGood = false;
+        }
+        
+        assertTrue(isTestGood);  
+    }
 }

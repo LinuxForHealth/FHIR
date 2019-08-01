@@ -19,7 +19,7 @@ public class FHIROperationContext {
 
     /**
      * This property is of type String and represents the base URI string (e.g.
-     * "https://localhost:9443/fhir-server/api/v1") associated with the request.
+     * "https://localhost:9443/fhir-server/api/v4") associated with the request.
      */
     public static final String PROPNAME_REQUEST_BASE_URI = "REQUEST_BASE_URI";
 

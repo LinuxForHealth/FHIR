@@ -18,7 +18,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Resource;
 public interface FHIRClient {
     
     /**
-     * FHIR REST API endpoint base URL (e.g. https://localhost:9443/fhir-server/api/v1).
+     * FHIR REST API endpoint base URL (e.g. https://localhost:9443/fhir-server/api/v4).
      */
     public static final String PROPNAME_BASE_URL            = "fhirclient.rest.base.url";
 

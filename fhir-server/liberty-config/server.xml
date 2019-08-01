@@ -70,7 +70,7 @@ CODE_REMOVED
     <!--  
     <cors allowCredentials="true" allowedMethods="GET, PUT, POST"
         allowedHeaders="Content-Type, Authorization, Accept, Origin"
-        allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600" />
+        allowedOrigins="*" domain="/fhir-server/api/v4" maxAge="3600" />
     -->    
     
     <!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
@@ -106,7 +106,7 @@ CODE_REMOVED
     <webContainer deferServletLoad="false"/>   
 
     <!-- This is the main FHIR Server REST API war -->
-    <webApplication contextRoot="fhir-server/api/v1" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
+    <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
         <application-bnd id="binding">

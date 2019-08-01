@@ -50,7 +50,7 @@ public class JaxrsClientTestMain {
                 .register(new FHIRProvider())
                 .build();
         
-        WebTarget target = client.target("http://localhost:9080/fhir-server/api/v1");
+        WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_XML);
         Response response = target.path("Patient").request().post(entity, Response.class);
         

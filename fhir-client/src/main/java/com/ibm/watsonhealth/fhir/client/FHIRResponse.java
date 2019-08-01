@@ -7,9 +7,9 @@
 package com.ibm.watsonhealth.fhir.client;
 
 import java.net.URI;
-import java.time.Instant;
 
 import javax.ws.rs.core.Response;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * This interface represents a response received from a FHIR REST API invocation.
@@ -42,7 +42,7 @@ public interface FHIRResponse {
      * @return
      * @throws Exception
      */
-    Instant getLastModified() throws Exception;
+    XMLGregorianCalendar getLastModified() throws Exception;
 
     /**
      * This method is used to retrieve the value of the ETag response HTTP header.
@@ -80,7 +80,7 @@ public interface FHIRResponse {
      * Examples:
      * <ol>
      * <li>If you call <code>parseLocation</code> with the value 
-     * "http://localhost:9080/fhir-server/api/v1/Patient/23/_history/2", then you should
+     * "http://localhost:9080/fhir-server/api/v4/Patient/23/_history/2", then you should
      * receive this String array:
      * <ul>
      * <li>[0] - "Patient"
@@ -89,7 +89,7 @@ public interface FHIRResponse {
      * </ul>
      * 
      * <li>If you call <code>parseLocation</code> with the value 
-     * "http://localhost:9080/fhir-server/api/v1/Observation/38", then you should
+     * "http://localhost:9080/fhir-server/api/v4/Observation/38", then you should
      * receive this String array:
      * <ul>
      * <li>[0] - "Observation"

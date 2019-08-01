@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -864,16 +863,25 @@ public class FHIROpenApiGenerator {
             property.add("type", "string");
         } else if (ZonedDateTime.class.equals(fieldClass)) {
             property.add("type", "string");
+            property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
+                    + "|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]"
+                    + "|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))");
         } else if (BigDecimal.class.equals(fieldClass)) {
             property.add("type", "number");
+            property.add("pattern","-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?");
         } else if (LocalTime.class.equals(fieldClass)) {
             property.add("type", "string");
+            property.add("pattern","([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?");
         } else if (TemporalAccessor.class.equals(fieldClass)) {
             property.add("type", "string");
+            property.add("pattern","([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)"
+                    + "|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?");
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("byte[]")) {
             property.add("type", "string");
+            property.add("pattern","(\\s*([0-9a-zA-Z\\+\\=]){4}\\s*)+");
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("int")) {
             property.add("type", "integer");
+            property.add("pattern","[0]|[-+]?[1-9][0-9]*");
         }else {
             property.add("$ref", "#/components/schemas/" + fieldClass.getSimpleName());
         }
@@ -904,8 +912,6 @@ public class FHIROpenApiGenerator {
             String modelClassName = modelClass.getSimpleName();
             // System.out.println("structureDefinitionName: " + structureDefinitionName);
             // System.out.println("modelClassName: " + modelClassName);
-           // modelClassName = modelClassName.substring(0, structureDefinitionName.length());
-           // System.out.println("modelClassNameSub : " + modelClassName);
             modelClassName = modelClassName.substring(0, 1).toLowerCase() + modelClassName.substring(1);
             // System.out.println("modelClassNameSubUp : " + modelClassName);
 

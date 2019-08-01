@@ -22,7 +22,7 @@ public class FHIRResponseTest {
     @Test
     public void testParseLocation1() throws Exception {
         FHIRResponse response = new FHIRResponseImpl(null);
-        String[] tokens = response.parseLocation("http://localhost:9080/fhir-server/api/v1/Patient/12345/_history/3");
+        String[] tokens = response.parseLocation("http://localhost:9080/fhir-server/api/v4/Patient/12345/_history/3");
         assertNotNull(tokens);
         assertEquals(3, tokens.length);
         assertEquals("Patient", tokens[0]);
@@ -33,7 +33,7 @@ public class FHIRResponseTest {
     @Test
     public void testParseLocation2() throws Exception {
         FHIRResponse response = new FHIRResponseImpl(null);
-        String[] tokens = response.parseLocation("http://localhost:9080/fhir-server/api/v1/Patient/12345");
+        String[] tokens = response.parseLocation("http://localhost:9080/fhir-server/api/v4/Patient/12345");
         assertNotNull(tokens);
         assertEquals(2, tokens.length);
         assertEquals("Patient", tokens[0]);

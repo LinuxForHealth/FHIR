@@ -111,7 +111,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         }).build();
         
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.connectToServer(endpoint, config, new URI("ws://localhost:9080/fhir-server/api/v1/notification"));
+        container.connectToServer(endpoint, config, new URI("ws://localhost:9080/fhir-server/api/v4/notification"));
         System.out.println("");
         System.out.println("Connected.");
         System.out.println("");

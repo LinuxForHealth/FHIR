@@ -65,7 +65,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     protected FHIRClient client = null;
 
     // Default values for test properties.
-    private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v1/notification";
+    private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v4/notification";
     private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
 

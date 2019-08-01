@@ -33,7 +33,7 @@ public class UpdateTestMain {
                 .register(new FHIRProvider())
                 .build();
         
-        WebTarget target = client.target("http://localhost:9080/fhir-server/api/v1");
+        WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
         Response response = target.path("Observation/14").request(MediaType.APPLICATION_FHIR_JSON).get();
         
         Observation observation = response.readEntity(Observation.class);

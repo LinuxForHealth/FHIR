@@ -32,7 +32,7 @@ public class FHIRClientSample {
         
         // Create properties to be used to configure the client.
         Properties clientProperties = new Properties();
-        clientProperties.setProperty(FHIRClient.PROPNAME_BASE_URL, "http://localhost:9080/fhir-server/api/v1");
+        clientProperties.setProperty(FHIRClient.PROPNAME_BASE_URL, "http://localhost:9080/fhir-server/api/v4");
         
         // Retrieve an instance of the FHIRClient interface.
         FHIRClient client = FHIRClientFactory.getClient(clientProperties);
