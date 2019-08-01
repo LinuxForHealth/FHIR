@@ -23,6 +23,8 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -900,9 +902,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            
-            // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
-            resource = getPersistenceImpl().create(persistenceContext, resource);
+            getPersistenceImpl().create(persistenceContext, resource);
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
 
@@ -1078,7 +1078,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            newResource = getPersistenceImpl().update(persistenceContext, id, newResource);
+            getPersistenceImpl().update(persistenceContext, id, newResource);
             ior.setResource(newResource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
@@ -3127,7 +3127,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         format.add(Code.of(MediaType.APPLICATION_FHIR_XML));
         
         // Finally, create the Conformance resource itself.
-        CapabilityStatement conformance = CapabilityStatement.builder(PublicationStatus.ACTIVE, DateTime.of(java.time.Instant.now()), 
+        CapabilityStatement conformance = CapabilityStatement.builder(PublicationStatus.ACTIVE, DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)), 
                 CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE), 
                 FHIRVersion.VERSION_4_0_0, format)
                 .version(string(buildInfo.getBuildVersion()))
