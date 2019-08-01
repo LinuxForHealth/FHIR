@@ -64,6 +64,15 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     }
 
     /**
+     * Public constructor. Uses the salt from the given SaltHash
+     * Preferred, to avoid confusion between salt and hash
+     * @param salt
+     */
+    public ResourceFingerprintVisitor(SaltHash baseline) {
+        this(baseline.getSalt());
+    }
+    
+    /**
      * Public constructor. Generates a new salt
      * @param b64Salt
      */

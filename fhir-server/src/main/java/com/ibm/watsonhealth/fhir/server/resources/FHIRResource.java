@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -886,10 +887,24 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
             }
 
-            // Validate the input resource and return any validation errors.
+            // Validate the input resource and return any validation errors, but warnings are OK
             List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
             if (!issues.isEmpty()) {
-                throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                boolean includesFailure = false;
+                for (OperationOutcome.Issue issue: issues) {
+                    if (FHIRUtil.isFailure(issue.getSeverity())) {
+                        includesFailure = true;
+                    }
+                }
+
+                if (includesFailure) {
+                    throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                }
+                else {
+                    // TODO. Include warning issues in response
+                    String info = issues.stream().map(issue -> issue.toString()).collect(Collectors.joining(","));
+                    log.warning("TODO: Validation warnings should be added to response: " + info);
+                }
             }
 
             // If there were no validation errors, then create the resource and return the location header.
