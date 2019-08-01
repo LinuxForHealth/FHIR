@@ -41,6 +41,10 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         return FHIRPathResourceNode.builder(resource).name(name).build();
     }
     
+    public static FHIRPathResourceNode proxy(FHIRPathType type) {
+        return new Builder(type, null).build();
+    }
+    
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder(type, resource);

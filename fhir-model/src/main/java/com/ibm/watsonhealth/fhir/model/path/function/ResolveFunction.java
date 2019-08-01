@@ -6,7 +6,49 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
+
 public class ResolveFunction extends FHIRPathAbstractFunction {
+    private static final Pattern REFERENCE_PATTERN = buildReferencePattern();
+    private static final int RESOURCE_TYPE = 4;
+    
+    /**
+     * This method builds a pattern from the regular expression found here: http://hl7.org/fhir/references.html#literal
+     * 
+     * The pattern handles both absolute and relative URLs including those that point to 
+     * a specific version of a resource.
+     * 
+     * [type]/[id]
+     * [type]/[id]/_history/[versionId]
+     * [base]/[type]/[id]
+     * [base]/[type]/[id]/_history/[versionId]
+     * 
+     * @return
+     *     the pattern
+     */
+    private static Pattern buildReferencePattern() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("((http|https):\\/\\/([A-Za-z0-9\\-\\\\\\.\\:\\%\\$]*\\/)+)?(");
+        StringJoiner joiner = new StringJoiner("|");
+        for (ResourceType.ValueSet value : ResourceType.ValueSet.values()) {
+            joiner.add(value.value());
+        }
+        sb.append(joiner.toString());
+        sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
+        return Pattern.compile(sb.toString());
+    }
+
     @Override
     public String getName() {
         return "resolve";
@@ -20,5 +62,84 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
     @Override
     public int getMaxArity() {
         return 0;
+    }
+    
+    /**
+     * For each item in the collection, if it is a string that is a uri (or canonical or url), locate the target of the 
+     * reference, and add it to the resulting collection. If the item does not resolve to a resource, the item is ignored 
+     * and nothing is added to the output collection. The items in the collection may also represent a Reference, in which 
+     * case the Reference.reference is resolved.
+     * 
+     * This method creates a "proxy" resource node that is a placeholder for the actual resource, thus allowing for the 
+     * FHIRPath engine to perform type checking on the result of the resolve function. For example:
+     * 
+     *     Observation.subject.where(resolve() is Patient)
+     *     
+     * If the resource type cannot be inferred from the reference URL or type, then FHIR_UNKNOWN_RESOURCE_TYPE is used.
+     * 
+     * Type checking on FHIR_UNKNOWN_RESOURCE_TYPE will always return 'true'.
+     * 
+     * @param context
+     *     the current evaluation context
+     * @param arguments
+     *     the arguments for this function
+     * @return
+     *     the result of the function applied to the context and arguments
+     */
+    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        Collection<FHIRPathNode> result = new ArrayList<>();
+        for (FHIRPathNode node : context) {
+            if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
+                Reference reference = node.asElementNode().element().as(Reference.class);
+                
+                String referenceReference = getReferenceReference(reference);
+                
+                if (referenceReference != null && referenceReference.startsWith("#")) {
+                    // internal fragment reference
+                    continue;
+                }
+                
+                String referenceType = getReferenceType(reference);
+                
+                if (referenceReference == null && referenceType == null) {
+                    continue;
+                }
+                
+                String resourceType = null;
+                
+                if (referenceReference != null) {
+                    Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+                    if (matcher.matches()) {
+                        resourceType = matcher.group(RESOURCE_TYPE);                        
+                        if (referenceType != null && !resourceType.equals(referenceType)) {
+                            throw new IllegalArgumentException("resource type found in reference URL does not match reference type");
+                        }
+                    }
+                }
+                
+                if (resourceType == null) {
+                    resourceType = referenceType;
+                }
+                
+                FHIRPathType type = (resourceType != null) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
+                                
+                result.add(FHIRPathResourceNode.proxy(type));
+            }
+        }
+        return result;
+    }
+    
+    private String getReferenceReference(Reference reference) {
+        if (reference.getReference() != null && reference.getReference().getValue() != null) {
+            return reference.getReference().getValue();
+        }
+        return null;
+    }
+    
+    private String getReferenceType(Reference reference) {
+        if (reference.getType() != null && reference.getType().getValue() != null) {
+            return reference.getType().getValue();
+        }
+        return null;
     }
 }

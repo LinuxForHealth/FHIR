@@ -84,6 +84,7 @@ public enum FHIRPathType {
     FHIR_ELEMENT("FHIR", "Element", FHIR_ANY, Element.class),
     FHIR_BACKBONE_ELEMENT("FHIR", "BackboneElement", FHIR_ELEMENT, BackboneElement.class),
     FHIR_TYPE("FHIR", "Type"),
+    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
     
     // FHIR complex data types
     FHIR_ADDRESS("FHIR", "Address", FHIR_ELEMENT, Address.class),
@@ -353,6 +354,9 @@ public enum FHIRPathType {
     }
     
     public boolean isAssignableFrom(FHIRPathType type) {
+        if (type == FHIR_UNKNOWN_RESOURCE_TYPE) {
+            return true;
+        }
         if (type == null) {
             return false;
         }
