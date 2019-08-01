@@ -194,44 +194,6 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertEquals(new String(base64Binary.getValue()), valueString);
     }
 
-    @Test(enabled = true, groups = { "server-binary" })
-    public void testCreateConformance() throws Exception {
-        WebTarget target = getWebTarget();
-
-
-        // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail
-        // with a base64 encoded value.
-        List<Code> listFormats = new ArrayList<Code>();
-        listFormats.add(Code.of(MediaType.APPLICATION_FHIR_JSON));
-        CapabilityStatement conformance = CapabilityStatement
-                .builder(PublicationStatus.ACTIVE, DateTime.of("2016-09-22T02:57:46.941Z"),
-                        CapabilityStatementKind.CAPABILITY, FHIRVersion.VERSION_4_0_0, listFormats)
-                .rest(Rest.builder(RestfulCapabilityMode.SERVER)
-                        .resource(CapabilityStatement.Rest.Resource.builder(ResourceType.of("StructureDefinition"))
-                                .interaction(Interaction.builder(TypeRestfulInteraction.CREATE).build()).build())
-                        .build())
-                .build();
-
-        // Persist the CapabilityStatement resource
-        Entity<CapabilityStatement> entity = Entity.entity(conformance, MediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("CapabilityStatement").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-
-        if (DEBUG_JSON) {
-            FHIRUtil.write(conformance, Format.JSON, System.out);
-        }
-
-        // Retrieve the CapabilityStatement
-        String conformanceId = getLocationLogicalId(response);
-        response = target.path("CapabilityStatement/" + conformanceId).request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        CapabilityStatement responseConformance = response.readEntity(CapabilityStatement.class);
-
-        if (DEBUG_JSON) {
-            FHIRUtil.write(responseConformance, Format.JSON, System.out);
-        }
-
-    }
 
     @Test(enabled = true, groups = { "server-binary" })
     public void testCreateParameters() throws Exception {
