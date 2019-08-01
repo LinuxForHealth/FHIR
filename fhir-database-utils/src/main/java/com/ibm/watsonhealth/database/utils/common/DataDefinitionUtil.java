@@ -124,7 +124,7 @@ public class DataDefinitionUtil {
      * @throws IllegalArgumentException if the given name is invalid
      */
     public static String assertValidName(String name) {
-        if (!isValidName(name)) {
+        if (name == null || !isValidName(name)) {
             throw new IllegalArgumentException("Invalid SQL object name: " + name);
         }
         return name;

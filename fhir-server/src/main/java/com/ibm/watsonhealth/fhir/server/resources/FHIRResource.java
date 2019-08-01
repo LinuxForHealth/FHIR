@@ -900,7 +900,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            getPersistenceImpl().create(persistenceContext, resource);
+            
+            // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
+            resource = getPersistenceImpl().create(persistenceContext, resource);
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
 
@@ -1076,7 +1078,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            getPersistenceImpl().update(persistenceContext, id, newResource);
+            newResource = getPersistenceImpl().update(persistenceContext, id, newResource);
             ior.setResource(newResource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.

@@ -93,6 +93,7 @@ public class Main {
     private boolean confirmDrop = false;
     private boolean updateSchema = false;
     private boolean updateProc = false;
+    private boolean checkCompatibility = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -166,6 +167,9 @@ public class Main {
                 break;
             case "--update-proc":
                 this.updateProc = true;
+                break;
+            case "--check-compatibility":
+                this.checkCompatibility = true;
                 break;
             case "--drop-admin":
                 this.dropAdmin = true;
@@ -531,6 +535,10 @@ public class Main {
     protected void process() {
         long start = System.nanoTime();
         configureConnectionPool();
+        
+        if (this.checkCompatibility) {
+            checkCompatibility();
+        }
 
         if (this.dropSchema) {
             // only proceed with the drop if the user has provided additional confirmation
@@ -803,6 +811,13 @@ public class Main {
             }
         }
 
+    }
+    
+    protected boolean checkCompatibility() {
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            return adapter.checkCompatibility(this.adminSchemaName);
+        }
     }
 
     /**

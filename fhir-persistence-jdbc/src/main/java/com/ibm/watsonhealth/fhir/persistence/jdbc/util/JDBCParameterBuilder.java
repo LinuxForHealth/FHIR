@@ -8,16 +8,11 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
@@ -382,14 +377,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
             // handles all the variants of partial dates
-            String stringDateValue = value.toString();
-            
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
-            
-            XMLGregorianCalendar calendarValue = FHIRUtilities.parseDateTime(stringDateValue, false);
-            setDateValues(p, calendarValue);
-            
+            p.setName(parameter.getName().getValue());            
+            setDateValues(p, value);
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -404,36 +394,61 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     }
 
     /**
+     * Configure the date values in the parameter based on the model {@link DateTime} and
+     * the type of date it represents.
      * @param p
-     * @param calendarValue
+     * @param instant
      */
-    private void setDateValues(Parameter p, XMLGregorianCalendar calendarValue) {
-        if (FHIRUtilities.isDateTime(calendarValue)) {
-            FHIRUtilities.setDefaults(calendarValue);
-            p.setValueDate(FHIRUtilities.convertToTimestamp(calendarValue));
-        } else {
-            Duration implicitRangeDuration = FHIRUtilities.createDuration(calendarValue);
-            
-            FHIRUtilities.setDefaults(calendarValue);
-            Timestamp implicitStart = FHIRUtilities.convertToTimestamp(calendarValue);
-            p.setValueDateStart(implicitStart);
-            p.setValueDate(implicitStart);
-            
-            calendarValue.add(implicitRangeDuration);
-            Timestamp implicitEndExclusive = FHIRUtilities.convertToTimestamp(calendarValue);
-            Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
-            p.setValueDateEnd(implicitEndInclusive);
+    private void setDateValues(Parameter p, DateTime dateTime) {
+
+        if (!dateTime.isPartial()) {
+            // fully specified time including zone, so we can interpret as an instant
+            p.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(dateTime.getValue())));
+        }
+        else {
+            java.time.Instant start = QueryBuilderUtil.getStart(dateTime);
+            java.time.Instant end = QueryBuilderUtil.getEnd(dateTime);
+            setDateValues(p, start, end);
         }
     }
 
     /**
-     * Convert a period's end timestamp from an exlusive end timestamp to an inclusive one
+     * Set the date values on the {@link Parameter}, adjusting the end time slightly
+     * to make it exclusive (which is a TODO to fix).
+     * @param p
+     * @param start
+     * @param end
+     */
+    private void setDateValues(Parameter p, java.time.Instant start, java.time.Instant end) {
+        Timestamp startTime = Timestamp.from(start);
+        p.setValueDateStart(startTime);
+        p.setValueDate(startTime);
+        
+        Timestamp implicitEndExclusive = Timestamp.from(end);
+        Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
+        p.setValueDateEnd(implicitEndInclusive);
+    }
+
+    /**
+     * Configure the date values in the parameter based on the model {@link Date}
+     * which again might be partial (Year/YearMonth/LocalDate)
+     * @param p
+     * @param date
+     */
+    private void setDateValues(Parameter p, Date date) {
+        java.time.Instant start = QueryBuilderUtil.getStart(date);
+        java.time.Instant end = QueryBuilderUtil.getEnd(date);
+        setDateValues(p, start, end);        
+    }
+
+    /**
+     * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
      * @param exlusiveEndTime
      * @return inclusiveEndTime
      */
     private Timestamp convertToExlusiveEnd(Timestamp exlusiveEndTime) {
         // Our current db2 normalized schema uses the db2 default of 6 decimal places (1000 nanoseconds) for fractional seconds.
-        // Derby too.
+        // Derby too. This is pretty ugly so it's a TODO to use < instead of <= or BETWEEN when constructing the query.
         return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
     }
     
@@ -444,13 +459,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
-            String stringDateValue = value.toString();
-            
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
-            XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(stringDateValue, false);
-            
-            setDateValues(p, calendar);
+            p.setName(parameter.getName().getValue());            
+            setDateValues(p, value);
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {

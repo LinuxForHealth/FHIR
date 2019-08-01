@@ -467,4 +467,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         return "VARCHAR(" + size + " OCTETS)";          
     }
 
+    public boolean checkCompatibility(String adminSchema) {
+        // As long as we don't get an exception, we should be considered compatible
+        Db2CheckCompatibility checker = new Db2CheckCompatibility(adminSchema);
+        runStatement(checker);
+        return true;
+    }
 }

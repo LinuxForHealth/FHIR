@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.resource.Device;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
@@ -64,7 +65,8 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
     public void testCreateReplicatedDevice() throws Exception {
         
         String versionId = "22";
-        String lastUpdated = "2017-05-10T13:01:01.000Z";
+        java.time.Instant lastUpdated = java.time.Instant.parse("2017-05-10T13:01:01Z");
+        
         // Create replication context, include that in a create event.
         // The version and lastUpdated attributes in the repContext should be persisted.
         FHIRReplicationContext repContext = new FHIRReplicationContext();

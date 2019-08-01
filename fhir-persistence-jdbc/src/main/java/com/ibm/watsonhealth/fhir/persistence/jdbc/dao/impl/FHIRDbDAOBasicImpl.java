@@ -105,6 +105,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
+        String adminSchemaName = this.adminSchemaName;
+        
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, METHODNAME);
         }
@@ -118,18 +120,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             }
             else if (this.connectionProvider != null) {
                 try {
-                    connection = connectionProvider.getConnection();
-                    
-                    // Configure the connection for the tenant
-                    String tenantName = FHIRRequestContext.get().getTenantId();
-                    String tenantKey = FHIRRequestContext.get().getTenantKey();
-                    
-                    if (tenantName != null && tenantKey != null) {
-                        Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
-                        JdbcTarget target = new JdbcTarget(connection);
-                        Db2Adapter adapter = new Db2Adapter(target);
-                        adapter.runStatement(cmd);
-                    }
+                    connection = connectionProvider.getConnection();                    
                 }
                 catch (SQLException x) {
                     throw new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider", x);
@@ -143,6 +134,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                         log.fine("Getting connection for tenantId/dsId: [" + tenantId + "/" + dsId + "]...");
                     }
                     connection = getFhirDatasource().getConnection(tenantId, dsId);
+                    
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Got the connection for [" + tenantId + "/" + dsId + "]!");
                     }
@@ -166,11 +158,25 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 
                     // Most queries assume the current schema is set up properly
                     String schemaName = this.getDbProps().getProperty("schemaName", "FHIRDATA");
+                    adminSchemaName = this.getDbProps().getProperty("adminSchemaName", "FHIR_ADMIN");
                     connection.setSchema(schemaName);
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failed to acquire DB connection. dbUrl=" + dbUrl, e);
                 }
             }
+            
+            // Configure the connection for the tenant
+            String tenantName = FHIRRequestContext.get().getTenantId();
+            String tenantKey = FHIRRequestContext.get().getTenantKey();
+            
+            if (tenantName != null && tenantKey != null) {
+                log.info("Setting tenant access on connection for: " + tenantName);
+                Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
+                JdbcTarget target = new JdbcTarget(connection);
+                Db2Adapter adapter = new Db2Adapter(target);
+                adapter.runStatement(cmd);
+            }
+            
             return connection;
         } catch (FHIRPersistenceDBConnectException e) {
             throw e;

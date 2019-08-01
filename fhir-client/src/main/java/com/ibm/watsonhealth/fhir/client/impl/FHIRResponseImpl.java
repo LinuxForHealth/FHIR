@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.client.impl;
 
 import java.net.URI;
+import java.time.Instant;
 
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
@@ -66,11 +67,11 @@ public class FHIRResponseImpl implements FHIRResponse {
      * @see com.ibm.watsonhealth.fhir.client.FHIRResponse#getLastModified()
      */
     @Override
-    public XMLGregorianCalendar getLastModified() throws Exception {
-        XMLGregorianCalendar lastModified = null;
+    public Instant getLastModified() throws Exception {
+        Instant lastModified = null;
         String s = response.getHeaderString("Last-Modified");
         if (s != null) {
-            lastModified = FHIRUtilities.parseDateTime(s, true);
+            lastModified = Instant.parse(s);
         }
         return lastModified;
     }

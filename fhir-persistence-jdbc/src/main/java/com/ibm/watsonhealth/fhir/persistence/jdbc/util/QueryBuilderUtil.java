@@ -6,11 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
+import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 
 /**
@@ -18,6 +24,9 @@ import com.ibm.watsonhealth.fhir.model.type.DateTime;
  *
  */
 public class QueryBuilderUtil {
+    // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
+    private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
+    private static final LocalDateTime REFERENCE_DATE = LocalDateTime.parse(REFERENCE_DATE_STRING);
 
     /**
      * Compute the end time to use as a range filter based on the "partialness"
@@ -26,23 +35,68 @@ public class QueryBuilderUtil {
      * @return
      */
     public static java.time.Instant getEnd(DateTime dateTime) {
-        java.time.Instant result;
-
-        TemporalAccessor ta = dateTime.getValue();
-        if (ta instanceof Year) {
-            result = java.time.Instant.from(((Year) ta).plusYears(1));
-        }
-        else if (ta instanceof YearMonth) {
-            result = java.time.Instant.from(((YearMonth) ta).plusMonths(1));
-        }
-        else if (ta instanceof LocalDate) {
-            result = java.time.Instant.from(((LocalDate) ta).plusDays(1));
-        }
-        else {
-            throw new IllegalStateException("DateTime must be partial");
-        }
-
-        return result;
+        return getEnd(dateTime.getValue());
     }
 
+    public static java.time.Instant getStart(DateTime dateTime) {
+        return getInstantFromPartial(dateTime.getValue());
+    }
+
+    public static java.time.Instant getStart(Date date) {
+        return getInstantFromPartial(date.getValue());
+    }
+    
+    public static java.time.Instant getEnd(Date date) {
+        return getEnd(date.getValue());
+    }
+
+    public static java.time.Instant getInstantFromPartial(TemporalAccessor ta) {
+        java.time.LocalDateTime result;
+        
+        if (ta instanceof Year) {
+            result = REFERENCE_DATE.with(ChronoField.YEAR, ((Year)ta).getValue());
+        }
+        else if (ta instanceof YearMonth) {
+            result = REFERENCE_DATE.with(ChronoField.YEAR, ((YearMonth)ta).getYear());
+            result = result.with(ChronoField.MONTH_OF_YEAR, ((YearMonth)ta).getMonthValue());
+        }
+        else if (ta instanceof LocalDate) {
+            // as long as we follow this order, we should never end up with an invalid date-time
+            result = REFERENCE_DATE.with(ChronoField.YEAR, ((LocalDate) ta).getYear());
+            result = result.with(ChronoField.MONTH_OF_YEAR, ((LocalDate) ta).getMonthValue());
+            result = result.with(ChronoField.DAY_OF_MONTH, ((LocalDate) ta).getDayOfMonth());
+        }
+        else {
+            throw new IllegalArgumentException("Invalid partial TemporalAccessor: " + ta.getClass().getName());
+        }
+        
+        return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
+    }
+        
+    public static java.time.Instant getEnd(TemporalAccessor ta) {
+        java.time.LocalDateTime result;
+        
+        if (ta instanceof Year) {
+            Year year = ((Year)ta).plusYears(1);
+            result = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
+        }
+        else if (ta instanceof YearMonth) {
+            YearMonth ym = ((YearMonth)ta).plusMonths(1);
+            result = REFERENCE_DATE.with(ChronoField.YEAR, ym.getYear());
+            result = result.with(ChronoField.MONTH_OF_YEAR, ym.getMonthValue());
+        }
+        else if (ta instanceof LocalDate) {
+            // as long as we follow this order, we should never end up with an invalid date-time
+            LocalDate ld = ((LocalDate) ta).plusDays(1);
+            result = REFERENCE_DATE.with(ChronoField.YEAR, ld.getYear());
+            result = result.with(ChronoField.MONTH_OF_YEAR, ld.getMonthValue());
+            result = result.with(ChronoField.DAY_OF_MONTH, ld.getDayOfMonth());
+        }
+        else {
+            throw new IllegalArgumentException("Invalid partial TemporalAccessor: " + ta.getClass().getName());
+        }
+        
+        return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
+        
+    }
 }

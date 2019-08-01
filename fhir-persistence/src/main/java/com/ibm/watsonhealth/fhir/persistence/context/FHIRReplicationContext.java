@@ -6,32 +6,39 @@
 
 package com.ibm.watsonhealth.fhir.persistence.context;
 
+import java.time.Instant;
+
 /**
  * This class provides context information related to a persistence request
  * associated with a replicated resource.
  */
 public class FHIRReplicationContext {
     private String versionId;
-    private String lastUpdated;
+    private Instant lastUpdated;
     
     public FHIRReplicationContext() {
     }
     
-    public FHIRReplicationContext(String versionId, String lastUpdated) {
+    /**
+     * Since R4 we correctly use an Instant to represent lastUpdated
+     * @param versionId
+     * @param lastUpdated
+     */
+    public FHIRReplicationContext(String versionId, Instant lastUpdated) {
         setVersionId(versionId);
         setLastUpdated(lastUpdated);
     }
-    
+
     public String getVersionId() {
         return versionId;
     }
     public void setVersionId(String versionId) {
         this.versionId = versionId;
     }
-    public String getLastUpdated() {
+    public Instant getLastUpdated() {
         return lastUpdated;
     }
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(Instant lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

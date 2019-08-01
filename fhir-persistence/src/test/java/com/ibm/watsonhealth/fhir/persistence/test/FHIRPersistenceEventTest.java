@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +72,8 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "id1");
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "v1");
         
-        FHIRReplicationContext expectedRC = new FHIRReplicationContext("999999", "LAST_UPDATED");
+        java.time.Instant lastUpdated = Instant.now();
+        FHIRReplicationContext expectedRC = new FHIRReplicationContext("999999", lastUpdated);
         properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, expectedRC);
         
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);

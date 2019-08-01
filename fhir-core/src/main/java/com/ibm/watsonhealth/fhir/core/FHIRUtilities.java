@@ -18,21 +18,16 @@ import java.security.Key;
 import java.security.KeyStore;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.io.IOUtils;
 
@@ -41,8 +36,10 @@ import org.apache.commons.io.IOUtils;
  * projects.
  */
 public class FHIRUtilities {
-    private static final String VALID_CHARACTERS_FOR_DATETIME = "^([\\-\\:\\.TZ0123456789\\+]+)$";
-    private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
+    
+    // For R4, we transition to using java.time
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
     private static final ThreadLocal<SimpleDateFormat> timestampSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         public SimpleDateFormat initialValue() {
@@ -58,22 +55,6 @@ public class FHIRUtilities {
             return format;
         }
     };
-    private static final ThreadLocal<SimpleDateFormat> calendarSimpleDateFormatGMT = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        public SimpleDateFormat initialValue() {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            format.setTimeZone(TimeZone.getTimeZone("GMT"));
-            return format;
-        }
-    };
-
-    private static DatatypeFactory createDatatypeFactory() {
-        try {
-            return DatatypeFactory.newInstance();
-        } catch (DatatypeConfigurationException e) {
-            throw new Error(e);
-        }
-    }
 
     /**
      * Returns the specified object's handle in hex format.
@@ -171,26 +152,6 @@ public class FHIRUtilities {
         return s != null && s.startsWith("{xor}");
     }
 
-    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults)
-            throws IllegalArgumentException {
-        validateInputCharacters(lexicalRepresentation);
-        XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
-        if (defaults) {
-            setDefaults(calendar);
-        }
-        return calendar;
-    }
-
-    private static void validateInputCharacters(String lexicalRepresentation) {
-        String input = Optional.of(lexicalRepresentation).orElse("");
-        if (!input.matches(VALID_CHARACTERS_FOR_DATETIME)) {
-            throw new IllegalArgumentException("Illegal input identified: '" + input + "'.");
-        }
-    }
-
-    public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {
-        return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
-    }
 
     /**
      * For R4 model, generate a sql timestamp
@@ -202,89 +163,13 @@ public class FHIRUtilities {
         return new Timestamp(zdt.toInstant().toEpochMilli());
     }
 
-    public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp, TimeZone zone) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(timestamp);
-        XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
-        xmlCalendar.setTimezone(zone.getRawOffset());
-        return xmlCalendar;
-    }
-
-    public static void setDefaults(XMLGregorianCalendar calendar) {
-        if (isYear(calendar)) {
-            calendar.setMonth(DatatypeConstants.JANUARY);
-        }
-        if (isYear(calendar) || isYearMonth(calendar)) {
-            calendar.setDay(1);
-        }
-        if (isYear(calendar) || isYearMonth(calendar) || isDate(calendar)) {
-            calendar.setHour(0);
-            calendar.setMinute(0);
-            calendar.setSecond(0);
-            calendar.setMillisecond(0);
-            calendar.setTimezone(0);
-        }
-    }
-
-    public static Duration createDuration(XMLGregorianCalendar calendar) {
-        int years = 0;
-        if (isYear(calendar)) {
-            years = 1;
-        }
-        int months = 0;
-        if (isYearMonth(calendar)) {
-            months = 1;
-        }
-        int days = 0;
-        if (isDate(calendar)) {
-            days = 1;
-        }
-
-        return datatypeFactory.newDuration(true, years, months, days, 0, 0, 0);
-    }
-
-    public static boolean isDateTime(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
-    }
-
-    public static boolean isPartialDate(XMLGregorianCalendar calendar) {
-        return isYear(calendar) || isYearMonth(calendar) || isDate(calendar);
-    }
-
-    public static boolean isYear(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
-    }
-
-    public static boolean isYearMonth(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
-    }
-
-    public static boolean isDate(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+    /**
+     * Parse the UTC timestamp value
+     * @param lastUpdated
+     * @return
+     */
+    public static Instant convertToInstant(String lastUpdated) {
+        return Instant.from(DATE_TIME_FORMATTER.parse(lastUpdated));
     }
 
     public static String formatTimestamp(Date date) {
@@ -293,10 +178,6 @@ public class FHIRUtilities {
 
     public static String formatCalendar(Timestamp timestamp) {
         return calendarSimpleDateFormat.get().format(timestamp);
-    }
-
-    public static String formatCalendarGMT(XMLGregorianCalendar calendar) {
-        return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
     }
 
     /**

@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.proxy;
 
+import java.beans.PropertyDescriptor;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
@@ -378,7 +380,24 @@ public class FHIRProxyXADataSource implements XADataSource {
                 log.finer("Found property '" + propertyName + "' = '" + value + "'.");
             }
             try {
-                PropertyUtils.setSimpleProperty(datasource, propertyName, propertyValue);
+                
+                if ("securityMechanism".equals(propertyName)) {
+                    PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(datasource, propertyName);
+                    if (pd != null) {
+                        // OK, let's try this way
+                        short securityMechanismValue = (short)(int)propertyValue;
+                        log.info("Setting security mechanism: " + securityMechanismValue);
+                        Method setSecurityMechanism = PropertyUtils.getWriteMethod(pd);
+                        setSecurityMechanism.invoke(datasource, securityMechanismValue);
+                    }
+                    else {
+                        throw new IllegalStateException(propertyName + " not supported on datasource class: " + datasource.getClass().getName());
+                    }
+                }
+                else {
+                    // Standard property
+                    PropertyUtils.setSimpleProperty(datasource, propertyName, propertyValue);
+                }
             } catch (Throwable t) {
                 String msg = "Error setting property '" + propertyName + "' on instance of class '" + datasource.getClass().getName() + ".";
                 log.log(Level.SEVERE, msg, t);

@@ -9,18 +9,32 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.test.util;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.helper.SearchParameterHelper;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 
 public class ParameterProcessorTest {
+    // custom formatter providing the precision required by the unit tests
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
+            .appendFraction(ChronoField.MICRO_OF_SECOND, 6, 6, true)
+            .appendPattern("XXX")
+            .toFormatter();
+
+    
     @Test
     public void testDate() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder parameterBuilder = new JDBCParameterBuilder();
@@ -29,19 +43,20 @@ public class ParameterProcessorTest {
         
         List<Parameter> params = parameterBuilder.process(searchParameter, Date.of("2016"));
         for (Parameter param : params) {
-            assertEquals(param.getValueDateStart().toString(), "2016-01-01 00:00:00.0");
-            assertEquals(param.getValueDate().toString(), "2016-01-01 00:00:00.0");
-            assertEquals(param.getValueDateEnd().toString(), "2016-12-31 23:59:59.999999");
+            assertEquals(timestampToString(param.getValueDateStart()), "2016-01-01T00:00:00.000000Z");
+            assertEquals(timestampToString(param.getValueDate()), "2016-01-01T00:00:00.000000Z");
+            assertEquals(timestampToString(param.getValueDateEnd()), "2016-12-31T23:59:59.999999Z");
         }
     }
+
     
     @Test
     public void testDateTime() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder parameterBuilder = new JDBCParameterBuilder();
         SearchParameter searchParameter = SearchParameterHelper.makeTestParameter("value");
-        List<Parameter> params = parameterBuilder.process(searchParameter, Date.of("2016-01-01T10:10:10.1+04:00"));
+        List<Parameter> params = parameterBuilder.process(searchParameter, DateTime.of("2016-01-01T10:10:10.1+04:00"));
         for (Parameter param : params) {
-            assertEquals(param.getValueDate().toString(), "2016-01-01 06:10:10.1");
+            assertEquals(timestampToString(param.getValueDate()), "2016-01-01T06:10:10.100000Z");
         }
     }
     
@@ -54,7 +69,20 @@ public class ParameterProcessorTest {
         for (Parameter param : params) {
             assertNull(param.getValueNumberLow());
             assertNull(param.getValueNumber());
-            assertEquals(param.getValueNumberHigh(), 1);
+            assertEquals(param.getValueNumberHigh(), BigDecimal.valueOf(1));
         }
     }
+    
+    /**
+     * Formats the given tstamp value as a string. Does not use Timestamp#toString()
+     * because this adjusts the displayed string to local time
+     * @param tstamp
+     * @return
+     */
+    private String timestampToString(java.sql.Timestamp tstamp) {
+        // do not use Timestamp#toString() because it converts to local timezone.
+        // We need it rendered in UTC
+        return tstamp.toInstant().atZone(ZoneOffset.UTC).format(DATE_TIME_FORMATTER);
+    }
+
 }

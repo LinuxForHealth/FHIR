@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -371,14 +372,17 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         }
         return repVersionId;
     }
-    
+
+    /**
+     * Convert the replication lastUpdated value to a {@link java.sql.Timestamp}
+     * @return
+     */
     private Timestamp getReplicationLastUpdated() {
         Timestamp repLastUpdated = null;
                 
         FHIRReplicationContext repContext = this.getReplicationContext();
         if (nonNull(repContext) && nonNull(repContext.getLastUpdated())) {
-            XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(repContext.getLastUpdated(), true);
-            repLastUpdated = FHIRUtilities.convertToTimestamp(calendar);
+            repLastUpdated = Timestamp.from(repContext.getLastUpdated());
         }
         
         return repLastUpdated;
