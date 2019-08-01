@@ -48,7 +48,7 @@ public class FHIRModelTestBase {
     /**
      * This is a list of pre-defined locations that we'll search in when looking for a mock data file.
      */
-    protected static String[] searchPaths = { "./", "src/test/resources/", "src/test/resources/testdata-r4/", "src/main/resources/" };
+    protected static String[] searchPaths = { "./", "src/test/resources/", "src/test/resources/testdata/", "src/main/resources/" };
     
     /**
      * This function reads the contents of a mock resource from the specified file, 
