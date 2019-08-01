@@ -45,9 +45,9 @@ The test should result in something like:
   </software>
   <fhirVersion value="1.0.2"/>
   <format value="application/json"/>
-  <format value="application/json+fhir"/>
+  <format value="application/fhir+json"/>
   <format value="application/xml"/>
-  <format value="application/xml+fhir"/>
+  <format value="application/fhir+xml"/>
 </Conformance>
 ```
 
