@@ -175,7 +175,7 @@ public class FHIRValidator {
                         String level = constraint.level();
                         IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
                         Issue issue = Issue.builder(severity, IssueType.INVARIANT)
-                                .location(string(path))
+                                .expression(string(path))
                                 .diagnostics(string(constraint.id() + ": " + constraint.description()))
                                 .build();
                         issues.add(issue);
@@ -186,7 +186,9 @@ public class FHIRValidator {
                     }
                 }
             } catch (Exception e) {
-                throw new Error("expression: " + constraint.expression() + ", location: " + getPath(), e);
+                throw new Error("An error occurred while validating constraint: " + constraint.id() + 
+                    " with location: " + constraint.location() + " and expression: " + constraint.expression() + 
+                    " at path: " + path, e);
             }
         }
     }

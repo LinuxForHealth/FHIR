@@ -25,7 +25,7 @@ public class CareTeamTest {
             CareTeam careTeam = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator(careTeam).validate();
             for (Issue issue : issues) {
-                System.out.println("severity: " + issue.getSeverity().getValue() + ", diagnostics: " + issue.getDiagnostics().getValue() + ", location: " + issue.getLocation().get(0).getValue());
+                System.out.println("severity: " + issue.getSeverity().getValue() + ", diagnostics: " + issue.getDiagnostics().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
             
             FHIRPathEvaluator.DEBUG = true;
