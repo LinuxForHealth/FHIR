@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.parser;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -49,7 +50,8 @@ public class FHIRJsonParser implements FHIRParser {
     }
 
     public <T extends Resource> T parseAndFilter(InputStream in, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
-        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in)) {
+        // UTF-8 encoding SHALL be used for the mime type application/fhir. This MAY be specified as a MIME type parameter to the application/fhir mime type, but is not required. 
+        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
         } catch (Exception e) {
