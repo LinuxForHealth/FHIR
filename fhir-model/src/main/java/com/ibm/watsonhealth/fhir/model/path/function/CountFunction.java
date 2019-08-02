@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class CountFunction extends FHIRPathAbstractFunction {
     @Override
@@ -31,7 +32,7 @@ public class CountFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         return singleton(integerValue(context.size()));
     }
 }

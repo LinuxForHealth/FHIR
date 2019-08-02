@@ -21,8 +21,11 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
@@ -30,32 +33,51 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNumberValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
 public final class FHIRPathUtil {
+    private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
+        "$index", 
+        "$this", 
+        "$total", 
+        "and", 
+        "as", 
+        "contains", 
+        "day", 
+        "days", 
+        "div", 
+        "false", 
+        "hour", 
+        "hours", 
+        "implies", 
+        "in", 
+        "is", 
+        "millisecond", 
+        "milliseconds", 
+        "minute", 
+        "minutes", 
+        "mod", 
+        "month", 
+        "months", 
+        "or", 
+        "seconds", 
+        "true", 
+        "week", 
+        "weeks", 
+        "xor", 
+        "year", 
+        "years", 
+        "second"
+    ));
+    
     private FHIRPathUtil() { }
-
-    public static Collection<FHIRPathNode> eval(String expr) throws FHIRPathException {
-        return eval(expr, empty());
+    
+    public static boolean isKeyword(String identifier) {
+        return KEYWORDS.contains(identifier);
     }
     
-    public static Collection<FHIRPathNode> eval(String expr, FHIRPathNode node) throws FHIRPathException {
-        return eval(expr, singleton(node));
-    }
-    
-    public static Collection<FHIRPathNode> eval(String expr, FHIRPathNode node, FHIRPathResourceNode resourceNode) throws FHIRPathException {
-        return eval(expr, singleton(node), resourceNode);
-    }
-    
-    public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
-        return eval(expr, initialContext, null);
-    }
-
-    public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> initialContext, FHIRPathResourceNode resourceNode) throws FHIRPathException {
-        return FHIRPathEvaluator.evaluator(expr).evaluate(initialContext, resourceNode);
+    public static String delimit(String identifier) {
+        return String.format("`%s`", identifier);
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {

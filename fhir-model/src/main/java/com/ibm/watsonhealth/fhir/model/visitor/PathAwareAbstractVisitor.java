@@ -6,6 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.visitor;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.delimit;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isKeyword;
+
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,9 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor implement
     }
     
     private void pathStackPush(String elementName, int index) {
+        if (isKeyword(elementName)) {
+            elementName = delimit(elementName);
+        }
         if (index != -1) {
             pathStack.push(elementName + "[" + index + "]");
         } else {

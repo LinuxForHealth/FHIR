@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class FirstFunction extends FHIRPathAbstractFunction {
     @Override
@@ -32,7 +33,7 @@ public class FirstFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!context.isEmpty()) {
             List<?> list = (context instanceof List) ? (List<?>) context : new ArrayList<>(context);
             return singleton((FHIRPathNode) list.get(0));

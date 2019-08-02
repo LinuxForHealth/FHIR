@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
     @Override
@@ -23,7 +24,7 @@ public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
     public abstract int getMaxArity();
 
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
     }
     

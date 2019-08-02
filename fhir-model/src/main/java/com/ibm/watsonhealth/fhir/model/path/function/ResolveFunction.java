@@ -15,7 +15,11 @@ import java.util.regex.Pattern;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 
@@ -71,7 +75,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * case the Reference.reference is resolved.
      * 
      * This method creates a "proxy" resource node that is a placeholder for the actual resource, thus allowing for the 
-     * FHIRPath engine to perform type checking on the result of the resolve function. For example:
+     * FHIRPath evaluator to perform type checking on the result of the resolve function. For example:
      * 
      *     Observation.subject.where(resolve() is Patient)
      *     
@@ -79,6 +83,8 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * 
      * Type checking on FHIR_UNKNOWN_RESOURCE_TYPE will always return 'true'.
      * 
+     * @param environment
+     *     the evaluation environment
      * @param context
      *     the current evaluation context
      * @param arguments
@@ -86,19 +92,13 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * @return
      *     the result of the function applied to the context and arguments
      */
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Collection<FHIRPathNode> result = new ArrayList<>();
         for (FHIRPathNode node : context) {
             if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
                 Reference reference = node.asElementNode().element().as(Reference.class);
                 
                 String referenceReference = getReferenceReference(reference);
-                
-                if (referenceReference != null && referenceReference.startsWith("#")) {
-                    // internal fragment reference
-                    continue;
-                }
-                
                 String referenceType = getReferenceType(reference);
                 
                 if (referenceReference == null && referenceType == null) {
@@ -108,11 +108,16 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 String resourceType = null;
                 
                 if (referenceReference != null) {
-                    Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
-                    if (matcher.matches()) {
-                        resourceType = matcher.group(RESOURCE_TYPE);                        
-                        if (referenceType != null && !resourceType.equals(referenceType)) {
-                            throw new IllegalArgumentException("resource type found in reference URL does not match reference type");
+                    if (referenceReference.startsWith("#")) {
+                        // internal fragment reference
+                        resourceType = resolveInternalFragmentReference(environment.getTree(), referenceReference);
+                    } else {
+                        Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+                        if (matcher.matches()) {
+                            resourceType = matcher.group(RESOURCE_TYPE);                        
+                            if (referenceType != null && !resourceType.equals(referenceType)) {
+                                throw new IllegalArgumentException("resource type found in reference URL does not match reference type");
+                            }
                         }
                     }
                 }
@@ -129,6 +134,30 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return result;
     }
     
+    private String resolveInternalFragmentReference(FHIRPathTree tree, String referenceReference) {
+        if (tree != null) {
+            FHIRPathNode root = tree.getRoot();
+            if (root.isResourceNode()) {
+                Resource resource = root.asResourceNode().resource();
+                if ("#".equals(referenceReference)) {
+                    return resource.getClass().getSimpleName();
+                }
+                String id = referenceReference.substring(1);
+                if (resource instanceof DomainResource) {
+                    DomainResource domainResource = (DomainResource) resource;
+                    for (Resource contained : domainResource.getContained()) {
+                        if (contained.getId() != null && 
+                                contained.getId().getValue() != null && 
+                                id.equals(contained.getId().getValue())) {
+                            return contained.getClass().getSimpleName();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private String getReferenceReference(Reference reference) {
         if (reference.getReference() != null && reference.getReference().getValue() != null) {
             return reference.getReference().getValue();

@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class HtmlChecksFunction extends FHIRPathAbstractFunction {
     @Override
@@ -30,7 +31,7 @@ public class HtmlChecksFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         return SINGLETON_TRUE;
     }
 }

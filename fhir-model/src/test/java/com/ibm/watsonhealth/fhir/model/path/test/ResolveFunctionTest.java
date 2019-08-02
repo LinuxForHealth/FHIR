@@ -14,7 +14,6 @@ import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 
@@ -27,14 +26,16 @@ public class ResolveFunctionTest {
             
             FHIRPathTree tree = FHIRPathTree.tree(observation);
             
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+            
             System.out.println("expr: Observation.subject.where(resolve() is Patient)");
-            Collection<FHIRPathNode> result = FHIRPathUtil.eval("Observation.subject.where(resolve() is Patient)", tree.getRoot());
+            Collection<FHIRPathNode> result = evaluator.evaluate("Observation.subject.where(resolve() is Patient)", tree.getRoot());
             System.out.println("result: " + result);
             System.out.println("    Observation.subject.reference: " + result.iterator().next().asElementNode().element().as(Reference.class).getReference().getValue());
             System.out.println("");
             
             System.out.println("expr: Observation.subject.where(resolve() is Device)");
-            result = FHIRPathUtil.eval("Observation.subject.where(resolve() is Device)", tree.getRoot());
+            result = evaluator.evaluate("Observation.subject.where(resolve() is Device)", tree.getRoot());
             System.out.println("result: " + result);
             System.out.println("");
         }

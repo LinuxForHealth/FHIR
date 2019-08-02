@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class ChildrenFunction extends FHIRPathAbstractFunction {
     @Override
@@ -33,7 +34,7 @@ public class ChildrenFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!context.isEmpty()) {
             return isSingleton(context) ? getSingleton(context).children() : context.stream()
                 .flatMap(node -> node.children().stream())

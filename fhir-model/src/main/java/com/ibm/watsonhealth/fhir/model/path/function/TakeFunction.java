@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class TakeFunction extends FHIRPathAbstractFunction {
     @Override
@@ -31,7 +32,7 @@ public class TakeFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Integer num = getInteger(arguments.get(0));
         return context.stream()
                 .limit(num)

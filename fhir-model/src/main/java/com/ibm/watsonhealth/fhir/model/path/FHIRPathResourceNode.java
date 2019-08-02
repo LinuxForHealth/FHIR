@@ -70,6 +70,11 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
             return (Builder) super.name(name);
         }
         
+        @Override
+        public Builder path(String path) {
+            return (Builder) super.path(path);
+        }
+        
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }

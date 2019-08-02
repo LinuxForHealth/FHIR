@@ -13,6 +13,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     String name();
+    String path();
     FHIRPathType type();
     boolean hasValue();
     FHIRPathPrimitiveValue getValue();
@@ -45,6 +46,7 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     }
     interface Builder { 
         Builder name(String name);
+        Builder path(String path);
         Builder value(FHIRPathPrimitiveValue value);
         Builder children(FHIRPathNode... children);
         Builder children(Collection<FHIRPathNode> children);

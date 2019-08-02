@@ -64,6 +64,11 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         }
         
         @Override
+        public Builder path(String path) {
+            return (Builder) super.path(path);
+        }
+        
+        @Override
         public Builder value(FHIRPathPrimitiveValue value) {
             return this;
         }

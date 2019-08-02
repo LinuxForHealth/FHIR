@@ -18,6 +18,7 @@ import java.util.List;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 
 public class ToStringFunction extends FHIRPathAbstractFunction {
     @Override
@@ -36,7 +37,7 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!isSingleton(context)) {
             throw new IllegalArgumentException();
         }

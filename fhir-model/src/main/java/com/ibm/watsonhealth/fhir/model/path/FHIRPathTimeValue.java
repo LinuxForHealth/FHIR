@@ -94,6 +94,11 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         }
         
         @Override
+        public Builder path(String path) {
+            return (Builder) super.path(path);
+        }
+        
+        @Override
         public Builder value(FHIRPathPrimitiveValue value) {
             return this;
         }

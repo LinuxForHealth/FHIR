@@ -114,7 +114,7 @@ public class CodeGenerator {
         "TriggerDefinition", 
         "UsageContext", 
         "Dosage");
-    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1", "ctm-1");
+    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
     private static final List<String> HEADER = readHeader();
     private static final List<String> FUNCTIONS = readFunctions();
 

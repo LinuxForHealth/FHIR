@@ -16,12 +16,14 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     protected final String name;
+    protected final String path;
     protected final FHIRPathType type;
     protected final FHIRPathPrimitiveValue value;
     protected final Collection<FHIRPathNode> children;
     
     protected FHIRPathAbstractNode(Builder builder) {
         name = builder.name;
+        path = builder.path;
         type = builder.type;
         value = builder.value;
         children = Collections.unmodifiableCollection(builder.children);
@@ -30,6 +32,11 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     @Override
     public String name() {
         return name;
+    }
+    
+    @Override
+    public String path() {
+        return path;
     }
     
     @Override
@@ -85,6 +92,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         
         // optional
         protected String name;
+        protected String path;
         protected FHIRPathPrimitiveValue value;
         protected Collection<FHIRPathNode> children = new ArrayList<>();
         
@@ -96,6 +104,12 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         @Override
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+        
+        @Override
+        public Builder path(String path) {
+            this.path = path;
             return this;
         }
         

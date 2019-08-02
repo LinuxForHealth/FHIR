@@ -15,7 +15,6 @@ import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil;
 import com.ibm.watsonhealth.fhir.model.resource.ActivityDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
@@ -30,7 +29,7 @@ public class ActivityDefinitionTest {
             }
             FHIRPathEvaluator.DEBUG = true;
             FHIRPathTree tree = FHIRPathTree.tree(activityDefinition);
-            Collection<FHIRPathNode> result = FHIRPathUtil.eval("contained.id", tree.getRoot());
+            Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator(tree).evaluate("contained.id", tree.getRoot());
             System.out.println("result: " + result);
         }
     }

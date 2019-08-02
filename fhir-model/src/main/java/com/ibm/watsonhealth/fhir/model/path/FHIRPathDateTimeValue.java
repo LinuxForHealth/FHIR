@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAccessor;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporal;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAccessor;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -93,6 +93,11 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
+        }
+        
+        @Override
+        public Builder path(String path) {
+            return (Builder) super.path(path);
         }
         
         @Override

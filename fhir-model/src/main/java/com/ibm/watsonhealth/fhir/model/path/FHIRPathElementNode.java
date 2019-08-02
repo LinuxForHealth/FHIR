@@ -75,6 +75,11 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
             return (Builder) super.name(name);
         }
         
+        @Override
+        public Builder path(String path) {
+            return (Builder) super.path(path);
+        }
+        
         public Builder value(FHIRPathPrimitiveValue value) {
             return (Builder) super.value(value);
         }

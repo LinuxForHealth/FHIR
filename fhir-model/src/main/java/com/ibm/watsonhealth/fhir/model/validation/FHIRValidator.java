@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.validation;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
@@ -21,6 +20,8 @@ import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
@@ -64,11 +65,15 @@ public class FHIRValidator {
         private static final String BASE_LOCATION = "(base)";
         
         private final FHIRPathTree tree;
+        private final FHIRPathEvaluator evaluator;
+        private final Environment environment;
         
         private List<Issue> issues = new ArrayList<>(); 
         
         private ValidatingVisitor(FHIRPathTree tree) {
             this.tree = tree;
+            evaluator = FHIRPathEvaluator.evaluator(tree);
+            environment = evaluator.getEnvironment();
         }
         
         @Override
@@ -101,7 +106,7 @@ public class FHIRValidator {
             return constraints;
         }
 
-        private FHIRPathResourceNode getResourceNode(Class<?> type, FHIRPathNode node, String path) {
+        private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node, String path) {
             if (!Resource.class.isAssignableFrom(type)) {
                 // the constraint came from a data type
                 return (FHIRPathResourceNode) tree.getRoot();
@@ -154,7 +159,7 @@ public class FHIRValidator {
                 
                 Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
                 if (!BASE_LOCATION.equals(constraint.location())) {
-                    initialContext = eval(constraint.location(), initialContext);
+                    initialContext = evaluator.evaluate(constraint.location(), initialContext);
                     if (initialContext.isEmpty()) {
                         return;
                     }
@@ -162,7 +167,8 @@ public class FHIRValidator {
                                                 
                 for (FHIRPathNode node : initialContext) {
                     java.lang.String expr = constraint.expression();
-                    Collection<FHIRPathNode> result = eval(expr, node, getResourceNode(type, node, path));
+                    environment.setExternalConstant("resource", getResource(type, node, path));
+                    Collection<FHIRPathNode> result = evaluator.evaluate(expr, singleton(node));
                     
                     if (!result.isEmpty() && isFalse(result)) {
                         // constraint validation failed

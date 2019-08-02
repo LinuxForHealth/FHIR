@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.path.test;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-
 import java.io.FilterOutputStream;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -84,8 +82,10 @@ public class FHIRPathEvaluatorTest {
         PathAwareAbstractVisitor.DEBUG = true;
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+        
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = eval("Patient.name.given.first().as(System.String)", tree.getRoot());
+        Collection<FHIRPathNode> result = evaluator.evaluate("Patient.name.given.first().as(System.String)", tree.getRoot());
         
         System.out.println("result: " + result);
     }

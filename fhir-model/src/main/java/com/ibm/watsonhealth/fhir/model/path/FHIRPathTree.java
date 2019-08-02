@@ -64,6 +64,21 @@ public class FHIRPathTree {
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
 
+        private void build() {
+            String path = getPath();
+            
+            FHIRPathNode.Builder builder = builderStack.pop();
+            FHIRPathNode node = builder.path(path).build();
+            
+            pathNodeMap.put(path, node);
+            
+            if (!builderStack.isEmpty()) {
+                builderStack.peek().children(node);
+            } else {
+                root = node;
+            }
+        }
+
         private Map<String, FHIRPathNode> getPathNodeMap() {
             return pathNodeMap;
         }
@@ -74,26 +89,12 @@ public class FHIRPathTree {
 
         @Override
         protected void doVisitEnd(String elementName, int elementIndex, Element element) {
-            FHIRPathNode.Builder builder = builderStack.pop();
-            FHIRPathNode node = builder.build();
-            pathNodeMap.put(getPath(), node);
-            if (!builderStack.isEmpty()) {
-                builderStack.peek().children(node);
-            } else {
-                root = node;
-            }
+            build();
         }
 
         @Override
         protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
-            FHIRPathNode.Builder builder = builderStack.pop();
-            FHIRPathNode node = builder.build();
-            pathNodeMap.put(getPath(), node);
-            if (!builderStack.isEmpty()) {
-                builderStack.peek().children(node);
-            } else {
-                root = node;
-            }            
+            build();            
         }
 
         @Override
