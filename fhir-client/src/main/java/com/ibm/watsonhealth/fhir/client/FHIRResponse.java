@@ -7,9 +7,9 @@
 package com.ibm.watsonhealth.fhir.client;
 
 import java.net.URI;
+import java.time.Instant;
 
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * This interface represents a response received from a FHIR REST API invocation.
@@ -42,7 +42,7 @@ public interface FHIRResponse {
      * @return
      * @throws Exception
      */
-    XMLGregorianCalendar getLastModified() throws Exception;
+    Instant getLastModified() throws Exception;
 
     /**
      * This method is used to retrieve the value of the ETag response HTTP header.

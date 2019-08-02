@@ -3567,8 +3567,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     
     /** 
      * This method returns the "base URI" associated with the current request.
-     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v1/Patient to create a Patient resource,
-     * this method would return "https://myhost:9443/fhir-server/api/v1".
+     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource,
+     * this method would return "https://myhost:9443/fhir-server/api/v4".
      * @return The base endpoint URI associated with the current request.
      */
     private String getRequestBaseUri() {
