@@ -50,7 +50,6 @@ public class FHIRJsonParser implements FHIRParser {
     }
 
     public <T extends Resource> T parseAndFilter(InputStream in, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
-        // UTF-8 encoding SHALL be used for the mime type application/fhir. This MAY be specified as a MIME type parameter to the application/fhir mime type, but is not required. 
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);

@@ -1623,6 +1623,7 @@ public class CodeGenerator {
         */
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
+        cb._import("java.nio.charset.StandardCharsets");
         cb._import("java.util.ArrayList");
         cb._import("java.util.Collection");
         cb._import("java.util.Set");
@@ -1688,7 +1689,7 @@ public class CodeGenerator {
         
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("InputStream in", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
-            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(in)")
+            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
             ._catch("Exception e")
