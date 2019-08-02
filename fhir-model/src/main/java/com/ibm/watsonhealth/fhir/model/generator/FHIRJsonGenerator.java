@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
@@ -70,7 +71,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
         PathAwareVisitor visitor = null;
-        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out)) {
+        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out, StandardCharsets.UTF_8)) {
             visitor = new GeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
