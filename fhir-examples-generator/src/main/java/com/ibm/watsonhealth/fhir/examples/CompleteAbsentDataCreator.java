@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.examples;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import com.ibm.watsonhealth.fhir.model.builder.Builder;
 import com.ibm.watsonhealth.fhir.model.resource.List;
@@ -24,7 +25,7 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
 
     @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
-        Method[] methods = builder.getClass().getMethods();
+        Method[] methods = builder.getClass().getDeclaredMethods();
         
         boolean empty = true;
         for (Method method : methods) {
@@ -34,7 +35,10 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                 method.getName().equals("toString") ||
                 method.getName().equals("hashCode") ||
                 method.getName().equals("notify") ||
-                method.getName().equals("notifyAll")) {
+                method.getName().equals("notifyAll") ||
+                method.getName().equals("from") ||
+                method.getName().equals("contained") ||
+                method.getName().equals("extension")) {
                 
                 continue;
             }
@@ -54,11 +58,16 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
             
             Object argument;
             if (Element.class.isAssignableFrom(parameterType)
-                || List.class.isAssignableFrom(parameterType)) {
+                || Collection.class.isAssignableFrom(parameterType)) {
             
-                argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
-                method.invoke(builder, argument);
-                empty = false;
+                // filter out inhereted methods like Code.Builder.extension and String.Builder.extension
+                if (builder.getClass().equals(method.getReturnType())) {
+                    argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
+                    if (argument != null && !(argument instanceof Collection && ((Collection) argument).isEmpty())) {
+                        method.invoke(builder, argument);
+                        empty = false;
+                    }
+                }
             }
         }
         

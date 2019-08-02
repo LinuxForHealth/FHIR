@@ -25,6 +25,9 @@ import javax.json.JsonValue;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.examples.CompleteAbsentDataCreator;
 import com.ibm.watsonhealth.fhir.examples.DataCreatorBase;
 import com.ibm.watsonhealth.fhir.examples.MinimalDataCreator;
@@ -48,9 +51,9 @@ public class ExamplesGenerator {
             JsonObject structureDefinition = structureDefinitionMap.get(key);
             
             try {
-                generateResource(structureDefinition, minimalDataCreator, basePath + "/minimal");
-                generateResource(structureDefinition, completeMockDataCreator, basePath + "/complete-mock");
-                generateResource(structureDefinition, completeAbsentDataCreator, basePath + "/complete-absent");
+                generateResource(structureDefinition, minimalDataCreator, basePath + "/minimal", "ibm/minimal");
+                generateResource(structureDefinition, completeMockDataCreator, basePath + "/complete-mock", "ibm/complete-mock");
+                generateResource(structureDefinition, completeAbsentDataCreator, basePath + "/complete-absent", "ibm/complete-absent");
             } catch (Exception e) {
                 System.err.println("Caught exception while processing resource for " + key);
                 e.printStackTrace();
@@ -58,7 +61,7 @@ public class ExamplesGenerator {
         }
     }
     
-    private void generateResource(JsonObject structureDefinition, DataCreatorBase creator, String basePath) throws Exception {
+    private void generateResource(JsonObject structureDefinition, DataCreatorBase creator, String basePath, String tag) throws Exception {
         String resourceName = titleCase(structureDefinition.getString("name"));
         String kind = structureDefinition.getString("kind");
         // ignore "logical" resource definitions and type definitions
@@ -70,6 +73,8 @@ public class ExamplesGenerator {
             
             for (int i = 1; i <= maxChoiceCount; i++) {
                 Resource resource = creator.createResource(resourceName, i);
+                
+                resource = tag(resource, tag);
             
                 File file = new File(basePath + "/" + resourceName + "-" + i + ".json");
                 if (!file.getParentFile().exists()) {
@@ -82,6 +87,20 @@ public class ExamplesGenerator {
                 }
             }
         }
+    }
+
+    
+    /**
+     * Copy {@code resource} to a new resource and add the tag
+     * @param resource the resource to tag
+     * @param tag the tag to tag it with
+     * @return
+     */
+    private Resource tag(Resource resource, String tag) {
+        Meta.Builder metaBuilder = resource.getMeta() != null ? resource.getMeta().toBuilder() : Meta.builder();
+        metaBuilder.tag(Coding.builder().code(Code.of(tag)).build());
+        resource = resource.toBuilder().meta(metaBuilder.build()).build();
+        return resource;
     }
     
     private String titleCase(String name) {

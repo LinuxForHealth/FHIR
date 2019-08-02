@@ -14,13 +14,13 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import com.ibm.watsonhealth.fhir.model.builder.Builder;
-import com.ibm.watsonhealth.fhir.model.resource.List;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.Date;
@@ -34,7 +34,6 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
-import com.ibm.watsonhealth.fhir.examples.DataCreatorBase;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -49,7 +48,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
 
     @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
-        Method[] methods = builder.getClass().getMethods();
+        Method[] methods = builder.getClass().getDeclaredMethods();
         
         boolean empty = true;
         for (Method method : methods) {
@@ -59,7 +58,10 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 method.getName().equals("toString") ||
                 method.getName().equals("hashCode") ||
                 method.getName().equals("notify") ||
-                method.getName().equals("notifyAll")) {
+                method.getName().equals("notifyAll") ||
+                method.getName().equals("from") ||
+                method.getName().equals("contained") ||
+                method.getName().equals("extension")) {
                 
                 continue;
             }
@@ -78,11 +80,16 @@ public class CompleteMockDataCreator extends DataCreatorBase {
             
             Object argument;
             if (Element.class.isAssignableFrom(parameterType)
-                || List.class.isAssignableFrom(parameterType)) {
+                || Collection.class.isAssignableFrom(parameterType)) {
             
-                argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
-                method.invoke(builder, argument);
-                empty = false;
+                // filter out inhereted methods like Code.Builder.extension and String.Builder.extension
+                if (builder.getClass().equals(method.getReturnType())) {
+                    argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
+                    if (argument != null && !(argument instanceof Collection && ((Collection) argument).isEmpty())) {
+                        method.invoke(builder, argument);
+                        empty = false;
+                    }
+                }
             }
         }
         

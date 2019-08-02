@@ -19,10 +19,17 @@ import java.util.List;
 import java.util.Properties;
 
 import com.ibm.watsonhealth.fhir.model.builder.Builder;
+import com.ibm.watsonhealth.fhir.model.resource.ExampleScenario;
+import com.ibm.watsonhealth.fhir.model.resource.GraphDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.PlanDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.Questionnaire;
+import com.ibm.watsonhealth.fhir.model.resource.QuestionnaireResponse;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
@@ -92,7 +99,7 @@ public abstract class DataCreatorBase {
             arguments[i] = createArgument(resourceClass, builderMethod, parameterType, i, choiceIndicator);
         }
 
-        Builder<?> builder = (Builder<?>) builderMethod.invoke(null, arguments);
+        Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null, arguments);
         return (Resource) addData(builder, choiceIndicator).build();
     }
 
@@ -111,6 +118,7 @@ public abstract class DataCreatorBase {
         if (parameterClasses.length == 0) {
             // Primitive elements and other elements with no required sub-elements
             Builder<?> builder = (Builder<?>) builderMethod.invoke(null);
+            
             return (Element) addData(builder, choiceIndicator).build();
         }
 
@@ -119,12 +127,12 @@ public abstract class DataCreatorBase {
             arguments[i] = createArgument(elementClass, builderMethod, parameterType, i, choiceIndicator);
         }
 
-        Builder<?> builder = (Builder<?>) builderMethod.invoke(null, arguments);
+        Element.Builder builder = (Element.Builder) builderMethod.invoke(null, arguments);
         return (Element) addData(builder, choiceIndicator).build();
     }
 
     private Method getBuilderMethod(Class<?> clazz) {
-        for (Method method : clazz.getMethods()) {
+        for (Method method : clazz.getDeclaredMethods()) {
             if (method.getName().equals("builder")) {
                 return method;
             }
@@ -149,13 +157,17 @@ public abstract class DataCreatorBase {
         if (Collection.class.isAssignableFrom(parameterType)) {
             // The parameter is a List so infer the generic type of the list
             Type[] parameterTypes = builderMethod.getGenericParameterTypes();
-            parameterType = (Class<?>) ((ParameterizedType) parameterTypes[i]).getActualTypeArguments()[0];
+            if (parameterTypes[i] instanceof ParameterizedType) {
+                parameterType = (Class<?>) ((ParameterizedType) parameterTypes[i]).getActualTypeArguments()[0];
+            } else {
+                // TODO how can we find the generic type of the collection?!
+                throw new Exception("Type '" + parameterTypes[i].getTypeName() + "' is not generic!?");
+            }
 
-            List<AbstractVisitable> elementList;
+            List<AbstractVisitable> elementList = new ArrayList<AbstractVisitable>();
             if (Element.class.equals(parameterType)) {
                 // Seeing a parameter of type Element is our clue that we have a choice element
                 // There are no repeating choice elements in R4, but handle it just in case
-                elementList = new ArrayList<AbstractVisitable>();
                 String propName = reflectPropertyName(owningClass, builderMethod.getParameters()[i].getName(), parameterType);
                 String[] choiceTypes = choiceElements.getProperty(propName).split(",");
 
@@ -165,8 +177,23 @@ public abstract class DataCreatorBase {
                     elementList.add(createElement(choiceType, choiceIndicator));
                 }
             } else {
-                // Otherwise just create a single element
-                elementList = Collections.singletonList(createElement((Class<? extends Element>)parameterType, choiceIndicator));
+                // Skip Extension so we keep the size more reasonable
+                // Also skip recursive elements like Codesystem.concept, 
+                // ExampleScenario.process.step.process
+                // ExampleScenario.process.step.operation.request
+                // ExampleScenario.process.step.operation.response
+                // ExampleScenario.process.step.alternative.step
+                // GraphDefinition.link.target
+                // PlanDefinition.action
+                // QuestionnaireResponse.item.answer
+                if (!Extension.class.equals(parameterType) && !parameterType.equals(owningClass) &&
+                        !ExampleScenario.Process.Step.class.equals(parameterType) &&
+                        !GraphDefinition.Link.Target.class.equals(parameterType) &&
+                        !PlanDefinition.Action.class.equals(parameterType) &&
+                        !QuestionnaireResponse.Item.class.equals(parameterType)) {
+                    // Otherwise just create a single element
+                    elementList = Collections.singletonList(createElement((Class<? extends Element>)parameterType, choiceIndicator));
+                }
             }
             return elementList;
         } else if (Element.class.equals(parameterType)){
@@ -176,9 +203,9 @@ public abstract class DataCreatorBase {
 
             // for singleton choice elements, use the "choiceIndicator" to pick the choice type
             String choiceTypeName = choiceTypes[(choiceTypes.length - 1) % choiceIndicator];
+            
             @SuppressWarnings("unchecked")
             Class<? extends Element> choiceType = (Class<? extends Element>) Class.forName(datatypePackageName + "." + titleCase(choiceTypeName));
-
             return createElement(choiceType, choiceIndicator);
         } else if (Resource.class.isAssignableFrom(parameterType)) {
             @SuppressWarnings("unchecked")
@@ -191,6 +218,9 @@ public abstract class DataCreatorBase {
         } else if (Narrative.class.isAssignableFrom(owningClass) && String.class.equals(parameterType)){
             // special case for generating narrative
             return "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>";
+        } else if (Extension.class.isAssignableFrom(owningClass) && String.class.equals(parameterType)){
+            // special case for extension urls
+            return "http://example.com";
         } else {
             throw new RuntimeException("Unhandled element of type " + parameterType + "; DataCreator subclasses must handle this.");
         }
