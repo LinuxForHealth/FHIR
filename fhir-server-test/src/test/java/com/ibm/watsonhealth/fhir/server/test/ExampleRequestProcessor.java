@@ -17,7 +17,6 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.spec.test.IExampleProcessor;
-import com.ibm.watsonhealth.fhir.model.spec.test.ResourceComparatorVisitor;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.watsonhealth.fhir.persistence.util.SaltHash;
@@ -73,20 +72,6 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         responseResource.accept(responseResource.getClass().getSimpleName(), v2);
 
         SaltHash responseHash = v2.getSaltAndHash();
-        
-        if (!responseHash.equals(baseline)) {
-            // Use the ResourceComparatorVisitor to provide some detail about what's different
-            ResourceComparatorVisitor originals = new ResourceComparatorVisitor();
-            resource.accept(resource.getClass().getSimpleName(), originals);
-            
-            ResourceComparatorVisitor others = new ResourceComparatorVisitor();
-            responseResource.accept(responseResource.getClass().getSimpleName(), others);
-            
-            // Perform a bi-directional comparison of values in the maps
-            ResourceComparatorVisitor.compare(originals.getValues(), others.getValues());
-
-            // throw the error so it is handled by the test framework
-            assertEquals(responseHash, baseline);
-        }
+        assertEquals(responseHash, baseline);
     }
 }

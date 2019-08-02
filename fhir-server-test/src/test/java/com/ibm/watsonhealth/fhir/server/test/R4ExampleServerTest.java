@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.server.test;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.watsonhealth.fhir.model.spec.test.ValidationProcessor;
 
 /**
@@ -20,7 +19,7 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
     /**
      * Process all the examples in the fhir-r4-spec example library
      */
-    @Test(groups = { "server-examples" })
+    @Test(groups = { "server-basic" })
     public void processExamples() throws Exception {
         
         // Process each of the examples using the provided ExampleRequestProcessor. We want to
@@ -28,8 +27,6 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         final R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExampleRequestProcessor(this));
-        
-        // TODO switch to ALL one the generated examples can be validated cleanly
-        driver.processExamples(TestType.SPEC);
+        driver.processAllExamples();
      }
 }

@@ -1,13 +1,8 @@
 <suite name="FHIRServerIntegrationTests">
 
-    <test name="ExampleTest">
-        <classes>
-            <class name="com.ibm.watsonhealth.fhir.server.test.R4ExampleServerTest" />
-        </classes>
-    </test>
-    
     <test name="ServerTests">
         <classes>
+            <class name="com.ibm.watsonhealth.fhir.server.test.R4ExampleServerTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.Base64BinaryTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.BasicServerTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.ServerSpecTest" />
