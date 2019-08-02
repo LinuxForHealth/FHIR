@@ -7,7 +7,9 @@
 package com.ibm.watsonhealth.fhir.model.spec.test;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -101,7 +103,19 @@ public class R4ExamplesDriver {
         default:
             throw new IllegalArgumentException("shouldn't be necessary");
         }
-        
+
+        // filename will be a resource we read from the classpath
+        processIndex(filename);
+    }
+
+
+    /**
+     * Process the index file. Filename can be a resource on the classpath, or
+     * a file from the file-system if prefixed with "file:..."
+     * @param filename
+     * @throws Exception
+     */
+    public void processIndex(String filename) throws Exception {
         // reset the state just in case we are called more than once
         this.firstException = null;
         this.testCount = 0;
@@ -112,7 +126,7 @@ public class R4ExamplesDriver {
         try {
 
             // Each line of this directory should be an example resource in json format
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(getResourceAsStream(filename), StandardCharsets.UTF_8))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename), StandardCharsets.UTF_8))) {
                 String line;
 
                 while ((line = br.readLine()) != null) {
@@ -134,9 +148,9 @@ public class R4ExamplesDriver {
             }
 
             // propagate the first exception so we fail the test
-	    	if (firstException != null) {
-	    	    throw firstException;
-	    	}
+            if (firstException != null) {
+                throw firstException;
+            }
         }
         finally {
             if (testCount > 0) {
@@ -149,33 +163,18 @@ public class R4ExamplesDriver {
             }
 
         }
+        
     }
+    
+
 
     /**
-     * Read the given resource as an {@link InputStream}
-     * @param resource
-     * @return
-     */
-    protected InputStream getResourceAsStream(String resource) {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        InputStream result = cl.getResourceAsStream(resource);
-        if (result == null) {
-            // Try the class's classloader instead
-            result = getClass().getResourceAsStream(resource);
-        }
-
-        if (result == null) {
-            throw new IllegalStateException("resource not found: " + resource);
-        }
-
-        return result;
-    }
-
-    /**
-     * Process the example file
+     * Process the example file. If jsonFile is prefixed with "file:" then the file
+     * will be read from the filesystem, otherwise it will be treated as a resource
+     * on the classpath.
      * @param jsonFile
      */
-    protected void processExample(String jsonFile, Expectation expectation) throws Exception {
+    public void processExample(String jsonFile, Expectation expectation) throws Exception {
         System.out.println("Processing: " + jsonFile);
         Expectation actual;
 
@@ -319,8 +318,37 @@ public class R4ExamplesDriver {
     public Resource readResource(String fileName) throws Exception {
 
         // We don't really care about knowing the resource type. We can check this later
-        try (InputStream is = getResourceAsStream(fileName)) {
+        try (InputStream is = getInputStream(fileName)) {
             return FHIRParser.parser(Format.JSON).parse(is);
         }
     }
+    
+    /**
+     * Read the given resource as an {@link InputStream}
+     * @param resource
+     * @return
+     */
+    protected InputStream getInputStream(String resource) throws IOException {
+        InputStream result;
+    
+        if (resource.startsWith("file:")) {
+            result = new FileInputStream(resource.substring(5));
+        }
+        else {
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            result = cl.getResourceAsStream(resource);
+            if (result == null) {
+                // Try the class's classloader instead
+                result = getClass().getResourceAsStream(resource);
+            }
+            
+            if (result == null) {
+                throw new IllegalStateException("resource not found: " + resource);
+            }
+        }
+
+        return result;
+    }
+    
+
 }

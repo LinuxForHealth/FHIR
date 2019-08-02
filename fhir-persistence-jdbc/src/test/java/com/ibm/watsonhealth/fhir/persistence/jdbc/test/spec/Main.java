@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +20,10 @@ import com.ibm.watsonhealth.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2Translator;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.model.spec.test.Expectation;
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watsonhealth.fhir.model.spec.test.SerializationProcessor;
+import com.ibm.watsonhealth.fhir.model.spec.test.ValidationProcessor;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
@@ -31,7 +35,17 @@ import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
  * Integration test using a multi-tenant schema in DB2 as the target for the
  * FHIR R4 Examples.
  * @author rarnold
- *
+ * 
+ * Usage
+ *   --parse
+ *   --validate
+ *   --expectation OK
+ *   --file-name file:/path/to/foo.json
+ *   --file-name file:/path/to/bar.json
+ *   --expectation PARSE
+ *   --file-name file:/path/to/bad.json
+ *   --expectation VALIDATION
+ *   --file-name json/ibm/minimal/Patient-1.json
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -47,6 +61,13 @@ public class Main {
     private String schemaName = "FHIRDATA"; // default
     private String tenantName;
     private String tenantKey;
+    
+    // The name of the index file to use
+    private String indexFileName;
+    
+    private boolean validate;
+    
+    private List<FileExpectation> fileExpectations = new ArrayList<>();
 
     // mode of operation
     private static enum Operation {
@@ -61,6 +82,10 @@ public class Main {
      * @param args
      */
     protected void parseArgs(String[] args) {
+
+        // Make the CLI a little easier by allowing the expectation to
+        // set once for a group of --file-name entries
+        Expectation currentExpectation = Expectation.OK;
         
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
@@ -99,11 +124,38 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case "--index-file":
+                if (++i < args.length) {
+                    this.indexFileName = args[i];
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--expectation":
+                if (++i < args.length) {
+                    currentExpectation = Expectation.valueOf(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--file-name":
+                if (++i < args.length) {
+                    this.fileExpectations.add(new FileExpectation(args[i], currentExpectation));
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case "--derby":
                 this.mode = Operation.DERBY;
                 break;
             case "--parse":
                 this.mode = Operation.PARSE;
+                break;
+            case "--validate":
+                this.validate = true;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
@@ -181,7 +233,25 @@ public class Main {
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
-        driver.processAllExamples();        
+        runDriver(driver);
+    }
+    
+    /**
+     * Run the driver based on the arguments we have
+     * @param driver
+     */
+    protected void runDriver(R4ExamplesDriver driver) throws Exception {
+        if (this.fileExpectations.size() > 0) {
+            for (FileExpectation fx: this.fileExpectations) {
+                driver.processExample(fx.getFilename(), fx.getExpectation());
+            }
+        }
+        else if (this.indexFileName != null) {
+            driver.processIndex(this.indexFileName);
+        }
+        else {
+            driver.processAllExamples();        
+        }
     }
 
     /**
@@ -203,7 +273,7 @@ public class Main {
             // the resource and call the processor.
             R4ExamplesDriver driver = new R4ExamplesDriver();
             driver.setProcessor(processor);
-            driver.processAllExamples();        
+            runDriver(driver);
         }
     }
     
@@ -214,7 +284,13 @@ public class Main {
         R4ExamplesDriver driver = new R4ExamplesDriver();
         SerializationProcessor processor = new SerializationProcessor();
         driver.setProcessor(processor);
-        driver.processAllExamples();        
+
+        // Should we also do validation?
+        if (this.validate) {
+            driver.setValidator(new ValidationProcessor());
+        }
+        
+        runDriver(driver);
     }
 
 

@@ -47,7 +47,6 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitor;
@@ -166,7 +165,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
         
         private java.lang.String getChoiceElementName(java.lang.String name, Class<?> type) {
-            return name + FHIRUtil.getConcreteType(type.getSimpleName());
+            return name + type.getSimpleName();
         }
         
         private boolean hasExtensionOrId(Element element) {
