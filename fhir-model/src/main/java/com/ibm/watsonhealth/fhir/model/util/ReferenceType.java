@@ -41,7 +41,7 @@ public enum ReferenceType {
             return INVALID;
         }
         
-        Matcher restUrlMatcher = FHIRUtil.REST_PATTERN.matcher(referenceUriString);
+        Matcher restUrlMatcher = FHIRUtil.REFERENCE_PATTERN.matcher(referenceUriString);
         boolean isFhirUrl = restUrlMatcher.matches();
         
         if (isFhirUrl) {

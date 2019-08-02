@@ -6,12 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
@@ -21,37 +21,9 @@ import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environm
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
-    private static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final int RESOURCE_TYPE = 4;
-    
-    /**
-     * This method builds a pattern from the regular expression found here: http://hl7.org/fhir/references.html#literal
-     * 
-     * The pattern handles both absolute and relative URLs including those that point to 
-     * a specific version of a resource.
-     * 
-     * [type]/[id]
-     * [type]/[id]/_history/[versionId]
-     * [base]/[type]/[id]
-     * [base]/[type]/[id]/_history/[versionId]
-     * 
-     * @return
-     *     the pattern
-     */
-    private static Pattern buildReferencePattern() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("((http|https):\\/\\/([A-Za-z0-9\\-\\\\\\.\\:\\%\\$]*\\/)+)?(");
-        StringJoiner joiner = new StringJoiner("|");
-        for (ResourceType.ValueSet value : ResourceType.ValueSet.values()) {
-            joiner.add(value.value());
-        }
-        sb.append(joiner.toString());
-        sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
-        return Pattern.compile(sb.toString());
-    }
 
     @Override
     public String getName() {

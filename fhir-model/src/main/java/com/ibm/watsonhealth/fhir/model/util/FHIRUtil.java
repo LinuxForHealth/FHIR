@@ -104,7 +104,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uuid;
 
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-    public static final Pattern REST_PATTERN = buildRestPattern();
+    public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -163,7 +163,7 @@ public class FHIRUtil {
         // allows us to initialize this class during startup
     }
 
-    private static Pattern buildRestPattern() {
+    private static Pattern buildReferencePattern() {
         StringBuilder sb = new StringBuilder();
         sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
         sb.append(Arrays.asList(ResourceType.ValueSet.values()).stream()
@@ -571,7 +571,7 @@ public class FHIRUtil {
                     throw new FHIRException("The Bundle entry that contains the reference must have an absolute fullUrl to resolve relative references");
                 }
                 // if the fullUrl of the resource that contains the reference is a RESTful one (see the RESTful URL regex), extract the [base], and append the reference to it
-                Matcher restUrlMatcher = REST_PATTERN.matcher(sourceEntryUriString);
+                Matcher restUrlMatcher = REFERENCE_PATTERN.matcher(sourceEntryUriString);
                 if (restUrlMatcher.matches() && restUrlMatcher.groupCount() > 0) {
                     String urlBase = restUrlMatcher.group(1);
                     referenceUriString = urlBase + referenceUriString;
