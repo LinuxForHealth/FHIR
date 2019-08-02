@@ -894,6 +894,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 for (OperationOutcome.Issue issue: issues) {
                     if (FHIRUtil.isFailure(issue.getSeverity())) {
                         includesFailure = true;
+                        break;
                     }
                 }
 
@@ -903,7 +904,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 else {
                     // TODO. Include warning issues in response
                     String info = issues.stream().map(issue -> issue.toString()).collect(Collectors.joining(","));
-                    log.warning("TODO: Validation warnings should be added to response: " + info);
+                    log.warning("TODO: Validation warnings may be added to response: " + info);
                 }
             }
 
@@ -1066,10 +1067,25 @@ public class FHIRResource implements FHIRResourceHelpers {
                 ior.setPrevResource(doRead(type, id, false, true, requestProperties, newResource));
             }
             
-            // Validate the input resource and return any validation errors.
+            // Validate the input resource and return any validation errors (but not warnings)
             List<OperationOutcome.Issue> issues = FHIRValidator.validator(newResource).validate();
             if (!issues.isEmpty()) {
-                throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                boolean includesFailure = false;
+                for (OperationOutcome.Issue issue: issues) {
+                    if (FHIRUtil.isFailure(issue.getSeverity())) {
+                        includesFailure = true;
+                        break;
+                    }
+                }
+
+                if (includesFailure) {
+                    throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                }
+                else {
+                    // TODO. Include warning issues in response
+                    String info = issues.stream().map(issue -> issue.toString()).collect(Collectors.joining(","));
+                    log.warning("TODO: Validation warnings may be added to response: " + info);
+                }
             }
             
             // Perform the "version-aware" update check.

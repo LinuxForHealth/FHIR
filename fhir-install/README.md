@@ -24,9 +24,9 @@ docker run -it -p 9080:9080 -p 9443:9443 --name fhir-server --rm fhir-server
 
 ## Test
 
-Once the fhir-server is ready, you can test it accessing: http://localhost:9080/fhir-server/api/v4/metadata.
+Once the fhir-server is ready, you can test it accessing: http://localhost:9080/fhir-server/api/v1/metadata.
 
-If you are using Docker for Mac, instead of using localhost you should use your Docker VM IP: http://192.168.99.100:9080/fhir-server/api/v4/metadata.
+If you are using Docker for Mac, instead of using localhost you should use your Docker VM IP: http://192.168.99.100:9080/fhir-server/api/v1/metadata.
 
 The test should result in something like:
 
@@ -45,9 +45,9 @@ The test should result in something like:
   </software>
   <fhirVersion value="1.0.2"/>
   <format value="application/json"/>
-  <format value="application/json+fhir"/>
+  <format value="application/fhir+json"/>
   <format value="application/xml"/>
-  <format value="application/xml+fhir"/>
+  <format value="application/fhir+xml"/>
 </Conformance>
 ```
 
