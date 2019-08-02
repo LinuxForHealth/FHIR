@@ -182,7 +182,7 @@ public class FHIRUtil {
      * @param type
      *     the type name
      * @return
-     *     the name of the concrete type name (if one exists)
+     *     the name of the concrete type (if one exists)
      *     (e.g. Quantity for SimpleQuantity)
      *     otherwise, return input parameter
      */
