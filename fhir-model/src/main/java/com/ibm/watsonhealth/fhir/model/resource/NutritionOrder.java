@@ -29,9 +29,9 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.NutritionOrderIntent;
 import com.ibm.watsonhealth.fhir.model.type.NutritionOrderStatus;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -1771,7 +1771,7 @@ public class NutritionOrder extends DomainResource {
          */
         public static class Nutrient extends BackboneElement {
             private final CodeableConcept modifier;
-            private final Quantity amount;
+            private final SimpleQuantity amount;
 
             private volatile int hashCode;
 
@@ -1800,9 +1800,9 @@ public class NutritionOrder extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getAmount() {
+            public SimpleQuantity getAmount() {
                 return amount;
             }
 
@@ -1875,7 +1875,7 @@ public class NutritionOrder extends DomainResource {
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept modifier;
-                private Quantity amount;
+                private SimpleQuantity amount;
 
                 /**
                  * <p>
@@ -2021,7 +2021,7 @@ public class NutritionOrder extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder amount(Quantity amount) {
+                public Builder amount(SimpleQuantity amount) {
                     this.amount = amount;
                     return this;
                 }
@@ -2326,7 +2326,7 @@ public class NutritionOrder extends DomainResource {
         private final CodeableConcept type;
         private final String productName;
         private final List<Timing> schedule;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final String instruction;
 
         private volatile int hashCode;
@@ -2384,9 +2384,9 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -2485,7 +2485,7 @@ public class NutritionOrder extends DomainResource {
             private CodeableConcept type;
             private String productName;
             private List<Timing> schedule = new ArrayList<>();
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private String instruction;
 
             /**
@@ -2690,7 +2690,7 @@ public class NutritionOrder extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }
@@ -2739,10 +2739,10 @@ public class NutritionOrder extends DomainResource {
         private final String baseFormulaProductName;
         private final CodeableConcept additiveType;
         private final String additiveProductName;
-        private final Quantity caloricDensity;
+        private final SimpleQuantity caloricDensity;
         private final CodeableConcept routeofAdministration;
         private final List<Administration> administration;
-        private final Quantity maxVolumeToDeliver;
+        private final SimpleQuantity maxVolumeToDeliver;
         private final String administrationInstruction;
 
         private volatile int hashCode;
@@ -2818,9 +2818,9 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getCaloricDensity() {
+        public SimpleQuantity getCaloricDensity() {
             return caloricDensity;
         }
 
@@ -2858,9 +2858,9 @@ public class NutritionOrder extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getMaxVolumeToDeliver() {
+        public SimpleQuantity getMaxVolumeToDeliver() {
             return maxVolumeToDeliver;
         }
 
@@ -2976,10 +2976,10 @@ public class NutritionOrder extends DomainResource {
             private String baseFormulaProductName;
             private CodeableConcept additiveType;
             private String additiveProductName;
-            private Quantity caloricDensity;
+            private SimpleQuantity caloricDensity;
             private CodeableConcept routeofAdministration;
             private List<Administration> administration = new ArrayList<>();
-            private Quantity maxVolumeToDeliver;
+            private SimpleQuantity maxVolumeToDeliver;
             private String administrationInstruction;
 
             /**
@@ -3177,7 +3177,7 @@ public class NutritionOrder extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder caloricDensity(Quantity caloricDensity) {
+            public Builder caloricDensity(SimpleQuantity caloricDensity) {
                 this.caloricDensity = caloricDensity;
                 return this;
             }
@@ -3255,7 +3255,7 @@ public class NutritionOrder extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder maxVolumeToDeliver(Quantity maxVolumeToDeliver) {
+            public Builder maxVolumeToDeliver(SimpleQuantity maxVolumeToDeliver) {
                 this.maxVolumeToDeliver = maxVolumeToDeliver;
                 return this;
             }
@@ -3305,7 +3305,7 @@ public class NutritionOrder extends DomainResource {
          */
         public static class Administration extends BackboneElement {
             private final Timing schedule;
-            private final Quantity quantity;
+            private final SimpleQuantity quantity;
             private final Element rate;
 
             private volatile int hashCode;
@@ -3314,7 +3314,7 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 schedule = builder.schedule;
                 quantity = builder.quantity;
-                rate = ValidationSupport.choiceElement(builder.rate, "rate", Quantity.class, Ratio.class);
+                rate = ValidationSupport.choiceElement(builder.rate, "rate", SimpleQuantity.class, Ratio.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3336,9 +3336,9 @@ public class NutritionOrder extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getQuantity() {
+            public SimpleQuantity getQuantity() {
                 return quantity;
             }
 
@@ -3427,7 +3427,7 @@ public class NutritionOrder extends DomainResource {
 
             public static class Builder extends BackboneElement.Builder {
                 private Timing schedule;
-                private Quantity quantity;
+                private SimpleQuantity quantity;
                 private Element rate;
 
                 /**
@@ -3574,7 +3574,7 @@ public class NutritionOrder extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder quantity(Quantity quantity) {
+                public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
                     return this;
                 }

@@ -25,9 +25,9 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -705,7 +705,7 @@ public class Substance extends DomainResource {
     public static class Instance extends BackboneElement {
         private final Identifier identifier;
         private final DateTime expiry;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
 
         private volatile int hashCode;
 
@@ -747,9 +747,9 @@ public class Substance extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -827,7 +827,7 @@ public class Substance extends DomainResource {
         public static class Builder extends BackboneElement.Builder {
             private Identifier identifier;
             private DateTime expiry;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
 
             /**
              * <p>
@@ -989,7 +989,7 @@ public class Substance extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }

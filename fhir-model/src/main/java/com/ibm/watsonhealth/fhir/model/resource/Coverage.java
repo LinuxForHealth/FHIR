@@ -28,8 +28,8 @@ import com.ibm.watsonhealth.fhir.model.type.Money;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -1428,7 +1428,7 @@ public class Coverage extends DomainResource {
         private CostToBeneficiary(Builder builder) {
             super(builder);
             type = builder.type;
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", Quantity.class, Money.class);
+            value = ValidationSupport.requireChoiceElement(builder.value, "value", SimpleQuantity.class, Money.class);
             exception = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exception, "exception"));
             ValidationSupport.requireValueOrChildren(this);
         }

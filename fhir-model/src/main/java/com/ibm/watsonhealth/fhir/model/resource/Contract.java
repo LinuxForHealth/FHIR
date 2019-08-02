@@ -39,6 +39,7 @@ import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Signature;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
@@ -6139,7 +6140,7 @@ public class Contract extends DomainResource {
                 private final Element entity;
                 private final Identifier identifier;
                 private final DateTime effectiveTime;
-                private final Quantity quantity;
+                private final SimpleQuantity quantity;
                 private final Money unitPrice;
                 private final Decimal factor;
                 private final Decimal points;
@@ -6215,9 +6216,9 @@ public class Contract extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link SimpleQuantity}.
                  */
-                public Quantity getQuantity() {
+                public SimpleQuantity getQuantity() {
                     return quantity;
                 }
 
@@ -6466,7 +6467,7 @@ public class Contract extends DomainResource {
                     private Element entity;
                     private Identifier identifier;
                     private DateTime effectiveTime;
-                    private Quantity quantity;
+                    private SimpleQuantity quantity;
                     private Money unitPrice;
                     private Decimal factor;
                     private Decimal points;
@@ -6655,7 +6656,7 @@ public class Contract extends DomainResource {
                      * @return
                      *     A reference to this Builder instance
                      */
-                    public Builder quantity(Quantity quantity) {
+                    public Builder quantity(SimpleQuantity quantity) {
                         this.quantity = quantity;
                         return this;
                     }

@@ -30,8 +30,8 @@ import com.ibm.watsonhealth.fhir.model.type.ImmunizationStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -68,7 +68,7 @@ public class Immunization extends DomainResource {
     private final Date expirationDate;
     private final CodeableConcept site;
     private final CodeableConcept route;
-    private final Quantity doseQuantity;
+    private final SimpleQuantity doseQuantity;
     private final List<Performer> performer;
     private final List<Annotation> note;
     private final List<CodeableConcept> reasonCode;
@@ -317,9 +317,9 @@ public class Immunization extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getDoseQuantity() {
+    public SimpleQuantity getDoseQuantity() {
         return doseQuantity;
     }
 
@@ -631,7 +631,7 @@ public class Immunization extends DomainResource {
         private Date expirationDate;
         private CodeableConcept site;
         private CodeableConcept route;
-        private Quantity doseQuantity;
+        private SimpleQuantity doseQuantity;
         private List<Performer> performer = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> reasonCode = new ArrayList<>();
@@ -1165,7 +1165,7 @@ public class Immunization extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder doseQuantity(Quantity doseQuantity) {
+        public Builder doseQuantity(SimpleQuantity doseQuantity) {
             this.doseQuantity = doseQuantity;
             return this;
         }

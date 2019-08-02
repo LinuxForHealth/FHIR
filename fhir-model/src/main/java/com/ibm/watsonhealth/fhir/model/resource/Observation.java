@@ -36,6 +36,7 @@ import com.ibm.watsonhealth.fhir.model.type.Range;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.SampledData;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
@@ -1573,8 +1574,8 @@ public class Observation extends DomainResource {
      * </p>
      */
     public static class ReferenceRange extends BackboneElement {
-        private final Quantity low;
-        private final Quantity high;
+        private final SimpleQuantity low;
+        private final SimpleQuantity high;
         private final CodeableConcept type;
         private final List<CodeableConcept> appliesTo;
         private final Range age;
@@ -1601,9 +1602,9 @@ public class Observation extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getLow() {
+        public SimpleQuantity getLow() {
             return low;
         }
 
@@ -1615,9 +1616,9 @@ public class Observation extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getHigh() {
+        public SimpleQuantity getHigh() {
             return high;
         }
 
@@ -1759,8 +1760,8 @@ public class Observation extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private Quantity low;
-            private Quantity high;
+            private SimpleQuantity low;
+            private SimpleQuantity high;
             private CodeableConcept type;
             private List<CodeableConcept> appliesTo = new ArrayList<>();
             private Range age;
@@ -1896,7 +1897,7 @@ public class Observation extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder low(Quantity low) {
+            public Builder low(SimpleQuantity low) {
                 this.low = low;
                 return this;
             }
@@ -1914,7 +1915,7 @@ public class Observation extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder high(Quantity high) {
+            public Builder high(SimpleQuantity high) {
                 this.high = high;
                 return this;
             }

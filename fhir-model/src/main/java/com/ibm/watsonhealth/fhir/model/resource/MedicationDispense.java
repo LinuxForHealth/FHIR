@@ -29,8 +29,8 @@ import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.MedicationDispenseStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
@@ -64,8 +64,8 @@ public class MedicationDispense extends DomainResource {
     private final Reference location;
     private final List<Reference> authorizingPrescription;
     private final CodeableConcept type;
-    private final Quantity quantity;
-    private final Quantity daysSupply;
+    private final SimpleQuantity quantity;
+    private final SimpleQuantity daysSupply;
     private final DateTime whenPrepared;
     private final DateTime whenHandedOver;
     private final Reference destination;
@@ -274,9 +274,9 @@ public class MedicationDispense extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getQuantity() {
+    public SimpleQuantity getQuantity() {
         return quantity;
     }
 
@@ -286,9 +286,9 @@ public class MedicationDispense extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getDaysSupply() {
+    public SimpleQuantity getDaysSupply() {
         return daysSupply;
     }
 
@@ -561,8 +561,8 @@ public class MedicationDispense extends DomainResource {
         private Reference location;
         private List<Reference> authorizingPrescription = new ArrayList<>();
         private CodeableConcept type;
-        private Quantity quantity;
-        private Quantity daysSupply;
+        private SimpleQuantity quantity;
+        private SimpleQuantity daysSupply;
         private DateTime whenPrepared;
         private DateTime whenHandedOver;
         private Reference destination;
@@ -1147,7 +1147,7 @@ public class MedicationDispense extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder quantity(Quantity quantity) {
+        public Builder quantity(SimpleQuantity quantity) {
             this.quantity = quantity;
             return this;
         }
@@ -1163,7 +1163,7 @@ public class MedicationDispense extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder daysSupply(Quantity daysSupply) {
+        public Builder daysSupply(SimpleQuantity daysSupply) {
             this.daysSupply = daysSupply;
             return this;
         }

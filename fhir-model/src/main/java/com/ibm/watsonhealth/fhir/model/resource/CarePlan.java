@@ -33,8 +33,8 @@ import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -2023,8 +2023,8 @@ public class CarePlan extends DomainResource {
             private final Reference location;
             private final List<Reference> performer;
             private final Element product;
-            private final Quantity dailyAmount;
-            private final Quantity quantity;
+            private final SimpleQuantity dailyAmount;
+            private final SimpleQuantity quantity;
             private final String description;
 
             private volatile int hashCode;
@@ -2232,9 +2232,9 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getDailyAmount() {
+            public SimpleQuantity getDailyAmount() {
                 return dailyAmount;
             }
 
@@ -2244,9 +2244,9 @@ public class CarePlan extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getQuantity() {
+            public SimpleQuantity getQuantity() {
                 return quantity;
             }
 
@@ -2407,8 +2407,8 @@ public class CarePlan extends DomainResource {
                 private Reference location;
                 private List<Reference> performer = new ArrayList<>();
                 private Element product;
-                private Quantity dailyAmount;
-                private Quantity quantity;
+                private SimpleQuantity dailyAmount;
+                private SimpleQuantity quantity;
                 private String description;
 
                 /**
@@ -2918,7 +2918,7 @@ public class CarePlan extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder dailyAmount(Quantity dailyAmount) {
+                public Builder dailyAmount(SimpleQuantity dailyAmount) {
                     this.dailyAmount = dailyAmount;
                     return this;
                 }
@@ -2934,7 +2934,7 @@ public class CarePlan extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder quantity(Quantity quantity) {
+                public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
                     return this;
                 }

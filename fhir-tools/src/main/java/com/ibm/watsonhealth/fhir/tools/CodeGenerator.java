@@ -97,12 +97,14 @@ public class CodeGenerator {
         "HumanName", 
         "Identifier", 
         "Money", 
+        "MoneyQuantity", 
         "Period", 
         "Quantity", 
         "Range", 
         "Ratio", 
         "Reference", 
         "SampledData", 
+        "SimpleQuantity", 
         "Signature", 
         "Timing", 
         "ContactDetail", 
@@ -114,6 +116,7 @@ public class CodeGenerator {
         "TriggerDefinition", 
         "UsageContext", 
         "Dosage");
+    private static final List<String> PROFILED_TYPES = Arrays.asList("SimpleQuantity", "MoneyQuantity");
     private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
     private static final List<String> HEADER = readHeader();
     private static final List<String> FUNCTIONS = readFunctions();
@@ -122,6 +125,10 @@ public class CodeGenerator {
         this.structureDefinitionMap = structureDefinitionMap;
         this.codeSystemMap = codeSystemMap;
         this.valueSetMap = valueSetMap;
+    }
+    
+    private boolean isProfiledType(String className) {
+        return PROFILED_TYPES.contains(className);
     }
 
     private static List<String> readHeader() {
@@ -197,8 +204,9 @@ public class CodeGenerator {
             } else if (isQuantitySubtype(fieldType)) {
                 return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             } else if (isChoiceElement(elementDefinition)) {
-                List<JsonObject> types = getTypes(elementDefinition);
-                String choiceTypeNames = types.stream().map(o -> quote(titleCase(o.getString("code")))).collect(Collectors.joining(", "));
+//              List<JsonObject> types = getTypes(elementDefinition);
+//              String choiceTypeNames = types.stream().map(o -> quote(titleCase(o.getString("code")))).collect(Collectors.joining(", "));
+                String choiceTypeNames = getChoiceTypeNames(elementDefinition).stream().map(s -> quote(s)).collect(Collectors.joining(", "));
                 return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeNames + ")";
             } else if (isJavaString(fieldType)) {
                 return "parseJavaString(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
@@ -206,6 +214,20 @@ public class CodeGenerator {
                 return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             }
         }
+    }
+    
+    private List<String> getChoiceTypeNames(JsonObject elementDefinition) {
+        List<String> choiceTypeNames = new ArrayList<>();
+        List<JsonObject> types = getTypes(elementDefinition);
+        for (JsonObject type : types) {
+            String choiceTypeName = titleCase(type.getString("code"));
+            if (type.containsKey("profile")) {
+                String profile = type.getJsonArray("profile").getString(0);
+                choiceTypeName = profile.substring(profile.lastIndexOf("/") + 1);
+            }
+            choiceTypeNames.add(choiceTypeName);
+        }
+        return choiceTypeNames;
     }
     
     private String camelCase(String name) {
@@ -490,7 +512,7 @@ public class CodeGenerator {
         
         int fieldCount = 0;
         List<JsonObject> declaredElementDefinitions = elementDefinitions.stream().filter(o -> o.getString("path").equals(o.getJsonObject("base").getString("path"))).collect(Collectors.toList());
-        if ("SimpleQuantity".equals(className)) {
+        if (isProfiledType(className)) {
             declaredElementDefinitions = Collections.emptyList();
         }
         if (!declaredElementDefinitions.isEmpty()) {
@@ -518,7 +540,7 @@ public class CodeGenerator {
                 
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !"SimpleQuantity".equals(className);
+            boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
             
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
@@ -807,7 +829,7 @@ public class CodeGenerator {
             }
 
             List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
-            if ("SimpleQuantity".equals(className)) {
+            if (isProfiledType(className)) {
                 elementDefinitions = Collections.emptyList();
             }
                         
@@ -852,7 +874,8 @@ public class CodeGenerator {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
-                                String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
+//                              String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));                              
+                                String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.requireChoiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
                                 cb.assign(fieldName, "ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + ")");
@@ -863,7 +886,8 @@ public class CodeGenerator {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
-                                String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
+//                              String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
+                                String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
                                 cb.assign(fieldName, "builder." + fieldName);
@@ -1369,7 +1393,8 @@ public class CodeGenerator {
             if (isChoiceElement(elementDefinition)) {
                 imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
                 if (isResource(structureDefinition)) {
-                    for (String dataTypeName : getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code"))).collect(Collectors.toList())) {
+//                  for (String dataTypeName : getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code"))).collect(Collectors.toList())) {
+                    for (String dataTypeName : getChoiceTypeNames(elementDefinition)) {
                         imports.add("com.ibm.watsonhealth.fhir.model.type." + dataTypeName);
                     }
                 }
@@ -1651,6 +1676,7 @@ public class CodeGenerator {
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
         cb._import("com.ibm.watsonhealth.fhir.model.type.String");
         cb._import("com.ibm.watsonhealth.fhir.model.util.ElementFilter");
+        cb._import("com.ibm.watsonhealth.fhir.model.util.FHIRUtil");
         cb._import("com.ibm.watsonhealth.fhir.model.util.JsonSupport");
         
         /*
@@ -1885,7 +1911,7 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._foreach("java.lang.String choiceTypeName", "choiceTypeNames")
-            .assign("java.lang.String key", "name + choiceTypeName")
+            .assign("java.lang.String key", "name + FHIRUtil.getConcreteType(choiceTypeName)")
             ._if("jsonObject.containsKey(key)")
                 ._if("elementName != null")
                     ._throw("new IllegalArgumentException()")
@@ -2773,6 +2799,10 @@ public class CodeGenerator {
             fieldType = titleCase(path.substring(path.lastIndexOf(".") + 1));     
         } else {
             fieldType = titleCase(types.get(0).getString("code"));
+            if (types.get(0).containsKey("profile")) {
+                String profile = types.get(0).getJsonArray("profile").getString(0);
+                fieldType = profile.substring(profile.lastIndexOf("/") + 1);
+            }
             if ("Code".equals(fieldType) && hasRequiredBinding(elementDefinition)) {
                 JsonObject binding = getBinding(elementDefinition);
                 fieldType = getBindingName(binding);
@@ -2814,7 +2844,7 @@ public class CodeGenerator {
     }
     
     private String getPath(String generatedClassName) {
-        if ("SimpleQuantity".equals(generatedClassName)) {
+        if ("SimpleQuantity".equals(generatedClassName) || "MoneyQuantity".equals(generatedClassName)) {
             return "Quantity";
         }
         

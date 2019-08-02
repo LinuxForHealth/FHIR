@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -81,6 +82,7 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Markdown;
 import com.ibm.watsonhealth.fhir.model.type.Money;
+import com.ibm.watsonhealth.fhir.model.type.MoneyQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Oid;
 import com.ibm.watsonhealth.fhir.model.type.ParameterDefinition;
 import com.ibm.watsonhealth.fhir.model.type.Period;
@@ -93,6 +95,7 @@ import com.ibm.watsonhealth.fhir.model.type.RelatedArtifact;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.type.SampledData;
 import com.ibm.watsonhealth.fhir.model.type.Signature;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.TriggerDefinition;
@@ -139,12 +142,14 @@ public class FHIRUtil {
         HumanName.class, 
         Identifier.class, 
         Money.class, 
+        MoneyQuantity.class, // profiled type
         Period.class, 
         Quantity.class, 
         Range.class, 
         Ratio.class, 
         Reference.class, 
         SampledData.class, 
+        SimpleQuantity.class, // profiled type
         Signature.class, 
         Timing.class, 
         ContactDetail.class, 
@@ -156,11 +161,30 @@ public class FHIRUtil {
         TriggerDefinition.class, 
         UsageContext.class, 
         Dosage.class));
-
+    private static final Map<String, String> PROFILED_TYPE_MAP = buildProfiledTypeMap();
+    
     private FHIRUtil() { }
     
     public static void init() {
         // allows us to initialize this class during startup
+    }
+    
+    private static Map<String, String> buildProfiledTypeMap() {
+        Map<String, String> profiledTypeMap = new HashMap<>();
+        profiledTypeMap.put("SimpleQuantity", "Quantity");
+        profiledTypeMap.put("MoneyQuantity", "Quantity");
+        return profiledTypeMap;
+    }
+    
+    public static String getConcreteType(String type) {
+        if (isProfiledType(type)) {
+            return PROFILED_TYPE_MAP.get(type);
+        }
+        return type;
+    }
+    
+    public static boolean isProfiledType(String type) {
+        return PROFILED_TYPE_MAP.containsKey(type);
     }
 
     private static Pattern buildReferencePattern() {

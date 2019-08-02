@@ -22,7 +22,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SampledData extends Element {
-    private final Quantity origin;
+    private final SimpleQuantity origin;
     private final Decimal period;
     private final Decimal factor;
     private final Decimal lowerLimit;
@@ -51,9 +51,9 @@ public class SampledData extends Element {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getOrigin() {
+    public SimpleQuantity getOrigin() {
         return origin;
     }
 
@@ -212,7 +212,7 @@ public class SampledData extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Quantity origin, Decimal period, PositiveInt dimensions) {
+    public static Builder builder(SimpleQuantity origin, Decimal period, PositiveInt dimensions) {
         Builder builder = new Builder();
         builder.origin(origin);
         builder.period(period);
@@ -221,7 +221,7 @@ public class SampledData extends Element {
     }
 
     public static class Builder extends Element.Builder {
-        private Quantity origin;
+        private SimpleQuantity origin;
         private Decimal period;
         private Decimal factor;
         private Decimal lowerLimit;
@@ -302,7 +302,7 @@ public class SampledData extends Element {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder origin(Quantity origin) {
+        public Builder origin(SimpleQuantity origin) {
             this.origin = origin;
             return this;
         }

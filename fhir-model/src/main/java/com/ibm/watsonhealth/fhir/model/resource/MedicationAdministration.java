@@ -28,9 +28,9 @@ import com.ibm.watsonhealth.fhir.model.type.MedicationAdministrationStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -1608,7 +1608,7 @@ public class MedicationAdministration extends DomainResource {
         private final CodeableConcept site;
         private final CodeableConcept route;
         private final CodeableConcept method;
-        private final Quantity dose;
+        private final SimpleQuantity dose;
         private final Element rate;
 
         private volatile int hashCode;
@@ -1620,7 +1620,7 @@ public class MedicationAdministration extends DomainResource {
             route = builder.route;
             method = builder.method;
             dose = builder.dose;
-            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Quantity.class);
+            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, SimpleQuantity.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1686,9 +1686,9 @@ The dosage instructions should reflect the
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getDose() {
+        public SimpleQuantity getDose() {
             return dose;
         }
 
@@ -1794,7 +1794,7 @@ The dosage instructions should reflect the
             private CodeableConcept site;
             private CodeableConcept route;
             private CodeableConcept method;
-            private Quantity dose;
+            private SimpleQuantity dose;
             private Element rate;
 
             /**
@@ -1997,7 +1997,7 @@ The dosage instructions should reflect the
              * @return
              *     A reference to this Builder instance
              */
-            public Builder dose(Quantity dose) {
+            public Builder dose(SimpleQuantity dose) {
                 this.dose = dose;
                 return this;
             }

@@ -25,9 +25,9 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Range;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.SpecimenContainedPreference;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -1193,7 +1193,7 @@ public class SpecimenDefinition extends DomainResource {
             private final CodeableConcept type;
             private final CodeableConcept cap;
             private final String description;
-            private final Quantity capacity;
+            private final SimpleQuantity capacity;
             private final Element minimumVolume;
             private final List<Additive> additive;
             private final String preparation;
@@ -1207,7 +1207,7 @@ public class SpecimenDefinition extends DomainResource {
                 cap = builder.cap;
                 description = builder.description;
                 capacity = builder.capacity;
-                minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
+                minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
                 additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
                 preparation = builder.preparation;
                 ValidationSupport.requireValueOrChildren(this);
@@ -1267,9 +1267,9 @@ public class SpecimenDefinition extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getCapacity() {
+            public SimpleQuantity getCapacity() {
                 return capacity;
             }
 
@@ -1406,7 +1406,7 @@ public class SpecimenDefinition extends DomainResource {
                 private CodeableConcept type;
                 private CodeableConcept cap;
                 private String description;
-                private Quantity capacity;
+                private SimpleQuantity capacity;
                 private Element minimumVolume;
                 private List<Additive> additive = new ArrayList<>();
                 private String preparation;
@@ -1603,7 +1603,7 @@ public class SpecimenDefinition extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder capacity(Quantity capacity) {
+                public Builder capacity(SimpleQuantity capacity) {
                     this.capacity = capacity;
                     return this;
                 }

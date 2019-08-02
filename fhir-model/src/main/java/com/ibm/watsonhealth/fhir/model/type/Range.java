@@ -29,8 +29,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Range extends Element {
-    private final Quantity low;
-    private final Quantity high;
+    private final SimpleQuantity low;
+    private final SimpleQuantity high;
 
     private volatile int hashCode;
 
@@ -47,9 +47,9 @@ public class Range extends Element {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getLow() {
+    public SimpleQuantity getLow() {
         return low;
     }
 
@@ -59,9 +59,9 @@ public class Range extends Element {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getHigh() {
+    public SimpleQuantity getHigh() {
         return high;
     }
 
@@ -130,8 +130,8 @@ public class Range extends Element {
     }
 
     public static class Builder extends Element.Builder {
-        private Quantity low;
-        private Quantity high;
+        private SimpleQuantity low;
+        private SimpleQuantity high;
 
         /**
          * <p>
@@ -205,7 +205,7 @@ public class Range extends Element {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder low(Quantity low) {
+        public Builder low(SimpleQuantity low) {
             this.low = low;
             return this;
         }
@@ -221,7 +221,7 @@ public class Range extends Element {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder high(Quantity high) {
+        public Builder high(SimpleQuantity high) {
             this.high = high;
             return this;
         }

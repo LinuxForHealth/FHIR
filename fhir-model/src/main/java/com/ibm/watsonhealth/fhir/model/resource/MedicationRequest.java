@@ -33,8 +33,8 @@ import com.ibm.watsonhealth.fhir.model.type.MedicationRequestStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -1864,7 +1864,7 @@ public class MedicationRequest extends DomainResource {
         private final Duration dispenseInterval;
         private final Period validityPeriod;
         private final UnsignedInt numberOfRepeatsAllowed;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final Duration expectedSupplyDuration;
         private final Reference performer;
 
@@ -1940,9 +1940,9 @@ public class MedicationRequest extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -2063,7 +2063,7 @@ public class MedicationRequest extends DomainResource {
             private Duration dispenseInterval;
             private Period validityPeriod;
             private UnsignedInt numberOfRepeatsAllowed;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private Duration expectedSupplyDuration;
             private Reference performer;
 
@@ -2263,7 +2263,7 @@ public class MedicationRequest extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }
@@ -2325,7 +2325,7 @@ public class MedicationRequest extends DomainResource {
          * </p>
          */
         public static class InitialFill extends BackboneElement {
-            private final Quantity quantity;
+            private final SimpleQuantity quantity;
             private final Duration duration;
 
             private volatile int hashCode;
@@ -2343,9 +2343,9 @@ public class MedicationRequest extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getQuantity() {
+            public SimpleQuantity getQuantity() {
                 return quantity;
             }
 
@@ -2429,7 +2429,7 @@ public class MedicationRequest extends DomainResource {
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private Quantity quantity;
+                private SimpleQuantity quantity;
                 private Duration duration;
 
                 /**
@@ -2560,7 +2560,7 @@ public class MedicationRequest extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder quantity(Quantity quantity) {
+                public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
                     return this;
                 }

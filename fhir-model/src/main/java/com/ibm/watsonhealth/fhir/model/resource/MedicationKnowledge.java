@@ -28,9 +28,9 @@ import com.ibm.watsonhealth.fhir.model.type.MedicationKnowledgeStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Money;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -47,7 +47,7 @@ public class MedicationKnowledge extends DomainResource {
     private final MedicationKnowledgeStatus status;
     private final Reference manufacturer;
     private final CodeableConcept doseForm;
-    private final Quantity amount;
+    private final SimpleQuantity amount;
     private final List<String> synonym;
     private final List<RelatedMedicationKnowledge> relatedMedicationKnowledge;
     private final List<Reference> associatedMedication;
@@ -154,9 +154,9 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getAmount() {
+    public SimpleQuantity getAmount() {
         return amount;
     }
 
@@ -509,7 +509,7 @@ public class MedicationKnowledge extends DomainResource {
         private MedicationKnowledgeStatus status;
         private Reference manufacturer;
         private CodeableConcept doseForm;
-        private Quantity amount;
+        private SimpleQuantity amount;
         private List<String> synonym = new ArrayList<>();
         private List<RelatedMedicationKnowledge> relatedMedicationKnowledge = new ArrayList<>();
         private List<Reference> associatedMedication = new ArrayList<>();
@@ -835,7 +835,7 @@ public class MedicationKnowledge extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder amount(Quantity amount) {
+        public Builder amount(SimpleQuantity amount) {
             this.amount = amount;
             return this;
         }
@@ -3678,7 +3678,7 @@ public class MedicationKnowledge extends DomainResource {
 
             private PatientCharacteristics(Builder builder) {
                 super(builder);
-                characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
+                characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, SimpleQuantity.class);
                 value = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.value, "value"));
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -4275,7 +4275,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class Packaging extends BackboneElement {
         private final CodeableConcept type;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
 
         private volatile int hashCode;
 
@@ -4305,9 +4305,9 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -4380,7 +4380,7 @@ public class MedicationKnowledge extends DomainResource {
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
 
             /**
              * <p>
@@ -4527,7 +4527,7 @@ public class MedicationKnowledge extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }
@@ -4560,7 +4560,7 @@ public class MedicationKnowledge extends DomainResource {
         private DrugCharacteristic(Builder builder) {
             super(builder);
             type = builder.type;
-            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, Quantity.class, Base64Binary.class);
+            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5743,7 +5743,7 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          */
         public static class MaxDispense extends BackboneElement {
-            private final Quantity quantity;
+            private final SimpleQuantity quantity;
             private final Duration period;
 
             private volatile int hashCode;
@@ -5761,9 +5761,9 @@ public class MedicationKnowledge extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getQuantity() {
+            public SimpleQuantity getQuantity() {
                 return quantity;
             }
 
@@ -5841,14 +5841,14 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Quantity quantity) {
+            public static Builder builder(SimpleQuantity quantity) {
                 Builder builder = new Builder();
                 builder.quantity(quantity);
                 return builder;
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private Quantity quantity;
+                private SimpleQuantity quantity;
                 private Duration period;
 
                 /**
@@ -5979,7 +5979,7 @@ public class MedicationKnowledge extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder quantity(Quantity quantity) {
+                public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
                     return this;
                 }
@@ -6021,8 +6021,8 @@ public class MedicationKnowledge extends DomainResource {
      * </p>
      */
     public static class Kinetics extends BackboneElement {
-        private final List<Quantity> areaUnderCurve;
-        private final List<Quantity> lethalDose50;
+        private final List<SimpleQuantity> areaUnderCurve;
+        private final List<SimpleQuantity> lethalDose50;
         private final Duration halfLifePeriod;
 
         private volatile int hashCode;
@@ -6041,9 +6041,9 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity}.
          */
-        public List<Quantity> getAreaUnderCurve() {
+        public List<SimpleQuantity> getAreaUnderCurve() {
             return areaUnderCurve;
         }
 
@@ -6053,9 +6053,9 @@ public class MedicationKnowledge extends DomainResource {
          * </p>
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity}.
          */
-        public List<Quantity> getLethalDose50() {
+        public List<SimpleQuantity> getLethalDose50() {
             return lethalDose50;
         }
 
@@ -6088,8 +6088,8 @@ public class MedicationKnowledge extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(areaUnderCurve, "areaUnderCurve", visitor, Quantity.class);
-                    accept(lethalDose50, "lethalDose50", visitor, Quantity.class);
+                    accept(areaUnderCurve, "areaUnderCurve", visitor, SimpleQuantity.class);
+                    accept(lethalDose50, "lethalDose50", visitor, SimpleQuantity.class);
                     accept(halfLifePeriod, "halfLifePeriod", visitor);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
@@ -6143,8 +6143,8 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private List<Quantity> areaUnderCurve = new ArrayList<>();
-            private List<Quantity> lethalDose50 = new ArrayList<>();
+            private List<SimpleQuantity> areaUnderCurve = new ArrayList<>();
+            private List<SimpleQuantity> lethalDose50 = new ArrayList<>();
             private Duration halfLifePeriod;
 
             /**
@@ -6278,8 +6278,8 @@ public class MedicationKnowledge extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder areaUnderCurve(Quantity... areaUnderCurve) {
-                for (Quantity value : areaUnderCurve) {
+            public Builder areaUnderCurve(SimpleQuantity... areaUnderCurve) {
+                for (SimpleQuantity value : areaUnderCurve) {
                     this.areaUnderCurve.add(value);
                 }
                 return this;
@@ -6299,7 +6299,7 @@ public class MedicationKnowledge extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder areaUnderCurve(Collection<Quantity> areaUnderCurve) {
+            public Builder areaUnderCurve(Collection<SimpleQuantity> areaUnderCurve) {
                 this.areaUnderCurve = new ArrayList<>(areaUnderCurve);
                 return this;
             }
@@ -6318,8 +6318,8 @@ public class MedicationKnowledge extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder lethalDose50(Quantity... lethalDose50) {
-                for (Quantity value : lethalDose50) {
+            public Builder lethalDose50(SimpleQuantity... lethalDose50) {
+                for (SimpleQuantity value : lethalDose50) {
                     this.lethalDose50.add(value);
                 }
                 return this;
@@ -6339,7 +6339,7 @@ public class MedicationKnowledge extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder lethalDose50(Collection<Quantity> lethalDose50) {
+            public Builder lethalDose50(Collection<SimpleQuantity> lethalDose50) {
                 this.lethalDose50 = new ArrayList<>(lethalDose50);
                 return this;
             }

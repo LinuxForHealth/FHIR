@@ -31,8 +31,8 @@ import com.ibm.watsonhealth.fhir.model.type.Money;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
@@ -1633,7 +1633,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final Reference provider;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final Money unitPrice;
         private final Reference facility;
         private final List<Diagnosis> diagnosis;
@@ -1722,9 +1722,9 @@ public class CoverageEligibilityRequest extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -1881,7 +1881,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             private CodeableConcept productOrService;
             private List<CodeableConcept> modifier = new ArrayList<>();
             private Reference provider;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private Money unitPrice;
             private Reference facility;
             private List<Diagnosis> diagnosis = new ArrayList<>();
@@ -2143,7 +2143,7 @@ public class CoverageEligibilityRequest extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }

@@ -25,8 +25,8 @@ import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.SupplyDeliveryStatus;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -844,7 +844,7 @@ public class SupplyDelivery extends DomainResource {
      * </p>
      */
     public static class SuppliedItem extends BackboneElement {
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final Element item;
 
         private volatile int hashCode;
@@ -862,9 +862,9 @@ public class SupplyDelivery extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -949,7 +949,7 @@ public class SupplyDelivery extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private Element item;
 
             /**
@@ -1080,7 +1080,7 @@ public class SupplyDelivery extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }

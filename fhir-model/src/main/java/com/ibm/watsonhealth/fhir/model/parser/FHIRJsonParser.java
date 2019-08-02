@@ -32,6 +32,7 @@ import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.util.ElementFilter;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
 
 public class FHIRJsonParser implements FHIRParser {
@@ -611,7 +612,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.product(parseChoiceElement("product", jsonObject, "Reference", "CodeableConcept"));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         JsonArray dosageArray = JsonSupport.getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             int index = 0;
@@ -2370,8 +2371,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.product(parseChoiceElement("product", jsonObject, "CodeableConcept", "Reference"));
-        builder.dailyAmount(parseQuantity("dailyAmount", JsonSupport.getJsonValue(jsonObject, "dailyAmount", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.dailyAmount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "dailyAmount", JsonSupport.getJsonValue(jsonObject, "dailyAmount", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
@@ -3105,7 +3106,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
         builder.location(parseChoiceElement("location", jsonObject, "CodeableConcept", "Address", "Reference"));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -3174,7 +3175,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -3226,7 +3227,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -3493,7 +3494,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
         builder.location(parseChoiceElement("location", jsonObject, "CodeableConcept", "Address", "Reference"));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -3553,7 +3554,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -3604,7 +3605,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -5806,7 +5807,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.entity(parseChoiceElement("entity", jsonObject, "CodeableConcept", "Reference"));
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.effectiveTime(parseDateTime("effectiveTime", JsonSupport.getJsonValue(jsonObject, "effectiveTime", JsonString.class), jsonObject.get("_effectiveTime"), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.points(parseDecimal("points", JsonSupport.getJsonValue(jsonObject, "points", JsonNumber.class), jsonObject.get("_points"), -1));
@@ -6084,7 +6085,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Coverage.CostToBeneficiary", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "Quantity", "Money");
+        Element value = parseChoiceElement("value", jsonObject, "SimpleQuantity", "Money");
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder(value);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -6220,7 +6221,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.facility(parseReference("facility", JsonSupport.getJsonValue(jsonObject, "facility", JsonObject.class), -1));
         JsonArray diagnosisArray = JsonSupport.getJsonArray(jsonObject, "diagnosis");
@@ -7769,8 +7770,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.maxDosePerPeriod(parseRatio("maxDosePerPeriod", JsonSupport.getJsonValue(jsonObject, "maxDosePerPeriod", JsonObject.class), -1));
-        builder.maxDosePerAdministration(parseQuantity("maxDosePerAdministration", JsonSupport.getJsonValue(jsonObject, "maxDosePerAdministration", JsonObject.class), -1));
-        builder.maxDosePerLifetime(parseQuantity("maxDosePerLifetime", JsonSupport.getJsonValue(jsonObject, "maxDosePerLifetime", JsonObject.class), -1));
+        builder.maxDosePerAdministration((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "maxDosePerAdministration", JsonSupport.getJsonValue(jsonObject, "maxDosePerAdministration", JsonObject.class), -1));
+        builder.maxDosePerLifetime((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "maxDosePerLifetime", JsonSupport.getJsonValue(jsonObject, "maxDosePerLifetime", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -7784,8 +7785,8 @@ public class FHIRJsonParser implements FHIRParser {
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.dose(parseChoiceElement("dose", jsonObject, "Range", "Quantity"));
-        builder.rate(parseChoiceElement("rate", jsonObject, "Ratio", "Range", "Quantity"));
+        builder.dose(parseChoiceElement("dose", jsonObject, "Range", "SimpleQuantity"));
+        builder.rate(parseChoiceElement("rate", jsonObject, "Ratio", "Range", "SimpleQuantity"));
         stackPop();
         return builder.build();
     }
@@ -9707,7 +9708,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
         builder.location(parseChoiceElement("location", jsonObject, "CodeableConcept", "Address", "Reference"));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -9766,7 +9767,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -9816,7 +9817,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -10013,7 +10014,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
         builder.location(parseChoiceElement("location", jsonObject, "CodeableConcept", "Address", "Reference"));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -10115,7 +10116,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -10184,7 +10185,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
@@ -11352,7 +11353,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.expirationDate(parseDate("expirationDate", JsonSupport.getJsonValue(jsonObject, "expirationDate", JsonString.class), jsonObject.get("_expirationDate"), -1));
         builder.site(parseCodeableConcept("site", JsonSupport.getJsonValue(jsonObject, "site", JsonObject.class), -1));
         builder.route(parseCodeableConcept("route", JsonSupport.getJsonValue(jsonObject, "route", JsonObject.class), -1));
-        builder.doseQuantity(parseQuantity("doseQuantity", JsonSupport.getJsonValue(jsonObject, "doseQuantity", JsonObject.class), -1));
+        builder.doseQuantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "doseQuantity", JsonSupport.getJsonValue(jsonObject, "doseQuantity", JsonObject.class), -1));
         JsonArray performerArray = JsonSupport.getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             int index = 0;
@@ -13505,8 +13506,8 @@ public class FHIRJsonParser implements FHIRParser {
         builder.site(parseCodeableConcept("site", JsonSupport.getJsonValue(jsonObject, "site", JsonObject.class), -1));
         builder.route(parseCodeableConcept("route", JsonSupport.getJsonValue(jsonObject, "route", JsonObject.class), -1));
         builder.method(parseCodeableConcept("method", JsonSupport.getJsonValue(jsonObject, "method", JsonObject.class), -1));
-        builder.dose(parseQuantity("dose", JsonSupport.getJsonValue(jsonObject, "dose", JsonObject.class), -1));
-        builder.rate(parseChoiceElement("rate", jsonObject, "Ratio", "Quantity"));
+        builder.dose((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "dose", JsonSupport.getJsonValue(jsonObject, "dose", JsonObject.class), -1));
+        builder.rate(parseChoiceElement("rate", jsonObject, "Ratio", "SimpleQuantity"));
         stackPop();
         return builder.build();
     }
@@ -13581,8 +13582,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
-        builder.daysSupply(parseQuantity("daysSupply", JsonSupport.getJsonValue(jsonObject, "daysSupply", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.daysSupply((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "daysSupply", JsonSupport.getJsonValue(jsonObject, "daysSupply", JsonObject.class), -1));
         builder.whenPrepared(parseDateTime("whenPrepared", JsonSupport.getJsonValue(jsonObject, "whenPrepared", JsonString.class), jsonObject.get("_whenPrepared"), -1));
         builder.whenHandedOver(parseDateTime("whenHandedOver", JsonSupport.getJsonValue(jsonObject, "whenHandedOver", JsonString.class), jsonObject.get("_whenHandedOver"), -1));
         builder.destination(parseReference("destination", JsonSupport.getJsonValue(jsonObject, "destination", JsonObject.class), -1));
@@ -13687,7 +13688,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.status((MedicationKnowledgeStatus) parseString(MedicationKnowledgeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.manufacturer(parseReference("manufacturer", JsonSupport.getJsonValue(jsonObject, "manufacturer", JsonObject.class), -1));
         builder.doseForm(parseCodeableConcept("doseForm", JsonSupport.getJsonValue(jsonObject, "doseForm", JsonObject.class), -1));
-        builder.amount(parseQuantity("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
+        builder.amount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         JsonArray synonymArray = JsonSupport.getJsonArray(jsonObject, "synonym", true);
         if (synonymArray != null) {
             int index = 0;
@@ -13872,7 +13873,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics", jsonObject);
-        Element characteristic = parseChoiceElement("characteristic", jsonObject, "CodeableConcept", "Quantity");
+        Element characteristic = parseChoiceElement("characteristic", jsonObject, "CodeableConcept", "SimpleQuantity");
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder(characteristic);
         parseBackboneElement(builder, jsonObject);
         JsonArray valueArray = JsonSupport.getJsonArray(jsonObject, "value", true);
@@ -13912,7 +13913,7 @@ public class FHIRJsonParser implements FHIRParser {
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.value(parseChoiceElement("value", jsonObject, "CodeableConcept", "String", "Quantity", "Base64Binary"));
+        builder.value(parseChoiceElement("value", jsonObject, "CodeableConcept", "String", "SimpleQuantity", "Base64Binary"));
         stackPop();
         return builder.build();
     }
@@ -13944,7 +13945,7 @@ public class FHIRJsonParser implements FHIRParser {
         if (areaUnderCurveArray != null) {
             int index = 0;
             for (JsonValue jsonValue : areaUnderCurveArray) {
-                builder.areaUnderCurve(parseQuantity("areaUnderCurve", (JsonObject) jsonValue, index));
+                builder.areaUnderCurve((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "areaUnderCurve", (JsonObject) jsonValue, index));
                 index++;
             }
         }
@@ -13952,7 +13953,7 @@ public class FHIRJsonParser implements FHIRParser {
         if (lethalDose50Array != null) {
             int index = 0;
             for (JsonValue jsonValue : lethalDose50Array) {
-                builder.lethalDose50(parseQuantity("lethalDose50", (JsonObject) jsonValue, index));
+                builder.lethalDose50((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "lethalDose50", (JsonObject) jsonValue, index));
                 index++;
             }
         }
@@ -14019,7 +14020,7 @@ public class FHIRJsonParser implements FHIRParser {
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -14060,7 +14061,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Regulatory.MaxDispense", jsonObject);
-        Quantity quantity = parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
+        SimpleQuantity quantity = (SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder(quantity);
         parseBackboneElement(builder, jsonObject);
         builder.period((Duration) parseQuantity(Duration.builder(), "period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -14266,7 +14267,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.dispenseInterval((Duration) parseQuantity(Duration.builder(), "dispenseInterval", JsonSupport.getJsonValue(jsonObject, "dispenseInterval", JsonObject.class), -1));
         builder.validityPeriod(parsePeriod("validityPeriod", JsonSupport.getJsonValue(jsonObject, "validityPeriod", JsonObject.class), -1));
         builder.numberOfRepeatsAllowed((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfRepeatsAllowed", JsonSupport.getJsonValue(jsonObject, "numberOfRepeatsAllowed", JsonNumber.class), jsonObject.get("_numberOfRepeatsAllowed"), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.expectedSupplyDuration((Duration) parseQuantity(Duration.builder(), "expectedSupplyDuration", JsonSupport.getJsonValue(jsonObject, "expectedSupplyDuration", JsonObject.class), -1));
         builder.performer(parseReference("performer", JsonSupport.getJsonValue(jsonObject, "performer", JsonObject.class), -1));
         stackPop();
@@ -14281,7 +14282,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("MedicationRequest.DispenseRequest.InitialFill", jsonObject);
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
         parseBackboneElement(builder, jsonObject);
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.duration((Duration) parseQuantity(Duration.builder(), "duration", JsonSupport.getJsonValue(jsonObject, "duration", JsonObject.class), -1));
         stackPop();
         return builder.build();
@@ -16210,7 +16211,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.baseFormulaProductName(parseString("baseFormulaProductName", JsonSupport.getJsonValue(jsonObject, "baseFormulaProductName", JsonString.class), jsonObject.get("_baseFormulaProductName"), -1));
         builder.additiveType(parseCodeableConcept("additiveType", JsonSupport.getJsonValue(jsonObject, "additiveType", JsonObject.class), -1));
         builder.additiveProductName(parseString("additiveProductName", JsonSupport.getJsonValue(jsonObject, "additiveProductName", JsonString.class), jsonObject.get("_additiveProductName"), -1));
-        builder.caloricDensity(parseQuantity("caloricDensity", JsonSupport.getJsonValue(jsonObject, "caloricDensity", JsonObject.class), -1));
+        builder.caloricDensity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "caloricDensity", JsonSupport.getJsonValue(jsonObject, "caloricDensity", JsonObject.class), -1));
         builder.routeofAdministration(parseCodeableConcept("routeofAdministration", JsonSupport.getJsonValue(jsonObject, "routeofAdministration", JsonObject.class), -1));
         JsonArray administrationArray = JsonSupport.getJsonArray(jsonObject, "administration");
         if (administrationArray != null) {
@@ -16220,7 +16221,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.maxVolumeToDeliver(parseQuantity("maxVolumeToDeliver", JsonSupport.getJsonValue(jsonObject, "maxVolumeToDeliver", JsonObject.class), -1));
+        builder.maxVolumeToDeliver((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "maxVolumeToDeliver", JsonSupport.getJsonValue(jsonObject, "maxVolumeToDeliver", JsonObject.class), -1));
         builder.administrationInstruction(parseString("administrationInstruction", JsonSupport.getJsonValue(jsonObject, "administrationInstruction", JsonString.class), jsonObject.get("_administrationInstruction"), -1));
         stackPop();
         return builder.build();
@@ -16235,8 +16236,8 @@ public class FHIRJsonParser implements FHIRParser {
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
         parseBackboneElement(builder, jsonObject);
         builder.schedule(parseTiming("schedule", JsonSupport.getJsonValue(jsonObject, "schedule", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
-        builder.rate(parseChoiceElement("rate", jsonObject, "Quantity", "Ratio"));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.rate(parseChoiceElement("rate", jsonObject, "SimpleQuantity", "Ratio"));
         stackPop();
         return builder.build();
     }
@@ -16303,7 +16304,7 @@ public class FHIRJsonParser implements FHIRParser {
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
         parseBackboneElement(builder, jsonObject);
         builder.modifier(parseCodeableConcept("modifier", JsonSupport.getJsonValue(jsonObject, "modifier", JsonObject.class), -1));
-        builder.amount(parseQuantity("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
+        builder.amount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -16340,7 +16341,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.instruction(parseString("instruction", JsonSupport.getJsonValue(jsonObject, "instruction", JsonString.class), jsonObject.get("_instruction"), -1));
         stackPop();
         return builder.build();
@@ -16505,8 +16506,8 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("Observation.ReferenceRange", jsonObject);
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
         parseBackboneElement(builder, jsonObject);
-        builder.low(parseQuantity("low", JsonSupport.getJsonValue(jsonObject, "low", JsonObject.class), -1));
-        builder.high(parseQuantity("high", JsonSupport.getJsonValue(jsonObject, "high", JsonObject.class), -1));
+        builder.low((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "low", JsonSupport.getJsonValue(jsonObject, "low", JsonObject.class), -1));
+        builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", JsonSupport.getJsonValue(jsonObject, "high", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray appliesToArray = JsonSupport.getJsonArray(jsonObject, "appliesTo");
         if (appliesToArray != null) {
@@ -18739,8 +18740,8 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("Range", jsonObject);
         Range.Builder builder = Range.builder();
         parseElement(builder, jsonObject);
-        builder.low(parseQuantity("low", JsonSupport.getJsonValue(jsonObject, "low", JsonObject.class), -1));
-        builder.high(parseQuantity("high", JsonSupport.getJsonValue(jsonObject, "high", JsonObject.class), -1));
+        builder.low((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "low", JsonSupport.getJsonValue(jsonObject, "low", JsonObject.class), -1));
+        builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", JsonSupport.getJsonValue(jsonObject, "high", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -19928,7 +19929,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SampledData", jsonObject);
-        Quantity origin = parseQuantity("origin", JsonSupport.getJsonValue(jsonObject, "origin", JsonObject.class), -1);
+        SimpleQuantity origin = (SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "origin", JsonSupport.getJsonValue(jsonObject, "origin", JsonObject.class), -1);
         Decimal period = parseDecimal("period", JsonSupport.getJsonValue(jsonObject, "period", JsonNumber.class), jsonObject.get("_period"), -1);
         PositiveInt dimensions = (PositiveInt) parseInteger(PositiveInt.builder(), "dimensions", JsonSupport.getJsonValue(jsonObject, "dimensions", JsonNumber.class), jsonObject.get("_dimensions"), -1);
         SampledData.Builder builder = SampledData.builder(origin, period, dimensions);
@@ -20454,7 +20455,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.collector(parseReference("collector", JsonSupport.getJsonValue(jsonObject, "collector", JsonObject.class), -1));
         builder.collected(parseChoiceElement("collected", jsonObject, "DateTime", "Period"));
         builder.duration((Duration) parseQuantity(Duration.builder(), "duration", JsonSupport.getJsonValue(jsonObject, "duration", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.method(parseCodeableConcept("method", JsonSupport.getJsonValue(jsonObject, "method", JsonObject.class), -1));
         builder.bodySite(parseCodeableConcept("bodySite", JsonSupport.getJsonValue(jsonObject, "bodySite", JsonObject.class), -1));
         builder.fastingStatus(parseChoiceElement("fastingStatus", jsonObject, "CodeableConcept", "Duration"));
@@ -20480,8 +20481,8 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.capacity(parseQuantity("capacity", JsonSupport.getJsonValue(jsonObject, "capacity", JsonObject.class), -1));
-        builder.specimenQuantity(parseQuantity("specimenQuantity", JsonSupport.getJsonValue(jsonObject, "specimenQuantity", JsonObject.class), -1));
+        builder.capacity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "capacity", JsonSupport.getJsonValue(jsonObject, "capacity", JsonObject.class), -1));
+        builder.specimenQuantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "specimenQuantity", JsonSupport.getJsonValue(jsonObject, "specimenQuantity", JsonObject.class), -1));
         builder.additive(parseChoiceElement("additive", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
@@ -20595,8 +20596,8 @@ public class FHIRJsonParser implements FHIRParser {
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.cap(parseCodeableConcept("cap", JsonSupport.getJsonValue(jsonObject, "cap", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.capacity(parseQuantity("capacity", JsonSupport.getJsonValue(jsonObject, "capacity", JsonObject.class), -1));
-        builder.minimumVolume(parseChoiceElement("minimumVolume", jsonObject, "Quantity", "String"));
+        builder.capacity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "capacity", JsonSupport.getJsonValue(jsonObject, "capacity", JsonObject.class), -1));
+        builder.minimumVolume(parseChoiceElement("minimumVolume", jsonObject, "SimpleQuantity", "String"));
         JsonArray additiveArray = JsonSupport.getJsonArray(jsonObject, "additive");
         if (additiveArray != null) {
             int index = 0;
@@ -21238,7 +21239,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.expiry(parseDateTime("expiry", JsonSupport.getJsonValue(jsonObject, "expiry", JsonString.class), jsonObject.get("_expiry"), -1));
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -22297,7 +22298,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("SupplyDelivery.SuppliedItem", jsonObject);
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
         parseBackboneElement(builder, jsonObject);
-        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.item(parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
@@ -24019,7 +24020,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.power(parseDecimal("power", JsonSupport.getJsonValue(jsonObject, "power", JsonNumber.class), jsonObject.get("_power"), -1));
         builder.backCurve(parseDecimal("backCurve", JsonSupport.getJsonValue(jsonObject, "backCurve", JsonNumber.class), jsonObject.get("_backCurve"), -1));
         builder.diameter(parseDecimal("diameter", JsonSupport.getJsonValue(jsonObject, "diameter", JsonNumber.class), jsonObject.get("_diameter"), -1));
-        builder.duration(parseQuantity("duration", JsonSupport.getJsonValue(jsonObject, "duration", JsonObject.class), -1));
+        builder.duration((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "duration", JsonSupport.getJsonValue(jsonObject, "duration", JsonObject.class), -1));
         builder.color(parseString("color", JsonSupport.getJsonValue(jsonObject, "color", JsonString.class), jsonObject.get("_color"), -1));
         builder.brand(parseString("brand", JsonSupport.getJsonValue(jsonObject, "brand", JsonString.class), jsonObject.get("_brand"), -1));
         JsonArray noteArray = JsonSupport.getJsonArray(jsonObject, "note");
@@ -24073,7 +24074,7 @@ public class FHIRJsonParser implements FHIRParser {
         java.lang.String elementType = null;
 
         for (java.lang.String choiceTypeName : choiceTypeNames) {
-            java.lang.String key = name + choiceTypeName;
+            java.lang.String key = name + FHIRUtil.getConcreteType(choiceTypeName);
             if (jsonObject.containsKey(key)) {
                 if (elementName != null) {
                     throw new IllegalArgumentException();
@@ -24174,6 +24175,8 @@ public class FHIRJsonParser implements FHIRParser {
                 return parseIdentifier(elementName, (JsonObject) jsonValue, -1);
             case "Money":
                 return parseMoney(elementName, (JsonObject) jsonValue, -1);
+            case "MoneyQuantity":
+                return parseQuantity(MoneyQuantity.builder(), elementName, (JsonObject) jsonValue, -1);
             case "Period":
                 return parsePeriod(elementName, (JsonObject) jsonValue, -1);
             case "Quantity":
@@ -24186,6 +24189,8 @@ public class FHIRJsonParser implements FHIRParser {
                 return parseReference(elementName, (JsonObject) jsonValue, -1);
             case "SampledData":
                 return parseSampledData(elementName, (JsonObject) jsonValue, -1);
+            case "SimpleQuantity":
+                return parseQuantity(SimpleQuantity.builder(), elementName, (JsonObject) jsonValue, -1);
             case "Signature":
                 return parseSignature(elementName, (JsonObject) jsonValue, -1);
             case "Timing":

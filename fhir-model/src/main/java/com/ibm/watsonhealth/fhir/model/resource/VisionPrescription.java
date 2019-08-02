@@ -26,8 +26,8 @@ import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.VisionBase;
@@ -714,7 +714,7 @@ public class VisionPrescription extends DomainResource {
         private final Decimal power;
         private final Decimal backCurve;
         private final Decimal diameter;
-        private final Quantity duration;
+        private final SimpleQuantity duration;
         private final String color;
         private final String brand;
         private final List<Annotation> note;
@@ -866,9 +866,9 @@ public class VisionPrescription extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getDuration() {
+        public SimpleQuantity getDuration() {
             return duration;
         }
 
@@ -1036,7 +1036,7 @@ public class VisionPrescription extends DomainResource {
             private Decimal power;
             private Decimal backCurve;
             private Decimal diameter;
-            private Quantity duration;
+            private SimpleQuantity duration;
             private String color;
             private String brand;
             private List<Annotation> note = new ArrayList<>();
@@ -1353,7 +1353,7 @@ public class VisionPrescription extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder duration(Quantity duration) {
+            public Builder duration(SimpleQuantity duration) {
                 this.duration = duration;
                 return this;
             }

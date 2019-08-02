@@ -38,12 +38,12 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Range;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.RelatedArtifact;
 import com.ibm.watsonhealth.fhir.model.type.RequestIntent;
 import com.ibm.watsonhealth.fhir.model.type.RequestPriority;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -104,7 +104,7 @@ public class ActivityDefinition extends DomainResource {
     private final Reference location;
     private final List<Participant> participant;
     private final Element product;
-    private final Quantity quantity;
+    private final SimpleQuantity quantity;
     private final List<Dosage> dosage;
     private final List<CodeableConcept> bodySite;
     private final List<Reference> specimenRequirement;
@@ -652,9 +652,9 @@ public class ActivityDefinition extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getQuantity() {
+    public SimpleQuantity getQuantity() {
         return quantity;
     }
 
@@ -992,7 +992,7 @@ public class ActivityDefinition extends DomainResource {
         private Reference location;
         private List<Participant> participant = new ArrayList<>();
         private Element product;
-        private Quantity quantity;
+        private SimpleQuantity quantity;
         private List<Dosage> dosage = new ArrayList<>();
         private List<CodeableConcept> bodySite = new ArrayList<>();
         private List<Reference> specimenRequirement = new ArrayList<>();
@@ -2163,7 +2163,7 @@ public class ActivityDefinition extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder quantity(Quantity quantity) {
+        public Builder quantity(SimpleQuantity quantity) {
             this.quantity = quantity;
             return this;
         }

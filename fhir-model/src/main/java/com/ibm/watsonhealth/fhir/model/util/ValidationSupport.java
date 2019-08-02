@@ -94,10 +94,9 @@ public final class ValidationSupport {
     
     public static <T extends Element> T choiceElement(T element, String elementName, Class<?>... types) {
         if (element != null) {
-            List<Class<?>> typeList = Arrays.asList(types);
             Class<?> elementType = element.getClass();
-            if (!typeList.contains(elementType)) {
-                List<String> typeNameList = typeList.stream().map(Class::getSimpleName).collect(Collectors.toList());
+            if (Arrays.stream(types).noneMatch(t -> t.isAssignableFrom(elementType))) {
+                List<String> typeNameList = Arrays.stream(types).map(Class::getSimpleName).collect(Collectors.toList());
                 throw new IllegalStateException(String.format("Invalid type: %s for choice element: '%s' must be one of: %s", elementType.getSimpleName(), elementName, typeNameList.toString()));
             }
         }

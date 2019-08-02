@@ -36,8 +36,8 @@ public class Dosage extends BackboneElement {
     private final CodeableConcept method;
     private final List<DoseAndRate> doseAndRate;
     private final Ratio maxDosePerPeriod;
-    private final Quantity maxDosePerAdministration;
-    private final Quantity maxDosePerLifetime;
+    private final SimpleQuantity maxDosePerAdministration;
+    private final SimpleQuantity maxDosePerLifetime;
 
     private volatile int hashCode;
 
@@ -200,9 +200,9 @@ public class Dosage extends BackboneElement {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getMaxDosePerAdministration() {
+    public SimpleQuantity getMaxDosePerAdministration() {
         return maxDosePerAdministration;
     }
 
@@ -212,9 +212,9 @@ public class Dosage extends BackboneElement {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link SimpleQuantity}.
      */
-    public Quantity getMaxDosePerLifetime() {
+    public SimpleQuantity getMaxDosePerLifetime() {
         return maxDosePerLifetime;
     }
 
@@ -341,8 +341,8 @@ public class Dosage extends BackboneElement {
         private CodeableConcept method;
         private List<DoseAndRate> doseAndRate = new ArrayList<>();
         private Ratio maxDosePerPeriod;
-        private Quantity maxDosePerAdministration;
-        private Quantity maxDosePerLifetime;
+        private SimpleQuantity maxDosePerAdministration;
+        private SimpleQuantity maxDosePerLifetime;
 
         /**
          * <p>
@@ -701,7 +701,7 @@ public class Dosage extends BackboneElement {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder maxDosePerAdministration(Quantity maxDosePerAdministration) {
+        public Builder maxDosePerAdministration(SimpleQuantity maxDosePerAdministration) {
             this.maxDosePerAdministration = maxDosePerAdministration;
             return this;
         }
@@ -717,7 +717,7 @@ public class Dosage extends BackboneElement {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder maxDosePerLifetime(Quantity maxDosePerLifetime) {
+        public Builder maxDosePerLifetime(SimpleQuantity maxDosePerLifetime) {
             this.maxDosePerLifetime = maxDosePerLifetime;
             return this;
         }
@@ -761,8 +761,8 @@ public class Dosage extends BackboneElement {
         private DoseAndRate(Builder builder) {
             super(builder);
             type = builder.type;
-            dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, Quantity.class);
-            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, Quantity.class);
+            dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, SimpleQuantity.class);
+            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, SimpleQuantity.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

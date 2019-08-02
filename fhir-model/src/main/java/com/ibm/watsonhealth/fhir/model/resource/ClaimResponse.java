@@ -34,9 +34,9 @@ import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.NoteType;
 import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.RemittanceOutcome;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Use;
@@ -3126,7 +3126,7 @@ public class ClaimResponse extends DomainResource {
         private final List<CodeableConcept> programCode;
         private final Element serviced;
         private final Element location;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final Money unitPrice;
         private final Decimal factor;
         private final Money net;
@@ -3276,9 +3276,9 @@ public class ClaimResponse extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -3523,7 +3523,7 @@ public class ClaimResponse extends DomainResource {
             private List<CodeableConcept> programCode = new ArrayList<>();
             private Element serviced;
             private Element location;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private Money unitPrice;
             private Decimal factor;
             private Money net;
@@ -3950,7 +3950,7 @@ public class ClaimResponse extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }
@@ -4218,7 +4218,7 @@ public class ClaimResponse extends DomainResource {
         public static class Detail extends BackboneElement {
             private final CodeableConcept productOrService;
             private final List<CodeableConcept> modifier;
-            private final Quantity quantity;
+            private final SimpleQuantity quantity;
             private final Money unitPrice;
             private final Decimal factor;
             private final Money net;
@@ -4273,9 +4273,9 @@ public class ClaimResponse extends DomainResource {
              * </p>
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link SimpleQuantity}.
              */
-            public Quantity getQuantity() {
+            public SimpleQuantity getQuantity() {
                 return quantity;
             }
 
@@ -4453,7 +4453,7 @@ public class ClaimResponse extends DomainResource {
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept productOrService;
                 private List<CodeableConcept> modifier = new ArrayList<>();
-                private Quantity quantity;
+                private SimpleQuantity quantity;
                 private Money unitPrice;
                 private Decimal factor;
                 private Money net;
@@ -4646,7 +4646,7 @@ public class ClaimResponse extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder quantity(Quantity quantity) {
+                public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
                     return this;
                 }
@@ -4849,7 +4849,7 @@ public class ClaimResponse extends DomainResource {
             public static class SubDetail extends BackboneElement {
                 private final CodeableConcept productOrService;
                 private final List<CodeableConcept> modifier;
-                private final Quantity quantity;
+                private final SimpleQuantity quantity;
                 private final Money unitPrice;
                 private final Decimal factor;
                 private final Money net;
@@ -4902,9 +4902,9 @@ public class ClaimResponse extends DomainResource {
                  * </p>
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link SimpleQuantity}.
                  */
-                public Quantity getQuantity() {
+                public SimpleQuantity getQuantity() {
                     return quantity;
                 }
 
@@ -5066,7 +5066,7 @@ public class ClaimResponse extends DomainResource {
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept productOrService;
                     private List<CodeableConcept> modifier = new ArrayList<>();
-                    private Quantity quantity;
+                    private SimpleQuantity quantity;
                     private Money unitPrice;
                     private Decimal factor;
                     private Money net;
@@ -5258,7 +5258,7 @@ public class ClaimResponse extends DomainResource {
                      * @return
                      *     A reference to this Builder instance
                      */
-                    public Builder quantity(Quantity quantity) {
+                    public Builder quantity(SimpleQuantity quantity) {
                         this.quantity = quantity;
                         return this;
                     }

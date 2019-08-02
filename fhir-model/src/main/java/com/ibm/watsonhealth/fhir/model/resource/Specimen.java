@@ -26,8 +26,8 @@ import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.SpecimenStatus;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
@@ -1002,7 +1002,7 @@ public class Specimen extends DomainResource {
         private final Reference collector;
         private final Element collected;
         private final Duration duration;
-        private final Quantity quantity;
+        private final SimpleQuantity quantity;
         private final CodeableConcept method;
         private final CodeableConcept bodySite;
         private final Element fastingStatus;
@@ -1064,9 +1064,9 @@ public class Specimen extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getQuantity() {
+        public SimpleQuantity getQuantity() {
             return quantity;
         }
 
@@ -1198,7 +1198,7 @@ public class Specimen extends DomainResource {
             private Reference collector;
             private Element collected;
             private Duration duration;
-            private Quantity quantity;
+            private SimpleQuantity quantity;
             private CodeableConcept method;
             private CodeableConcept bodySite;
             private Element fastingStatus;
@@ -1380,7 +1380,7 @@ public class Specimen extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder quantity(Quantity quantity) {
+            public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
                 return this;
             }
@@ -1837,8 +1837,8 @@ public class Specimen extends DomainResource {
         private final List<Identifier> identifier;
         private final String description;
         private final CodeableConcept type;
-        private final Quantity capacity;
-        private final Quantity specimenQuantity;
+        private final SimpleQuantity capacity;
+        private final SimpleQuantity specimenQuantity;
         private final Element additive;
 
         private volatile int hashCode;
@@ -1897,9 +1897,9 @@ public class Specimen extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getCapacity() {
+        public SimpleQuantity getCapacity() {
             return capacity;
         }
 
@@ -1910,9 +1910,9 @@ public class Specimen extends DomainResource {
          * </p>
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link SimpleQuantity}.
          */
-        public Quantity getSpecimenQuantity() {
+        public SimpleQuantity getSpecimenQuantity() {
             return specimenQuantity;
         }
 
@@ -2015,8 +2015,8 @@ public class Specimen extends DomainResource {
             private List<Identifier> identifier = new ArrayList<>();
             private String description;
             private CodeableConcept type;
-            private Quantity capacity;
-            private Quantity specimenQuantity;
+            private SimpleQuantity capacity;
+            private SimpleQuantity specimenQuantity;
             private Element additive;
 
             /**
@@ -2221,7 +2221,7 @@ public class Specimen extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder capacity(Quantity capacity) {
+            public Builder capacity(SimpleQuantity capacity) {
                 this.capacity = capacity;
                 return this;
             }
@@ -2238,7 +2238,7 @@ public class Specimen extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder specimenQuantity(Quantity specimenQuantity) {
+            public Builder specimenQuantity(SimpleQuantity specimenQuantity) {
                 this.specimenQuantity = specimenQuantity;
                 return this;
             }
