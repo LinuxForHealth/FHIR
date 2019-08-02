@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -886,10 +887,25 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
             }
 
-            // Validate the input resource and return any validation errors.
+            // Validate the input resource and return any validation errors, but warnings are OK
             List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
             if (!issues.isEmpty()) {
-                throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                boolean includesFailure = false;
+                for (OperationOutcome.Issue issue: issues) {
+                    if (FHIRUtil.isFailure(issue.getSeverity())) {
+                        includesFailure = true;
+                        break;
+                    }
+                }
+
+                if (includesFailure) {
+                    throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                }
+                else {
+                    // TODO. Include warning issues in response
+                    String info = issues.stream().map(issue -> issue.toString()).collect(Collectors.joining(","));
+                    log.warning("TODO: Validation warnings may be added to response: " + info);
+                }
             }
 
             // If there were no validation errors, then create the resource and return the location header.
@@ -902,7 +918,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            getPersistenceImpl().create(persistenceContext, resource);
+            
+            // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
+            resource = getPersistenceImpl().create(persistenceContext, resource);
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
 
@@ -1049,10 +1067,25 @@ public class FHIRResource implements FHIRResourceHelpers {
                 ior.setPrevResource(doRead(type, id, false, true, requestProperties, newResource));
             }
             
-            // Validate the input resource and return any validation errors.
+            // Validate the input resource and return any validation errors (but not warnings)
             List<OperationOutcome.Issue> issues = FHIRValidator.validator(newResource).validate();
             if (!issues.isEmpty()) {
-                throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                boolean includesFailure = false;
+                for (OperationOutcome.Issue issue: issues) {
+                    if (FHIRUtil.isFailure(issue.getSeverity())) {
+                        includesFailure = true;
+                        break;
+                    }
+                }
+
+                if (includesFailure) {
+                    throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
+                }
+                else {
+                    // TODO. Include warning issues in response
+                    String info = issues.stream().map(issue -> issue.toString()).collect(Collectors.joining(","));
+                    log.warning("TODO: Validation warnings may be added to response: " + info);
+                }
             }
             
             // Perform the "version-aware" update check.
@@ -1078,7 +1111,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            getPersistenceImpl().update(persistenceContext, id, newResource);
+            newResource = getPersistenceImpl().update(persistenceContext, id, newResource);
             ior.setResource(newResource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
@@ -3534,8 +3567,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     
     /** 
      * This method returns the "base URI" associated with the current request.
-     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource,
-     * this method would return "https://myhost:9443/fhir-server/api/v4".
+     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v1/Patient to create a Patient resource,
+     * this method would return "https://myhost:9443/fhir-server/api/v1".
      * @return The base endpoint URI associated with the current request.
      */
     private String getRequestBaseUri() {
