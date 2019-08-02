@@ -85,7 +85,7 @@ public class FHIRValidatorTest {
         if (!issues.isEmpty()) {
             System.out.println("Issue(s) found:");
             for (Issue issue : issues) {
-                System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", diagnostics: " + issue.getDiagnostics().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
+                System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
         }
     }

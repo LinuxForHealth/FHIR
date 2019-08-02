@@ -28,6 +28,6 @@ public class OperationOutcomeTest {
         assertNotNull(issue);
         assertEquals(issue.getSeverity(), IssueSeverity.FATAL);
         assertEquals(issue.getCode(), IssueType.INVALID);
-        assertEquals(issue.getDiagnostics().getValue(), "test");
+        assertEquals(issue.getDetails().getText().getValue(), "test");
     }
 }

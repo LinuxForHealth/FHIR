@@ -403,10 +403,10 @@ public class FHIRUtil {
         return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, "<empty>");
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String diagnostics, String location) {
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details, String expression) {
         return OperationOutcome.Issue.builder(IssueSeverity.of(severity), IssueType.of(code))
-                .diagnostics(com.ibm.watsonhealth.fhir.model.type.String.of(diagnostics))
-                .location(Collections.singletonList(com.ibm.watsonhealth.fhir.model.type.String.of(location))).build();
+                .details(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of(details)).build())
+                .expression(Collections.singletonList(com.ibm.watsonhealth.fhir.model.type.String.of(expression))).build();
     }
 
     /**
@@ -481,7 +481,7 @@ public class FHIRUtil {
         }
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcome.Issue ooi = OperationOutcome.Issue.builder(IssueSeverity.of(severity), IssueType.of(issueType))
-                .diagnostics(com.ibm.watsonhealth.fhir.model.type.String.of(message))
+                .details(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of(message)).build())
                 .build();
 
         // Next, build the OperationOutcome.

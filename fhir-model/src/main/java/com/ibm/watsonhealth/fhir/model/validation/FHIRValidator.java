@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
@@ -175,8 +176,8 @@ public class FHIRValidator {
                         String level = constraint.level();
                         IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
                         Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                                .details(CodeableConcept.builder().text(string(constraint.id() + ": " + constraint.description())).build())
                                 .expression(string(path))
-                                .diagnostics(string(constraint.id() + ": " + constraint.description()))
                                 .build();
                         issues.add(issue);
                     }
