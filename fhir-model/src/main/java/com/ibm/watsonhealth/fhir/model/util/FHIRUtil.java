@@ -176,6 +176,16 @@ public class FHIRUtil {
         return profiledTypeMap;
     }
     
+    /**
+     * Get the name of the concrete type associated with a data type
+     * 
+     * @param type
+     *     the type name
+     * @return
+     *     the name of the concrete type name (if one exists)
+     *     (e.g. Quantity for SimpleQuantity)
+     *     otherwise, return input parameter
+     */
     public static String getConcreteType(String type) {
         if (isProfiledType(type)) {
             return PROFILED_TYPE_MAP.get(type);

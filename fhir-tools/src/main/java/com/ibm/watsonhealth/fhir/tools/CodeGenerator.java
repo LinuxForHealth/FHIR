@@ -119,8 +119,7 @@ public class CodeGenerator {
     private static final List<String> PROFILED_TYPES = Arrays.asList("SimpleQuantity", "MoneyQuantity");
     private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
     private static final List<String> HEADER = readHeader();
-    private static final List<String> FUNCTIONS = readFunctions();
-
+    
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
         this.codeSystemMap = codeSystemMap;
@@ -138,18 +137,6 @@ public class CodeGenerator {
                 baseDir = System.getProperty("BaseDir");
             }
             return Files.readAllLines(new File(baseDir + "/codegen-support/header.txt").toPath());
-        } catch (IOException e) {
-            throw new Error(e);
-        }
-    }
-    
-    private static List<String> readFunctions() {
-        try {
-            String baseDir = ".";
-            if (System.getProperty("BaseDir") != null) {
-                baseDir = System.getProperty("BaseDir");
-            }
-            return Files.readAllLines(new File(baseDir + "/codegen-support/functions.txt").toPath());
         } catch (IOException e) {
             throw new Error(e);
         }
@@ -204,8 +191,6 @@ public class CodeGenerator {
             } else if (isQuantitySubtype(fieldType)) {
                 return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             } else if (isChoiceElement(elementDefinition)) {
-//              List<JsonObject> types = getTypes(elementDefinition);
-//              String choiceTypeNames = types.stream().map(o -> quote(titleCase(o.getString("code")))).collect(Collectors.joining(", "));
                 String choiceTypeNames = getChoiceTypeNames(elementDefinition).stream().map(s -> quote(s)).collect(Collectors.joining(", "));
                 return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeNames + ")";
             } else if (isJavaString(fieldType)) {
@@ -253,74 +238,6 @@ public class CodeGenerator {
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
-//      generateFunctionClasses(basePath);
-    }
-
-    @SuppressWarnings("unused")
-    private void generateFunctionClasses(String basePath) {        
-        for (String line : FUNCTIONS) {
-            if (line.contains("expression")) {
-                continue;
-            }
-            
-            CodeBuilder cb = new CodeBuilder();
-            
-            String packageName = "com.ibm.watsonhealth.fhir.model.path.function";
-            cb.javadoc(HEADER, true, true, false).newLine();
-            cb._package(packageName);
-                        
-            String functionName = line.substring(0, line.indexOf("("));
-            
-            if ("as".equals(functionName) || "is".equals(functionName)) {
-                continue;
-            }
-            
-            String className = titleCase(functionName) + "Function";
-            
-            long maxArity;
-            if (line.contains("()")) {
-                maxArity = 0;
-            } else {
-                maxArity = 1;
-                if (line.contains(",")) {
-                    maxArity = line.chars().filter(ch -> ch == ',').count() + 1;
-                }
-            }
-            long minArity = maxArity - line.chars().filter(ch -> ch == '[').count();
-            
-            cb.newLine();
-            
-            cb._class(mods("public"), className, "FHIRPathAbstractFunction");
-            
-            cb.override();
-            cb.method(mods("public"), "String", "getName");
-            cb._return(quote(functionName));
-            cb.end();
-            
-            cb.newLine();
-            
-            cb.override();
-            cb.method(mods("public"), "int", "getMinArity");
-            cb._return(String.valueOf(minArity));
-            cb.end();
-            
-            cb.newLine();
-            
-            cb.override();
-            cb.method(mods("public"), "int", "getMaxArity");
-            cb._return(String.valueOf(maxArity));
-            cb.end();
-            
-            cb._end();
-            
-            File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
-            
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write(cb.toString());
-            } catch (Exception e) {
-                throw new Error(e);
-            }
-        }
     }
 
     private void generateAbstractVisitorClass(String basePath) {
@@ -340,13 +257,6 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._import("com.ibm.watsonhealth.fhir.model.resource.*");
-        /*
-        Collections.sort(typeClassNames);
-        
-        for (String typeClassName : typeClassNames) {
-            cb._import("com.ibm.watsonhealth.fhir.model.type." + typeClassName);
-        }
-        */
         cb._import("com.ibm.watsonhealth.fhir.model.type.*");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
@@ -407,9 +317,6 @@ public class CodeGenerator {
         
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value")).end().newLine();
-
-//      cb.override();
-//      cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).end().newLine();
 
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value")).end().newLine();
@@ -581,7 +488,6 @@ public class CodeGenerator {
                 cb.method(mods("public"), "Builder", fieldName, params(param(paramType, fieldName)));
                 
                 if (declaredBy) {
-//                  cb.invoke(_this(fieldName), "addAll", args(fieldName));
                     cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
                     cb._return("this");
                 } else {
@@ -874,7 +780,6 @@ public class CodeGenerator {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
-//                              String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));                              
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.requireChoiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
@@ -886,7 +791,6 @@ public class CodeGenerator {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
-//                              String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
@@ -936,11 +840,6 @@ public class CodeGenerator {
                     !isStringSubtype(structureDefinition) && 
                     !isUriSubtype(structureDefinition)) || 
                     nested) {
-                /*
-                cb._if("!hasValue() && !hasChildren()")
-                    ._throw(_new("IllegalStateException", args(quote("ele-1: All FHIR elements must have a @value or children"))))
-                ._end();
-                */
                 cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
             }
 
@@ -953,7 +852,6 @@ public class CodeGenerator {
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
                     String methodName = "get" + titleCase(fieldName).replace("_", "");
                     generateGetterMethodJavadoc(structureDefinition, elementDefinition, fieldType, cb);
-//                  cb.javadoc(Arrays.asList(elementDefinition.getString("definition").split(System.lineSeparator())));
                     cb.method(mods("public"), fieldType, methodName)._return(fieldName).end().newLine();
                 }
             }
@@ -1218,9 +1116,7 @@ public class CodeGenerator {
             writer.write(cb.toString());
         } catch (Exception e) {
             throw new Error(e);
-        }
-        
-//      System.out.println(cb.toString());
+        }        
     }
 
     private void generateFactoryMethods(JsonObject structureDefinition, CodeBuilder cb) {
@@ -1371,11 +1267,6 @@ public class CodeGenerator {
             
             if (isRepeating(elementDefinition)) {
                 if (basePath.startsWith(name) && !basePath.equals(name)) {
-                    /*
-                    if (!isRequired(elementDefinition)) {
-                        imports.add("java.util.ArrayList");
-                    }
-                    */
                     imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
                     imports.add("java.util.ArrayList");
                     imports.add("java.util.Collections");
@@ -1393,7 +1284,6 @@ public class CodeGenerator {
             if (isChoiceElement(elementDefinition)) {
                 imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
                 if (isResource(structureDefinition)) {
-//                  for (String dataTypeName : getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code"))).collect(Collectors.toList())) {
                     for (String dataTypeName : getChoiceTypeNames(elementDefinition)) {
                         imports.add("com.ibm.watsonhealth.fhir.model.type." + dataTypeName);
                     }
@@ -1638,14 +1528,6 @@ public class CodeGenerator {
         String packageName = "com.ibm.watsonhealth.fhir.model.parser";
         cb.javadoc(HEADER, true, true, false).newLine();
         cb._package(packageName).newLine();
-        /*
-        cb._import("java.math.BigDecimal");
-        cb._import("java.time.LocalDate");
-        cb._import("java.time.LocalTime");
-        cb._import("java.time.Year");
-        cb._import("java.time.YearMonth");
-        cb._import("java.time.ZonedDateTime");
-        */
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
@@ -1678,14 +1560,6 @@ public class CodeGenerator {
         cb._import("com.ibm.watsonhealth.fhir.model.util.ElementFilter");
         cb._import("com.ibm.watsonhealth.fhir.model.util.FHIRUtil");
         cb._import("com.ibm.watsonhealth.fhir.model.util.JsonSupport");
-        
-        /*
-        Collections.sort(typeClassNames);
-        
-        for (String typeClassName : typeClassNames) {
-            cb._import("com.ibm.watsonhealth.fhir.model.type." + typeClassName);
-        }
-        */
         
         cb.newLine();
         
@@ -2381,7 +2255,6 @@ public class CodeGenerator {
                     throw new Error(e);
                 }
                 
-//              System.out.println(cb.toString());
                 codeSubtypeClassNames.add(bindingName);
             }
         }
@@ -2404,13 +2277,6 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._import("com.ibm.watsonhealth.fhir.model.resource.*");
-        /*
-        Collections.sort(typeClassNames);
-        
-        for (String typeClassName : typeClassNames) {
-            cb._import("com.ibm.watsonhealth.fhir.model.type." + typeClassName);
-        }
-        */
         cb._import("com.ibm.watsonhealth.fhir.model.type.*");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
@@ -2446,7 +2312,6 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "byte[] value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "BigDecimal value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value"));
-//      cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "LocalDate value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "LocalTime value"));
@@ -2775,7 +2640,6 @@ public class CodeGenerator {
         }
 
         if ("Narrative.div".equals(path)) {
-//          return "org.w3c.dom.Element";
             return "java.lang.String";
         }
         
