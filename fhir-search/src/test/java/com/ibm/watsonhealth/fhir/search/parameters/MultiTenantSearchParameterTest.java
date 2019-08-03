@@ -41,7 +41,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
- 
+
     @Test
     public void testGetApplicableSearchParameters2() throws Exception {
         // Looking only for built-in search parameters for "Patient".
@@ -55,7 +55,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         printSearchParameters("testGetApplicableSearchParameters2", result);
         assertEquals(15, result.size());
     }
-    
+
     @Test
     public void testGetApplicableSearchParameters1() throws Exception {
         // Simple test looking only for built-in search parameters for Observation.class.
@@ -65,8 +65,8 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         printSearchParameters("testGetApplicableSearchParameters1", result);
         assertEquals(44, result.size());
     }
- 
-    @Test 
+
+    @Test
     public void testGetApplicableSearchParameters3() throws Exception {
         // Looking for built-in and tenant-specific search parameters for "Patient" and "Observation".
 
@@ -83,8 +83,8 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         printSearchParameters("testGetApplicableSearchParameters3/Observation", result);
         assertEquals(44, result.size());
     }
-    
-    @Test 
+
+    @Test
     public void testGetApplicableSearchParameters4() throws Exception {
         // Looking for built-in and tenant-specific search parameters for "Observation".
 
@@ -285,8 +285,6 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "code");
         assertNotNull(result);
     }
-
-
 
     @Test
     void testDynamicSearchParameters1() throws Exception {

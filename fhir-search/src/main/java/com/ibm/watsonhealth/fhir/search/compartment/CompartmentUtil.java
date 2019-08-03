@@ -48,8 +48,10 @@ import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
  * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li> <br/>
  * 
  * History:<br/>
- * 1 - Extracted the Compartment Logic from SearchUtil 2 - Converted the Custom Compartment logic and format into the
- * ComponentDefintion. 3 - Added support for the the default definition.
+ * 1 - Extracted the Compartment Logic from SearchUtil <br/>
+ * 2 - Converted the Custom Compartment logic and format into the ComponentDefintion.<br/>
+ * 3 - Added support for the the default definition.<br/>
+ * 4 - Refactored the code to create constants and limit extraneous strings and duplicate definitions<br/>
  * 
  * 
  * @author pbastide
@@ -60,7 +62,35 @@ public class CompartmentUtil {
     private static final String CLASSNAME = CompartmentUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
+    // FHIR:
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.children()";
+    public static final String RESOURCE = "/compartments.json";
+
+    // List of compartmentDefintions.
+    private static final Set<String> compartmentDefinitions = new HashSet<String>() {
+
+        private static final long serialVersionUID = 7152515293380769882L;
+
+        {
+            add("/compartments/compartmentdefinition-device.json");
+            add("/compartments/compartmentdefinition-encounter.json");
+            add("/compartments/compartmentdefinition-patient.json");
+            add("/compartments/compartmentdefinition-practitioner.json");
+            add("/compartments/compartmentdefinition-relatedperson.json");
+        }
+    };
+    
+    // Used to load the Compartments
+    public static void init() {
+        // No Operation 
+    }
+
+    // Exceptions:
+    public static final String PARSE_EXCEPTION = "Unable to parse the entry that is read from compartments.json %s";
+    public static final String IO_EXCEPTION = "Unable to read the entry that is read from compartments.json %s";
+    public static final String INVALID_COMPARTMENT = "Invalid compartment: %s";
+    public static final String INVALID_COMPARTMENT_AND_RESOURCE = "Invalid resource type: %s for compartment: %s";
+    public static final String FROM_STREAM = "from_stream";
 
     private CompartmentUtil() {
         // No Operation
@@ -83,7 +113,7 @@ public class CompartmentUtil {
 
             cachedCompartmentMap = new HashMap<>();
 
-            try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream("/compartments.json"))) {
+            try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(RESOURCE))) {
                 Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, reader);
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
@@ -116,9 +146,9 @@ public class CompartmentUtil {
                 cachedCompartmentMap = Collections.unmodifiableMap(cachedCompartmentMap);
 
             } catch (FHIRException e) {
-                log.warning("Unable to parse the entry that is read from compartments.json");
+                log.warning(String.format(PARSE_EXCEPTION, FROM_STREAM));
             } catch (IOException e1) {
-                log.warning("Unable to read the entry that is read from compartments.json");
+                log.warning(String.format(IO_EXCEPTION, FROM_STREAM));
             }
         }
 
@@ -159,7 +189,7 @@ public class CompartmentUtil {
      */
     public static void checkValidCompartment(final String compartment) throws FHIRSearchException {
         if (!compartmentMap.containsKey(compartment)) {
-            String msg = String.format("Invalid compartment: %s", compartment);
+            String msg = String.format(INVALID_COMPARTMENT, compartment);
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
     }
@@ -174,7 +204,7 @@ public class CompartmentUtil {
         checkValidCompartment(compartment);
 
         if (compartmentMap.get(compartment).getParametersByResourceTypeInCompartment(resourceType).isEmpty()) {
-            String msg = "Invalid resource type: " + resourceType + " for compartment: " + compartment;
+            String msg = String.format(INVALID_COMPARTMENT_AND_RESOURCE, resourceType, compartment);
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
     }
@@ -185,12 +215,6 @@ public class CompartmentUtil {
      * @throws FHIRGeneratorException
      */
     public static void buildCompositeBundle(PrintStream out) throws FHIRGeneratorException {
-        Set<String> compartmentDefinitions = new HashSet<>();
-        compartmentDefinitions.add("/compartments/compartmentdefinition-device.json");
-        compartmentDefinitions.add("/compartments/compartmentdefinition-encounter.json");
-        compartmentDefinitions.add("/compartments/compartmentdefinition-patient.json");
-        compartmentDefinitions.add("/compartments/compartmentdefinition-practitioner.json");
-        compartmentDefinitions.add("/compartments/compartmentdefinition-relatedperson.json");
 
         Bundle.Builder build = Bundle.builder(BundleType.COLLECTION);
         for (String compartmentDefintion : compartmentDefinitions) {
@@ -201,9 +225,9 @@ public class CompartmentUtil {
                 build.entry(Bundle.Entry.builder().resource(compartmentDefinitionResource).build());
 
             } catch (FHIRException e) {
-                log.warning("Unable to parse the entry that is read from the compartment definition " + compartmentDefintion);
+                log.warning(String.format(PARSE_EXCEPTION, compartmentDefintion));
             } catch (IOException e1) {
-                log.warning("Unable to read the entry that is read from the compartment definition " + compartmentDefintion);
+                log.warning(String.format(IO_EXCEPTION, compartmentDefintion));
             }
         }
 

@@ -12,6 +12,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -57,11 +58,11 @@ public class ParametersUtilTest extends BaseSearchTest {
         System.out.println(customSearchParams.getAbsolutePath());
         Map<String, Map<String, SearchParameter>> params = ParametersUtil.populateSearchParameterMapFromFile(customSearchParams);
         System.out.println(params.keySet());
-        
-        // validates checks 
+
+        // validates checks
         assertNotNull(params);
         assertFalse(params.isEmpty());
-        assertEquals(params.size(),3);
+        assertEquals(params.size(), 3);
 
     }
 
@@ -86,6 +87,12 @@ public class ParametersUtilTest extends BaseSearchTest {
         Map<String, SearchParameter> result = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Observation");
         assertNotNull(result);
         assertFalse(result.isEmpty());
+    }
+
+    @Test(expectedExceptions = { FileNotFoundException.class })
+    public void testPopulateSearchParameterMapFromResourceNull() throws IOException {
+        String invalidResourceName = "INVALID_RESOURCE";
+        ParametersUtil.populateSearchParameterMapFromResource(invalidResourceName);
     }
 
 }

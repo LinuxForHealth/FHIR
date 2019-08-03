@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
+
 /**
  * Search Constants
  * 
@@ -24,6 +26,8 @@ public class SearchConstants {
         // No Op
     }
 
+    public static final String LOG_BOUNDARY = "---------------------------------------------------------";
+    
     // XML Processing.
     public static final String DTM_MANAGER = "com.sun.org.apache.xml.internal.dtm.DTMManager";
 
@@ -37,6 +41,11 @@ public class SearchConstants {
     public static final String BACKSLASH_NEGATIVE_LOOKBEHIND = "(?<!\\\\)";
 
     public static final String COMPARTMENTS_JSON = "compartments.json";
+    
+    // Value Types Regex. 
+    public static final String PARAMETER_DELIMITER_REGEX = "\\|";
+    public static final String COMPONENT_PATH_REGEX = "\\.";
+    public static final char START_WHERE = '(';
 
     // This constant represents the maximum _count parameter value.
     // If the user specifies a value greater than this, we'll just use this value instead.
@@ -82,8 +91,10 @@ public class SearchConstants {
     public static final String PARAMETER_DELIMITER = "|";
     
     public static final char COLON_DELIMITER = ':';
-    
+
     public static final String COLON_DELIMITER_STR = ":";
+    
+    public static final String WILDCARD = "*";
 
     // The resourceTypeModifierMap is set one time on startup and is a final value.
     // Set as unmodifiable.
@@ -128,7 +139,7 @@ public class SearchConstants {
                     return direction;
                 }
             }
-            throw new IllegalArgumentException(value);
+            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
         }
     }
 
@@ -157,7 +168,7 @@ public class SearchConstants {
                     return prefix;
                 }
             }
-            throw new IllegalArgumentException("No constant with value " + value + " found.");
+            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
         }
     }
 
@@ -186,7 +197,7 @@ public class SearchConstants {
                     return type;
                 }
             }
-            throw new IllegalArgumentException("No constant with value " + value + " found.");
+            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
         }
     }
 
@@ -224,7 +235,7 @@ public class SearchConstants {
                     return modifier;
                 }
             }
-            throw new IllegalArgumentException("No constant with value " + value + " found.");
+            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
         }
 
         public static boolean isSupported(Modifier modifier) {

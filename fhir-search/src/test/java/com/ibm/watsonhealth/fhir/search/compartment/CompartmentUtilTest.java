@@ -109,7 +109,7 @@ public class CompartmentUtilTest extends BaseSearchTest {
             String o = outputStream.toString("UTF8");
             assertNotNull(o);
             assertFalse(o.isEmpty());
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail();
         }

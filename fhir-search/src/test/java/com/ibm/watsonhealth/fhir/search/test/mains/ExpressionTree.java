@@ -17,53 +17,58 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
- * Created prior to R4. 
+ * Created prior to R4.
  * 
  * @author markd
  * @author pbastide
  *
  */
 public class ExpressionTree extends BaseSearchTest {
-    
+
     public static abstract class Expression {
         abstract void accept(Visitor visitor);
     }
-    
+
     public static abstract class BinaryExpression extends Expression {
-        public enum Operator { AND, OR, EQ, GT, LT, GE, LE };
+        public enum Operator {
+            AND, OR, EQ, GT, LT, GE, LE
+        };
+
         protected Operator operator = null;
         protected Expression left = null;
         protected Expression right = null;
-        
+
         public BinaryExpression(Operator operator, Expression left, Expression right) {
             this.operator = operator;
             this.left = left;
             this.right = right;
         }
-        
+
         public Operator getOperator() {
             return operator;
         }
-        
+
         public Expression getLeft() {
             return left;
         }
-        
+
         public Expression getRight() {
             return right;
         }
-        
+
         public void accept(Visitor visitor) {
             visitor.visit(this);
         }
     }
-    
+
     public static class UnaryExpression extends Expression {
-        public enum Operator { NOT };
-        
+        public enum Operator {
+            NOT
+        };
+
         protected Operator operator = null;
         protected Expression operand = null;
-        
+
         public UnaryExpression(Operator operator, Expression operand) {
             this.operator = operator;
             this.operand = operand;
@@ -74,28 +79,32 @@ public class ExpressionTree extends BaseSearchTest {
             visitor.visit(operand);
         }
     }
-    
+
     public static class AndExpression extends BinaryExpression {
         public AndExpression(Expression left, Expression right) {
             super(BinaryExpression.Operator.AND, left, right);
         }
     }
-    
+
     public interface Visitor {
         void visit(Expression expression);
+
         void visit(BinaryExpression expression);
+
         void visit(UnaryExpression expression);
+
         void visit(AndExpression expression);
+
         void visit(ParameterReference expression);
     }
-    
+
     public static class ParameterReference extends Expression {
         private Parameter parameter = null;
-        
+
         public ParameterReference(Parameter parameter) {
             this.parameter = parameter;
         }
-        
+
         public Parameter getParameter() {
             return parameter;
         }
@@ -105,9 +114,9 @@ public class ExpressionTree extends BaseSearchTest {
             visitor.visit(this);
         }
     }
-    
+
     /**
-     * TODO: Needs a Readme 
+     * tests multiple languages
      * 
      * @param args
      * @throws Exception
@@ -116,11 +125,11 @@ public class ExpressionTree extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("language", Arrays.asList("FR,NL", "EN"));
         List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters, null).getSearchParameters();
-        
+
         Expression left = null, right = null;
-        
+
         AndExpression and = null;
-        
+
         for (Parameter parameter : parameters) {
             System.out.println(parameter);
             ParameterReference reference = new ParameterReference(parameter);

@@ -125,18 +125,13 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
-        
-        /* 
-         * parseElementsParameter is currently skipping animal. 
-         * [name, photo, animal, identifier]
-         * Skipping unknown element name: animal
-         * 
-         * It's not throwing an exception because it's lenient.
-         * 
-         * The reason in DSTU2 Patient.animal exists.  In R4, status is deleted
-         * https://www.hl7.org/fhir/patient.html
+
+        /*
+         * parseElementsParameter is currently skipping animal. [name, photo, animal, identifier] Skipping unknown
+         * element name: animal It's not throwing an exception because it's lenient. The reason in DSTU2 Patient.animal
+         * exists. In R4, status is deleted https://www.hl7.org/fhir/patient.html
          */
-        
+
         assertEquals(context.getElementsParameters().size(), 3);
         for (String element : context.getElementsParameters()) {
             assertTrue(queryParameters.get("_elements").contains(element));

@@ -32,7 +32,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class ParametersSearchUtilTest extends BaseSearchTest {
-    
+
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("src/test/resources");
@@ -41,24 +41,24 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
     @Test
     public void testGetSearchParameters1Default() throws Exception {
         // Simple test looking only for built-in search parameters for Observation.class.
-        // Use default tenant id ("default") which has no Observation tenant-specific 
+        // Use default tenant id ("default") which has no Observation tenant-specific
         // search parameters.
         List<SearchParameter> result = SearchUtil.getSearchParameters(Observation.class);
         assertNotNull(result);
         assertFalse(result.isEmpty());
         printSearchParameters("testGetSearchParameters1", result);
-        
+
         if (DEBUG) {
             ParametersUtil.print(System.out);
         }
-        
+
         assertEquals(38, result.size());
     }
 
     @Test
     public void testGetSearchParameters2Default() throws Exception {
-        // Looking for built-in and tenant-specific search parameters for "Patient" 
-        // and "Observation". Use the default tenant since it has some Patient search 
+        // Looking for built-in and tenant-specific search parameters for "Patient"
+        // and "Observation". Use the default tenant since it has some Patient search
         // parameters defined.
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
@@ -84,15 +84,15 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Observation", result);
-        
-        //Simple conversion and output. 
+
+        // Simple conversion and output.
         System.out.println("As Follows: ");
         System.out.println(result.stream().map(in -> in.getName().getValue()).collect(Collectors.toList()));
         assertEquals(2, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);
         assertEquals("code", sp.getName().getValue());
-        
+
         sp = result.get(1);
         assertNotNull(sp);
         assertEquals("value-range", sp.getName().getValue());
@@ -155,5 +155,5 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(12, result.size());
     }
-    
+
 }

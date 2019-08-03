@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.search.SearchConstants;
 
 /**
  * ParametersUtil
@@ -54,10 +56,31 @@ public class ParametersUtil {
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
 
+    public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
+    public static final String FROM_STEAM = "from_stream";
+
+    // Exceptions:
+    public static final String ERROR_EXCEPTION = "Error condition reading the FHIR Bundle of Search Parameters -> %s ";
+    public static final String BUILTIN_ERROR_EXCEPTION = String.format(ERROR_EXCEPTION, FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
+    public static final String STREAM_ERROR_EXCEPTION = String.format(ERROR_EXCEPTION, FROM_STEAM);
+
+    // Logging:
+    public static final String LOG_PARAMETERS = "Parameter is loaded -> %s";
+    public static final String LOG_HEADER = "BASE:RESOURCE_NAME:SearchParameter";
+    public static final String LOG_SIZE = "Size: %s";
+    private static final String LOG_OUTPUT = "%s|%s|%s";
+
     private static Map<String, Map<String, SearchParameter>> builtInSearchParameters = new HashMap<>();
 
     private ParametersUtil() {
         // No Operation
+    }
+    
+    /**
+     * loads the static version of the class to populate the map. 
+     */
+    public static void init() {
+        // No Operation 
     }
 
     /**
@@ -67,9 +90,9 @@ public class ParametersUtil {
     public static Map<String, Map<String, SearchParameter>> getBuiltInSearchParameterMap() {
         if (builtInSearchParameters.isEmpty()) {
             try {
-                builtInSearchParameters = populateSearchParameterMapFromResource("search-parameters.json");
+                builtInSearchParameters = populateSearchParameterMapFromResource(FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
             } catch (IOException e) {
-                log.warning("Error condition reading the FHIR Bundle of Search Parameters" + " into the SearchParameter Map " + e.getClass().getSimpleName());
+                log.warning(BUILTIN_ERROR_EXCEPTION);
             }
         }
         return builtInSearchParameters;
@@ -89,7 +112,7 @@ public class ParametersUtil {
         // Capture Exception here and wrap and log out an issue with Search
         try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream(resourceName)) {
             if (stream == null) {
-                throw new FileNotFoundException("Search parameter configuration file '" + resourceName + "' not found on classpath.");
+                throw new FileNotFoundException(String.format(ERROR_EXCEPTION, resourceName));
             }
             return populateSearchParameterMapFromStream(stream);
         }
@@ -101,7 +124,7 @@ public class ParametersUtil {
      * @param file
      *            a File object which represents the file from which the SearchParameters are to be loaded
      * @return the Map containing the SearchParameters
-     * @throws JAXBException
+     *  
      * @throws IOException
      */
     public static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromFile(File file) throws IOException {
@@ -153,8 +176,12 @@ public class ParametersUtil {
             Collection<FHIRPathNode> result = eval(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
 
             for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {
-                
-                log.fine("Parameter is loaded -> " + parameter.getName().getValue());
+
+                // Conditional Logging intentionally avoids forming of the String.
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(String.format(LOG_PARAMETERS, parameter.getName().getValue()));
+                }
+
                 // Only add the ones that have expressions.
                 if (parameter.getExpression() != null) {
                     /*
@@ -180,7 +207,7 @@ public class ParametersUtil {
             }
         } catch (FHIRException fe) {
             // This exception is highly unlikely, but still possible.
-            log.warning("Error condition reading the FHIR Bundle of Search Parameters" + " into the SearchParameter Map " + fe.getClass().getSimpleName());
+            log.warning(String.format(ERROR_EXCEPTION, FROM_STEAM));
         }
 
         // Must be unmodifiable, lest there be side effects.
@@ -189,12 +216,13 @@ public class ParametersUtil {
 
     /**
      * gets the resource or an empty list
+     * 
      * @param resourceType
      * @return
      */
     public static Map<String, SearchParameter> getBuiltInSearchParameterMapByResourceType(String resourceType) {
-        Map<String,SearchParameter> result = getBuiltInSearchParameterMap().get(resourceType);
-        if(result == null) {
+        Map<String, SearchParameter> result = getBuiltInSearchParameterMap().get(resourceType);
+        if (result == null) {
             result = Collections.emptyMap();
         }
         return Collections.unmodifiableMap(result);
@@ -206,19 +234,18 @@ public class ParametersUtil {
      * @param out
      */
     public static void print(PrintStream out) {
-
         Set<String> keys = builtInSearchParameters.keySet();
-        out.println("---------------------------------------------------------");
-        out.println("BASE:RESOURCE_NAME:SearchParameter");
-        out.println("Size: " + keys.size());
+        out.println(SearchConstants.LOG_BOUNDARY);
+        out.println(LOG_HEADER);
+        out.println(String.format(LOG_SIZE, keys.size()));
         for (String base : keys) {
             Map<String, SearchParameter> tmp = builtInSearchParameters.get(base);
             for (Entry<String, SearchParameter> entry : tmp.entrySet()) {
-                out.println(base + "|" + entry.getKey() + "|" + entry.getValue().getExpression().getValue());
+                out.println(String.format(LOG_OUTPUT, base, entry.getKey(), entry.getValue().getExpression().getValue()));
             }
-            out.println("---");
+            out.println(SearchConstants.LOG_BOUNDARY);
         }
-        out.println("---------------------------------------------------------");
+        out.println(SearchConstants.LOG_BOUNDARY);
     }
 
 }

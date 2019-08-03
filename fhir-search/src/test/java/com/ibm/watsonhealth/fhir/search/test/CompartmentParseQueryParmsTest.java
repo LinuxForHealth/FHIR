@@ -85,8 +85,8 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         Parameter parm1 = context.getSearchParameters().get(0);
         assertEquals("patient", parm1.getName());
 
-        /* The compartment > Resource is 
-         * { "code" : "Condition", "param" : ["patient", "asserter"] },
+        /*
+         * The compartment > Resource is { "code" : "Condition", "param" : ["patient", "asserter"] },
          */
         Parameter p = parm1;
         String out = "";
@@ -96,7 +96,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         }
         System.out.println(out);
         assertNotNull(parm1.getNextParameter());
-        assertEquals(" -> patient -> asserter",out);
+        assertEquals(" -> patient -> asserter", out);
 
         assertEquals(Type.REFERENCE, parm1.getType());
         assertEquals(1, parm1.getValues().size());

@@ -32,27 +32,27 @@ import com.ibm.watsonhealth.fhir.model.type.ResourceType;
  *
  */
 public abstract class BaseSearchTest {
-    
-    public static final boolean DEBUG = false; 
+
+    public static final boolean DEBUG = false;
 
     /*
-     * used in test to make the compiled code accessible. 
+     * used in test to make the compiled code accessible.
      */
     static {
         // If issues, you should uncomment the following : 
         // System.setProperty("javax.xml.accessExternalSchema","file");
     }
-    
+
     @BeforeMethod
     public void startMethod(Method method) {
         System.out.println("Starting Test -> " + method.getName());
     }
-    
+
     @AfterMethod
     public void afterMethod(Method method) {
         System.out.println("End of Test -> " + method.getName());
     }
-    
+
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
@@ -63,8 +63,7 @@ public abstract class BaseSearchTest {
     public void clearThreadLocal() {
         FHIRRequestContext.remove();
     }
-    
-    
+
     /**
      * This function returns a list containing the names of the SearchParameters contained in the input list.
      * 
@@ -79,25 +78,24 @@ public abstract class BaseSearchTest {
         }
         return result;
     }
-    
+
     /*
-     * The SearchParameters return an array of values, now the printSearchParameters returns all values. 
-     * 
+     * The SearchParameters return an array of values, now the printSearchParameters returns all values.
      * @param label
      * @param spList
      */
     protected void printSearchParameters(String label, List<SearchParameter> spList) {
-        
+
         System.out.println("\nTest: " + label + "\nSearch Parameters:");
         for (SearchParameter sp : spList) {
             List<ResourceType> resources = sp.getBase();
-            for(ResourceType resource : resources) {
+            for (ResourceType resource : resources) {
                 System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
             }
-            
+
         }
     }
-    
+
     /**
      * Copies a file.
      * 
@@ -117,15 +115,17 @@ public abstract class BaseSearchTest {
         File file = new File(filename);
         Files.deleteIfExists(file.toPath());
     }
-    
+
     /**
-     * prints the value types based on the incoming set. 
+     * prints the value types based on the incoming set.
+     * 
      * @param valueTypes
      */
     protected void printValueTypes(Set<Class<?>> valueTypes) {
-        // Must be not null to loop. 
+        // Must be not null to loop.
         assertNotNull(valueTypes);
-        for (@SuppressWarnings("rawtypes") Class vl : valueTypes) {
+        for (@SuppressWarnings("rawtypes")
+        Class vl : valueTypes) {
             System.out.println(vl.getSimpleName());
         }
 

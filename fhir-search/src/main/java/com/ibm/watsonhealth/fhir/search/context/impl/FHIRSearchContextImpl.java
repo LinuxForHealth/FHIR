@@ -15,14 +15,23 @@ import com.ibm.watsonhealth.fhir.search.parameters.InclusionParameter;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 
+/**
+ * 
+ * History: <br/>
+ * 1 - add toString to enable easier debugging <br/>
+ * 
+ * @author markd
+ * @author pbastide
+ *
+ */
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
-    
-    private List<Parameter> searchParameters = new ArrayList<>(); 
+
+    private List<Parameter> searchParameters = new ArrayList<>();
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     private List<String> elementsParameters = null;
-    
+
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
     }
@@ -49,7 +58,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
 
     @Override
     public boolean hasSortParameters() {
-        
+
         return this.sortParameters != null && !this.sortParameters.isEmpty();
     }
 
@@ -62,7 +71,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     public boolean hasIncludeParameters() {
         return this.includeParameters != null && !this.includeParameters.isEmpty();
     }
-    
+
     @Override
     public List<InclusionParameter> getRevIncludeParameters() {
         return this.revIncludeParameters;
@@ -82,7 +91,6 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     public void setElementsParameters(List<String> elementsParameters) {
         this.elementsParameters = elementsParameters;
     }
-    
 
     @Override
     public void addElementsParameter(String elementToInclude) {

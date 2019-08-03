@@ -7,12 +7,18 @@
 package com.ibm.watsonhealth.fhir.search.parameters;
 
 /**
- * Instances of this class encapsulate data elements related to the FHIR _include and _revinclude search result parameters.
+ * Instances of this class encapsulate data elements related to the FHIR _include and _revinclude search result
+ * parameters.
+ * 
+ * History: <br/>
+ * 1 - added toString
+ * 
  * @author markd
+ * @author pbastide
  *
  */
 public class InclusionParameter {
-    
+
     private String joinResourceType;
     private String searchParameter;
     private String searchParameterTargetType;

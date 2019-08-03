@@ -13,21 +13,21 @@ import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 
 public class FHIRSearchException extends FHIROperationException {
     private static final long serialVersionUID = 1L;
-    
+
     public FHIRSearchException(String message) {
         super(message);
     }
-    
+
     public FHIRSearchException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     @Override
     public FHIRSearchException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
-    
+
     @Override
     public FHIRSearchException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.search.parameters.cache;
 
 import java.io.File;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -30,8 +31,14 @@ public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedC
 
     private static final String SP_FILE_BASENAME_JSON = "extension-search-parameters.json";
 
+    private static final String CACHE_NAME = "SearchParameters";
+
+    private static final String OPERATION_EXCEPTION = "An error occurred while loading one of the tenant files: %s";
+
+    private static final String LOG_FILE_LOAD = "The file loaded is [%s]";
+
     public TenantSpecificSearchParameterCache() {
-        super("SearchParameters");
+        super(CACHE_NAME);
     }
 
     /*
@@ -51,12 +58,14 @@ public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedC
     public Map<String, Map<String, SearchParameter>> createCachedObject(File f) throws Exception {
         try {
             // Added logging to help diagnose issues while loading the files.
-            log.fine("The file loaded is " + f.toURI());
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(String.format(LOG_FILE_LOAD, f.toURI()));
+            }
             return ParametersUtil.populateSearchParameterMapFromFile(f);
         } catch (Throwable t) {
             // In R4, there are two files used with postfix JSON.
             // Default is to use JSON in R4
-            throw new FHIROperationException("An error occurred while loading one of the tenant files: " + f.getAbsolutePath(), t);
+            throw new FHIROperationException(String.format(OPERATION_EXCEPTION, f.getAbsolutePath()), t);
         }
     }
 }
