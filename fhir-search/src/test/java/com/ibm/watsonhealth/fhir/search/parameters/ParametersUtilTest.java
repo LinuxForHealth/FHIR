@@ -6,16 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.search.parameters;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -28,8 +30,6 @@ import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.type.SearchParamType;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
-
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 /**
  * 
@@ -144,10 +144,10 @@ public class ParametersUtilTest extends BaseSearchTest {
     public void testRemoveUnsupportedExpressionsParameterResolves() {
         
         String expressions = "resolve() ";
-        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
         
         expressions = "resolve() | resolve() | resolve()";
-        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
         
         expressions = "resolve() | resolve() | resolve ()";
         assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
@@ -158,6 +158,17 @@ public class ParametersUtilTest extends BaseSearchTest {
         assertNotNull(output);
         assertFalse(output.contains("resolve()"));
         
+    }
+    
+    @Test 
+    public void testProcessResolve() {
+        String expression = "Procedure.subject.where(resolve() is Patient)";
+        List<String> resultingExpressions = new ArrayList<>();
+        ParametersUtil.processResolve(resultingExpressions, expression);
+        
+        assertNotNull(resultingExpressions);
+        assertFalse(resultingExpressions.isEmpty());
+        assertTrue(resultingExpressions.contains("Procedure.subject"));
     }
 
 }
