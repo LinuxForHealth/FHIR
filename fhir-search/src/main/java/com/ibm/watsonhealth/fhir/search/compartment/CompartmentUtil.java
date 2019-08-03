@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.search.compartment;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -28,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition.Resource;
@@ -114,8 +113,8 @@ public class CompartmentUtil {
                 Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, reader);
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
-
-                Collection<FHIRPathNode> result = eval(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
+                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+                Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY);
 
                 Iterator<FHIRPathNode> iter = result.iterator();
                 while (iter.hasNext()) {

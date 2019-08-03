@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.search.util;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -33,6 +31,7 @@ import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
@@ -467,6 +466,7 @@ public class SearchUtil {
 
         // Create one time.
         FHIRPathTree tree = FHIRPathTree.tree((Resource) resource);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
 
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
@@ -486,7 +486,7 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
 
                 try {
-                    Collection<FHIRPathNode> tmpResults = eval(expression.getValue(), tree.getRoot());
+                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue());
 
                     // Adds only if !skipEmpty || collect is not empty
                     if (!tmpResults.isEmpty() || !skipEmpty) {
@@ -1235,11 +1235,10 @@ public class SearchUtil {
      */
     public static String buildSearchSelfUri(String requestUriString, FHIRSearchContext context) throws URISyntaxException {
         /*
-         * the bulk of this method was refactored into UriBuilder.java 
-         * the signature is maintained here for backwards compatability, and as a simple helper function. 
-         * 
+         * the bulk of this method was refactored into UriBuilder.java the signature is maintained here for backwards
+         * compatability, and as a simple helper function.
          */
-        return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();        
+        return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
     }
 
 }

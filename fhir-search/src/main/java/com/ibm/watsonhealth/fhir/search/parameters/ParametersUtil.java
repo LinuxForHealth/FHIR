@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.search.parameters;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.File;
@@ -34,6 +33,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
@@ -206,7 +206,8 @@ public final class ParametersUtil {
             Bundle bundle = FHIRUtil.read(Bundle.class, format, new InputStreamReader(stream));
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            Collection<FHIRPathNode> result = eval(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+            Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY);
 
             for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {
 
