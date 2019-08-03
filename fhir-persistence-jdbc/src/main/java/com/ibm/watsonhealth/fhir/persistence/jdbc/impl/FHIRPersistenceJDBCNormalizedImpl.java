@@ -39,6 +39,7 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -765,7 +766,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
         
-        Map<SearchParameter, List<Object>> map;
+        Map<SearchParameter, List<FHIRPathNode>> map;
         String name, type, xpath;
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
@@ -782,7 +783,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
                 }
                 
-                List<Object> values = map.get(parameter);
+                List<FHIRPathNode> values = map.get(parameter);
                 for (Object value : values) {
                     List<Parameter> parameters = processor.process(parameter, value);
                     for (Parameter p : parameters) {
