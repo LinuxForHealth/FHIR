@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.search.parameters;
 
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +21,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -39,24 +40,34 @@ import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.SearchConstants;
 
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
-
 /**
  * ParametersUtil
  * 
- * History<br/>
- * 1 - Refactored the PopulateSearchParameterMap code.
+ * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
+ * which overwrites the behaviors of the buildInSearchParameters.
  * 
  * @author pbastide@us.ibm.com
- * @author markd
- *
+ * @author markd 
  */
-public class ParametersUtil {
+public final class ParametersUtil {
 
     private static final String CLASSNAME = ParametersUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
+
+    // RESOURCE ONLY to fast lookup.
+    private static final List<String> RESOURCE_ONLY = new ArrayList<String>() {
+
+        private static final long serialVersionUID = -7505420605090233309L;
+
+        {
+            add("Binary");
+            add("Bundle");
+            add("Parameters");
+            add(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
+        }
+    };
 
     public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
     public static final String FROM_STEAM = "from_stream";
@@ -72,13 +83,20 @@ public class ParametersUtil {
     public static final String LOG_SIZE = "Size: %s";
     private static final String LOG_OUTPUT = "%s|%s|%s";
 
+    private static final String LEFT = "[";
+    private static final String RIGHT = "]";
+    private static final String COMMA = ",";
+    private static final String EQUALS = "=";
+
     // Unsupported Operations in FHIR Path
     public static final String OPERATION_RESOLVE = "resolve()";
     public static final List<String> UNSUPPORTED_OPERATIONS = Collections.unmodifiableList(Arrays.asList(OPERATION_RESOLVE));
 
     private static final String REPLACE_RESOLVE = "(\\.where\\([\\s]{0,}resolve\\(\\)[\\s]{0,}[is]{0,2}[\\s]{0,}[\\w]{0,}\\))";
 
-    private static Map<String, Map<String, SearchParameter>> builtInSearchParameters = new HashMap<>();
+    private static final Map<String, Map<String, SearchParameter>> builtInSearchParameters = loadBuiltIn();
+    
+    private static final String INVALID_EXPRESSION = "/NONE/";
 
     private ParametersUtil() {
         // No Operation
@@ -91,18 +109,26 @@ public class ParametersUtil {
         // No Operation
     }
 
+    /*
+     * wraps the error thrown, catches it, and enables a user to operate.
+     * @return
+     */
+    private static Map<String, Map<String, SearchParameter>> loadBuiltIn() {
+        Map<String, Map<String, SearchParameter>> result = null;
+        try {
+            result = populateSearchParameterMapFromResource(FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
+        } catch (IOException e) {
+            // This Exception is HIGHLY improbable. 
+            log.warning(BUILTIN_ERROR_EXCEPTION);
+        }
+        return result;
+    }
+
     /**
      * This is a convenience function that simply returns the built-in (spec-defined) SearchParameters as a map keyed by
      * resource type.
      */
     public static Map<String, Map<String, SearchParameter>> getBuiltInSearchParameterMap() {
-        if (builtInSearchParameters.isEmpty()) {
-            try {
-                builtInSearchParameters = populateSearchParameterMapFromResource(FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
-            } catch (IOException e) {
-                log.warning(BUILTIN_ERROR_EXCEPTION);
-            }
-        }
         return builtInSearchParameters;
     }
 
@@ -114,7 +140,6 @@ public class ParametersUtil {
      *            loaded
      * @return the Map containing the SearchParameters
      * @throws IOException
-     * @throws JAXBException
      */
     public static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromResource(String resourceName) throws IOException {
         // Capture Exception here and wrap and log out an issue with Search
@@ -208,7 +233,8 @@ public class ParametersUtil {
                         // Logic seems poor, refactor.
                         Map<String, SearchParameter> map = searchParameterMap.get(base);
                         if (map == null) {
-                            map = new TreeMap<>();
+                            // Changed to LinkedHashMap for performance reasons.
+                            map = new LinkedHashMap<>();
                             searchParameterMap.put(base, map);
                         }
                         String name = parameter.getName().getValue();
@@ -236,40 +262,39 @@ public class ParametersUtil {
         SearchParameter revisedParameter;
 
         // Only add the ones that have expressions.
-        if (parameter == null || parameter.getExpression() == null) {
+        if (parameter == null) {
+            revisedParameter = null;
+        } else if (parameter.getBase().contains(ResourceType.DOMAIN_RESOURCE)) {
+            // Domain Resources are a special case where the expression is unknown. 
+            // We want this to pass through no matter what. 
+            revisedParameter = parameter; 
+        } else if (parameter.getExpression() == null) {
             revisedParameter = null;
         } else {
+
             // Issue 206: FHIRPath -> resolve() is an unsupported value.
+            // process over the entire expression string
+            // and execute for every string for the unsupported types.
+            // Right now, unsupported is <code>resolve()</code>
+
             boolean expressionChanged = false;
-            List<String> expressions = Arrays.asList(parameter.getExpression().getValue().split(SearchConstants.PARAMETER_DELIMITER_REGEX));
-            List<String> resultingExpressions = new ArrayList<>();
+            String expressions = parameter.getExpression().getValue();
             for (String operation : UNSUPPORTED_OPERATIONS) {
-                for (String expression : expressions) {
 
-                    if (expression.contains(operation)) {
-                        expressionChanged = true;
-                        processResolve(resultingExpressions, expression);
+                if (expressions.contains(operation)) {
+                    expressionChanged = true;
+                    expressions = processResolve(expressions);
 
-                    } else {
-                        resultingExpressions.add(expression);
-                    }
                 }
+
             }
 
-            // We've removed all expressions as they are unsupported.
-            if (resultingExpressions.isEmpty()) {
+            if (expressions.trim().isEmpty()) {
+                // We've removed all expressions as they are unsupported.
                 revisedParameter = null;
             } else if (expressionChanged) {
-                // If empty, send back as null
-
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < resultingExpressions.size(); i++) {
-                    builder.append(resultingExpressions.get(i));
-                    builder.append(SearchConstants.PARAMETER_DELIMITER);
-                }
-                builder.append(resultingExpressions.get(resultingExpressions.size() - 1));
-
-                revisedParameter = parameter.toBuilder().expression(string(builder.toString())).build();
+                // If revised, send back
+                revisedParameter = parameter.toBuilder().expression(string(expressions)).build();
             } else {
                 // Don't revise, send it back.
                 revisedParameter = parameter;
@@ -284,20 +309,14 @@ public class ParametersUtil {
      * processes, and conditionally updates the resultingExpressions as a side effect. This side effect approach is
      * designed to limit the cognitive complexity, and was not the first choice of inline comparisions.
      * 
-     * @param resultingExpressions
-     * @param expression
+     * @param expressions
      */
-    public static void processResolve(List<String> resultingExpressions, String expression) {
-        if (UNSUPPORTED_OPERATIONS.contains(OPERATION_RESOLVE) && expression.contains(OPERATION_RESOLVE)) {
-
-            expression = expression.replaceAll(REPLACE_RESOLVE, SearchConstants.EMPTY_QUERY_STRING);
-            
-            // Only add if not empty expression.
-            if (!expression.trim().isEmpty()) {
-                resultingExpressions.add(expression);
-            }
-
+    public static String processResolve(String expressions) {
+        String result = expressions;
+        if (UNSUPPORTED_OPERATIONS.contains(OPERATION_RESOLVE) && expressions.contains(OPERATION_RESOLVE)) {
+            result = expressions.replaceAll(REPLACE_RESOLVE, SearchConstants.EMPTY_QUERY_STRING).trim();
         }
+        return result;
     }
 
     /*
@@ -307,14 +326,27 @@ public class ParametersUtil {
      */
     private static Map<String, Map<String, SearchParameter>> assignInheritedToAll(Map<String, Map<String, SearchParameter>> searchParameterMap) {
 
-        Map<String, SearchParameter> resourceMap = searchParameterMap.get("Resource");
-        if (resourceMap != null) {
-            for (Entry<String, Map<String, SearchParameter>> entry : searchParameterMap.entrySet()) {
-                if (entry.getKey().compareTo("Resource") != 0) {
-                    // Great, now we want to take the resourceMap and add to this tree.
-                    entry.getValue().putAll(resourceMap);
-                }
+        // Hierarchy of Resources drives the search parameters assigned in the map.
+        // Resource > DomainResource > Instance (e.g. Claim or CarePlan).
+        // As such all Resources receive, some receive DomainResource, and individual instances remain untouched.
+
+        Map<String, SearchParameter> resourceMap = searchParameterMap.get(SearchConstants.RESOURCE_RESOURCE);
+        Map<String, SearchParameter> domainResourceMap = searchParameterMap.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
+
+        // Checks the edge case where there are no RESOURCE found
+        for (Entry<String, Map<String, SearchParameter>> entry : searchParameterMap.entrySet()) {
+
+            if (resourceMap != null && entry.getKey().compareTo(SearchConstants.RESOURCE_RESOURCE) != 0) {
+                // Great, now we want to take the resourceMap and add to this tree.
+                entry.getValue().putAll(resourceMap);
             }
+
+            // Checks the edge case where there are no DOMAIN RESOURCE found
+            // We're now dealing with DomainResource
+            if (domainResourceMap != null && !RESOURCE_ONLY.contains(entry.getKey())) {
+                entry.getValue().putAll(domainResourceMap);
+            }
+
         }
 
         return searchParameterMap;
@@ -340,18 +372,53 @@ public class ParametersUtil {
      * @param out
      */
     public static void print(PrintStream out) {
-        Set<String> keys = builtInSearchParameters.keySet();
+        print(out, builtInSearchParameters);
+    }
+
+    /*
+     * used when locally debugging.
+     * @param out
+     * @param searchParamsMap
+     */
+    private static void print(PrintStream out, Map<String, Map<String, SearchParameter>> searchParamsMap) {
+        Set<String> keys = searchParamsMap.keySet();
         out.println(SearchConstants.LOG_BOUNDARY);
         out.println(LOG_HEADER);
         out.println(String.format(LOG_SIZE, keys.size()));
         for (String base : keys) {
-            Map<String, SearchParameter> tmp = builtInSearchParameters.get(base);
+            Map<String, SearchParameter> tmp = searchParamsMap.get(base);
             for (Entry<String, SearchParameter> entry : tmp.entrySet()) {
-                out.println(String.format(LOG_OUTPUT, base, entry.getKey(), entry.getValue().getExpression().getValue()));
+                String expressions = INVALID_EXPRESSION;
+                if(entry.getValue().getExpression() != null) {
+                    expressions = entry.getValue().getExpression().getValue();
+                }
+                out.println(String.format(LOG_OUTPUT, base, entry.getKey(), expressions));
             }
             out.println(SearchConstants.LOG_BOUNDARY);
         }
         out.println(SearchConstants.LOG_BOUNDARY);
+    }
+
+    /**
+     * outputs the search parameter.
+     * 
+     * @param parameter
+     * @param out
+     */
+    public static void printSearchParameter(SearchParameter parameter, PrintStream out) {
+        String name = parameter.getName().getValue();
+        List<ResourceType> types = parameter.getBase();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(name);
+        builder.append(EQUALS);
+        builder.append(LEFT);
+        for (ResourceType type : types) {
+            builder.append(type.getValue());
+            builder.append(COMMA);
+        }
+        builder.append(RIGHT);
+        out.println(builder.toString());
     }
 
 }

@@ -207,7 +207,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         SortDirection direction = SortDirection.ASCENDING;
         String sortParmName = "patient";
         String searchParmName = "performer";
-        String searchParmValue = "Practioner/1";
+        String searchParmValue = "Practitioner/1";
         String queryStringPart1 = "&" + searchParmName + "=" + searchParmValue;
         String queryStringPart2 = "&_sort:" + direction.value() + "=" + sortParmName;
         String queryString = queryStringPart1 + queryStringPart2;

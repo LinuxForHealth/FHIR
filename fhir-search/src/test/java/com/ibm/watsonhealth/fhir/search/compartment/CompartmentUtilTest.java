@@ -29,6 +29,12 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
  *
  */
 public class CompartmentUtilTest extends BaseSearchTest {
+    
+    @Test()
+    public void testInit() {
+        CompartmentUtil.init();
+        assertTrue(true);
+    }
 
     @Test()
     public void testBuildCompartmentMap() {

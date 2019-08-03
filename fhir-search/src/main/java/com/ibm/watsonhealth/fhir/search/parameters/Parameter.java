@@ -19,8 +19,7 @@ import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 
 /**
  * general type of parameter. 
- * 
- * 
+ *  
  * @author markd
  * @author pbastide
  *

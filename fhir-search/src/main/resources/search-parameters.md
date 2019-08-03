@@ -1,4 +1,4 @@
-# The Search Paramters 
+# The Search Parameters 
 
 ## JSON 
 Downloaded from hl7.org/fhir/r4/definitions.json.zip
