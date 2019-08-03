@@ -38,7 +38,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasPrimitiveValue(context)) {
-            throw new IllegalArgumentException();
+            return empty();
         }
         FHIRPathPrimitiveValue value = getPrimitiveValue(context);
         if (value.isNumberValue() && value.asNumberValue().isIntegerValue()) {
