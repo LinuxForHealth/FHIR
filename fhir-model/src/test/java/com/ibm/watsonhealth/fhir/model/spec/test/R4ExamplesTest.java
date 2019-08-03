@@ -51,7 +51,9 @@ public class R4ExamplesTest {
     public static void main(String[] args) throws Exception {
         R4ExamplesTest self = new R4ExamplesTest();
         self.setup();
-        self.driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
-        self.driver.processExample("json/spec/measure-cms146-example.json", Expectation.OK);
+        self.driver.setProcessor(new SerializationProcessor());
+        self.driver.setValidator(new ValidationProcessor());
+        
+        self.driver.processExample("json/ibm/complete-absent/Parameters-28.json", Expectation.OK);
     }
 }
