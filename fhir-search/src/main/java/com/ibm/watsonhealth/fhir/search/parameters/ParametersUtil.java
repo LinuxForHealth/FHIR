@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.JAXBException;
-
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -38,6 +38,8 @@ import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.SearchConstants;
+
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 /**
  * ParametersUtil
@@ -69,6 +71,9 @@ public class ParametersUtil {
     public static final String LOG_HEADER = "BASE:RESOURCE_NAME:SearchParameter";
     public static final String LOG_SIZE = "Size: %s";
     private static final String LOG_OUTPUT = "%s|%s|%s";
+
+    // Unsupported Operations in FHIR Path
+    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.unmodifiableList(Arrays.asList("resolve()"));
 
     private static Map<String, Map<String, SearchParameter>> builtInSearchParameters = new HashMap<>();
 
@@ -182,8 +187,12 @@ public class ParametersUtil {
                     log.fine(String.format(LOG_PARAMETERS, parameter.getName().getValue()));
                 }
 
-                // Only add the ones that have expressions.
-                if (parameter.getExpression() != null) {
+                // Cleanse Unsupported Expressions
+                parameter = removeUnsupportedExpressions(parameter);
+
+                // Don't allow if Parameter is null
+                if (parameter != null) {
+
                     /*
                      * In R4, SearchParameter changes from a single Base resource to an array In prior releases, the
                      * code transformed VirtualResources to Basic. As Base is an array, there are going to result in
@@ -214,6 +223,58 @@ public class ParametersUtil {
         return Collections.unmodifiableMap(assignInheritedToAll(searchParameterMap));
     }
 
+    /**
+     * removes unsupported expressions from Search.
+     * 
+     * @param parameter
+     * @return
+     */
+    public static SearchParameter removeUnsupportedExpressions(SearchParameter parameter) {
+        SearchParameter revisedParameter;
+
+        // Only add the ones that have expressions.
+        if (parameter == null || parameter.getExpression() == null) {
+            revisedParameter = null;
+        } else {
+            // Issue 206: FHIRPath -> resolve() is an unsupported value.
+            boolean expressionChanged = false;
+            List<String> expressions = Arrays.asList(parameter.getExpression().getValue().split(SearchConstants.PARAMETER_DELIMITER_REGEX));
+            List<String> resultingExpressions = new ArrayList<>();
+            for (String operation : UNSUPPORTED_OPERATIONS) {
+                for (String expression : expressions) {
+                     
+                    if (expression.contains(operation)) {
+                        expressionChanged = true;
+                    } else {
+                        resultingExpressions.add(expression);
+                    }
+                }
+            }
+
+            // We've removed all expressions as they are unsupported.
+            if (resultingExpressions.isEmpty()) {
+                revisedParameter = null;
+            } else if (expressionChanged) {
+                // If empty, send back as null
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < resultingExpressions.size(); i++) {
+                    builder.append(resultingExpressions.get(i));
+                    builder.append(SearchConstants.PARAMETER_DELIMITER);
+                }
+                builder.append(resultingExpressions.get(resultingExpressions.size() - 1));
+
+                revisedParameter = parameter.toBuilder().expression(string(builder.toString())).build();
+            } else {
+                // Don't revise, send it back.
+                revisedParameter = parameter;
+            }
+
+        }
+
+        return revisedParameter;
+    }
+
     /*
      * One of the inherited resource is `Resource`, there may be others, so encapsulating the assignment to the cache.
      * @param searchParameterMap
@@ -222,15 +283,15 @@ public class ParametersUtil {
     private static Map<String, Map<String, SearchParameter>> assignInheritedToAll(Map<String, Map<String, SearchParameter>> searchParameterMap) {
 
         Map<String, SearchParameter> resourceMap = searchParameterMap.get("Resource");
-        if(resourceMap != null) {
+        if (resourceMap != null) {
             for (Entry<String, Map<String, SearchParameter>> entry : searchParameterMap.entrySet()) {
-                if(entry.getKey().compareTo("Resource")!=0) {
-                    // Great, now we want to take the resourceMap and add to this tree. 
+                if (entry.getKey().compareTo("Resource") != 0) {
+                    // Great, now we want to take the resourceMap and add to this tree.
                     entry.getValue().putAll(resourceMap);
                 }
             }
         }
-        
+
         return searchParameterMap;
     }
 
