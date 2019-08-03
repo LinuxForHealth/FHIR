@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.testng.annotations.Test;
 
@@ -93,6 +94,26 @@ public class ParametersUtilTest extends BaseSearchTest {
     public void testPopulateSearchParameterMapFromResourceNull() throws IOException {
         String invalidResourceName = "INVALID_RESOURCE";
         ParametersUtil.populateSearchParameterMapFromResource(invalidResourceName);
+    }
+
+    @Test
+    public void testResourceDefaults() throws IOException {
+        Map<String, SearchParameter> params1 = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Observation");
+        Map<String, SearchParameter> params2 = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Resource");
+
+        // Check that each returned "Resource" is included in the first set returned.
+        assertNotNull(params1);
+        assertNotNull(params2);
+        assertEquals(params2.size(), 6);
+        params2.keySet().stream().forEach(new Consumer<String>() {
+
+            @Override
+            public void accept(String resourceParam) {
+                System.out.println("Checking Resource Param -> " + resourceParam);
+                assertTrue(params1.containsKey(resourceParam));
+            }
+
+        });
     }
 
 }

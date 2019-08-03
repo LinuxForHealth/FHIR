@@ -39,7 +39,7 @@ public abstract class BaseSearchTest {
      * used in test to make the compiled code accessible.
      */
     static {
-        // If issues, you should uncomment the following : 
+        // If issues, you should uncomment the following :
         // System.setProperty("javax.xml.accessExternalSchema","file");
     }
 
@@ -121,11 +121,11 @@ public abstract class BaseSearchTest {
      * 
      * @param valueTypes
      */
+    @SuppressWarnings("rawtypes")
     protected void printValueTypes(Set<Class<?>> valueTypes) {
         // Must be not null to loop.
         assertNotNull(valueTypes);
-        for (@SuppressWarnings("rawtypes")
-        Class vl : valueTypes) {
+        for (Class vl : valueTypes) {
             System.out.println(vl.getSimpleName());
         }
 

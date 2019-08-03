@@ -9,17 +9,12 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.YearMonth;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -28,13 +23,6 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.type.Count;
-import com.ibm.watsonhealth.fhir.model.type.DateTime;
-import com.ibm.watsonhealth.fhir.model.type.Instant;
-import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.type.Range;
-import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -43,14 +31,14 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
-import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
-import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
-import com.ibm.watsonhealth.fhir.search.parameters.ValueTypesUtil;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
-import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Prefix;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer.
@@ -110,35 +98,20 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     private ParameterNormalizedDAO parameterDao;
     private ResourceNormalizedDAO resourceDao;
 
-    public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
-        try {
-            Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(resourceType, queryParm.getName());
-        
-            return (valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Integer.class) ||
-                    valueTypes.contains(UnsignedInt.class) ||
-                    valueTypes.contains(PositiveInt.class) ||
-                    valueTypes.contains(Count.class));
-        } catch (Exception e) {
-            throw new FHIRPersistenceException("Unable to determine search parameter values for query parameter '" + 
-                                                queryParm.getName() + "' and resource type " + resourceType.getSimpleName(), e);
-        }
+    public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+       return ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
     }
     
     public static final boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
-        // TODO: handle decimal searches like a range search
-        return (ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
+        return ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm);
     }
 
     public static final boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(resourceType, queryParm.getName());
-        // TODO: handle Date and partial DateTimes like a range search
-        return valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) ||
-               valueTypes.contains(DateTime.class) ||
-               valueTypes.contains(Instant.class);
+        return ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm);
     }
 
     public static final boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception  {
-        return ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
+        return ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm);
     }
 
 

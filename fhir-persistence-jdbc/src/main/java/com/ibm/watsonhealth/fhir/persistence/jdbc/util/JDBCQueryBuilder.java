@@ -14,24 +14,23 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.resource.Location;
-import com.ibm.watsonhealth.fhir.model.type.Range;
-import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
-import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
-import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
-import com.ibm.watsonhealth.fhir.search.parameters.ValueTypesUtil;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Modifier;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Prefix;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
+import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * This is the JDBC implementation of a query builder for the JDBC persistence layer.
@@ -914,7 +913,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
             
             // If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
             // pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
-            if (ValueTypesUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
+            if (ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm)) {
                 whereClauseSegment.append(tableAlias).append(VALUE_NUMBER_LOW)
                                   .append(JDBCOperator.LTE.value())
                                   .append(value.getValueNumber())

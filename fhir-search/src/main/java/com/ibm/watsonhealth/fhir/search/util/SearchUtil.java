@@ -58,7 +58,7 @@ import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.parameters.ParametersUtil;
 import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 import com.ibm.watsonhealth.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
-import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesUtil;
+import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * Search Utility<br/>
@@ -110,7 +110,7 @@ public class SearchUtil {
         ParametersUtil.init();
 
         // Loads the ValueTypesUtil
-        ValueTypesUtil.init();
+        ValueTypesFactory.init();
     }
 
     /**

@@ -1,0 +1,8 @@
+{
+	"value-types": "default",
+	"mappings": [{
+		"resourceType": "Observation",
+		"name": "default",
+		"targetClasses": ["Id", "Int", "CodeableConcept"]
+	}]
+}
