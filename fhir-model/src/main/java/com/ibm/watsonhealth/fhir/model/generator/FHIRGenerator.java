@@ -26,6 +26,7 @@ public interface FHIRGenerator {
         case JSON:
             return new FHIRJsonGenerator(prettyPrinting);
         case XML:
+            return new FHIRXMLGenerator(prettyPrinting);
         case RDF:
         default:
             throw new UnsupportedOperationException(String.format("Unsupported format: %s", format));

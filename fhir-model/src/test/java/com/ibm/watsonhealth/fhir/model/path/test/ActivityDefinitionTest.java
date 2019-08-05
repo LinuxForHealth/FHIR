@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
@@ -31,6 +32,7 @@ public class ActivityDefinitionTest {
             FHIRPathTree tree = FHIRPathTree.tree(activityDefinition);
             Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator(tree).evaluate("contained.id", tree.getRoot());
             System.out.println("result: " + result);
+            FHIRGenerator.generator(Format.XML).generate(activityDefinition, System.out);
         }
     }
 }

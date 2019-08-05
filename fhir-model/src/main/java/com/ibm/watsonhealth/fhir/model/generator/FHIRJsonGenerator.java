@@ -21,7 +21,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.UUID;
 
 import javax.json.Json;
@@ -47,9 +46,6 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
-import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
-import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
-import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRJsonGenerator implements FHIRGenerator {
@@ -70,25 +66,25 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
-        PathAwareVisitor visitor = null;
+        GeneratingVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out, StandardCharsets.UTF_8)) {
-            visitor = new GeneratingVisitor(generator);
+            visitor = new JsonGeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            throw new FHIRGeneratorException(e.getMessage(), visitor != null ? visitor.getPath() : null, e);
+            throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
         }
     }
 
     @Override
     public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
-        PathAwareVisitor visitor = null;
+        GeneratingVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : writer)) {
-            visitor = new GeneratingVisitor(generator);
+            visitor = new JsonGeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
         } catch (Exception e) {
-            throw new FHIRGeneratorException(e.getMessage(), visitor != null ? visitor.getPath() : null, e);
+            throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
         }
     }
     
@@ -139,13 +135,10 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         };
     }
 
-    private static class GeneratingVisitor extends PathAwareAbstractVisitor {
+    private static class JsonGeneratingVisitor extends GeneratingVisitor {
         private final JsonGenerator generator;
-        private final Stack<Class<?>> typeStack = new Stack<>();
-        
-        private boolean started = false;
-        
-        public GeneratingVisitor(JsonGenerator generator) {
+                
+        private JsonGeneratingVisitor(JsonGenerator generator) {
             this.generator = generator;
         }
         
@@ -164,10 +157,6 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             }
         }
         
-        private java.lang.String getChoiceElementName(java.lang.String name, Class<?> type) {
-            return name + type.getSimpleName();
-        }
-        
         private boolean hasExtensionOrId(Element element) {
             return !element.getExtension().isEmpty() || element.getId() !=  null;
         }
@@ -179,35 +168,6 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 }
             }
             return false;
-        }
-        
-        private boolean isChoiceElement(java.lang.String name) {
-            if (typeStack.size() > 1) {
-                return JsonSupport.isChoiceElement(typeStack.get(typeStack.size() - 2), name);
-            }
-            return false;
-        }
-        
-        @Override
-        public void postVisit(Element element) {
-            typeStack.pop();
-        }
-        
-        @Override
-        public void postVisit(Resource resource) {
-            typeStack.pop();
-        }
-    
-        @Override
-        public boolean preVisit(Element element) {
-            typeStack.push(element.getClass());
-            return true;
-        }
-        
-        @Override
-        public boolean preVisit(Resource resource) {
-            typeStack.push(resource.getClass());
-            return true;
         }
         
         @Override
@@ -429,11 +389,10 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
     
         private void writeStartObject(java.lang.String elementName, int elementIndex) {
-            if (started && elementIndex == -1) {
+            if (getDepth() > 1 && elementIndex == -1) {
                 generator.writeStartObject(elementName);
             } else {
                 generator.writeStartObject();
-                started = true;
             }
         }
     

@@ -161,7 +161,7 @@ public class FHIRUtil {
         TriggerDefinition.class, 
         UsageContext.class, 
         Dosage.class));
-    private static final Map<String, String> PROFILED_TYPE_MAP = buildProfiledTypeMap();
+    private static final Map<String, String> PROFILED_TYPE_NAME_MAP = buildProfiledTypeNameMap();
     
     private FHIRUtil() { }
     
@@ -169,32 +169,32 @@ public class FHIRUtil {
         // allows us to initialize this class during startup
     }
     
-    private static Map<String, String> buildProfiledTypeMap() {
-        Map<String, String> profiledTypeMap = new HashMap<>();
-        profiledTypeMap.put("SimpleQuantity", "Quantity");
-        profiledTypeMap.put("MoneyQuantity", "Quantity");
-        return profiledTypeMap;
+    private static Map<String, String> buildProfiledTypeNameMap() {
+        Map<String, String> profiledTypeNameMap = new HashMap<>();
+        profiledTypeNameMap.put("SimpleQuantity", "Quantity");
+        profiledTypeNameMap.put("MoneyQuantity", "Quantity");
+        return profiledTypeNameMap;
     }
     
     /**
      * Get the name of the concrete type associated with a data type
      * 
-     * @param type
+     * @param typeName
      *     the type name
      * @return
      *     the name of the concrete type (if one exists)
      *     (e.g. Quantity for SimpleQuantity)
      *     otherwise, return input parameter
      */
-    public static String getConcreteType(String type) {
-        if (isProfiledType(type)) {
-            return PROFILED_TYPE_MAP.get(type);
+    public static String getConcreteTypeName(String typeName) {
+        if (isProfiledType(typeName)) {
+            return PROFILED_TYPE_NAME_MAP.get(typeName);
         }
-        return type;
+        return typeName;
     }
     
-    public static boolean isProfiledType(String type) {
-        return PROFILED_TYPE_MAP.containsKey(type);
+    public static boolean isProfiledType(String typeName) {
+        return PROFILED_TYPE_NAME_MAP.containsKey(typeName);
     }
 
     private static Pattern buildReferencePattern() {

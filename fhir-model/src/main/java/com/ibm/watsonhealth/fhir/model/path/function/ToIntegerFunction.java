@@ -38,7 +38,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasPrimitiveValue(context)) {
-            return empty();
+            empty();
         }
         FHIRPathPrimitiveValue value = getPrimitiveValue(context);
         if (value.isNumberValue() && value.asNumberValue().isIntegerValue()) {
@@ -47,8 +47,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
         if (value.isStringValue()) {
             String string = value.asStringValue().string();
             try {
-                Integer integer = Integer.parseInt(string);
-                return singleton(integerValue(integer));
+                return singleton(integerValue(Integer.parseInt(string)));
             } catch (NumberFormatException e) {
                 return empty();
             }

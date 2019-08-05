@@ -24074,7 +24074,7 @@ public class FHIRJsonParser implements FHIRParser {
         java.lang.String elementType = null;
 
         for (java.lang.String choiceTypeName : choiceTypeNames) {
-            java.lang.String key = name + FHIRUtil.getConcreteType(choiceTypeName);
+            java.lang.String key = name + FHIRUtil.getConcreteTypeName(choiceTypeName);
             if (jsonObject.containsKey(key)) {
                 if (elementName != null) {
                     throw new IllegalArgumentException();

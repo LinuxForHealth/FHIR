@@ -39,7 +39,7 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!isSingleton(context)) {
-            throw new IllegalArgumentException();
+            return empty();
         }
         FHIRPathNode node = getSingleton(context);
         if (node instanceof FHIRPathPrimitiveValue || node instanceof FHIRPathQuantityNode) {
