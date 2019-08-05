@@ -1,26 +1,9 @@
 {
 	"resourceType": "Practitioner",
 	"active": true,
-	"name": {
-		"family": ["Strangelove, MD"],
+	"name": [{
+		"family": "Strangelove, MD",
 		"given": ["James"]
-	},
-	"practitionerRole": [{
-	    "managingOrganization": {
-		"reference": "placeholder"
-	    },
-	    "role": {
-		"coding": [{
-		    "system": "urn:myrolesystem",
-		    "code": "Chief of Surgery"
-		}]
-	    },
-	    "specialty": [{
-		"coding": [{
-		    "system": "urn:myrolesystem",
-		    "code": "Neurosurgery"
-		}]
-	    }]
 	}],
 	"telecom": [{
 		"system": "phone",

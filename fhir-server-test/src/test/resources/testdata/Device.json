@@ -9,7 +9,7 @@
 	}, {
 		"type": {
 			"coding": [{
-				"system": "http://hl7.org/fhir/identifier-type",
+				"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
 				"code": "SNO"
 			}],
 			"text": "Serial Number"
@@ -24,9 +24,8 @@
 		}],
 		"text": "ECG"
 	},
-	"status": "available",
+	"status": "active",
 	"manufacturer": "Acme Devices, Inc",
-	"model": "AB 45-J",
 	"lotNumber": "43453424",
 	"url": "http://www.testdevice.ibm.com/SIT1"
 }

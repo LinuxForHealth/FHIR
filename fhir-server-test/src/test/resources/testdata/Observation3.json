@@ -1,13 +1,13 @@
 {
         "resourceType" : "Observation",
         "status" : "final",
-        "category" : {
+        "category" : [{
             "coding" : [ {
-                "system" : "http://hl7.org/fhir/observation-category",
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code" : "vital-signs",
                 "display" : "Vital Signs"
             } ]
-        },
+        }],
         "valueRange" : {
         "low" : {
             "system":"http://loinc.org",
@@ -26,7 +26,7 @@
             "coding" : [ {
                 "system" : "http://loinc.org",
                 "code" : "55284-4",
-                "display" : "Blood pressure systolic & diastolic"
+                "display" : "Blood pressure systolic and diastolic"
             } ]
         },
         "component" : [ {
@@ -34,7 +34,7 @@
                 "coding" : [ {
                     "system" : "http://loinc.org",
                     "code" : "8459-0",
-                    "display" : "Systolic"
+                    "display" : "BP sys--sitting"
                 } ]
             },
             "valueQuantity" : {
@@ -47,7 +47,7 @@
                 "coding" : [ {
                     "system" : "http://loinc.org",
                     "code" : "8453-3",
-                    "display" : "Diastolic"
+                    "display" : "BP dias--sitting"
                 } ]
             },
             "valueQuantity" : {

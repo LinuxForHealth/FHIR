@@ -1,6 +1,7 @@
 {
   "resourceType": "Organization",
-  "type": {
+  "type": [
+	  {
     "coding": [
       {
         "system": "urn:oid:12345",
@@ -8,12 +9,13 @@
         "display": "Acme Healthcare Provider, Inc."
       },
       {
-        "system": "http://hl7.org/fhir/organization-type",
+        "system": "http://terminology.hl7.org/CodeSystem/organization-type",
         "code": "prov",
         "display": "Healthcare Provider"
       }
     ]
-  },
+  }
+],
   "name": "Acme Healthcare Provider, Inc.",
   "telecom": [
     {
