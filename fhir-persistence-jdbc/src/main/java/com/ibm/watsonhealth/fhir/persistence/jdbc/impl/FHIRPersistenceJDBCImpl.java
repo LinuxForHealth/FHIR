@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -50,7 +51,6 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
@@ -603,7 +603,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         final String METHODNAME = "storeSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
         
-        Map<SearchParameter, List<FHIRPathNode>> map;
+        Map<SearchParameter, List<Object>> map;
         String name, type, xpath;
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
@@ -620,8 +620,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
                 }
                 
-                List<FHIRPathNode> values = map.get(parameter);
-                for (FHIRPathNode value : values) {
+                List<Object> values = map.get(parameter);
+                for (Object value : values) {
                     List<Parameter> parameters = processor.process(parameter, value);
                     for (Parameter p : parameters) {
                         p.setType(Type.fromValue(type));
@@ -687,7 +687,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())));
+                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
                 pushbackReader = new PushbackReader(reader);
                 firstByte = pushbackReader.read();
                 pushbackReader.unread(firstByte);
