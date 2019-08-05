@@ -312,15 +312,14 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         @Override
         public void doVisitStart(java.lang.String elementName, int elementIndex, Element element) {
             try {
+                indent();
                 Class<?> elementType = element.getClass();
                 if (isChoiceElement(elementName)) {
                     elementName = getChoiceElementName(elementName, element.getClass());
                 }
                 if (!isPrimitiveType(elementType) || !element.getExtension().isEmpty()) {
-                    indent();
                     writer.writeStartElement(NS, elementName);
                 } else {
-                    indent();
                     writer.writeEmptyElement(NS, elementName);
                 }
                 writeAttributes(element);
