@@ -39,6 +39,7 @@ public class R4ExamplesDriver {
     private static final String ALL_FILE_INDEX = SPEC_DIR + "/all.txt";
     private static final String MINIMAL_FILE_INDEX = SPEC_DIR + "/minimal.txt";
     private static final String SPEC_FILE_INDEX = SPEC_DIR + "/spec.txt";
+    private static final String IBM_FILE_INDEX = SPEC_DIR + "/ibm.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -52,7 +53,7 @@ public class R4ExamplesDriver {
     Exception firstException = null;
     
     public static enum TestType {
-        ALL, MINIMAL, SPEC
+        ALL, MINIMAL, SPEC, IBM
     }
 
     /**
@@ -99,6 +100,9 @@ public class R4ExamplesDriver {
             break;
         case SPEC: 
             filename = SPEC_FILE_INDEX;
+            break;
+        case IBM: 
+            filename = IBM_FILE_INDEX;
             break;
         default:
             throw new IllegalArgumentException("shouldn't be necessary");
