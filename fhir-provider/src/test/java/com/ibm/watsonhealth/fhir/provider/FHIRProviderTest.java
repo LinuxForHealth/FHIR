@@ -7,9 +7,8 @@
 package com.ibm.watsonhealth.fhir.provider;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import org.testng.annotations.Test;
+import static org.testng.AssertJUnit.*;
 
 import javax.ws.rs.core.*;
 import java.util.Date;

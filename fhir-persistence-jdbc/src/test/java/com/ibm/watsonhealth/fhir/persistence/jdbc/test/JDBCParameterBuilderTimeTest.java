@@ -7,8 +7,8 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDate;

@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.persistence.util.TimestampUtil;
 

@@ -32,7 +32,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * 
- * This JUNIT test class contains methods that test the parsing of sort parameters in the SearchUtil class.
+ * This UNIT test class contains methods that test the parsing of sort parameters in the SearchUtil class.
  * 
  * @author markd
  * @author pbastide

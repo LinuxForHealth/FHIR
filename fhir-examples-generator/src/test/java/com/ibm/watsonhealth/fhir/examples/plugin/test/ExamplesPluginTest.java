@@ -9,7 +9,7 @@ package com.ibm.watsonhealth.fhir.examples.plugin.test;
 import java.io.File;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.examples.plugin.ExamplesPlugin;
 

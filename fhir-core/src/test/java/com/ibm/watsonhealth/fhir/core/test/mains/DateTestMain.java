@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.core.test.mains;
 
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.*;
-import static org.junit.Assert.*;
+import static  org.testng.AssertJUnit.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 

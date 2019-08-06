@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static org.junit.Assert.assertNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;

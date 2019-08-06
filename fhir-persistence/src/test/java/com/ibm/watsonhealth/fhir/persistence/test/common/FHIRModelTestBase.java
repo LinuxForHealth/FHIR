@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.junit.Assert.fail;
+import static org.testng.AssertJUnit.*;
 
 import java.io.BufferedReader;
 import java.io.File;
